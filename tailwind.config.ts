@@ -15,6 +15,7 @@ const config: Config = {
       },
     },
   },
+  safelist: [{ pattern: /^bg-\w+-600$/ }],
   plugins: [],
 };
 export default config;
