@@ -48,7 +48,7 @@ export default function Wiki() {
         text="Can I have multiple accounts?"
         icon={<LucideMessageCircleQuestion />}
       />
-      <RoundedContent className="mb-4 bg-terracotta-700">
+      <RoundedContent className="mb-4 bg-terracotta-700 h-fit min-h-fit max-h-fit">
         <div className="flex flex-col w-11/12 mx-auto">
           <h1 className="text-xl">
             No. You are only allowed to have one account per person.
@@ -64,7 +64,7 @@ export default function Wiki() {
         text="I can’t download maps when I’m in multiplayer, but I can download them from the main menu"
         icon={<LucideMessageCircleQuestion />}
       />
-      <RoundedContent className="mb-4 bg-terracotta-700">
+      <RoundedContent className="mb-4 bg-terracotta-700 h-fit min-h-fit max-h-fit">
         <div className="flex flex-col w-11/12 mx-auto">
           <h1 className="text-xl">
             Disable{" "}
