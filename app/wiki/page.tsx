@@ -1,14 +1,5 @@
 "use client";
-import ImageSelect from "@/components/General/ImageSelect";
-import StatusButton from "@/components/General/PrettyButton";
-import {
-  BookCopy,
-  CloudUpload,
-  Cog,
-  Image,
-  LucideMessageCircleQuestion,
-  User2Icon,
-} from "lucide-react";
+import { BookCopy, LucideMessageCircleQuestion } from "lucide-react";
 import PrettyHeader from "@/components/General/PrettyHeader";
 
 export default function Wiki() {
