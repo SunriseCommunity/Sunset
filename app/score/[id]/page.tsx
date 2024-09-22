@@ -17,6 +17,7 @@ import { getUser } from "@/lib/actions/getUser";
 import PrettyButton from "@/components/General/PrettyButton";
 import useSelf from "@/lib/hooks/useSelf";
 import { downloadReplay } from "@/lib/actions/downloadReplay";
+import { twMerge } from "tailwind-merge";
 
 export default function Score({ params }: { params: { id: number } }) {
   const [score, setScore] = useState<ScoreType | null>(null);
@@ -150,7 +151,16 @@ export default function Score({ params }: { params: { id: number } }) {
                   </div>
                   <div className="bg-terracotta-800 p-3 rounded">
                     <p className="text-gray-400">Combo</p>
-                    <p className="text-base font-bold">{score.max_combo}x</p>
+                    <p
+                      className={twMerge(
+                        "text-base font-bold",
+                        score.max_combo === beatmap?.max_combo
+                          ? "text-terracotta-300"
+                          : ""
+                      )}
+                    >
+                      {score.max_combo}x
+                    </p>
                   </div>
                   <div className="bg-terracotta-800 p-3 rounded">
                     <p className="text-gray-400">PP</p>
