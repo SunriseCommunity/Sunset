@@ -7,10 +7,7 @@ import Spinner from "@/components/Spinner";
 import { getUserScores } from "@/lib/actions/getUserScores";
 import { GameMode } from "@/lib/types/GameMode";
 import { Score } from "@/lib/types/Score";
-import {
-  ChevronDown,
-  History,
-} from "lucide-react";
+import { ChevronDown, History } from "lucide-react";
 import { useEffect, useState } from "react";
 
 interface UserTabGeneralProps {
@@ -26,7 +23,7 @@ export default function UserTabRecentScores({
   const [scoresObject, setScoresObject] = useState<{
     scores: Score[];
     total_count: number;
-  }>({ scores: [], total_count: 0 });
+  }>({ scores: [], total_count: -1 });
   const [page, setPage] = useState(0);
 
   const pageLimit = 5;
@@ -69,7 +66,7 @@ export default function UserTabRecentScores({
       </div>
     );
 
-  if (total_count === 0)
+  if (scoresObject.total_count === 0)
     return (
       <div className="flex flex-col">
         <PrettyHeader text="Recent scores" icon={<History />} />
