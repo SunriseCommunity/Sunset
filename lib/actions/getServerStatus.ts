@@ -1,6 +1,9 @@
 export async function getServerStatus(): Promise<ServerStatus> {
   const response = await fetch(
-    `https://api.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/status`
+    `https://api.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/status`,
+    {
+      cache: "no-cache",
+    }
   )
     .then((res) => res.json())
     .catch(() => null);
