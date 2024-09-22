@@ -1,6 +1,7 @@
 "use client";
 import { BookCopy, LucideMessageCircleQuestion } from "lucide-react";
 import PrettyHeader from "@/components/General/PrettyHeader";
+import RoundedContent from "@/components/General/RoundedContent";
 
 export default function Wiki() {
   return (
@@ -17,7 +18,7 @@ export default function Wiki() {
         text="How to connect"
         icon={<LucideMessageCircleQuestion />}
       />
-      <div className="bg-terracotta-700 rounded-b-lg p-4 shadow-lg w-full mx-auto mb-4">
+      <RoundedContent className="mb-4 bg-terracotta-700">
         <div className="flex flex-col w-11/12 mx-auto">
           <h1 className="text-xl">
             To connect to the server, you need to have a copy of the game
@@ -42,13 +43,12 @@ export default function Wiki() {
             <li>Double click on the shortcut to start the game.</li>
           </ol>
         </div>
-      </div>
-
+      </RoundedContent>
       <PrettyHeader
         text="Can I have multiple accounts?"
         icon={<LucideMessageCircleQuestion />}
       />
-      <div className="bg-terracotta-700 rounded-b-lg p-4 shadow-lg w-full mx-auto mb-4">
+      <RoundedContent className="mb-4 bg-terracotta-700">
         <div className="flex flex-col w-11/12 mx-auto">
           <h1 className="text-xl">
             No. You are only allowed to have one account per person.
@@ -58,13 +58,13 @@ export default function Wiki() {
             the server.
           </p>
         </div>
-      </div>
+      </RoundedContent>
 
       <PrettyHeader
         text="I can’t download maps when I’m in multiplayer, but I can download them from the main menu"
         icon={<LucideMessageCircleQuestion />}
       />
-      <div className="bg-terracotta-700 rounded-b-lg p-4 shadow-lg w-full mx-auto mb-4">
+      <RoundedContent className="mb-4 bg-terracotta-700">
         <div className="flex flex-col w-11/12 mx-auto">
           <h1 className="text-xl">
             Disable{" "}
@@ -74,7 +74,7 @@ export default function Wiki() {
             from the options and try again.
           </h1>
         </div>
-      </div>
+      </RoundedContent>
     </div>
   );
 }
