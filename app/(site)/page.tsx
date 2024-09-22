@@ -1,4 +1,4 @@
-import ServerStatus from "@/components/ServerStatus";
+import ServerStatus from "@/app/(site)/components/ServerStatus";
 import { getServerStatus } from "@/lib/actions/getServerStatus";
 import { Metadata } from "next";
 

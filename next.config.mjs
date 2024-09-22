@@ -11,11 +11,17 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "a.ppy.sh",
-        pathname: "/assets/**",
+        hostname: "assets.ppy.sh",
+        pathname: "**",
+      },
+      {
+        protocol: "https",
+        hostname: "osu.ppy.sh",
+        pathname: "**",
       },
     ],
   },
+  reactStrictMode: false,
 };
 
 export default nextConfig;

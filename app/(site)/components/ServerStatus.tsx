@@ -1,5 +1,5 @@
-import Image from "next/image";
-import PrettyCounter from "@/components/PrettyCounter";
+import PrettyCounter from "@/components/General/PrettyCounter";
+import { Gamepad2Icon, Server, UsersIcon } from "lucide-react";
 
 interface Props {
   type: "total_users" | "users_online" | "server_status";
@@ -9,15 +9,15 @@ interface Props {
 const statuses = {
   total_users: {
     name: "Total Users",
-    svg: "account-group",
+    icon: <UsersIcon />,
   },
   users_online: {
     name: "Users Online",
-    svg: "account-badge",
+    icon: <Gamepad2Icon />,
   },
   server_status: {
     name: "Server Status",
-    svg: "access-point-network",
+    icon: <Server />,
   },
 };
 
@@ -30,13 +30,7 @@ export default async function ServerStatus({ type, data }: Props) {
         {statuses[type].name}
       </h2>
       <div className="flex items-center space-x-2">
-        <Image
-          src={`/icons/${statuses[type].svg}.svg`}
-          width={24}
-          height={24}
-          alt={statuses[type].name}
-          className="dark:invert"
-        />
+        {statuses[type].icon}
         <div
           className={`text-lg font-bold ${
             type === "server_status"

@@ -1,9 +1,14 @@
 import Cookies from "js-cookie";
 
+interface AuthResponse {
+  isSuccessful: boolean;
+  error?: string;
+}
+
 export async function authorize(
   username: string,
   password: string
-): Promise<boolean> {
+): Promise<AuthResponse> {
   const response = await fetch(
     `https://api.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/auth/token`,
     {
@@ -12,8 +17,8 @@ export async function authorize(
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        us: username,
-        pa: password,
+        username,
+        password,
       }),
     }
   )
@@ -21,22 +26,30 @@ export async function authorize(
     .catch(() => null);
 
   if (!response) {
-    return false;
+    return {
+      isSuccessful: false,
+      error: "Unknown error",
+    };
   }
 
-  const { token, refresh_token, expires_in } = response;
+  const { token, refresh_token, expires_in, error } = response;
 
-  if (!token || !refresh_token || !expires_in) {
-    return false;
+  if (error) {
+    return {
+      isSuccessful: false,
+      error,
+    };
   }
 
   Cookies.set("session_token", token, {
-    expires: new Date(Date.now() + expires_in * 1000),
+    expires: new Date(Date.now() + expires_in),
   });
 
   Cookies.set("refresh_token", refresh_token, {
     expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
   });
 
-  return true;
+  return {
+    isSuccessful: true,
+  };
 }
