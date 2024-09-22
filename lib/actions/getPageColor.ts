@@ -5,7 +5,7 @@ import { tailwindColors } from "@/lib/types/TailwindTypes";
 export const routeColors: { [key: string]: keyof typeof tailwindColors } = {
   "/wiki": "green",
   "/leaderboard": "orange",
-  "/beatmaps": "blue",
+  "/topplays": "blue",
   "/settings": "purple",
   "/": "gray",
 };
