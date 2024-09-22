@@ -7,7 +7,7 @@ export interface User {
   register_date: string;
   last_online_time: string;
   restricted: boolean;
-  silenced_until: string | null;
+  silenced_until?: string;
   user_status: string;
   badges: UserBadge[];
 }
