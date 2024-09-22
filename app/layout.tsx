@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer";
+import { SelfProvider } from "@/lib/providers/SelfProvider";
 
 const font = Poppins({ weight: "600", subsets: ["latin"] });
 
@@ -18,12 +19,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={font.className}>
-      <body className="bg-stone-900 text-white min-h-screen flex flex-col">
-        <Header />
-        <div className="row-padding">{children}</div>
-        <main className="flex-grow bg-stone-900 -z-30" />
-        <Footer />
-      </body>
+      <SelfProvider>
+        <body className="bg-terracotta-900 text-white min-h-screen flex flex-col">
+          <Header />
+          <div className="row-padding-max-w-2xl ">{children}</div>
+          <main className="flex-grow bg-terracotta-900 -z-30" />
+          <Footer />
+        </body>
+      </SelfProvider>
     </html>
   );
 }
