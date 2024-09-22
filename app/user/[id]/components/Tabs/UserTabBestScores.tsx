@@ -23,7 +23,7 @@ export default function UserTabBestScores({
   const [scoresObject, setScoresObject] = useState<{
     scores: Score[];
     total_count: number;
-  }>({ scores: [], total_count: 0 });
+  }>({ scores: [], total_count: -1 });
   const [page, setPage] = useState(0);
 
   const pageLimit = 5;
@@ -66,7 +66,7 @@ export default function UserTabBestScores({
       </div>
     );
 
-  if (total_count === 0)
+  if (scoresObject.total_count === 0)
     return (
       <div className="flex flex-col">
         <PrettyHeader text="Best scores" icon={<ChartColumnIncreasing />} />
