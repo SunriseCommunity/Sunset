@@ -49,6 +49,7 @@ const config: Config = {
     { pattern: /^bg-\w+-\d+$/, variants: ["hover"] },
     { pattern: /^p-\d+$/ },
     { pattern: /^from-\w+-\d+/, variants: ["hover"] },
+    { pattern: /^text-\w+-\d+/, variants: ["hover"] },
   ],
   plugins: [],
 };

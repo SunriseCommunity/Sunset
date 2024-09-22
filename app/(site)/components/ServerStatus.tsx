@@ -1,5 +1,5 @@
 import PrettyCounter from "@/components/General/PrettyCounter";
-import { Gamepad2Icon, Server, UsersIcon } from "lucide-react";
+import { Gamepad2Icon, Signal, UsersIcon } from "lucide-react";
 
 interface Props {
   type: "total_users" | "users_online" | "server_status";
@@ -17,7 +17,7 @@ const statuses = {
   },
   server_status: {
     name: "Server Status",
-    icon: <Server />,
+    icon: <Signal />,
   },
 };
 

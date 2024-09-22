@@ -4,6 +4,7 @@ import SkeletonLoading from "@/components/SkeletonLoading";
 import { getBeatmap } from "@/lib/actions/getBeatmap";
 import { Beatmap } from "@/lib/types/Beatmap";
 import { Score } from "@/lib/types/Score";
+import { getGradeColor } from "@/lib/utils/getGradeColor";
 import { timeSince } from "@/lib/utils/timeSince";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -13,18 +14,6 @@ interface UserScoreOverviewProps {
   score: Score;
   className?: string;
 }
-
-const gradeBackgrounds = {
-  XH: "text-sky-50",
-  X: "text-sky-100",
-  SH: "text-yellow-300",
-  S: "text-yellow-300",
-  A: "text-green-300",
-  B: "text-blue-300",
-  C: "text-pink-300",
-  D: "text-red-400",
-  F: "text-red-400",
-};
 
 export default function UserScoreOverview({
   score,
@@ -82,9 +71,9 @@ export default function UserScoreOverview({
                 <p className="text-sm ">acc: {score.accuracy.toFixed(2)}%</p>
               </div>
               <div
-                className={`relative text-4xl ${
-                  gradeBackgrounds[score.grade as keyof typeof gradeBackgrounds]
-                }`}
+                className={`relative text-4xl text-${getGradeColor(
+                  score.grade
+                )}`}
               >
                 {score.grade}
               </div>

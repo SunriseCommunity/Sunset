@@ -10,6 +10,9 @@ export interface Beatmap {
   count_circles: number;
   count_sliders: number;
   count_spinners: number;
+  star_rating: number;
+  total_length: number;
+  max_combo: number;
   cs: number;
   deleted_at?: string;
   drain: number;
