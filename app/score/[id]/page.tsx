@@ -94,7 +94,7 @@ export default function Score({ params }: { params: { id: number } }) {
                   <div className="text-right">
                     <p className="text-yellow-400 text-base">
                       [{beatmap?.version || "Unknown"}] ★{" "}
-                      {beatmap?.star_rating.toFixed(2)}
+                      {beatmap?.star_rating.toFixed(2)} {score.mods}
                     </p>
                     <p className="text-gray-300">
                       mapped by {beatmap?.creator || "Unknown Creator"}
