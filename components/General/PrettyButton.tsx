@@ -1,4 +1,5 @@
 import Spinner from "@/components/Spinner";
+import { useRef } from "react";
 import { twMerge } from "tailwind-merge";
 
 interface PrettyButtonProps {
@@ -8,6 +9,7 @@ interface PrettyButtonProps {
   isLoading?: boolean;
   className?: string;
   isAction?: boolean;
+  disabled?: boolean;
 }
 
 export default function PrettyButton({
@@ -17,27 +19,41 @@ export default function PrettyButton({
   icon,
   className,
   isAction,
+  disabled,
 }: PrettyButtonProps) {
   if (!text && !icon) throw new Error("You must provide either text or icon.");
+
+  const contentRef = useRef<HTMLDivElement>(null);
 
   return (
     <button
       className={twMerge(
-        "bg-terracotta-800 hover:bg-terracotta-400 hover:text-white smooth-transition p-2 rounded",
+        "bg-terracotta-800 smooth-transition p-2 rounded",
         isAction ? "text-white" : "text-yellow-pastel",
+        disabled
+          ? "opacity-50 cursor-not-allowed"
+          : "hover:bg-terracotta-400 hover:text-white",
         className
       )}
       onClick={onClick}
-      disabled={isLoading}
+      disabled={isLoading || disabled}
     >
-      {isLoading ? (
-        <Spinner size="sm" />
-      ) : (
-        <div className="flex items-center">
-          <div className={text && icon ? "mr-2" : ""}>{icon}</div>
-          {text}
-        </div>
-      )}
+      <div
+        style={{
+          width: isLoading ? `${contentRef.current?.offsetWidth}px` : "auto",
+          height: isLoading ? `${contentRef.current?.offsetHeight}px` : "auto",
+        }}
+        className="flex items-center justify-center"
+      >
+        {isLoading ? (
+          <Spinner size="sm" />
+        ) : (
+          <div className="flex items-center" ref={contentRef}>
+            <div className={text && icon ? "mr-2" : ""}>{icon}</div>
+            {text}
+          </div>
+        )}
+      </div>
     </button>
   );
 }
