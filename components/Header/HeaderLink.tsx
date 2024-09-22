@@ -3,17 +3,19 @@ import { usePathname } from "next/navigation";
 
 interface Props {
   name: string;
-  color: "orange" | "blue" | "green" | "red";
   isHovered: boolean;
 }
 
-export default function HeaderLink({ name, color, isHovered }: Props) {
+export default function HeaderLink({ name, isHovered }: Props) {
   const pathname = usePathname();
-  const isActive = pathname === `/${name.toLowerCase()}`;
+  const linkPath = `/${name.replace(" ", "").toLowerCase()}`;
+  const isActive = pathname === linkPath;
+
+  const color = "orange";
 
   return (
     <a
-      href={`/${name.toLowerCase()}`}
+      href={linkPath}
       aria-label={name}
       className={`relative px-2 py-1 text-gray-300 smooth-transition cursor-pointer hover:text-white ${
         !isHovered ? "opacity-40" : ""
@@ -22,7 +24,7 @@ export default function HeaderLink({ name, color, isHovered }: Props) {
       <p
         className={`text-base ${
           isActive ? "text-white font-bold" : ""
-        } hover:bg-neutral-600 p-1 rounded-md smooth-transition`}
+        } hover:bg-neutral-600 hover:bg-opacity-25 p-1 rounded-md smooth-transition`}
       >
         {name}
 

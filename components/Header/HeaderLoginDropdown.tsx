@@ -1,62 +1,25 @@
 "use client";
 
-import { getSelf } from "@/lib/actions/getSelf";
-import { User } from "@/lib/types/User";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { authorize } from "@/lib/actions/authorize";
+import useSelf from "@/lib/hooks/useSelf";
+import { twMerge } from "tailwind-merge";
 
 interface Props {
-  dropdownMenuRef: React.RefObject<HTMLElement>;
-  setSelf: React.Dispatch<React.SetStateAction<User | null>>;
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function HeaderLoginDropdown({
-  dropdownMenuRef,
-  setSelf,
-  isOpen,
-  setIsOpen,
-}: Props) {
-  const dropdownRef = useRef<HTMLDivElement>(null);
+export default function HeaderLoginDropdown({ isOpen, setIsOpen }: Props) {
   const loginButtonRef = useRef<HTMLButtonElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const { revalidate } = useSelf();
 
   useEffect(() => {
-    updateVisibilityOfDropdown();
-
     document.addEventListener("click", closeDropdown);
     return () => document.removeEventListener("click", closeDropdown);
   }, [isOpen]);
-
-  const updateVisibilityOfDropdown = () => {
-    if (!dropdownRef.current) return;
-    const dropdown = dropdownRef.current;
-
-    if (isOpen) {
-      dropdown.classList.remove("hidden", "opacity-0");
-      updateDropdownParent();
-      dropdown.classList.add("absolute", "opacity-100");
-    } else {
-      dropdown.classList.remove("opacity-100");
-      dropdown.classList.add("opacity-0");
-      setTimeout(() => {
-        dropdown.classList.add("hidden");
-        dropdown.classList.remove("absolute");
-        updateDropdownParent();
-      }, 200);
-    }
-  };
-
-  const updateDropdownParent = () => {
-    if (!dropdownRef.current) return;
-    const dropdown = dropdownRef.current;
-
-    if (dropdownMenuRef.current?.contains(dropdown)) {
-      dropdownMenuRef.current?.removeChild(dropdown);
-    } else {
-      dropdownMenuRef.current?.appendChild(dropdown);
-    }
-  };
 
   const closeDropdown = (e: MouseEvent) => {
     if (
@@ -74,12 +37,12 @@ export default function HeaderLoginDropdown({
     const username = form.username.value;
     const password = form.password.value;
 
-    const isLoggedIn = await authorize(username, password);
+    const { isSuccessful, error } = await authorize(username, password);
 
-    form.reset();
+    form.password.value = "";
 
-    if (isLoggedIn) {
-      getSelf().then((res) => setSelf(res));
+    if (isSuccessful) {
+      revalidate();
       setIsOpen(false);
     } else {
       if (!loginButtonRef.current) return;
@@ -87,7 +50,7 @@ export default function HeaderLoginDropdown({
       loginButtonRef.current.classList.add("text-red-500");
       loginButtonRef.current.classList.remove("text-white");
 
-      loginButtonRef.current.textContent = "Invalid credentials";
+      loginButtonRef.current.textContent = error || "Unknown error";
       setTimeout(() => {
         loginButtonRef.current!.classList.remove("text-red-500");
         loginButtonRef.current!.classList.add("text-white");
@@ -98,11 +61,14 @@ export default function HeaderLoginDropdown({
 
   return (
     <div
-      className="hidden bg-stone-800 p-4 space-y-4 smooth-transition opacity-0 ml-auto max-w-[320px]"
+      className={twMerge(
+        "absolute invisible opacity-0 right-0 mt-4 origin-top-right w-[320px] bg-stone-800 smooth-transition shadow-black shadow-lg rounded-md",
+        isOpen ? "visible opacity-100 translate-y-0" : "-translate-y-1/4"
+      )}
       ref={dropdownRef}
     >
       <form
-        className="space-y-4 flex flex-col text-black"
+        className="space-y-4 flex flex-col text-black p-4"
         onSubmit={submitLoginForm}
       >
         <input

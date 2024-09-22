@@ -1,31 +1,22 @@
 "use client";
 
-import { getSelf } from "@/lib/actions/getSelf";
-import { User } from "@/lib/types/User";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Spinner from "@/components/Spinner";
 import HeaderLoginDropdown from "@/components/Header/HeaderLoginDropdown";
 import HeaderDropdown from "@/components/Header/HeaderDropdown";
+import useSelf from "@/lib/hooks/useSelf";
+import { LucideMoreHorizontal } from "lucide-react";
 
 interface Props {
-  dropdownMenuRef: React.RefObject<HTMLElement>;
   isHovered: boolean;
 }
 
-export default function HeaderAccount({ dropdownMenuRef, isHovered }: Props) {
-  const [self, setSelf] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-
+export default function HeaderAccount({ isHovered }: Props) {
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
   const [isLoginDropdownOpen, setIsLoginDropdownOpen] = useState(false);
 
-  useEffect(() => {
-    getSelf().then((res) => {
-      setSelf(res);
-      setIsLoading(false);
-    });
-  }, []);
+  const { self, isLoading } = useSelf();
 
   if (isLoading) return <Spinner />;
 
@@ -45,19 +36,22 @@ export default function HeaderAccount({ dropdownMenuRef, isHovered }: Props) {
               className="rounded-full cursor-pointer smooth-transition hover:scale-110"
             />
           </a>
-          <Image
-            src="/icons/dots-horizontal.svg"
-            alt="Settings"
-            width={24}
-            height={24}
-            className={`dark:invert hover:bg-neutral-600 rounded-md smooth-transition ${
-              !isHovered ? "opacity-40" : ""
-            }`}
-            onClick={() => setIsUserDropdownOpen((prev) => !prev)}
-          />
+          <div className="relative">
+            <LucideMoreHorizontal
+              className={`hover:bg-neutral-600 rounded-md smooth-transition ${
+                !isHovered ? "opacity-40" : ""
+              }`}
+              onClick={() => setIsUserDropdownOpen((prev) => !prev)}
+            />
+            <HeaderDropdown
+              self={self}
+              isOpen={isUserDropdownOpen}
+              setIsOpen={setIsUserDropdownOpen}
+            />
+          </div>
         </div>
       ) : (
-        <div>
+        <div className="relative">
           <button
             onClick={() => setIsLoginDropdownOpen((prev) => !prev)}
             className={`hover:bg-zinc-600 p-1 rounded-md smooth-transition ${
@@ -66,20 +60,12 @@ export default function HeaderAccount({ dropdownMenuRef, isHovered }: Props) {
           >
             sign in
           </button>
+          <HeaderLoginDropdown
+            isOpen={isLoginDropdownOpen}
+            setIsOpen={setIsLoginDropdownOpen}
+          />
         </div>
       )}
-      <HeaderLoginDropdown
-        setSelf={setSelf}
-        dropdownMenuRef={dropdownMenuRef}
-        isOpen={isLoginDropdownOpen}
-        setIsOpen={setIsLoginDropdownOpen}
-      />
-      <HeaderDropdown
-        dropdownMenuRef={dropdownMenuRef}
-        self={self}
-        isOpen={isUserDropdownOpen}
-        setIsOpen={setIsUserDropdownOpen}
-      />
     </>
   );
 }
