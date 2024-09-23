@@ -101,7 +101,7 @@ export default function Leaderboard() {
                   <td className="p-3">
                     <img
                       src={`/images/flags/${user.user.country_code}.png`}
-                      alt="Russian Flag"
+                      alt="User Flag"
                       className="w-6 h-6 mr-2"
                     />
                   </td>
