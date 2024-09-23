@@ -94,7 +94,7 @@ export default function Leaderboard() {
             <tbody>
               {users.map((user, index) => (
                 <tr
-                  key={index}
+                  key={page * pageLimit + index + 1}
                   className="border-b border-[#333333] hover:bg-[#333333] transition-colors"
                 >
                   <td className="p-3"># {page * pageLimit + index + 1}</td>
