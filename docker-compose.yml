@@ -1,0 +1,7 @@
+name: osu-sunset
+services:
+  next-frontend:
+    build: .
+    ports:
+      - "3090:3000"
+    restart: always
