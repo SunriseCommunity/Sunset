@@ -14,6 +14,7 @@ export async function getSelf(): Promise<User | null> {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      cache: "no-cache",
     }
   )
     .then((res) => res.json())
