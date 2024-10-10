@@ -7,6 +7,6 @@ export interface UserStats {
   play_count: number;
   pp: number;
   max_combo: number;
-  play_time_ms: number;
+  play_time: number;
   rank: number;
 }

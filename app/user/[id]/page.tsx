@@ -22,6 +22,7 @@ import PrettyDate from "@/components/General/PrettyDate";
 import { twMerge } from "tailwind-merge";
 import { editFriendshipStatus } from "@/lib/actions/editFriendshipStatus";
 import { getUserFriendshipStatus } from "@/lib/actions/getUserFriendshipStatus";
+import UserTabMedals from "./components/Tabs/UserTabMedals";
 
 const defaultGamemodes = ["osu!std", "osu!taiko", "osu!catch", "osu!mania"];
 
@@ -30,7 +31,7 @@ const contentTabs = [
   "Best scores",
   "Recent scores",
   "First places",
-  "Achievements",
+  "Medals",
 ];
 
 export default function UserPage({ params }: { params: { id: number } }) {
@@ -177,7 +178,15 @@ export default function UserPage({ params }: { params: { id: number } }) {
             userId={user.user_id}
           />
         );
-      case "Achievements":
+      case "Medals":
+        return (
+          <UserTabMedals
+            key={`medals-${activeGameMode}`}
+            user={user}
+            gameMode={activeGameMode}
+          />
+        );
+       
       default:
         return <UserTabWIP tabName={activeTab} />;
     }
