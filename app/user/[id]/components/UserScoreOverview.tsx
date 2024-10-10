@@ -66,7 +66,10 @@ export default function UserScoreOverview({
               <div className="text-end text-nowrap">
                 <p className="text-sm opacity-70">{score.mods}</p>
                 <p className="text-xl text-terracotta-300">
-                  {score.performance_points.toFixed()}pp
+                  {beatmap?.ranked == 1
+                    ? score.performance_points.toFixed()
+                    : "- "}
+                  pp
                 </p>
                 <p className="text-sm ">acc: {score.accuracy.toFixed(2)}%</p>
               </div>

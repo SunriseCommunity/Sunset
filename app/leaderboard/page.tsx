@@ -120,7 +120,7 @@ export default function Leaderboard() {
                       {user.user.username}
                     </p>
                   </td>
-                  <td className="p-3">{user.stats.pp} pp</td>
+                  <td className="p-3">{Math.round(user.stats.pp)} pp</td>
                   <td className="p-3">{user.stats.accuracy.toFixed(2)}%</td>
                   <td className="p-3">{user.stats.play_count}</td>
                 </tr>
