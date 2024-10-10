@@ -162,13 +162,13 @@ export default function UserTabGeneral({
               <div className="flex flex-col place-content-between items-end">
                 <p className="text-sm">Performance</p>
                 <p className="text-2xl font-bald text-terracotta-400">
-                  {NumberWith(stats?.pp ?? 0, ",")}
+                  {NumberWith(Math.round(stats?.pp ?? 0) ?? 0, ",")}
                 </p>
               </div>
             </div>
           </div>
           <div className="bg-coffee-700 p-4 rounded-b-lg min-h-60 h-60">
-            {stats?.pp! > 0 ? (
+            {Math.round(stats?.pp ?? 0) > 0 ? (
               <UserStatsChart data={graph} />
             ) : (
               <ContentNotExist text="Nothing to render" />
