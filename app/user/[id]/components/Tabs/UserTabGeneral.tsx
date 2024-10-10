@@ -131,7 +131,7 @@ export default function UserTabGeneral({
               <p className="text-xs">Playtime</p>
               <p className="text-md font-bald">
                 {stats ? (
-                  playtimeToString(stats?.play_time_ms ?? 0)
+                  playtimeToString(stats?.play_time ?? 0)
                 ) : (
                   <SkeletonLoading className="w-32 h-4 mt-1" />
                 )}
