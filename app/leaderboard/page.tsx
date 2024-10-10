@@ -60,8 +60,6 @@ export default function Leaderboard() {
       </div>
     );
 
-  console.log(users);
-
   return (
     <div className="flex flex-col w-full mt-8">
       <PrettyHeader text="Leaderboard" icon={<ChartColumnIncreasing />}>
@@ -73,6 +71,7 @@ export default function Leaderboard() {
               className={`px-3 py-1 ${
                 activeMode === mode ? "bg-terracotta-400 text-white" : ""
               }`}
+              key={mode}
             />
           ))}
         </div>
