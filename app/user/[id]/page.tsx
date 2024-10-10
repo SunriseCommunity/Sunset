@@ -23,6 +23,7 @@ import { twMerge } from "tailwind-merge";
 import { editFriendshipStatus } from "@/lib/actions/editFriendshipStatus";
 import { getUserFriendshipStatus } from "@/lib/actions/getUserFriendshipStatus";
 import UserTabMedals from "./components/Tabs/UserTabMedals";
+import toPrettyDate from "@/lib/utils/toPrettyDate";
 
 const defaultGamemodes = ["osu!std", "osu!taiko", "osu!catch", "osu!mania"];
 
@@ -186,7 +187,7 @@ export default function UserPage({ params }: { params: { id: number } }) {
             gameMode={activeGameMode}
           />
         );
-       
+
       default:
         return <UserTabWIP tabName={activeTab} />;
     }
@@ -262,7 +263,12 @@ export default function UserPage({ params }: { params: { id: number } }) {
                 </div>
               </div>
               <div className="flex flex-col space-y-2 bg-black bg-opacity-75 px-2 py-1 rounded mr-2">
-                <Tooltip content="Highest rank # ?">
+                <Tooltip
+                  content={`Highest rank #${userStats?.best_global_rank} on ${
+                    userStats?.best_global_rank_date &&
+                    toPrettyDate(userStats?.best_global_rank_date)
+                  }`}
+                >
                   <div className="flex items-center text-white">
                     <Globe className="w-6 h-6 mr-2" />
                     <span className="text-2xl font-bold items-center flex">
@@ -274,14 +280,24 @@ export default function UserPage({ params }: { params: { id: number } }) {
                   </div>
                 </Tooltip>
 
-                <Tooltip content="Highest rank # ?">
+                <Tooltip
+                  content={`Highest rank #${userStats?.best_country_rank} on ${
+                    userStats?.best_country_rank_date &&
+                    toPrettyDate(userStats?.best_country_rank_date)
+                  }`}
+                >
                   <div className="flex items-center text-white">
                     <img
                       src={`/images/flags/${user.country_code}.png`}
-                      alt="Russian Flag"
+                      alt="Country Flag"
                       className="w-6 h-6 mr-2"
                     />
-                    <span className="text-2xl font-bold"># ?</span>
+                    <span className="text-2xl font-bold">
+                      #{" "}
+                      {userStats?.country_rank ?? (
+                        <SkeletonLoading className="w-9 h-6 ml-2" />
+                      )}
+                    </span>
                   </div>
                 </Tooltip>
               </div>
