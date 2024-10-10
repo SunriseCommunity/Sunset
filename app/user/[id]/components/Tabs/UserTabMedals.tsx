@@ -65,7 +65,7 @@ export default function UserTabMedals({ user, gameMode }: UserTabMedalsProps) {
               <p className="text-xs text-gray-300">
                 {isAchieved ? (
                   <div className="flex items-center">
-                    <p>achieved at&nbsp;</p>
+                    <p>achieved on&nbsp;</p>
                     <PrettyDate time={medal.unlocked_at!} withTime={false} />
                   </div>
                 ) : (

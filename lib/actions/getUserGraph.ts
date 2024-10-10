@@ -1,25 +1,25 @@
 import { getUsetToken } from "@/lib/actions/getUserToken";
 import { GameMode } from "@/lib/types/GameMode";
-import { Score } from "@/lib/types/Score";
+import { StatsSnapshot } from "../types/StatsSnapshot";
 
-interface UserScoresResponse {
+interface UserGraphResponse {
   data: {
-    scores: Score[];
+    snapshots: StatsSnapshot[];
     total_count: number;
   } | null;
   error?: string;
 }
 
-export async function getUserGraphScores(
+export async function getUserGraph(
   id: number,
   mode: GameMode
-): Promise<UserScoresResponse> {
+): Promise<UserGraphResponse> {
   const token = await getUsetToken();
 
   const response = await fetch(
     `https://api.${
       process.env.NEXT_PUBLIC_SERVER_DOMAIN
-    }/user/${id}/graph/scores${`?mode=${mode}`}`,
+    }/user/${id}/graph${`?mode=${mode}`}`,
     {
       headers: {
         ...(token ? { Authorization: `Bearer ${token}` } : {}),

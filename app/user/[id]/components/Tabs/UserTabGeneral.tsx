@@ -1,12 +1,13 @@
+import UserStatsChart from "@/app/user/[id]/components/UserScoresChart";
 import UserScoresChart from "@/app/user/[id]/components/UserScoresChart";
 import { ContentNotExist } from "@/components/ContentNotExist";
 import PrettyHeader from "@/components/General/PrettyHeader";
 import RoundedContent from "@/components/General/RoundedContent";
 import SkeletonLoading from "@/components/SkeletonLoading";
 import { Tooltip } from "@/components/Tooltip";
-import { getUserGraphScores } from "@/lib/actions/getUserGraphScores";
+import { getUserGraph } from "@/lib/actions/getUserGraph";
 import { GameMode } from "@/lib/types/GameMode";
-import { Score } from "@/lib/types/Score";
+import { StatsSnapshot } from "@/lib/types/StatsSnapshot";
 import { User } from "@/lib/types/User";
 import { UserStats } from "@/lib/types/UserStats";
 import NumberWith from "@/lib/utils/numberWith";
@@ -28,23 +29,23 @@ export default function UserTabGeneral({
   const [isLoading, setIsLoading] = useState(false);
 
   // Deprecated: will be replaced by snapshot system
-  const [scores, setScores] = useState<{
-    scores: Score[];
+  const [graph, setGraph] = useState<{
+    snapshots: StatsSnapshot[];
     total_count: number;
-  }>({ scores: [], total_count: 0 });
+  }>({ snapshots: [], total_count: 0 });
 
   useEffect(() => {
     if (isLoading) return;
 
     setIsLoading(true);
 
-    getUserGraphScores(user.user_id, gameMode).then((scores) => {
-      if (scores.error) {
+    getUserGraph(user.user_id, gameMode).then((data) => {
+      if (data.error) {
         setIsLoading(false);
         return;
       }
 
-      setScores(scores.data!);
+      setGraph(data.data!);
       setIsLoading(false);
     });
   }, [gameMode]);
@@ -168,7 +169,7 @@ export default function UserTabGeneral({
           </div>
           <div className="bg-coffee-700 p-4 rounded-b-lg min-h-60 h-60">
             {stats?.pp! > 0 ? (
-              <UserScoresChart data={scores} />
+              <UserStatsChart data={graph} />
             ) : (
               <ContentNotExist text="Nothing to render" />
             )}
