@@ -2,6 +2,7 @@
 import { BookCopy, LucideMessageCircleQuestion } from "lucide-react";
 import PrettyHeader from "@/components/General/PrettyHeader";
 import RoundedContent from "@/components/General/RoundedContent";
+import Image from "next/image";
 
 export default function Wiki() {
   return (
@@ -18,7 +19,7 @@ export default function Wiki() {
         text="How to connect"
         icon={<LucideMessageCircleQuestion />}
       />
-      <RoundedContent className="mb-4 bg-terracotta-700">
+      <RoundedContent className="mb-4 bg-terracotta-700 h-fit min-h-fit max-h-fit">
         <div className="flex flex-col w-11/12 mx-auto">
           <h1 className="text-xl">
             To connect to the server, you need to have a copy of the game
@@ -35,13 +36,20 @@ export default function Wiki() {
             <li>
               In the target field, add{" "}
               <code className="text-yellow-pastel">
-                --devserver osu-sunrise.top
+                -devserver osu-sunrise.top
               </code>{" "}
               at the end of the path.
             </li>
             <li>Click apply and then OK.</li>
             <li>Double click on the shortcut to start the game.</li>
           </ol>
+          <Image
+            src="/images/wiki/osu-connect.png"
+            alt="osu connect image"
+            width={800}
+            height={200}
+            className="rounded-lg mt-4"
+          />
         </div>
       </RoundedContent>
       <PrettyHeader
