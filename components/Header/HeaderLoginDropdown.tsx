@@ -62,40 +62,53 @@ export default function HeaderLoginDropdown({ isOpen, setIsOpen }: Props) {
   return (
     <div
       className={twMerge(
-        "absolute invisible opacity-0 right-0 mt-4 origin-top-right w-[320px] bg-stone-800 smooth-transition shadow-black shadow-lg rounded-md",
+        "absolute invisible opacity-0 right-0 mt-4 origin-top-right w-[320px] smooth-transition",
         isOpen ? "visible opacity-100 translate-y-0" : "-translate-y-1/4"
       )}
       ref={dropdownRef}
     >
-      <form
-        className="space-y-4 flex flex-col text-black p-4"
-        onSubmit={submitLoginForm}
-      >
-        <input
-          name="username"
-          type="text"
-          placeholder="Username"
-          className="rounded-lg text-sm px-2 py-1"
-        />
-        <input
-          name="password"
-          type="password"
-          placeholder="Password"
-          className="rounded-lg text-sm px-2 py-1"
-        />
-        <button
-          type="submit"
-          className="bg-stone-700 text-white rounded-lg px-4 py-1"
-          ref={loginButtonRef}
+      <div className="bg-stone-800 rounded-t-md">
+        <form
+          className="space-y-4 flex flex-col text-black p-4"
+          onSubmit={submitLoginForm}
         >
-          Login
-        </button>
-        <p className="text-sm text-gray-400">
-          Looking for the registration page? <br /> Right now you can do it only
-          through the osu! client.
-          <br /> Sorry for the inconvenience! 🙇‍♂️
-        </p>
-      </form>
+          <h1 className="text-xl text-white"> Sign In To Proceed</h1>
+
+          <input
+            name="username"
+            type="text"
+            placeholder="Username"
+            className="rounded-lg text-sm px-2 py-1"
+            required
+          />
+          <input
+            name="password"
+            type="password"
+            placeholder="Password"
+            className="rounded-lg text-sm px-2 py-1"
+            required
+          />
+          <button
+            type="submit"
+            className="bg-stone-700 text-white rounded-lg px-4 py-1"
+            ref={loginButtonRef}
+          >
+            Login
+          </button>
+        </form>
+      </div>
+      <div className="bg-stone-900 rounded-b-md shadow-black shadow-lg ">
+        <div className="flex flex-col justify-center p-4">
+          New to the server?{" "}
+          <button
+            type="submit"
+            className="bg-stone-800 text-white rounded-lg px-4 mt-2 py-1"
+            onClick={() => (window.location.href = "/register")}
+          >
+            Register
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
