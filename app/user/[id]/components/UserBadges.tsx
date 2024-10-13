@@ -7,17 +7,20 @@ import {
   Shield,
   BotIcon,
   Badge,
+  Trophy,
 } from "lucide-react";
 
 interface UserBadgesProps {
   badges: UserBadge[];
 }
 
+// TODO: Should be deprecated in favor of backend-provided badge descriptions, names, and icons
 const BadgeDescription: { [key in UserBadge]: any } = {
   admin: "Server admin. They keep the peace. 🛡️",
   developer: "Humble developer. They make the magic happen. 🪄",
   supporter: "Supported the project. Forever grateful.",
   bat: "They manage beatmap submissions.",
+  champion: "Current number one player on the server. 🏆",
   bot: "Beep boop. I'm a bot.",
 };
 
@@ -48,6 +51,10 @@ export default function UserBadges({ badges }: UserBadgesProps) {
           case "supporter":
             badgeIcon = <HeartHandshake size={24} />;
             badgeColor = "bg-pink-600 hover:bg-pink-500";
+            break;
+          case "champion":
+            badgeIcon = <Trophy size={24} />;
+            badgeColor = "bg-amber-500 hover:bg-amber-400";
             break;
           default:
             badgeIcon = <Badge size={24} />;

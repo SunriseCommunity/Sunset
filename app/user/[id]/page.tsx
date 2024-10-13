@@ -255,7 +255,7 @@ export default function UserPage({ params }: { params: { id: number } }) {
                     {user.user_status}
                     {user.user_status === "Offline" && (
                       <>
-                        <p>, last seen at&nbsp;</p>
+                        <p>, last seen on&nbsp;</p>
                         <PrettyDate time={user.last_online_time} />
                       </>
                     )}
@@ -271,7 +271,12 @@ export default function UserPage({ params }: { params: { id: number } }) {
                 >
                   <div className="flex items-center text-white">
                     <Globe className="w-6 h-6 mr-2" />
-                    <span className="text-2xl font-bold items-center flex">
+                    <span
+                      className={twMerge(
+                        "text-2xl font-bold",
+                        userStats?.rank === 1 && "text-yellow-400"
+                      )}
+                    >
                       #{" "}
                       {userStats?.rank ?? (
                         <SkeletonLoading className="w-9 h-6 ml-2" />
@@ -292,7 +297,12 @@ export default function UserPage({ params }: { params: { id: number } }) {
                       alt="Country Flag"
                       className="w-6 h-6 mr-2"
                     />
-                    <span className="text-2xl font-bold">
+                    <span
+                      className={twMerge(
+                        "text-2xl font-bold",
+                        userStats?.country_rank === 1 && "text-gray-300"
+                      )}
+                    >
                       #{" "}
                       {userStats?.country_rank ?? (
                         <SkeletonLoading className="w-9 h-6 ml-2" />
@@ -306,9 +316,9 @@ export default function UserPage({ params }: { params: { id: number } }) {
         </div>
 
         {/* Content */}
-        <div className="p-6">
+        <div className="px-6 pt-2 pb-6">
           {/* User Info */}
-          <div className="flex justify-between items-start mb-1">
+          <div className="flex justify-between items-start mb-2">
             <div className="flex flex-wrap gap-2">
               <UserBadges badges={user.badges} />
             </div>

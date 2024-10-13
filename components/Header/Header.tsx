@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import HeaderLink from "@/components/Header/HeaderLink";
 import HeaderAccount from "@/components/Header/HeaderAccount";
 import { twMerge } from "tailwind-merge";
+import HeaderSearchPopup from "./HeaderSearchPopup";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -54,9 +55,9 @@ export default function Header() {
           </span>
         </div>
         <div className="flex items-center space-x-6">
-          <HeaderAccount
-            isHovered={hovered}
-          />
+          <HeaderSearchPopup isHovered={hovered} />
+
+          <HeaderAccount isHovered={hovered} />
         </div>
       </div>
     </header>
