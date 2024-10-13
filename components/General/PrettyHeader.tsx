@@ -1,7 +1,7 @@
 import { twMerge } from "tailwind-merge";
 
 interface PrettyHeaderProps {
-  icon: React.ReactNode;
+  icon?: React.ReactNode;
   text: string;
   roundBottom?: boolean;
   children?: React.ReactNode;
@@ -25,7 +25,7 @@ export default function PrettyHeader({
       )}
     >
       <div className="flex items-center">
-        <div className="mr-2">{icon}</div>
+        {icon && <div className="mr-2">{icon}</div>}
         <h2 className="text-lg font-semibold">{text}</h2>
       </div>
       {children}

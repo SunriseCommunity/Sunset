@@ -90,7 +90,7 @@ export default function HeaderSearchPopup({ isHovered }: Props) {
                   "bg-coffee-600 pb-4 pt-2 px-4 relative",
                   searchResults.total_count != -1
                     ? "rounded-t-lg"
-                    : "rounded-lg"
+                    : "rounded-lg shadow-black shadow-lg"
                 )}
               >
                 <div className="relative w-full">
@@ -116,7 +116,7 @@ export default function HeaderSearchPopup({ isHovered }: Props) {
                 </div>
               </div>
               {searchResults.total_count != -1 && (
-                <RoundedContent>
+                <RoundedContent className="shadow-black shadow-lg">
                   {searchResults.result.length === 0 && !isSearching && (
                     <div className="flex items-center justify-center h-12">
                       <p className="text-gray-400">No results found.</p>
