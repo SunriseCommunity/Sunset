@@ -19,7 +19,7 @@ export default function Wiki() {
         text="How to connect"
         icon={<LucideMessageCircleQuestion />}
       />
-      <RoundedContent className="mb-4 bg-terracotta-700 h-fit min-h-fit max-h-fit">
+      <RoundedContent className="mb-4 bg-terracotta-700">
         <div className="flex flex-col w-11/12 mx-auto">
           <h1 className="text-xl">
             To connect to the server, you need to have a copy of the game
@@ -52,11 +52,12 @@ export default function Wiki() {
           />
         </div>
       </RoundedContent>
+
       <PrettyHeader
         text="Can I have multiple accounts?"
         icon={<LucideMessageCircleQuestion />}
       />
-      <RoundedContent className="mb-4 bg-terracotta-700 h-fit min-h-fit max-h-fit">
+      <RoundedContent className="mb-4 bg-terracotta-700">
         <div className="flex flex-col w-11/12 mx-auto">
           <h1 className="text-xl">
             No. You are only allowed to have one account per person.
@@ -69,10 +70,47 @@ export default function Wiki() {
       </RoundedContent>
 
       <PrettyHeader
+        text="Can I use cheats or hacks?"
+        icon={<LucideMessageCircleQuestion />}
+      />
+      <RoundedContent className="mb-4 bg-terracotta-700">
+        <div className="flex flex-col w-11/12 mx-auto">
+          <h1 className="text-xl">No. You will be banned if you are caught.</h1>
+          <p className="mt-2">
+            We are very strict on cheating and do not tolerate it at all.
+            <br />
+            If you suspect someone of cheating, please report them to the staff.
+          </p>
+        </div>
+      </RoundedContent>
+
+      <PrettyHeader
+        text="Can I contribute/suggest changes to the server?"
+        icon={<LucideMessageCircleQuestion />}
+      />
+      <RoundedContent className="mb-4 bg-terracotta-700">
+        <div className="flex flex-col w-11/12 mx-auto">
+          <h1 className="text-xl">Yes! We are always open to suggestions.</h1>
+          <p className="mt-2">
+            If you have any suggestions, please submit them at our{" "}
+            <a
+              href="https://github.com/SunriseCommunity"
+              className="text-blue-400 hover:underline"
+            >
+              GitHub
+            </a>{" "}
+            page. <br />
+            Longterm contributors can also have chance to get permanent
+            supporter tag.
+          </p>
+        </div>
+      </RoundedContent>
+
+      <PrettyHeader
         text="I can’t download maps when I’m in multiplayer, but I can download them from the main menu"
         icon={<LucideMessageCircleQuestion />}
       />
-      <RoundedContent className="mb-4 bg-terracotta-700 h-fit min-h-fit max-h-fit">
+      <RoundedContent className="mb-4 bg-terracotta-700">
         <div className="flex flex-col w-11/12 mx-auto">
           <h1 className="text-xl">
             Disable{" "}
