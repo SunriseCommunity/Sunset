@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer";
 import { SelfProvider } from "@/lib/providers/SelfProvider";
+import ScrollUpButton from "@/components/scrollUpButton";
 
 const font = Poppins({ weight: "600", subsets: ["latin"] });
 
@@ -26,6 +27,7 @@ export default function RootLayout({
           <main className="flex-grow bg-terracotta-900 -z-30" />
           <Footer />
         </body>
+        <ScrollUpButton />
       </SelfProvider>
     </html>
   );
