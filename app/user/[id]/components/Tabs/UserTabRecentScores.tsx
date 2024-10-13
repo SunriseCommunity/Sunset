@@ -58,7 +58,7 @@ export default function UserTabRecentScores({
     return (
       <div className="flex flex-col">
         <PrettyHeader text="Recent scores" icon={<History />} />
-        <RoundedContent className="min-h-0 h-fit max-h-none">
+        <RoundedContent className="min-h-60 max-h-60 h-60">
           <div className="flex justify-center items-center h-32">
             <Spinner />
           </div>
@@ -70,7 +70,7 @@ export default function UserTabRecentScores({
     return (
       <div className="flex flex-col">
         <PrettyHeader text="Recent scores" icon={<History />} />
-        <RoundedContent className="min-h-0 h-fit max-h-none">
+        <RoundedContent className="min-h-60 max-h-60 h-60">
           <ContentNotExist text="User has no scores" />
         </RoundedContent>
       </div>
@@ -79,7 +79,7 @@ export default function UserTabRecentScores({
   return (
     <div className="flex flex-col">
       <PrettyHeader text="Recent scores" icon={<History />} />
-      <RoundedContent className="min-h-0 h-fit max-h-none">
+      <RoundedContent className="min-h-60 h-fit max-h-none">
         {scores.map((score) => (
           <div key={`score-${score.id}`} className="mb-2">
             <UserScoreOverview score={score} />

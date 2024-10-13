@@ -56,7 +56,6 @@ export default function UserElement({
           </div>
         </div>
 
-        {/* to the end of column */}
         <div className="relative py-2 px-4 text-white bg-black bg-opacity-50 rounded-b-lg ">
           <div className="text-gray-300 text-base mb-1">{user.user_status}</div>
         </div>

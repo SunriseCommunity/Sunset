@@ -1,4 +1,10 @@
-export type UserBadge = "admin" | "supporter" | "bat" | "developer" | "bot";
+export type UserBadge =
+  | "admin"
+  | "supporter"
+  | "bat"
+  | "developer"
+  | "bot"
+  | "champion";
 
 export interface User {
   user_id: number;

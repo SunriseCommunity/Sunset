@@ -21,10 +21,7 @@ export default function HeaderDropdown({ isOpen, self, setIsOpen }: Props) {
   }, [isOpen]);
 
   const closeDropdown = (e: MouseEvent) => {
-    if (
-      !dropdownRef.current ||
-      (dropdownRef.current as HTMLElement).contains(e.target as Node)
-    )
+    if ((dropdownRef.current as HTMLElement)?.contains(e.target as Node))
       return;
 
     setIsOpen(false);
@@ -47,6 +44,7 @@ export default function HeaderDropdown({ isOpen, self, setIsOpen }: Props) {
           "absolute invisible opacity-0 right-0 mt-4 origin-top-right w-[150px] bg-stone-800 smooth-transition shadow-black shadow-lg rounded-md",
           isOpen ? "visible opacity-100 translate-y-0" : "-translate-y-1/4"
         )}
+        ref={dropdownRef}
       >
         <div className="flex items-first flex-col p-4">
           <PrettyButton

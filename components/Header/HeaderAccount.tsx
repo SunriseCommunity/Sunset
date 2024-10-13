@@ -24,25 +24,16 @@ export default function HeaderAccount({ isHovered }: Props) {
     <>
       {self ? (
         <div className="flex items-center space-x-4">
-          <a
-            href={`/user/${self.user_id}`}
-            className="flex items-center space-x-2"
-          >
+          <div className="relative">
             <Image
               src={`https://a.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/${self.user_id}`}
               width={50}
               height={50}
               alt="Avatar"
               className="rounded-full cursor-pointer smooth-transition hover:scale-110"
-            />
-          </a>
-          <div className="relative">
-            <LucideMoreHorizontal
-              className={`hover:bg-neutral-600 rounded-md smooth-transition ${
-                !isHovered ? "opacity-40" : ""
-              }`}
               onClick={() => setIsUserDropdownOpen((prev) => !prev)}
             />
+
             <HeaderDropdown
               self={self}
               isOpen={isUserDropdownOpen}
