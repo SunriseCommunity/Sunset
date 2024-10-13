@@ -77,7 +77,7 @@ export default function Leaderboard() {
         </div>
       </PrettyHeader>
 
-      <RoundedContent className="mb-4 bg-terracotta-700 h-fit min-h-fit max-h-fit">
+      <RoundedContent className="mb-4 bg-terracotta-700">
         <div className="bg-terracotta-800 rounded-lg overflow-hidden">
           <table className="w-full">
             <thead>
@@ -115,7 +115,9 @@ export default function Leaderboard() {
 
                     <p
                       className="cursor-pointer"
-                      onClick={() => window.open("/user/" + user.user.user_id)}
+                      onClick={() =>
+                        (window.location.href = `/user/${user.user.user_id}`)
+                      }
                     >
                       {user.user.username}
                     </p>
