@@ -69,23 +69,31 @@ export default function HeaderLoginDropdown({ isOpen, setIsOpen }: Props) {
     >
       <div className="bg-stone-800 rounded-t-md">
         <form
-          className="space-y-4 flex flex-col text-black p-4"
+          className="flex flex-col text-black p-4"
           onSubmit={submitLoginForm}
         >
-          <h1 className="text-xl text-white"> Sign In To Proceed</h1>
+          <h1 className="text-xl text-white mb-2"> Sign In To Proceed</h1>
 
+          <label htmlFor="username" className="text-white text-sm">
+            Username
+          </label>
           <input
             name="username"
             type="text"
-            placeholder="Username"
-            className="rounded-lg text-sm px-2 py-1"
+            placeholder="e.g. username"
+            className="rounded-lg text-sm px-2 py-1 mb-2"
+            maxLength={32}
             required
           />
+          <label htmlFor="password" className="text-white text-sm">
+            Password
+          </label>
           <input
             name="password"
             type="password"
-            placeholder="Password"
-            className="rounded-lg text-sm px-2 py-1"
+            placeholder="************"
+            maxLength={32}
+            className="rounded-lg text-sm px-2 py-1 mb-2"
             required
           />
           <button
