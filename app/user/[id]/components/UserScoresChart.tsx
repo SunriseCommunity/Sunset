@@ -24,6 +24,12 @@ export default function UserStatsChart({ data }: Props) {
   });
 
   snapshots = snapshots.filter((s, i) => {
+    // Note: This is a hack to fix the timezone issue, remove if too much confusing
+    const timezoneOffset = new Date().getTimezoneOffset() * 60000;
+    s.saved_at = new Date(
+      new Date(s.saved_at).valueOf() - timezoneOffset
+    ).toISOString();
+
     if (i === 0) {
       return true;
     }
@@ -31,12 +37,12 @@ export default function UserStatsChart({ data }: Props) {
     const prevDate = new Date(snapshots[i - 1].saved_at);
     const currentDate = new Date(s.saved_at);
 
-    return prevDate.toLocaleDateString() !== currentDate.toLocaleDateString();
+    return prevDate.toDateString() !== currentDate.toDateString();
   });
 
   const chartData = snapshots.map((s) => ({
     date:
-      new Date(s.saved_at).getDate() === new Date().getDate()
+      new Date(s.saved_at).toDateString() === new Date().toDateString()
         ? "Today"
         : timeSince(new Date(s.saved_at), true),
     pp: s.pp,
