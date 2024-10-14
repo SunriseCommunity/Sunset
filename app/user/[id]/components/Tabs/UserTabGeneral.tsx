@@ -75,17 +75,19 @@ export default function UserTabGeneral({
 
   return (
     <div className="flex flex-col">
-      <PrettyHeader text="About me" icon={<User2 />} />
-      <RoundedContent className="min-h-0 h-fit">
-        {markdown.length > 0 && (
-          <div
-            className="max-h-80 overflow-y-auto"
-            dangerouslySetInnerHTML={{ __html: markdown }}
-          />
-        )}
-      </RoundedContent>
+      {markdown.length > 0 && (
+        <>
+          <PrettyHeader text="About me" icon={<User2 />} />
+          <RoundedContent className="min-h-0 h-fit mb-6">
+            <div
+              className="max-h-80 overflow-y-auto"
+              dangerouslySetInnerHTML={{ __html: markdown }}
+            />
+          </RoundedContent>
+        </>
+      )}
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="sm:col-span-2 col-span-2 md:col-span-1">
           <div className="bg-coffee-600 rounded-t-lg p-4 flex items-center">
             <FolderKanbanIcon className="mr-2" />
