@@ -76,8 +76,6 @@ export default function Settings() {
   };
 
   const saveDescription = async (text: string) => {
-    if (text === self?.description || text.length === 0) return;
-
     setIsUpdatingDescription(true);
 
     const res = await editDescription(text);
