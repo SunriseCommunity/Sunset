@@ -6,7 +6,7 @@ import Footer from "@/components/Footer";
 import { SelfProvider } from "@/lib/providers/SelfProvider";
 import ScrollUpButton from "@/components/scrollUpButton";
 
-const font = Poppins({ weight: "600", subsets: ["latin"] });
+const font = Poppins({ weight: "500", subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "osu!Sunrise",

@@ -14,6 +14,9 @@ import NumberWith from "@/lib/utils/numberWith";
 import { timeSince } from "@/lib/utils/timeSince";
 import { FolderKanbanIcon, Trophy, User2 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { remark } from "remark";
+import remarkGfm from "remark-gfm";
+import html from "remark-html";
 
 interface UserTabGeneralProps {
   user: User;
@@ -27,12 +30,24 @@ export default function UserTabGeneral({
   gameMode,
 }: UserTabGeneralProps) {
   const [isLoading, setIsLoading] = useState(false);
+  const [markdown, setMarkdown] = useState("");
 
-  // Deprecated: will be replaced by snapshot system
   const [graph, setGraph] = useState<{
     snapshots: StatsSnapshot[];
     total_count: number;
   }>({ snapshots: [], total_count: 0 });
+
+  useEffect(() => {
+    const processMarkdown = async () => {
+      const processedContent = await remark()
+        .use(html)
+        .use(remarkGfm)
+        .process(user.description ?? "");
+      setMarkdown(processedContent.toString());
+    };
+
+    processMarkdown();
+  }, [user]);
 
   useEffect(() => {
     if (isLoading) return;
@@ -62,8 +77,12 @@ export default function UserTabGeneral({
     <div className="flex flex-col">
       <PrettyHeader text="About me" icon={<User2 />} />
       <RoundedContent className="min-h-0 h-fit">
-        <></>
-        {/* TODO: let user set their own bio */}
+        {markdown.length > 0 && (
+          <div
+            className="max-h-80 overflow-y-auto"
+            dangerouslySetInnerHTML={{ __html: markdown }}
+          />
+        )}
       </RoundedContent>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">

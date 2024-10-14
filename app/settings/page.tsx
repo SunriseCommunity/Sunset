@@ -4,9 +4,17 @@ import Spinner from "@/components/Spinner";
 import StatusButton from "@/components/General/PrettyButton";
 import { uploadUserFile } from "@/lib/actions/uploadAvatar";
 import useSelf from "@/lib/hooks/useSelf";
-import { CloudUpload, Cog, Image, User2Icon } from "lucide-react";
+import {
+  CloudUpload,
+  Cog,
+  Image,
+  NotebookPenIcon,
+  User2Icon,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import PrettyHeader from "@/components/General/PrettyHeader";
+import MarkdownInput from "./components/MarkdownInput";
+import { editDescription } from "@/lib/actions/editDescription";
 
 export default function Settings() {
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
@@ -14,6 +22,8 @@ export default function Settings() {
 
   const [bannerFile, setBannerFile] = useState<File | null>(null);
   const [isBannerUploading, setIsBannerUploading] = useState(false);
+
+  const [isUpdatingDescription, setIsUpdatingDescription] = useState(false);
 
   const { self, isLoading } = useSelf();
 
@@ -65,6 +75,21 @@ export default function Settings() {
     setIsBannerUploading(false);
   };
 
+  const saveDescription = async (text: string) => {
+    if (text === self?.description || text.length === 0) return;
+
+    setIsUpdatingDescription(true);
+
+    const res = await editDescription(text);
+
+    if (res.isSuccessful) {
+      alert("Description updated successfully!");
+    } else {
+      alert(res.error || "An unknown error occurred");
+    }
+    setIsUpdatingDescription(false);
+  };
+
   if (isLoading)
     return (
       <div className="flex justify-center items-center h-96">
@@ -101,9 +126,7 @@ export default function Settings() {
         className="bg-terracotta-700 mb-4"
         roundBottom={true}
       />
-
       {/* TODO: Add field for changing password */}
-
       {/* Change avatar header */}
       <PrettyHeader text="Change avatar" icon={<User2Icon />} />
       <div className="bg-terracotta-700 rounded-b-lg p-4 shadow-lg w-full mx-auto mb-4">
@@ -121,7 +144,6 @@ export default function Settings() {
           </label>
         </div>
       </div>
-
       {/* Change banner header */}
       <PrettyHeader text="Change banner" icon={<Image />} />
       <div className="bg-terracotta-700 rounded-b-lg p-4 shadow-lg w-full mx-auto mb-4">
@@ -137,6 +159,17 @@ export default function Settings() {
           <label className="text-xs mt-2">
             * Note: Banners are limited to 5MB in size
           </label>
+        </div>
+      </div>
+      {/* Change description */}
+      <PrettyHeader text="Change description" icon={<NotebookPenIcon />} />
+      <div className="bg-terracotta-700 rounded-b-lg p-4 shadow-lg w-full mx-auto mb-4">
+        <div className="flex flex-col w-11/12 mx-auto">
+          <MarkdownInput
+            defaultText={self.description}
+            onSave={saveDescription}
+            isSaving={isUpdatingDescription}
+          />
         </div>
       </div>
     </div>
