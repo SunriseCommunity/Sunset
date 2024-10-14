@@ -21,7 +21,7 @@ export default function ImageSelect({ setFile, file, isWide }: Props) {
           }`}
         >
           <div
-            className={`flex items-center justify-center w-full h-32 bg-stone-800 rounded-lg`}
+            className={`flex items-center justify-center w-full h-full bg-stone-800 rounded-lg`}
           >
             <input
               type="file"
@@ -36,7 +36,7 @@ export default function ImageSelect({ setFile, file, isWide }: Props) {
               <img
                 src={URL.createObjectURL(file)}
                 alt="avatar"
-                className="w-full h-full rounded-lg hover:opacity-80 smooth-transition"
+                className="w-full rounded-lg hover:opacity-80 smooth-transition"
               />
             ) : (
               <div className="mx-auto px-12">

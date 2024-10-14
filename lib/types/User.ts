@@ -9,6 +9,7 @@ export type UserBadge =
 export interface User {
   user_id: number;
   username: string;
+  description?: string;
   country_code: string;
   register_date: string;
   last_online_time: string;
