@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import PrettyHeader from "@/components/General/PrettyHeader";
 import { Score as ScoreType } from "@/lib/types/Score";
 import RoundedContent from "@/components/General/RoundedContent";
-import useSelf from "@/lib/hooks/useSelf";
 import { getTopPlays } from "@/lib/actions/getTopPlays";
 import { GameMode } from "@/lib/types/GameMode";
 import PrettyButton from "@/components/General/PrettyButton";
