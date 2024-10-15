@@ -1,5 +1,4 @@
-import UserStatsChart from "@/app/user/[id]/components/UserScoresChart";
-import UserScoresChart from "@/app/user/[id]/components/UserScoresChart";
+import UserStatsChart from "@/app/user/[id]/components/UserStatsChart";
 import { ContentNotExist } from "@/components/ContentNotExist";
 import PrettyHeader from "@/components/General/PrettyHeader";
 import RoundedContent from "@/components/General/RoundedContent";

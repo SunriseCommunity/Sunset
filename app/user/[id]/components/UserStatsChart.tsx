@@ -1,4 +1,3 @@
-import { Score } from "@/lib/types/Score";
 import { StatsSnapshot } from "@/lib/types/StatsSnapshot";
 import { timeSince } from "@/lib/utils/timeSince";
 import {
@@ -23,31 +22,33 @@ export default function UserStatsChart({ data }: Props) {
     return a.saved_at.localeCompare(b.saved_at);
   });
 
-  snapshots = snapshots.filter((s, i) => {
-    // Note: This is a hack to fix the timezone issue, remove if too much confusing
-    const timezoneOffset = new Date().getTimezoneOffset() * 60000;
-    s.saved_at = new Date(
-      new Date(s.saved_at).valueOf() - timezoneOffset
-    ).toISOString();
+  const dateMap = new Map<string, StatsSnapshot>();
+  snapshots.forEach((s, i) => {
+    s.saved_at = new Date(new Date(s.saved_at).valueOf()).toISOString();
 
     if (i === 0) {
-      return true;
+      dateMap.set(new Date(s.saved_at).toDateString(), s);
+      return;
     }
 
-    const prevDate = new Date(snapshots[i - 1].saved_at);
-    const currentDate = new Date(s.saved_at);
+    const currentDate = new Date(s.saved_at).toDateString();
+    const previous = dateMap.get(currentDate);
 
-    return prevDate.toDateString() !== currentDate.toDateString();
+    if (previous && previous.saved_at > s.saved_at) return;
+
+    dateMap.set(currentDate, s);
   });
 
-  const chartData = snapshots.map((s) => ({
-    date:
-      new Date(s.saved_at).toDateString() === new Date().toDateString()
-        ? "Today"
-        : timeSince(new Date(s.saved_at), true),
-    pp: s.pp,
-    rank: s.global_rank,
-  }));
+  const chartData = Array.from(dateMap.values()).map((s) => {
+    return {
+      date:
+        new Date(s.saved_at).toDateString() === new Date().toDateString()
+          ? "Today"
+          : timeSince(new Date(s.saved_at), true)!,
+      pp: s.pp,
+      rank: s.global_rank,
+    };
+  });
 
   return (
     <ResponsiveContainer width="100%" height="100%">
