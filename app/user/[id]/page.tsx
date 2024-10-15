@@ -25,6 +25,7 @@ import { getUserFriendshipStatus } from "@/lib/actions/getUserFriendshipStatus";
 import UserTabMedals from "./components/Tabs/UserTabMedals";
 import toPrettyDate from "@/lib/utils/toPrettyDate";
 import ImageWithFallback from "@/components/ImageWithFallback";
+import UserTabBeatmaps from "./components/Tabs/UserTabBeatmaps";
 
 const defaultGamemodes = ["osu!std", "osu!taiko", "osu!catch", "osu!mania"];
 
@@ -33,6 +34,7 @@ const contentTabs = [
   "Best scores",
   "Recent scores",
   "First places",
+  "Beatmaps",
   "Medals",
 ];
 
@@ -180,6 +182,14 @@ export default function UserPage({ params }: { params: { id: number } }) {
             userId={user.user_id}
           />
         );
+      case "Beatmaps":
+        return (
+          <UserTabBeatmaps
+            key={`beatmaps-${activeGameMode}`}
+            userId={user.user_id}
+            gameMode={activeGameMode}
+          />
+        );
       case "Medals":
         return (
           <UserTabMedals
@@ -188,7 +198,6 @@ export default function UserPage({ params }: { params: { id: number } }) {
             gameMode={activeGameMode}
           />
         );
-
       default:
         return <UserTabWIP tabName={activeTab} />;
     }

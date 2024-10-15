@@ -54,32 +54,22 @@ export default function UserTabRecentScores({
 
   const { scores, total_count } = scoresObject;
 
-  if (isLoading && scores.length === 0)
-    return (
-      <div className="flex flex-col">
-        <PrettyHeader text="First places" icon={<Trophy />} />
-        <RoundedContent className="min-h-60 max-h-60 h-60">
-          <div className="flex justify-center items-center h-32">
-            <Spinner />
-          </div>
-        </RoundedContent>
-      </div>
-    );
-
-  if (scoresObject.total_count === 0)
-    return (
-      <div className="flex flex-col">
-        <PrettyHeader text="First places" icon={<Trophy />} />
-        <RoundedContent className="min-h-60 max-h-60 h-60">
-          <ContentNotExist text="User has no scores" />
-        </RoundedContent>
-      </div>
-    );
-
   return (
     <div className="flex flex-col">
-      <PrettyHeader text="First places" icon={<Trophy />} />
+      <PrettyHeader
+        text="First places"
+        icon={<Trophy />}
+        counter={total_count > 0 ? total_count : undefined}
+      />
       <RoundedContent className="min-h-60 h-fit max-h-none">
+        {scores.length === 0 &&
+          (isLoading ? (
+            <div className="flex justify-center items-center h-32">
+              <Spinner />
+            </div>
+          ) : (
+            <ContentNotExist text="User has no first places" />
+          ))}
         {scores.map((score) => (
           <div key={`score-${score.id}`} className="mb-2">
             <UserScoreOverview score={score} />
