@@ -9,6 +9,7 @@ import PrettyButton from "@/components/General/PrettyButton";
 import { getLeaderboard } from "@/lib/actions/getLeaderboard";
 import { GameMode } from "@/lib/types/GameMode";
 import Spinner from "@/components/Spinner";
+import Image from "next/image";
 
 const defaultGamemodes = ["osu!std", "osu!taiko", "osu!catch", "osu!mania"];
 
@@ -96,25 +97,31 @@ export default function Leaderboard() {
                   key={page * pageLimit + index + 1}
                   className="border-b border-[#333333] hover:bg-[#333333] transition-colors"
                 >
-                  <td className="p-3"># {page * pageLimit + index + 1}</td>
+                  <td className="p-3 text-lg font-bold">
+                    # {page * pageLimit + index + 1}
+                  </td>
                   <td className="p-3">
-                    <img
+                    <Image
                       src={`/images/flags/${user.user.country_code}.png`}
                       alt="User Flag"
-                      className="w-6 h-6 mr-2"
+                      className="mr-2"
+                      width={26}
+                      height={26}
                     />
                   </td>
-                  <td className="p-3 relative flex flex-row">
-                    <div className="w-6 h-6 rounded-full overflow-hidden border-2 border-white mr-4">
-                      <img
+                  <td className="p-3 relative flex flex-row items-center">
+                    <div className="w-10 h-10 rounded-lg overflow-hidden border border-white mr-4">
+                      <Image
                         src={`https://a.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/avatar/${user.user.user_id}`}
                         alt={`${user.user.username}'s avatar`}
-                        className="w-full h-full object-cover"
+                        objectFit="cover"
+                        width={42}
+                        height={42}
                       />
                     </div>
 
                     <p
-                      className="cursor-pointer"
+                      className="cursor-pointer hover:text-terracotta-400 smooth-transition text-lg font-bold"
                       onClick={() =>
                         (window.location.href = `/user/${user.user.user_id}`)
                       }

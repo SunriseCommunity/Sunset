@@ -2,6 +2,7 @@ import { User } from "@/lib/types/User";
 import { twMerge } from "tailwind-merge";
 
 import Image from "next/image";
+import ImageWithFallback from "./ImageWithFallback";
 
 interface UserProfileBannerProps {
   user: User;
@@ -21,12 +22,13 @@ export default function UserElement({
     >
       <a href={`/user/${user.user_id}`}>
         <div className="relative h-full place-content-between flex-col flex group-hover:cursor-pointer smooth-transition">
-          <Image
+          <ImageWithFallback
             src={`https://a.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/banner/${user.user_id}?default=false`}
             alt=""
             layout="fill"
             objectFit="cover"
             className="bg-stone-700 rounded-t-lg"
+            fallBackSrc="/images/placeholder.png"
           />
 
           <div className="absolute inset-0 bg-black bg-opacity-70 group-hover:bg-opacity-50 smooth-transition" />
