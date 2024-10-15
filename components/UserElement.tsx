@@ -35,11 +35,13 @@ export default function UserElement({
 
         <div className="relative flex items-start h-24 p-4">
           {/* Profile Picture */}
-          <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-white mr-4">
-            <img
+          <div className="rounded-full overflow-hidden border-2 border-white mr-4">
+            <Image
               src={`https://a.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/avatar/${user.user_id}`}
               alt={`${user.username}'s profile`}
-              className="w-full h-full object-cover"
+              objectFit="cover"
+              width={64}
+              height={64}
             />
           </div>
 
