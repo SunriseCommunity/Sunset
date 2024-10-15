@@ -24,6 +24,7 @@ import { editFriendshipStatus } from "@/lib/actions/editFriendshipStatus";
 import { getUserFriendshipStatus } from "@/lib/actions/getUserFriendshipStatus";
 import UserTabMedals from "./components/Tabs/UserTabMedals";
 import toPrettyDate from "@/lib/utils/toPrettyDate";
+import ImageWithFallback from "@/components/ImageWithFallback";
 
 const defaultGamemodes = ["osu!std", "osu!taiko", "osu!catch", "osu!mania"];
 
@@ -226,12 +227,13 @@ export default function UserPage({ params }: { params: { id: number } }) {
       <div className="bg-terracotta-700 rounded-lg">
         {/* Banner */}
         <div className="h-64 relative">
-          <Image
+          <ImageWithFallback
             src={`https://a.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/banner/${user.user_id}?default=false`}
             alt=""
             layout="fill"
             objectFit="cover"
             className="bg-stone-700 rounded-t-lg"
+            fallBackSrc="/images/placeholder.png"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-terracotta-700 to-transparent flex items-end">
             <div className="p-6 flex items-end justify-between w-full">
