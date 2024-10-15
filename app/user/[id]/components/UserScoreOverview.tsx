@@ -46,7 +46,7 @@ export default function UserScoreOverview({
         <div className="absolute inset-0 bg-gradient-to-l from-terracotta-200 to-transparent flex items-center cursor-pointer">
           <div className="p-6 flex place-content-between bg-black hover:bg-opacity-40 bg-opacity-50 w-full  smooth-transition items-center">
             <div className="">
-              <h1 className="text-xl font-bold drop-shadow-md flex items-center">
+              <h1 className="text-xl drop-shadow-md flex items-center">
                 {beatmap?.artist ?? <SkeletonLoading className="w-32 h-4" />}
                 &nbsp;-&nbsp;
                 {beatmap?.title ?? <SkeletonLoading className="w-48 h-4" />}
