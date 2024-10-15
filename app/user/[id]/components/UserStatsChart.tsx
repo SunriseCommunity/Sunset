@@ -17,6 +17,8 @@ interface Props {
   };
 }
 
+const timezoneOffset = new Date().getTimezoneOffset() * 60000;
+
 export default function UserStatsChart({ data }: Props) {
   let snapshots = data.snapshots.sort((a, b) => {
     return a.saved_at.localeCompare(b.saved_at);
@@ -24,7 +26,9 @@ export default function UserStatsChart({ data }: Props) {
 
   const dateMap = new Map<string, StatsSnapshot>();
   snapshots.forEach((s, i) => {
-    s.saved_at = new Date(new Date(s.saved_at).valueOf()).toISOString();
+    s.saved_at = new Date(
+      new Date(s.saved_at).valueOf() - timezoneOffset
+    ).toISOString();
 
     if (i === 0) {
       dateMap.set(new Date(s.saved_at).toDateString(), s);
@@ -41,10 +45,17 @@ export default function UserStatsChart({ data }: Props) {
 
   const chartData = Array.from(dateMap.values()).map((s) => {
     return {
+      // FIXME: This is a temporary fix for the timezone issue
       date:
-        new Date(s.saved_at).toDateString() === new Date().toDateString()
+        new Date(
+          new Date(s.saved_at).valueOf() - timezoneOffset
+        ).toDateString() ===
+        new Date(new Date().valueOf() - timezoneOffset).toDateString()
           ? "Today"
-          : timeSince(new Date(s.saved_at), true)!,
+          : timeSince(
+              new Date(new Date(s.saved_at).valueOf() - timezoneOffset),
+              true
+            ),
       pp: s.pp,
       rank: s.global_rank,
     };
