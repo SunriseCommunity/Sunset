@@ -4,9 +4,17 @@ interface TooltipProps {
   position?: "top" | "bottom" | "left" | "right";
   content: React.ReactNode;
   children: React.ReactNode;
+  disabled?: boolean;
 }
 
-export function Tooltip({ position = "top", content, children }: TooltipProps) {
+export function Tooltip({
+  position = "top",
+  content,
+  children,
+  disabled,
+}: TooltipProps) {
+  if (disabled) return <>{children}</>;
+
   return (
     <div className={`relative cursor-pointer group`}>
       <div>{children}</div>

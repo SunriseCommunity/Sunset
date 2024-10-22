@@ -9,21 +9,17 @@ import { getTopPlays } from "@/lib/actions/getTopPlays";
 import { GameMode } from "@/lib/types/GameMode";
 import PrettyButton from "@/components/General/PrettyButton";
 import UserScoreMinimal from "./components/UserScoreMinimal";
-
-const defaultGamemodes = ["osu!std", "osu!taiko", "osu!catch", "osu!mania"];
+import GameModeSelector from "@/components/GameModeSelector";
 
 export default function Topplays() {
   const [scores, setScores] = useState<ScoreType[] | null>(null);
-  const [activeMode, setActiveMode] = useState("osu!std");
+  const [activeMode, setActiveMode] = useState(GameMode.std);
   const [isLoading, setIsLoading] = useState(false);
-
-  const activeGameMode =
-    GameMode[activeMode.replace("osu!", "") as keyof typeof GameMode];
 
   useEffect(() => {
     setIsLoading(true);
 
-    getTopPlays(activeGameMode).then((res) => {
+    getTopPlays(activeMode).then((res) => {
       if (res.error || !res.data) {
         alert("Error fetching score");
         return;
@@ -33,7 +29,7 @@ export default function Topplays() {
 
       setIsLoading(false);
     });
-  }, [activeGameMode]);
+  }, [activeMode]);
 
   if (isLoading)
     return (
@@ -45,18 +41,10 @@ export default function Topplays() {
   return (
     <div className="flex flex-col w-full mt-8">
       <PrettyHeader text="Top plays" icon={<LucideHistory />}>
-        <div className="flex space-x-2">
-          {defaultGamemodes.map((mode) => (
-            <PrettyButton
-              text={mode}
-              onClick={() => setActiveMode(mode)}
-              className={`px-3 py-1 ${
-                activeMode === mode ? "bg-terracotta-400 text-white" : ""
-              }`}
-              key={mode}
-            />
-          ))}
-        </div>
+        <GameModeSelector
+          activeMode={activeMode}
+          setActiveMode={setActiveMode}
+        />
       </PrettyHeader>
 
       <RoundedContent className="min-h-0 h-fit max-h-none mb-4">

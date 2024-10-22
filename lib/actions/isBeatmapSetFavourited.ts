@@ -1,29 +1,19 @@
 import { getUsetToken } from "@/lib/actions/getUserToken";
-import { GameMode } from "@/lib/types/GameMode";
-import { PlayedBeatmap } from "../types/PlayedBeatmap";
-import { Beatmap } from "../types/Beatmap";
-import { BeatmapSet } from "../types/BeatmapSet";
 
-interface UserFavouritesResponse {
+interface IsBeatmapSetFavouritedResponse {
   data: {
-    sets: BeatmapSet[];
-    total_count: number;
+    favourited: boolean;
   } | null;
   error?: string;
 }
 
-export async function getUserFavourites(
-  id: number,
-  page?: number,
-  limit?: number
-): Promise<UserFavouritesResponse> {
+export async function isBeatmapSetFavourited(
+  id: number
+): Promise<IsBeatmapSetFavouritedResponse> {
   const token = await getUsetToken();
+
   const response = await fetch(
-    `https://api.${
-      process.env.NEXT_PUBLIC_SERVER_DOMAIN
-    }/user/${id}/favourites${`?page=${page ?? 1}`}${
-      limit ? `&limit=${limit}` : ""
-    }`,
+    `https://api.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/beatmapset/${id}/favourited`,
     {
       headers: {
         "Cache-Control": "no-cache", // TEMP FIX: Backend should get proper cache validation headers

@@ -62,7 +62,7 @@ export default function Register() {
       <PrettyHeader
         text="Register"
         icon={<DoorOpen />}
-        className="bg-terracotta-750 mb-4"
+        className="bg-terracotta-700 mb-4"
         roundBottom={true}
       />
       <RoundedContent className="mb-4 bg-terracotta-700 rounded-lg">

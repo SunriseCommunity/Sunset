@@ -1,14 +1,10 @@
 "use client";
 
+import BeatmapStatusIcon from "@/components/BeatmapStatus";
 import SkeletonLoading from "@/components/SkeletonLoading";
-import { getBeatmap } from "@/lib/actions/getBeatmap";
-import { getUser } from "@/lib/actions/getUser";
 import { Beatmap } from "@/lib/types/Beatmap";
-import { Score } from "@/lib/types/Score";
-import { User } from "@/lib/types/User";
 import { PlayIcon } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 interface BeatmapPlayedOverviewProps {
@@ -28,22 +24,30 @@ export default function BeatmapPlayedOverview({
         "bg-terracotta-700 rounded-lg overflow-hidden",
         className
       )}
-      onClick={() => (window.location.href = `/beatmap/${beatmap.id}`)}
+      onClick={() =>
+        (window.location.href = `/beatmapsets/${beatmap.beatmapset_id}/${beatmap.id}`)
+      }
     >
       <div className="h-20 relative">
         <Image
           src={`https://assets.ppy.sh/beatmaps/${beatmap?.beatmapset_id}/covers/cover.jpg`}
           alt=""
-          layout="fill"
+          fill={true}
           objectFit="cover"
         />
+
         <div className="absolute inset-0 bg-gradient-to-l from-terracotta-200 to-transparent flex items-center cursor-pointer">
-          <div className="py-2 px-4 flex place-content-between bg-black hover:bg-opacity-40 bg-opacity-50 w-full h-full smooth-transition ">
-            <div>
-              <h1 className="text-xl drop-shadow-md flex items-center">
-                {beatmap?.artist ?? <SkeletonLoading className="w-20 h-3" />}
-                &nbsp;-&nbsp;
-                {beatmap?.title ?? <SkeletonLoading className="w-28 h-3" />}
+          <div className="p-6 flex place-content-between bg-black hover:bg-opacity-40 bg-opacity-50 w-full  smooth-transition items-center">
+            <div className="max-w-[calc(100%-5rem)]">
+              <h1 className="text-xl drop-shadow-md flex items-center ">
+                <span className="pr-1">
+                  <BeatmapStatusIcon status={beatmap.status} />
+                </span>
+                <p className="text-ellipsis text-nowrap overflow-clip max-w-full">
+                  {beatmap?.artist ?? <SkeletonLoading className="w-20 h-3" />}
+                  &nbsp;-&nbsp;
+                  {beatmap?.title ?? <SkeletonLoading className="w-28 h-3" />}
+                </p>
               </h1>
               <div className="flex items-center space-x-2">
                 <p className="text-base drop-shadow-md text-gray-100 ">

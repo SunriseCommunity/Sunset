@@ -1,8 +1,11 @@
+import { BeatmapStatus } from "@/lib/types/BeatmapStatus";
+
 export interface Beatmap {
   id: number;
   beatmapset_id: number;
   hash: string;
   version: string;
+  status: BeatmapStatus;
   accuracy: number;
   ar: number;
   bpm: number;
@@ -23,5 +26,6 @@ export interface Beatmap {
   ranked: number;
   title?: string;
   artist?: string;
-  creator?: string;
+  creator?: string; // NOTE: currently broken
+  creator_id: number;
 }

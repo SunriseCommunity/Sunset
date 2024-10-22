@@ -46,7 +46,7 @@ export default function UserScoreMinimal({
         <Image
           src={`https://assets.ppy.sh/beatmaps/${beatmap?.beatmapset_id}/covers/cover.jpg`}
           alt=""
-          layout="fill"
+          fill={true}
           objectFit="cover"
         />
         <div className="absolute inset-0 bg-gradient-to-l from-terracotta-200 to-transparent flex items-center cursor-pointer">

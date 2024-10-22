@@ -25,7 +25,7 @@ export default function UserElement({
         <ImageWithFallback
           src={`https://a.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/banner/${user.user_id}?default=false`}
           alt=""
-          layout="fill"
+          fill={true}
           objectFit="cover"
           className="bg-stone-700 rounded-t-lg"
           fallBackSrc="/images/placeholder.png"

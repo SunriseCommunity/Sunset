@@ -82,16 +82,18 @@ export default function Score({ params }: { params: { id: number } }) {
               <Image
                 src={`https://assets.ppy.sh/beatmaps/${beatmap?.beatmapset_id}/covers/cover.jpg`}
                 alt=""
-                layout="fill"
+                fill={true}
                 objectFit="cover"
                 className="bg-stone-700 rounded-lg"
               />
               <div className="absolute inset-0 bg-terracotta-800 bg-opacity-80 lg:p-6 md:p-4 p-2 rounded-lg">
                 <div className="flex justify-between items-center mb-4">
-                  <div>
+                  <a
+                    href={`/beatmapsets/${beatmap?.beatmapset_id}/${beatmap?.id}`}
+                  >
                     <h3 className="text-2xl font-bold">{beatmap?.title}</h3>
                     <p className="text-gray-300">by {beatmap?.artist}</p>
-                  </div>
+                  </a>
                   <div className="text-right">
                     <p className="text-yellow-400 text-base">
                       [{beatmap?.version || "Unknown"}] ★{" "}

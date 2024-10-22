@@ -5,8 +5,12 @@ import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer";
 import { SelfProvider } from "@/lib/providers/SelfProvider";
 import ScrollUpButton from "@/components/scrollUpButton";
+import { AudioProvider } from "@/lib/providers/AudioProvider";
 
-const font = Poppins({ weight: "500", subsets: ["latin"] });
+const font = Poppins({
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title: "osu!Sunrise",
@@ -21,11 +25,13 @@ export default function RootLayout({
   return (
     <html lang="en" className={font.className}>
       <SelfProvider>
-        <body className="bg-terracotta-900 text-white min-h-screen flex flex-col">
-          <Header />
-          <div className="row-padding-max-w-2xl ">{children}</div>
-          <main className="flex-grow bg-terracotta-900 -z-30" />
-          <Footer />
+        <body className="bg-terracotta-900 text-white min-h-screen flex flex-col  font-medium">
+          <AudioProvider>
+            <Header />
+            <div className="row-padding-max-w-2xl">{children}</div>
+            <main className="flex-grow bg-terracotta-900 -z-30" />
+            <Footer />
+          </AudioProvider>
         </body>
         <ScrollUpButton />
       </SelfProvider>
