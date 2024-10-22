@@ -6,12 +6,12 @@ import Spinner from "@/components/Spinner";
 import { GameMode } from "@/lib/types/GameMode";
 import { ChartBarDecreasing, ChevronDown, Heart, History } from "lucide-react";
 import { useEffect, useState } from "react";
-import BeatmapPlayedOverview from "../BeatmapOverview";
+import BeatmapPlayedOverview from "../BeatmapPlayedOverview";
 import { PlayedBeatmap } from "@/lib/types/PlayedBeatmap";
 import { getUserMostPlayed } from "@/lib/actions/getUserMostPlayed";
-import { Beatmap } from "@/lib/types/Beatmap";
 import { getUserFavourites } from "@/lib/actions/getUserFavourites";
 import { BeatmapSet } from "@/lib/types/BeatmapSet";
+import BeatmapSetOverview from "@/app/user/[id]/components/BeatmapSetOverview";
 
 interface UserTabBeatmapsProps {
   userId: number;
@@ -19,6 +19,7 @@ interface UserTabBeatmapsProps {
 }
 
 const pageLimit = 5;
+const pageLimitFavourites = 6;
 
 export default function UserTabBeatmaps({
   userId,
@@ -68,20 +69,22 @@ export default function UserTabBeatmaps({
 
     setFavouritesIsLoading(true);
 
-    getUserFavourites(userId, mostPlayedPage, pageLimit).then((res) => {
-      if (res.error) {
+    getUserFavourites(userId, mostPlayedPage, pageLimitFavourites).then(
+      (res) => {
+        if (res.error) {
+          setFavouritesIsLoading(false);
+          return;
+        }
+
+        setFavouritesObject({
+          sets: [...favouritesObject.sets, ...res.data!.sets],
+          total_count: res.data!.total_count,
+        });
+
         setFavouritesIsLoading(false);
-        return;
       }
-
-      setFavouritesObject({
-        sets: [...favouritesObject.sets, ...res.data!.sets],
-        total_count: res.data!.total_count,
-      });
-
-      setFavouritesIsLoading(false);
-    });
-  }, [mostPlayedPage]);
+    );
+  }, [favouritesPage]);
 
   const handleShowMoreMostPlayed = () => {
     setMostPlayedPage(mostPlayedPage + 1);
@@ -92,7 +95,8 @@ export default function UserTabBeatmaps({
   };
 
   const { most_played, total_count } = playedBeatmapsObject;
-  const { sets, total_count: total_count_favourites } = favouritesObject;
+  const { sets: favourited_sets, total_count: total_count_favourites } =
+    favouritesObject;
 
   return (
     <div className="flex flex-col">
@@ -141,7 +145,7 @@ export default function UserTabBeatmaps({
         }
       />
       <RoundedContent className="min-h-60 h-fit max-h-none">
-        {sets.length === 0 &&
+        {favourited_sets.length === 0 &&
           (isFavouritesLoading ? (
             <div className="flex justify-center items-center h-32">
               <Spinner />
@@ -150,14 +154,18 @@ export default function UserTabBeatmaps({
             <ContentNotExist text="User has no favourite beatmaps" />
           ))}
 
-        {sets.map((set) => (
-          <div key={`beatmap-favourite-${set.id}`} className="mb-2">
-            {set.title}
-            {/* TODO: Add beatmap set preview */}
-          </div>
-        ))}
+        <div className="grid grid-cols-1  lg:grid-cols-2 gap-4">
+          {favourited_sets.map((beatmapSet) => (
+            <div
+              key={`beatmap-set-favourited-${beatmapSet.id}`}
+              className="mb-2"
+            >
+              <BeatmapSetOverview beatmapSet={beatmapSet} />
+            </div>
+          ))}
+        </div>
 
-        {sets.length < total_count_favourites && (
+        {favourited_sets.length < total_count_favourites && (
           <div className="flex justify-center mt-4">
             <PrettyButton
               text="Show more"

@@ -1,3 +1,5 @@
+export const GameModesArray = ["osu!", "osu!taiko", "osu!catch", "osu!mania"];
+
 export enum GameMode {
   "std" = 0,
   "taiko" = 1,

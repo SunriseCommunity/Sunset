@@ -26,13 +26,13 @@ export default async function ServerStatus({ type, data }: Props) {
 
   return (
     <div className="px-6 py-3 border-neutral-300 border-[1px] rounded-full backdrop-blur-sm">
-      <h2 className="text-sm font-thin text-neutral-300">
+      <h2 className="text-sm font-medium text-neutral-300">
         {statuses[type].name}
       </h2>
       <div className="flex items-center space-x-2">
         {statuses[type].icon}
         <div
-          className={`text-lg font-bold ${
+          className={`text-lg font-semibold ${
             type === "server_status"
               ? data === "Online"
                 ? "text-green-500"

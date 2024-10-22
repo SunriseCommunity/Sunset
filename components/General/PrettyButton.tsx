@@ -5,21 +5,25 @@ import { twMerge } from "tailwind-merge";
 interface PrettyButtonProps {
   onClick: () => void;
   text?: string;
+  bottomText?: string;
   icon?: React.ReactNode;
   isLoading?: boolean;
   className?: string;
   isAction?: boolean;
   disabled?: boolean;
+  children?: React.ReactNode;
 }
 
 export default function PrettyButton({
   isLoading,
   onClick,
   text,
+  bottomText,
   icon,
   className,
   isAction,
   disabled,
+  children,
 }: PrettyButtonProps) {
   if (!text && !icon) throw new Error("You must provide either text or icon.");
 
@@ -50,10 +54,27 @@ export default function PrettyButton({
         ) : (
           <div className="flex items-center" ref={contentRef}>
             <div className={text && icon ? "mr-2" : ""}>{icon}</div>
-            {text}
+            <div className="flex flex-col text-left">
+              {text && (
+                <p
+                  className={twMerge(
+                    text && icon ? "mr-2" : "",
+                    bottomText ? "text-xs" : ""
+                  )}
+                >
+                  {text}
+                </p>
+              )}
+              {bottomText && (
+                <p className="text-[10px] leading-[12px] font-extralight">
+                  {bottomText}
+                </p>
+              )}
+            </div>
           </div>
         )}
       </div>
+      {children}
     </button>
   );
 }

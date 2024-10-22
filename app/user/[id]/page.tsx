@@ -4,7 +4,7 @@ import { getUser } from "@/lib/actions/getUser";
 import { User as UserObj } from "@/lib/types/User";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { GameMode } from "@/lib/types/GameMode";
+import { GameMode, GameModesArray } from "@/lib/types/GameMode";
 import { UserStats } from "@/lib/types/UserStats";
 import { Edit3Icon, Globe, User, UserMinus, UserPlus } from "lucide-react";
 import UserBadges from "@/app/user/[id]/components/UserBadges";
@@ -26,8 +26,8 @@ import UserTabMedals from "./components/Tabs/UserTabMedals";
 import toPrettyDate from "@/lib/utils/toPrettyDate";
 import ImageWithFallback from "@/components/ImageWithFallback";
 import UserTabBeatmaps from "./components/Tabs/UserTabBeatmaps";
-
-const defaultGamemodes = ["osu!std", "osu!taiko", "osu!catch", "osu!mania"];
+import GameModeSelector from "@/components/GameModeSelector";
+import RoundedContent from "@/components/General/RoundedContent";
 
 const contentTabs = [
   "General",
@@ -43,7 +43,7 @@ export default function UserPage({ params }: { params: { id: number } }) {
   const [userStats, setUserStats] = useState<UserStats | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("General");
-  const [activeMode, setActiveMode] = useState("osu!std");
+  const [activeMode, setActiveMode] = useState(GameMode.std);
   const [friendshipStatus, setFriendshipStatus] = useState<
     "none" | "following" | "mutual"
   >("none");
@@ -53,9 +53,6 @@ export default function UserPage({ params }: { params: { id: number } }) {
   const navigateTo = (href: string) => {
     window.location.href = href;
   };
-
-  const activeGameMode =
-    GameMode[activeMode.replace("osu!", "") as keyof typeof GameMode];
 
   const statusColor = (user: UserObj) =>
     user.user_status.trim() === "Offline"
@@ -69,7 +66,7 @@ export default function UserPage({ params }: { params: { id: number } }) {
 
     setIsLoading(true);
 
-    getUser(params.id, activeGameMode).then((user) => {
+    getUser(params.id, activeMode).then((user) => {
       if (user.error) {
         setIsLoading(false);
         return;
@@ -82,7 +79,7 @@ export default function UserPage({ params }: { params: { id: number } }) {
 
       setIsLoading(false);
     });
-  }, [params.id, activeMode, activeGameMode]);
+  }, [params.id, activeMode, activeMode]);
 
   const updateFriendshipStatus = (action: "add" | "remove") => () => {
     editFriendshipStatus(params.id, action).then((status) => {
@@ -152,50 +149,50 @@ export default function UserPage({ params }: { params: { id: number } }) {
       case "General":
         return (
           <UserTabGeneral
-            key={`general-${activeGameMode}`}
+            key={`general-${activeMode}`}
             user={user}
             stats={userStats}
-            gameMode={activeGameMode}
+            gameMode={activeMode}
           />
         );
       case "Best scores":
         return (
           <UserTabBestScores
-            key={`best-${activeGameMode}`}
-            gameMode={activeGameMode}
+            key={`best-${activeMode}`}
+            gameMode={activeMode}
             userId={user.user_id}
           />
         );
       case "Recent scores":
         return (
           <UserTabRecentScores
-            key={`recent-${activeGameMode}`}
-            gameMode={activeGameMode}
+            key={`recent-${activeMode}`}
+            gameMode={activeMode}
             userId={user.user_id}
           />
         );
       case "First places":
         return (
           <UserTabTopScores
-            key={`first-${activeGameMode}`}
-            gameMode={activeGameMode}
+            key={`first-${activeMode}`}
+            gameMode={activeMode}
             userId={user.user_id}
           />
         );
       case "Beatmaps":
         return (
           <UserTabBeatmaps
-            key={`beatmaps-${activeGameMode}`}
+            key={`beatmaps-${activeMode}`}
             userId={user.user_id}
-            gameMode={activeGameMode}
+            gameMode={activeMode}
           />
         );
       case "Medals":
         return (
           <UserTabMedals
-            key={`medals-${activeGameMode}`}
+            key={`medals-${activeMode}`}
             user={user}
-            gameMode={activeGameMode}
+            gameMode={activeMode}
           />
         );
       default:
@@ -220,26 +217,19 @@ export default function UserPage({ params }: { params: { id: number } }) {
         className="bg-terracotta-700 mb-4"
         roundBottom={true}
       >
-        <div className="flex space-x-2">
-          {defaultGamemodes.map((mode) => (
-            <PrettyButton
-              text={mode}
-              onClick={() => setActiveMode(mode)}
-              className={`px-3 py-1 ${
-                activeMode === mode ? "bg-terracotta-400 text-white" : ""
-              }`}
-            />
-          ))}
-        </div>
+        <GameModeSelector
+          activeMode={activeMode}
+          setActiveMode={setActiveMode}
+        />
       </PrettyHeader>
 
-      <div className="bg-terracotta-700 rounded-lg">
+      <RoundedContent className="bg-terracotta-700 rounded-lg p-0">
         {/* Banner */}
         <div className="h-64 relative">
           <ImageWithFallback
             src={`https://a.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/banner/${user.user_id}?default=false`}
             alt=""
-            layout="fill"
+            fill={true}
             objectFit="cover"
             className="bg-stone-700 rounded-t-lg"
             fallBackSrc="/images/placeholder.png"
@@ -251,7 +241,7 @@ export default function UserPage({ params }: { params: { id: number } }) {
                   <Image
                     src={`https://a.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/avatar/${user.user_id}`}
                     alt="User avatar"
-                    layout="fill"
+                    fill={true}
                     objectFit="cover"
                     className={`w-32 h-32 rounded-full border-4 relative border-[#2a2a2a]`}
                   />
@@ -370,7 +360,7 @@ export default function UserPage({ params }: { params: { id: number } }) {
 
           {renderTabContent()}
         </div>
-      </div>
+      </RoundedContent>
     </main>
   );
 }
