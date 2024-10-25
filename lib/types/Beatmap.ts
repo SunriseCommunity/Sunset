@@ -13,7 +13,10 @@ export interface Beatmap {
   count_circles: number;
   count_sliders: number;
   count_spinners: number;
-  star_rating: number;
+  star_rating_osu: number;
+  star_rating_taiko: number;
+  star_rating_ctb: number;
+  star_rating_mania: number;
   total_length: number;
   max_combo: number;
   cs: number;

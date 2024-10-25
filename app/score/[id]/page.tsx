@@ -18,6 +18,7 @@ import PrettyButton from "@/components/General/PrettyButton";
 import useSelf from "@/lib/hooks/useSelf";
 import { downloadReplay } from "@/lib/actions/downloadReplay";
 import { twMerge } from "tailwind-merge";
+import { getBeatmapStarRating } from "@/lib/utils/getBeatmapStarRating";
 
 export default function Score({ params }: { params: { id: number } }) {
   const [score, setScore] = useState<ScoreType | null>(null);
@@ -97,7 +98,8 @@ export default function Score({ params }: { params: { id: number } }) {
                   <div className="text-right">
                     <p className="text-yellow-400 text-base">
                       [{beatmap?.version || "Unknown"}] ★{" "}
-                      {beatmap?.star_rating.toFixed(2)} {score.mods}
+                      {beatmap && getBeatmapStarRating(beatmap).toFixed(2)}{" "}
+                      {score.mods}
                     </p>
                     <p className="text-gray-300">
                       mapped by {beatmap?.creator || "Unknown Creator"}

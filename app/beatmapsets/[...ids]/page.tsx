@@ -17,6 +17,8 @@ import DownloadButtons from "@/app/beatmapsets/components/DownloadButtons";
 import DifficultyInformation from "@/app/beatmapsets/components/DifficultyInformation";
 import FavouriteButton from "@/app/beatmapsets/components/FavouriteButton";
 import NotFound from "@/app/not-found";
+import Spinner from "@/components/Spinner";
+import BeatmapLeaderboard from "@/app/beatmapsets/components/BeatmapLeaderboard";
 
 interface BeatmapsetProps {
   params: { ids: [number?, number?] };
@@ -109,6 +111,12 @@ export default function Beatmapset({ params }: BeatmapsetProps) {
         />
       </PrettyHeader>
 
+      {beatmapSet === null && (
+        <div className="flex flex-col justify-center items-center h-96">
+          <Spinner size="xl" />
+        </div>
+      )}
+
       {beatmapSet !== null && activeBeatmap !== null && (
         <>
           <RoundedContent className="bg-terracotta-700 rounded-lg p-0">
@@ -127,6 +135,7 @@ export default function Beatmapset({ params }: BeatmapsetProps) {
                     <DifficultySelector
                       activeDifficulty={activeBeatmap}
                       setDifficulty={setActiveBeatmap}
+                      activeGameMode={activeMode}
                       difficulties={beatmapSet.beatmaps.filter((beatmap) =>
                         [activeMode, GameMode.std].includes(beatmap.mode_int)
                       )}
@@ -198,14 +207,17 @@ export default function Beatmapset({ params }: BeatmapsetProps) {
                         </p>
                       </div>
                     </div>
-                    <DifficultyInformation beatmap={activeBeatmap} />
+                    <DifficultyInformation
+                      beatmap={activeBeatmap}
+                      activeMode={activeMode}
+                    />
                   </div>
                 </div>
               </div>
             </div>
           </RoundedContent>
-          <RoundedContent className="mb-4 bg-terracotta-600 min-h-60 rounded-b-lg p-0">
-            TODO: leaderboard
+          <RoundedContent className="mb-4 bg-terracotta-600 rounded-b-lg p-0">
+            <BeatmapLeaderboard beatmap={activeBeatmap} mode={activeMode} />
           </RoundedContent>
         </>
       )}

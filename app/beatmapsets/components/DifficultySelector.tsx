@@ -1,25 +1,26 @@
 "use client";
 
 import { Beatmap } from "@/lib/types/Beatmap";
-import { getStarRatingColor } from "@/lib/utils/getStarRatingColor";
 import { twMerge } from "tailwind-merge";
 
 import { useState } from "react";
 import DifficultyIcon from "@/components/DifficultyIcon";
+import { GameMode } from "@/lib/types/GameMode";
+import { getBeatmapStarRating } from "@/lib/utils/getBeatmapStarRating";
 
 interface DifficultySelectorProps {
   difficulties: Beatmap[];
   activeDifficulty: Beatmap;
   setDifficulty: (difficulty: Beatmap) => void;
+  activeGameMode: GameMode;
   className?: string;
 }
-
-// TODO: should convert osu!std maps to a current mode
 
 export default function DifficultySelector({
   difficulties,
   activeDifficulty,
   setDifficulty,
+  activeGameMode,
   className,
 }: DifficultySelectorProps) {
   const [hoveredDifficulty, setHoveredDifficulty] = useState<Beatmap | null>(
@@ -35,7 +36,11 @@ export default function DifficultySelector({
         )}
       >
         {difficulties
-          .sort((a, b) => a.star_rating - b.star_rating)
+          .sort(
+            (a, b) =>
+              getBeatmapStarRating(a, activeGameMode) -
+              getBeatmapStarRating(b, activeGameMode)
+          )
           .sort((a, b) => a.mode_int - b.mode_int) // Lazy sort, but it works since osu! (0) is always lower than other modes
           .map((difficulty) => (
             <div
@@ -50,7 +55,7 @@ export default function DifficultySelector({
               onMouseLeave={() => setHoveredDifficulty(null)}
               onClick={() => setDifficulty(difficulty)}
             >
-              <DifficultyIcon difficulty={difficulty} />
+              <DifficultyIcon difficulty={difficulty} gameMode={activeGameMode} />
             </div>
           ))}
       </div>
@@ -62,7 +67,8 @@ export default function DifficultySelector({
         </p>
         {hoveredDifficulty && (
           <p className="text-yellow-400 text-xs">
-            ★ {hoveredDifficulty.star_rating}
+            ★{" "}
+            {getBeatmapStarRating(hoveredDifficulty, activeGameMode).toFixed(2)}
           </p>
         )}
       </div>
