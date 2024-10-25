@@ -1,3 +1,5 @@
+import { User } from "@/lib/types/User";
+
 export interface Score {
   accuracy: number;
   beatmap_id: number;
@@ -19,4 +21,5 @@ export interface Score {
   total_score: number;
   user_id: number;
   when_played: string;
+  user: User;
 }

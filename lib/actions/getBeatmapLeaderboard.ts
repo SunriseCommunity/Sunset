@@ -1,27 +1,29 @@
 import { getUsetToken } from "@/lib/actions/getUserToken";
-import { User } from "../types/User";
+import { GameMode } from "@/lib/types/GameMode";
+import { Score } from "@/lib/types/Score";
 
-interface UserScoresResponse {
+interface BeatmapLeaderboardResponse {
   data: {
-    result: User[];
+    scores: Score[];
     total_count: number;
   } | null;
   error?: string;
 }
 
-export async function searchUsers(
-  query: string,
-  page?: number,
+export async function getBeatmapLeaderboard(
+  beatmapId: number,
+  mode: GameMode,
+  mods?: number,
   limit?: number
-): Promise<UserScoresResponse> {
+): Promise<BeatmapLeaderboardResponse> {
   const token = await getUsetToken();
 
   const response = await fetch(
     `https://api.${
       process.env.NEXT_PUBLIC_SERVER_DOMAIN
-    }/user/search${`?query=${query}`}${page ? `&page=${page}` : ""}${
-      limit ? `&limit=${limit}` : ""
-    }`,
+    }/beatmap/${beatmapId}/leaderboard${`?mode=${mode}`}${
+      mods ? `&mods=${mods}` : ""
+    }${limit ? `&limit=${limit}` : ""}`,
     {
       headers: {
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
@@ -35,5 +37,5 @@ export async function searchUsers(
     return { data: null, error: response?.error || "Unknown error" };
   }
 
-  return { data: { result: response, total_count: response.length } };
+  return { data: response };
 }

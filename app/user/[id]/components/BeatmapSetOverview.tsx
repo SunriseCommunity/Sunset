@@ -10,7 +10,7 @@ import PrettyDate from "@/components/General/PrettyDate";
 import { twMerge } from "tailwind-merge";
 import AudioPreview from "@/app/user/[id]/components/AudioPreview";
 import useAudioPlayer from "@/lib/hooks/useAudioPlayer";
-
+import { getBeatmapStarRating } from "@/lib/utils/getBeatmapStarRating";
 interface BeatmapSetOverviewProps {
   beatmapSet: BeatmapSet;
 }
@@ -64,7 +64,7 @@ export default function BeatmapSetOverview({
         </div>
       </div>
 
-      <div className="flex-col flex overflow-hidden z-10 w-full bg-gradient-to-r from-terracotta-200  to-transparent justify-between h-24">
+      <div className="flex-col flex overflow-hidden z-10 w-full bg-gradient-to-r from-terracotta-500  to-transparent justify-between h-24">
         <div
           className={twMerge(
             "bg-black px-3 py-1 z-20 w-full h-full smooth-transition",
@@ -104,7 +104,9 @@ export default function BeatmapSetOverview({
 
             <div className="flex flex-row overflow-hidden h-5 flex-wrap mb-1 -ml-0.5 space-x-0.5">
               {beatmapSet.beatmaps
-                .sort((a, b) => a.star_rating - b.star_rating)
+                .sort(
+                  (a, b) => getBeatmapStarRating(a) - getBeatmapStarRating(b)
+                )
                 .sort((a, b) => a.mode_int - b.mode_int)
                 .map((difficulty) => (
                   <div

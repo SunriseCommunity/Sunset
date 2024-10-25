@@ -5,6 +5,7 @@ import { Tooltip } from "@/components/Tooltip";
 import useAudioPlayer from "@/lib/hooks/useAudioPlayer";
 import { Beatmap } from "@/lib/types/Beatmap";
 import { GameMode } from "@/lib/types/GameMode";
+import { getBeatmapStarRating } from "@/lib/utils/getBeatmapStarRating";
 import { SecondsToString } from "@/lib/utils/secondsTo";
 import { Clock9, Music, Pause, Play, Star } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -12,10 +13,12 @@ import { twMerge } from "tailwind-merge";
 
 interface DifficultyInformationProps {
   beatmap: Beatmap;
+  activeMode: GameMode;
 }
 
 export default function DifficultyInformation({
   beatmap,
+  activeMode,
 }: DifficultyInformationProps) {
   const { player, currentTimestamp, isPlaying, isPlayingThis, pause, play } =
     useAudioPlayer();
@@ -78,7 +81,7 @@ export default function DifficultyInformation({
         <Tooltip content="Star Rating">
           <p className="flex items-center text-sm">
             <Star className="h-4 text-yellow-pastel" />{" "}
-            {beatmap.star_rating.toFixed(2)}
+            {getBeatmapStarRating(beatmap,activeMode).toFixed(2)}
           </p>
         </Tooltip>
       </RoundedContent>

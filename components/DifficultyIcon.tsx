@@ -8,6 +8,7 @@ import GameModeBadgeStd from "@/public/images/svg/mode/std.svg";
 import GameModeBadgeTaiko from "@/public/images/svg/mode/taiko.svg";
 import GameModeBadgeCatch from "@/public/images/svg/mode/catch.svg";
 import GameModeBadgeMania from "@/public/images/svg/mode/mania.svg";
+import { getBeatmapStarRating } from "@/lib/utils/getBeatmapStarRating";
 
 const modeBadgeMap = {
   [GameMode.std]: GameModeBadgeStd,
@@ -20,18 +21,20 @@ const modeBadge = (mode: GameMode) => modeBadgeMap[mode];
 
 interface DifficultyIconProps {
   difficulty: Beatmap;
+  gameMode?: GameMode;
   className?: string;
 }
 
 export default function DifficultyIcon({
   difficulty,
+  gameMode,
   className,
 }: DifficultyIconProps) {
   const ModeBadge = modeBadge(difficulty.mode_int);
 
   return (
     <ModeBadge
-      fill={`${getStarRatingColor(difficulty.star_rating)}`}
+      fill={`${getStarRatingColor(getBeatmapStarRating(difficulty, gameMode))}`}
       height={24}
       width="auto"
       className={className}
