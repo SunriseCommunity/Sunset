@@ -69,7 +69,7 @@ export default function UserTabBeatmaps({
 
     setFavouritesIsLoading(true);
 
-    getUserFavourites(userId, mostPlayedPage, pageLimitFavourites).then(
+    getUserFavourites(userId, favouritesPage, pageLimitFavourites).then(
       (res) => {
         if (res.error) {
           setFavouritesIsLoading(false);
