@@ -72,7 +72,7 @@ export default function HeaderSearchPopup({ isHovered }: Props) {
   return (
     <>
       <Search
-        className={`hover:bg-neutral-600 hover:bg-opacity-25 p-1 h-7 w-7 rounded-md smooth-transition ${
+        className={`hover:bg-neutral-600 hover:bg-opacity-25 p-1 h-7 w-7 rounded-md cursor-pointer smooth-transition ${
           !isHovered ? "opacity-40" : ""
         }`}
         onClick={() => toggleSearch()}
