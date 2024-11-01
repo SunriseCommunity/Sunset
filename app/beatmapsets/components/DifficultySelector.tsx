@@ -28,10 +28,10 @@ export default function DifficultySelector({
   );
 
   return (
-    <div className="flex flex-col space-y-1">
+    <div className="flex flex-col space-y-1 ">
       <div
         className={twMerge(
-          "flex  bg-terracotta-700 rounded-lg bg-opacity-80 w-fit",
+          "flex bg-terracotta-700 rounded-lg bg-opacity-80 w-fit mr-6 flex-wrap",
           className
         )}
       >
@@ -55,7 +55,10 @@ export default function DifficultySelector({
               onMouseLeave={() => setHoveredDifficulty(null)}
               onClick={() => setDifficulty(difficulty)}
             >
-              <DifficultyIcon difficulty={difficulty} gameMode={activeGameMode} />
+              <DifficultyIcon
+                difficulty={difficulty}
+                gameMode={activeGameMode}
+              />
             </div>
           ))}
       </div>
