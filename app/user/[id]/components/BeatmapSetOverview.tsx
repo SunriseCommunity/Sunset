@@ -26,7 +26,7 @@ export default function BeatmapSetOverview({
 
   return (
     <div
-      className="relative flex h-24 bg-gray-800 rounded-lg overflow-hidden transition-all duration-300 ease-in-out"
+      className="relative flex h-24 bg-terracotta-800 rounded-lg overflow-hidden transition-all duration-300 ease-in-out"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
