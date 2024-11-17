@@ -263,7 +263,7 @@ export default function UserPage({ params }: { params: { id: number } }) {
                   </p>
                 </div>
               </div>
-              <div className="flex flex-col space-y-2 bg-black bg-opacity-75 px-2 py-1 rounded mr-2">
+              <div className="flex flex-col space-y-2 bg-black bg-opacity-75 px-2 py-1 rounded mr-2 text-center min-w-24">
                 <Tooltip
                   content={`Highest rank #${userStats?.best_global_rank} on ${
                     userStats?.best_global_rank_date &&
