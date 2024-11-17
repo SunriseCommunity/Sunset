@@ -22,4 +22,5 @@ export interface Score {
   user_id: number;
   when_played: string;
   user: User;
+  has_replay: boolean;
 }
