@@ -133,7 +133,7 @@ export default function Score({ params }: { params: { id: number } }) {
                         text="Download Replay"
                         icon={<Download />}
                         className="py-1 px-2 mt-2"
-                        disabled={!self}
+                        disabled={!self || !score.has_replay}
                         isLoading={isReplayLoading}
                       />
                     </div>
