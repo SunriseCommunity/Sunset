@@ -38,7 +38,7 @@ export default function BeatmapPlayedOverview({
 
         <div className="absolute inset-0 bg-gradient-to-l from-terracotta-200 to-transparent flex items-center cursor-pointer">
           <div className="p-6 flex place-content-between bg-black hover:bg-opacity-40 bg-opacity-50 w-full  smooth-transition items-center">
-            <div className="max-w-[calc(100%-5rem)]">
+            <div className="flex-row overflow-hidden flex-wrap">
               <h1 className="text-xl drop-shadow-md flex items-center ">
                 <span className="pr-1">
                   <BeatmapStatusIcon status={beatmap.status} />
