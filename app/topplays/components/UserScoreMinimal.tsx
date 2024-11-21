@@ -51,8 +51,8 @@ export default function UserScoreMinimal({
         />
         <div className="absolute inset-0 bg-gradient-to-l from-terracotta-200 to-transparent flex items-center cursor-pointer">
           <div className="py-2 px-4 flex place-content-between bg-black hover:bg-opacity-40 bg-opacity-50 w-full h-full smooth-transition ">
-            <div className="flex-col h-full flex justify-between">
-              <div>
+            <div className="flex-col h-full flex justify-between ">
+              <div className=" flex-col overflow-hidden flex-wrap">
                 <h1 className="font-bold text-sm drop-shadow-md flex items-center">
                   {beatmap?.artist ?? <SkeletonLoading className="w-20 h-3" />}
                   &nbsp;-&nbsp;
