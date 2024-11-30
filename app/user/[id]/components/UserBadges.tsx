@@ -7,6 +7,7 @@ import {
   Shield,
   BotIcon,
   Badge,
+  BanIcon,
   Trophy,
 } from "lucide-react";
 
@@ -22,6 +23,7 @@ const BadgeDescription: { [key in UserBadge]: any } = {
   bat: "They manage beatmap submissions.",
   champion: "Current number one player on the server. 🏆",
   bot: "Beep boop. I'm a bot.",
+  restricted: "This user is restricted.",
 };
 
 export default function UserBadges({ badges }: UserBadgesProps) {
@@ -55,6 +57,10 @@ export default function UserBadges({ badges }: UserBadgesProps) {
           case "champion":
             badgeIcon = <Trophy size={24} />;
             badgeColor = "bg-amber-500 hover:bg-amber-400";
+            break;
+          case "restricted":
+            badgeIcon = <BanIcon size={24} />;
+            badgeColor = "bg-red-600 hover:bg-red-500";
             break;
           default:
             badgeIcon = <Badge size={24} />;
