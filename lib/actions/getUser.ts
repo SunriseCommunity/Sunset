@@ -33,6 +33,11 @@ export async function getUser(
   }
 
   if (mode != undefined) {
+    // note: kind of hack, need to be moved on backend logic
+    if (response.user.restricted) {
+      response.user.badges.push("restricted");
+    }
+
     return { data: response.user, stats: response.stats };
   } else {
     return { data: response };

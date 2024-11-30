@@ -4,7 +4,8 @@ export type UserBadge =
   | "bat"
   | "developer"
   | "bot"
-  | "champion";
+  | "champion"
+  | "restricted";
 
 export interface User {
   user_id: number;
