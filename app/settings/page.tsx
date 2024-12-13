@@ -8,6 +8,7 @@ import {
   CloudUpload,
   Cog,
   Image,
+  LockOpenIcon,
   NotebookPenIcon,
   User2Icon,
 } from "lucide-react";
@@ -15,6 +16,7 @@ import { useEffect, useState } from "react";
 import PrettyHeader from "@/components/General/PrettyHeader";
 import MarkdownInput from "./components/MarkdownInput";
 import { editDescription } from "@/lib/actions/editDescription";
+import ChangePasswordInput from "@/app/settings/components/ChangePasswordInput";
 
 export default function Settings() {
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
@@ -124,8 +126,16 @@ export default function Settings() {
         className="bg-terracotta-700 mb-4"
         roundBottom={true}
       />
-      {/* TODO: Add field for changing password */}
-      {/* Change avatar header */}
+
+      {/* Change password */}
+      <PrettyHeader text="Change password" icon={<LockOpenIcon />} />
+      <div className="bg-terracotta-700 rounded-b-lg p-4 shadow-lg w-full mx-auto mb-4">
+        <div className="flex flex-col w-11/12 mx-auto">
+          <ChangePasswordInput />
+        </div>
+      </div>
+
+      {/* Change avatar */}
       <PrettyHeader text="Change avatar" icon={<User2Icon />} />
       <div className="bg-terracotta-700 rounded-b-lg p-4 shadow-lg w-full mx-auto mb-4">
         <div className="flex flex-col w-11/12 mx-auto">
@@ -142,7 +152,8 @@ export default function Settings() {
           </label>
         </div>
       </div>
-      {/* Change banner header */}
+
+      {/* Change banner */}
       <PrettyHeader text="Change banner" icon={<Image />} />
       <div className="bg-terracotta-700 rounded-b-lg p-4 shadow-lg w-full mx-auto mb-4">
         <div className="flex flex-col w-11/12 mx-auto">
@@ -159,6 +170,7 @@ export default function Settings() {
           </label>
         </div>
       </div>
+
       {/* Change description */}
       <PrettyHeader text="Change description" icon={<NotebookPenIcon />} />
       <div className="bg-terracotta-700 rounded-b-lg p-4 shadow-lg w-full mx-auto mb-4">
