@@ -1,5 +1,6 @@
 import { getUsetToken } from "@/lib/actions/getUserToken";
 import { User } from "@/lib/types/User";
+import { clearAuthCookies } from "@/lib/utils/clearAuthCookies";
 
 export async function getSelf(): Promise<User | null> {
   const token = await getUsetToken();
@@ -20,7 +21,8 @@ export async function getSelf(): Promise<User | null> {
     .then((res) => res.json())
     .catch(() => null);
 
-  if (!response) {
+  if (!response || response?.error) {
+    clearAuthCookies();
     return null;
   }
 

@@ -2,9 +2,9 @@
 
 import { User } from "@/lib/types/User";
 import { useEffect, useRef } from "react";
-import Cookies from "js-cookie";
 import PrettyButton from "@/components/General/PrettyButton";
 import { twMerge } from "tailwind-merge";
+import { clearAuthCookies } from "@/lib/utils/clearAuthCookies";
 
 interface Props {
   self: User | null;
@@ -31,12 +31,6 @@ export default function HeaderDropdown({ isOpen, self, setIsOpen }: Props) {
     window.location.href = href;
   };
 
-  const clearCookies = () => {
-    Cookies.remove("session_token");
-    Cookies.remove("refresh_token");
-    window.location.href = "/";
-  };
-
   return (
     self && (
       <div
@@ -60,7 +54,7 @@ export default function HeaderDropdown({ isOpen, self, setIsOpen }: Props) {
           />
 
           <PrettyButton
-            onClick={clearCookies}
+            onClick={clearAuthCookies}
             text="sign out"
             className="text-start p-1 mb-1"
           />
