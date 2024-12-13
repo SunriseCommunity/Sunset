@@ -1,3 +1,4 @@
+import { clearAuthCookies } from "@/lib/utils/clearAuthCookies";
 import Cookies from "js-cookie";
 
 export async function getUsetToken(): Promise<string | null> {
@@ -24,17 +25,18 @@ export async function getUsetToken(): Promise<string | null> {
         refresh_token: refreshToken,
       }),
     }
-  );
+  )
+    .then((res) => res.json())
+    .catch(() => null);
 
-  if (!response) {
+  if (!response || response.error) {
+    clearAuthCookies();
     return null;
   }
 
-  const data = await response.json();
-
-  Cookies.set("session_token", data.token, {
-    expires: new Date(Date.now() + data.expires_in * 1000),
+  Cookies.set("session_token", response.token, {
+    expires: new Date(Date.now() + response.expires_in * 1000),
   });
 
-  return data.token;
+  return response.token;
 }
