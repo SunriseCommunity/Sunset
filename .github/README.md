@@ -12,7 +12,7 @@ Sunset is a frontend for the osu! private server called Sunrise. It is a part of
 
 1. Clone the repository
 2. Install the required dependencies: `npm install`
-3. Start the application: `npm build` and `npm start`
+3. Start the application: `npm run build` and `npm run start`
 
 ## Contributing 💖
 
