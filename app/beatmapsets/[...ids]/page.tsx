@@ -227,7 +227,7 @@ export default function Beatmapset({ params }: BeatmapsetProps) {
                   className="font-normal py-2 px-4"
                 />
                 {/* TODO: Make spoilerbox work as intended */}
-                <RoundedContent className="h-full overflow-y-auto">
+                <RoundedContent className="min-h-0 h-full overflow-y-auto">
                   <div
                     className="font-normal text-sm w-full"
                     dangerouslySetInnerHTML={{ __html: beatmapSet.description }}
@@ -241,7 +241,7 @@ export default function Beatmapset({ params }: BeatmapsetProps) {
                   text="Information"
                   className="font-normal py-2 px-4"
                 />
-                <RoundedContent className="space-y-4 h-full overflow-y-auto">
+                <RoundedContent className="space-y-4 h-full overflow-y-auto min-h-0">
                   <div>
                     <div className="flex place-content-between items-end">
                       <p className="text-xs">Genre</p>
