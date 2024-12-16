@@ -7,8 +7,10 @@ import { useState } from "react";
 import DifficultyIcon from "@/components/DifficultyIcon";
 import { GameMode } from "@/lib/types/GameMode";
 import { getBeatmapStarRating } from "@/lib/utils/getBeatmapStarRating";
+import { BeatmapSet } from "@/lib/types/BeatmapSet";
 
 interface DifficultySelectorProps {
+  beatmapset: BeatmapSet;
   difficulties: Beatmap[];
   activeDifficulty: Beatmap;
   setDifficulty: (difficulty: Beatmap) => void;
@@ -17,6 +19,7 @@ interface DifficultySelectorProps {
 }
 
 export default function DifficultySelector({
+  beatmapset,
   difficulties,
   activeDifficulty,
   setDifficulty,
@@ -26,6 +29,10 @@ export default function DifficultySelector({
   const [hoveredDifficulty, setHoveredDifficulty] = useState<Beatmap | null>(
     null
   );
+
+  const selectedDifficulty = hoveredDifficulty
+    ? hoveredDifficulty
+    : activeDifficulty;
 
   return (
     <div className="flex flex-col space-y-1 ">
@@ -63,11 +70,16 @@ export default function DifficultySelector({
           ))}
       </div>
       <div className="flex flex-row items-center space-x-2">
-        <p className="text-gray-100 text-lg">
-          {hoveredDifficulty
-            ? hoveredDifficulty.version
-            : activeDifficulty.version}
-        </p>
+        <p className="text-gray-100 text-lg">{selectedDifficulty.version}</p>
+        {selectedDifficulty.creator_id != beatmapset.creator_id && (
+          <p className="text-gray-100 text-sm font-light">
+            mapped by&nbsp;
+            <span className="text-gray-200 font-bold">
+              {selectedDifficulty.creator}
+            </span>
+          </p>
+        )}
+
         {hoveredDifficulty && (
           <p className="text-yellow-400 text-xs">
             ★{" "}

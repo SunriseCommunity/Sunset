@@ -1,5 +1,5 @@
 "use client";
-import { Clapperboard, Music2 } from "lucide-react";
+import { Book, Clapperboard, Info, Music2 } from "lucide-react";
 import PrettyHeader from "@/components/General/PrettyHeader";
 import RoundedContent from "@/components/General/RoundedContent";
 import { GameMode } from "@/lib/types/GameMode";
@@ -133,6 +133,7 @@ export default function Beatmapset({ params }: BeatmapsetProps) {
                 <div className="flex justify-between mb-4 h-full">
                   <div className="flex flex-col justify-between">
                     <DifficultySelector
+                      beatmapset={beatmapSet}
                       activeDifficulty={activeBeatmap}
                       setDifficulty={setActiveBeatmap}
                       activeGameMode={activeMode}
@@ -216,7 +217,50 @@ export default function Beatmapset({ params }: BeatmapsetProps) {
               </div>
             </div>
           </RoundedContent>
-          <RoundedContent className="mb-4 bg-terracotta-600 rounded-b-lg p-0">
+
+          <RoundedContent className="mb-4 bg-terracotta-600 rounded-b-lg p-0 space-y-2">
+            <RoundedContent className="px-4 pt-4 pb-0 min-h-72 max-h-72 h-72 flex bg-terracotta-600 place-content-between space-x-2">
+              <div className="flex flex-col w-2/4 ">
+                <PrettyHeader
+                  icon={<Book />}
+                  text="Description"
+                  className="font-normal py-2 px-4"
+                />
+                {/* TODO: Make spoilerbox work as intended */}
+                <RoundedContent className="h-full overflow-y-auto">
+                  <div
+                    className="font-normal text-sm w-full"
+                    dangerouslySetInnerHTML={{ __html: beatmapSet.description }}
+                  />
+                </RoundedContent>
+              </div>
+
+              <div className="flex flex-col w-1/4">
+                <PrettyHeader
+                  icon={<Info />}
+                  text="Information"
+                  className="font-normal py-2 px-4"
+                />
+                <RoundedContent className="space-y-4 h-full overflow-y-auto">
+                  <div>
+                    <div className="flex place-content-between items-end">
+                      <p className="text-xs">Genre</p>
+                      <p className="text-md font-bald">{beatmapSet.genre}</p>
+                    </div>
+                    <div className="flex place-content-between items-end">
+                      <p className="text-xs">Language</p>
+                      <p className="text-md font-bald">{beatmapSet.language}</p>
+                    </div>
+                  </div>
+                  <div className="flex flex-col">
+                    <p className="text-xs">Tags</p>
+                    <p className="text-sm font-light">
+                      {beatmapSet.tags.map((tag) => `${tag}`).join(", ")}
+                    </p>
+                  </div>
+                </RoundedContent>
+              </div>
+            </RoundedContent>
             <BeatmapLeaderboard beatmap={activeBeatmap} mode={activeMode} />
           </RoundedContent>
         </>
