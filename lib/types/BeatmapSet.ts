@@ -13,4 +13,8 @@ export interface BeatmapSet {
   ranked_date?: string;
   video: boolean;
   beatmaps: Beatmap[];
+  description: string;
+  genre: string;
+  language: string;
+  tags: string[];
 }
