@@ -151,7 +151,6 @@ export default function Beatmapset({ params }: BeatmapsetProps) {
 
                     <div className="flex flex-col space-y-2">
                       <div className="flex flex-row items-center">
-                        {/* TODO: Change src to current creator_id */}
                         <ImageWithFallback
                           src={`https://a.ppy.sh/${beatmapSet.creator_id}`}
                           alt=""
@@ -161,7 +160,6 @@ export default function Beatmapset({ params }: BeatmapsetProps) {
                           fallBackSrc="/images/placeholder.png"
                         />
                         <div className="flex flex-col ml-2 text-xs font-light">
-                          {/* TODO: Change to "mapped by" when beatmap creator would be fixed */}
                           <p className="flex items-center">
                             submitted by&nbsp;
                             <p className="font-bold">
