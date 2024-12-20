@@ -19,6 +19,7 @@ import FavouriteButton from "@/app/beatmapsets/components/FavouriteButton";
 import NotFound from "@/app/not-found";
 import Spinner from "@/components/Spinner";
 import BeatmapLeaderboard from "@/app/beatmapsets/components/BeatmapLeaderboard";
+import OpenBanchoButton from "@/app/beatmapsets/components/OpenBanchoButton";
 
 interface BeatmapsetProps {
   params: { ids: [number?, number?] };
@@ -187,6 +188,7 @@ export default function Beatmapset({ params }: BeatmapsetProps) {
                       <div className="flex flex-row items-center space-x-2">
                         <FavouriteButton beatmapSet={beatmapSet} />
                         <DownloadButtons beatmapSet={beatmapSet} />
+                        <OpenBanchoButton beatmapSet={beatmapSet} />
                       </div>
                     </div>
                   </div>
