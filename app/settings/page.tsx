@@ -5,6 +5,7 @@ import StatusButton from "@/components/General/PrettyButton";
 import { uploadUserFile } from "@/lib/actions/uploadAvatar";
 import useSelf from "@/lib/hooks/useSelf";
 import {
+  CheckSquare,
   CloudUpload,
   Cog,
   Image,
@@ -17,6 +18,7 @@ import PrettyHeader from "@/components/General/PrettyHeader";
 import MarkdownInput from "./components/MarkdownInput";
 import { editDescription } from "@/lib/actions/editDescription";
 import ChangePasswordInput from "@/app/settings/components/ChangePasswordInput";
+import SiteLocalOptions from "@/app/settings/components/SiteLocalOptions";
 
 export default function Settings() {
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
@@ -180,6 +182,14 @@ export default function Settings() {
             onSave={saveDescription}
             isSaving={isUpdatingDescription}
           />
+        </div>
+      </div>
+
+      {/* Checkboxes */}
+      <PrettyHeader text="Options" icon={<CheckSquare />} />
+      <div className="bg-terracotta-700 rounded-b-lg p-4 shadow-lg w-full mx-auto mb-4">
+        <div className="flex flex-col w-11/12 mx-auto">
+          <SiteLocalOptions />
         </div>
       </div>
     </div>
