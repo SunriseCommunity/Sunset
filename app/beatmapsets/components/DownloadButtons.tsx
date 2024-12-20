@@ -35,7 +35,7 @@ export default function DownloadButtons({ beatmapSet }: DownloadButtonsProps) {
         onClick={() => (window.location.href = `osu://dl/${beatmapSet.id}`)}
         text="osu!direct"
         icon={<Download />}
-        className="p-2 text-xs min-h-11 "
+        className="p-2 text-sm min-h-11 "
         disabled={!self}
       />
     </div>
