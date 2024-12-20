@@ -60,11 +60,11 @@ export default function UserScoreOverview({
                   {beatmap?.title ?? <SkeletonLoading className="w-28 h-3" />}
                 </p>
               </h1>
-              <div className="flex items-center space-x-2">
-                <p className="text-base drop-shadow-md text-gray-100 ">
+              <div className="flex items-end space-x-3">
+                <p className="text-base drop-shadow-md text-gray-100">
                   {beatmap?.version ?? <SkeletonLoading className="w-24 h-4" />}
                 </p>
-                <p className="text-base drop-shadow-md text-gray-200">
+                <p className="text-sm drop-shadow-md text-gray-300 italic">
                   {timeSince(score.when_played) ?? (
                     <SkeletonLoading className="w-24 h-4" />
                   )}
