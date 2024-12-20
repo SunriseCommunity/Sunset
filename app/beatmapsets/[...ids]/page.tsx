@@ -200,9 +200,9 @@ export default function Beatmapset({ params }: BeatmapsetProps) {
                         </div>
                       )}
                       <div className="bg-terracotta-800 bg-opacity-80 py-2 px-8 rounded-lg flex flex-row w-full">
-                        <p className="capitalize flex mx-auto">
+                        <p className="flex mx-auto space-x-1">
                           <BeatmapStatusIcon status={beatmapSet.status} />
-                          {beatmapSet.status}
+                          <p className="capitalize">{beatmapSet.status}</p>
                         </p>
                       </div>
                     </div>
@@ -217,7 +217,7 @@ export default function Beatmapset({ params }: BeatmapsetProps) {
           </RoundedContent>
 
           <RoundedContent className="mb-4 bg-terracotta-600 rounded-b-lg p-0 space-y-2">
-            <RoundedContent className="px-4 pt-4 pb-0 min-h-72 max-h-72 h-72 flex bg-terracotta-600 place-content-between space-x-2">
+            <RoundedContent className="px-4 pt-4 pb-0 min-h-72 max-h-72 h-72 flex bg-terracotta-600 place-content-between space-x-2 mb-4">
               <div className="flex flex-col w-2/4 ">
                 <PrettyHeader
                   icon={<Book />}
@@ -259,7 +259,9 @@ export default function Beatmapset({ params }: BeatmapsetProps) {
                 </RoundedContent>
               </div>
             </RoundedContent>
-            <BeatmapLeaderboard beatmap={activeBeatmap} mode={activeMode} />
+            {activeBeatmap.is_scoreable && (
+              <BeatmapLeaderboard beatmap={activeBeatmap} mode={activeMode} />
+            )}
           </RoundedContent>
         </>
       )}

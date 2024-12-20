@@ -46,7 +46,7 @@ export default function BeatmapLeaderboard({
   const { scores, total_count } = scoresObject;
 
   return (
-    <div className="flex flex-col w-full mt-4">
+    <div className="flex flex-col w-full">
       <RoundedContent className="mb-4 bg-transparent ">
         <div className="bg-terracotta-800 rounded-lg overflow-hidden">
           <table className="w-full">
