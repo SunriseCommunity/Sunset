@@ -1,5 +1,9 @@
 export function timeSince(input: string | Date, forceDays = false) {
   const date = input instanceof Date ? input : new Date(input);
+  const userTimezoneOffset = getUserTimezoneOffset();
+
+  date.setHours(date.getHours() + userTimezoneOffset);
+
   const formatter = new Intl.RelativeTimeFormat("en");
   const ranges: { [key: string]: number } = {
     years: 3600 * 24 * 365,
@@ -13,6 +17,10 @@ export function timeSince(input: string | Date, forceDays = false) {
   const secondsElapsed = (date.getTime() - Date.now()) / 1000;
 
   if (forceDays) {
+    if (Math.abs(secondsElapsed) < ranges["days"]) {
+      return "Today";
+    }
+
     const delta = secondsElapsed / ranges["days"];
     return formatter.format(Math.round(delta), "days");
   }
@@ -23,4 +31,10 @@ export function timeSince(input: string | Date, forceDays = false) {
       return formatter.format(Math.round(delta), key as any);
     }
   }
+}
+
+function getUserTimezoneOffset() {
+  const offsetMinutes = new Date().getTimezoneOffset();
+  const offsetHours = -offsetMinutes / 60;
+  return offsetHours;
 }
