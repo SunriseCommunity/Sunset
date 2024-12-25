@@ -26,10 +26,6 @@ export default function UserStatsChart({ data }: Props) {
 
   const dateMap = new Map<string, StatsSnapshot>();
   snapshots.forEach((s, i) => {
-    s.saved_at = new Date(
-      new Date(s.saved_at).valueOf() - timezoneOffset
-    ).toISOString();
-
     if (i === 0) {
       dateMap.set(new Date(s.saved_at).toDateString(), s);
       return;
@@ -45,17 +41,7 @@ export default function UserStatsChart({ data }: Props) {
 
   const chartData = Array.from(dateMap.values()).map((s) => {
     return {
-      // FIXME: This is a temporary fix for the timezone issue
-      date:
-        new Date(
-          new Date(s.saved_at).valueOf() - timezoneOffset
-        ).toDateString() ===
-        new Date(new Date().valueOf() - timezoneOffset).toDateString()
-          ? "Today"
-          : timeSince(
-              new Date(new Date(s.saved_at).valueOf() - timezoneOffset),
-              true
-            ),
+      date: timeSince(new Date(new Date(s.saved_at).valueOf()), true),
       pp: s.pp,
       rank: s.global_rank,
     };
