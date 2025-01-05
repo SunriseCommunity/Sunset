@@ -1,4 +1,5 @@
 import { BeatmapStatus } from "@/lib/types/BeatmapStatus";
+import { GameMode } from "@/lib/types/GameMode";
 
 export interface Beatmap {
   id: number;
@@ -25,7 +26,7 @@ export interface Beatmap {
   hit_length: number;
   is_scoreable: boolean;
   last_updated: string;
-  mode_int: number;
+  mode_int: GameMode;
   ranked: number;
   title?: string;
   artist?: string;
