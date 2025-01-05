@@ -216,14 +216,16 @@ export default function UserPage({ params }: { params: { id: number } }) {
         text="Player info"
         className="bg-terracotta-700 mb-4"
         roundBottom={true}
-      >
+      ></PrettyHeader>
+
+      <PrettyHeader text="" className="bg-terracotta-700 ">
         <GameModeSelector
           activeMode={activeMode}
           setActiveMode={setActiveMode}
         />
       </PrettyHeader>
 
-      <RoundedContent className="bg-terracotta-700 rounded-lg p-0">
+      <RoundedContent className="bg-terracotta-700 rounded-lg-b p-0">
         {/* Banner */}
         <div className="h-64 relative">
           <ImageWithFallback

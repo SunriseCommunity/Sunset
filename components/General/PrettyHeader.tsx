@@ -2,7 +2,7 @@ import { twMerge } from "tailwind-merge";
 
 interface PrettyHeaderProps {
   icon?: React.ReactNode;
-  text: string;
+  text?: string;
   roundBottom?: boolean;
   children?: React.ReactNode;
   className?: string;
