@@ -91,31 +91,35 @@ export default function Score({ params }: { params: { id: number } }) {
                 objectFit="cover"
                 className="bg-stone-700 rounded-lg"
               />
-              <div className="absolute inset-0 bg-terracotta-800 bg-opacity-80 lg:p-6 md:p-4 p-2 rounded-lg">
+              <div className="absolute inset-0 bg-terracotta-800 bg-opacity-80 lg:p-6 md:p-4 p-2 rounded-lg overflow-hidden flex-wrap">
                 <div className="flex justify-between items-center mb-4">
                   <a
                     href={`/beatmapsets/${beatmap?.beatmapset_id}/${beatmap?.id}`}
+                    className="overflow-hidden flex-wrap"
                   >
                     <div className="flex items-center space-x-2">
                       <BeatmapStatusIcon
                         status={beatmap?.status ?? BeatmapStatus.Graveyard}
                       />
-                      <h3 className="text-2xl font-bold">{beatmap?.title}</h3>
+                      <h3 className="text-lg font-bold ">{beatmap?.title}</h3>
                     </div>
 
                     <p className="text-gray-300">by {beatmap?.artist}</p>
                   </a>
                   <div className="text-right">
-                    <div className="flex flex-row items-center justify-end">
-                      <p className="text-yellow-400 text-base items-center text-center flex flex-row">
-                        [ {beatmap?.version || "Unknown"}
-                        <DifficultyIcon
-                          iconColor="#facc15"
-                          gameMode={score.game_mode}
-                          className="w-5 h-5 mx-2"
-                        />{" "}
-                        ] ★{" "}
-                        {beatmap && getBeatmapStarRating(beatmap).toFixed(2)}{" "}
+                    <div className="flex flex-row items-center justify-end w-full">
+                      <p className="text-yellow-400 text-base items-center text-center flex flex-row w-full text-nowrap">
+                        <p className="text-nowrap flex flex-row items-center">
+                          {" "}
+                          [ {beatmap?.version || "Unknown"}
+                          <DifficultyIcon
+                            iconColor="#facc15"
+                            gameMode={score.game_mode}
+                            className="w-5 h-5 mx-2"
+                          />{" "}
+                          ]
+                        </p>
+                        ★ {beatmap && getBeatmapStarRating(beatmap).toFixed(2)}{" "}
                         {score.mods}
                       </p>
                     </div>
@@ -134,7 +138,7 @@ export default function Score({ params }: { params: { id: number } }) {
                     {score.grade}
                   </div>
                   <div>
-                    <p className="text-6xl font-bold text-right">
+                    <p className="text-5xl font-bold text-right">
                       {score.total_score.toLocaleString()}
                     </p>
                     <div className="text-right">
