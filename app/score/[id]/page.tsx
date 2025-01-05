@@ -186,8 +186,13 @@ export default function Score({ params }: { params: { id: number } }) {
                   </div>
                   <div className="bg-terracotta-800 p-3 rounded">
                     <p className="text-gray-400">PP</p>
-                    <p className="text-base font-bold">
+                    <p className="text-base font-bold items-center flex">
                       {score.performance_points.toFixed(2)}
+                      {beatmap?.ranked != 1 && (
+                        <Tooltip content={`If ranked`}>
+                          <span className="text-yellow-500 ml-1">*</span>
+                        </Tooltip>
+                      )}
                     </p>
                   </div>
                 </div>
