@@ -36,7 +36,6 @@ export default function Beatmapset({ params }: BeatmapsetProps) {
 
   useEffect(() => {
     const fetchRequests = async (beatmapSetId: number) => {
-      console.log(beatmapSetId);
       await getBeatmapSet(beatmapSetId).then((res) => {
         if (res.error || !res.data) {
           alert("Error fetching beatmapset");
@@ -66,7 +65,9 @@ export default function Beatmapset({ params }: BeatmapsetProps) {
   useEffect(() => {
     if (
       !beatmapSet ||
-      [activeMode, GameMode.std].includes(activeBeatmap?.mode_int ?? -1)
+      [activeMode, GameMode.std].includes(
+        activeBeatmap?.mode_int ?? GameMode.std
+      )
     )
       return;
 
@@ -98,6 +99,7 @@ export default function Beatmapset({ params }: BeatmapsetProps) {
         <GameModeSelector
           activeMode={activeMode}
           setActiveMode={setActiveMode}
+          includeGameRules={false}
           enabledModes={
             beatmapSet &&
             beatmapSet.beatmaps.some(

@@ -17,24 +17,44 @@ const modeBadgeMap = {
   [GameMode.mania]: GameModeBadgeMania,
 };
 
-const modeBadge = (mode: GameMode) => modeBadgeMap[mode];
+const modeBadge = (mode: GameMode) => {
+  // @ts-ignore
+  return mode in modeBadgeMap ? modeBadgeMap[mode] : GameModeBadgeStd;
+};
 
 interface DifficultyIconProps {
-  difficulty: Beatmap;
+  difficulty?: Beatmap;
+  iconColor?: string;
   gameMode?: GameMode;
   className?: string;
 }
 
 export default function DifficultyIcon({
   difficulty,
+  iconColor,
   gameMode,
   className,
 }: DifficultyIconProps) {
-  const ModeBadge = modeBadge(difficulty.mode_int);
+  const ModeBadge = gameMode
+    ? modeBadge(gameMode)
+    : difficulty
+    ? modeBadge(difficulty.mode_int)
+    : modeBadge(GameMode.std);
+
+  const BadgeColor =
+    difficulty && gameMode
+      ? getStarRatingColor(getBeatmapStarRating(difficulty, gameMode))
+      : difficulty
+      ? getStarRatingColor(
+          getBeatmapStarRating(difficulty, difficulty.mode_int)
+        )
+      : iconColor
+      ? iconColor
+      : "#000000";
 
   return (
     <ModeBadge
-      fill={`${getStarRatingColor(getBeatmapStarRating(difficulty, gameMode))}`}
+      fill={BadgeColor}
       height={24}
       width="auto"
       className={className}
