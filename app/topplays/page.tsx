@@ -31,32 +31,42 @@ export default function Topplays() {
     });
   }, [activeMode]);
 
-  if (isLoading)
-    return (
-      <div className="flex justify-center items-center h-96">
-        <Spinner size="xl" />
-      </div>
-    );
-
   return (
     <div className="flex flex-col w-full mt-8">
-      <PrettyHeader text="Top plays" icon={<LucideHistory />}>
+      <PrettyHeader
+        text="Top plays"
+        icon={<LucideHistory />}
+        className="mb-4"
+        roundBottom={true}
+      />
+
+      <PrettyHeader>
         <GameModeSelector
           activeMode={activeMode}
           setActiveMode={setActiveMode}
         />
       </PrettyHeader>
 
-      <RoundedContent className="min-h-0 h-fit max-h-none mb-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {scores?.map((score) => (
-            <div key={`score-${score.id}`} className="mb-2">
-              <UserScoreMinimal score={score} />
-            </div>
-          ))}
+      {isLoading && (
+        <div className="flex justify-center items-center h-96">
+          <Spinner size="xl" />
         </div>
-        {/* TODO: Add pagination then after I fix issues with beatmaps API on backend */}
-      </RoundedContent>
+      )}
+
+      {!isLoading && scores && (
+        <div className="bg-coffee-600 rounded-b-3xl mb-4">
+          <RoundedContent className="min-h-0 h-fit max-h-none rounded-t-xl">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {scores?.map((score) => (
+                <div key={`score-${score.id}`} className="mb-2">
+                  <UserScoreMinimal score={score} />
+                </div>
+              ))}
+            </div>
+            {/* TODO: Add pagination then after I fix issues with beatmaps API on backend */}
+          </RoundedContent>
+        </div>
+      )}
     </div>
   );
 }

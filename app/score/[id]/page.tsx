@@ -19,6 +19,10 @@ import useSelf from "@/lib/hooks/useSelf";
 import { downloadReplay } from "@/lib/actions/downloadReplay";
 import { twMerge } from "tailwind-merge";
 import { getBeatmapStarRating } from "@/lib/utils/getBeatmapStarRating";
+import DifficultyIcon from "@/components/DifficultyIcon";
+import BeatmapStatusIcon from "@/components/BeatmapStatus";
+import { BeatmapStatus } from "@/lib/types/BeatmapStatus";
+import { Tooltip } from "@/components/Tooltip";
 
 export default function Score({ params }: { params: { id: number } }) {
   const [score, setScore] = useState<ScoreType | null>(null);
@@ -92,15 +96,29 @@ export default function Score({ params }: { params: { id: number } }) {
                   <a
                     href={`/beatmapsets/${beatmap?.beatmapset_id}/${beatmap?.id}`}
                   >
-                    <h3 className="text-2xl font-bold">{beatmap?.title}</h3>
+                    <div className="flex items-center space-x-2">
+                      <BeatmapStatusIcon
+                        status={beatmap?.status ?? BeatmapStatus.Graveyard}
+                      />
+                      <h3 className="text-2xl font-bold">{beatmap?.title}</h3>
+                    </div>
+
                     <p className="text-gray-300">by {beatmap?.artist}</p>
                   </a>
                   <div className="text-right">
-                    <p className="text-yellow-400 text-base">
-                      [{beatmap?.version || "Unknown"}] ★{" "}
-                      {beatmap && getBeatmapStarRating(beatmap).toFixed(2)}{" "}
-                      {score.mods}
-                    </p>
+                    <div className="flex flex-row items-center justify-end">
+                      <p className="text-yellow-400 text-base items-center text-center flex flex-row">
+                        [ {beatmap?.version || "Unknown"}
+                        <DifficultyIcon
+                          iconColor="#facc15"
+                          gameMode={score.game_mode}
+                          className="w-5 h-5 mx-2"
+                        />{" "}
+                        ] ★{" "}
+                        {beatmap && getBeatmapStarRating(beatmap).toFixed(2)}{" "}
+                        {score.mods}
+                      </p>
+                    </div>
                     <p className="text-gray-300">
                       mapped by {beatmap?.creator || "Unknown Creator"}
                     </p>

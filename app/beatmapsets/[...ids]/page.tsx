@@ -4,7 +4,7 @@ import PrettyHeader from "@/components/General/PrettyHeader";
 import RoundedContent from "@/components/General/RoundedContent";
 import { GameMode } from "@/lib/types/GameMode";
 import { useEffect, useState } from "react";
-import GameModeSelector from "@/components/GameModeSelector";
+import GameModeSelector, { GameRuleFlags } from "@/components/GameModeSelector";
 import ImageWithFallback from "@/components/ImageWithFallback";
 import { BeatmapSet } from "@/lib/types/BeatmapSet";
 import { getBeatmapSet } from "@/lib/actions/getBeatmapSet";
@@ -20,6 +20,7 @@ import NotFound from "@/app/not-found";
 import Spinner from "@/components/Spinner";
 import BeatmapLeaderboard from "@/app/beatmapsets/components/BeatmapLeaderboard";
 import OpenBanchoButton from "@/app/beatmapsets/components/OpenBanchoButton";
+import { gameModeToVanilla } from "@/lib/utils/gameModeToVanilla";
 
 interface BeatmapsetProps {
   params: { ids: [number?, number?] };
@@ -27,6 +28,8 @@ interface BeatmapsetProps {
 
 export default function Beatmapset({ params }: BeatmapsetProps) {
   const [activeMode, setActiveMode] = useState(GameMode.std);
+  const [activeGameRule, setActiveGameRule] = useState(GameRuleFlags.Standard);
+
   const [beatmapSet, setBeatmapSet] = useState<BeatmapSet | null>(null);
   const [activeBeatmap, _setActiveBeatmap] = useState<Beatmap | null>(null);
 
@@ -99,6 +102,8 @@ export default function Beatmapset({ params }: BeatmapsetProps) {
         <GameModeSelector
           activeMode={activeMode}
           setActiveMode={setActiveMode}
+          activeGameRule={activeGameRule}
+          setActiveGameRule={setActiveGameRule}
           includeGameRules={false}
           enabledModes={
             beatmapSet &&
@@ -139,9 +144,11 @@ export default function Beatmapset({ params }: BeatmapsetProps) {
                       beatmapset={beatmapSet}
                       activeDifficulty={activeBeatmap}
                       setDifficulty={setActiveBeatmap}
-                      activeGameMode={activeMode}
+                      activeGameMode={gameModeToVanilla(activeMode)}
                       difficulties={beatmapSet.beatmaps.filter((beatmap) =>
-                        [activeMode, GameMode.std].includes(beatmap.mode_int)
+                        [gameModeToVanilla(activeMode), GameMode.std].includes(
+                          beatmap.mode_int
+                        )
                       )}
                     />
 
@@ -212,7 +219,7 @@ export default function Beatmapset({ params }: BeatmapsetProps) {
                     </div>
                     <DifficultyInformation
                       beatmap={activeBeatmap}
-                      activeMode={activeMode}
+                      activeMode={gameModeToVanilla(activeMode)}
                     />
                   </div>
                 </div>
@@ -264,7 +271,19 @@ export default function Beatmapset({ params }: BeatmapsetProps) {
               </div>
             </RoundedContent>
             {activeBeatmap.is_scoreable && (
-              <BeatmapLeaderboard beatmap={activeBeatmap} mode={activeMode} />
+              <div className="flex flex-col w-full">
+                <RoundedContent className="rounded-md mx-4 mt-4">
+                  <GameModeSelector
+                    activeMode={activeMode}
+                    setActiveMode={setActiveMode}
+                    activeGameRule={activeGameRule}
+                    setActiveGameRule={setActiveGameRule}
+                    includeGameModes={false}
+                  />
+                </RoundedContent>
+
+                <BeatmapLeaderboard beatmap={activeBeatmap} mode={activeMode} />
+              </div>
             )}
           </RoundedContent>
         </>
