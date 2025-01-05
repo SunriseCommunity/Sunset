@@ -20,9 +20,47 @@ interface Props {
 const timezoneOffset = new Date().getTimezoneOffset() * 60000;
 
 export default function UserStatsChart({ data }: Props) {
+  if (data.snapshots.length === 0) return null;
+
   let snapshots = data.snapshots.sort((a, b) => {
     return a.saved_at.localeCompare(b.saved_at);
   });
+
+  let firstDate = new Date(snapshots[0].saved_at);
+  let lastDate = new Date(snapshots[snapshots.length - 1].saved_at);
+
+  for (
+    let d = new Date(firstDate.valueOf() + timezoneOffset);
+    d < lastDate;
+    d.setDate(d.getDate() + 1)
+  ) {
+    if (
+      !snapshots.find(
+        (s) => new Date(s.saved_at).toDateString() === d.toDateString()
+      )
+    ) {
+      const snapshotBefore = snapshots.find(
+        (s) =>
+          new Date(s.saved_at).toDateString() ===
+          new Date(d.valueOf() - 86400000).toDateString()
+      );
+
+      snapshots.push({
+        country_rank: snapshotBefore?.country_rank ?? 0,
+        global_rank: snapshotBefore?.global_rank ?? 0,
+        pp: snapshotBefore?.pp ?? 0,
+        saved_at: d.toISOString(),
+      });
+    }
+  }
+
+  snapshots = snapshots.sort((a, b) => {
+    return a.saved_at.localeCompare(b.saved_at);
+  });
+
+  if (snapshots.length > 70) {
+    snapshots = snapshots.slice(snapshots.length - 70);
+  }
 
   const dateMap = new Map<string, StatsSnapshot>();
   snapshots.forEach((s, i) => {
