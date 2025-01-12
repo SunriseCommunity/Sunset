@@ -85,6 +85,28 @@ export default function Wiki() {
       </RoundedContent>
 
       <PrettyHeader
+        text="I think I was restricted unfairly. How can I appeal?"
+        icon={<LucideMessageCircleQuestion />}
+      />
+      <RoundedContent className="mb-4 bg-terracotta-700">
+        <div className="flex flex-col w-11/12 mx-auto">
+          <p>
+            If you believe you were restricted unfairly, you can appeal your
+            restriction by contacting the staff with your case. You can contact
+            the staff{" "}
+            <a
+              href="https://discordapp.com/users/228223085759692802"
+              className="text-blue-400 hover:underline"
+            >
+              here
+            </a>
+            .
+          </p>
+          <div />
+        </div>
+      </RoundedContent>
+
+      <PrettyHeader
         text="Can I contribute/suggest changes to the server?"
         icon={<LucideMessageCircleQuestion />}
       />
