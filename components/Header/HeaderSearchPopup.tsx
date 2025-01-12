@@ -36,7 +36,7 @@ export default function HeaderSearchPopup({ isHovered }: Props) {
 
     setIsSearching(true);
 
-    searchUsers(searchValue).then((res) => {
+    searchUsers(searchValue, 0, 5).then((res) => {
       setIsSearching(false);
       if (res.data) {
         setSearchResults(res.data);
