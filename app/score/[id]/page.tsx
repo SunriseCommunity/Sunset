@@ -23,6 +23,7 @@ import DifficultyIcon from "@/components/DifficultyIcon";
 import BeatmapStatusIcon from "@/components/BeatmapStatus";
 import { BeatmapStatus } from "@/lib/types/BeatmapStatus";
 import { Tooltip } from "@/components/Tooltip";
+import { isBeatmapRanked } from "@/lib/utils/isBeatmapRanked";
 
 export default function Score({ params }: { params: { id: number } }) {
   const [score, setScore] = useState<ScoreType | null>(null);
@@ -192,7 +193,7 @@ export default function Score({ params }: { params: { id: number } }) {
                     <p className="text-gray-400">PP</p>
                     <p className="text-base font-bold items-center flex">
                       {score.performance_points.toFixed(2)}
-                      {beatmap?.ranked != 1 && (
+                      {beatmap && !isBeatmapRanked(beatmap) && (
                         <Tooltip content={`If ranked`}>
                           <span className="text-yellow-500 ml-1">*</span>
                         </Tooltip>

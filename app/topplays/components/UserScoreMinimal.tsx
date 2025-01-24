@@ -6,6 +6,7 @@ import { getUser } from "@/lib/actions/getUser";
 import { Beatmap } from "@/lib/types/Beatmap";
 import { Score } from "@/lib/types/Score";
 import { User } from "@/lib/types/User";
+import { isBeatmapRanked } from "@/lib/utils/isBeatmapRanked";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
@@ -86,7 +87,7 @@ export default function UserScoreMinimal({
               <div className="text-end text-nowrap">
                 <p className="text-md opacity-70">{score.mods}</p>
                 <p className="text-2xl text-terracotta-300">
-                  {beatmap?.ranked == 1
+                  {beatmap && isBeatmapRanked(beatmap)
                     ? score.performance_points.toFixed()
                     : "- "}
                   pp

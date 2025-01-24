@@ -27,7 +27,7 @@ export interface Beatmap {
   is_scoreable: boolean;
   last_updated: string;
   mode_int: GameMode;
-  ranked: number;
+  ranked: number; // TODO: should be fixed at backend to include approved as ranked
   title?: string;
   artist?: string;
   creator?: string; // NOTE: currently broken
