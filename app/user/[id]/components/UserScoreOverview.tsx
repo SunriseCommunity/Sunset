@@ -7,6 +7,7 @@ import { Beatmap } from "@/lib/types/Beatmap";
 import { BeatmapStatus } from "@/lib/types/BeatmapStatus";
 import { Score } from "@/lib/types/Score";
 import { getGradeColor } from "@/lib/utils/getGradeColor";
+import { isBeatmapRanked } from "@/lib/utils/isBeatmapRanked";
 import { timeSince } from "@/lib/utils/timeSince";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -75,7 +76,7 @@ export default function UserScoreOverview({
               <div className="text-end text-nowrap">
                 <p className="text-sm opacity-70">{score.mods}</p>
                 <p className="text-xl text-terracotta-300">
-                  {beatmap?.ranked == 1
+                  {beatmap && isBeatmapRanked(beatmap)
                     ? score.performance_points.toFixed()
                     : "- "}
                   pp
