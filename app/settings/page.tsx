@@ -19,6 +19,7 @@ import MarkdownInput from "./components/MarkdownInput";
 import { editDescription } from "@/lib/actions/editDescription";
 import ChangePasswordInput from "@/app/settings/components/ChangePasswordInput";
 import SiteLocalOptions from "@/app/settings/components/SiteLocalOptions";
+import ChangeUsernameInput from "@/app/settings/components/ChangeUsernameInput";
 
 export default function Settings() {
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
@@ -134,6 +135,14 @@ export default function Settings() {
       <div className="bg-terracotta-700 rounded-b-lg p-4 shadow-lg w-full mx-auto mb-4">
         <div className="flex flex-col w-11/12 mx-auto">
           <ChangePasswordInput />
+        </div>
+      </div>
+
+      {/* Change username */}
+      <PrettyHeader text="Change username" icon={<User2Icon />} />
+      <div className="bg-terracotta-700 rounded-b-lg p-4 shadow-lg w-full mx-auto mb-4">
+        <div className="flex flex-col w-11/12 mx-auto">
+          <ChangeUsernameInput />
         </div>
       </div>
 
