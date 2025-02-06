@@ -21,19 +21,27 @@ export async function downloadReplay(id: number): Promise<UserResponse> {
   ).catch(() => null);
 
   if (!response || !response.ok) {
+    const { error } = await response?.json();
 
-    const { error } =await  response?.json()
-
-    return { error:  error ?? "Unknown error" };
+    return { error: error ?? "Unknown error" };
   }
 
   const blob = await response.blob();
+
+  const contentDisposition = response.headers.get("Content-Disposition");
+  let filename = `replay-id-${id}.osr`; // Default file name
+  if (contentDisposition) {
+    const match = contentDisposition?.match(/filename\*=UTF-8''(.+)/);
+    if (match && match[1]) {
+      filename = decodeURI(match[1]);
+    }
+  }
 
   const url = window.URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
 
-  a.download = `${id}.osr`;
+  a.download = filename;
   a.click();
   window.URL.revokeObjectURL(url);
 
