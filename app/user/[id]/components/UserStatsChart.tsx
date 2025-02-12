@@ -1,5 +1,6 @@
 import { StatsSnapshot } from "@/lib/types/StatsSnapshot";
 import { timeSince } from "@/lib/utils/timeSince";
+import { toLocalTime } from "@/lib/utils/toLocalTime";
 import {
   AreaChart,
   CartesianGrid,
@@ -17,69 +18,66 @@ interface Props {
   };
 }
 
-const timezoneOffset = new Date().getTimezoneOffset() * 60000;
-
 export default function UserStatsChart({ data }: Props) {
   if (data.snapshots.length === 0) return null;
 
-  let snapshots = data.snapshots.sort((a, b) => {
-    return a.saved_at.localeCompare(b.saved_at);
-  });
+  const snapshots = [...data.snapshots];
 
-  let firstDate = new Date(snapshots[0].saved_at);
-  let lastDate = new Date(snapshots[snapshots.length - 1].saved_at);
+  var currentSnapshot = snapshots.pop();
+  if (!currentSnapshot) return null;
 
-  for (
-    let d = new Date(firstDate.valueOf() + timezoneOffset);
-    d < lastDate;
-    d.setDate(d.getDate() + 1)
-  ) {
+  snapshots.sort(
+    (a, b) => new Date(a.saved_at).getTime() - new Date(b.saved_at).getTime()
+  );
+
+  var result: StatsSnapshot[] = [];
+  let lastValidSnapshot: StatsSnapshot | null = null;
+  let currentDate = new Date(snapshots[0].saved_at);
+  const endDate = new Date();
+
+  let snapshotIndex = 0;
+  while (currentDate <= endDate) {
+    const formattedDate = currentDate.toDateString();
+
+    if (snapshotIndex >= snapshots.length) {
+      break;
+    }
+
+    const formattedCurrentDate = new Date(
+      snapshots[snapshotIndex].saved_at
+    ).toDateString();
+
     if (
-      !snapshots.find(
-        (s) => new Date(s.saved_at).toDateString() === d.toDateString()
-      )
+      snapshotIndex <= snapshots.length &&
+      formattedDate === formattedCurrentDate
     ) {
-      const snapshotBefore = snapshots.find(
-        (s) =>
-          new Date(s.saved_at).toDateString() ===
-          new Date(d.valueOf() - 86400000).toDateString()
-      );
-
-      snapshots.push({
-        country_rank: snapshotBefore?.country_rank ?? 0,
-        global_rank: snapshotBefore?.global_rank ?? 0,
-        pp: snapshotBefore?.pp ?? 0,
-        saved_at: d.toISOString(),
-      });
-    }
-  }
-
-  snapshots = snapshots.sort((a, b) => {
-    return a.saved_at.localeCompare(b.saved_at);
-  });
-
-  if (snapshots.length > 70) {
-    snapshots = snapshots.slice(snapshots.length - 70);
-  }
-
-  const dateMap = new Map<string, StatsSnapshot>();
-  snapshots.forEach((s, i) => {
-    if (i === 0) {
-      dateMap.set(new Date(s.saved_at).toDateString(), s);
-      return;
+      lastValidSnapshot = { ...snapshots[snapshotIndex] };
+      result.push(lastValidSnapshot);
+      snapshotIndex++;
+    } else if (lastValidSnapshot) {
+      result.push({ ...lastValidSnapshot, saved_at: formattedDate });
     }
 
-    const currentDate = new Date(s.saved_at).toDateString();
-    const previous = dateMap.get(currentDate);
+    currentDate.setDate(currentDate.getDate() + 1);
+  }
 
-    if (previous && previous.saved_at > s.saved_at) return;
+  var isCurrentDay = (n: number) =>
+    Math.round((n - Date.now()) / 1000 / (3600 * 24)) === 0;
 
-    dateMap.set(currentDate, s);
-  });
+  var isResultHasCurrentDay = result.some((s) =>
+    isCurrentDay(new Date(s.saved_at).getTime())
+  );
 
-  const chartData = Array.from(dateMap.values()).map((s) => {
+  if (isResultHasCurrentDay) {
+    result.pop();
+  }
+
+  result.push(currentSnapshot);
+  result = result.slice(result.length - 60);
+
+  const chartData = Array.from(result.values()).map((s) => {
     return {
-      date: timeSince(new Date(new Date(s.saved_at).valueOf()), true),
+      date: timeSince(s.saved_at, true),
       pp: s.pp,
       rank: s.global_rank,
     };
