@@ -16,7 +16,7 @@ export async function changePassword(
   }
 
   const response = await fetch(
-    `https://api.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/user/password/reset`,
+    `https://api.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/user/password/change`,
     {
       method: "POST",
       headers: {
