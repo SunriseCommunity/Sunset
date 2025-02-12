@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { authorize } from "@/lib/actions/authorize";
 import useSelf from "@/lib/hooks/useSelf";
 import { twMerge } from "tailwind-merge";
+import useRestriction from "@/lib/hooks/useRestriction";
 
 interface Props {
   isOpen: boolean;
@@ -15,6 +16,8 @@ export default function HeaderLoginDropdown({ isOpen, setIsOpen }: Props) {
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const { revalidate } = useSelf();
+
+  const { setSelfRestricted } = useRestriction();
 
   useEffect(() => {
     document.addEventListener("click", closeDropdown);
@@ -46,6 +49,11 @@ export default function HeaderLoginDropdown({ isOpen, setIsOpen }: Props) {
       setIsOpen(false);
     } else {
       if (!loginButtonRef.current) return;
+
+      if (error?.includes("restrict")) {
+        setSelfRestricted(true, error);
+        return;
+      }
 
       loginButtonRef.current.classList.add("text-red-500");
       loginButtonRef.current.classList.remove("text-white");
