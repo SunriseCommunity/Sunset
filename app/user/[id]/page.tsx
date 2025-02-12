@@ -99,9 +99,9 @@ export default function UserPage({ params }: { params: { id: number } }) {
         return;
       }
 
-      if (status.data?.is_followed && status.data?.is_following) {
+      if (status.data?.is_followed_by_you && status.data?.is_following_you) {
         setFriendshipStatus("mutual");
-      } else if (status.data?.is_followed) {
+      } else if (status.data?.is_followed_by_you) {
         setFriendshipStatus("following");
       } else {
         setFriendshipStatus("none");

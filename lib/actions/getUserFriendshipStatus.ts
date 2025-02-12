@@ -2,8 +2,8 @@ import { getUsetToken } from "@/lib/actions/getUserToken";
 
 interface UserFriendshipStatusResponse {
   data: {
-    is_following: boolean;
-    is_followed: boolean;
+    is_following_you: boolean;
+    is_followed_by_you: boolean;
   } | null;
   error?: string;
 }
