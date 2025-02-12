@@ -1,8 +1,7 @@
-export function timeSince(input: string | Date, forceDays = false) {
-  const date = input instanceof Date ? input : new Date(input);
-  const userTimezoneOffset = getUserTimezoneOffset();
+import { toLocalTime } from "@/lib/utils/toLocalTime";
 
-  date.setHours(date.getHours() + userTimezoneOffset);
+export function timeSince(input: string | Date, forceDays = false) {
+  const date = toLocalTime(input);
 
   const formatter = new Intl.RelativeTimeFormat("en");
   const ranges: { [key: string]: number } = {
@@ -14,27 +13,20 @@ export function timeSince(input: string | Date, forceDays = false) {
     minutes: 60,
     seconds: 1,
   };
+
   const secondsElapsed = (date.getTime() - Date.now()) / 1000;
 
   if (forceDays) {
-    if (Math.abs(secondsElapsed) < ranges["days"]) {
-      return "Today";
-    }
-
-    const delta = secondsElapsed / ranges["days"];
-    return formatter.format(Math.round(delta), "days");
+    const delta = Math.round(secondsElapsed / ranges["days"]);
+    return delta === 0 ? "Today" : formatter.format(delta, "days");
   }
 
   for (let key in ranges) {
-    if (ranges[key] < Math.abs(secondsElapsed)) {
-      const delta = secondsElapsed / ranges[key];
-      return formatter.format(Math.round(delta), key as any);
+    if (ranges[key] <= Math.abs(secondsElapsed)) {
+      const delta = Math.round(secondsElapsed / ranges[key]);
+      return formatter.format(delta, key as any);
     }
   }
-}
 
-function getUserTimezoneOffset() {
-  const offsetMinutes = new Date().getTimezoneOffset();
-  const offsetHours = -offsetMinutes / 60;
-  return offsetHours;
+  return "Just now";
 }
