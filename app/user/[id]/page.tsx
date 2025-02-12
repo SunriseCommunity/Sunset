@@ -41,7 +41,8 @@ const contentTabs = [
 export default function UserPage({ params }: { params: { id: number } }) {
   const [user, setUser] = useState<UserObj | null>(null);
   const [userStats, setUserStats] = useState<UserStats | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState("General");
   const [activeMode, setActiveMode] = useState(GameMode.std);
   const [friendshipStatus, setFriendshipStatus] = useState<
@@ -62,24 +63,24 @@ export default function UserPage({ params }: { params: { id: number } }) {
       : "text-green-500";
 
   useEffect(() => {
-    if (!params.id || isLoading) return;
+    if (!params.id) return;
 
-    setIsLoading(true);
+    setError(null);
 
     getUser(params.id, activeMode).then((user) => {
       if (user.error) {
-        setIsLoading(false);
-        return;
+        setError(user.error);
+      } else {
+        setUser(user.data);
+        setUserStats(user.stats!);
+        fetchFriendshipStatus();
       }
-
-      setUser(user.data);
-      setUserStats(user.stats!);
-
-      fetchFriendshipStatus();
-
-      setIsLoading(false);
     });
-  }, [params.id, activeMode, activeMode]);
+  }, [params.id, activeMode]);
+
+  useEffect(() => {
+    setIsLoading(false); // Handle loading separately
+  }, [activeMode]);
 
   const updateFriendshipStatus = (action: "add" | "remove") => () => {
     editFriendshipStatus(params.id, action).then((status) => {
@@ -200,11 +201,46 @@ export default function UserPage({ params }: { params: { id: number } }) {
     }
   };
 
-  if (user === null)
+  if (isLoading)
     return (
       <div className="flex justify-center items-center h-96">
         <Spinner size="xl" />
       </div>
+    );
+
+  if (user === null)
+    return (
+      <main className="container mx-auto my-8">
+        <PrettyHeader
+          icon={<User />}
+          text="Player info"
+          className="bg-terracotta-700 mb-4"
+          roundBottom={true}
+        ></PrettyHeader>
+
+        <RoundedContent className="bg-terracotta-700 rounded-l flex flex-col md:flex-row justify-between items-center md:items-start gap-8 ">
+          <div className="flex flex-col space-y-2">
+            <h1 className="text-4xl">
+              {error ?? "User not found or an error occurred."}
+            </h1>
+            {error?.includes("restrict") ? (
+              <p>
+                This means that the user violated the server rules and has been
+                restricted.
+              </p>
+            ) : (
+              <p>The user may have been deleted or does not exist.</p>
+            )}
+          </div>
+          <Image
+            src="/images/user-not-found.png"
+            alt="404"
+            width={200}
+            height={400}
+            className="max-w-fit"
+          />
+        </RoundedContent>
+      </main>
     );
 
   return (
