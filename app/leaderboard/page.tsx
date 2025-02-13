@@ -26,6 +26,15 @@ export default function Leaderboard() {
   const pageLimit = 10;
 
   useEffect(() => {
+    setPage(0);
+    updateLeaderboard(0);
+  }, [activeMode]);
+
+  useEffect(() => {
+    updateLeaderboard(page);
+  }, [page]);
+
+  const updateLeaderboard = (page: number) => {
     if (isLoading) return;
 
     setIsLoading(true);
@@ -40,11 +49,7 @@ export default function Leaderboard() {
 
       setIsLoading(false);
     });
-  }, [page, activeMode]);
-
-  useEffect(() => {
-    setPage(0);
-  }, [activeMode]);
+  };
 
   const { users, total_count } = usersObject;
   const pageCount = Math.ceil(total_count / pageLimit - 1);
