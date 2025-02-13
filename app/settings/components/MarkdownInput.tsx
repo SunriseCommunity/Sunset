@@ -27,17 +27,42 @@ export default function MarkdownInput({
     setText(defaultText || "");
   }, [defaultText]);
 
-  const addToText = (text: string) => {
-    const selectionStart = textAreaRef.current?.selectionStart;
-    setText((prev) => {
-      return (
-        prev.slice(0, selectionStart) +
-        text +
-        prev.slice(selectionStart, prev.length)
-      );
-    });
+  const addToText = (beforeText = "", afterText = "") => {
+    if (!textAreaRef.current) return;
 
-    textAreaRef.current?.focus();
+    const textArea = textAreaRef.current;
+    const currentText = textArea.value;
+    const selectionStart = textArea.selectionStart || 0;
+    const selectionEnd = textArea.selectionEnd || 0;
+
+    let wordStart = selectionStart;
+    while (wordStart > 0 && /\w/.test(currentText[wordStart - 1])) {
+      wordStart--;
+    }
+
+    let wordEnd = selectionEnd;
+    while (wordEnd < currentText.length && /\w/.test(currentText[wordEnd])) {
+      wordEnd++;
+    }
+
+    const word = currentText.slice(wordStart, wordEnd);
+
+    const newText =
+      currentText.slice(0, wordStart) +
+      beforeText +
+      word +
+      afterText +
+      currentText.slice(wordEnd);
+
+    setText(newText);
+
+    setTimeout(() => {
+      const newCursorPosition =
+        wordStart + beforeText.length + word.length + afterText.length;
+      textArea.selectionStart = newCursorPosition;
+      textArea.selectionEnd = newCursorPosition;
+      textArea.focus();
+    }, 0);
   };
 
   useEffect(() => {
@@ -81,23 +106,28 @@ export default function MarkdownInput({
         <div className="flex">
           <PrettyButton
             className="w-8 h-8 rounded-lg mr-2"
+            icon={<BoldIcon className="w-4 h-4 " strokeWidth={4} />}
+            onClick={() => addToText("****", "****")}
+          />
+          <PrettyButton
+            className="w-8 h-8 rounded-lg mr-2"
             icon={<BoldIcon className="w-4 h-4" />}
-            onClick={() => addToText("****")}
+            onClick={() => addToText("**", "**")}
           />
           <PrettyButton
             className="w-8 h-8 rounded-lg"
             icon={<Italic className="w-4 h-4" />}
-            onClick={() => addToText("**")}
+            onClick={() => addToText("*", "*")}
           />
           <PrettyButton
             className="w-8 h-8 rounded-lg ml-2"
             icon={<Strikethrough className="w-4 h-4" />}
-            onClick={() => addToText("~~~~")}
+            onClick={() => addToText("~", "~")}
           />
           <PrettyButton
             className="w-8 h-8 rounded-lg ml-2"
             icon={<ImagePlus className="w-4 h-4" />}
-            onClick={() => addToText("![text](url)")}
+            onClick={() => addToText("![", "](url)")}
           />
         </div>
       </div>
