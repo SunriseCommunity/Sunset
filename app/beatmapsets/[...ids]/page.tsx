@@ -21,6 +21,7 @@ import Spinner from "@/components/Spinner";
 import BeatmapLeaderboard from "@/app/beatmapsets/components/BeatmapLeaderboard";
 import OpenBanchoButton from "@/app/beatmapsets/components/OpenBanchoButton";
 import { gameModeToVanilla } from "@/lib/utils/gameModeToVanilla";
+import Image from "next/image";
 
 interface BeatmapsetProps {
   params: { ids: [number?, number?] };
@@ -33,6 +34,8 @@ export default function Beatmapset({ params }: BeatmapsetProps) {
   const [beatmapSet, setBeatmapSet] = useState<BeatmapSet | null>(null);
   const [activeBeatmap, _setActiveBeatmap] = useState<Beatmap | null>(null);
 
+  const [isLoading, setIsLoading] = useState(true);
+
   const [beatmapSetId, beatmapId] = params.ids;
 
   if (!beatmapSetId || isNaN(beatmapSetId as any)) return <NotFound />;
@@ -41,14 +44,16 @@ export default function Beatmapset({ params }: BeatmapsetProps) {
     const fetchRequests = async (beatmapSetId: number) => {
       await getBeatmapSet(beatmapSetId).then((res) => {
         if (res.error || !res.data) {
-          alert("Error fetching beatmapset");
+          setIsLoading(false);
           return;
         }
 
+        setIsLoading(false);
         setBeatmapSet(res.data);
       });
     };
 
+    setIsLoading(true);
     fetchRequests(beatmapSetId);
   }, [beatmapSetId]);
 
@@ -119,10 +124,29 @@ export default function Beatmapset({ params }: BeatmapsetProps) {
         />
       </PrettyHeader>
 
-      {beatmapSet === null && (
+      {isLoading && (
         <div className="flex flex-col justify-center items-center h-96">
           <Spinner size="xl" />
         </div>
+      )}
+
+      {beatmapSet === null && !isLoading && (
+        <RoundedContent className="bg-terracotta-700 rounded-l flex flex-col md:flex-row justify-between items-center md:items-start gap-8 ">
+          <div className="flex flex-col space-y-2">
+            <h1 className="text-4xl">Beatmapset not found</h1>
+            <p className="text-gray-300">
+              The beatmapset you are looking for does not exist or has been
+              deleted.
+            </p>
+          </div>
+          <Image
+            src="/images/user-not-found.png"
+            alt="404"
+            width={200}
+            height={400}
+            className="max-w-fit"
+          />
+        </RoundedContent>
       )}
 
       {beatmapSet !== null && activeBeatmap !== null && (
