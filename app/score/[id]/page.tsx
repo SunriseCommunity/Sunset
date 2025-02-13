@@ -29,7 +29,7 @@ export default function Score({ params }: { params: { id: number } }) {
   const [score, setScore] = useState<ScoreType | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const [beatmap, setBeatmap] = useState<Beatmap | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [isReplayLoading, setIsReplayLoading] = useState(false);
 
   const { self } = useSelf();
@@ -39,7 +39,7 @@ export default function Score({ params }: { params: { id: number } }) {
 
     getScore(params.id).then((res) => {
       if (res.error || !res.data) {
-        alert("Error fetching score");
+        setIsLoading(false);
         return;
       }
 
@@ -71,11 +71,33 @@ export default function Score({ params }: { params: { id: number } }) {
     });
   };
 
-  if (isLoading || score === null || user === null)
+  if (isLoading)
     return (
       <div className="flex justify-center items-center h-96">
         <Spinner size="xl" />
       </div>
+    );
+
+  if (user === null || score === null)
+    return (
+      <main className="container mx-auto my-8">
+        <PrettyHeader text="Score Performance" icon={<LucideHistory />} />
+        <RoundedContent className="bg-terracotta-700 rounded-l flex flex-col md:flex-row justify-between items-center md:items-start gap-8 ">
+          <div className="flex flex-col space-y-2">
+            <h1 className="text-4xl">Score not found</h1>
+            <p className="text-gray-300">
+              The score you are looking for does not exist or has been deleted.
+            </p>
+          </div>
+          <Image
+            src="/images/user-not-found.png"
+            alt="404"
+            width={200}
+            height={400}
+            className="max-w-fit"
+          />
+        </RoundedContent>
+      </main>
     );
 
   return (
