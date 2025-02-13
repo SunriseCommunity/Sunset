@@ -76,7 +76,7 @@ export const RestrictionProvider: React.FC<RestrictionProviderProps> = ({
   return (
     <RestrictionContext.Provider value={{ setSelfRestricted }}>
       {isRestricted && <RestrictionModal reason={reason} />}
-      <div>{!isRestricted && children}</div>
+      {!isRestricted && children}
     </RestrictionContext.Provider>
   );
 };
