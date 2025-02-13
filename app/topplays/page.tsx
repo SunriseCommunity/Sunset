@@ -17,11 +17,15 @@ export default function Topplays() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    const currentMode = activeMode;
     setIsLoading(true);
 
     getTopPlays(activeMode).then((res) => {
+      if (currentMode !== activeMode) return;
+
       if (res.error || !res.data) {
         alert("Error fetching score");
+        setIsLoading(false);
         return;
       }
 
