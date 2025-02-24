@@ -26,50 +26,53 @@ export default function UserStatsChart({ data }: Props) {
   var currentSnapshot = snapshots.pop();
   if (!currentSnapshot) return null;
 
-  snapshots.sort(
-    (a, b) => new Date(a.saved_at).getTime() - new Date(b.saved_at).getTime()
-  );
-
   var result: StatsSnapshot[] = [];
-  let lastValidSnapshot: StatsSnapshot | null = null;
-  let currentDate = new Date(snapshots[0].saved_at);
-  const endDate = new Date();
 
-  let snapshotIndex = 0;
-  while (currentDate <= endDate) {
-    const formattedDate = currentDate.toDateString();
+  if (snapshots.length > 0) {
+    snapshots.sort(
+      (a, b) => new Date(a.saved_at).getTime() - new Date(b.saved_at).getTime()
+    );
 
-    if (snapshotIndex >= snapshots.length) {
-      break;
+    let lastValidSnapshot: StatsSnapshot | null = null;
+    let currentDate = new Date(snapshots[0].saved_at);
+    const endDate = new Date();
+
+    let snapshotIndex = 0;
+    while (currentDate <= endDate) {
+      const formattedDate = currentDate.toDateString();
+
+      if (snapshotIndex >= snapshots.length) {
+        break;
+      }
+
+      const formattedCurrentDate = new Date(
+        snapshots[snapshotIndex].saved_at
+      ).toDateString();
+
+      if (
+        snapshotIndex <= snapshots.length &&
+        formattedDate === formattedCurrentDate
+      ) {
+        lastValidSnapshot = { ...snapshots[snapshotIndex] };
+        result.push(lastValidSnapshot);
+        snapshotIndex++;
+      } else if (lastValidSnapshot) {
+        result.push({ ...lastValidSnapshot, saved_at: formattedDate });
+      }
+
+      currentDate.setDate(currentDate.getDate() + 1);
     }
 
-    const formattedCurrentDate = new Date(
-      snapshots[snapshotIndex].saved_at
-    ).toDateString();
+    var isCurrentDay = (n: number) =>
+      Math.round((n - Date.now()) / 1000 / (3600 * 24)) === 0;
 
-    if (
-      snapshotIndex <= snapshots.length &&
-      formattedDate === formattedCurrentDate
-    ) {
-      lastValidSnapshot = { ...snapshots[snapshotIndex] };
-      result.push(lastValidSnapshot);
-      snapshotIndex++;
-    } else if (lastValidSnapshot) {
-      result.push({ ...lastValidSnapshot, saved_at: formattedDate });
+    var isResultHasCurrentDay = result.some((s) =>
+      isCurrentDay(new Date(s.saved_at).getTime())
+    );
+
+    if (isResultHasCurrentDay) {
+      result.pop();
     }
-
-    currentDate.setDate(currentDate.getDate() + 1);
-  }
-
-  var isCurrentDay = (n: number) =>
-    Math.round((n - Date.now()) / 1000 / (3600 * 24)) === 0;
-
-  var isResultHasCurrentDay = result.some((s) =>
-    isCurrentDay(new Date(s.saved_at).getTime())
-  );
-
-  if (isResultHasCurrentDay) {
-    result.pop();
   }
 
   result.push(currentSnapshot);
