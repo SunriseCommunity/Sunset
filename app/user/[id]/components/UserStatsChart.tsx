@@ -73,7 +73,7 @@ export default function UserStatsChart({ data }: Props) {
   }
 
   result.push(currentSnapshot);
-  result = result.slice(result.length - 60);
+  result = result.slice(-60);
 
   const chartData = Array.from(result.values()).map((s) => {
     return {
