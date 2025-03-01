@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import Page, { BeatmapsetProps } from "./page";
 import { notFound } from "next/navigation";
 import { getBeatmapSet } from "@/lib/actions/getBeatmapSet";
+import { getBeatmapStarRating } from "@/lib/utils/getBeatmapStarRating";
 
 export async function generateMetadata({
   params,
@@ -28,12 +29,15 @@ export async function generateMetadata({
     title: `${beatmapSet.artist} - ${beatmapSet.title} | osu!Sunrise`,
     description: `Beatmapset info for ${beatmapSet.title} by ${beatmapSet.artist}`,
     openGraph: {
-      title: `${beatmapSet.artist} - ${beatmapSet.title} ${
-        beatmap ? `[${beatmap.version}]` : ""
-      } | osu!Sunrise`,
-      description: `Beatmapset info for ${beatmapSet.title} by ${beatmapSet.artist}`,
+      siteName: "osu!Sunrise",
+      title: `${beatmapSet.artist} - ${beatmapSet.title} | osu!Sunrise`,
+      description: `Beatmapset info for ${beatmapSet.title} by ${beatmapSet.artist} ${
+        beatmap
+          ? `[${beatmap.version}] ★${getBeatmapStarRating(beatmap).toFixed(2)}`
+          : ""
+      }`,
       images: [
-        `https://assets.ppy.sh/beatmaps/${beatmapSetId}/covers/cover.jpg`,
+        `https://assets.ppy.sh/beatmaps/${beatmapSetId}/covers/list@2x.jpg`,
       ],
     },
   };

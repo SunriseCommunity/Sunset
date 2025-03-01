@@ -15,10 +15,11 @@ export async function generateMetadata({ params }: { params: { id: number } }): 
   });
   
   return {
-    title: `${userObj.user.username} | osu!Sunrise`,
+    title: `${userObj.user.username} · user profile | osu!Sunrise`,
     description: `We don't know much about them, but we're sure ${userObj.user.username} is great.`,
     openGraph: {
-      title: `${userObj.user.username} | osu!Sunrise`,
+      siteName: "osu!Sunrise",
+      title: `${userObj.user.username} · user profile | osu!Sunrise`,
       description: `We don't know much about them, but we're sure ${userObj.user.username} is great.`,
       images: [`https://a.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/avatar/${userObj.user.user_id}`],
     },
