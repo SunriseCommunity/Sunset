@@ -4,7 +4,7 @@ export default async function Footer() {
   return (
     <footer className="border-t-2 text-white p-4 text-sm text-center space-y-4 bg-terracotta-950">
       <div className="flex justify-center space-x-4">
-        <p>© 2024 Sunrise Community</p>
+        <p>© 2024-2025 Sunrise Community</p>
         <p>•</p>
         <a
           href="https://github.com/SunriseCommunity"
