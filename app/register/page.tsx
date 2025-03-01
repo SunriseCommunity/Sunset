@@ -86,7 +86,7 @@ export default function Register() {
                   placeholder="e.g. username"
                   name="username"
                   className="bg-terracotta-800 p-2 rounded-lg mb-2"
-                  pattern="^[a-zA-Z0-9_]{1,32}$"
+                  pattern="^[a-z A-Z0-9_-]{1,32}$"
                   maxLength={32}
                   required
                 />
