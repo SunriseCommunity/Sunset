@@ -1,8 +1,11 @@
 import { Metadata } from "next";
-import Page from "./page"; 
+import Page from "./page";
 
 export const metadata: Metadata = {
   title: "Wiki | osu!Sunrise",
+  openGraph: {
+    title: "Wiki | osu!Sunrise",
+  },
 };
 
 export default Page;

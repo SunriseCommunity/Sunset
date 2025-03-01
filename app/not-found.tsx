@@ -3,6 +3,10 @@ import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "not found | osu!Sunrise",
+  openGraph: {
+    title: "not found | osu!Sunrise",
+    description: "The page you're looking for isn't here. Sorry.",
+  },
 };
 
 export default function NotFound() {

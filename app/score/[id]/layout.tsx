@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { getUser } from "@/lib/actions/getUser";
 import { getScore } from "@/lib/actions/getScore";
 import { getBeatmap } from "@/lib/actions/getBeatmap";
+import { getBeatmapStarRating } from "@/lib/utils/getBeatmapStarRating";
 
 export async function generateMetadata({
   params,
@@ -49,9 +50,9 @@ export async function generateMetadata({
     } [${beatmap.version}] in osu!Sunrise.`,
     openGraph: {
       title: `${user.username} on ${beatmap.title} - ${beatmap.artist} [${beatmap.version}] | osu!Sunrise`,
-      description: `User ${user.username} has scored ${score.performance_points}pp on ${beatmap.title} - ${beatmap.artist} [${beatmap.version}] in osu!Sunrise.`,
+      description: `User ${user.username} has scored ${score.performance_points.toFixed(2)}pp on ${beatmap.title} - ${beatmap.artist} [${beatmap.version}] ★${getBeatmapStarRating(beatmap).toFixed(2)} ${score.mods} in osu!Sunrise.`,
       images: [
-        `https://assets.ppy.sh/beatmaps/${beatmap.beatmapset_id}/covers/cover.jpg`,
+        `https://assets.ppy.sh/beatmaps/${beatmap.beatmapset_id}/covers/list@2x.jpg`,
       ],
     },
   };
