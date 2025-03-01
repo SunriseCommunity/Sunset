@@ -23,7 +23,7 @@ import OpenBanchoButton from "@/app/beatmapsets/components/OpenBanchoButton";
 import { gameModeToVanilla } from "@/lib/utils/gameModeToVanilla";
 import Image from "next/image";
 
-interface BeatmapsetProps {
+export interface BeatmapsetProps {
   params: { ids: [number?, number?] };
 }
 
