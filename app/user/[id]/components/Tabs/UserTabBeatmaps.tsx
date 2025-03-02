@@ -30,14 +30,14 @@ export default function UserTabBeatmaps({
     most_played: PlayedBeatmap[];
     total_count: number;
   }>({ most_played: [], total_count: -1 });
-  const [mostPlayedPage, setMostPlayedPage] = useState(0);
+  const [mostPlayedPage, setMostPlayedPage] = useState(1);
 
   const [isFavouritesLoading, setFavouritesIsLoading] = useState(false);
   const [favouritesObject, setFavouritesObject] = useState<{
     sets: BeatmapSet[];
     total_count: number;
   }>({ sets: [], total_count: -1 });
-  const [favouritesPage, setFavouritesPage] = useState(0);
+  const [favouritesPage, setFavouritesPage] = useState(1);
 
   useEffect(() => {
     if (isMostPlayedLoading) return;
