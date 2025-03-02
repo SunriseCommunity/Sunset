@@ -21,13 +21,13 @@ export default function Leaderboard() {
     total_count: number;
   }>({ users: [], total_count: -1 });
 
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
 
   const pageLimit = 10;
 
   useEffect(() => {
-    setPage(0);
-    updateLeaderboard(0);
+    setPage(1);
+    updateLeaderboard(1);
   }, [activeMode]);
 
   useEffect(() => {
@@ -52,10 +52,12 @@ export default function Leaderboard() {
   };
 
   const { users, total_count } = usersObject;
-  const pageCount = Math.ceil(total_count / pageLimit - 1);
+  const pageCount = Math.ceil(total_count / pageLimit);
 
   return (
     <div className="flex flex-col w-full mt-8">
+
+      
       <PrettyHeader
         text="Leaderboard"
         icon={<ChartColumnIncreasing />}
@@ -96,13 +98,13 @@ export default function Leaderboard() {
                   </tr>
                 </thead>
                 <tbody>
-                  {users.map((user, index) => (
+                  {users.map((user) => (
                     <tr
-                      key={page * pageLimit + index + 1}
+                      key={user.stats.rank}
                       className="border-b border-[#333333] hover:bg-[#333333] transition-colors"
                     >
                       <td className="p-3 text-lg font-bold">
-                        # {page * pageLimit + index + 1}
+                        # {user.stats.rank}
                       </td>
                       <td className="p-3">
                         <Image
@@ -143,15 +145,15 @@ export default function Leaderboard() {
             </div>
             <div className="mt-4 flex justify-between items-center">
               <div>
-                Showing {page * pageLimit + 1} -{" "}
-                {Math.min((page + 1) * pageLimit, total_count)} of {total_count}{" "}
+                Showing {(page - 1) * pageLimit + 1} -{" "}
+                {Math.min(page * pageLimit, total_count)} of {total_count}{" "}
               </div>
 
               <div className="flex space-x-2">
                 <PrettyButton
                   icon={<ChevronLeft />}
-                  onClick={() => setPage((prev) => Math.max(prev - 1, 0))}
-                  disabled={page === 0}
+                  onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+                  disabled={page === 1}
                 />
 
                 <PrettyButton

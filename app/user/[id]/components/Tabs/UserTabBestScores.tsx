@@ -24,7 +24,7 @@ export default function UserTabBestScores({
     scores: Score[];
     total_count: number;
   }>({ scores: [], total_count: -1 });
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
 
   const pageLimit = 5;
 
