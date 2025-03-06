@@ -60,6 +60,23 @@ export default function GameModeSelector({
     GameRuleFlags.Standard
   );
 
+  // Enrich enabledModes with non-standard variants
+  if (enabledModes?.includes(GameMode.std)) {
+    enabledModes.push(GameMode.relaxstd, GameMode.autopilotstd, GameMode.scorev2std)
+  }
+
+  if (enabledModes?.includes(GameMode.catch)) {
+    enabledModes.push(GameMode.relaxcatch, GameMode.scorev2catch)
+  }
+
+  if (enabledModes?.includes(GameMode.taiko)) {
+    enabledModes.push(GameMode.relaxtaiko, GameMode.scorev2taiko, GameMode.autopilotstd)
+  }
+
+  if (enabledModes?.includes(GameMode.mania)) {
+    enabledModes.push(GameMode.scorev2mania)
+  }
+
   const activeGameRule = propActiveGameRule ?? internalGameRule;
   const setActiveGameRule = propSetActiveGameRule ?? setInternalGameRule;
 

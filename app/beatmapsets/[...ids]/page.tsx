@@ -73,7 +73,7 @@ export default function Beatmapset({ params }: BeatmapsetProps) {
   useEffect(() => {
     if (
       !beatmapSet ||
-      [activeMode, GameMode.std].includes(
+      [activeMode % 4, GameMode.std].includes(
         activeBeatmap?.mode_int ?? GameMode.std
       )
     )
@@ -83,7 +83,10 @@ export default function Beatmapset({ params }: BeatmapsetProps) {
       (beatmap) => beatmap.mode_int === activeMode
     );
 
-    setActiveBeatmap(beatmap || beatmapSet.beatmaps[0]);
+    const activeBeatmapNew = beatmap || beatmapSet.beatmaps[0];
+
+    setActiveBeatmap(activeBeatmapNew);
+    setActiveMode(activeBeatmapNew.mode_int);
   }, [activeMode]);
 
   const setActiveBeatmap = (difficulty: Beatmap) => {
