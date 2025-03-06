@@ -15,13 +15,16 @@ export async function getSelf(): Promise<User | null> {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-      cache: "no-cache",
     }
   )
     .then((res) => res.json())
     .catch(() => null);
 
-  if (!response || response?.error) {
+  if (!response) {
+    return null;
+  }
+
+  if (response.error) {
     clearAuthCookies();
     return null;
   }
