@@ -95,7 +95,7 @@ export default function Wiki() {
             restriction by contacting the staff with your case. You can contact
             the staff{" "}
             <a
-              href="https://discordapp.com/users/228223085759692802"
+              href="https://discord.gg/BjV7c9VRfn"
               className="text-blue-400 hover:underline"
             >
               here
