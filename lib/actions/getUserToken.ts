@@ -29,7 +29,11 @@ export async function getUsetToken(): Promise<string | null> {
     .then((res) => res.json())
     .catch(() => null);
 
-  if (!response || response.error) {
+  if (!response) {
+    return null;
+  }
+
+  if (response.error) {
     clearAuthCookies();
     return null;
   }
