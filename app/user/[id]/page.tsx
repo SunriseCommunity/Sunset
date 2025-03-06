@@ -265,7 +265,9 @@ export default function UserPage({ params }: { params: { id: number } }) {
         {/* Banner */}
         <div className="h-64 relative">
           <ImageWithFallback
-            src={`https://a.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/banner/${user.user_id}?default=false`}
+            src={`https://a.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/banner/${
+              user.user_id
+            }?default=false&${Date.now()}`}
             alt=""
             fill={true}
             objectFit="cover"
@@ -277,7 +279,9 @@ export default function UserPage({ params }: { params: { id: number } }) {
               <div className="flex items-end space-x-4">
                 <div className="relative w-32 h-32">
                   <Image
-                    src={`https://a.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/avatar/${user.user_id}`}
+                    src={`https://a.${
+                      process.env.NEXT_PUBLIC_SERVER_DOMAIN
+                    }/avatar/${user.user_id}?${Date.now()}`}
                     alt="User avatar"
                     fill={true}
                     objectFit="cover"

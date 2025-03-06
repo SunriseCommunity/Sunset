@@ -70,7 +70,7 @@ export default function UserScoreMinimal({
               <div className="flex pb-1">
                 <div className="rounded-md overflow-hidden border-2 border-white mr-2">
                   <Image
-                    src={`https://a.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/avatar/${user?.user_id}`}
+                    src={`https://a.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/avatar/${user?.user_id}?${Date.now()}`}
                     alt=""
                     objectFit="cover"
                     width={24}

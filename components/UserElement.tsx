@@ -23,7 +23,7 @@ export default function UserElement({
     >
       <div className="relative h-full place-content-between flex-col flex group-hover:cursor-pointer smooth-transition">
         <ImageWithFallback
-          src={`https://a.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/banner/${user.user_id}?default=false`}
+          src={`https://a.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/banner/${user.user_id}?default=false&${Date.now()}`}
           alt=""
           fill={true}
           objectFit="cover"
@@ -37,7 +37,7 @@ export default function UserElement({
           {/* Profile Picture */}
           <div className="rounded-full overflow-hidden border-2 border-white mr-4">
             <Image
-              src={`https://a.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/avatar/${user.user_id}`}
+              src={`https://a.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/avatar/${user.user_id}?${Date.now()}`}
               alt={`${user.username}'s profile`}
               objectFit="cover"
               width={64}
