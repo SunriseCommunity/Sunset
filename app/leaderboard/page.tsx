@@ -56,8 +56,6 @@ export default function Leaderboard() {
 
   return (
     <div className="flex flex-col w-full mt-8">
-
-      
       <PrettyHeader
         text="Leaderboard"
         icon={<ChartColumnIncreasing />}
@@ -118,7 +116,9 @@ export default function Leaderboard() {
                       <td className="p-3 relative flex flex-row items-center">
                         <div className="w-10 h-10 rounded-lg overflow-hidden border border-white mr-4">
                           <Image
-                            src={`https://a.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/avatar/${user.user.user_id}`}
+                            src={`https://a.${
+                              process.env.NEXT_PUBLIC_SERVER_DOMAIN
+                            }/avatar/${user.user.user_id}?${Date.now()}`}
                             alt={`${user.user.username}'s avatar`}
                             objectFit="cover"
                             width={42}
