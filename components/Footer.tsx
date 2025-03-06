@@ -1,4 +1,4 @@
-import { Github, ServerCrash } from "lucide-react";
+import { BookCopy, Github, ServerCrash, UsersRoundIcon } from "lucide-react";
 
 export default async function Footer() {
   return (
@@ -20,6 +20,22 @@ export default async function Footer() {
         >
           <ServerCrash className="mr-1" />
           Server Status
+        </a>
+        <p>•</p>
+        <a
+          href={`https://api.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/docs`}
+          className="flex items-center space-x-1 hover:text-stone-400 smooth-transition cursor-pointer"
+        >
+          <BookCopy className="mr-1" />
+          API Docs
+        </a>
+        <p>•</p>
+        <a
+          href={`https://discord.gg/BjV7c9VRfn`}
+          className="flex items-center space-x-1 hover:text-stone-400 smooth-transition cursor-pointer"
+        >
+          <UsersRoundIcon className="mr-1" />
+          Discord server
         </a>
       </div>
       <p>

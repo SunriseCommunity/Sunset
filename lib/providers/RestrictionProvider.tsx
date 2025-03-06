@@ -36,7 +36,7 @@ const RestrictionModal = ({ reason }: { reason: string }) => {
         <br /> If you believe this is a mistake, or want to make an appeal,
         please contact us at{" "}
         <a
-          href="https://discordapp.com/users/228223085759692802"
+          href="https://discord.gg/BjV7c9VRfn"
           className="text-blue-400 hover:underline"
         >
           Discord
