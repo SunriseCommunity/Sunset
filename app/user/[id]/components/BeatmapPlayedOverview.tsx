@@ -1,6 +1,7 @@
 "use client";
 
 import BeatmapStatusIcon from "@/components/BeatmapStatus";
+import ImageWithFallback from "@/components/ImageWithFallback";
 import SkeletonLoading from "@/components/SkeletonLoading";
 import { Beatmap } from "@/lib/types/Beatmap";
 import { PlayIcon } from "lucide-react";
@@ -29,11 +30,12 @@ export default function BeatmapPlayedOverview({
       }
     >
       <div className="h-20 relative">
-        <Image
+        <ImageWithFallback
           src={`https://assets.ppy.sh/beatmaps/${beatmap?.beatmapset_id}/covers/cover.jpg`}
           alt=""
           fill={true}
           objectFit="cover"
+          fallBackSrc="/images/unknown-beatmap-banner.jpg"
         />
 
         <div className="absolute inset-0 bg-gradient-to-l from-terracotta-200 to-transparent flex items-center cursor-pointer">

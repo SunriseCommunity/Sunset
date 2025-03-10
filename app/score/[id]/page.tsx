@@ -24,6 +24,7 @@ import BeatmapStatusIcon from "@/components/BeatmapStatus";
 import { BeatmapStatus } from "@/lib/types/BeatmapStatus";
 import { Tooltip } from "@/components/Tooltip";
 import { isBeatmapRanked } from "@/lib/utils/isBeatmapRanked";
+import ImageWithFallback from "@/components/ImageWithFallback";
 
 export default function Score({ params }: { params: { id: number } }) {
   const [score, setScore] = useState<ScoreType | null>(null);
@@ -107,12 +108,13 @@ export default function Score({ params }: { params: { id: number } }) {
         <div className="flex flex-col space-y-4">
           <div className="flex flex-col space-y-2">
             <div className="h-64 relative">
-              <Image
+              <ImageWithFallback
                 src={`https://assets.ppy.sh/beatmaps/${beatmap?.beatmapset_id}/covers/cover.jpg`}
                 alt=""
                 fill={true}
                 objectFit="cover"
                 className="bg-stone-700 rounded-lg"
+                fallBackSrc="/images/unknown-beatmap-banner.jpg"
               />
               <div className="absolute inset-0 bg-terracotta-800 bg-opacity-80 lg:p-6 md:p-4 p-2 rounded-lg overflow-hidden flex-wrap">
                 <div className="flex justify-between items-center mb-4">

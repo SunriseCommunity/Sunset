@@ -162,7 +162,7 @@ export default function Beatmapset({ params }: BeatmapsetProps) {
                 alt=""
                 fill={true}
                 className="bg-stone-700 rounded-t-lg object-cover"
-                fallBackSrc="/images/placeholder.png"
+                fallBackSrc="/images/unknown-beatmap-banner.jpg"
               />
               <div className="absolute inset-0 bg-terracotta-800 bg-opacity-80 lg:px-6 md:p-4 p-2 rounded-t-lg">
                 <div className="flex justify-between mb-4 h-full">
