@@ -1,5 +1,6 @@
 "use client";
 
+import ImageWithFallback from "@/components/ImageWithFallback";
 import SkeletonLoading from "@/components/SkeletonLoading";
 import { getBeatmap } from "@/lib/actions/getBeatmap";
 import { getUser } from "@/lib/actions/getUser";
@@ -44,11 +45,12 @@ export default function UserScoreMinimal({
       onClick={() => (window.location.href = `/score/${score.id}`)}
     >
       <div className="h-28 relative">
-        <Image
+        <ImageWithFallback
           src={`https://assets.ppy.sh/beatmaps/${beatmap?.beatmapset_id}/covers/cover.jpg`}
           alt=""
           fill={true}
           objectFit="cover"
+          fallBackSrc="/images/unknown-beatmap-banner.jpg"
         />
         <div className="absolute inset-0 bg-gradient-to-l from-terracotta-200 to-transparent flex items-center cursor-pointer">
           <div className="py-2 px-4 flex place-content-between bg-black hover:bg-opacity-40 bg-opacity-50 w-full h-full smooth-transition ">
@@ -70,7 +72,9 @@ export default function UserScoreMinimal({
               <div className="flex pb-1">
                 <div className="rounded-md overflow-hidden border-2 border-white mr-2">
                   <Image
-                    src={`https://a.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/avatar/${user?.user_id}?${Date.now()}`}
+                    src={`https://a.${
+                      process.env.NEXT_PUBLIC_SERVER_DOMAIN
+                    }/avatar/${user?.user_id}?${Date.now()}`}
                     alt=""
                     objectFit="cover"
                     width={24}
