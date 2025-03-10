@@ -12,6 +12,7 @@ import AudioPreview from "@/app/user/[id]/components/AudioPreview";
 import useAudioPlayer from "@/lib/hooks/useAudioPlayer";
 import { getBeatmapStarRating } from "@/lib/utils/getBeatmapStarRating";
 import ImageWithFallback from "@/components/ImageWithFallback";
+import SkeletonLoading from "@/components/SkeletonLoading";
 interface BeatmapSetOverviewProps {
   beatmapSet: BeatmapSet;
 }
@@ -31,14 +32,18 @@ export default function BeatmapSetOverview({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <ImageWithFallback
-        src={`https://assets.ppy.sh/beatmaps/${beatmapSet.id}/covers/cover.jpg`}
-        alt=""
-        layout="fill"
-        objectFit="cover"
-        className="absolute inset-0"
-        fallBackSrc="/images/unknown-beatmap-banner.jpg"
-      />
+      {beatmapSet.id ? (
+        <ImageWithFallback
+          src={`https://assets.ppy.sh/beatmaps/${beatmapSet.id}/covers/cover.jpg`}
+          alt=""
+          layout="fill"
+          objectFit="cover"
+          className="absolute inset-0"
+          fallBackSrc="/images/unknown-beatmap-banner.jpg"
+        />
+      ) : (
+        <SkeletonLoading className="" />
+      )}
 
       <div
         className="absolute inset-0 cursor-pointer z-20"
@@ -46,14 +51,18 @@ export default function BeatmapSetOverview({
       />
 
       <div className="relative w-24 h-24 flex-shrink-0 z-20">
-        <ImageWithFallback
-          src={`https://assets.ppy.sh/beatmaps/${beatmapSet.id}/covers/list.jpg`}
-          alt={`${beatmapSet.title} cover`}
-          className=""
-          layout="fill"
-          objectFit="cover"
-          fallBackSrc="/images/unknown-beatmap-banner.jpg"
-        />
+        {beatmapSet.id ? (
+          <ImageWithFallback
+            src={`https://assets.ppy.sh/beatmaps/${beatmapSet.id}/covers/list.jpg`}
+            alt={`${beatmapSet.title} cover`}
+            className=""
+            layout="fill"
+            objectFit="cover"
+            fallBackSrc="/images/unknown-beatmap-banner.jpg"
+          />
+        ) : (
+          <SkeletonLoading className="" />
+        )}
 
         <div
           className={twMerge(

@@ -23,7 +23,9 @@ export default function UserElement({
     >
       <div className="relative h-full place-content-between flex-col flex group-hover:cursor-pointer smooth-transition">
         <ImageWithFallback
-          src={`https://a.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/banner/${user.user_id}?default=false&${Date.now()}`}
+          src={`https://a.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/banner/${
+            user.user_id
+          }?default=false&${Date.now()}`}
           alt=""
           fill={true}
           objectFit="cover"
@@ -35,20 +37,22 @@ export default function UserElement({
 
         <div className="relative flex items-start h-24 p-4">
           {/* Profile Picture */}
-          <div className="rounded-full overflow-hidden border-2 border-white mr-4">
+          <div className="rounded-full flex-none overflow-hidden border-2 border-white mr-4">
             <Image
-              src={`https://a.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/avatar/${user.user_id}?${Date.now()}`}
+              src={`https://a.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/avatar/${
+                user.user_id
+              }?${Date.now()}`}
               alt={`${user.username}'s profile`}
               objectFit="cover"
-              width={64}
-              height={64}
+              width={48}
+              height={48}
             />
           </div>
 
           {/* Username, Flag, and Status */}
           <div>
             <div className="flex items-center mb-1">
-              <h2 className="text-white text-2xl font-bold mr-2">
+              <h2 className="text-white md:text-lg lg:text-xl font-bold mr-2 overflow-hidden flex-wrap">
                 {user.username}
               </h2>
             </div>

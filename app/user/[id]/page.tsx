@@ -276,8 +276,8 @@ export default function UserPage({ params }: { params: { id: number } }) {
           />
           <div className="absolute inset-0 bg-gradient-to-t from-terracotta-700 to-transparent flex items-end">
             <div className="p-6 flex items-end justify-between w-full">
-              <div className="flex items-end space-x-4">
-                <div className="relative w-32 h-32">
+              <div className="flex items-end space-x-4 w-3/4">
+                <div className="relative w-32 h-32 flex-none">
                   <Image
                     src={`https://a.${
                       process.env.NEXT_PUBLIC_SERVER_DOMAIN
@@ -288,7 +288,7 @@ export default function UserPage({ params }: { params: { id: number } }) {
                     className={`w-32 h-32 rounded-full border-4 relative border-[#2a2a2a]`}
                   />
                 </div>
-                <div>
+                <div className="overflow-hidden flex-wrap">
                   <h1 className="text-3xl font-bold relative">
                     {user.username}
                   </h1>
