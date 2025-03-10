@@ -41,13 +41,17 @@ export default function UserScoreOverview({
       onClick={() => window.open("/score/" + score.id)}
     >
       <div className="h-20 relative">
-        <ImageWithFallback
-          src={`https://assets.ppy.sh/beatmaps/${beatmap?.beatmapset_id}/covers/cover.jpg`}
-          alt=""
-          fill={true}
-          objectFit="cover"
-          fallBackSrc="/images/unknown-beatmap-banner.jpg"
-        />
+        {beatmap?.beatmapset_id ? (
+          <ImageWithFallback
+            src={`https://assets.ppy.sh/beatmaps/${beatmap?.beatmapset_id}/covers/cover.jpg`}
+            alt=""
+            fill={true}
+            objectFit="cover"
+            fallBackSrc="/images/unknown-beatmap-banner.jpg"
+          />
+        ) : (
+          <SkeletonLoading className="" />
+        )}
         <div className="absolute inset-0 bg-gradient-to-l from-terracotta-200 to-transparent flex items-center cursor-pointer">
           <div className="p-6 flex place-content-between bg-black hover:bg-opacity-40 bg-opacity-50 w-full  smooth-transition items-center">
             <div className="flex-row overflow-hidden flex-wrap">

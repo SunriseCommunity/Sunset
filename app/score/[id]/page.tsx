@@ -189,10 +189,12 @@ export default function Score({ params }: { params: { id: number } }) {
               </div>
             </div>
 
-            <div className="flex flex-row justify-between items-center">
-              <UserElement user={user} className="w-1/3 space-y-2" />
+            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
+              <UserElement user={user} className="" />
 
-              <div className="flex flex-col space-y-2 w-1/3">
+              <div className="hidden xl:grid"></div>
+
+              <div className="flex flex-col ">
                 <div className="grid grid-cols-3 gap-4 mb-1">
                   <div className="bg-terracotta-800 p-3 rounded">
                     <p className="text-gray-400">Accuracy</p>
