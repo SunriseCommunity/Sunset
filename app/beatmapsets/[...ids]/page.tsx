@@ -239,8 +239,8 @@ export default function Beatmapset({ params }: BeatmapsetProps) {
                       )}
                       <div className="bg-terracotta-800 bg-opacity-80 py-2 px-8 rounded-lg flex flex-row w-full">
                         <p className="flex mx-auto space-x-1">
-                          <BeatmapStatusIcon status={beatmapSet.status} />
-                          <p className="capitalize">{beatmapSet.status}</p>
+                          <BeatmapStatusIcon status={activeBeatmap.status} />
+                          <p className="capitalize">{activeBeatmap.status}</p>
                         </p>
                       </div>
                     </div>
