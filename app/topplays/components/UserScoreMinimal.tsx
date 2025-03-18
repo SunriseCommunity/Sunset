@@ -91,7 +91,7 @@ export default function UserScoreMinimal({
                   )}
                 </div>
 
-                <h2 className="text-white text-md font-bold mr-2 overflow-hidden flex-wrap">
+                <h2 className="text-white text-md font-bold mr-2 overflow-hidden flex-wrap whitespace-nowrap" >
                   {user?.username ?? <SkeletonLoading className="w-24 h-4" />}
                 </h2>
               </div>
