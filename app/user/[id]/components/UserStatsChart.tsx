@@ -44,6 +44,9 @@ export default function UserStatsChart({ data }: Props) {
       if (snapshotIndex >= snapshots.length) {
         break;
       }
+      
+
+
 
       const formattedCurrentDate = new Date(
         snapshots[snapshotIndex].saved_at
@@ -58,6 +61,11 @@ export default function UserStatsChart({ data }: Props) {
         snapshotIndex++;
       } else if (lastValidSnapshot) {
         result.push({ ...lastValidSnapshot, saved_at: formattedDate });
+      }
+
+      if (formattedCurrentDate < formattedDate) {
+        snapshotIndex++;
+        continue;
       }
 
       currentDate.setDate(currentDate.getDate() + 1);
