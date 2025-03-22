@@ -126,17 +126,20 @@ export default function Score({ params }: { params: { id: number } }) {
                       <BeatmapStatusIcon
                         status={beatmap?.status ?? BeatmapStatus.Graveyard}
                       />
-                      <h3 className="text-lg font-bold ">{beatmap?.title}</h3>
+                      <h3 className="text-lg font-bold text-nowrap">{beatmap?.title}</h3>
                     </div>
 
-                    <p className="text-gray-300">by {beatmap?.artist}</p>
+                    <p className="text-gray-300 text-nowrap">by {beatmap?.artist}</p>
                   </a>
-                  <div className="text-right">
+                  <div className="text-right w-3/4">
                     <div className="flex flex-row items-center justify-end w-full">
-                      <p className="text-yellow-400 text-base items-center text-center flex flex-row w-full text-nowrap">
-                        <p className="text-nowrap flex flex-row items-center">
+                      <p className="text-yellow-400 text-base justify-end  flex flex-row w-full">
+                        <p className="flex flex-row items-center max-w-[50%]">
                           {" "}
-                          [ {beatmap?.version || "Unknown"}
+                          [ 
+                            <p className="truncate overflow-hidden whitespace-nowrap">
+                            {beatmap?.version || "Unknown"}
+                            </p>
                           <DifficultyIcon
                             iconColor="#facc15"
                             gameMode={score.game_mode}
@@ -144,8 +147,11 @@ export default function Score({ params }: { params: { id: number } }) {
                           />{" "}
                           ]
                         </p>
+                        <p>
                         ★ {beatmap && getBeatmapStarRating(beatmap).toFixed(2)}{" "}
                         {score.mods}
+                        </p>
+                      
                       </p>
                     </div>
                     <p className="text-gray-300">
