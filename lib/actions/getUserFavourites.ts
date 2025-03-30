@@ -26,7 +26,7 @@ export async function getUserFavourites(
     }`,
     {
       headers: {
-        "Cache-Control": "no-cache", // TEMP FIX: Backend should get proper cache validation headers
+        "Cache-Control": "no-cache",
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
       },
     }
