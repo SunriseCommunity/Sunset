@@ -1,9 +1,11 @@
+import UserGrades from "@/app/user/[id]/components/UserGrades";
 import UserStatsChart from "@/app/user/[id]/components/UserStatsChart";
 import { ContentNotExist } from "@/components/ContentNotExist";
 import PrettyHeader from "@/components/General/PrettyHeader";
 import RoundedContent from "@/components/General/RoundedContent";
 import SkeletonLoading from "@/components/SkeletonLoading";
 import { Tooltip } from "@/components/Tooltip";
+import { getUserGrades, UserGradesResponse } from "@/lib/actions/getUserGrades";
 import { getUserGraph } from "@/lib/actions/getUserGraph";
 import { GameMode } from "@/lib/types/GameMode";
 import { StatsSnapshot } from "@/lib/types/StatsSnapshot";
@@ -30,6 +32,7 @@ export default function UserTabGeneral({
 }: UserTabGeneralProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [markdown, setMarkdown] = useState("");
+  const [gradesData, setGradesData] = useState<UserGradesResponse | null>(null);
 
   const [graph, setGraph] = useState<{
     snapshots: StatsSnapshot[];
@@ -53,15 +56,29 @@ export default function UserTabGeneral({
 
     setIsLoading(true);
 
-    getUserGraph(user.user_id, gameMode).then((data) => {
-      if (data.error) {
-        setIsLoading(false);
-        return;
-      }
+    async function loadProfileData() {
+      await getUserGraph(user.user_id, gameMode).then((data) => {
+        if (data.error) {
+          setIsLoading(false);
+          return;
+        }
 
-      setGraph(data.data!);
+        setGraph(data.data!);
+      });
+
+      await getUserGrades(user.user_id, gameMode).then((data) => {
+        if (data.error) {
+          setIsLoading(false);
+          return;
+        }
+
+        setGradesData(data);
+      });
+
       setIsLoading(false);
-    });
+    }
+
+    loadProfileData();
   }, [gameMode]);
 
   const playtimeToString = (playtime: number) => {
@@ -159,8 +176,6 @@ export default function UserTabGeneral({
               </p>
             </div>
 
-            <div className="flex border-b border-coffee-600 my-2"></div>
-
             <div className="flex place-content-between items-end">
               <p className="text-xs">Registered</p>
               <Tooltip content={new Date(user.register_date).toLocaleString()}>
@@ -169,6 +184,10 @@ export default function UserTabGeneral({
                 </p>
               </Tooltip>
             </div>
+
+            <div className="flex border-b border-coffee-600 my-2"></div>
+
+            <div>{gradesData && <UserGrades grades={gradesData.grades} />}</div>
           </div>
         </div>
 
