@@ -11,6 +11,7 @@ import { GameMode } from "@/lib/types/GameMode";
 import { StatsSnapshot } from "@/lib/types/StatsSnapshot";
 import { User } from "@/lib/types/User";
 import { UserStats } from "@/lib/types/UserStats";
+import { getLevel, getLevelWithProgress } from "@/lib/utils/userLevel";
 import NumberWith from "@/lib/utils/numberWith";
 import { timeSince } from "@/lib/utils/timeSince";
 import { FolderKanbanIcon, Trophy, User2 } from "lucide-react";
@@ -161,6 +162,19 @@ export default function UserTabGeneral({
                   `${stats?.accuracy.toFixed(2)} %`
                 ) : (
                   <SkeletonLoading className="w-16 h-4 mt-1" />
+                )}
+              </p>
+            </div>
+
+            <div className="flex place-content-between items-end">
+              <p className="text-xs">Level</p>
+              <p className="text-md font-bald">
+                {stats ? (
+                  getLevelWithProgress(
+                    BigInt(stats?.total_score) ?? 0
+                  ).toPrecision(4)
+                ) : (
+                  <SkeletonLoading className="w-32 h-4 mt-1" />
                 )}
               </p>
             </div>
