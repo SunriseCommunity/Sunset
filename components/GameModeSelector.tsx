@@ -1,5 +1,5 @@
 import PrettyButton from "@/components/General/PrettyButton";
-import { GameMode } from "@/lib/types/GameMode";
+import { GameMode } from "@/lib/hooks/api/types";
 import { useEffect, useState } from "react";
 
 interface GameModeSelectorProps {
@@ -62,19 +62,27 @@ export default function GameModeSelector({
 
   // Enrich enabledModes with non-standard variants
   if (enabledModes?.includes(GameMode.std)) {
-    enabledModes.push(GameMode.relaxstd, GameMode.autopilotstd, GameMode.scorev2std)
+    enabledModes.push(
+      GameMode.relaxstd,
+      GameMode.autopilotstd,
+      GameMode.scorev2std
+    );
   }
 
   if (enabledModes?.includes(GameMode.catch)) {
-    enabledModes.push(GameMode.relaxcatch, GameMode.scorev2catch)
+    enabledModes.push(GameMode.relaxcatch, GameMode.scorev2catch);
   }
 
   if (enabledModes?.includes(GameMode.taiko)) {
-    enabledModes.push(GameMode.relaxtaiko, GameMode.scorev2taiko, GameMode.autopilotstd)
+    enabledModes.push(
+      GameMode.relaxtaiko,
+      GameMode.scorev2taiko,
+      GameMode.autopilotstd
+    );
   }
 
   if (enabledModes?.includes(GameMode.mania)) {
-    enabledModes.push(GameMode.scorev2mania)
+    enabledModes.push(GameMode.scorev2mania);
   }
 
   const activeGameRule = propActiveGameRule ?? internalGameRule;

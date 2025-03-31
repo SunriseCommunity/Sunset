@@ -1,4 +1,4 @@
-import { User } from "@/lib/types/User";
+import { User } from "@/lib/hooks/api/user/types";
 
 export interface Score {
   accuracy: number;

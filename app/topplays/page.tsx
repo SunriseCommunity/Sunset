@@ -3,16 +3,15 @@ import Spinner from "@/components/Spinner";
 import { LucideHistory } from "lucide-react";
 import { useEffect, useState } from "react";
 import PrettyHeader from "@/components/General/PrettyHeader";
-import { Score as ScoreType } from "@/lib/types/Score";
 import RoundedContent from "@/components/General/RoundedContent";
 import { getTopPlays } from "@/lib/actions/getTopPlays";
-import { GameMode } from "@/lib/types/GameMode";
-import PrettyButton from "@/components/General/PrettyButton";
+import { GameMode } from "@/lib/hooks/api/types";
 import UserScoreMinimal from "./components/UserScoreMinimal";
 import GameModeSelector from "@/components/GameModeSelector";
+import { Score } from "@/lib/hooks/api/score/types";
 
 export default function Topplays() {
-  const [scores, setScores] = useState<ScoreType[] | null>(null);
+  const [scores, setScores] = useState<Score[] | null>(null);
   const [activeMode, setActiveMode] = useState(GameMode.std);
   const [isLoading, setIsLoading] = useState(false);
 

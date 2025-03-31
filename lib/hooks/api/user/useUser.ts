@@ -1,7 +1,7 @@
 "use client";
 
 import { User, UserStats } from "@/lib/hooks/api/user/types";
-import { GameMode } from "@/lib/types/GameMode";
+import { GameMode } from "@/lib/hooks/api/types";
 import useSWR from "swr";
 
 export function useUserSelf() {

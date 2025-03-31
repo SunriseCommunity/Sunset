@@ -1,6 +1,6 @@
 import { getUsetToken } from "@/lib/actions/getUserToken";
-import { GameMode } from "@/lib/types/GameMode";
-import { PlayedBeatmap } from "../types/PlayedBeatmap";
+import { PlayedBeatmap } from "@/lib/hooks/api/beatmap/types";
+import { GameMode } from "@/lib/hooks/api/types";
 
 interface UserScoresResponse {
   data: {

@@ -1,5 +1,5 @@
 import { getUsetToken } from "@/lib/actions/getUserToken";
-import { Beatmap } from "@/lib/types/Beatmap";
+import { Beatmap } from "@/lib/hooks/api/beatmap/types";
 
 export const revalidate = 3600;
 

@@ -1,8 +1,8 @@
 "use client";
 
-import { Beatmap } from "@/lib/types/Beatmap";
+import { Beatmap } from "@/lib/hooks/api/beatmap/types";
 import { getStarRatingColor } from "@/lib/utils/getStarRatingColor";
-import { GameMode } from "@/lib/types/GameMode";
+import { GameMode } from "@/lib/hooks/api/types";
 
 import GameModeBadgeStd from "@/public/images/svg/mode/std.svg";
 import GameModeBadgeTaiko from "@/public/images/svg/mode/taiko.svg";

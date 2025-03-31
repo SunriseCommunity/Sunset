@@ -1,7 +1,7 @@
 "use client";
 
 import { UserGrades } from "@/lib/hooks/api/user/types";
-import { GameMode } from "@/lib/types/GameMode";
+import { GameMode } from "@/lib/hooks/api/types";
 import useSWR from "swr";
 
 export function useUserGrades(userId: number, mode: GameMode) {

@@ -5,9 +5,9 @@ import Spinner from "@/components/Spinner";
 import Image from "next/image";
 import { Score } from "@/lib/types/Score";
 import { getBeatmapLeaderboard } from "@/lib/actions/getBeatmapLeaderboard";
-import { GameMode } from "@/lib/types/GameMode";
+import { GameMode } from "@/lib/hooks/api/types";
 import { twMerge } from "tailwind-merge";
-import { Beatmap } from "@/lib/types/Beatmap";
+import { Beatmap } from "@/lib/hooks/api/beatmap/types";
 import { getGradeColor } from "@/lib/utils/getGradeColor";
 
 interface BeatmapLeaderboardProps {

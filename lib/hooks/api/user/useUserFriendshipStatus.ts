@@ -12,7 +12,7 @@ export function useUserFriendshipStatus(userId: number) {
   return useSWR<{
     is_following_you: boolean;
     is_followed_by_you: boolean;
-  }>(data ? `user/${userId}/friend/status` : null);
+  }>(data && data.user_id != userId ? `user/${userId}/friend/status` : null);
 }
 
 export function useUpdateUserFriendshipStatus(userId: number) {

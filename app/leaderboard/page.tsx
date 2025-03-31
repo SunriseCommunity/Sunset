@@ -7,7 +7,7 @@ import { UserStats } from "@/lib/types/UserStats";
 import { User } from "@/lib/types/User";
 import PrettyButton from "@/components/General/PrettyButton";
 import { getLeaderboard } from "@/lib/actions/getLeaderboard";
-import { GameMode } from "@/lib/types/GameMode";
+import { GameMode } from "@/lib/hooks/api/types";
 import Spinner from "@/components/Spinner";
 import Image from "next/image";
 import GameModeSelector from "@/components/GameModeSelector";

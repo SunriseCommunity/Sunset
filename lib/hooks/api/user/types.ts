@@ -1,5 +1,4 @@
-import { GameMode } from "@/lib/types/GameMode";
-import { StatsSnapshot } from "@/lib/types/StatsSnapshot";
+import { GameMode } from "@/lib/hooks/api/types";
 
 export type UserGrades = {
   count_xh: number;
@@ -71,4 +70,17 @@ export interface UserMedal {
   name: string;
   description: string;
   unlocked_at?: string;
+}
+
+export enum UserScoresType {
+  "best",
+  "recent",
+  "top",
+}
+
+export interface StatsSnapshot {
+  country_rank: number;
+  global_rank: number;
+  pp: number;
+  saved_at: string;
 }

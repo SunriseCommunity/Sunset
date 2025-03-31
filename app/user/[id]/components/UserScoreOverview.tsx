@@ -4,14 +4,12 @@ import BeatmapStatusIcon from "@/components/BeatmapStatus";
 import ImageWithFallback from "@/components/ImageWithFallback";
 import SkeletonLoading from "@/components/SkeletonLoading";
 import { getBeatmap } from "@/lib/actions/getBeatmap";
-import { Beatmap } from "@/lib/types/Beatmap";
-import { BeatmapStatus } from "@/lib/types/BeatmapStatus";
-import { Score } from "@/lib/types/Score";
+import { Beatmap, BeatmapStatus } from "@/lib/hooks/api/beatmap/types";
+import { useBeatmap } from "@/lib/hooks/api/beatmap/useBeatmap";
+import { Score } from "@/lib/hooks/api/score/types";
 import { getGradeColor } from "@/lib/utils/getGradeColor";
 import { isBeatmapRanked } from "@/lib/utils/isBeatmapRanked";
 import { timeSince } from "@/lib/utils/timeSince";
-import Image from "next/image";
-import { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 interface UserScoreOverviewProps {
@@ -23,14 +21,10 @@ export default function UserScoreOverview({
   score,
   className,
 }: UserScoreOverviewProps) {
-  const [beatmap, setBeatmap] = useState<Beatmap | null>(null);
+  const beatmapQuery = useBeatmap(score.beatmap_id);
+  const beatmap = beatmapQuery.data;
 
-  useEffect(() => {
-    getBeatmap(score.beatmap_id).then((res) => {
-      if (res.error) return;
-      setBeatmap(res.data);
-    });
-  }, [score]);
+  console.log(beatmapQuery);
 
   return (
     <div

@@ -8,7 +8,7 @@ import { Score as ScoreType } from "@/lib/types/Score";
 import Image from "next/image";
 import RoundedContent from "@/components/General/RoundedContent";
 import { getBeatmap } from "@/lib/actions/getBeatmap";
-import { Beatmap } from "@/lib/types/Beatmap";
+import { Beatmap } from "@/lib/hooks/api/beatmap/types";
 import PrettyDate from "@/components/General/PrettyDate";
 import { getGradeColor } from "@/lib/utils/getGradeColor";
 import UserElement from "@/components/UserElement";
@@ -126,20 +126,24 @@ export default function Score({ params }: { params: { id: number } }) {
                       <BeatmapStatusIcon
                         status={beatmap?.status ?? BeatmapStatus.Graveyard}
                       />
-                      <h3 className="text-lg font-bold text-nowrap">{beatmap?.title}</h3>
+                      <h3 className="text-lg font-bold text-nowrap">
+                        {beatmap?.title}
+                      </h3>
                     </div>
 
-                    <p className="text-gray-300 text-nowrap">by {beatmap?.artist}</p>
+                    <p className="text-gray-300 text-nowrap">
+                      by {beatmap?.artist}
+                    </p>
                   </a>
                   <div className="text-right w-3/4">
                     <div className="flex flex-row items-center justify-end w-full">
                       <p className="text-yellow-400 text-base justify-end  flex flex-row w-full">
                         <p className="flex flex-row items-center max-w-[50%]">
                           {" "}
-                          [ 
-                            <p className="truncate overflow-hidden whitespace-nowrap">
+                          [
+                          <p className="truncate overflow-hidden whitespace-nowrap">
                             {beatmap?.version || "Unknown"}
-                            </p>
+                          </p>
                           <DifficultyIcon
                             iconColor="#facc15"
                             gameMode={score.game_mode}
@@ -148,10 +152,10 @@ export default function Score({ params }: { params: { id: number } }) {
                           ]
                         </p>
                         <p>
-                        ★ {beatmap && getBeatmapStarRating(beatmap).toFixed(2)}{" "}
-                        {score.mods}
+                          ★{" "}
+                          {beatmap && getBeatmapStarRating(beatmap).toFixed(2)}{" "}
+                          {score.mods}
                         </p>
-                      
                       </p>
                     </div>
                     <p className="text-gray-300">

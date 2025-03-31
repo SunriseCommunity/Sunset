@@ -3,15 +3,14 @@ import PrettyButton from "@/components/General/PrettyButton";
 import PrettyHeader from "@/components/General/PrettyHeader";
 import RoundedContent from "@/components/General/RoundedContent";
 import Spinner from "@/components/Spinner";
-import { GameMode } from "@/lib/types/GameMode";
+import { GameMode } from "@/lib/hooks/api/types";
 import { ChartBarDecreasing, ChevronDown, Heart, History } from "lucide-react";
 import { useEffect, useState } from "react";
 import BeatmapPlayedOverview from "../BeatmapPlayedOverview";
-import { PlayedBeatmap } from "@/lib/types/PlayedBeatmap";
 import { getUserMostPlayed } from "@/lib/actions/getUserMostPlayed";
 import { getUserFavourites } from "@/lib/actions/getUserFavourites";
-import { BeatmapSet } from "@/lib/types/BeatmapSet";
 import BeatmapSetOverview from "@/app/user/[id]/components/BeatmapSetOverview";
+import { BeatmapSet, PlayedBeatmap } from "@/lib/hooks/api/beatmap/types";
 
 interface UserTabBeatmapsProps {
   userId: number;

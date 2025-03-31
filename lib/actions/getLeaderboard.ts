@@ -1,5 +1,5 @@
 import { getUsetToken } from "@/lib/actions/getUserToken";
-import { GameMode } from "@/lib/types/GameMode";
+import { GameMode } from "@/lib/hooks/api/types";
 import { User } from "@/lib/types/User";
 import { UserStats } from "@/lib/types/UserStats";
 

@@ -2,7 +2,7 @@ import PrettyButton from "@/components/General/PrettyButton";
 import { isBeatmapSetFavourited } from "@/lib/actions/isBeatmapSetFavourited";
 import { setBeatmapSetFavourited } from "@/lib/actions/setBeatmapSetFavourited";
 import useSelf from "@/lib/hooks/useSelf";
-import { BeatmapSet } from "@/lib/types/BeatmapSet";
+import { BeatmapSet } from "@/lib/hooks/api/beatmap/types";
 import { Heart } from "lucide-react";
 import { useEffect, useState } from "react";
 

@@ -5,7 +5,7 @@ import PrettyHeader from "@/components/General/PrettyHeader";
 import RoundedContent from "@/components/General/RoundedContent";
 import SkeletonLoading from "@/components/SkeletonLoading";
 import { Tooltip } from "@/components/Tooltip";
-import { GameMode } from "@/lib/types/GameMode";
+import { GameMode } from "@/lib/hooks/api/types";
 import { getLevelWithProgress } from "@/lib/utils/userLevel";
 import NumberWith from "@/lib/utils/numberWith";
 import { timeSince } from "@/lib/utils/timeSince";

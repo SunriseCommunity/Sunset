@@ -1,13 +1,13 @@
 import PrettyHeader from "@/components/General/PrettyHeader";
 import RoundedContent from "@/components/General/RoundedContent";
 import { Tooltip } from "@/components/Tooltip";
-import { GameMode } from "@/lib/types/GameMode";
 import { LucideMedal } from "lucide-react";
 import Image from "next/image";
 import PrettyDate from "@/components/General/PrettyDate";
 import Spinner from "@/components/Spinner";
 import { User, UserMedal, UserMedals } from "@/lib/hooks/api/user/types";
 import { useUserMedals } from "@/lib/hooks/api/user/useUserMedals";
+import { GameMode } from "@/lib/hooks/api/types";
 
 interface UserTabMedalsProps {
   user: User;

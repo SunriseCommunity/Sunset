@@ -5,7 +5,7 @@ import SkeletonLoading from "@/components/SkeletonLoading";
 import Spinner from "@/components/Spinner";
 import { getBeatmap } from "@/lib/actions/getBeatmap";
 import { getUser } from "@/lib/actions/getUser";
-import { Beatmap } from "@/lib/types/Beatmap";
+import { Beatmap } from "@/lib/hooks/api/beatmap/types";
 import { Score } from "@/lib/types/Score";
 import { User } from "@/lib/types/User";
 import { isBeatmapRanked } from "@/lib/utils/isBeatmapRanked";
@@ -91,7 +91,7 @@ export default function UserScoreMinimal({
                   )}
                 </div>
 
-                <h2 className="text-white text-md font-bold mr-2 overflow-hidden flex-wrap whitespace-nowrap" >
+                <h2 className="text-white text-md font-bold mr-2 overflow-hidden flex-wrap whitespace-nowrap">
                   {user?.username ?? <SkeletonLoading className="w-24 h-4" />}
                 </h2>
               </div>
