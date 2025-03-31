@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { Calendar } from "lucide-react";
-import { BeatmapSet } from "@/lib/types/BeatmapSet";
 import Image from "next/image";
 import BeatmapStatusIcon from "@/components/BeatmapStatus";
 import DifficultyIcon from "@/components/DifficultyIcon";
@@ -13,6 +12,7 @@ import useAudioPlayer from "@/lib/hooks/useAudioPlayer";
 import { getBeatmapStarRating } from "@/lib/utils/getBeatmapStarRating";
 import ImageWithFallback from "@/components/ImageWithFallback";
 import SkeletonLoading from "@/components/SkeletonLoading";
+import { BeatmapSet } from "@/lib/hooks/api/beatmap/types";
 interface BeatmapSetOverviewProps {
   beatmapSet: BeatmapSet;
 }

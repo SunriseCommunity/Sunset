@@ -1,13 +1,13 @@
 "use client";
 
-import { Beatmap } from "@/lib/types/Beatmap";
+import { Beatmap } from "@/lib/hooks/api/beatmap/types";
 import { twMerge } from "tailwind-merge";
 
 import { useState } from "react";
 import DifficultyIcon from "@/components/DifficultyIcon";
-import { GameMode } from "@/lib/types/GameMode";
+import { GameMode } from "@/lib/hooks/api/types";
 import { getBeatmapStarRating } from "@/lib/utils/getBeatmapStarRating";
-import { BeatmapSet } from "@/lib/types/BeatmapSet";
+import { BeatmapSet } from "@/lib/hooks/api/beatmap/types";
 
 interface DifficultySelectorProps {
   beatmapset: BeatmapSet;

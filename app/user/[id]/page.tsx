@@ -2,7 +2,6 @@
 import Spinner from "@/components/Spinner";
 import { useState } from "react";
 import Image from "next/image";
-import { GameMode, GameModesArray } from "@/lib/types/GameMode";
 import {
   Edit3Icon,
   Globe,
@@ -16,9 +15,6 @@ import PrettyButton from "@/components/General/PrettyButton";
 import UserTabGeneral from "@/app/user/[id]/components/Tabs/UserTabGeneral";
 import UserTabWIP from "@/app/user/[id]/components/Tabs/UserTabWIP";
 import { Tooltip } from "@/components/Tooltip";
-import UserTabRecentScores from "@/app/user/[id]/components/Tabs/UserTabRecentScores";
-import UserTabTopScores from "@/app/user/[id]/components/Tabs/UserTabTopScores";
-import UserTabBestScores from "@/app/user/[id]/components/Tabs/UserTabBestScores";
 import SkeletonLoading from "@/components/SkeletonLoading";
 import PrettyDate from "@/components/General/PrettyDate";
 import { twMerge } from "tailwind-merge";
@@ -28,9 +24,18 @@ import ImageWithFallback from "@/components/ImageWithFallback";
 import UserTabBeatmaps from "./components/Tabs/UserTabBeatmaps";
 import GameModeSelector from "@/components/GameModeSelector";
 import RoundedContent from "@/components/General/RoundedContent";
-import { User, UserStats } from "@/lib/hooks/api/user/types";
-import { useUserSelf, useUser, useUserStats } from "@/lib/hooks/api/user/useUser";
-import { useUserFriendshipStatus, useUpdateUserFriendshipStatus } from "@/lib/hooks/api/user/useUserFriendshipStatus";
+import { User, UserScoresType, UserStats } from "@/lib/hooks/api/user/types";
+import {
+  useUserSelf,
+  useUser,
+  useUserStats,
+} from "@/lib/hooks/api/user/useUser";
+import {
+  useUserFriendshipStatus,
+  useUpdateUserFriendshipStatus,
+} from "@/lib/hooks/api/user/useUserFriendshipStatus";
+import UserTabScores from "@/app/user/[id]/components/Tabs/UserTabScores";
+import { GameMode } from "@/lib/hooks/api/types";
 
 const contentTabs = [
   "General",
@@ -70,26 +75,29 @@ const renderTabContent = (
       );
     case "Best scores":
       return (
-        <UserTabBestScores
+        <UserTabScores
           key={`best-${activeMode}`}
           gameMode={activeMode}
           userId={user.user_id}
+          type={UserScoresType.best}
         />
       );
     case "Recent scores":
       return (
-        <UserTabRecentScores
+        <UserTabScores
           key={`recent-${activeMode}`}
           gameMode={activeMode}
           userId={user.user_id}
+          type={UserScoresType.recent}
         />
       );
     case "First places":
       return (
-        <UserTabTopScores
+        <UserTabScores
           key={`first-${activeMode}`}
           gameMode={activeMode}
           userId={user.user_id}
+          type={UserScoresType.top}
         />
       );
     case "Beatmaps":

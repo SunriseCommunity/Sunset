@@ -1,8 +1,5 @@
 import { getUsetToken } from "@/lib/actions/getUserToken";
-import { GameMode } from "@/lib/types/GameMode";
-import { PlayedBeatmap } from "../types/PlayedBeatmap";
-import { Beatmap } from "../types/Beatmap";
-import { BeatmapSet } from "../types/BeatmapSet";
+import { BeatmapSet } from "@/lib/hooks/api/beatmap/types";
 
 interface UserFavouritesResponse {
   data: {

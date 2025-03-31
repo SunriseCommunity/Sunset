@@ -3,9 +3,8 @@
 import BeatmapStatusIcon from "@/components/BeatmapStatus";
 import ImageWithFallback from "@/components/ImageWithFallback";
 import SkeletonLoading from "@/components/SkeletonLoading";
-import { Beatmap } from "@/lib/types/Beatmap";
+import { Beatmap } from "@/lib/hooks/api/beatmap/types";
 import { PlayIcon } from "lucide-react";
-import Image from "next/image";
 import { twMerge } from "tailwind-merge";
 
 interface BeatmapPlayedOverviewProps {

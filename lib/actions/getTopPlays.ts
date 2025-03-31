@@ -1,6 +1,6 @@
 import { getUsetToken } from "@/lib/actions/getUserToken";
-import { Score } from "@/lib/types/Score";
-import { GameMode } from "../types/GameMode";
+import { GameMode } from "@/lib/hooks/api/types";
+import { Score } from "@/lib/hooks/api/score/types";
 
 interface TopPlaysResponse {
   data: {

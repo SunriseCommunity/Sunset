@@ -1,4 +1,4 @@
-import { BeatmapStatus } from "@/lib/types/BeatmapStatus";
+import { BeatmapStatus } from "@/lib/hooks/api/beatmap/types";
 import {
   Check,
   ChevronsUp,

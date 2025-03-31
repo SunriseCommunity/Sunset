@@ -1,5 +1,4 @@
-import { Beatmap } from "@/lib/types/Beatmap";
-import { BeatmapStatus } from "@/lib/types/BeatmapStatus";
+import { Beatmap, BeatmapStatus } from "@/lib/hooks/api/beatmap/types";
 
 // NOTE: Temporary fix for the backend not including approved as ranked
 export function isBeatmapRanked(beatmap: Beatmap) {
