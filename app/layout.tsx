@@ -3,10 +3,8 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer";
-import { SelfProvider } from "@/lib/providers/SelfProvider";
 import ScrollUpButton from "@/components/scrollUpButton";
-import { AudioProvider } from "@/lib/providers/AudioProvider";
-import { RestrictionProvider } from "@/lib/providers/RestrictionProvider";
+import Providers from "@/components/Providers";
 
 const font = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -42,19 +40,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={font.className}>
-      <SelfProvider>
-        <body className="bg-terracotta-900 text-white min-h-screen flex flex-col  font-medium">
-          <RestrictionProvider>
-            <AudioProvider>
-              <Header />
-              <div className="row-padding-max-w-2xl">{children}</div>
-              <main className="flex-grow bg-terracotta-900 -z-30" />
-              <Footer />
-            </AudioProvider>
-          </RestrictionProvider>
-        </body>
+      <body className="bg-terracotta-900 text-white min-h-screen flex flex-col  font-medium">
+        <Providers>
+          <Header />
+          <div className="row-padding-max-w-2xl">{children}</div>
+          <main className="flex-grow bg-terracotta-900 -z-30" />
+          <Footer />
+        </Providers>
         <ScrollUpButton />
-      </SelfProvider>
+      </body>
     </html>
   );
 }
