@@ -1,16 +1,10 @@
 "use client";
-import { getSelf } from "@/lib/actions/getSelf";
-import { User } from "@/lib/types/User";
-import {
-  createContext,
-  ReactNode,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import { User } from "@/lib/hooks/api/user/types";
+import { useUserSelf } from "@/lib/hooks/api/user/useUser";
+import { createContext, ReactNode } from "react";
 
 interface SelfContextType {
-  self: User | null;
+  self: User | undefined;
   isLoading: boolean;
   revalidate: () => void;
 }
@@ -24,30 +18,14 @@ interface SelfProviderProps {
 }
 
 export const SelfProvider: React.FC<SelfProviderProps> = ({ children }) => {
-  const [self, setSelf] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const selfUserQuery = useUserSelf();
 
-  const fetchSelf = useCallback(() => {
-    setIsLoading(true);
-
-    getSelf().then((user) => {
-      setSelf(user);
-      setIsLoading(false);
-    });
-  }, []);
-
-  useEffect(() => {
-    if (self === null) {
-      fetchSelf();
-    }
-  }, [self, fetchSelf]);
-
-  const revalidate = useCallback(() => {
-    fetchSelf();
-  }, [fetchSelf]);
+  const { data, isLoading } = selfUserQuery;
 
   return (
-    <SelfContext.Provider value={{ self, isLoading, revalidate }}>
+    <SelfContext.Provider
+      value={{ self: data, isLoading, revalidate: selfUserQuery.mutate }}
+    >
       {children}
     </SelfContext.Provider>
   );
