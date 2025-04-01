@@ -23,8 +23,6 @@ export default function UserScoreOverview({
   const beatmapQuery = useBeatmap(score.beatmap_id);
   const beatmap = beatmapQuery.data;
 
-  console.log(beatmapQuery);
-
   return (
     <div
       className={twMerge(

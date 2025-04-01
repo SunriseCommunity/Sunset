@@ -14,10 +14,19 @@ const poster = async <T>(url: string, options?: Options) => {
       },
     })
     .then(async (res) => {
-      try {
-        return await res.json();
-      } catch {
-        return null;
+      const contentType = res?.headers?.get("content-type");
+
+      if (
+        contentType != null &&
+        contentType?.indexOf("application/json") !== -1
+      ) {
+        try {
+          return await res.json();
+        } catch {
+          return null;
+        }
+      } else {
+        return res;
       }
     });
 
