@@ -10,6 +10,7 @@ interface PrettyButtonProps {
   isLoading?: boolean;
   className?: string;
   isAction?: boolean;
+  isSelected?: boolean;
   disabled?: boolean;
   children?: React.ReactNode;
 }
@@ -22,6 +23,7 @@ export default function PrettyButton({
   icon,
   className,
   isAction,
+  isSelected,
   disabled,
   children,
 }: PrettyButtonProps) {
@@ -37,6 +39,7 @@ export default function PrettyButton({
         disabled
           ? "opacity-50 cursor-not-allowed"
           : "hover:bg-terracotta-400 hover:text-white",
+        isSelected ? "bg-terracotta-400 text-white" : "",
         className
       )}
       onClick={onClick}

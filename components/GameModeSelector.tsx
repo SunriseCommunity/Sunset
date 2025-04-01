@@ -104,9 +104,8 @@ export default function GameModeSelector({
             <PrettyButton
               text={mode}
               key={mode}
-              className={`px-3 py-1 ${
-                activeGameRule === key ? "bg-terracotta-400 text-white" : ""
-              }`}
+              className="px-3 py-1"
+              isSelected={activeGameRule === key}
               onClick={() => setActiveGameRule(key)}
             />
           ))}
@@ -120,9 +119,8 @@ export default function GameModeSelector({
               <PrettyButton
                 text={mode}
                 key={mode}
-                className={`px-3 py-1 ${
-                  activeMode === key ? "bg-terracotta-400 text-white" : ""
-                }`}
+                className="px-3 py-1"
+                isSelected={activeMode === key}
                 onClick={() => setActiveMode(key!)}
                 disabled={
                   key === null || (enabledModes && !enabledModes.includes(key))
