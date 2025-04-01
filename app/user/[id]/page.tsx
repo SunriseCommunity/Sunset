@@ -25,11 +25,7 @@ import UserTabBeatmaps from "./components/Tabs/UserTabBeatmaps";
 import GameModeSelector from "@/components/GameModeSelector";
 import RoundedContent from "@/components/General/RoundedContent";
 import { User, UserScoresType, UserStats } from "@/lib/hooks/api/user/types";
-import {
-  useUserSelf,
-  useUser,
-  useUserStats,
-} from "@/lib/hooks/api/user/useUser";
+import { useUserSelf, useUserStats } from "@/lib/hooks/api/user/useUser";
 import {
   useUserFriendshipStatus,
   useUpdateUserFriendshipStatus,
@@ -185,7 +181,7 @@ export default function UserPage({ params }: { params: { id: number } }) {
   }
 
   if (userStatsQuery.error || !userStatsQuery.data) {
-    const errorMessage = userStatsQuery.error;
+    const errorMessage = "User not found";
 
     return (
       <main className="container mx-auto my-8">
