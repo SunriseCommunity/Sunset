@@ -1,15 +1,31 @@
 import { getUsetToken } from "@/lib/actions/getUserToken";
 import { PossibleErrorResult } from "@/lib/hooks/api/types";
-import ky, { Options } from "ky";
+import ky, { HTTPError, Options } from "ky";
+
+const errorInterceptor = async (error: HTTPError) => {
+  const { response } = error;
+  const contentType = response?.headers?.get("content-type");
+
+  if (contentType?.indexOf("application/json") !== -1) {
+    const data = (await response.json()) as PossibleErrorResult<null>;
+    error.message = data.error ?? "Unknown error";
+  } else {
+    error.message = await response.text();
+  }
+  return error;
+};
 
 export const kyInstance = ky.create({
   prefixUrl: `https://api.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}`,
+  hooks: {
+    beforeError: [errorInterceptor],
+  },
 });
 
 const fetcher = async <T>(url: string, options?: Options) => {
   const token = await getUsetToken();
 
-  const result = (await kyInstance
+  const result = await kyInstance
     .get(url, {
       ...options,
       headers: {
@@ -23,10 +39,10 @@ const fetcher = async <T>(url: string, options?: Options) => {
       } catch {
         return null;
       }
-    })) as PossibleErrorResult<T>;
+    });
 
-  if (result?.error) {
-    throw new Error(result.error);
+  if (!result) {
+    throw new Error("Unknown error");
   }
 
   return result as T;
