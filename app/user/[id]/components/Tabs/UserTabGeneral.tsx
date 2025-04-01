@@ -55,8 +55,8 @@ export default function UserTabGeneral({
         </>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="sm:col-span-2 col-span-2 md:col-span-1">
+      <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-4 gap-y-4">
+        <div className="col-span-2 sm:col-span-1">
           <div className="bg-coffee-600 rounded-t-lg p-4 flex items-center">
             <FolderKanbanIcon className="mr-2" />
             <h2 className="text-lg font-semibold">Info</h2>

@@ -66,9 +66,7 @@ export default function UserScoreMinimal({
                 <div className="rounded-md overflow-hidden border-2 border-white mr-2">
                   {user?.user_id ? (
                     <Image
-                      src={`https://a.${
-                        process.env.NEXT_PUBLIC_SERVER_DOMAIN
-                      }/avatar/${user?.user_id}?${Date.now()}`}
+                      src={user?.avatar_url}
                       alt=""
                       objectFit="cover"
                       width={24}

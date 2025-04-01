@@ -37,7 +37,7 @@ export default function UserElement({
             {/* Profile Picture */}
             <div className="w-12 h-12 rounded-lg overflow-hidden mr-4">
               <Image
-                src={`https://a.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/avatar/${user.user_id}?${Date.now()}`}
+                src={user.avatar_url}
                 alt=""
                 width={48}
                 height={48}

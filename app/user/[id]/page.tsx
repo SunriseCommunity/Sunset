@@ -25,7 +25,11 @@ import UserTabBeatmaps from "./components/Tabs/UserTabBeatmaps";
 import GameModeSelector from "@/components/GameModeSelector";
 import RoundedContent from "@/components/General/RoundedContent";
 import { User, UserScoresType, UserStats } from "@/lib/hooks/api/user/types";
-import { useUserSelf, useUserStats } from "@/lib/hooks/api/user/useUser";
+import {
+  useUser,
+  useUserSelf,
+  useUserStats,
+} from "@/lib/hooks/api/user/useUser";
 import {
   useUserFriendshipStatus,
   useUpdateUserFriendshipStatus,
@@ -125,6 +129,7 @@ export default function UserPage({ params }: { params: { id: number } }) {
 
   const self = useUserSelf();
 
+  const userQuery = useUser(userId);
   const userStatsQuery = useUserStats(userId, activeMode);
   const userFriendshipStatusQuery = useUserFriendshipStatus(userId);
 
@@ -172,7 +177,7 @@ export default function UserPage({ params }: { params: { id: number } }) {
     );
   };
 
-  if (userStatsQuery.isLoading) {
+  if (userQuery.isLoading) {
     return (
       <div className="flex justify-center items-center h-96">
         <Spinner size="xl" />
@@ -180,7 +185,7 @@ export default function UserPage({ params }: { params: { id: number } }) {
     );
   }
 
-  if (userStatsQuery.error || !userStatsQuery.data) {
+  if (userStatsQuery.error || !userQuery.data) {
     const errorMessage = userStatsQuery.error?.message ?? "User not found";
 
     return (
@@ -218,8 +223,8 @@ export default function UserPage({ params }: { params: { id: number } }) {
     );
   }
 
-  const user = userStatsQuery.data.user;
-  const userStats = userStatsQuery.data.stats;
+  const user = userQuery.data;
+  const userStats = userStatsQuery.data?.stats;
   const userFriendshipStatus = userFriendshipStatusQuery.data;
 
   return (
@@ -244,9 +249,7 @@ export default function UserPage({ params }: { params: { id: number } }) {
         {/* Banner */}
         <div className="h-64 relative">
           <ImageWithFallback
-            src={`https://a.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/banner/${
-              user.user_id
-            }?default=false&${Date.now()}`}
+            src={`${user?.banner_url}&default=false`}
             alt=""
             fill={true}
             objectFit="cover"
@@ -258,9 +261,7 @@ export default function UserPage({ params }: { params: { id: number } }) {
               <div className="flex items-end space-x-4 w-3/4">
                 <div className="relative w-32 h-32 flex-none">
                   <Image
-                    src={`https://a.${
-                      process.env.NEXT_PUBLIC_SERVER_DOMAIN
-                    }/avatar/${user.user_id}?${Date.now()}`}
+                    src={user?.avatar_url}
                     alt="User avatar"
                     fill={true}
                     objectFit="cover"
