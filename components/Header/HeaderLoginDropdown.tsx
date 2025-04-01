@@ -54,7 +54,7 @@ export default function HeaderLoginDropdown({ isOpen, setIsOpen }: Props) {
           form.password.value = "";
 
           Cookies.set("session_token", data.token, {
-            expires: new Date(Date.now() + data.expires_in),
+            expires: new Date(Date.now() + data.expires_in * 1000),
           });
 
           Cookies.set("refresh_token", data.refresh_token, {

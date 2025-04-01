@@ -48,7 +48,13 @@ export default function Score({ params }: { params: { id: number } }) {
       </div>
     );
 
-  if (!score || scoreQuery.error || userQuery?.error || beatmapQuery?.error) {
+  if (
+    !score ||
+    !user ||
+    scoreQuery.error ||
+    userQuery?.error ||
+    beatmapQuery?.error
+  ) {
     return (
       <main className="container mx-auto my-8">
         <PrettyHeader text="Score Performance" icon={<LucideHistory />} />
