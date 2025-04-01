@@ -54,7 +54,7 @@ export default function UserTabScores({
           </div>
         )}
 
-        {data && scores && total_count && (
+        {data && scores && total_count != undefined && (
           <div>
             {scores.length <= 0 && (
               <ContentNotExist text="User has no best scores" />
