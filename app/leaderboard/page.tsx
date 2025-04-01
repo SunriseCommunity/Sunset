@@ -3,55 +3,38 @@ import { ChartColumnIncreasing, ChevronLeft, ChevronRight } from "lucide-react";
 import PrettyHeader from "@/components/General/PrettyHeader";
 import RoundedContent from "@/components/General/RoundedContent";
 import { useEffect, useState } from "react";
-import { UserStats } from "@/lib/types/UserStats";
-import { User } from "@/lib/types/User";
 import PrettyButton from "@/components/General/PrettyButton";
-import { getLeaderboard } from "@/lib/actions/getLeaderboard";
 import { GameMode } from "@/lib/hooks/api/types";
 import Spinner from "@/components/Spinner";
 import Image from "next/image";
 import GameModeSelector from "@/components/GameModeSelector";
+import { UsersLeaderboardType } from "@/lib/hooks/api/user/types";
+import { useUsersLeaderboard } from "@/lib/hooks/api/user/useUsersLeaderboard";
 
 export default function Leaderboard() {
-  const [isLoading, setIsLoading] = useState(false);
   const [activeMode, setActiveMode] = useState(GameMode.std);
-
-  const [usersObject, setUsersObject] = useState<{
-    users: { user: User; stats: UserStats }[];
-    total_count: number;
-  }>({ users: [], total_count: -1 });
-
   const [page, setPage] = useState(1);
 
   const pageLimit = 10;
 
+  const usersLeaderboardQuery = useUsersLeaderboard(
+    activeMode,
+    UsersLeaderboardType.pp,
+    page,
+    pageLimit
+  );
+
+  const usersLeaderboard = usersLeaderboardQuery.data;
+
   useEffect(() => {
     setPage(1);
-    updateLeaderboard(1);
   }, [activeMode]);
 
-  useEffect(() => {
-    updateLeaderboard(page);
-  }, [page]);
-
-  const updateLeaderboard = (page: number) => {
-    if (isLoading) return;
-
-    setIsLoading(true);
-
-    getLeaderboard(activeMode, "pp", page, pageLimit).then((res) => {
-      if (res.error || !res.data) {
-        setIsLoading(false);
-        return;
-      }
-
-      setUsersObject(res.data);
-
-      setIsLoading(false);
-    });
+  const { users, total_count } = usersLeaderboard ?? {
+    users: [],
+    total_count: 0,
   };
 
-  const { users, total_count } = usersObject;
   const pageCount = Math.ceil(total_count / pageLimit);
 
   return (
@@ -70,7 +53,7 @@ export default function Leaderboard() {
         />
       </PrettyHeader>
 
-      {isLoading && users.length === 0 && (
+      {usersLeaderboardQuery.isLoading && users.length === 0 && (
         <div className="bg-terracotta-650 rounded-b-3xl mb-4">
           <RoundedContent className="min-h-0 h-fit max-h-none bg-terracotta-700 rounded-t-xl">
             <div className="flex justify-center items-center h-32">
@@ -80,7 +63,7 @@ export default function Leaderboard() {
         </div>
       )}
 
-      {!isLoading && users.length > 0 && (
+      {!usersLeaderboardQuery.isLoading && users.length > 0 && (
         <div className="bg-terracotta-650 rounded-b-3xl mb-4">
           <RoundedContent className="bg-terracotta-700 rounded-t-xl">
             <div className="bg-terracotta-800 rounded-lg overflow-hidden">
