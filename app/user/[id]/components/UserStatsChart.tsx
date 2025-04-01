@@ -8,6 +8,7 @@ import {
   YAxis,
   Area,
   ResponsiveContainer,
+  Legend,
 } from "recharts";
 
 interface Props {
@@ -15,10 +16,15 @@ interface Props {
     snapshots: StatsSnapshot[];
     total_count: number;
   };
+  value: "pp" | "rank";
 }
 
-export default function UserStatsChart({ data }: Props) {
+export default function UserStatsChart({ data, value: chartValue }: Props) {
   if (data.snapshots.length === 0) return null;
+
+  data.snapshots = data.snapshots.filter(
+    (s) => s.country_rank > 0 && s.global_rank > 0
+  );
 
   const snapshots = [...data.snapshots];
 
@@ -90,8 +96,14 @@ export default function UserStatsChart({ data }: Props) {
     };
   });
 
+  const isChartReversed = chartValue == "rank";
+
   return (
-    <ResponsiveContainer width="100%" height="100%">
+    <ResponsiveContainer
+      width="100%"
+      height="100%"
+      className="min-h-52 h-52 max-h-52"
+    >
       <AreaChart data={chartData}>
         <CartesianGrid stroke="" />
         <XAxis
@@ -102,17 +114,23 @@ export default function UserStatsChart({ data }: Props) {
             fontSize: "0px",
           }}
         />
-        <YAxis />
-        <Tooltip
-          formatter={(value) => [`${Math.round(value as number)} pp`]}
-          contentStyle={{ color: "#333" }}
-        />
+        <YAxis reversed={isChartReversed} />
+
         <Area
           type="monotone"
-          dataKey="pp"
+          dataKey={chartValue}
           stroke="#E0C097"
           fill="#E0C097"
+          baseValue={isChartReversed ? "dataMax" : "dataMin"}
           isAnimationActive={false}
+        />
+        <Legend />
+
+        <Tooltip
+          formatter={(value) => [
+            `${Math.round(value as number)} ${chartValue}`,
+          ]}
+          contentStyle={{ color: "#333" }}
         />
       </AreaChart>
     </ResponsiveContainer>
