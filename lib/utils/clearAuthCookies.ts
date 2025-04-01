@@ -1,9 +1,6 @@
 import Cookies from "js-cookie";
 
-export function clearAuthCookies(moveToHomepage: boolean = true) {
+export function clearAuthCookies() {
   Cookies.remove("session_token");
   Cookies.remove("refresh_token");
-  if (moveToHomepage) {
-    window.location.href = "/";
-  }
 }

@@ -1,4 +1,4 @@
-import { getUsetToken } from "@/lib/actions/getUserToken";
+import { getUserToken } from "@/lib/actions/getUserToken";
 import { PossibleErrorResult } from "@/lib/hooks/api/types";
 import ky, { HTTPError, Options } from "ky";
 
@@ -23,7 +23,7 @@ export const kyInstance = ky.create({
 });
 
 const fetcher = async <T>(url: string, options?: Options) => {
-  const token = await getUsetToken();
+  const token = await getUserToken();
 
   const result = await kyInstance
     .get(url, {

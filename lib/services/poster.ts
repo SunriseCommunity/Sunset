@@ -1,10 +1,10 @@
-import { getUsetToken } from "@/lib/actions/getUserToken";
+import { getUserToken } from "@/lib/actions/getUserToken";
 import { PossibleErrorResult } from "@/lib/hooks/api/types";
 import { kyInstance } from "@/lib/services/fetcher";
 import { Options } from "ky";
 
 const poster = async <T>(url: string, options?: Options) => {
-  const token = await getUsetToken();
+  const token = await getUserToken();
 
   const result = await kyInstance
     .post<T>(url, {
