@@ -45,25 +45,13 @@ export default function Score({ params }: { params: { id: number } }) {
       </div>
     );
 
-  if (
-    !score ||
-    !user ||
-    scoreQuery.error ||
-    userQuery?.error ||
-    beatmapQuery?.error
-  ) {
-    const errorMessage =
-      scoreQuery.error ??
-      userQuery?.error ??
-      beatmapQuery?.error ??
-      "Unknown error";
-
+  if (!score || scoreQuery.error || userQuery?.error || beatmapQuery?.error) {
     return (
       <main className="container mx-auto my-8">
         <PrettyHeader text="Score Performance" icon={<LucideHistory />} />
         <RoundedContent className="bg-terracotta-700 rounded-l flex flex-col md:flex-row justify-between items-center md:items-start gap-8 ">
           <div className="flex flex-col space-y-2">
-            <h1 className="text-4xl">{errorMessage}</h1>
+            <h1 className="text-4xl">Score not found</h1>
             <p className="text-gray-300">
               The score you are looking for does not exist or has been deleted.
             </p>
@@ -175,7 +163,9 @@ export default function Score({ params }: { params: { id: number } }) {
                           time={score.when_played}
                         />
                       </div>
-                      <p className="text-gray-200">Played by {user.username}</p>
+                      <p className="text-gray-200">
+                        Played by {user?.username ?? "Unknown user"}
+                      </p>
                       <PrettyButton
                         onClick={handleDownloadReplay}
                         text="Download Replay"
