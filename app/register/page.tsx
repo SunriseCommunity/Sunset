@@ -4,11 +4,16 @@ import PrettyHeader from "@/components/General/PrettyHeader";
 import RoundedContent from "@/components/General/RoundedContent";
 import Image from "next/image";
 import { useState } from "react";
-import { register } from "@/lib/actions/register";
-import { getSelf } from "@/lib/actions/getSelf";
+import { useRegister } from "@/lib/hooks/api/auth/useRegister";
+import Cookies from "js-cookie";
+import useSelf from "@/lib/hooks/useSelf";
 
 export default function Register() {
   const [error, setError] = useState<string | null>(null);
+
+  const { trigger } = useRegister();
+
+  const { self, revalidate } = useSelf();
 
   const showError = (message: string) => {
     setError(message);
@@ -43,18 +48,36 @@ export default function Register() {
       return;
     }
 
-    const { isSuccessful, error } = await register(username, password, email);
+    trigger(
+      {
+        email,
+        username,
+        password,
+      },
+      {
+        onSuccess: (data) => {
+          Cookies.set("session_token", data.token, {
+            expires: new Date(Date.now() + data.expires_in),
+          });
 
-    if (!isSuccessful) {
-      showError(error || "Unknown error.");
-      return;
-    }
+          Cookies.set("refresh_token", data.refresh_token, {
+            expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+          });
 
-    getSelf().then((user) => {
-      if (user) {
-        window.location.href = `/user/${user.user_id}`;
+          revalidate();
+
+          if (!self) {
+            showError("Couldn't authorize as created user");
+            return;
+          }
+
+          window.location.href = `/user/${self.user_id}`;
+        },
+        onError(err) {
+          showError(err.message ?? "Unknown error.");
+        },
       }
-    });
+    );
   };
 
   return (
@@ -86,7 +109,7 @@ export default function Register() {
                   placeholder="e.g. username"
                   name="username"
                   className="bg-terracotta-800 p-2 rounded-lg mb-2"
-                  pattern="^[a-z A-Z0-9_-]{1,32}$"
+                  pattern="^[a-zA-Z0-9_\- ]{1,32}$"
                   maxLength={32}
                   required
                 />
