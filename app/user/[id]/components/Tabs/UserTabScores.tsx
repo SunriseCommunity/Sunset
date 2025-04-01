@@ -32,20 +32,20 @@ export default function UserTabScores({
   };
 
   const scores = data?.flatMap((item) => item.scores);
-  const total_count = data?.find(
+  let total_count = data?.find(
     (item) => item.total_count !== undefined
   )?.total_count;
+
+  if (total_count && type === UserScoresType.best) {
+    total_count = Math.min(100, total_count);
+  }
 
   return (
     <div className="flex flex-col">
       <PrettyHeader
         text={`${UserScoresType[type]} scores`}
         icon={<ChartColumnIncreasing />}
-        counter={
-          data && data.length > 0 && data[0].total_count > 0
-            ? data[0].total_count
-            : undefined
-        }
+        counter={total_count ?? undefined}
       />
       <RoundedContent className="min-h-60 h-fit max-h-none">
         {!data && (
