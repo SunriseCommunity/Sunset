@@ -17,6 +17,8 @@ import { playtimeToString } from "@/lib/utils/playtimeToString";
 import { User, UserStats } from "@/lib/hooks/api/user/types";
 import { useUserGrades } from "@/lib/hooks/api/user/useGraph";
 import { useUserGraph } from "@/lib/hooks/api/user/useUserGraph";
+import { useState } from "react";
+import PrettyButton from "@/components/General/PrettyButton";
 
 interface UserTabGeneralProps {
   user: User;
@@ -29,6 +31,8 @@ export default function UserTabGeneral({
   stats,
   gameMode,
 }: UserTabGeneralProps) {
+  const [chartValue, setChartValue] = useState<"pp" | "rank">("pp");
+
   const userGradesQuery = useUserGrades(user.user_id, gameMode);
   const userGraphQuery = useUserGraph(user.user_id, gameMode);
 
@@ -56,12 +60,12 @@ export default function UserTabGeneral({
       )}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-4 gap-y-4">
-        <div className="col-span-2 sm:col-span-1">
+        <div className="flex flex-col col-span-2 sm:col-span-1">
           <div className="bg-coffee-600 rounded-t-lg p-4 flex items-center">
             <FolderKanbanIcon className="mr-2" />
             <h2 className="text-lg font-semibold">Info</h2>
           </div>
-          <div className="bg-coffee-700 p-4 rounded-b-lg min-h-60 flex flex-col">
+          <div className="bg-coffee-700 p-4 rounded-b-lg h-fit flex flex-col">
             <div className="flex place-content-between items-end">
               <p className="text-xs">Ranked Score</p>
               <p className="text-md font-bald">
@@ -150,7 +154,7 @@ export default function UserTabGeneral({
               </Tooltip>
             </div>
 
-            <div className="flex border-b border-coffee-600 my-2"></div>
+            <div className="flex border-b border-coffee-600 my-1"></div>
 
             <div>
               {userGrades ? (
@@ -162,7 +166,7 @@ export default function UserTabGeneral({
           </div>
         </div>
 
-        <div className="col-span-2">
+        <div className="flex flex-col col-span-2">
           <div className="bg-coffee-600 rounded-t-lg px-4 py-1 flex justify-between items-center">
             <div className="flex items-center">
               <Trophy className="mr-2" />
@@ -170,18 +174,38 @@ export default function UserTabGeneral({
             </div>
             <div className="flex items-center">
               <div className="flex flex-col place-content-between items-end">
-                <p className="text-sm">Performance</p>
+                <p className="text-sm">
+                  {chartValue == "pp" ? "Performance" : "Current Rank"}
+                </p>
                 <p className="text-2xl font-bald text-terracotta-400">
-                  {NumberWith(Math.round(stats?.pp ?? 0) ?? 0, ",")}
+                  {chartValue == "pp"
+                    ? NumberWith(Math.round(stats?.pp ?? 0) ?? 0, ",")
+                    : stats?.rank}
                 </p>
               </div>
             </div>
           </div>
-          <div className="bg-coffee-700 p-4 rounded-b-lg min-h-60 h-60">
-            {userGraph && Math.round(stats?.pp ?? 0) > 0 ? (
-              <UserStatsChart data={userGraph} />
-            ) : (
-              <ContentNotExist text="Nothing to render" />
+          <div className="bg-coffee-700 p-4 rounded-b-lg h-fit">
+            {userGraph && (
+              <>
+                <UserStatsChart data={userGraph} value={chartValue} />
+                <div className="flex place-content-end w-full gap-x-2 pt-2">
+                  <PrettyButton
+                    onClick={() => setChartValue("pp")}
+                    text="Show by pp"
+                    className={
+                      chartValue == "pp" ? "bg-terracotta-400 text-white" : ""
+                    }
+                  />
+                  <PrettyButton
+                    onClick={() => setChartValue("rank")}
+                    text="Show by rank"
+                    className={
+                      chartValue == "rank" ? "bg-terracotta-400 text-white" : ""
+                    }
+                  />
+                </div>
+              </>
             )}
           </div>
         </div>
