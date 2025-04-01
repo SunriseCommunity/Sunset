@@ -20,6 +20,7 @@ import { editDescription } from "@/lib/actions/editDescription";
 import ChangePasswordInput from "@/app/settings/components/ChangePasswordInput";
 import SiteLocalOptions from "@/app/settings/components/SiteLocalOptions";
 import ChangeUsernameInput from "@/app/settings/components/ChangeUsernameInput";
+import { useEditDescription } from "@/lib/hooks/api/user/useEditDescription";
 
 export default function Settings() {
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
@@ -28,7 +29,7 @@ export default function Settings() {
   const [bannerFile, setBannerFile] = useState<File | null>(null);
   const [isBannerUploading, setIsBannerUploading] = useState(false);
 
-  const [isUpdatingDescription, setIsUpdatingDescription] = useState(false);
+  const { trigger, isMutating: isUpdatingDescription } = useEditDescription();
 
   const { self, isLoading } = useSelf();
 
@@ -84,17 +85,18 @@ export default function Settings() {
     setIsBannerUploading(false);
   };
 
-  const saveDescription = async (text: string) => {
-    setIsUpdatingDescription(true);
-
-    const res = await editDescription(text);
-
-    if (res.isSuccessful) {
-      alert("Description updated successfully!");
-    } else {
-      alert(res.error || "An unknown error occurred");
-    }
-    setIsUpdatingDescription(false);
+  const saveDescription = (text: string) => {
+    trigger(
+      { description: text },
+      {
+        onSuccess() {
+          alert("Description updated successfully!");
+        },
+        onError(err) {
+          alert(err.message || "An unknown error occurred");
+        },
+      }
+    );
   };
 
   if (isLoading)
