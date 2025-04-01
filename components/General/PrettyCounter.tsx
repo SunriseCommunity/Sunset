@@ -22,12 +22,12 @@ export default function PrettyCounter({ value, duration }: Props) {
       if (!startTime) startTime = timestamp;
       const progress = timestamp - startTime;
 
-      const percentage = Math.min(progress / duration, 1);
+      const percentage = Math.min(progress / duration!, 1);
       const currentNumber = Math.floor(easeOut(percentage) * value);
 
       setCount(currentNumber);
 
-      if (progress < duration) {
+      if (progress < duration!) {
         requestAnimationFrame(step);
       }
     };

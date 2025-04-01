@@ -21,7 +21,7 @@ const statuses = {
   },
 };
 
-export default async function ServerStatus({ type, data }: Props) {
+export default function ServerStatus({ type, data }: Props) {
   const isDataNumber = !isNaN(Number(data));
 
   return (

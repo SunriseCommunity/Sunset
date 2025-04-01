@@ -2,7 +2,6 @@
 import ImageSelect from "@/components/General/ImageSelect";
 import Spinner from "@/components/Spinner";
 import StatusButton from "@/components/General/PrettyButton";
-import { uploadUserFile } from "@/lib/actions/uploadAvatar";
 import useSelf from "@/lib/hooks/useSelf";
 import {
   CheckSquare,
@@ -16,10 +15,11 @@ import {
 import { useEffect, useState } from "react";
 import PrettyHeader from "@/components/General/PrettyHeader";
 import MarkdownInput from "./components/MarkdownInput";
-import { editDescription } from "@/lib/actions/editDescription";
 import ChangePasswordInput from "@/app/settings/components/ChangePasswordInput";
 import SiteLocalOptions from "@/app/settings/components/SiteLocalOptions";
 import ChangeUsernameInput from "@/app/settings/components/ChangeUsernameInput";
+import { useEditDescription } from "@/lib/hooks/api/user/useEditDescription";
+import { useUserUpload } from "@/lib/hooks/api/user/useUserUpload";
 
 export default function Settings() {
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
@@ -28,22 +28,28 @@ export default function Settings() {
   const [bannerFile, setBannerFile] = useState<File | null>(null);
   const [isBannerUploading, setIsBannerUploading] = useState(false);
 
-  const [isUpdatingDescription, setIsUpdatingDescription] = useState(false);
+  const { trigger, isMutating: isUpdatingDescription } = useEditDescription();
+
+  const { trigger: triggerUserUpload } = useUserUpload();
 
   const { self, isLoading } = useSelf();
 
   useEffect(() => {
-    if (self === null) return;
+    if (self === undefined) return;
 
     fetch(
-      `https://a.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/avatar/${self.user_id}?${Date.now()}`
+      `https://a.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/avatar/${
+        self.user_id
+      }?${Date.now()}`
     ).then(async (res) => {
       const file = await res.blob();
       setAvatarFile(new File([file], "avatar.png"));
     });
 
     fetch(
-      `https://a.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/banner/${self.user_id}?${Date.now()}`
+      `https://a.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/banner/${
+        self.user_id
+      }?${Date.now()}`
     ).then(async (res) => {
       const file = await res.blob();
       setBannerFile(new File([file], "banner.png"));
@@ -55,14 +61,22 @@ export default function Settings() {
 
     setIsAvatarUploading(true);
 
-    const res = await uploadUserFile(avatarFile, "avatar");
-
-    if (res.isSuccessful) {
-      alert("Avatar uploaded successfully!");
-    } else {
-      alert(res.error || "An unknown error occurred");
-    }
-    setIsAvatarUploading(false);
+    triggerUserUpload(
+      {
+        file: avatarFile,
+        type: "avatar",
+      },
+      {
+        onSuccess(data, key, config) {
+          alert("Avatar uploaded successfully!");
+          setIsAvatarUploading(false);
+        },
+        onError(err, key, config) {
+          alert(err?.message ?? "An unknown error occurred");
+          setIsAvatarUploading(false);
+        },
+      }
+    );
   };
 
   const uploadBanner = async () => {
@@ -70,27 +84,36 @@ export default function Settings() {
 
     setIsBannerUploading(true);
 
-    const res = await uploadUserFile(bannerFile, "banner");
-
-    if (res.isSuccessful) {
-      alert("Banner uploaded successfully!");
-    } else {
-      alert(res.error || "An unknown error occurred");
-    }
-    setIsBannerUploading(false);
+    triggerUserUpload(
+      {
+        file: bannerFile,
+        type: "banner",
+      },
+      {
+        onSuccess(data, key, config) {
+          alert("Banner uploaded successfully!");
+          setIsBannerUploading(false);
+        },
+        onError(err, key, config) {
+          alert(err?.message ?? "An unknown error occurred");
+          setIsBannerUploading(false);
+        },
+      }
+    );
   };
 
-  const saveDescription = async (text: string) => {
-    setIsUpdatingDescription(true);
-
-    const res = await editDescription(text);
-
-    if (res.isSuccessful) {
-      alert("Description updated successfully!");
-    } else {
-      alert(res.error || "An unknown error occurred");
-    }
-    setIsUpdatingDescription(false);
+  const saveDescription = (text: string) => {
+    trigger(
+      { description: text },
+      {
+        onSuccess() {
+          alert("Description updated successfully!");
+        },
+        onError(err) {
+          alert(err.message || "An unknown error occurred");
+        },
+      }
+    );
   };
 
   if (isLoading)
@@ -100,7 +123,7 @@ export default function Settings() {
       </div>
     );
 
-  if (self === null)
+  if (self === undefined)
     return (
       <div className="flex flex-col w-full mt-8 ">
         {/* Header */}
@@ -187,7 +210,7 @@ export default function Settings() {
       <div className="bg-terracotta-700 rounded-b-lg p-4 shadow-lg w-full mx-auto mb-4">
         <div className="flex flex-col w-11/12 mx-auto">
           <MarkdownInput
-            defaultText={self.description}
+            defaultText={self?.description}
             onSave={saveDescription}
             isSaving={isUpdatingDescription}
           />

@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { authorize } from "@/lib/actions/authorize";
+
 import useSelf from "@/lib/hooks/useSelf";
 import { twMerge } from "tailwind-merge";
 import useRestriction from "@/lib/hooks/useRestriction";
+import { useAuthorize } from "@/lib/hooks/api/auth/useAuthorize";
+import Cookies from "js-cookie";
 
 interface Props {
   isOpen: boolean;
@@ -18,6 +20,8 @@ export default function HeaderLoginDropdown({ isOpen, setIsOpen }: Props) {
   const { revalidate } = useSelf();
 
   const { setSelfRestricted } = useRestriction();
+
+  const { trigger: triggerAuthorize } = useAuthorize();
 
   useEffect(() => {
     document.addEventListener("click", closeDropdown);
@@ -40,31 +44,51 @@ export default function HeaderLoginDropdown({ isOpen, setIsOpen }: Props) {
     const username = form.username.value;
     const password = form.password.value;
 
-    const { isSuccessful, error } = await authorize(username, password);
+    triggerAuthorize(
+      {
+        username,
+        password,
+      },
+      {
+        onSuccess(data) {
+          form.password.value = "";
 
-    form.password.value = "";
+          Cookies.set("session_token", data.token, {
+            expires: new Date(Date.now() + data.expires_in * 1000),
+          });
 
-    if (isSuccessful) {
-      revalidate();
-      setIsOpen(false);
-    } else {
-      if (!loginButtonRef.current) return;
+          Cookies.set("refresh_token", data.refresh_token, {
+            expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+          });
 
-      if (error?.includes("restrict")) {
-        setSelfRestricted(true, error);
-        return;
+          revalidate();
+
+          setIsOpen(false);
+        },
+        onError(err) {
+          const errorMessage = err.message ?? "Unknown error";
+
+          form.password.value = "";
+
+          if (!loginButtonRef.current) return;
+
+          if (errorMessage?.includes("restrict")) {
+            setSelfRestricted(true, errorMessage);
+            return;
+          }
+
+          loginButtonRef.current.classList.add("text-red-500");
+          loginButtonRef.current.classList.remove("text-white");
+
+          loginButtonRef.current.textContent = errorMessage || "Unknown error";
+          setTimeout(() => {
+            loginButtonRef.current!.classList.remove("text-red-500");
+            loginButtonRef.current!.classList.add("text-white");
+            loginButtonRef.current!.textContent = "Login";
+          }, 4000);
+        },
       }
-
-      loginButtonRef.current.classList.add("text-red-500");
-      loginButtonRef.current.classList.remove("text-white");
-
-      loginButtonRef.current.textContent = error || "Unknown error";
-      setTimeout(() => {
-        loginButtonRef.current!.classList.remove("text-red-500");
-        loginButtonRef.current!.classList.add("text-white");
-        loginButtonRef.current!.textContent = "Login";
-      }, 4000);
-    }
+    );
   };
 
   return (

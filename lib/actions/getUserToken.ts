@@ -1,46 +1,50 @@
+import { kyInstance } from "@/lib/services/fetcher";
 import { clearAuthCookies } from "@/lib/utils/clearAuthCookies";
 import Cookies from "js-cookie";
 
-export async function getUsetToken(): Promise<string | null> {
+export async function getUserToken(): Promise<string | null> {
   const token = Cookies.get("session_token");
 
   if (token) {
     return token;
   }
 
-  const refreshToken = Cookies.get("refresh_token");
+  const refreshTokenString = Cookies.get("refresh_token");
 
-  if (!refreshToken) {
+  if (!refreshTokenString) {
     return null;
   }
 
-  const response = await fetch(
-    `https://api.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/auth/refresh`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        refresh_token: refreshToken,
-      }),
+  try {
+    const data = await refreshToken({
+      arg: { refresh_token: refreshTokenString },
+    });
+
+    if (!data) {
+      throw new Error("Failed to refresh token");
     }
-  )
-    .then((res) => res.json())
-    .catch(() => null);
 
-  if (!response) {
-    return null;
-  }
+    Cookies.set("session_token", data.token, {
+      expires: new Date(Date.now() + data.expires_in * 1000),
+    });
 
-  if (response.error) {
+    return data.token;
+  } catch (error) {
     clearAuthCookies();
     return null;
   }
-
-  Cookies.set("session_token", response.token, {
-    expires: new Date(Date.now() + response.expires_in * 1000),
-  });
-
-  return response.token;
 }
+
+const refreshToken = async ({ arg }: { arg: { refresh_token: string } }) => {
+  return await kyInstance
+    .post<{
+      token: string;
+      expires_in: number;
+    }>(`auth/refresh`, {
+      json: {
+        ...arg,
+      },
+    })
+    .then((res) => res.json())
+    .catch(() => null);
+};

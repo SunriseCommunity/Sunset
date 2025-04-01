@@ -5,24 +5,22 @@ import PrettyHeader from "@/components/General/PrettyHeader";
 import RoundedContent from "@/components/General/RoundedContent";
 import SkeletonLoading from "@/components/SkeletonLoading";
 import { Tooltip } from "@/components/Tooltip";
-import { getUserGrades, UserGradesResponse } from "@/lib/actions/getUserGrades";
-import { getUserGraph } from "@/lib/actions/getUserGraph";
-import { GameMode } from "@/lib/types/GameMode";
-import { StatsSnapshot } from "@/lib/types/StatsSnapshot";
-import { User } from "@/lib/types/User";
-import { UserStats } from "@/lib/types/UserStats";
-import { getLevel, getLevelWithProgress } from "@/lib/utils/userLevel";
+import { GameMode } from "@/lib/hooks/api/types";
+import { getLevelWithProgress } from "@/lib/utils/userLevel";
 import NumberWith from "@/lib/utils/numberWith";
 import { timeSince } from "@/lib/utils/timeSince";
 import { FolderKanbanIcon, Trophy, User2 } from "lucide-react";
-import { useEffect, useState } from "react";
 import { remark } from "remark";
 import remarkGfm from "remark-gfm";
 import html from "remark-html";
+import { playtimeToString } from "@/lib/utils/playtimeToString";
+import { User, UserStats } from "@/lib/hooks/api/user/types";
+import { useUserGrades } from "@/lib/hooks/api/user/useGraph";
+import { useUserGraph } from "@/lib/hooks/api/user/useUserGraph";
 
 interface UserTabGeneralProps {
   user: User;
-  stats: UserStats | null;
+  stats: UserStats | undefined;
   gameMode: GameMode;
 }
 
@@ -31,64 +29,17 @@ export default function UserTabGeneral({
   stats,
   gameMode,
 }: UserTabGeneralProps) {
-  const [isLoading, setIsLoading] = useState(false);
-  const [markdown, setMarkdown] = useState("");
-  const [gradesData, setGradesData] = useState<UserGradesResponse | null>(null);
+  const userGradesQuery = useUserGrades(user.user_id, gameMode);
+  const userGraphQuery = useUserGraph(user.user_id, gameMode);
 
-  const [graph, setGraph] = useState<{
-    snapshots: StatsSnapshot[];
-    total_count: number;
-  }>({ snapshots: [], total_count: 0 });
+  const userGrades = userGradesQuery.data;
+  const userGraph = userGraphQuery.data;
 
-  useEffect(() => {
-    const processMarkdown = async () => {
-      const processedContent = await remark()
-        .use(html)
-        .use(remarkGfm)
-        .process(user.description ?? "");
-      setMarkdown(processedContent.toString());
-    };
-
-    processMarkdown();
-  }, [user]);
-
-  useEffect(() => {
-    if (isLoading) return;
-
-    setIsLoading(true);
-
-    async function loadProfileData() {
-      await getUserGraph(user.user_id, gameMode).then((data) => {
-        if (data.error) {
-          setIsLoading(false);
-          return;
-        }
-
-        setGraph(data.data!);
-      });
-
-      await getUserGrades(user.user_id, gameMode).then((data) => {
-        if (data.error) {
-          setIsLoading(false);
-          return;
-        }
-
-        setGradesData(data);
-      });
-
-      setIsLoading(false);
-    }
-
-    loadProfileData();
-  }, [gameMode]);
-
-  const playtimeToString = (playtime: number) => {
-    const hours = Math.floor(playtime / 1000 / 3600);
-    const minutes = Math.floor(((playtime / 1000) % 3600) / 60);
-    const seconds = Math.floor((playtime / 1000) % 60);
-
-    return `${hours} H, ${minutes} M, ${seconds} S`;
-  };
+  const markdown = remark()
+    .use(html)
+    .use(remarkGfm)
+    .processSync(user.description ?? "")
+    .toString();
 
   return (
     <div className="flex flex-col">
@@ -201,7 +152,13 @@ export default function UserTabGeneral({
 
             <div className="flex border-b border-coffee-600 my-2"></div>
 
-            <div>{gradesData && <UserGrades grades={gradesData.grades} />}</div>
+            <div>
+              {userGrades ? (
+                <UserGrades grades={userGrades} />
+              ) : (
+                <SkeletonLoading className="h-12" />
+              )}
+            </div>
           </div>
         </div>
 
@@ -221,8 +178,8 @@ export default function UserTabGeneral({
             </div>
           </div>
           <div className="bg-coffee-700 p-4 rounded-b-lg min-h-60 h-60">
-            {Math.round(stats?.pp ?? 0) > 0 ? (
-              <UserStatsChart data={graph} />
+            {userGraph && Math.round(stats?.pp ?? 0) > 0 ? (
+              <UserStatsChart data={userGraph} />
             ) : (
               <ContentNotExist text="Nothing to render" />
             )}

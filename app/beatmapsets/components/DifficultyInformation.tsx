@@ -3,8 +3,8 @@ import RoundedContent from "@/components/General/RoundedContent";
 import ProgressBar from "@/components/ProgressBar";
 import { Tooltip } from "@/components/Tooltip";
 import useAudioPlayer from "@/lib/hooks/useAudioPlayer";
-import { Beatmap } from "@/lib/types/Beatmap";
-import { GameMode } from "@/lib/types/GameMode";
+import { Beatmap } from "@/lib/hooks/api/beatmap/types";
+import { GameMode } from "@/lib/hooks/api/types";
 import { getBeatmapStarRating } from "@/lib/utils/getBeatmapStarRating";
 import { SecondsToString } from "@/lib/utils/secondsTo";
 import { Clock9, Music, Pause, Play, Star } from "lucide-react";
@@ -81,7 +81,7 @@ export default function DifficultyInformation({
         <Tooltip content="Star Rating">
           <p className="flex items-center text-sm">
             <Star className="h-4 text-yellow-pastel" />{" "}
-            {getBeatmapStarRating(beatmap,activeMode).toFixed(2)}
+            {getBeatmapStarRating(beatmap, activeMode).toFixed(2)}
           </p>
         </Tooltip>
       </RoundedContent>

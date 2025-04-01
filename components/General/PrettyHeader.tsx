@@ -28,7 +28,7 @@ export default function PrettyHeader({
     >
       <div className="flex items-center">
         {icon && <div className="mr-2">{icon}</div>}
-        <h2 className="text-lg font-semibold">{text}</h2>
+        <h2 className="text-lg font-semibold capitalize">{text}</h2>
         {counter && (
           <div className="ml-2 text-xs text-gray-300 bg-coffee-700 rounded-full px-2 py-1">
             {counter}

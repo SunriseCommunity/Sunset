@@ -1,9 +1,9 @@
-import { UserGradesResponse } from "@/lib/actions/getUserGrades";
+import { UserGrades as UserGradesType } from "@/lib/hooks/api/user/types";
 import { getGradeColor } from "@/lib/utils/getGradeColor";
 
 const USER_GRADES_TO_IGNORE = ["B", "C", "D", "F"];
 
-export default function UserGrades({ grades }: UserGradesResponse) {
+export default function UserGrades({ grades }: { grades: UserGradesType }) {
   if (!grades) return null;
 
   return (

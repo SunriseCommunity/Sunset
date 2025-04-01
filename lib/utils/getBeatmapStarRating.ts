@@ -1,5 +1,5 @@
-import { Beatmap } from "@/lib/types/Beatmap";
-import { GameMode } from "@/lib/types/GameMode";
+import { Beatmap } from "@/lib/hooks/api/beatmap/types";
+import { GameMode } from "@/lib/hooks/api/types";
 
 export function getBeatmapStarRating(beatmap: Beatmap, mode?: GameMode) {
   switch (mode || beatmap.mode_int) {
