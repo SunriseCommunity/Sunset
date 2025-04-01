@@ -1,6 +1,5 @@
-import { StatsSnapshot } from "@/lib/types/StatsSnapshot";
+import { StatsSnapshot } from "@/lib/hooks/api/user/types";
 import { timeSince } from "@/lib/utils/timeSince";
-import { toLocalTime } from "@/lib/utils/toLocalTime";
 import {
   AreaChart,
   CartesianGrid,
@@ -44,9 +43,6 @@ export default function UserStatsChart({ data }: Props) {
       if (snapshotIndex >= snapshots.length) {
         break;
       }
-      
-
-
 
       const formattedCurrentDate = new Date(
         snapshots[snapshotIndex].saved_at

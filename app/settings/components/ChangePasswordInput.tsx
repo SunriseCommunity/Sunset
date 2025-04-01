@@ -1,6 +1,5 @@
 "use client";
 
-import { changePassword } from "@/lib/actions/changePassword";
 import { usePasswordChange } from "@/lib/hooks/api/user/usePasswordChange";
 import { useState } from "react";
 
