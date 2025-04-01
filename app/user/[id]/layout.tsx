@@ -1,7 +1,6 @@
 import { Metadata } from "next";
 import Page from "./page";
 import { notFound } from "next/navigation";
-import { useUser } from "@/lib/hooks/api/user/useUser";
 import fetcher from "@/lib/services/fetcher";
 import { User } from "@/lib/hooks/api/user/types";
 
