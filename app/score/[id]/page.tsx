@@ -1,19 +1,14 @@
 "use client";
 import Spinner from "@/components/Spinner";
-import { Download, DownloadCloud, LucideHistory } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Download, LucideHistory } from "lucide-react";
+import { useState } from "react";
 import PrettyHeader from "@/components/General/PrettyHeader";
-import { getScore } from "@/lib/actions/getScore";
-import { Score as ScoreType } from "@/lib/types/Score";
 import Image from "next/image";
 import RoundedContent from "@/components/General/RoundedContent";
-import { getBeatmap } from "@/lib/actions/getBeatmap";
-import { Beatmap } from "@/lib/hooks/api/beatmap/types";
+import { BeatmapStatus } from "@/lib/hooks/api/beatmap/types";
 import PrettyDate from "@/components/General/PrettyDate";
 import { getGradeColor } from "@/lib/utils/getGradeColor";
 import UserElement from "@/components/UserElement";
-import { User } from "@/lib/types/User";
-import { getUser } from "@/lib/actions/getUser";
 import PrettyButton from "@/components/General/PrettyButton";
 import useSelf from "@/lib/hooks/useSelf";
 import { downloadReplay } from "@/lib/actions/downloadReplay";
@@ -21,71 +16,54 @@ import { twMerge } from "tailwind-merge";
 import { getBeatmapStarRating } from "@/lib/utils/getBeatmapStarRating";
 import DifficultyIcon from "@/components/DifficultyIcon";
 import BeatmapStatusIcon from "@/components/BeatmapStatus";
-import { BeatmapStatus } from "@/lib/types/BeatmapStatus";
 import { Tooltip } from "@/components/Tooltip";
 import { isBeatmapRanked } from "@/lib/utils/isBeatmapRanked";
 import ImageWithFallback from "@/components/ImageWithFallback";
+import { useUser } from "@/lib/hooks/api/user/useUser";
+import { useScore } from "@/lib/hooks/api/score/useScore";
+import { useBeatmap } from "@/lib/hooks/api/beatmap/useBeatmap";
 
 export default function Score({ params }: { params: { id: number } }) {
-  const [score, setScore] = useState<ScoreType | null>(null);
-  const [user, setUser] = useState<User | null>(null);
-  const [beatmap, setBeatmap] = useState<Beatmap | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
   const [isReplayLoading, setIsReplayLoading] = useState(false);
 
   const { self } = useSelf();
 
-  useEffect(() => {
-    setIsLoading(true);
+  const scoreQuery = useScore(params.id);
 
-    getScore(params.id).then((res) => {
-      if (res.error || !res.data) {
-        setIsLoading(false);
-        return;
-      }
+  const score = scoreQuery.data;
 
-      setScore(res.data);
+  const userQuery = useUser(score?.user_id ?? null);
+  const beatmapQuery = useBeatmap(score?.beatmap_id ?? null);
 
-      getUser(res.data.user_id).then((resUser) => {
-        if (res.error) return;
-        setUser(resUser.data);
+  const user = userQuery?.data;
+  const beatmap = beatmapQuery?.data;
 
-        getBeatmap(res.data!.beatmap_id).then((res) => {
-          if (res.error) return;
-          setBeatmap(res.data);
-
-          setIsLoading(false);
-        });
-      });
-    });
-  }, [params.id]);
-
-  const handleDownloadReplay = () => {
-    if (!score) return;
-    setIsReplayLoading(true);
-
-    downloadReplay(score.id).then((res) => {
-      if (res.error) {
-        alert(res.error);
-      }
-      setIsReplayLoading(false);
-    });
-  };
-
-  if (isLoading)
+  if (scoreQuery.isLoading || userQuery?.isLoading || beatmapQuery?.isLoading)
     return (
       <div className="flex justify-center items-center h-96">
         <Spinner size="xl" />
       </div>
     );
 
-  if (user === null || score === null)
+  if (
+    !score ||
+    !user ||
+    scoreQuery.error ||
+    userQuery?.error ||
+    beatmapQuery?.error
+  ) {
+    const errorMessage =
+      scoreQuery.error ??
+      userQuery?.error ??
+      beatmapQuery?.error ??
+      "Unknown error";
+
     return (
       <main className="container mx-auto my-8">
         <PrettyHeader text="Score Performance" icon={<LucideHistory />} />
         <RoundedContent className="bg-terracotta-700 rounded-l flex flex-col md:flex-row justify-between items-center md:items-start gap-8 ">
           <div className="flex flex-col space-y-2">
-            <h1 className="text-4xl">Score not found</h1>
+            <h1 className="text-4xl">{errorMessage}</h1>
             <p className="text-gray-300">
               The score you are looking for does not exist or has been deleted.
             </p>
@@ -100,6 +78,19 @@ export default function Score({ params }: { params: { id: number } }) {
         </RoundedContent>
       </main>
     );
+  }
+
+  const handleDownloadReplay = () => {
+    if (!score) return;
+    setIsReplayLoading(true);
+
+    downloadReplay(score.id).then((res) => {
+      if (res.error) {
+        alert(res.error);
+      }
+      setIsReplayLoading(false);
+    });
+  };
 
   return (
     <div className="flex flex-col w-full mt-8">

@@ -129,7 +129,6 @@ export default function UserPage({ params }: { params: { id: number } }) {
 
   const self = useUserSelf();
 
-  const userQuery = useUser(userId);
   const userStatsQuery = useUserStats(userId, activeMode);
   const userFriendshipStatusQuery = useUserFriendshipStatus(userId);
 
@@ -177,7 +176,7 @@ export default function UserPage({ params }: { params: { id: number } }) {
     );
   };
 
-  if (userQuery.isLoading) {
+  if (userStatsQuery.isLoading) {
     return (
       <div className="flex justify-center items-center h-96">
         <Spinner size="xl" />
@@ -185,8 +184,8 @@ export default function UserPage({ params }: { params: { id: number } }) {
     );
   }
 
-  if (userQuery.error || userStatsQuery.error) {
-    const errorMessage = userQuery.error ?? userStatsQuery.error;
+  if (userStatsQuery.error || !userStatsQuery.data) {
+    const errorMessage = userStatsQuery.error;
 
     return (
       <main className="container mx-auto my-8">
@@ -223,8 +222,8 @@ export default function UserPage({ params }: { params: { id: number } }) {
     );
   }
 
-  const user = userQuery.data!;
-  const userStats = userStatsQuery.data?.stats;
+  const user = userStatsQuery.data.user;
+  const userStats = userStatsQuery.data.stats;
   const userFriendshipStatus = userFriendshipStatusQuery.data;
 
   return (
