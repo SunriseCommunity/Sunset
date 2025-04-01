@@ -1,10 +1,11 @@
 import { Metadata } from "next";
 import Page from "./page";
 import { notFound } from "next/navigation";
-import { getUser } from "@/lib/actions/getUser";
-import { getScore } from "@/lib/actions/getScore";
-import { getBeatmap } from "@/lib/actions/getBeatmap";
 import { getBeatmapStarRating } from "@/lib/utils/getBeatmapStarRating";
+import fetcher from "@/lib/services/fetcher";
+import { User } from "@/lib/hooks/api/user/types";
+import { Score } from "@/lib/hooks/api/score/types";
+import { Beatmap } from "@/lib/hooks/api/beatmap/types";
 
 export const revalidate = 60;
 
@@ -13,35 +14,25 @@ export async function generateMetadata({
 }: {
   params: { id: number };
 }): Promise<Metadata> {
-  const score = await getScore(params.id).then((res) => {
-    if (res.error) {
-      return notFound();
-    } else {
-      return res.data;
-    }
-  });
+  const score = await fetcher<Score>(`score/${params.id}`);
+
+  if (!score) {
+    return notFound();
+  }
 
   if (!score) return notFound();
 
-  const user = await getUser(score?.user_id).then((res) => {
-    if (res.error) {
-      return notFound();
-    } else {
-      return res.data;
-    }
-  });
+  const user = await fetcher<User>(`user/${score.user_id}`);
 
-  if (!user) return notFound();
+  if (!user) {
+    return notFound();
+  }
 
-  const beatmap = await getBeatmap(score.beatmap_id).then((res) => {
-    if (res.error) {
-      return notFound();
-    } else {
-      return res.data;
-    }
-  });
+  const beatmap = await fetcher<Beatmap>(`beatmap/${score.beatmap_id}`);
 
-  if (!beatmap) return notFound();
+  if (!beatmap) {
+    return notFound();
+  }
 
   return {
     title: `${user.username} on ${beatmap.title} [${beatmap.version}] | osu!Sunrise`,

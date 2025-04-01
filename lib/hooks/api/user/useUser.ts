@@ -8,10 +8,12 @@ export function useUserSelf() {
   return useSWR<User>("user/self");
 }
 
-export function useUser(id: number) {
-  return useSWR<User>(`user/${id}`);
+export function useUser(id: number | null) {
+  return useSWR<User>(id ? `user/${id}` : null);
 }
 
-export function useUserStats(id: number, mode: GameMode) {
-  return useSWR<{ user: User; stats: UserStats }>(`user/${id}?mode=${mode}`);
+export function useUserStats(id: number | null, mode: GameMode) {
+  return useSWR<{ user: User; stats: UserStats }>(
+    id ? `user/${id}?mode=${mode}` : null
+  );
 }
