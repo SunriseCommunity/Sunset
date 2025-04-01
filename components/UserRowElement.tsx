@@ -9,7 +9,7 @@ interface UserProfileBannerProps {
   className?: string;
 }
 
-export default function UserElement({
+export default function UserRowElement({
   user,
   className,
 }: UserProfileBannerProps) {
