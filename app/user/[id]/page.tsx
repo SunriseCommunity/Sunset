@@ -36,6 +36,7 @@ import {
 } from "@/lib/hooks/api/user/useUserFriendshipStatus";
 import UserTabScores from "@/app/user/[id]/components/Tabs/UserTabScores";
 import { GameMode } from "@/lib/hooks/api/types";
+import { FriendshipButton } from "@/components/FriendshipButton";
 
 const contentTabs = [
   "General",
@@ -138,51 +139,6 @@ export default function UserPage({ params }: { params: { id: number } }) {
 
   const userQuery = useUser(userId);
   const userStatsQuery = useUserStats(userId, activeMode);
-  const userFriendshipStatusQuery = useUserFriendshipStatus(userId);
-
-  const { trigger } = useUpdateUserFriendshipStatus(userId);
-
-  const updateFriendshipStatus = async (action: "add" | "remove") => {
-    trigger(
-      { action },
-      {
-        optimisticData: userFriendshipStatusQuery.data && {
-          ...userFriendshipStatusQuery.data,
-          is_followed_by_you: action === "add",
-        },
-      }
-    );
-  };
-
-  const renderFriendshipButton = () => {
-    if (!self.data || !userFriendshipStatus) return;
-
-    const { is_followed_by_you, is_following_you } = userFriendshipStatus;
-    const isMutual = is_followed_by_you && is_following_you;
-
-    return (
-      <PrettyButton
-        onClick={() =>
-          updateFriendshipStatus(
-            userFriendshipStatus.is_followed_by_you ? "remove" : "add"
-          )
-        }
-        icon={
-          userFriendshipStatus.is_followed_by_you ? <UserMinus /> : <UserPlus />
-        }
-        className={
-          isMutual
-            ? "bg-pink-700 text-white hover:bg-pink-500"
-            : is_followed_by_you
-            ? "bg-lime-700 text-white hover:bg-lime-500"
-            : ""
-        }
-        text={
-          isMutual ? "Unfriend" : is_followed_by_you ? "Unfollow" : "Follow"
-        }
-      />
-    );
-  };
 
   if (userQuery.isLoading) {
     return (
@@ -232,7 +188,6 @@ export default function UserPage({ params }: { params: { id: number } }) {
 
   const user = userQuery.data;
   const userStats = userStatsQuery.data?.stats;
-  const userFriendshipStatus = userFriendshipStatusQuery.data;
 
   return (
     <main className="container mx-auto my-8">
@@ -367,7 +322,7 @@ export default function UserPage({ params }: { params: { id: number } }) {
                 />
               ) : (
                 <>
-                  {renderFriendshipButton()}
+                  <FriendshipButton userId={userId} />
                   {/* TODO: <PrettyButton onClick={() => {}} icon={<MessageSquare />} /> */}
                 </>
               )}

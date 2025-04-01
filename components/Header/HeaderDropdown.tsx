@@ -51,6 +51,12 @@ export default function HeaderDropdown({ isOpen, self, setIsOpen }: Props) {
           />
 
           <PrettyButton
+            onClick={navigateTo.bind(null, `/friends`)}
+            text="friends"
+            className="text-start p-1 mb-1"
+          />
+
+          <PrettyButton
             onClick={navigateTo.bind(null, `/settings`)}
             text="settings"
             className="text-start p-1 mb-1"

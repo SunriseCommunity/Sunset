@@ -42,7 +42,10 @@ export default function PrettyButton({
         isSelected ? "bg-terracotta-400 text-white" : "",
         className
       )}
-      onClick={onClick}
+      onClick={(e) => {
+        e.stopPropagation();
+        onClick();
+      }}
       disabled={isLoading || disabled}
     >
       <div
