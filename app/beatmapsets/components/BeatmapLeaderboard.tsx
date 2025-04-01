@@ -1,14 +1,11 @@
 "use client";
 import RoundedContent from "@/components/General/RoundedContent";
-import { useEffect, useState } from "react";
 import Spinner from "@/components/Spinner";
-import Image from "next/image";
-import { Score } from "@/lib/types/Score";
-import { getBeatmapLeaderboard } from "@/lib/actions/getBeatmapLeaderboard";
 import { GameMode } from "@/lib/hooks/api/types";
 import { twMerge } from "tailwind-merge";
 import { Beatmap } from "@/lib/hooks/api/beatmap/types";
 import { getGradeColor } from "@/lib/utils/getGradeColor";
+import { useBeatmapLeaderboard } from "@/lib/hooks/api/beatmap/useBeatmapLeaderboard";
 
 interface BeatmapLeaderboardProps {
   beatmap: Beatmap;
@@ -19,31 +16,12 @@ export default function BeatmapLeaderboard({
   beatmap,
   mode,
 }: BeatmapLeaderboardProps) {
-  const [isLoading, setIsLoading] = useState(false);
+  const beatmapLeaderboardQuery = useBeatmapLeaderboard(beatmap.id, mode);
+  const beatmapLeaderboard = beatmapLeaderboardQuery.data;
 
-  const [scoresObject, setScoresObject] = useState<{
-    scores: Score[];
-    total_count: number;
-  }>({ scores: [], total_count: -1 });
-
-  useEffect(() => {
-    if (isLoading) return;
-
-    setIsLoading(true);
-
-    getBeatmapLeaderboard(beatmap.id, mode).then((res) => {
-      if (res.error || !res.data) {
-        setIsLoading(false);
-        return;
-      }
-
-      setScoresObject(res.data);
-
-      setIsLoading(false);
-    });
-  }, [beatmap, mode]);
-
-  const { scores, total_count } = scoresObject;
+  const { scores } = beatmapLeaderboard ?? {
+    scores: [],
+  };
 
   return (
     <div className="flex flex-col w-full">
@@ -67,14 +45,14 @@ export default function BeatmapLeaderboard({
               </tr>
             </thead>
             <tbody>
-              {isLoading && scores.length <= 0 && (
+              {beatmapLeaderboardQuery.isLoading && (
                 <tr>
                   <td colSpan={13} className="p-3 text-center">
                     <Spinner />
                   </td>
                 </tr>
               )}
-              {!isLoading && scores.length === 0 && (
+              {!beatmapLeaderboardQuery.isLoading && scores.length === 0 && (
                 <tr>
                   <td colSpan={13} className="p-3 text-center">
                     No scores found. Be the first to submit one!
