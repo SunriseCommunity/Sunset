@@ -16,15 +16,16 @@ export function useBeatmapSetFavouriteStatus(beatmapSetId: number) {
 export function useUpdateBeatmapSetFavouriteStatus(beatmapSetId: number) {
   return useSWRMutation(
     `beatmapset/${beatmapSetId}/favourited`,
-    updateBeatmapSetFavouriteStatus
+    (_, { arg }: { arg: { favourite: boolean } }) =>
+      updateBeatmapSetFavouriteStatus(beatmapSetId, { arg })
   );
 }
 
 const updateBeatmapSetFavouriteStatus = async (
-  url: string,
+  beatmapSetId: number,
   { arg }: { arg: { favourite: boolean } }
 ) => {
-  await fetcher(url.replace("/favourited", ""), {
+  await fetcher(`beatmapset/${beatmapSetId}`, {
     searchParams: {
       favourite: arg.favourite,
     },

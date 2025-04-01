@@ -1,13 +1,14 @@
+"use client";
 import ServerStatus from "@/app/(site)/components/ServerStatus";
-import { getServerStatus } from "@/lib/actions/getServerStatus";
-import { Metadata } from "next";
+import { useServerStatus } from "@/lib/hooks/api/useServerStatus";
 
-export const metadata: Metadata = {
-  title: "welcome | osu!Sunrise",
-};
-
-export default async function Home() {
-  const serverStatus = await getServerStatus();
+export default function Home() {
+  const serverStatusQuery = useServerStatus();
+  const serverStatus = serverStatusQuery.data ?? {
+    is_online: false,
+    users_online: 0,
+    total_users: 0,
+  };
 
   return (
     <div>
