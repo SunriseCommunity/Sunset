@@ -2,7 +2,6 @@
 import ImageSelect from "@/components/General/ImageSelect";
 import Spinner from "@/components/Spinner";
 import StatusButton from "@/components/General/PrettyButton";
-import { uploadUserFile } from "@/lib/actions/uploadAvatar";
 import useSelf from "@/lib/hooks/useSelf";
 import {
   CheckSquare,
@@ -16,11 +15,11 @@ import {
 import { useEffect, useState } from "react";
 import PrettyHeader from "@/components/General/PrettyHeader";
 import MarkdownInput from "./components/MarkdownInput";
-import { editDescription } from "@/lib/actions/editDescription";
 import ChangePasswordInput from "@/app/settings/components/ChangePasswordInput";
 import SiteLocalOptions from "@/app/settings/components/SiteLocalOptions";
 import ChangeUsernameInput from "@/app/settings/components/ChangeUsernameInput";
 import { useEditDescription } from "@/lib/hooks/api/user/useEditDescription";
+import { useUserUpload } from "@/lib/hooks/api/user/useUserUpload";
 
 export default function Settings() {
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
@@ -30,6 +29,8 @@ export default function Settings() {
   const [isBannerUploading, setIsBannerUploading] = useState(false);
 
   const { trigger, isMutating: isUpdatingDescription } = useEditDescription();
+
+  const { trigger: triggerUserUpload } = useUserUpload();
 
   const { self, isLoading } = useSelf();
 
@@ -60,14 +61,22 @@ export default function Settings() {
 
     setIsAvatarUploading(true);
 
-    const res = await uploadUserFile(avatarFile, "avatar");
-
-    if (res.isSuccessful) {
-      alert("Avatar uploaded successfully!");
-    } else {
-      alert(res.error || "An unknown error occurred");
-    }
-    setIsAvatarUploading(false);
+    triggerUserUpload(
+      {
+        file: avatarFile,
+        type: "avatar",
+      },
+      {
+        onSuccess(data, key, config) {
+          alert("Avatar uploaded successfully!");
+          setIsAvatarUploading(false);
+        },
+        onError(err, key, config) {
+          alert(err?.message ?? "An unknown error occurred");
+          setIsAvatarUploading(false);
+        },
+      }
+    );
   };
 
   const uploadBanner = async () => {
@@ -75,14 +84,22 @@ export default function Settings() {
 
     setIsBannerUploading(true);
 
-    const res = await uploadUserFile(bannerFile, "banner");
-
-    if (res.isSuccessful) {
-      alert("Banner uploaded successfully!");
-    } else {
-      alert(res.error || "An unknown error occurred");
-    }
-    setIsBannerUploading(false);
+    triggerUserUpload(
+      {
+        file: bannerFile,
+        type: "banner",
+      },
+      {
+        onSuccess(data, key, config) {
+          alert("Banner uploaded successfully!");
+          setIsBannerUploading(false);
+        },
+        onError(err, key, config) {
+          alert(err?.message ?? "An unknown error occurred");
+          setIsBannerUploading(false);
+        },
+      }
+    );
   };
 
   const saveDescription = (text: string) => {

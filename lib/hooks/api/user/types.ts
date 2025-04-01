@@ -83,6 +83,8 @@ export enum UsersLeaderboardType {
   "score",
 }
 
+export type UserFileUpload = "avatar" | "banner";
+
 export interface StatsSnapshot {
   country_rank: number;
   global_rank: number;
