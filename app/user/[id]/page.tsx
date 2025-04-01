@@ -181,7 +181,7 @@ export default function UserPage({ params }: { params: { id: number } }) {
   }
 
   if (userStatsQuery.error || !userStatsQuery.data) {
-    const errorMessage = "User not found";
+    const errorMessage = userStatsQuery.error?.message ?? "User not found";
 
     return (
       <main className="container mx-auto my-8">
