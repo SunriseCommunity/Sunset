@@ -2,12 +2,9 @@
 
 import ImageWithFallback from "@/components/ImageWithFallback";
 import SkeletonLoading from "@/components/SkeletonLoading";
-import Spinner from "@/components/Spinner";
-import { getBeatmap } from "@/lib/actions/getBeatmap";
-import { getUser } from "@/lib/actions/getUser";
-import { Beatmap } from "@/lib/hooks/api/beatmap/types";
-import { Score } from "@/lib/types/Score";
-import { User } from "@/lib/types/User";
+import { useBeatmap } from "@/lib/hooks/api/beatmap/useBeatmap";
+import { Score } from "@/lib/hooks/api/score/types";
+import { useUser } from "@/lib/hooks/api/user/useUser";
 import { isBeatmapRanked } from "@/lib/utils/isBeatmapRanked";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -22,20 +19,11 @@ export default function UserScoreMinimal({
   score,
   className,
 }: UserScoreMinimalProps) {
-  const [beatmap, setBeatmap] = useState<Beatmap | null>(null);
-  const [user, setUser] = useState<User | null>(null);
+  const userQuery = useUser(score.user_id);
+  const beatmapQuery = useBeatmap(score.beatmap_id);
 
-  useEffect(() => {
-    getBeatmap(score.beatmap_id).then((res) => {
-      if (res.error) return;
-      setBeatmap(res.data);
-
-      getUser(score.user_id).then((res) => {
-        if (res.error) return;
-        setUser(res.data);
-      });
-    });
-  }, [score]);
+  const user = userQuery.data;
+  const beatmap = beatmapQuery.data;
 
   return (
     <div

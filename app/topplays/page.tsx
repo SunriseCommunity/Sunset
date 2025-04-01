@@ -1,38 +1,28 @@
 "use client";
 import Spinner from "@/components/Spinner";
-import { LucideHistory } from "lucide-react";
-import { useEffect, useState } from "react";
+import { ChevronDown, LucideHistory } from "lucide-react";
+import { useState } from "react";
 import PrettyHeader from "@/components/General/PrettyHeader";
 import RoundedContent from "@/components/General/RoundedContent";
-import { getTopPlays } from "@/lib/actions/getTopPlays";
 import { GameMode } from "@/lib/hooks/api/types";
 import UserScoreMinimal from "./components/UserScoreMinimal";
 import GameModeSelector from "@/components/GameModeSelector";
-import { Score } from "@/lib/hooks/api/score/types";
+import { useTopScores } from "@/lib/hooks/api/score/useTopScores";
+import PrettyButton from "@/components/General/PrettyButton";
 
 export default function Topplays() {
-  const [scores, setScores] = useState<Score[] | null>(null);
   const [activeMode, setActiveMode] = useState(GameMode.std);
-  const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    const currentMode = activeMode;
-    setIsLoading(true);
+  const { data, setSize, size, isLoading, isValidating } = useTopScores(
+    activeMode,
+    20
+  );
 
-    getTopPlays(activeMode).then((res) => {
-      if (currentMode !== activeMode) return;
+  const handleShowMore = () => {
+    setSize(size + 1);
+  };
 
-      if (res.error || !res.data) {
-        alert("Error fetching score");
-        setIsLoading(false);
-        return;
-      }
-
-      setScores(res.data.scores);
-
-      setIsLoading(false);
-    });
-  }, [activeMode]);
+  const scores = data?.flatMap((item) => item.scores);
 
   return (
     <div className="flex flex-col w-full mt-8">
@@ -66,7 +56,18 @@ export default function Topplays() {
                 </div>
               ))}
             </div>
-            {/* TODO: Add pagination then after I fix issues with beatmaps API on backend */}
+
+            {scores.length < 100 && (
+              <div className="flex justify-center mt-4">
+                <PrettyButton
+                  text="Show more"
+                  onClick={handleShowMore}
+                  icon={<ChevronDown />}
+                  className="w-full md:w-1/2 flex items-center justify-center"
+                  isLoading={isLoading || isValidating}
+                />
+              </div>
+            )}
           </RoundedContent>
         </div>
       )}
