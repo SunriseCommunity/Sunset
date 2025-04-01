@@ -1,8 +1,8 @@
-import { User } from "@/lib/types/User";
 import { twMerge } from "tailwind-merge";
 
 import Image from "next/image";
 import ImageWithFallback from "./ImageWithFallback";
+import { User } from "@/lib/hooks/api/user/types";
 
 interface UserProfileBannerProps {
   user: User;

@@ -2,12 +2,9 @@
 import { Book, Clapperboard, Info, Music2 } from "lucide-react";
 import PrettyHeader from "@/components/General/PrettyHeader";
 import RoundedContent from "@/components/General/RoundedContent";
-
 import { useEffect, useState } from "react";
 import GameModeSelector, { GameRuleFlags } from "@/components/GameModeSelector";
 import ImageWithFallback from "@/components/ImageWithFallback";
-
-import { getBeatmapSet } from "@/lib/actions/getBeatmapSet";
 import PrettyDate from "@/components/General/PrettyDate";
 import BeatmapStatusIcon from "@/components/BeatmapStatus";
 import { Tooltip } from "@/components/Tooltip";
@@ -15,14 +12,13 @@ import DifficultySelector from "@/app/beatmapsets/components/DifficultySelector"
 import DownloadButtons from "@/app/beatmapsets/components/DownloadButtons";
 import DifficultyInformation from "@/app/beatmapsets/components/DifficultyInformation";
 import FavouriteButton from "@/app/beatmapsets/components/FavouriteButton";
-import NotFound from "@/app/not-found";
 import Spinner from "@/components/Spinner";
 import BeatmapLeaderboard from "@/app/beatmapsets/components/BeatmapLeaderboard";
 import OpenBanchoButton from "@/app/beatmapsets/components/OpenBanchoButton";
 import { gameModeToVanilla } from "@/lib/utils/gameModeToVanilla";
 import Image from "next/image";
 import { GameMode } from "@/lib/hooks/api/types";
-import { Beatmap, BeatmapSet } from "@/lib/hooks/api/beatmap/types";
+import { Beatmap } from "@/lib/hooks/api/beatmap/types";
 import { useBeatmapSet } from "@/lib/hooks/api/beatmap/useBeatmapSet";
 
 export interface BeatmapsetProps {
