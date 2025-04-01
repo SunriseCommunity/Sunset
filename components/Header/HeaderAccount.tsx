@@ -22,9 +22,7 @@ export default function HeaderAccount({ isHovered }: Props) {
         <div className="flex items-center space-x-4">
           <div className="relative">
             <Image
-              src={`https://a.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/${
-                self.user_id
-              }?${Date.now()}`}
+              src={self.avatar_url}
               width={50}
               height={50}
               alt="Avatar"

@@ -37,20 +37,12 @@ export default function Settings() {
   useEffect(() => {
     if (self === undefined) return;
 
-    fetch(
-      `https://a.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/avatar/${
-        self.user_id
-      }?${Date.now()}`
-    ).then(async (res) => {
+    fetch(self.avatar_url).then(async (res) => {
       const file = await res.blob();
       setAvatarFile(new File([file], "avatar.png"));
     });
 
-    fetch(
-      `https://a.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/banner/${
-        self.user_id
-      }?${Date.now()}`
-    ).then(async (res) => {
+    fetch(self.banner_url).then(async (res) => {
       const file = await res.blob();
       setBannerFile(new File([file], "banner.png"));
     });

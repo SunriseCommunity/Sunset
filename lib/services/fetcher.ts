@@ -31,7 +31,6 @@ const fetcher = async <T>(url: string, options?: Options) => {
       headers: {
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
       },
-      cache: "no-cache", // TODO: Simplify cache on backend so we can rely on it for more "static" data
     })
     .then(async (res) => {
       const contentType = res?.headers?.get("content-type");

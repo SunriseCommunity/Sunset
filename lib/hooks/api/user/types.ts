@@ -26,6 +26,8 @@ export interface User {
   description?: string;
   country_code: string;
   register_date: string;
+  avatar_url: string;
+  banner_url: string;
   last_online_time: string;
   restricted: boolean;
   silenced_until?: string;
