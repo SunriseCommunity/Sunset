@@ -6,7 +6,7 @@ const errorInterceptor = async (error: HTTPError) => {
   const { response } = error;
   const contentType = response?.headers?.get("content-type");
 
-  if (contentType?.indexOf("application/json") !== -1) {
+  if (contentType != null && contentType?.indexOf("application/json") !== -1) {
     const data = (await response.json()) as PossibleErrorResult<null>;
     error.message = data.error ?? "Unknown error";
   } else {
@@ -34,10 +34,19 @@ const fetcher = async <T>(url: string, options?: Options) => {
       cache: "no-cache", // TODO: Simplify cache on backend so we can rely on it for more "static" data
     })
     .then(async (res) => {
-      try {
-        return await res.json();
-      } catch {
-        return null;
+      const contentType = res?.headers?.get("content-type");
+
+      if (
+        contentType != null &&
+        contentType?.indexOf("application/json") !== -1
+      ) {
+        try {
+          return await res.json();
+        } catch {
+          return null;
+        }
+      } else {
+        return await res.text();
       }
     });
 

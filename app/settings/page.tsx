@@ -33,17 +33,21 @@ export default function Settings() {
   const { self, isLoading } = useSelf();
 
   useEffect(() => {
-    if (self === null) return;
+    if (self === undefined) return;
 
     fetch(
-      `https://a.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/avatar/${self.user_id}?${Date.now()}`
+      `https://a.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/avatar/${
+        self.user_id
+      }?${Date.now()}`
     ).then(async (res) => {
       const file = await res.blob();
       setAvatarFile(new File([file], "avatar.png"));
     });
 
     fetch(
-      `https://a.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/banner/${self.user_id}?${Date.now()}`
+      `https://a.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/banner/${
+        self.user_id
+      }?${Date.now()}`
     ).then(async (res) => {
       const file = await res.blob();
       setBannerFile(new File([file], "banner.png"));
@@ -100,7 +104,7 @@ export default function Settings() {
       </div>
     );
 
-  if (self === null)
+  if (self === undefined)
     return (
       <div className="flex flex-col w-full mt-8 ">
         {/* Header */}
@@ -187,7 +191,7 @@ export default function Settings() {
       <div className="bg-terracotta-700 rounded-b-lg p-4 shadow-lg w-full mx-auto mb-4">
         <div className="flex flex-col w-11/12 mx-auto">
           <MarkdownInput
-            defaultText={self.description}
+            defaultText={self?.description}
             onSave={saveDescription}
             isSaving={isUpdatingDescription}
           />
