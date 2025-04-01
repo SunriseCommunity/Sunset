@@ -46,7 +46,7 @@ const fetcher = async <T>(url: string, options?: Options) => {
           return null;
         }
       } else {
-        return await res.text();
+        return res;
       }
     });
 
