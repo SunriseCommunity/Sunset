@@ -10,16 +10,20 @@ import Image from "next/image";
 import GameModeSelector from "@/components/GameModeSelector";
 import { UsersLeaderboardType } from "@/lib/hooks/api/user/types";
 import { useUsersLeaderboard } from "@/lib/hooks/api/user/useUsersLeaderboard";
+import numberWith from "@/lib/utils/numberWith";
 
 export default function Leaderboard() {
   const [activeMode, setActiveMode] = useState(GameMode.std);
+  const [leaderboardType, setLeaderboardType] = useState(
+    UsersLeaderboardType.pp
+  );
   const [page, setPage] = useState(1);
 
   const pageLimit = 10;
 
   const usersLeaderboardQuery = useUsersLeaderboard(
     activeMode,
-    UsersLeaderboardType.pp,
+    leaderboardType,
     page,
     pageLimit
   );
@@ -44,7 +48,22 @@ export default function Leaderboard() {
         icon={<ChartColumnIncreasing />}
         className="bg-terracotta-650 mb-4"
         roundBottom={true}
-      />
+      >
+        <div className="flex place-content-end w-full gap-x-2 pt-2">
+          <PrettyButton
+            onClick={() => setLeaderboardType(UsersLeaderboardType.pp)}
+            text="Performance points"
+            className="px-3 py-1"
+            isSelected={leaderboardType == UsersLeaderboardType.pp}
+          />
+          <PrettyButton
+            onClick={() => setLeaderboardType(UsersLeaderboardType.score)}
+            text="Ranked Score"
+            className="px-3 py-1"
+            isSelected={leaderboardType == UsersLeaderboardType.score}
+          />
+        </div>
+      </PrettyHeader>
 
       <PrettyHeader className="bg-terracotta-650">
         <GameModeSelector
@@ -73,19 +92,23 @@ export default function Leaderboard() {
                     <th className="p-3">Rank</th>
                     <th className="p-3">Flag</th>
                     <th className="p-3">Player</th>
-                    <th className="p-3">Performance</th>
+                    <th className="p-3">
+                      {leaderboardType == UsersLeaderboardType.pp
+                        ? "Performance"
+                        : "Ranked Score"}
+                    </th>
                     <th className="p-3">Accuracy</th>
                     <th className="p-3">Play Count</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {users.map((user) => (
+                  {users.map((user, index) => (
                     <tr
-                      key={user.stats.rank}
+                      key={index}
                       className="border-b border-[#333333] hover:bg-[#333333] transition-colors"
                     >
                       <td className="p-3 text-lg font-bold">
-                        # {user.stats.rank}
+                        # {index + (page - 1) * pageLimit + 1}
                       </td>
                       <td className="p-3">
                         <Image
@@ -116,7 +139,14 @@ export default function Leaderboard() {
                           {user.user.username}
                         </p>
                       </td>
-                      <td className="p-3">{Math.round(user.stats.pp)} pp</td>
+                      <td className="p-3">
+                        {leaderboardType == UsersLeaderboardType.pp
+                          ? `${Math.round(user.stats.pp)} pp`
+                          : numberWith(
+                              Math.round(user.stats.ranked_score),
+                              ","
+                            )}
+                      </td>
                       <td className="p-3">{user.stats.accuracy.toFixed(2)}%</td>
                       <td className="p-3">{user.stats.play_count}</td>
                     </tr>
