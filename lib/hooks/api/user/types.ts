@@ -78,6 +78,11 @@ export enum UserScoresType {
   "top",
 }
 
+export enum UsersLeaderboardType {
+  "pp",
+  "score",
+}
+
 export interface StatsSnapshot {
   country_rank: number;
   global_rank: number;
