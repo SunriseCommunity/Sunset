@@ -174,13 +174,9 @@ export default function UserTabGeneral({
             </div>
             <div className="flex items-center">
               <div className="flex flex-col place-content-between items-end">
-                <p className="text-sm">
-                  {chartValue == "pp" ? "Performance" : "Current Rank"}
-                </p>
+                <p className="text-sm">Performance</p>
                 <p className="text-2xl font-bald text-terracotta-400">
-                  {chartValue == "pp"
-                    ? NumberWith(Math.round(stats?.pp ?? 0) ?? 0, ",")
-                    : stats?.rank}
+                  {NumberWith(Math.round(stats?.pp ?? 0) ?? 0, ",")}
                 </p>
               </div>
             </div>
@@ -191,17 +187,17 @@ export default function UserTabGeneral({
                 <UserStatsChart data={userGraph} value={chartValue} />
                 <div className="flex place-content-end w-full gap-x-2 pt-2">
                   <PrettyButton
-                    onClick={() => setChartValue("pp")}
-                    text="Show by pp"
-                    className={
-                      chartValue == "pp" ? "bg-terracotta-400 text-white" : ""
-                    }
-                  />
-                  <PrettyButton
                     onClick={() => setChartValue("rank")}
                     text="Show by rank"
                     className={
                       chartValue == "rank" ? "bg-terracotta-400 text-white" : ""
+                    }
+                  />
+                  <PrettyButton
+                    onClick={() => setChartValue("pp")}
+                    text="Show by pp"
+                    className={
+                      chartValue == "pp" ? "bg-terracotta-400 text-white" : ""
                     }
                   />
                 </div>

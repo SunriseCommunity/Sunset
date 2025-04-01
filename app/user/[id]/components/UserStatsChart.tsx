@@ -114,7 +114,13 @@ export default function UserStatsChart({ data, value: chartValue }: Props) {
             fontSize: "0px",
           }}
         />
-        <YAxis reversed={isChartReversed} />
+        <YAxis
+          type="number"
+          tickFormatter={(value: number, index: number) => {
+            return Math.round(value).toFixed();
+          }}
+          reversed={isChartReversed}
+        />
 
         <Area
           type="monotone"
