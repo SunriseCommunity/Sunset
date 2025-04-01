@@ -1,10 +1,10 @@
 "use client";
 
-import { User } from "@/lib/types/User";
 import { useEffect, useRef } from "react";
 import PrettyButton from "@/components/General/PrettyButton";
 import { twMerge } from "tailwind-merge";
 import { clearAuthCookies } from "@/lib/utils/clearAuthCookies";
+import { User } from "@/lib/hooks/api/user/types";
 
 interface Props {
   self: User | null;
