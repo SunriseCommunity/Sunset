@@ -5,11 +5,10 @@ import { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import RoundedContent from "../General/RoundedContent";
 import { twMerge } from "tailwind-merge";
-import { User } from "@/lib/types/User";
-import { searchUsers } from "@/lib/actions/searchUsers";
 import UserRowElement from "../UserRowElement";
 import useDebounce from "@/lib/hooks/useDebounce";
 import Spinner from "../Spinner";
+import { useUserSearch } from "@/lib/hooks/api/user/useUserSearch";
 
 interface Props {
   isHovered: boolean;
@@ -17,32 +16,15 @@ interface Props {
 
 export default function HeaderSearchPopup({ isHovered }: Props) {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [searchResults, setSearchResults] = useState<{
-    result: User[];
-    total_count: number;
-  }>({ result: [], total_count: 0 });
-  const [isSearching, setIsSearching] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const searchValue = useDebounce<string>(searchQuery, 450);
+
+  const [searchQuery, setSearchQuery] = useState<string | null>(null);
+  const searchValue = useDebounce<string | null>(searchQuery, 450);
 
   const searchRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    if (searchValue.length === 0) {
-      setSearchResults({ result: [], total_count: -1 });
-      return;
-    }
-
-    setIsSearching(true);
-
-    searchUsers(searchValue, 0, 5).then((res) => {
-      setIsSearching(false);
-      if (res.data) {
-        setSearchResults(res.data);
-      }
-    });
-  }, [searchValue]);
+  const userSearchQuery = useUserSearch(searchValue, 1, 5);
+  const userSearch = userSearchQuery.data;
 
   useEffect(() => {
     document.addEventListener("click", closeDropdown);
@@ -64,8 +46,7 @@ export default function HeaderSearchPopup({ isHovered }: Props) {
   const toggleSearch = () => {
     setIsSearchOpen(!isSearchOpen);
     if (!isSearchOpen) {
-      setSearchQuery("");
-      setSearchResults({ result: [], total_count: -1 });
+      setSearchQuery(null);
     }
   };
 
@@ -88,7 +69,7 @@ export default function HeaderSearchPopup({ isHovered }: Props) {
               <div
                 className={twMerge(
                   "bg-coffee-600 pb-4 pt-2 px-4 relative",
-                  searchResults.total_count != -1
+                  userSearch
                     ? "rounded-t-lg"
                     : "rounded-lg shadow-black shadow-lg"
                 )}
@@ -96,7 +77,7 @@ export default function HeaderSearchPopup({ isHovered }: Props) {
                 <div className="relative w-full">
                   <div className="flex flex-col items-center justify-center">
                     <div className="flex items-center justify-between w-full relative">
-                      {isSearching ? (
+                      {userSearchQuery.isLoading ? (
                         <Spinner />
                       ) : (
                         <Search className="h-6 w-6 text-gray-400" />
@@ -107,7 +88,7 @@ export default function HeaderSearchPopup({ isHovered }: Props) {
                         type="text"
                         placeholder="Type to search..."
                         className="w-full px-4 py-2 text-xl  bg-coffee-600  rounded-md focus:outline-none"
-                        value={searchQuery}
+                        value={searchQuery ?? ""}
                         onChange={(e) => setSearchQuery(e.target.value)}
                       />
                     </div>
@@ -115,16 +96,16 @@ export default function HeaderSearchPopup({ isHovered }: Props) {
                   </div>
                 </div>
               </div>
-              {searchResults.total_count != -1 && (
+              {userSearch && (
                 <RoundedContent className="shadow-black shadow-lg">
-                  {searchResults.result.length === 0 && !isSearching && (
+                  {userSearch.length === 0 && !userSearchQuery.isLoading && (
                     <div className="flex items-center justify-center h-12">
                       <p className="text-gray-400">No results found.</p>
                     </div>
                   )}
 
                   <ul className="space-y-2">
-                    {searchResults.result.map((result, index) => (
+                    {userSearch?.map((result, index) => (
                       <UserRowElement user={result} key={index} />
                     ))}
                   </ul>
