@@ -52,10 +52,17 @@ const navigateTo = (href: string) => {
 
 const statusColor = (user: User) =>
   user.user_status.trim() === "Offline"
-    ? "text-[#b8b8b8]"
+    ? "text-stone-300"
     : user.user_status.trim() === "Idle" || user.user_status.trim() === "Afk"
     ? "text-orange-400"
     : "text-green-500";
+
+const statusColorBg = (user: User) =>
+  user.user_status.trim() === "Offline"
+    ? "bg-stone-300"
+    : user.user_status.trim() === "Idle" || user.user_status.trim() === "Afk"
+    ? "bg-orange-400"
+    : "bg-green-500";
 
 const renderTabContent = (
   userStats: UserStats | undefined,
@@ -266,6 +273,12 @@ export default function UserPage({ params }: { params: { id: number } }) {
                     fill={true}
                     objectFit="cover"
                     className={`w-32 h-32 rounded-full border-4 relative border-[#2a2a2a]`}
+                  />
+                  <div
+                    className={twMerge(
+                      "absolute bottom-1 right-1 w-10 h-10 rounded-full border-4 border-[#2a2a2a]",
+                      statusColorBg(user)
+                    )}
                   />
                 </div>
                 <div className="overflow-hidden flex-wrap">
