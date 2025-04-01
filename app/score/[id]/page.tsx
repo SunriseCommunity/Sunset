@@ -11,7 +11,7 @@ import { getGradeColor } from "@/lib/utils/getGradeColor";
 import UserElement from "@/components/UserElement";
 import PrettyButton from "@/components/General/PrettyButton";
 import useSelf from "@/lib/hooks/useSelf";
-import { downloadReplay } from "@/lib/actions/downloadReplay";
+
 import { twMerge } from "tailwind-merge";
 import { getBeatmapStarRating } from "@/lib/utils/getBeatmapStarRating";
 import DifficultyIcon from "@/components/DifficultyIcon";
@@ -22,11 +22,14 @@ import ImageWithFallback from "@/components/ImageWithFallback";
 import { useUser } from "@/lib/hooks/api/user/useUser";
 import { useScore } from "@/lib/hooks/api/score/useScore";
 import { useBeatmap } from "@/lib/hooks/api/beatmap/useBeatmap";
+import { useDownloadReplay } from "@/lib/hooks/api/score/useDownloadReplay";
 
 export default function Score({ params }: { params: { id: number } }) {
-  const [isReplayLoading, setIsReplayLoading] = useState(false);
-
   const { self } = useSelf();
+
+  const { isLoading: isReplayLoading, downloadReplay } = useDownloadReplay(
+    params.id
+  );
 
   const scoreQuery = useScore(params.id);
 
@@ -67,18 +70,6 @@ export default function Score({ params }: { params: { id: number } }) {
       </main>
     );
   }
-
-  const handleDownloadReplay = () => {
-    if (!score) return;
-    setIsReplayLoading(true);
-
-    downloadReplay(score.id).then((res) => {
-      if (res.error) {
-        alert(res.error);
-      }
-      setIsReplayLoading(false);
-    });
-  };
 
   return (
     <div className="flex flex-col w-full mt-8">
@@ -167,7 +158,7 @@ export default function Score({ params }: { params: { id: number } }) {
                         Played by {user?.username ?? "Unknown user"}
                       </p>
                       <PrettyButton
-                        onClick={handleDownloadReplay}
+                        onClick={downloadReplay}
                         text="Download Replay"
                         icon={<Download />}
                         className="py-1 px-2 mt-2"
