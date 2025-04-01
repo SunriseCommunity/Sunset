@@ -3,8 +3,7 @@
 import BeatmapStatusIcon from "@/components/BeatmapStatus";
 import ImageWithFallback from "@/components/ImageWithFallback";
 import SkeletonLoading from "@/components/SkeletonLoading";
-import { getBeatmap } from "@/lib/actions/getBeatmap";
-import { Beatmap, BeatmapStatus } from "@/lib/hooks/api/beatmap/types";
+import { BeatmapStatus } from "@/lib/hooks/api/beatmap/types";
 import { useBeatmap } from "@/lib/hooks/api/beatmap/useBeatmap";
 import { Score } from "@/lib/hooks/api/score/types";
 import { getGradeColor } from "@/lib/utils/getGradeColor";
