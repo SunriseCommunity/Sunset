@@ -2,11 +2,9 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import Spinner from "@/components/Spinner";
 import HeaderLoginDropdown from "@/components/Header/HeaderLoginDropdown";
 import HeaderDropdown from "@/components/Header/HeaderDropdown";
 import useSelf from "@/lib/hooks/useSelf";
-import { LucideMoreHorizontal } from "lucide-react";
 
 interface Props {
   isHovered: boolean;
@@ -16,9 +14,7 @@ export default function HeaderAccount({ isHovered }: Props) {
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
   const [isLoginDropdownOpen, setIsLoginDropdownOpen] = useState(false);
 
-  const { self, isLoading } = useSelf();
-
-  if (isLoading) return <Spinner />;
+  const { self } = useSelf();
 
   return (
     <>

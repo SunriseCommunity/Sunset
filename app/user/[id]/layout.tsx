@@ -1,7 +1,8 @@
 import { Metadata } from "next";
 import Page from "./page";
 import { notFound } from "next/navigation";
-import { getUser } from "@/lib/actions/getUser";
+import fetcher from "@/lib/services/fetcher";
+import { User } from "@/lib/hooks/api/user/types";
 
 export const revalidate = 60;
 
@@ -10,25 +11,21 @@ export async function generateMetadata({
 }: {
   params: { id: number };
 }): Promise<Metadata> {
-  const userObj = await getUser(params.id).then((user) => {
-    if (user.error) {
-      return notFound();
-    } else {
-      return {
-        user: user.data!,
-      };
-    }
-  });
+  const user = await fetcher<User>(`user/${params.id}`);
+
+  if (!user) {
+    return notFound();
+  }
 
   return {
-    title: `${userObj.user.username} · user profile | osu!Sunrise`,
-    description: `We don't know much about them, but we're sure ${userObj.user.username} is great.`,
+    title: `${user.username} · user profile | osu!Sunrise`,
+    description: `We don't know much about them, but we're sure ${user.username} is great.`,
     openGraph: {
       siteName: "osu!Sunrise",
-      title: `${userObj.user.username} · user profile | osu!Sunrise`,
-      description: `We don't know much about them, but we're sure ${userObj.user.username} is great.`,
+      title: `${user.username} · user profile | osu!Sunrise`,
+      description: `We don't know much about them, but we're sure ${user.username} is great.`,
       images: [
-        `https://a.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/avatar/${userObj.user.user_id}`,
+        `https://a.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/avatar/${user.user_id}`,
       ],
     },
   };

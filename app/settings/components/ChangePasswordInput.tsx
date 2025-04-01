@@ -1,7 +1,6 @@
 "use client";
 
-import { changePassword } from "@/lib/actions/changePassword";
-import { getSelf } from "@/lib/actions/getSelf";
+import { usePasswordChange } from "@/lib/hooks/api/user/usePasswordChange";
 import { useState } from "react";
 
 export default function ChangePasswordInput() {
@@ -10,6 +9,8 @@ export default function ChangePasswordInput() {
   const showError = (message: string) => {
     setError(message);
   };
+
+  const { trigger } = usePasswordChange();
 
   const submitChangePasswordForm = async (
     e: React.FormEvent<HTMLFormElement>
@@ -34,25 +35,21 @@ export default function ChangePasswordInput() {
       return;
     }
 
-    const { isSuccessful, error } = await changePassword(
-      currentPassword,
-      password
-    );
-
-    if (!isSuccessful) {
-      showError(error || "Unknown error.");
-      return;
-    }
-
-    form.reset();
-
-    alert("Password changed successfully!");
-
-    getSelf().then((user) => {
-      if (!user) {
-        window.location.href = `/`;
+    trigger(
+      {
+        current_password: currentPassword,
+        new_password: password,
+      },
+      {
+        onSuccess: () => {
+          form.reset();
+          alert("Password changed successfully!");
+        },
+        onError: (err) => {
+          showError(err.message ?? "Unknown error.");
+        },
       }
-    });
+    );
   };
 
   return (

@@ -1,10 +1,11 @@
 "use client";
 
-import { User } from "@/lib/types/User";
 import { useEffect, useRef } from "react";
 import PrettyButton from "@/components/General/PrettyButton";
 import { twMerge } from "tailwind-merge";
 import { clearAuthCookies } from "@/lib/utils/clearAuthCookies";
+import { User } from "@/lib/hooks/api/user/types";
+import { useUserSelf } from "@/lib/hooks/api/user/useUser";
 
 interface Props {
   self: User | null;
@@ -31,6 +32,8 @@ export default function HeaderDropdown({ isOpen, self, setIsOpen }: Props) {
     window.location.href = href;
   };
 
+  const { mutate } = useUserSelf();
+
   return (
     self && (
       <div
@@ -54,7 +57,10 @@ export default function HeaderDropdown({ isOpen, self, setIsOpen }: Props) {
           />
 
           <PrettyButton
-            onClick={clearAuthCookies}
+            onClick={() => {
+              clearAuthCookies();
+              mutate(undefined);
+            }}
             text="sign out"
             className="text-start p-1 mb-1"
           />

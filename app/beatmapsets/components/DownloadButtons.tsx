@@ -1,5 +1,5 @@
 import PrettyButton from "@/components/General/PrettyButton";
-import { BeatmapSet } from "@/lib/types/BeatmapSet";
+import { BeatmapSet } from "@/lib/hooks/api/beatmap/types";
 import { Download } from "lucide-react";
 
 interface DownloadButtonsProps {

@@ -1,5 +1,5 @@
 import { Tooltip } from "@/components/Tooltip";
-import { UserBadge } from "@/lib/types/User";
+import { UserBadge } from "@/lib/hooks/api/user/types";
 import {
   Coffee,
   HeartHandshake,
@@ -23,7 +23,7 @@ const BadgeDescription: { [key in UserBadge]: any } = {
   bat: "They manage beatmap submissions.",
   champion: "Current number one player on the server. 🏆",
   bot: "Beep boop. I'm a bot.",
-  restricted: "This user is restricted.",
+  restricted: "This user is restricted.", // Deprecated
 };
 
 export default function UserBadges({ badges }: UserBadgesProps) {

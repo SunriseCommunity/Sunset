@@ -1,8 +1,9 @@
 import { Metadata } from "next";
 import Page, { BeatmapsetProps } from "./page";
 import { notFound } from "next/navigation";
-import { getBeatmapSet } from "@/lib/actions/getBeatmapSet";
 import { getBeatmapStarRating } from "@/lib/utils/getBeatmapStarRating";
+import fetcher from "@/lib/services/fetcher";
+import { BeatmapSet } from "@/lib/hooks/api/beatmap/types";
 
 export async function generateMetadata({
   params,
@@ -11,13 +12,11 @@ export async function generateMetadata({
 
   if (!beatmapSetId || isNaN(beatmapSetId as any)) return notFound();
 
-  const beatmapSet = await getBeatmapSet(beatmapSetId).then((res) => {
-    if (res.error || !res.data) {
-      return notFound();
-    }
+  const beatmapSet = await fetcher<BeatmapSet>(`beatmapset/${beatmapSetId}`);
 
-    return res.data;
-  });
+  if (!beatmapSet) {
+    return notFound();
+  }
 
   const beatmap = beatmapId
     ? beatmapSet.beatmaps.find(
@@ -31,7 +30,9 @@ export async function generateMetadata({
     openGraph: {
       siteName: "osu!Sunrise",
       title: `${beatmapSet.artist} - ${beatmapSet.title} | osu!Sunrise`,
-      description: `Beatmapset info for ${beatmapSet.title} by ${beatmapSet.artist} ${
+      description: `Beatmapset info for ${beatmapSet.title} by ${
+        beatmapSet.artist
+      } ${
         beatmap
           ? `[${beatmap.version}] ★${getBeatmapStarRating(beatmap).toFixed(2)}`
           : ""

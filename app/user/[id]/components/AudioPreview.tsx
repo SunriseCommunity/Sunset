@@ -1,6 +1,6 @@
 import PrettyButton from "@/components/General/PrettyButton";
 import useAudioPlayer from "@/lib/hooks/useAudioPlayer";
-import { BeatmapSet } from "@/lib/types/BeatmapSet";
+import { BeatmapSet } from "@/lib/hooks/api/beatmap/types";
 
 import { Pause, Play } from "lucide-react";
 import { useEffect, useState } from "react";

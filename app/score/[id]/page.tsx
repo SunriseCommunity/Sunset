@@ -1,85 +1,60 @@
 "use client";
 import Spinner from "@/components/Spinner";
-import { Download, DownloadCloud, LucideHistory } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Download, LucideHistory } from "lucide-react";
+import { useState } from "react";
 import PrettyHeader from "@/components/General/PrettyHeader";
-import { getScore } from "@/lib/actions/getScore";
-import { Score as ScoreType } from "@/lib/types/Score";
 import Image from "next/image";
 import RoundedContent from "@/components/General/RoundedContent";
-import { getBeatmap } from "@/lib/actions/getBeatmap";
-import { Beatmap } from "@/lib/types/Beatmap";
+import { BeatmapStatus } from "@/lib/hooks/api/beatmap/types";
 import PrettyDate from "@/components/General/PrettyDate";
 import { getGradeColor } from "@/lib/utils/getGradeColor";
 import UserElement from "@/components/UserElement";
-import { User } from "@/lib/types/User";
-import { getUser } from "@/lib/actions/getUser";
 import PrettyButton from "@/components/General/PrettyButton";
 import useSelf from "@/lib/hooks/useSelf";
-import { downloadReplay } from "@/lib/actions/downloadReplay";
+
 import { twMerge } from "tailwind-merge";
 import { getBeatmapStarRating } from "@/lib/utils/getBeatmapStarRating";
 import DifficultyIcon from "@/components/DifficultyIcon";
 import BeatmapStatusIcon from "@/components/BeatmapStatus";
-import { BeatmapStatus } from "@/lib/types/BeatmapStatus";
 import { Tooltip } from "@/components/Tooltip";
 import { isBeatmapRanked } from "@/lib/utils/isBeatmapRanked";
 import ImageWithFallback from "@/components/ImageWithFallback";
+import { useUser } from "@/lib/hooks/api/user/useUser";
+import { useScore } from "@/lib/hooks/api/score/useScore";
+import { useBeatmap } from "@/lib/hooks/api/beatmap/useBeatmap";
+import { useDownloadReplay } from "@/lib/hooks/api/score/useDownloadReplay";
 
 export default function Score({ params }: { params: { id: number } }) {
-  const [score, setScore] = useState<ScoreType | null>(null);
-  const [user, setUser] = useState<User | null>(null);
-  const [beatmap, setBeatmap] = useState<Beatmap | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isReplayLoading, setIsReplayLoading] = useState(false);
-
   const { self } = useSelf();
 
-  useEffect(() => {
-    setIsLoading(true);
+  const { isLoading: isReplayLoading, downloadReplay } = useDownloadReplay(
+    params.id
+  );
 
-    getScore(params.id).then((res) => {
-      if (res.error || !res.data) {
-        setIsLoading(false);
-        return;
-      }
+  const scoreQuery = useScore(params.id);
 
-      setScore(res.data);
+  const score = scoreQuery.data;
 
-      getUser(res.data.user_id).then((resUser) => {
-        if (res.error) return;
-        setUser(resUser.data);
+  const userQuery = useUser(score?.user_id ?? null);
+  const beatmapQuery = useBeatmap(score?.beatmap_id ?? null);
 
-        getBeatmap(res.data!.beatmap_id).then((res) => {
-          if (res.error) return;
-          setBeatmap(res.data);
+  const user = userQuery?.data;
+  const beatmap = beatmapQuery?.data;
 
-          setIsLoading(false);
-        });
-      });
-    });
-  }, [params.id]);
-
-  const handleDownloadReplay = () => {
-    if (!score) return;
-    setIsReplayLoading(true);
-
-    downloadReplay(score.id).then((res) => {
-      if (res.error) {
-        alert(res.error);
-      }
-      setIsReplayLoading(false);
-    });
-  };
-
-  if (isLoading)
+  if (scoreQuery.isLoading || userQuery?.isLoading || beatmapQuery?.isLoading)
     return (
       <div className="flex justify-center items-center h-96">
         <Spinner size="xl" />
       </div>
     );
 
-  if (user === null || score === null)
+  if (
+    !score ||
+    !user ||
+    scoreQuery.error ||
+    userQuery?.error ||
+    beatmapQuery?.error
+  ) {
     return (
       <main className="container mx-auto my-8">
         <PrettyHeader text="Score Performance" icon={<LucideHistory />} />
@@ -100,6 +75,7 @@ export default function Score({ params }: { params: { id: number } }) {
         </RoundedContent>
       </main>
     );
+  }
 
   return (
     <div className="flex flex-col w-full mt-8">
@@ -126,20 +102,24 @@ export default function Score({ params }: { params: { id: number } }) {
                       <BeatmapStatusIcon
                         status={beatmap?.status ?? BeatmapStatus.Graveyard}
                       />
-                      <h3 className="text-lg font-bold text-nowrap">{beatmap?.title}</h3>
+                      <h3 className="text-lg font-bold text-nowrap">
+                        {beatmap?.title}
+                      </h3>
                     </div>
 
-                    <p className="text-gray-300 text-nowrap">by {beatmap?.artist}</p>
+                    <p className="text-gray-300 text-nowrap">
+                      by {beatmap?.artist}
+                    </p>
                   </a>
                   <div className="text-right w-3/4">
                     <div className="flex flex-row items-center justify-end w-full">
                       <p className="text-yellow-400 text-base justify-end  flex flex-row w-full">
                         <p className="flex flex-row items-center max-w-[50%]">
                           {" "}
-                          [ 
-                            <p className="truncate overflow-hidden whitespace-nowrap">
+                          [
+                          <p className="truncate overflow-hidden whitespace-nowrap">
                             {beatmap?.version || "Unknown"}
-                            </p>
+                          </p>
                           <DifficultyIcon
                             iconColor="#facc15"
                             gameMode={score.game_mode}
@@ -148,10 +128,10 @@ export default function Score({ params }: { params: { id: number } }) {
                           ]
                         </p>
                         <p>
-                        ★ {beatmap && getBeatmapStarRating(beatmap).toFixed(2)}{" "}
-                        {score.mods}
+                          ★{" "}
+                          {beatmap && getBeatmapStarRating(beatmap).toFixed(2)}{" "}
+                          {score.mods}
                         </p>
-                      
                       </p>
                     </div>
                     <p className="text-gray-300">
@@ -180,9 +160,11 @@ export default function Score({ params }: { params: { id: number } }) {
                           time={score.when_played}
                         />
                       </div>
-                      <p className="text-gray-200">Played by {user.username}</p>
+                      <p className="text-gray-200">
+                        Played by {user?.username ?? "Unknown user"}
+                      </p>
                       <PrettyButton
-                        onClick={handleDownloadReplay}
+                        onClick={downloadReplay}
                         text="Download Replay"
                         icon={<Download />}
                         className="py-1 px-2 mt-2"

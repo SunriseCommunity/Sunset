@@ -1,11 +1,12 @@
 "use client";
 
-import { changeUsername } from "@/lib/actions/changeUsername";
-import { getSelf } from "@/lib/actions/getSelf";
+import { useUsernameChange } from "@/lib/hooks/api/user/useUsernameChange";
 import { useState } from "react";
 
 export default function ChangeUsernameInput() {
   const [error, setError] = useState<string | null>(null);
+
+  const { trigger } = useUsernameChange();
 
   const showError = (message: string) => {
     setError(message);
@@ -27,22 +28,20 @@ export default function ChangeUsernameInput() {
       return;
     }
 
-    const { isSuccessful, error } = await changeUsername(newUsername);
-
-    if (!isSuccessful) {
-      showError(error || "Unknown error.");
-      return;
-    }
-
-    form.reset();
-
-    alert("Username changed successfully!");
-
-    getSelf().then((user) => {
-      if (!user) {
-        window.location.href = `/`;
+    trigger(
+      {
+        new_username: newUsername,
+      },
+      {
+        onSuccess: () => {
+          form.reset();
+          alert("Username changed successfully!");
+        },
+        onError: (err) => {
+          showError(err.message ?? "Unknown error.");
+        },
       }
-    });
+    );
   };
 
   return (
@@ -56,6 +55,7 @@ export default function ChangeUsernameInput() {
           name="newUsername"
           className="bg-terracotta-800 p-2 rounded-lg mb-2"
           maxLength={32}
+          pattern="^[a-zA-Z0-9_\- ]{1,32}$"
           required
         />
 
