@@ -66,12 +66,9 @@ export default function Register() {
 
           revalidate();
 
-          if (!self) {
-            showError("Couldn't authorize as created user");
-            return;
-          }
+          form.reset();
 
-          window.location.href = `/user/${self.user_id}`;
+          alert("Account successfully created!");
         },
         onError(err) {
           showError(err.message ?? "Unknown error.");
