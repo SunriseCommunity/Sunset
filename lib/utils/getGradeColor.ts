@@ -1,7 +1,7 @@
-const gradeBackgrounds: { [key: string]: string } = {
-  XH: "sky-50",
-  X: "sky-100",
-  SH: "yellow-300",
+const gradeColors: { [key: string]: string } = {
+  XH: "sky-100",
+  X: "yellow-300",
+  SH: "sky-100",
   S: "yellow-300",
   A: "green-300",
   B: "blue-300",
@@ -11,5 +11,5 @@ const gradeBackgrounds: { [key: string]: string } = {
 };
 
 export function getGradeColor(grade: string) {
-  return gradeBackgrounds[grade] || "gray-400";
+  return gradeColors[grade] || "gray-400";
 }
