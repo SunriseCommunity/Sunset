@@ -69,9 +69,11 @@ export default function UserBadges({ badges }: UserBadgesProps) {
         }
 
         return (
-          <Tooltip content={BadgeDescription[badge]}>
+          <Tooltip
+            content={BadgeDescription[badge]}
+            key={`user-badge-${index}`}
+          >
             <div
-              key={`user-badge-${index}`}
               className={`flex items-center gap-2 p-2 rounded-lg ${badgeColor} smooth-transition hover:scale-105 `}
             >
               {badgeIcon}

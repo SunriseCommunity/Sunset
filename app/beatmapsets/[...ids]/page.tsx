@@ -2,7 +2,7 @@
 import { Book, Clapperboard, Info, Music2 } from "lucide-react";
 import PrettyHeader from "@/components/General/PrettyHeader";
 import RoundedContent from "@/components/General/RoundedContent";
-import { useEffect, useState } from "react";
+import { useEffect, useState, use } from "react";
 import GameModeSelector, { GameRuleFlags } from "@/components/GameModeSelector";
 import ImageWithFallback from "@/components/ImageWithFallback";
 import PrettyDate from "@/components/General/PrettyDate";
@@ -22,10 +22,11 @@ import { Beatmap } from "@/lib/hooks/api/beatmap/types";
 import { useBeatmapSet } from "@/lib/hooks/api/beatmap/useBeatmapSet";
 
 export interface BeatmapsetProps {
-  params: { ids: [number?, number?] };
+  params: Promise<{ ids: [number?, number?] }>;
 }
 
-export default function Beatmapset({ params }: BeatmapsetProps) {
+export default function Beatmapset(props: BeatmapsetProps) {
+  const params = use(props.params);
   const [beatmapSetId, beatmapId] = params.ids;
 
   const [activeMode, setActiveMode] = useState(GameMode.std);

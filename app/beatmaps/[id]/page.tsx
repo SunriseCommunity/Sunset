@@ -1,4 +1,5 @@
-"use client";
+"use client";;
+import { use } from "react";
 import Spinner from "@/components/Spinner";
 import { useBeatmap } from "@/lib/hooks/api/beatmap/useBeatmap";
 import NotFound from "@/app/not-found";
@@ -8,10 +9,11 @@ import Image from "next/image";
 import { Music2 } from "lucide-react";
 
 interface BeatmapsProps {
-  params: { id: number };
+  params: Promise<{ id: number }>;
 }
 
-export default function BeatmapsRedirect({ params }: BeatmapsProps) {
+export default function BeatmapsRedirect(props: BeatmapsProps) {
+  const params = use(props.params);
   const beatmapQuery = useBeatmap(params.id);
   const beatmap = beatmapQuery.data;
 

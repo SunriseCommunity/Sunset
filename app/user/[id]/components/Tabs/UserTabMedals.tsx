@@ -61,7 +61,10 @@ function MedalElement(medal: UserMedal) {
   const isAchieved = medal.unlocked_at !== null;
 
   return (
-    <div className="flex flex-col items-center">
+    <div
+      className="flex flex-col items-center"
+      key={`medal-element-${medal.id}`}
+    >
       <Tooltip
         key={medal.id}
         content={
@@ -74,16 +77,16 @@ function MedalElement(medal: UserMedal) {
               {medal.description}
             </div>
 
-            <p className="text-xs text-gray-300">
+            <div className="text-xs text-gray-300">
               {isAchieved ? (
                 <div className="flex items-center">
-                  <p>achieved on&nbsp;</p>
+                  <span>achieved on&nbsp;</span>
                   <PrettyDate time={medal.unlocked_at!} withTime={false} />
                 </div>
               ) : (
                 `Not achieved`
               )}
-            </p>
+            </div>
           </div>
         }
       >

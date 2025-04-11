@@ -1,7 +1,7 @@
 "use client";
 
 import ImageWithFallback from "@/components/ImageWithFallback";
-import SkeletonLoading from "@/components/SkeletonLoading";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useBeatmap } from "@/lib/hooks/api/beatmap/useBeatmap";
 import { Score } from "@/lib/hooks/api/score/types";
 import { useUser } from "@/lib/hooks/api/user/useUser";
@@ -43,23 +43,25 @@ export default function UserScoreMinimal({
             fallBackSrc="/images/unknown-beatmap-banner.jpg"
           />
         ) : (
-          <SkeletonLoading className="" />
+          <Skeleton className="" />
         )}
         <div className="absolute inset-0 bg-gradient-to-l from-terracotta-200 to-transparent flex items-center cursor-pointer">
           <div className="py-2 px-4 flex place-content-between bg-black hover:bg-opacity-40 bg-opacity-50 w-full h-full smooth-transition ">
             <div className="flex-col h-full flex justify-between overflow-hidden ">
               <div className="flex-col overflow-hidden flex-wrap">
                 <h1 className="font-bold text-sm drop-shadow-md flex text-ellipsis">
-                  {beatmap?.artist ?? <SkeletonLoading className="w-20 h-3" />}
+                  {beatmap?.artist ?? <Skeleton className="w-20 h-3" />}
                   &nbsp;-&nbsp;
-                  {beatmap?.title ?? <SkeletonLoading className="w-28 h-3" />}
+                  {beatmap?.title ?? <Skeleton className="w-28 h-3" />}
                 </h1>
                 <div className="flex items-center space-x-2">
-                  <p className="text-xs drop-shadow-md text-gray-100 ">
-                    {beatmap?.version ?? (
-                      <SkeletonLoading className="w-16 h-3" />
-                    )}
-                  </p>
+                  {beatmap?.version ? (
+                    <p className="text-xs drop-shadow-md text-gray-100 ">
+                      {beatmap?.version}
+                    </p>
+                  ) : (
+                    <Skeleton className="w-16 h-3" />
+                  )}
                 </div>
               </div>
               <div className="flex pb-1">
@@ -73,12 +75,12 @@ export default function UserScoreMinimal({
                       height={24}
                     />
                   ) : (
-                    <SkeletonLoading className="w-4 h-4" />
+                    <Skeleton className="w-4 h-4" />
                   )}
                 </div>
 
                 <h2 className="text-white text-md font-bold mr-2 overflow-hidden flex-wrap whitespace-nowrap">
-                  {user?.username ?? <SkeletonLoading className="w-24 h-4" />}
+                  {user?.username ?? <Skeleton className="w-24 h-4" />}
                 </h2>
               </div>
             </div>

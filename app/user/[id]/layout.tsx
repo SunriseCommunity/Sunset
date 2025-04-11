@@ -6,11 +6,10 @@ import { User } from "@/lib/hooks/api/user/types";
 
 export const revalidate = 60;
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { id: number };
+export async function generateMetadata(props: {
+  params: Promise<{ id: number }>;
 }): Promise<Metadata> {
+  const params = await props.params;
   const user = await fetcher<User>(`user/${params.id}`);
 
   if (!user) {

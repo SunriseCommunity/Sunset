@@ -1,8 +1,15 @@
 "use client";
 import ServerStatus from "@/app/(site)/components/ServerStatus";
 import { useServerStatus } from "@/lib/hooks/api/useServerStatus";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+  const [videoId, setVideoId] = useState(0);
+
+  useEffect(() => {
+    setVideoId(Math.floor(Math.random() * 4));
+  }, []);
+
   const serverStatusQuery = useServerStatus();
   const serverStatus = serverStatusQuery.data ?? {
     is_online: false,
@@ -18,7 +25,7 @@ export default function Home() {
         muted
         loop
         className="absolute z-[-1] w-full min-h-[700px] max-h-[700px] object-cover top-0 left-0"
-        src={`/videos/landing-${Math.floor(Math.random() * 4)}.mp4`}
+        src={`/videos/landing-${videoId}.mp4`}
       />
       <div className="absolute z-5 w-full min-h-[700px] bg-gradient-to-t from-stone-900 to-transparent top-0 left-0" />
 

@@ -2,7 +2,7 @@
 
 import BeatmapStatusIcon from "@/components/BeatmapStatus";
 import ImageWithFallback from "@/components/ImageWithFallback";
-import SkeletonLoading from "@/components/SkeletonLoading";
+import { Skeleton } from "@/components/ui/skeleton";
 import { BeatmapStatus } from "@/lib/hooks/api/beatmap/types";
 import { useBeatmap } from "@/lib/hooks/api/beatmap/useBeatmap";
 import { Score } from "@/lib/hooks/api/score/types";
@@ -41,7 +41,7 @@ export default function UserScoreOverview({
             fallBackSrc="/images/unknown-beatmap-banner.jpg"
           />
         ) : (
-          <SkeletonLoading className="" />
+          <Skeleton className="" />
         )}
         <div className="absolute inset-0 bg-gradient-to-l from-terracotta-200 to-transparent flex items-center cursor-pointer">
           <div className="p-6 flex place-content-between bg-black hover:bg-opacity-40 bg-opacity-50 w-full  smooth-transition items-center">
@@ -52,21 +52,21 @@ export default function UserScoreOverview({
                     status={beatmap?.status ?? BeatmapStatus.Graveyard}
                   />
                 </span>
-                <p className="text-ellipsis text-nowrap overflow-clip max-w-full">
-                  {beatmap?.artist ?? <SkeletonLoading className="w-20 h-3" />}
+                <span className="text-ellipsis text-nowrap overflow-clip max-w-full">
+                  {beatmap?.artist ?? <Skeleton className="w-20 h-3" />}
                   &nbsp;-&nbsp;
-                  {beatmap?.title ?? <SkeletonLoading className="w-28 h-3" />}
-                </p>
+                  {beatmap?.title ?? <Skeleton className="w-28 h-3" />}
+                </span>
               </h1>
               <div className="flex items-end space-x-3">
-                <p className="text-base drop-shadow-md text-gray-100">
-                  {beatmap?.version ?? <SkeletonLoading className="w-24 h-4" />}
-                </p>
-                <p className="text-sm drop-shadow-md text-gray-300 italic">
+                <div className="text-base drop-shadow-md text-gray-100">
+                  {beatmap?.version ?? <Skeleton className="w-24 h-4" />}
+                </div>
+                <div className="text-sm drop-shadow-md text-gray-300 italic">
                   {timeSince(score.when_played) ?? (
-                    <SkeletonLoading className="w-24 h-4" />
+                    <Skeleton className="w-24 h-4" />
                   )}
-                </p>
+                </div>
               </div>
             </div>
             <div className="flex items-center space-x-4">

@@ -9,11 +9,12 @@ import { Beatmap } from "@/lib/hooks/api/beatmap/types";
 
 export const revalidate = 60;
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { id: number };
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    params: Promise<{ id: number }>;
+  }
+): Promise<Metadata> {
+  const params = await props.params;
   const score = await fetcher<Score>(`score/${params.id}`);
 
   if (!score) {
