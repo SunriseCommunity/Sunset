@@ -2,7 +2,7 @@
 
 import BeatmapStatusIcon from "@/components/BeatmapStatus";
 import ImageWithFallback from "@/components/ImageWithFallback";
-import SkeletonLoading from "@/components/SkeletonLoading";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Beatmap } from "@/lib/hooks/api/beatmap/types";
 import { PlayIcon } from "lucide-react";
 import { twMerge } from "tailwind-merge";
@@ -38,7 +38,7 @@ export default function BeatmapPlayedOverview({
             fallBackSrc="/images/unknown-beatmap-banner.jpg"
           />
         ) : (
-          <SkeletonLoading className="" />
+          <Skeleton className="" />
         )}
 
         <div className="absolute inset-0 bg-gradient-to-l from-terracotta-200 to-transparent flex items-center cursor-pointer">
@@ -49,14 +49,14 @@ export default function BeatmapPlayedOverview({
                   <BeatmapStatusIcon status={beatmap.status} />
                 </span>
                 <p className="text-ellipsis text-nowrap overflow-clip max-w-full">
-                  {beatmap?.artist ?? <SkeletonLoading className="w-20 h-3" />}
+                  {beatmap?.artist ?? <Skeleton className="w-20 h-3" />}
                   &nbsp;-&nbsp;
-                  {beatmap?.title ?? <SkeletonLoading className="w-28 h-3" />}
+                  {beatmap?.title ?? <Skeleton className="w-28 h-3" />}
                 </p>
               </h1>
               <div className="flex items-center space-x-2">
                 <p className="text-base drop-shadow-md text-gray-100 ">
-                  {beatmap?.version ?? <SkeletonLoading className="w-16 h-3" />}
+                  {beatmap?.version ?? <Skeleton className="w-16 h-3" />}
                 </p>
               </div>
             </div>

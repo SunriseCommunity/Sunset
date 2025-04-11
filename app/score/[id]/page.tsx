@@ -1,7 +1,7 @@
 "use client";
 import Spinner from "@/components/Spinner";
 import { Download, LucideHistory } from "lucide-react";
-import { useState } from "react";
+import { useState, use } from "react";
 import PrettyHeader from "@/components/General/PrettyHeader";
 import Image from "next/image";
 import RoundedContent from "@/components/General/RoundedContent";
@@ -24,7 +24,8 @@ import { useScore } from "@/lib/hooks/api/score/useScore";
 import { useBeatmap } from "@/lib/hooks/api/beatmap/useBeatmap";
 import { useDownloadReplay } from "@/lib/hooks/api/score/useDownloadReplay";
 
-export default function Score({ params }: { params: { id: number } }) {
+export default function Score(props: { params: Promise<{ id: number }> }) {
+  const params = use(props.params);
   const { self } = useSelf();
 
   const { isLoading: isReplayLoading, downloadReplay } = useDownloadReplay(
@@ -113,13 +114,13 @@ export default function Score({ params }: { params: { id: number } }) {
                   </a>
                   <div className="text-right w-3/4">
                     <div className="flex flex-row items-center justify-end w-full">
-                      <p className="text-yellow-400 text-base justify-end  flex flex-row w-full">
+                      <div className="text-yellow-400 text-base justify-end  flex flex-row w-full">
                         <p className="flex flex-row items-center max-w-[50%]">
                           {" "}
                           [
-                          <p className="truncate overflow-hidden whitespace-nowrap">
+                          <span className="truncate overflow-hidden whitespace-nowrap">
                             {beatmap?.version || "Unknown"}
-                          </p>
+                          </span>
                           <DifficultyIcon
                             iconColor="#facc15"
                             gameMode={score.game_mode}
@@ -132,7 +133,7 @@ export default function Score({ params }: { params: { id: number } }) {
                           {beatmap && getBeatmapStarRating(beatmap).toFixed(2)}{" "}
                           {score.mods}
                         </p>
-                      </p>
+                      </div>
                     </div>
                     <p className="text-gray-300">
                       mapped by {beatmap?.creator || "Unknown Creator"}

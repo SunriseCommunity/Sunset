@@ -18,7 +18,7 @@ export default function MarkdownInput({
   onSave,
   isSaving,
 }: MarkdownInputProps) {
-  const [text, setText] = useState("");
+  const [text, setText] = useState(defaultText);
   const [markdown, setMarkdown] = useState("");
 
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -92,7 +92,6 @@ export default function MarkdownInput({
         value={text}
         onChange={(e) => setText(e.target.value)}
         ref={textAreaRef}
-        defaultValue={defaultText}
       ></textarea>
 
       <div className="flex justify-between items-center mt-2">

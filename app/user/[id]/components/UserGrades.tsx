@@ -23,7 +23,10 @@ export default function UserGrades({ grades }: { grades: UserGradesType }) {
 
 function UserGrade(gradeName: string, gradeCount: number) {
   return (
-    <div className={`bg-terracotta-700 p-2 rounded text-center w-full `}>
+    <div
+      className={`bg-terracotta-700 p-2 rounded text-center w-full `}
+      key={`user-grade-${gradeName}`}
+    >
       <p className={`text-${getGradeColor(gradeName)} font-bold`}>
         {gradeName}
       </p>

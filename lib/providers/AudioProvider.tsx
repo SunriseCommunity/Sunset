@@ -2,7 +2,7 @@
 import { createContext, ReactNode, useEffect, useRef, useState } from "react";
 
 interface AudioContextType {
-  player: React.RefObject<HTMLAudioElement>;
+  player: React.RefObject<HTMLAudioElement | null>;
   currentTimestamp: number;
   isPlayingThis: (audio: string) => boolean;
   play: (url?: string) => void;

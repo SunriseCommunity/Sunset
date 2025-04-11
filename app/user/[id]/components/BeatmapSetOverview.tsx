@@ -11,8 +11,8 @@ import AudioPreview from "@/app/user/[id]/components/AudioPreview";
 import useAudioPlayer from "@/lib/hooks/useAudioPlayer";
 import { getBeatmapStarRating } from "@/lib/utils/getBeatmapStarRating";
 import ImageWithFallback from "@/components/ImageWithFallback";
-import SkeletonLoading from "@/components/SkeletonLoading";
 import { BeatmapSet } from "@/lib/hooks/api/beatmap/types";
+import { Skeleton } from "@/components/ui/skeleton";
 interface BeatmapSetOverviewProps {
   beatmapSet: BeatmapSet;
 }
@@ -42,7 +42,7 @@ export default function BeatmapSetOverview({
           fallBackSrc="/images/unknown-beatmap-banner.jpg"
         />
       ) : (
-        <SkeletonLoading className="" />
+        <Skeleton className="" />
       )}
 
       <div
@@ -61,7 +61,7 @@ export default function BeatmapSetOverview({
             fallBackSrc="/images/unknown-beatmap-banner.jpg"
           />
         ) : (
-          <SkeletonLoading className="" />
+          <Skeleton className="" />
         )}
 
         <div
@@ -101,7 +101,7 @@ export default function BeatmapSetOverview({
           </div>
 
           <div className="flex-col flex -mb-1.5">
-            <p
+            <div
               className={twMerge(
                 "flex items-center smooth-transition",
                 isHovered ? "opacity-100" : "opacity-0"
@@ -112,7 +112,7 @@ export default function BeatmapSetOverview({
                 time={beatmapSet.submitted_date}
                 className="font-bold text-[10px] text-gray-30"
               />
-            </p>
+            </div>
 
             <div className="flex flex-row overflow-hidden h-5 flex-wrap mb-1 -ml-0.5 space-x-0.5">
               {beatmapSet.beatmaps

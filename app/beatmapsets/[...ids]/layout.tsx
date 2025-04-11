@@ -5,9 +5,8 @@ import { getBeatmapStarRating } from "@/lib/utils/getBeatmapStarRating";
 import fetcher from "@/lib/services/fetcher";
 import { BeatmapSet } from "@/lib/hooks/api/beatmap/types";
 
-export async function generateMetadata({
-  params,
-}: BeatmapsetProps): Promise<Metadata> {
+export async function generateMetadata(props: BeatmapsetProps): Promise<Metadata> {
+  const params = await props.params;
   const [beatmapSetId, beatmapId] = params.ids;
 
   if (!beatmapSetId || isNaN(beatmapSetId as any)) return notFound();

@@ -1,21 +1,14 @@
 "use client";
 import Spinner from "@/components/Spinner";
-import { useState } from "react";
+import { useState, use } from "react";
 import Image from "next/image";
-import {
-  Edit3Icon,
-  Globe,
-  User as UserIcon,
-  UserMinus,
-  UserPlus,
-} from "lucide-react";
+import { Edit3Icon, Globe, User as UserIcon } from "lucide-react";
 import UserBadges from "@/app/user/[id]/components/UserBadges";
 import PrettyHeader from "@/components/General/PrettyHeader";
 import PrettyButton from "@/components/General/PrettyButton";
 import UserTabGeneral from "@/app/user/[id]/components/Tabs/UserTabGeneral";
 import UserTabWIP from "@/app/user/[id]/components/Tabs/UserTabWIP";
 import { Tooltip } from "@/components/Tooltip";
-import SkeletonLoading from "@/components/SkeletonLoading";
 import PrettyDate from "@/components/General/PrettyDate";
 import { twMerge } from "tailwind-merge";
 import UserTabMedals from "./components/Tabs/UserTabMedals";
@@ -30,13 +23,10 @@ import {
   useUserSelf,
   useUserStats,
 } from "@/lib/hooks/api/user/useUser";
-import {
-  useUserFriendshipStatus,
-  useUpdateUserFriendshipStatus,
-} from "@/lib/hooks/api/user/useUserFriendshipStatus";
 import UserTabScores from "@/app/user/[id]/components/Tabs/UserTabScores";
 import { GameMode } from "@/lib/hooks/api/types";
 import { FriendshipButton } from "@/components/FriendshipButton";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const contentTabs = [
   "General",
@@ -129,7 +119,8 @@ const renderTabContent = (
   }
 };
 
-export default function UserPage({ params }: { params: { id: number } }) {
+export default function UserPage(props: { params: Promise<{ id: number }> }) {
+  const params = use(props.params);
   const userId = params.id;
 
   const [activeTab, setActiveTab] = useState("General");
@@ -240,17 +231,17 @@ export default function UserPage({ params }: { params: { id: number } }) {
                   <h1 className="text-3xl font-bold relative">
                     {user.username}
                   </h1>
-                  <p
+                  <div
                     className={twMerge("flex items-center", statusColor(user))}
                   >
                     {user.user_status}
                     {user.user_status === "Offline" && (
                       <>
-                        <p>, last seen on&nbsp;</p>
+                        , last seen on&nbsp;
                         <PrettyDate time={user.last_online_time} />
                       </>
                     )}
-                  </p>
+                  </div>
                 </div>
               </div>
               <div className="flex flex-col space-y-2 bg-black bg-opacity-75 px-2 py-1 rounded mr-2 text-center min-w-24">
@@ -269,9 +260,7 @@ export default function UserPage({ params }: { params: { id: number } }) {
                       )}
                     >
                       #{" "}
-                      {userStats?.rank ?? (
-                        <SkeletonLoading className="w-9 h-6 ml-2" />
-                      )}
+                      {userStats?.rank ?? <Skeleton className="w-9 h-6 ml-2" />}
                     </span>
                   </div>
                 </Tooltip>
@@ -296,7 +285,7 @@ export default function UserPage({ params }: { params: { id: number } }) {
                     >
                       #{" "}
                       {userStats?.country_rank ?? (
-                        <SkeletonLoading className="w-9 h-6 ml-2" />
+                        <Skeleton className="w-9 h-6 ml-2" />
                       )}
                     </span>
                   </div>
