@@ -11,7 +11,7 @@ export default function Wiki() {
       <PrettyHeader
         text="Wiki"
         icon={<BookCopy />}
-        className="bg-terracotta-700 mb-4"
+        className="mb-4"
         roundBottom={true}
       />
 
@@ -19,7 +19,7 @@ export default function Wiki() {
         text="How to connect"
         icon={<LucideMessageCircleQuestion />}
       />
-      <RoundedContent className="mb-4 bg-terracotta-700">
+      <RoundedContent className="mb-4">
         <div className="flex flex-col w-11/12 mx-auto">
           <h1 className="text-xl">
             To connect to the server, you need to have a copy of the game
@@ -28,14 +28,14 @@ export default function Wiki() {
           </h1>
           <ol className="list-decimal list-inside mt-2">
             <li>
-              Locale the <code className="text-yellow-pastel">osu!.exe</code>{" "}
-              file on in game directory.
+              Locale the <code className="text-primary/80">osu!.exe</code> file
+              on in game directory.
             </li>
             <li>Create a shortcut of the file.</li>
             <li>Right click on the shortcut and select properties.</li>
             <li>
               In the target field, add{" "}
-              <code className="text-yellow-pastel">
+              <code className="text-primary/80">
                 -devserver osu-sunrise.top
               </code>{" "}
               at the end of the path.
@@ -57,7 +57,7 @@ export default function Wiki() {
         text="Can I have multiple accounts?"
         icon={<LucideMessageCircleQuestion />}
       />
-      <RoundedContent className="mb-4 bg-terracotta-700">
+      <RoundedContent className="mb-4">
         <div className="flex flex-col w-11/12 mx-auto">
           <h1 className="text-xl">
             No. You are only allowed to have one account per person.
@@ -73,7 +73,7 @@ export default function Wiki() {
         text="Can I use cheats or hacks?"
         icon={<LucideMessageCircleQuestion />}
       />
-      <RoundedContent className="mb-4 bg-terracotta-700">
+      <RoundedContent className="mb-4">
         <div className="flex flex-col w-11/12 mx-auto">
           <h1 className="text-xl">No. You will be banned if you are caught.</h1>
           <p className="mt-2">
@@ -88,7 +88,7 @@ export default function Wiki() {
         text="I think I was restricted unfairly. How can I appeal?"
         icon={<LucideMessageCircleQuestion />}
       />
-      <RoundedContent className="mb-4 bg-terracotta-700">
+      <RoundedContent className="mb-4">
         <div className="flex flex-col w-11/12 mx-auto">
           <p>
             If you believe you were restricted unfairly, you can appeal your
@@ -96,7 +96,7 @@ export default function Wiki() {
             the staff{" "}
             <a
               href="https://discord.gg/BjV7c9VRfn"
-              className="text-blue-400 hover:underline"
+              className="text-primary hover:underline"
             >
               here
             </a>
@@ -110,14 +110,14 @@ export default function Wiki() {
         text="Can I contribute/suggest changes to the server?"
         icon={<LucideMessageCircleQuestion />}
       />
-      <RoundedContent className="mb-4 bg-terracotta-700">
+      <RoundedContent className="mb-4">
         <div className="flex flex-col w-11/12 mx-auto">
           <h1 className="text-xl">Yes! We are always open to suggestions.</h1>
           <p className="mt-2">
             If you have any suggestions, please submit them at our{" "}
             <a
               href="https://github.com/SunriseCommunity"
-              className="text-blue-400 hover:underline"
+              className="text-primary hover:underline"
             >
               GitHub
             </a>{" "}
@@ -132,11 +132,11 @@ export default function Wiki() {
         text="I can’t download maps when I’m in multiplayer, but I can download them from the main menu"
         icon={<LucideMessageCircleQuestion />}
       />
-      <RoundedContent className="mb-4 bg-terracotta-700">
+      <RoundedContent className="mb-4">
         <div className="flex flex-col w-11/12 mx-auto">
           <h1 className="text-xl">
             Disable{" "}
-            <code className="text-yellow-pastel text-lg">
+            <code className="text-primary/80 text-lg">
               Automatically start osu!direct downloads
             </code>{" "}
             from the options and try again.

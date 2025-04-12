@@ -35,16 +35,16 @@ export default function Header() {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         className={twMerge(
-          `left-0 relative right-0 top-0 z-50 flex items-center border-b-2 border-white justify-between row-padding py-2 smooth-transition backdrop-blur-xl `,
+          `left-0 relative right-0 top-0 z-50 flex items-center border-b-2 border-current justify-between row-padding py-2 smooth-transition backdrop-blur-xl `,
           className
         )}
       >
         <div className="flex items-center space-x-6">
           {/* Brand */}
           <a href="/" className="smooth-transition">
-            <h1 className="text-4xl font-semibold text-white smooth-transition pb-1 cursor-pointer flex flex-row">
-              <p className="text-orange-400">sun</p>
-              rise
+            <h1 className="text-4xl font-semibold smooth-transition pb-1 cursor-pointer flex flex-row">
+              <span className="text-primary">sun</span>
+              <span className="text-current">rise</span>
             </h1>
           </a>
 

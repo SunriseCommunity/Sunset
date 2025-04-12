@@ -12,7 +12,7 @@ export default function RoundedContent({
   return (
     <div
       className={twMerge(
-        "bg-coffee-700 p-4 rounded-b-lg h-fit min-h-fit max-h-fit",
+        "bg-card/50 p-4 rounded-b-lg h-fit min-h-fit max-h-fit border shadow",
         className
       )}
     >
