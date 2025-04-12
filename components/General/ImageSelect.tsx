@@ -11,13 +11,13 @@ export default function ImageSelect({ setFile, file, isWide }: Props) {
   return (
     <div
       className={`flex items-center  ${
-        isWide ? "max-w-96 w-full" : "max-w-32 w-full"
+        isWide ? "max-w-96 w-full" : "max-w-40 w-full"
       }`}
     >
       <label htmlFor={uniqueId} className="cursor-pointer">
         <div
           className={`flex flex-col items-center justify-center ${
-            isWide ? "max-w-96 w-full" : "max-w-32 w-full"
+            isWide ? "max-w-96 w-full" : "max-w-40 w-full"
           }`}
         >
           <div

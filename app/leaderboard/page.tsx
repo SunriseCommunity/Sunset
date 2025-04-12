@@ -51,18 +51,6 @@ export default function Leaderboard() {
         roundBottom={true}
       >
         <div className="flex place-content-end w-full gap-x-2 pt-2">
-          {/* <PrettyButton
-            onClick={() => setLeaderboardType(UsersLeaderboardType.pp)}
-            text="Performance points"
-            className="px-3 py-1"
-            isSelected={leaderboardType == UsersLeaderboardType.pp}
-          />
-          <PrettyButton
-            onClick={() => setLeaderboardType(UsersLeaderboardType.score)}
-            text="Ranked Score"
-            className="px-3 py-1"
-            isSelected={leaderboardType == UsersLeaderboardType.score}
-          /> */}
           <Button
             onClick={() => setLeaderboardType(UsersLeaderboardType.pp)}
             variant={
@@ -94,9 +82,9 @@ export default function Leaderboard() {
       </PrettyHeader>
 
       {usersLeaderboardQuery.isLoading && users.length === 0 && (
-        <div className="rounded-b-3xl mb-4">
-          <RoundedContent className="min-h-0 h-fit max-h-none rounded-t-xl">
-            <div className="flex justify-center items-center h-32">
+        <div className="rounded-b-3xl bg-card mb-4 border shadow">
+          <RoundedContent className="rounded-t-xl border-none shadow-none">
+            <div className="flex justify-center items-center max-h-96">
               <Spinner />
             </div>
           </RoundedContent>
@@ -104,9 +92,9 @@ export default function Leaderboard() {
       )}
 
       {!usersLeaderboardQuery.isLoading && users.length > 0 && (
-        <div className="rounded-b-3xl bg-card mb-4 border shadow">
+        <div className="rounded-b-3xl bg-card mb-4 border border-t-0 shadow">
           <RoundedContent className="rounded-t-xl border-none shadow-none">
-            <div className="bg-popover/50 rounded-lg overflow-hidden">
+            <div className="bg-background rounded-lg overflow-hidden">
               <table className="w-full">
                 <thead>
                   <tr className="text-left">
@@ -182,19 +170,21 @@ export default function Leaderboard() {
               </div>
 
               <div className="flex space-x-2">
-                <PrettyButton
-                  icon={<ChevronLeft />}
+                <Button
                   onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
                   disabled={page === 1}
-                />
+                >
+                  <ChevronLeft />
+                </Button>
 
-                <PrettyButton
-                  icon={<ChevronRight />}
+                <Button
                   onClick={() =>
                     setPage((prev) => Math.min(prev + 1, pageCount))
                   }
                   disabled={page === pageCount}
-                />
+                >
+                  <ChevronRight />
+                </Button>
               </div>
             </div>
           </RoundedContent>

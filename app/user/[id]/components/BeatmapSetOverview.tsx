@@ -28,7 +28,7 @@ export default function BeatmapSetOverview({
 
   return (
     <div
-      className="relative flex h-24 bg-terracotta-800 rounded-lg overflow-hidden transition-all duration-300 ease-in-out"
+      className="relative flex h-24 bg-background  rounded-lg overflow-hidden transition-all duration-300 ease-in-out"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -76,7 +76,7 @@ export default function BeatmapSetOverview({
         </div>
       </div>
 
-      <div className="flex-col flex overflow-hidden z-10 w-full bg-gradient-to-r from-terracotta-500  to-transparent justify-between h-24">
+      <div className="flex-col flex overflow-hidden z-10 w-full bg-gradient-to-r from-accent  to-transparent justify-between h-24">
         <div
           className={twMerge(
             "bg-black px-3 py-1 z-20 w-full h-full smooth-transition",
@@ -85,7 +85,7 @@ export default function BeatmapSetOverview({
         >
           <div>
             <div className="flex items-center">
-              <span className="-ml-1">
+              <span className="-ml-1 mr-1">
                 <BeatmapStatusIcon status={beatmapSet.status} />
               </span>
               <h3 className="text-base font-semibold text-white truncate">
@@ -103,14 +103,14 @@ export default function BeatmapSetOverview({
           <div className="flex-col flex -mb-1.5">
             <div
               className={twMerge(
-                "flex items-center smooth-transition",
+                "flex items-center smooth-transition text-gray-300",
                 isHovered ? "opacity-100" : "opacity-0"
               )}
             >
               <Calendar className="w-[11px] h-[11px] mr-1" />
               <PrettyDate
                 time={beatmapSet.submitted_date}
-                className="font-bold text-[10px] text-gray-30"
+                className="font-bold text-[10px]"
               />
             </div>
 

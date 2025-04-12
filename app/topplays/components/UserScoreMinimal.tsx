@@ -28,7 +28,7 @@ export default function UserScoreMinimal({
   return (
     <div
       className={twMerge(
-        "bg-terracotta-700 rounded-lg overflow-hidden",
+        "bg-card rounded-lg overflow-hidden text-white",
         className
       )}
       onClick={() => (window.location.href = `/score/${score.id}`)}
@@ -45,11 +45,11 @@ export default function UserScoreMinimal({
         ) : (
           <Skeleton className="" />
         )}
-        <div className="absolute inset-0 bg-gradient-to-l from-terracotta-200 to-transparent flex items-center cursor-pointer">
+        <div className="absolute inset-0 bg-gradient-to-l from-accent to-transparent flex items-center cursor-pointer">
           <div className="py-2 px-4 flex place-content-between bg-black hover:bg-opacity-40 bg-opacity-50 w-full h-full smooth-transition ">
             <div className="flex-col h-full flex justify-between overflow-hidden ">
               <div className="flex-col overflow-hidden flex-wrap">
-                <h1 className="font-bold text-sm drop-shadow-md flex text-ellipsis">
+                <h1 className="font-bold text-sm drop-shadow-md flex text-ellipsis ">
                   {beatmap?.artist ?? <Skeleton className="w-20 h-3" />}
                   &nbsp;-&nbsp;
                   {beatmap?.title ?? <Skeleton className="w-28 h-3" />}

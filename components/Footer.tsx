@@ -2,7 +2,7 @@ import { BookCopy, Github, ServerCrash, UsersRoundIcon } from "lucide-react";
 
 export default async function Footer() {
   return (
-    <footer className="border-t-2 text-current p-4 text-sm text-center space-y-4 bg-background/50">
+    <footer className="border-t-2 text-current p-4 text-sm text-center space-y-4 bg-background/50 mt-8">
       <div className="flex justify-center space-x-4">
         <p>© 2024-2025 Sunrise Community</p>
         <p>•</p>

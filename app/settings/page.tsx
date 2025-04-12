@@ -20,6 +20,8 @@ import SiteLocalOptions from "@/app/settings/components/SiteLocalOptions";
 import ChangeUsernameInput from "@/app/settings/components/ChangeUsernameInput";
 import { useEditDescription } from "@/lib/hooks/api/user/useEditDescription";
 import { useUserUpload } from "@/lib/hooks/api/user/useUserUpload";
+import RoundedContent from "@/components/General/RoundedContent";
+import { Button } from "@/components/ui/button";
 
 export default function Settings() {
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
@@ -117,16 +119,13 @@ export default function Settings() {
 
   if (self === undefined)
     return (
-      <div className="flex flex-col w-full mt-8 ">
-        {/* Header */}
-        <div
-          className={`bg-terracotta-700 rounded-lg p-4 mb-4 flex justify-between items-center`}
-        >
-          <div className="flex items-center">
-            <Cog className="mr-2" />
-            <h2 className="text-xl font-bold">Settings</h2>
-          </div>
-        </div>
+      <div className="flex flex-col w-full">
+        <PrettyHeader
+          className="mb-8"
+          text="Settings"
+          icon={<Cog className="mr-2" />}
+          roundBottom
+        />
 
         {/* Log in message */}
         <div className="flex flex-col bg-terracotta-700 p-4 shadow-lg w-full rounded-lg">
@@ -136,85 +135,94 @@ export default function Settings() {
     );
 
   return (
-    <div className="flex flex-col w-full mt-8">
-      {/* Header */}
+    <div className="flex flex-col w-full mt-8 space-y-4 mb-8">
       <PrettyHeader
+        className="mb-4"
         text="Settings"
-        icon={<Cog />}
-        className="bg-terracotta-700 mb-4"
-        roundBottom={true}
+        icon={<Cog className="mr-2" />}
+        roundBottom
       />
 
-      {/* Change password */}
-      <PrettyHeader text="Change password" icon={<LockOpenIcon />} />
-      <div className="bg-terracotta-700 rounded-b-lg p-4 shadow-lg w-full mx-auto mb-4">
-        <div className="flex flex-col w-11/12 mx-auto">
-          <ChangePasswordInput />
-        </div>
+      <div>
+        <PrettyHeader text="Change password" icon={<LockOpenIcon />} />
+        <RoundedContent>
+          <div className="flex flex-col w-11/12 mx-auto">
+            <ChangePasswordInput />
+          </div>
+        </RoundedContent>
       </div>
 
-      {/* Change username */}
-      <PrettyHeader text="Change username" icon={<User2Icon />} />
-      <div className="bg-terracotta-700 rounded-b-lg p-4 shadow-lg w-full mx-auto mb-4">
-        <div className="flex flex-col w-11/12 mx-auto">
-          <ChangeUsernameInput />
-        </div>
+      <div>
+        <PrettyHeader text="Change username" icon={<User2Icon />} />
+        <RoundedContent>
+          <div className="flex flex-col w-11/12 mx-auto">
+            <ChangeUsernameInput />
+          </div>
+        </RoundedContent>
       </div>
 
-      {/* Change avatar */}
-      <PrettyHeader text="Change avatar" icon={<User2Icon />} />
-      <div className="bg-terracotta-700 rounded-b-lg p-4 shadow-lg w-full mx-auto mb-4">
-        <div className="flex flex-col w-11/12 mx-auto">
-          <ImageSelect setFile={setAvatarFile} file={avatarFile} />
-          <StatusButton
-            isLoading={isAvatarUploading}
-            text="Upload avatar"
-            onClick={uploadAvatar}
-            className="mt-2 w-32 text-sm"
-            icon={<CloudUpload />}
-          />
-          <label className="text-xs mt-2">
-            * Note: Avatars are limited to 5MB in size
-          </label>
-        </div>
+      <div>
+        <PrettyHeader text="Change avatar" icon={<User2Icon />} />
+        <RoundedContent>
+          <div className="flex flex-col w-11/12 mx-auto">
+            <ImageSelect setFile={setAvatarFile} file={avatarFile} />
+            <Button
+              isLoading={isAvatarUploading}
+              onClick={uploadAvatar}
+              className="mt-2 w-40 text-sm"
+              variant="secondary"
+            >
+              <CloudUpload />
+              Upload avatar
+            </Button>
+            <label className="text-xs mt-2">
+              * Note: Avatars are limited to 5MB in size
+            </label>
+          </div>
+        </RoundedContent>
       </div>
 
-      {/* Change banner */}
-      <PrettyHeader text="Change banner" icon={<Image />} />
-      <div className="bg-terracotta-700 rounded-b-lg p-4 shadow-lg w-full mx-auto mb-4">
-        <div className="flex flex-col w-11/12 mx-auto">
-          <ImageSelect setFile={setBannerFile} file={bannerFile} isWide />
-          <StatusButton
-            isLoading={isBannerUploading}
-            text="Upload banner"
-            onClick={uploadBanner}
-            className="mt-2 w-32 text-sm"
-            icon={<CloudUpload />}
-          />
-          <label className="text-xs mt-2">
-            * Note: Banners are limited to 5MB in size
-          </label>
-        </div>
+      <div>
+        <PrettyHeader text="Change banner" icon={<Image />} />
+        <RoundedContent>
+          <div className="flex flex-col w-11/12 mx-auto">
+            <ImageSelect setFile={setBannerFile} file={bannerFile} isWide />
+            <Button
+              isLoading={isBannerUploading}
+              onClick={uploadBanner}
+              className="mt-2 w-40 text-sm"
+              variant="secondary"
+            >
+              <CloudUpload />
+              Upload banner
+            </Button>
+            <label className="text-xs mt-2">
+              * Note: Banners are limited to 5MB in size
+            </label>
+          </div>
+        </RoundedContent>
       </div>
 
-      {/* Change description */}
-      <PrettyHeader text="Change description" icon={<NotebookPenIcon />} />
-      <div className="bg-terracotta-700 rounded-b-lg p-4 shadow-lg w-full mx-auto mb-4">
-        <div className="flex flex-col w-11/12 mx-auto">
-          <MarkdownInput
-            defaultText={self?.description}
-            onSave={saveDescription}
-            isSaving={isUpdatingDescription}
-          />
-        </div>
+      <div>
+        <PrettyHeader text="Change description" icon={<NotebookPenIcon />} />
+        <RoundedContent>
+          <div className="flex flex-col w-11/12 mx-auto">
+            <MarkdownInput
+              defaultText={self?.description}
+              onSave={saveDescription}
+              isSaving={isUpdatingDescription}
+            />
+          </div>
+        </RoundedContent>
       </div>
 
-      {/* Checkboxes */}
-      <PrettyHeader text="Options" icon={<CheckSquare />} />
-      <div className="bg-terracotta-700 rounded-b-lg p-4 shadow-lg w-full mx-auto mb-4">
-        <div className="flex flex-col w-11/12 mx-auto">
-          <SiteLocalOptions />
-        </div>
+      <div>
+        <PrettyHeader text="Options" icon={<CheckSquare />} />
+        <RoundedContent>
+          <div className="flex flex-col w-11/12 mx-auto">
+            <SiteLocalOptions />
+          </div>
+        </RoundedContent>
       </div>
     </div>
   );

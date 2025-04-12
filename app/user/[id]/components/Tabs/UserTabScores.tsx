@@ -4,6 +4,7 @@ import PrettyButton from "@/components/General/PrettyButton";
 import PrettyHeader from "@/components/General/PrettyHeader";
 import RoundedContent from "@/components/General/RoundedContent";
 import Spinner from "@/components/Spinner";
+import { Button } from "@/components/ui/button";
 import { GameMode } from "@/lib/hooks/api/types";
 import { UserScoresType } from "@/lib/hooks/api/user/types";
 import { useUserScores } from "@/lib/hooks/api/user/useUserScores";
@@ -66,13 +67,15 @@ export default function UserTabScores({
             ))}
             {scores.length < total_count && (
               <div className="flex justify-center mt-4">
-                <PrettyButton
-                  text="Show more"
+                <Button
                   onClick={handleShowMore}
-                  icon={<ChevronDown />}
                   className="w-full md:w-1/2 flex items-center justify-center"
                   isLoading={isLoading || isValidating}
-                />
+                  variant="secondary"
+                >
+                  <ChevronDown />
+                  Show more
+                </Button>
               </div>
             )}
           </div>

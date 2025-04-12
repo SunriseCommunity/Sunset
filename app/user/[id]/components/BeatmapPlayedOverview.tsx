@@ -21,7 +21,7 @@ export default function BeatmapPlayedOverview({
   return (
     <div
       className={twMerge(
-        "bg-terracotta-700 rounded-lg overflow-hidden",
+        "bg-card rounded-lg overflow-hidden text-white",
         className
       )}
       onClick={() =>
@@ -41,7 +41,7 @@ export default function BeatmapPlayedOverview({
           <Skeleton className="" />
         )}
 
-        <div className="absolute inset-0 bg-gradient-to-l from-terracotta-200 to-transparent flex items-center cursor-pointer">
+        <div className="absolute inset-0 bg-gradient-to-l from-accent to-transparent flex items-center cursor-pointer">
           <div className="p-6 flex place-content-between bg-black hover:bg-opacity-40 bg-opacity-50 w-full  smooth-transition items-center">
             <div className="flex-row overflow-hidden flex-wrap">
               <h1 className="text-xl drop-shadow-md flex items-center ">

@@ -4,11 +4,18 @@ import PrettyHeader from "@/components/General/PrettyHeader";
 import RoundedContent from "@/components/General/RoundedContent";
 import Spinner from "@/components/Spinner";
 import { GameMode } from "@/lib/hooks/api/types";
-import { ChartBarDecreasing, ChevronDown, Heart, History } from "lucide-react";
+import {
+  ChartBarDecreasing,
+  ChevronDown,
+  Heart,
+  History,
+  Loader2,
+} from "lucide-react";
 import BeatmapPlayedOverview from "../BeatmapPlayedOverview";
 import BeatmapSetOverview from "@/app/user/[id]/components/BeatmapSetOverview";
 import { useUserMostPlayed } from "@/lib/hooks/api/user/useUserMostPlayed";
 import { useUserFavourites } from "@/lib/hooks/api/user/useUserFavourites";
+import { Button } from "@/components/ui/button";
 
 interface UserTabBeatmapsProps {
   userId: number;
@@ -88,13 +95,14 @@ export default function UserTabBeatmaps({
             ))}
             {mostPlayed.length < totalCountMostPlayed && (
               <div className="flex justify-center mt-4">
-                <PrettyButton
-                  text="Show more"
+                <Button
                   onClick={handleShowMoreMostPlayed}
-                  icon={<ChevronDown />}
                   className="w-full md:w-1/2 flex items-center justify-center"
+                  variant="secondary"
                   isLoading={isLoadingMostPlayed || isValidatingMostPlayed}
-                />
+                >
+                  <ChevronDown /> Show more
+                </Button>
               </div>
             )}
           </>
@@ -135,13 +143,15 @@ export default function UserTabBeatmaps({
             </div>
             {favourites.length < totalCountFavourites && (
               <div className="flex justify-center mt-4">
-                <PrettyButton
-                  text="Show more"
+                <Button
                   onClick={handleShowMoreFavourites}
-                  icon={<ChevronDown />}
                   className="w-full md:w-1/2 flex items-center justify-center"
                   isLoading={isLoadingFavourites || isValidatingFavourites}
-                />
+                  variant="secondary"
+                >
+                  <ChevronDown />
+                  Show more
+                </Button>
               </div>
             )}
           </>
