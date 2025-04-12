@@ -25,7 +25,7 @@ export default function BeatmapLeaderboard({
 
   return (
     <div className="flex flex-col w-full">
-      <RoundedContent className="mb-4 bg-transparent ">
+      <RoundedContent className="mb-4 bg-transparent  shadow-none border-none">
         <div className="bg-terracotta-800 rounded-lg overflow-hidden">
           <table className="w-full">
             <thead>

@@ -25,7 +25,7 @@ export default function Header() {
   const handleMouseEnter = () => setIsHovered(true);
   const handleMouseLeave = () => !scrolled && setIsHovered(false);
 
-  const className = `bg-gradient-to-t from-stone-800 bg-pos-0 bg-size-1000 ${
+  const className = `bg-gradient-to-t from-secondary bg-pos-0 bg-size-1000 ${
     scrolled ? `bg-pos-100 bg-size-200` : `hover:bg-pos-100 hover:bg-size-200`
   }`;
 

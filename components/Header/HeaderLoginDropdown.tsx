@@ -101,12 +101,12 @@ export default function HeaderLoginDropdown({ isOpen, setIsOpen }: Props) {
     >
       <div className="bg-stone-800 rounded-t-md">
         <form
-          className="flex flex-col text-black p-4"
+          className="flex flex-col text-current p-4"
           onSubmit={submitLoginForm}
         >
-          <h1 className="text-xl text-white mb-2"> Sign In To Proceed</h1>
+          <h1 className="text-xl mb-2"> Sign In To Proceed</h1>
 
-          <label htmlFor="username" className="text-white text-sm">
+          <label htmlFor="username" className="text-sm">
             Username
           </label>
           <input

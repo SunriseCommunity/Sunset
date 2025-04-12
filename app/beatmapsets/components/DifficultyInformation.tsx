@@ -65,7 +65,7 @@ export default function DifficultyInformation({
         />
       </PrettyButton>
 
-      <RoundedContent className="flex bg-terracotta-800 bg-opacity-80 flex-row items-center rounded-lg px-3 py-1 space-x-3 min-w-full justify-center  min-h-8">
+      <RoundedContent className="flex bg-opacity-80 flex-row items-center rounded-lg px-3 py-1 space-x-3 min-w-full justify-center  min-h-8">
         <Tooltip content="Total Length">
           <p className="flex items-center text-sm">
             <Clock9 className="h-4 text-yellow-pastel" />
@@ -86,7 +86,7 @@ export default function DifficultyInformation({
         </Tooltip>
       </RoundedContent>
 
-      <RoundedContent className="flex bg-terracotta-800 bg-opacity-80 flex-col items-center rounded-lg min-w-full px-3 py-1">
+      <RoundedContent className="flex bg-opacity-80 flex-col items-center rounded-lg min-w-full px-3 py-1">
         <div className="flex flex-col items-start min-w-full justify-between">
           {[GameMode.mania].includes(beatmap.mode_int) && (
             <div className="flex flex-row items-center space-x-2 min-w-full">

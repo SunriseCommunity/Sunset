@@ -74,7 +74,7 @@ export default function UserBadges({ badges }: UserBadgesProps) {
             key={`user-badge-${index}`}
           >
             <div
-              className={`flex items-center gap-2 p-2 rounded-lg ${badgeColor} smooth-transition hover:scale-105 `}
+              className={`flex text-white items-center gap-2 p-2 rounded-lg ${badgeColor} smooth-transition hover:scale-105 `}
             >
               {badgeIcon}
               <span>{badge}</span>

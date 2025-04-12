@@ -90,10 +90,10 @@ export default function Beatmapset(props: BeatmapsetProps) {
         <PrettyHeader
           icon={<Music2 />}
           text="Beatmap info"
-          className="bg-terracotta-700 mb-4"
+          className="mb-4"
           roundBottom={true}
         />
-        <RoundedContent className="bg-terracotta-700 rounded-l flex flex-col md:flex-row justify-between items-center md:items-start gap-8 ">
+        <RoundedContent className="rounded-l flex flex-col md:flex-row justify-between items-center md:items-start gap-8 ">
           <div className="flex flex-col space-y-2">
             <h1 className="text-4xl">Beatmapset not found</h1>
             <p className="text-gray-300">
@@ -118,7 +118,7 @@ export default function Beatmapset(props: BeatmapsetProps) {
       <PrettyHeader
         icon={<Music2 />}
         text="Beatmap info"
-        className="bg-terracotta-700 mb-4"
+        className="mb-4"
         roundBottom={true}
       >
         <GameModeSelector
@@ -139,7 +139,7 @@ export default function Beatmapset(props: BeatmapsetProps) {
         />
       </PrettyHeader>
 
-      <RoundedContent className="bg-terracotta-700 rounded-lg p-0">
+      <RoundedContent className="rounded-lg p-0 shadow-none border-none ">
         {/* Banner */}
         <div className="h-80 relative">
           <ImageWithFallback
@@ -149,7 +149,7 @@ export default function Beatmapset(props: BeatmapsetProps) {
             className="bg-stone-700 rounded-t-lg object-cover"
             fallBackSrc="/images/unknown-beatmap-banner.jpg"
           />
-          <div className="absolute inset-0 bg-terracotta-800 bg-opacity-80 lg:px-6 md:p-4 p-2 rounded-t-lg">
+          <div className="absolute inset-0 bg-accent/80 bg-opacity-80 lg:px-6 md:p-4 p-2 rounded-t-lg">
             <div className="flex justify-between mb-4 h-full">
               <div className="flex flex-col justify-between">
                 <DifficultySelector
@@ -165,11 +165,13 @@ export default function Beatmapset(props: BeatmapsetProps) {
                 />
 
                 <div>
-                  <h3 className="text-3xl font-bold">{beatmapSet.title}</h3>
+                  <h3 className="text-3xl font-bold text-white">
+                    {beatmapSet.title}
+                  </h3>
                   <p className="text-gray-200 text-lg">{beatmapSet.artist}</p>
                 </div>
 
-                <div className="flex flex-col space-y-2">
+                <div className="flex flex-col space-y-2 text-white">
                   <div className="flex flex-row items-center">
                     <ImageWithFallback
                       src={`https://a.ppy.sh/${beatmapSet.creator_id}`}
@@ -180,27 +182,27 @@ export default function Beatmapset(props: BeatmapsetProps) {
                       fallBackSrc="/images/placeholder.png"
                     />
                     <div className="flex flex-col ml-2 text-xs font-light">
-                      <p className="flex items-center">
+                      <div className="flex items-center">
                         submitted by&nbsp;
                         <p className="font-bold">
                           {beatmapSet.creator || "Unknown"}
                         </p>
-                      </p>
-                      <p className="flex items-center">
+                      </div>
+                      <div className="flex items-center">
                         submitted on&nbsp;
                         <PrettyDate
                           time={beatmapSet.submitted_date}
                           className="font-bold"
                         />
-                      </p>
+                      </div>
                       {beatmapSet.ranked_date && (
-                        <p className="flex items-center">
+                        <div className="flex items-center">
                           ranked on&nbsp;
                           <PrettyDate
                             time={beatmapSet.ranked_date}
                             className="font-bold"
                           />
-                        </p>
+                        </div>
                       )}
                     </div>
                   </div>
@@ -214,17 +216,17 @@ export default function Beatmapset(props: BeatmapsetProps) {
               <div className="flex flex-col justify-between min-w-64">
                 <div className="flex flex-row space-x-1">
                   {beatmapSet.video && (
-                    <div className="bg-terracotta-800 bg-opacity-80 p-2 rounded-lg">
+                    <div className="bg-accent bg-opacity-80 p-2 rounded-lg">
                       <Tooltip content="This beatmap contains video">
                         <Clapperboard className="h-5" />
                       </Tooltip>
                     </div>
                   )}
-                  <div className="bg-terracotta-800 bg-opacity-80 py-2 px-8 rounded-lg flex flex-row w-full">
-                    <p className="flex mx-auto space-x-1">
+                  <div className="bg-accent bg-opacity-80 py-2 px-8 rounded-lg flex flex-row w-full">
+                    <div className="flex mx-auto space-x-1">
                       <BeatmapStatusIcon status={activeBeatmap.status} />
                       <p className="capitalize">{activeBeatmap.status}</p>
-                    </p>
+                    </div>
                   </div>
                 </div>
                 <DifficultyInformation
@@ -237,8 +239,8 @@ export default function Beatmapset(props: BeatmapsetProps) {
         </div>
       </RoundedContent>
 
-      <RoundedContent className="mb-4 bg-terracotta-600 rounded-b-lg p-0 space-y-2">
-        <RoundedContent className="px-4 pt-4 pb-0 min-h-72 max-h-72 h-72 flex bg-terracotta-600 place-content-between space-x-2 mb-4">
+      <RoundedContent className="mb-4 bg-card rounded-b-lg p-0 space-y-2">
+        <RoundedContent className="px-4 pt-4 shadow-none border-none  pb-0 min-h-72 max-h-72 h-72 flex bg-card place-content-between space-x-2 mb-4">
           <div className="flex flex-col w-2/4 ">
             <PrettyHeader
               icon={<Book />}

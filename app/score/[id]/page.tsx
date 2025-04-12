@@ -103,7 +103,7 @@ export default function Score(props: { params: Promise<{ id: number }> }) {
                       <BeatmapStatusIcon
                         status={beatmap?.status ?? BeatmapStatus.Graveyard}
                       />
-                      <h3 className="text-lg font-bold text-nowrap">
+                      <h3 className="text-lg font-bold text-nowrap text-white">
                         {beatmap?.title}
                       </h3>
                     </div>
@@ -150,7 +150,7 @@ export default function Score(props: { params: Promise<{ id: number }> }) {
                     {score.grade}
                   </div>
                   <div>
-                    <p className="text-5xl font-bold text-right">
+                    <p className="text-5xl font-bold text-right text-white">
                       {score.total_score.toLocaleString()}
                     </p>
                     <div className="text-right">
@@ -183,7 +183,7 @@ export default function Score(props: { params: Promise<{ id: number }> }) {
 
               <div className="hidden xl:grid"></div>
 
-              <div className="flex flex-col ">
+              <div className="flex flex-col text-white">
                 <div className="grid grid-cols-3 gap-4 mb-1">
                   <div className="bg-terracotta-800 p-3 rounded">
                     <p className="text-gray-400">Accuracy</p>

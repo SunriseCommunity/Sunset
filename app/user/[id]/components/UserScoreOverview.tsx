@@ -25,10 +25,7 @@ export default function UserScoreOverview({
 
   return (
     <div
-      className={twMerge(
-        "bg-terracotta-700 rounded-lg overflow-hidden",
-        className
-      )}
+      className={twMerge("text-gray-100 rounded-lg overflow-hidden", className)}
       onClick={() => window.open("/score/" + score.id)}
     >
       <div className="h-20 relative">
@@ -43,7 +40,7 @@ export default function UserScoreOverview({
         ) : (
           <Skeleton className="" />
         )}
-        <div className="absolute inset-0 bg-gradient-to-l from-terracotta-200 to-transparent flex items-center cursor-pointer">
+        <div className="absolute inset-0 bg-gradient-to-l from-accent to-transparent flex items-center cursor-pointer">
           <div className="p-6 flex place-content-between bg-black hover:bg-opacity-40 bg-opacity-50 w-full  smooth-transition items-center">
             <div className="flex-row overflow-hidden flex-wrap">
               <h1 className="text-xl drop-shadow-md flex items-center ">
@@ -72,7 +69,7 @@ export default function UserScoreOverview({
             <div className="flex items-center space-x-4">
               <div className="text-end text-nowrap">
                 <p className="text-sm opacity-70">{score.mods}</p>
-                <p className="text-xl text-terracotta-300">
+                <p className="text-xl text-primary">
                   {beatmap && isBeatmapRanked(beatmap)
                     ? score.performance_points.toFixed()
                     : "- "}

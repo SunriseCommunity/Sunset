@@ -53,7 +53,7 @@ export default function ChangePasswordInput() {
   };
 
   return (
-    <div className="flex flex-col w-1/2">
+    <div className="flex flex-col lg:w-1/2">
       <form className="flex flex-col" onSubmit={submitChangePasswordForm}>
         <label htmlFor="password" className="text-gray-200 text-sm">
           Current password

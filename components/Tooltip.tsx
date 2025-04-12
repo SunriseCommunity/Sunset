@@ -20,7 +20,7 @@ export function Tooltip({
       <div>{children}</div>
       <span
         className={twMerge(
-          "absolute invisible opacity-0 group-hover:visible group-hover:opacity-100 group-hover:scale-100 scale-75 bg-neutral-900 text-white text-xs p-2 whitespace-nowrap rounded transition-all ease-out duration-200 z-50 shadow-zinc-900 shadow-lg ",
+          "absolute invisible opacity-0 group-hover:visible group-hover:opacity-100 group-hover:scale-100 scale-75 bg-card text-current text-xs p-2 whitespace-nowrap rounded transition-all ease-out duration-200 z-50 shadow-card/30 shadow-lg ",
           position === "top"
             ? "left-1/2 -translate-x-1/2 bottom-[calc(100%+5px)] group-hover:translate-y-0 translate-y-1/2"
             : "",

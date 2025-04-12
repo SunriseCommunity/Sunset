@@ -32,7 +32,7 @@ export default function UserTabMedals({ user, gameMode }: UserTabMedalsProps) {
       <RoundedContent className="min-h-0 h-fit max-h-none grid grid-cols-2 gap-4">
         {Object.keys(MEDALS_NAMES).map((category) => (
           <div key={category} className="">
-            <div className="bg-coffee-600 rounded-lg px-4 py-1 flex justify-between items-center">
+            <div className="bg-card rounded-lg px-4 py-1 flex justify-between items-center">
               <div className="flex items-center">
                 <h2 className="text-lg font-semibold">
                   {MEDALS_NAMES[category]}
@@ -73,11 +73,11 @@ function MedalElement(medal: UserMedal) {
               {medal.name}
             </h2>
 
-            <div className="text-sm text-center whitespace-normal max-w-52 mx-auto mb-2 text-gray-200">
+            <div className="text-sm text-center whitespace-normal max-w-52 mx-auto mb-2 text-gray-600">
               {medal.description}
             </div>
 
-            <div className="text-xs text-gray-300">
+            <div className="text-xs text-gray-500">
               {isAchieved ? (
                 <div className="flex items-center">
                   <span>achieved on&nbsp;</span>

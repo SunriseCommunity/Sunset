@@ -30,7 +30,7 @@ export default function PrettyHeader({
         {icon && <div className="mr-2 text-current/30">{icon}</div>}
         <h2 className="text-lg font-semibold capitalize">{text}</h2>
         {counter && (
-          <div className="ml-2 text-xs text-current/30 bg-primary-foreground rounded-full px-2 py-1">
+          <div className="ml-2 text-xs text-current/30 bg-background rounded-full px-2 py-1">
             {counter}
           </div>
         )}

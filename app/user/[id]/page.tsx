@@ -1,13 +1,12 @@
 "use client";
+
 import Spinner from "@/components/Spinner";
 import { useState, use } from "react";
 import Image from "next/image";
 import { Edit3Icon, Globe, User as UserIcon } from "lucide-react";
 import UserBadges from "@/app/user/[id]/components/UserBadges";
 import PrettyHeader from "@/components/General/PrettyHeader";
-import PrettyButton from "@/components/General/PrettyButton";
 import UserTabGeneral from "@/app/user/[id]/components/Tabs/UserTabGeneral";
-import UserTabWIP from "@/app/user/[id]/components/Tabs/UserTabWIP";
 import { Tooltip } from "@/components/Tooltip";
 import PrettyDate from "@/components/General/PrettyDate";
 import { twMerge } from "tailwind-merge";
@@ -27,6 +26,7 @@ import UserTabScores from "@/app/user/[id]/components/Tabs/UserTabScores";
 import { GameMode } from "@/lib/hooks/api/types";
 import { FriendshipButton } from "@/components/FriendshipButton";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
 
 const contentTabs = [
   "General",
@@ -114,8 +114,6 @@ const renderTabContent = (
           gameMode={activeMode}
         />
       );
-    default:
-      return <UserTabWIP tabName={activeTab} />;
   }
 };
 
@@ -147,11 +145,11 @@ export default function UserPage(props: { params: Promise<{ id: number }> }) {
         <PrettyHeader
           icon={<UserIcon />}
           text="Player info"
-          className="bg-terracotta-700 mb-4"
+          className="mb-4"
           roundBottom={true}
-        ></PrettyHeader>
+        />
 
-        <RoundedContent className="bg-terracotta-700 rounded-l flex flex-col md:flex-row justify-between items-center md:items-start gap-8 ">
+        <RoundedContent className="rounded-l flex flex-col md:flex-row justify-between items-center md:items-start gap-8 ">
           <div className="flex flex-col space-y-2">
             <h1 className="text-4xl">
               {errorMessage ?? "User not found or an error occurred."}
@@ -187,18 +185,18 @@ export default function UserPage(props: { params: Promise<{ id: number }> }) {
       <PrettyHeader
         icon={<UserIcon />}
         text="Player info"
-        className="bg-terracotta-700 mb-4"
+        className="mb-4"
         roundBottom={true}
       ></PrettyHeader>
 
-      <PrettyHeader text="" className="bg-terracotta-700 ">
+      <PrettyHeader className="border-b-0">
         <GameModeSelector
           activeMode={activeMode}
           setActiveMode={setActiveMode}
         />
       </PrettyHeader>
 
-      <RoundedContent className="bg-terracotta-700 rounded-lg-b p-0">
+      <RoundedContent className="rounded-lg-b p-0 border-t-0 bg-card">
         {/* Banner */}
         <div className="h-64 relative">
           <ImageWithFallback
@@ -206,10 +204,10 @@ export default function UserPage(props: { params: Promise<{ id: number }> }) {
             alt=""
             fill={true}
             objectFit="cover"
-            className="bg-stone-700 rounded-t-lg"
+            className="bg-secondary rounded-t-lg"
             fallBackSrc="/images/placeholder.png"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-terracotta-700 to-transparent flex items-end">
+          <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent flex items-end">
             <div className="p-6 flex items-end justify-between w-full">
               <div className="flex items-end space-x-4 w-3/4">
                 <div className="relative w-32 h-32 flex-none">
@@ -218,11 +216,11 @@ export default function UserPage(props: { params: Promise<{ id: number }> }) {
                     alt="User avatar"
                     fill={true}
                     objectFit="cover"
-                    className={`w-32 h-32 rounded-full border-4 relative border-[#2a2a2a]`}
+                    className={`w-32 h-32 rounded-full border-4 relative border-secondary`}
                   />
                   <div
                     className={twMerge(
-                      "absolute bottom-1 right-1 w-10 h-10 rounded-full border-4 border-[#2a2a2a]",
+                      "absolute bottom-1 right-1 w-10 h-10 rounded-full border-4 border-secondary",
                       statusColorBg(user)
                     )}
                   />
@@ -296,7 +294,7 @@ export default function UserPage(props: { params: Promise<{ id: number }> }) {
         </div>
 
         {/* Content */}
-        <div className="px-6 pt-2 pb-6">
+        <div className="px-6 pt-2 pb-6 bg-card">
           {/* User Info */}
           <div className="flex justify-between items-start mb-2">
             <div className="flex flex-wrap gap-2">
@@ -304,11 +302,10 @@ export default function UserPage(props: { params: Promise<{ id: number }> }) {
             </div>
             <div className="flex space-x-2">
               {user.user_id === self.data?.user_id ? (
-                <PrettyButton
-                  onClick={navigateTo.bind(null, `/settings`)}
-                  icon={<Edit3Icon />}
-                  text="Edit profile"
-                />
+                <Button onClick={navigateTo.bind(null, `/settings`)}>
+                  <Edit3Icon />
+                  Edit profile
+                </Button>
               ) : (
                 <>
                   <FriendshipButton userId={userId} />
@@ -320,14 +317,14 @@ export default function UserPage(props: { params: Promise<{ id: number }> }) {
 
           {/* Tab selector */}
           <div className="mb-6">
-            <div className="flex border-b border-gray-700">
+            <div className="flex border-b border-gray">
               {contentTabs.map((tab) => (
                 <button
                   key={tab}
-                  className={`py-2 px-4 border-[#E0C097] ${
+                  className={`py-2 px-4 border-primary/85 ${
                     activeTab === tab
-                      ? "text-[#E0C097] border-b-2"
-                      : "text-gray-400 hover:text-[#E0C097] hover:border-b-2"
+                      ? "text-primary/85 border-b-2"
+                      : "text-current hover:text-primary/85 hover:border-b-2"
                   }`}
                   onClick={() => setActiveTab(tab)}
                 >

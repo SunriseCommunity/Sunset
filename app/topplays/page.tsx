@@ -9,6 +9,7 @@ import UserScoreMinimal from "./components/UserScoreMinimal";
 import GameModeSelector from "@/components/GameModeSelector";
 import { useTopScores } from "@/lib/hooks/api/score/useTopScores";
 import PrettyButton from "@/components/General/PrettyButton";
+import { Button } from "@/components/ui/button";
 
 export default function Topplays() {
   const [activeMode, setActiveMode] = useState(GameMode.std);
@@ -59,13 +60,15 @@ export default function Topplays() {
 
             {scores.length < 100 && (
               <div className="flex justify-center mt-4">
-                <PrettyButton
-                  text="Show more"
+                <Button
                   onClick={handleShowMore}
-                  icon={<ChevronDown />}
                   className="w-full md:w-1/2 flex items-center justify-center"
                   isLoading={isLoading || isValidating}
-                />
+                  variant="secondary"
+                >
+                  <ChevronDown />
+                  Show more
+                </Button>
               </div>
             )}
           </RoundedContent>
