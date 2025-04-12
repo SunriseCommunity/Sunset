@@ -40,11 +40,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={font.className} suppressHydrationWarning>
-      <body className="bg-terracotta-900 text-white min-h-screen flex flex-col  font-medium">
+      <body className="bg-background text-current min-h-screen flex flex-col  font-medium">
         <Providers>
           <Header />
           <div className="row-padding-max-w-2xl">{children}</div>
-          <main className="flex-grow bg-terracotta-900 -z-30" />
+          <main className="flex-grow bg-background -z-30" />
           <Footer />
         </Providers>
         <ScrollUpButton />
