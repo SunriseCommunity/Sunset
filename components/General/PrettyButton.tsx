@@ -35,11 +35,11 @@ export default function PrettyButton({
     <button
       className={twMerge(
         "bg-terracotta-800 smooth-transition p-2 rounded",
-        isAction ? "text-white" : "text-yellow-pastel",
+        isAction ? "text-current" : "text-ring/85",
         disabled
           ? "opacity-50 cursor-not-allowed"
-          : "hover:bg-terracotta-400 hover:text-white",
-        isSelected ? "bg-terracotta-400 text-white" : "",
+          : "hover:bg-primary hover:text-current",
+        isSelected ? "bg-primary text-primary-foreground" : "",
         className
       )}
       onClick={(e) => {
