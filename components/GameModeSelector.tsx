@@ -1,5 +1,6 @@
 import { Combobox } from "@/components/ComboBox";
 import PrettyButton from "@/components/General/PrettyButton";
+import { Button } from "@/components/ui/button";
 import {
   GameMode,
   GameRuleFlags,
@@ -61,7 +62,7 @@ export default function GameModeSelector({
   includeGameModes = true,
   includeGameRules = true,
 }: GameModeSelectorProps) {
-  if (enabledModes) enrichEnabledModesWithGameModes(enabledModes);
+  // if (enabledModes) enrichEnabledModesWithGameModes(enabledModes);
 
   return (
     <div
@@ -72,15 +73,18 @@ export default function GameModeSelector({
       {includeGameRules && (
         <div className="hidden space-x-2 lg:flex">
           {Object.entries(GameRuleFlags).map(([mode, key]) => (
-            <PrettyButton
-              text={mode}
-              key={key}
+            <Button
+              key={mode}
               className="px-3 py-1"
-              isSelected={
-                gameModeToGamerule(activeMode) === gameModeToGamerule(key)
-              }
               onClick={() => setActiveMode(key)}
-            />
+              variant={
+                gameModeToGamerule(activeMode) === gameModeToGamerule(key)
+                  ? "default"
+                  : "secondary"
+              }
+            >
+              {mode}
+            </Button>
           ))}
         </div>
       )}
@@ -90,16 +94,17 @@ export default function GameModeSelector({
           {Object.entries(
             GameRulesGameModes[gameModeToGamerule(activeMode)]
           ).map(([mode, key]) => (
-            <PrettyButton
-              text={mode}
+            <Button
               key={mode}
               className="px-3 py-1"
-              isSelected={activeMode === key}
               onClick={() => key && setActiveMode(key)}
+              variant={activeMode === key ? "default" : "secondary"}
               disabled={
                 key === null || (enabledModes && !enabledModes.includes(key))
               }
-            />
+            >
+              {mode}
+            </Button>
           ))}
         </div>
       )}

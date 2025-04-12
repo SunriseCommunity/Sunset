@@ -11,6 +11,7 @@ import GameModeSelector from "@/components/GameModeSelector";
 import { UsersLeaderboardType } from "@/lib/hooks/api/user/types";
 import { useUsersLeaderboard } from "@/lib/hooks/api/user/useUsersLeaderboard";
 import numberWith from "@/lib/utils/numberWith";
+import { Button } from "@/components/ui/button";
 
 export default function Leaderboard() {
   const [activeMode, setActiveMode] = useState(GameMode.std);
@@ -46,11 +47,11 @@ export default function Leaderboard() {
       <PrettyHeader
         text="Leaderboard"
         icon={<ChartColumnIncreasing />}
-        className="bg-terracotta-650 mb-4"
+        className="mb-4"
         roundBottom={true}
       >
         <div className="flex place-content-end w-full gap-x-2 pt-2">
-          <PrettyButton
+          {/* <PrettyButton
             onClick={() => setLeaderboardType(UsersLeaderboardType.pp)}
             text="Performance points"
             className="px-3 py-1"
@@ -61,11 +62,31 @@ export default function Leaderboard() {
             text="Ranked Score"
             className="px-3 py-1"
             isSelected={leaderboardType == UsersLeaderboardType.score}
-          />
+          /> */}
+          <Button
+            onClick={() => setLeaderboardType(UsersLeaderboardType.pp)}
+            variant={
+              leaderboardType == UsersLeaderboardType.pp
+                ? "default"
+                : "secondary"
+            }
+          >
+            Performance points
+          </Button>
+          <Button
+            onClick={() => setLeaderboardType(UsersLeaderboardType.score)}
+            variant={
+              leaderboardType == UsersLeaderboardType.score
+                ? "default"
+                : "secondary"
+            }
+          >
+            Ranked Score
+          </Button>
         </div>
       </PrettyHeader>
 
-      <PrettyHeader className="bg-terracotta-650">
+      <PrettyHeader className="border-b-0 shadow-none">
         <GameModeSelector
           activeMode={activeMode}
           setActiveMode={setActiveMode}
@@ -73,8 +94,8 @@ export default function Leaderboard() {
       </PrettyHeader>
 
       {usersLeaderboardQuery.isLoading && users.length === 0 && (
-        <div className="bg-terracotta-650 rounded-b-3xl mb-4">
-          <RoundedContent className="min-h-0 h-fit max-h-none bg-terracotta-700 rounded-t-xl">
+        <div className="rounded-b-3xl mb-4">
+          <RoundedContent className="min-h-0 h-fit max-h-none rounded-t-xl">
             <div className="flex justify-center items-center h-32">
               <Spinner />
             </div>
@@ -83,12 +104,12 @@ export default function Leaderboard() {
       )}
 
       {!usersLeaderboardQuery.isLoading && users.length > 0 && (
-        <div className="bg-terracotta-650 rounded-b-3xl mb-4">
-          <RoundedContent className="bg-terracotta-700 rounded-t-xl">
-            <div className="bg-terracotta-800 rounded-lg overflow-hidden">
+        <div className="rounded-b-3xl bg-card mb-4 border shadow">
+          <RoundedContent className="rounded-t-xl border-none shadow-none">
+            <div className="bg-popover/50 rounded-lg overflow-hidden">
               <table className="w-full">
                 <thead>
-                  <tr className="bg-terracotta-500 text-left">
+                  <tr className="text-left">
                     <th className="p-3">Rank</th>
                     <th className="p-3">Flag</th>
                     <th className="p-3">Player</th>
@@ -105,7 +126,7 @@ export default function Leaderboard() {
                   {users.map((user, index) => (
                     <tr
                       key={index}
-                      className="border-b border-[#333333] hover:bg-[#333333] transition-colors"
+                      className="border-y border-accent hover:bg-popover transition-colors"
                     >
                       <td className="p-3 text-lg font-bold">
                         # {index + (page - 1) * pageLimit + 1}
