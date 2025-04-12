@@ -3,7 +3,6 @@ import { Book, Clapperboard, Info, Music2 } from "lucide-react";
 import PrettyHeader from "@/components/General/PrettyHeader";
 import RoundedContent from "@/components/General/RoundedContent";
 import { useEffect, useState, use } from "react";
-import GameModeSelector, { GameRuleFlags } from "@/components/GameModeSelector";
 import ImageWithFallback from "@/components/ImageWithFallback";
 import PrettyDate from "@/components/General/PrettyDate";
 import BeatmapStatusIcon from "@/components/BeatmapStatus";
@@ -15,11 +14,12 @@ import FavouriteButton from "@/app/beatmapsets/components/FavouriteButton";
 import Spinner from "@/components/Spinner";
 import BeatmapLeaderboard from "@/app/beatmapsets/components/BeatmapLeaderboard";
 import OpenBanchoButton from "@/app/beatmapsets/components/OpenBanchoButton";
-import { gameModeToVanilla } from "@/lib/utils/gameModeToVanilla";
+import { gameModeToVanilla } from "@/lib/utils/gameMode.util";
 import Image from "next/image";
 import { GameMode } from "@/lib/hooks/api/types";
 import { Beatmap } from "@/lib/hooks/api/beatmap/types";
 import { useBeatmapSet } from "@/lib/hooks/api/beatmap/useBeatmapSet";
+import GameModeSelector from "@/components/GameModeSelector";
 
 export interface BeatmapsetProps {
   params: Promise<{ ids: [number?, number?] }>;
@@ -30,7 +30,6 @@ export default function Beatmapset(props: BeatmapsetProps) {
   const [beatmapSetId, beatmapId] = params.ids;
 
   const [activeMode, setActiveMode] = useState(GameMode.std);
-  const [activeGameRule, setActiveGameRule] = useState(GameRuleFlags.Standard);
   const [activeBeatmap, _setActiveBeatmap] = useState<Beatmap | null>(null);
 
   const beatmapsetQuery = useBeatmapSet(beatmapSetId ?? null);
@@ -125,8 +124,6 @@ export default function Beatmapset(props: BeatmapsetProps) {
         <GameModeSelector
           activeMode={activeMode}
           setActiveMode={setActiveMode}
-          activeGameRule={activeGameRule}
-          setActiveGameRule={setActiveGameRule}
           includeGameRules={false}
           enabledModes={
             beatmapSet &&
@@ -289,8 +286,6 @@ export default function Beatmapset(props: BeatmapsetProps) {
               <GameModeSelector
                 activeMode={activeMode}
                 setActiveMode={setActiveMode}
-                activeGameRule={activeGameRule}
-                setActiveGameRule={setActiveGameRule}
                 includeGameModes={false}
               />
             </RoundedContent>

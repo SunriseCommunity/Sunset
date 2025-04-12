@@ -39,7 +39,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={font.className}>
+    <html lang="en" className={font.className} suppressHydrationWarning>
       <body className="bg-terracotta-900 text-white min-h-screen flex flex-col  font-medium">
         <Providers>
           <Header />

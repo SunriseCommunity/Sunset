@@ -4,6 +4,7 @@ import HeaderLink from "@/components/Header/HeaderLink";
 import HeaderAccount from "@/components/Header/HeaderAccount";
 import { twMerge } from "tailwind-merge";
 import HeaderSearchPopup from "./HeaderSearchPopup";
+import { ThemeModeToggle } from "@/components/ThemeModeToggle";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -58,6 +59,7 @@ export default function Header() {
           <HeaderSearchPopup isHovered={hovered} />
 
           <HeaderAccount isHovered={hovered} />
+          <ThemeModeToggle />
         </div>
       </div>
     </header>

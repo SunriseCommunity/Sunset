@@ -1,4 +1,5 @@
 "use client";
+import { ThemeProvider } from "@/components/ThemeProvider";
 import { AudioProvider } from "@/lib/providers/AudioProvider";
 import { RestrictionProvider } from "@/lib/providers/RestrictionProvider";
 import { SelfProvider } from "@/lib/providers/SelfProvider";
@@ -15,11 +16,18 @@ export default function Providers({ children }: { children: ReactNode }) {
         dedupingInterval: 1000 * 10,
       }}
     >
-      <SelfProvider>
-        <RestrictionProvider>
-          <AudioProvider>{children}</AudioProvider>
-        </RestrictionProvider>
-      </SelfProvider>
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange
+      >
+        <SelfProvider>
+          <RestrictionProvider>
+            <AudioProvider>{children}</AudioProvider>
+          </RestrictionProvider>
+        </SelfProvider>
+      </ThemeProvider>
     </SWRConfig>
   );
 }
