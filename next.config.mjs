@@ -12,6 +12,34 @@ const nextConfig = {
     return config;
   },
 
+  turbopack: {
+    rules: {
+      "*.svg": {
+        loaders: [
+          {
+            loader: "@svgr/webpack",
+            options: {
+              svgoConfig: {
+                plugins: [
+                  {
+                    name: "preset-default",
+                    params: {
+                      overrides: {
+                        removeViewBox: false,
+                      },
+                    },
+                  },
+                  "removeDimensions",
+                ],
+              },
+            },
+          },
+        ],
+        as: "*.js",
+      },
+    },
+  },
+
   images: {
     remotePatterns: [
       {
