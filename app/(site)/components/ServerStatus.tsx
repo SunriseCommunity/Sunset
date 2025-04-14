@@ -26,7 +26,7 @@ export default function ServerStatus({ type, data }: Props) {
 
   return (
     <div className="px-6 py-3 border-neutral-300 border-[1px] rounded-full backdrop-blur-sm">
-      <h2 className="text-sm font-medium text-neutral-300">
+      <h2 className="text-sm font-medium text-current">
         {statuses[type].name}
       </h2>
       <div className="flex items-center space-x-2">
@@ -37,7 +37,7 @@ export default function ServerStatus({ type, data }: Props) {
               ? data === "Online"
                 ? "text-green-500"
                 : "text-red-500"
-              : "text-neutral-100"
+              : "text-current"
           }`}
         >
           {isDataNumber ? <PrettyCounter value={Number(data)} /> : data}
