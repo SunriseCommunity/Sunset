@@ -6,11 +6,7 @@ import HeaderLoginDropdown from "@/components/Header/HeaderLoginDropdown";
 import HeaderDropdown from "@/components/Header/HeaderDropdown";
 import useSelf from "@/lib/hooks/useSelf";
 
-interface Props {
-  isHovered: boolean;
-}
-
-export default function HeaderAccount({ isHovered }: Props) {
+export default function HeaderAccount() {
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
   const [isLoginDropdownOpen, setIsLoginDropdownOpen] = useState(false);
 
@@ -41,9 +37,7 @@ export default function HeaderAccount({ isHovered }: Props) {
         <div className="relative">
           <button
             onClick={() => setIsLoginDropdownOpen((prev) => !prev)}
-            className={`hover:bg-zinc-600 p-1 rounded-md smooth-transition ${
-              !isHovered ? "opacity-40" : ""
-            }`}
+            className="hover:bg-zinc-600 p-1 rounded-md smooth-transition opacity-40 group-hover:opacity-100"
           >
             sign in
           </button>
