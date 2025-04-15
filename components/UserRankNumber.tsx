@@ -6,7 +6,7 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
 }
 
-export default function UserRankNumber({
+export default function UserRankColor({
   rank,
   variant,
   children,
