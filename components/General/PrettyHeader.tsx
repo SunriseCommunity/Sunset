@@ -21,12 +21,17 @@ export default function PrettyHeader({
     <div
       className={twMerge(
         `bg-card rounded-t-lg p-4 flex items-center border shadow`,
-        className,
         children ? "place-content-between" : "",
-        roundBottom ? "rounded-b-lg" : ""
+        roundBottom ? "rounded-b-lg" : "",
+        className
       )}
     >
-      <div className="flex items-center">
+      <div
+        className={twMerge(
+          "flex items-center",
+          !icon && !text && !counter ? "hidden" : ""
+        )}
+      >
         {icon && <div className="mr-2 text-current/30">{icon}</div>}
         <h2 className="text-lg font-semibold capitalize">{text}</h2>
         {counter && (
