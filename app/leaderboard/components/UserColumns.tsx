@@ -54,7 +54,10 @@ export const userColumns: ColumnDef<{
         <UserRankColor
           rank={value}
           variant="primary"
-          className={twMerge("text-center font-bold", textSize)}
+          className={twMerge(
+            "text-center font-bold whitespace-nowrap",
+            textSize
+          )}
         >
           # {value}
         </UserRankColor>
