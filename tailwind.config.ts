@@ -9,6 +9,16 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      keyframes: {
+        animatedgradient: {
+          "0%": { backgroundPosition: "0% 50%" },
+          "50%": { backgroundPosition: "100% 50%" },
+          "100%": { backgroundPosition: "0% 50%" },
+        },
+      },
+      animation: {
+        gradient: "animatedgradient 6s ease infinite alternate",
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
@@ -17,6 +27,7 @@ const config: Config = {
       backgroundSize: {
         "size-1000": "1000% 1000%",
         "size-200": "200% 200%",
+        "size-300": "300% 300%",
       },
       backgroundPosition: {
         "pos-0": "0% 0%",
@@ -93,6 +104,7 @@ const config: Config = {
     { pattern: /^from-\w+-\d+/, variants: ["hover"] },
     { pattern: /^text-\w+-\d+/, variants: ["hover"] },
   ],
+
   plugins: [require("tailwindcss-animate")],
 };
 export default config;
