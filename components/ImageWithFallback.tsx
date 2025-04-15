@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 
 interface ImageWithFallbackProps {
@@ -14,13 +14,17 @@ export default function ImageWithFallback({
   fallBackSrc,
   ...props
 }: ImageWithFallbackProps) {
-  const [imageError, setImageError] = useState(false);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    setError(null);
+  }, [src]);
 
   return (
     <Image
-      src={imageError ? fallBackSrc : src}
+      src={error ? fallBackSrc : src}
       alt={alt}
-      onError={() => setImageError(true)}
+      onError={(e: any) => setError(e)}
       {...props}
     />
   );
