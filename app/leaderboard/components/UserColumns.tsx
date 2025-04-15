@@ -9,7 +9,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import UserRankNumber from "@/components/UserRankNumber";
+import UserRankColor from "@/components/UserRankNumber";
 import { User, UserStats } from "@/lib/hooks/api/user/types";
 import numberWith from "@/lib/utils/numberWith";
 import { ColumnDef } from "@tanstack/react-table";
@@ -51,13 +51,13 @@ export const userColumns: ColumnDef<{
           : "text-ms";
 
       return (
-        <UserRankNumber
+        <UserRankColor
           rank={value}
           variant="primary"
           className={twMerge("text-center font-bold", textSize)}
         >
           # {value}
-        </UserRankNumber>
+        </UserRankColor>
       );
     },
   },

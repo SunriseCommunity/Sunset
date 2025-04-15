@@ -27,6 +27,7 @@ import { GameMode } from "@/lib/hooks/api/types";
 import { FriendshipButton } from "@/components/FriendshipButton";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
+import UserRankColor from "@/components/UserRankNumber";
 
 const contentTabs = [
   "General",
@@ -226,9 +227,13 @@ export default function UserPage(props: { params: Promise<{ id: number }> }) {
                   />
                 </div>
                 <div className="overflow-hidden flex-wrap">
-                  <h1 className="text-3xl font-bold relative">
+                  <UserRankColor
+                    className="text-3xl font-bold relative"
+                    variant="primary"
+                    rank={userStats?.rank ?? -1}
+                  >
                     {user.username}
-                  </h1>
+                  </UserRankColor>
                   <div
                     className={twMerge("flex items-center", statusColor(user))}
                   >
@@ -251,15 +256,14 @@ export default function UserPage(props: { params: Promise<{ id: number }> }) {
                 >
                   <div className="flex items-center text-white">
                     <Globe className="w-6 h-6 mr-2" />
-                    <span
-                      className={twMerge(
-                        "text-2xl font-bold",
-                        userStats?.rank === 1 && "text-yellow-400"
-                      )}
+                    <UserRankColor
+                      className="text-2xl font-bold"
+                      variant="primary"
+                      rank={userStats?.rank ?? -1}
                     >
                       #{" "}
                       {userStats?.rank ?? <Skeleton className="w-9 h-6 ml-2" />}
-                    </span>
+                    </UserRankColor>
                   </div>
                 </Tooltip>
 
@@ -275,17 +279,16 @@ export default function UserPage(props: { params: Promise<{ id: number }> }) {
                       alt="Country Flag"
                       className="w-6 h-6 mr-2"
                     />
-                    <span
-                      className={twMerge(
-                        "text-2xl font-bold",
-                        userStats?.country_rank === 1 && "text-gray-300"
-                      )}
+                    <UserRankColor
+                      className="text-2xl font-bold"
+                      variant="secondary"
+                      rank={userStats?.country_rank ?? -1}
                     >
                       #{" "}
                       {userStats?.country_rank ?? (
                         <Skeleton className="w-9 h-6 ml-2" />
                       )}
-                    </span>
+                    </UserRankColor>
                   </div>
                 </Tooltip>
               </div>
