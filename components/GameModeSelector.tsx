@@ -1,5 +1,4 @@
 import { Combobox } from "@/components/ComboBox";
-import PrettyButton from "@/components/General/PrettyButton";
 import { Button } from "@/components/ui/button";
 import {
   GameMode,
@@ -10,8 +9,9 @@ import {
   gameModeToGamerule,
   gameModeToPrettyString,
 } from "@/lib/utils/gameMode.util";
+import { twMerge } from "tailwind-merge";
 
-interface GameModeSelectorProps {
+interface GameModeSelectorProps extends React.HTMLAttributes<HTMLDivElement> {
   activeMode: GameMode;
   setActiveMode: (mode: GameMode) => void;
   activeGameRule?: number;
@@ -61,14 +61,19 @@ export default function GameModeSelector({
   enabledModes,
   includeGameModes = true,
   includeGameRules = true,
+  ...props
 }: GameModeSelectorProps) {
-  // if (enabledModes) enrichEnabledModesWithGameModes(enabledModes);
+  if (enabledModes) enrichEnabledModesWithGameModes(enabledModes);
 
   return (
     <div
-      className={`flex place-content-between ${
-        includeGameModes && includeGameRules ? " w-full" : ""
-      }`}
+      {...props}
+      className={twMerge(
+        `flex lg:place-content-between place-content-end ${
+          includeGameModes && includeGameRules ? "w-full" : ""
+        }`,
+        props.className
+      )}
     >
       {includeGameRules && (
         <div className="hidden space-x-2 lg:flex">
@@ -97,7 +102,7 @@ export default function GameModeSelector({
             <Button
               key={mode}
               className="px-3 py-1"
-              onClick={() => key && setActiveMode(key)}
+              onClick={() => key != null && setActiveMode(key)}
               variant={activeMode === key ? "default" : "secondary"}
               disabled={
                 key === null || (enabledModes && !enabledModes.includes(key))
@@ -109,7 +114,7 @@ export default function GameModeSelector({
         </div>
       )}
 
-      <div className="flex ml-auto lg:hidden">
+      <div className="flex lg:hidden">
         <Combobox
           activeValue={activeMode.toString()}
           setActiveValue={(mode: any) => {
