@@ -6,6 +6,7 @@ import {
   UsersLeaderboardType,
   UserStats,
 } from "@/lib/hooks/api/user/types";
+import fetcher from "@/lib/services/fetcher";
 import useSWR from "swr";
 
 export function useUsersLeaderboard(
@@ -23,6 +24,10 @@ export function useUsersLeaderboard(
   }>(
     `user/leaderboard?mode=${mode}&type=${type}${page ? `&page=${page}` : ""}${
       limit ? `&limit=${limit}` : ""
-    }`
+    }`,
+    fetcher,
+    {
+      keepPreviousData: true,
+    }
   );
 }
