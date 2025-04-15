@@ -46,7 +46,7 @@ export default function UserTabScores({
       <PrettyHeader
         text={`${UserScoresType[type]} scores`}
         icon={<ChartColumnIncreasing />}
-        counter={total_count ?? undefined}
+        counter={total_count && total_count > 0 ? total_count : undefined}
       />
       <RoundedContent className="min-h-60 h-fit max-h-none">
         {!data && (
