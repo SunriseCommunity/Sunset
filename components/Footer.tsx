@@ -14,7 +14,7 @@ export default async function Footer() {
         className="flex items-center justify-center space-x-1 font-bold hover:scale-105  smooth-transition cursor-pointer "
       >
         <VoteIcon className="mr-1" />
-        <p className="from-stone-400 via-orange-300 to-amber-200 bg-gradient-to-r text-transparent bg-clip-text bg-size-300 animate-gradient ">
+        <p className="from-stone-400 via-orange-300 to-amber-600 bg-gradient-to-r text-transparent bg-clip-text bg-size-300 animate-gradient ">
           Please vote for us on osu-server-list!
         </p>
       </a>
