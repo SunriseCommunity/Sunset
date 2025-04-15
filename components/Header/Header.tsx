@@ -1,10 +1,12 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import HeaderLink from "@/components/Header/HeaderLink";
-import HeaderAccount from "@/components/Header/HeaderAccount";
+
 import { twMerge } from "tailwind-merge";
 import { ThemeModeToggle } from "@/components/Header/ThemeModeToggle";
 import HeaderSearchCommand from "@/components/Header/HeaderSearchCommand";
+import HeaderMobileDrawer from "@/components/Header/HeaderMobileDrawer";
+import HeaderAvatar from "@/components/Header/HeaderAvatar";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -42,18 +44,21 @@ export default function Header() {
           </a>
 
           {/* Links */}
-          <span className="flex items-center space-x-6 text-sm font-medium">
+          <span className="hidden md:flex items-center space-x-6 text-sm font-medium">
             <HeaderLink name="leaderboard" />
             <HeaderLink name="top plays" />
             <HeaderLink name="wiki" />
           </span>
         </div>
-        <div className="flex items-center space-x-6">
+        <div className="hidden md:flex items-center space-x-6">
           <HeaderSearchCommand />
           <ThemeModeToggle />
 
-          <HeaderAccount />
-         
+          <HeaderAvatar />
+        </div>
+
+        <div className="flex md:hidden space-x-6">
+          <HeaderMobileDrawer />
         </div>
       </div>
     </header>
