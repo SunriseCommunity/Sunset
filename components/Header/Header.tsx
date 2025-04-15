@@ -1,19 +1,17 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import HeaderLink from "@/components/Header/HeaderLink";
 import HeaderAccount from "@/components/Header/HeaderAccount";
 import { twMerge } from "tailwind-merge";
-import HeaderSearchPopup from "./HeaderSearchPopup";
-import { ThemeModeToggle } from "@/components/ThemeModeToggle";
+import { ThemeModeToggle } from "@/components/Header/ThemeModeToggle";
+import HeaderSearchCommand from "@/components/Header/HeaderSearchCommand";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
-  const [hovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 0);
-      setIsHovered(window.scrollY > 0);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -22,9 +20,6 @@ export default function Header() {
     };
   }, []);
 
-  const handleMouseEnter = () => setIsHovered(true);
-  const handleMouseLeave = () => !scrolled && setIsHovered(false);
-
   const className = `bg-gradient-to-t from-secondary bg-pos-0 bg-size-1000 ${
     scrolled ? `bg-pos-100 bg-size-200` : `hover:bg-pos-100 hover:bg-size-200`
   }`;
@@ -32,10 +27,8 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 bg-transparent backdrop-blur-xl">
       <div
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
         className={twMerge(
-          `left-0 relative right-0 top-0 z-50 flex items-center border-b-2 border-current justify-between row-padding py-2 smooth-transition backdrop-blur-xl `,
+          `left-0 group relative right-0 top-0 z-50 hove flex items-center border-b-2 border-current justify-between row-padding py-2 smooth-transition backdrop-blur-xl `,
           className
         )}
       >
@@ -50,16 +43,17 @@ export default function Header() {
 
           {/* Links */}
           <span className="flex items-center space-x-6 text-sm font-medium">
-            <HeaderLink name="leaderboard" isHovered={hovered} />
-            <HeaderLink name="top plays" isHovered={hovered} />
-            <HeaderLink name="wiki" isHovered={hovered} />
+            <HeaderLink name="leaderboard" />
+            <HeaderLink name="top plays" />
+            <HeaderLink name="wiki" />
           </span>
         </div>
         <div className="flex items-center space-x-6">
-          <HeaderSearchPopup isHovered={hovered} />
-
-          <HeaderAccount isHovered={hovered} />
+          <HeaderSearchCommand />
           <ThemeModeToggle />
+
+          <HeaderAccount />
+         
         </div>
       </div>
     </header>
