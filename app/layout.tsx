@@ -5,6 +5,7 @@ import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer";
 import ScrollUpButton from "@/components/scrollUpButton";
 import Providers from "@/components/Providers";
+import { Toaster } from "@/components/ui/toaster";
 
 const font = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -45,6 +46,7 @@ export default function RootLayout({
           <Header />
           <div className="row-padding-max-w-2xl">{children}</div>
           <main className="flex-grow bg-background -z-30" />
+          <Toaster />
           <Footer />
         </Providers>
         <ScrollUpButton />
