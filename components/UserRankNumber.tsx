@@ -18,7 +18,7 @@ export default function UserRankColor({
     case "primary":
       colourPalette = {
         "1": "from-purple-600 via-pink-500 to-red-400",
-        "2": "from-blue-500 via-cyan-400 to-teal-300",
+        "2": "from-gray-300 via-cyan-400 to-teal-200",
         "3": "from-amber-700 via-amber-600 to-amber-500",
       };
       break;
