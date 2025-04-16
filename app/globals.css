@@ -7,7 +7,7 @@
 }
 
 .row-padding-max-w-2xl {
-  @apply w-full max-w-screen-2xl sm:px-20 xl:px-36 2xl:px-64 mx-auto;
+  @apply w-full max-w-screen-2xl sm:px-16 xl:px-32 2xl:px-64 mx-auto;
 }
 
 .smooth-transition {
