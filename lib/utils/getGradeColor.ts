@@ -1,7 +1,7 @@
 const gradeColors: { [key: string]: string } = {
-  XH: "sky-100",
+  XH: "sky-200",
   X: "yellow-300",
-  SH: "sky-100",
+  SH: "sky-200",
   S: "yellow-300",
   A: "green-300",
   B: "blue-300",

@@ -3,15 +3,12 @@
 import Spinner from "@/components/Spinner";
 import { useState, use } from "react";
 import Image from "next/image";
-import { Edit3Icon, Globe, User as UserIcon } from "lucide-react";
+import { Edit3Icon, User as UserIcon } from "lucide-react";
 import UserBadges from "@/app/user/[id]/components/UserBadges";
 import PrettyHeader from "@/components/General/PrettyHeader";
 import UserTabGeneral from "@/app/user/[id]/components/Tabs/UserTabGeneral";
-import { Tooltip } from "@/components/Tooltip";
-import PrettyDate from "@/components/General/PrettyDate";
 import { twMerge } from "tailwind-merge";
 import UserTabMedals from "./components/Tabs/UserTabMedals";
-import toPrettyDate from "@/lib/utils/toPrettyDate";
 import ImageWithFallback from "@/components/ImageWithFallback";
 import UserTabBeatmaps from "./components/Tabs/UserTabBeatmaps";
 import GameModeSelector from "@/components/GameModeSelector";
@@ -25,9 +22,13 @@ import {
 import UserTabScores from "@/app/user/[id]/components/Tabs/UserTabScores";
 import { GameMode } from "@/lib/hooks/api/types";
 import { FriendshipButton } from "@/components/FriendshipButton";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import UserRankColor from "@/components/UserRankNumber";
+import { useRouter } from "next/navigation";
+import UserStatusText, {
+  statusColor,
+} from "@/app/user/[id]/components/UserStatusText";
+import UserRanks from "@/app/user/[id]/components/UserRanks";
 
 const contentTabs = [
   "General",
@@ -37,24 +38,6 @@ const contentTabs = [
   "Beatmaps",
   "Medals",
 ];
-
-const navigateTo = (href: string) => {
-  window.location.href = href;
-};
-
-const statusColor = (user: User) =>
-  user.user_status.trim() === "Offline"
-    ? "text-stone-300"
-    : user.user_status.trim() === "Idle" || user.user_status.trim() === "Afk"
-    ? "text-orange-400"
-    : "text-green-500";
-
-const statusColorBg = (user: User) =>
-  user.user_status.trim() === "Offline"
-    ? "bg-stone-300"
-    : user.user_status.trim() === "Idle" || user.user_status.trim() === "Afk"
-    ? "bg-orange-400"
-    : "bg-green-500";
 
 const renderTabContent = (
   userStats: UserStats | undefined,
@@ -119,6 +102,7 @@ const renderTabContent = (
 };
 
 export default function UserPage(props: { params: Promise<{ id: number }> }) {
+  const router = useRouter();
   const params = use(props.params);
   const userId = params.id;
 
@@ -138,57 +122,19 @@ export default function UserPage(props: { params: Promise<{ id: number }> }) {
     );
   }
 
-  if (userStatsQuery.error || !userQuery.data) {
-    const errorMessage = userStatsQuery.error?.message ?? "User not found";
-
-    return (
-      <main className="container mx-auto my-8">
-        <PrettyHeader
-          icon={<UserIcon />}
-          text="Player info"
-          className="mb-4"
-          roundBottom={true}
-        />
-
-        <RoundedContent className="rounded-l flex flex-col md:flex-row justify-between items-center md:items-start gap-8 ">
-          <div className="flex flex-col space-y-2">
-            <h1 className="text-4xl">
-              {errorMessage ?? "User not found or an error occurred."}
-            </h1>
-            {errorMessage?.includes("restrict") ? (
-              <p>
-                This means that the user violated the server rules and has been
-                restricted.
-              </p>
-            ) : (
-              <p>The user may have been deleted or does not exist.</p>
-            )}
-          </div>
-          <Image
-            src="/images/user-not-found.png"
-            alt="404"
-            width={200}
-            height={400}
-            className="max-w-fit"
-          />
-        </RoundedContent>
-      </main>
-    );
-  }
+  const errorMessage = userStatsQuery.error?.message ?? "User not found";
 
   const user = userQuery.data;
   const userStats = userStatsQuery.data?.stats;
 
   return (
-    <main className="container mx-auto my-8">
-      {/* Player info header */}
-
+    <div className="flex flex-col w-full mt-8">
       <PrettyHeader
         icon={<UserIcon />}
         text="Player info"
         className="mb-4"
         roundBottom={true}
-      ></PrettyHeader>
+      />
 
       <PrettyHeader className="border-b-0">
         <GameModeSelector
@@ -198,148 +144,123 @@ export default function UserPage(props: { params: Promise<{ id: number }> }) {
       </PrettyHeader>
 
       <RoundedContent className="rounded-lg-b p-0 border-t-0 bg-card">
-        {/* Banner */}
-        <div className="h-64 relative">
-          <ImageWithFallback
-            src={`${user?.banner_url}&default=false`}
-            alt=""
-            fill={true}
-            objectFit="cover"
-            className="bg-secondary rounded-t-lg"
-            fallBackSrc="/images/placeholder.png"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent flex items-end">
-            <div className="p-6 flex items-end justify-between w-full">
-              <div className="flex items-end space-x-4 w-3/4">
-                <div className="relative w-32 h-32 flex-none">
-                  <Image
-                    src={user?.avatar_url}
-                    alt="User avatar"
-                    fill={true}
-                    objectFit="cover"
-                    className={`w-32 h-32 rounded-full border-4 relative border-secondary`}
-                  />
-                  <div
-                    className={twMerge(
-                      "absolute bottom-1 right-1 w-10 h-10 rounded-full border-4 border-secondary",
-                      statusColorBg(user)
-                    )}
-                  />
-                </div>
-                <div className="overflow-hidden flex-wrap">
-                  <UserRankColor
-                    className="text-3xl font-bold relative"
-                    variant="primary"
-                    rank={userStats?.rank ?? -1}
-                  >
-                    {user.username}
-                  </UserRankColor>
-                  <div
-                    className={twMerge("flex items-center", statusColor(user))}
-                  >
-                    {user.user_status}
-                    {user.user_status === "Offline" && (
-                      <>
-                        , last seen on&nbsp;
-                        <PrettyDate time={user.last_online_time} />
-                      </>
-                    )}
+        {!userStatsQuery.error && user ? (
+          <>
+            <div className="lg:h-64 md:h-44 h-32 relative">
+              <ImageWithFallback
+                src={`${user?.banner_url}&default=false`}
+                alt=""
+                fill={true}
+                objectFit="cover"
+                className="bg-secondary rounded-t-lg"
+                fallBackSrc="/images/placeholder.png"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent flex w-full">
+                <div className="relative overflow-hidden px-4 py-2 md:p-6 flex items-end place-content-between flex-grow">
+                  <div className="flex items-end space-x-4 w-3/4 ">
+                    <div className="relative w-16 h-16 md:w-32 md:h-32 flex-none">
+                      <Image
+                        src={user.avatar_url}
+                        alt="User avatar"
+                        fill={true}
+                        objectFit="cover"
+                        className={`rounded-full md:w-32 md:h-32 border-2 md:border-4 relative border-secondary`}
+                      />
+                      <div
+                        className={twMerge(
+                          "absolute bottom-1 right-1 w-5 h-5 md:w-10 md:h-10 rounded-full border-2 md:border-4 border-secondary",
+                          `bg-${statusColor(user.user_status)}`
+                        )}
+                      />
+                    </div>
+                    <div className="flex flex-col flex-grow min-w-0">
+                      <UserRankColor
+                        className="md:text-3xl text-lg font-bold relative truncate"
+                        variant="primary"
+                        rank={userStats?.rank ?? -1}
+                      >
+                        {user.username}
+                      </UserRankColor>
+                      <UserStatusText
+                        className="text-xs grid md:flex md:text-base"
+                        user={user}
+                      />
+                    </div>
                   </div>
+                  <UserRanks user={user} userStats={userStats} />
                 </div>
               </div>
-              <div className="flex flex-col space-y-2 bg-black bg-opacity-75 px-2 py-1 rounded mr-2 text-center min-w-24">
-                <Tooltip
-                  content={`Highest rank #${userStats?.best_global_rank} on ${
-                    userStats?.best_global_rank_date &&
-                    toPrettyDate(userStats?.best_global_rank_date)
-                  }`}
-                >
-                  <div className="flex items-center text-white">
-                    <Globe className="w-6 h-6 mr-2" />
-                    <UserRankColor
-                      className="text-2xl font-bold"
-                      variant="primary"
-                      rank={userStats?.rank ?? -1}
-                    >
-                      #{" "}
-                      {userStats?.rank ?? <Skeleton className="w-9 h-6 ml-2" />}
-                    </UserRankColor>
-                  </div>
-                </Tooltip>
+            </div>
 
-                <Tooltip
-                  content={`Highest rank #${userStats?.best_country_rank} on ${
-                    userStats?.best_country_rank_date &&
-                    toPrettyDate(userStats?.best_country_rank_date)
-                  }`}
-                >
-                  <div className="flex items-center text-white">
-                    <img
-                      src={`/images/flags/${user.country_code}.png`}
-                      alt="Country Flag"
-                      className="w-6 h-6 mr-2"
-                    />
-                    <UserRankColor
-                      className="text-2xl font-bold"
-                      variant="secondary"
-                      rank={userStats?.country_rank ?? -1}
+            <div className="px-6 py-4 bg-card">
+              <div className="flex justify-between items-start">
+                <div className="flex flex-wrap gap-2">
+                  <UserBadges badges={user.badges} />
+                </div>
+                <div className="flex space-x-2">
+                  {user.user_id === self.data?.user_id ? (
+                    <Button
+                      onClick={() => router.push("/settings")}
+                      className="w-9 md:w-auto"
                     >
-                      #{" "}
-                      {userStats?.country_rank ?? (
-                        <Skeleton className="w-9 h-6 ml-2" />
-                      )}
-                    </UserRankColor>
-                  </div>
-                </Tooltip>
+                      <Edit3Icon />
+                      <span className="hidden md:inline">Edit profile</span>
+                    </Button>
+                  ) : (
+                    <>
+                      <FriendshipButton userId={userId} />
+                      {/* TODO: <PrettyButton onClick={() => {}} icon={<MessageSquare />} /> */}
+                    </>
+                  )}
+                </div>
               </div>
-            </div>
-          </div>
-        </div>
 
-        {/* Content */}
-        <div className="px-6 pt-2 pb-6 bg-card">
-          {/* User Info */}
-          <div className="flex justify-between items-start mb-2">
-            <div className="flex flex-wrap gap-2">
-              <UserBadges badges={user.badges} />
+              <div className="my-4">
+                <div className="flex border-b border-gray overflow-x-auto">
+                  {contentTabs.map((tab) => (
+                    <button
+                      key={tab}
+                      className={`text-xs md:text-base py-2 px-4 text-nowrap border-primary/85 ${
+                        activeTab === tab
+                          ? "text-primary/85 border-b-2"
+                          : "text-current hover:text-primary/85 hover:border-b-2"
+                      }`}
+                      onClick={() => setActiveTab(tab)}
+                    >
+                      {tab}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {renderTabContent(userStats, activeTab, activeMode, user)}
             </div>
-            <div className="flex space-x-2">
-              {user.user_id === self.data?.user_id ? (
-                <Button onClick={navigateTo.bind(null, `/settings`)}>
-                  <Edit3Icon />
-                  Edit profile
-                </Button>
+          </>
+        ) : (
+          <RoundedContent className="rounded-l flex flex-col md:flex-row justify-between items-center md:items-start gap-8 ">
+            <div className="flex flex-col space-y-2">
+              <h1 className="text-4xl">
+                {errorMessage ?? "User not found or an error occurred."}
+              </h1>
+              {errorMessage?.includes("restrict") ? (
+                <p>
+                  This means that the user violated the server rules and has
+                  been restricted.
+                </p>
               ) : (
-                <>
-                  <FriendshipButton userId={userId} />
-                  {/* TODO: <PrettyButton onClick={() => {}} icon={<MessageSquare />} /> */}
-                </>
+                <p>The user may have been deleted or does not exist.</p>
               )}
             </div>
-          </div>
-
-          {/* Tab selector */}
-          <div className="mb-6">
-            <div className="flex border-b border-gray">
-              {contentTabs.map((tab) => (
-                <button
-                  key={tab}
-                  className={`py-2 px-4 border-primary/85 ${
-                    activeTab === tab
-                      ? "text-primary/85 border-b-2"
-                      : "text-current hover:text-primary/85 hover:border-b-2"
-                  }`}
-                  onClick={() => setActiveTab(tab)}
-                >
-                  {tab}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {renderTabContent(userStats, activeTab, activeMode, user)}
-        </div>
+            <Image
+              src="/images/user-not-found.png"
+              alt="404"
+              width={200}
+              height={400}
+              className="max-w-fit"
+            />
+          </RoundedContent>
+        )}
       </RoundedContent>
-    </main>
+    </div>
   );
 }

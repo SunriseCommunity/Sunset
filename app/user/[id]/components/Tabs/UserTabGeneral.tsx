@@ -3,7 +3,6 @@ import UserStatsChart from "@/app/user/[id]/components/UserStatsChart";
 import { ContentNotExist } from "@/components/ContentNotExist";
 import PrettyHeader from "@/components/General/PrettyHeader";
 import RoundedContent from "@/components/General/RoundedContent";
-import { Tooltip } from "@/components/Tooltip";
 import { GameMode } from "@/lib/hooks/api/types";
 import { getLevelWithProgress } from "@/lib/utils/userLevel";
 import NumberWith from "@/lib/utils/numberWith";
@@ -20,6 +19,7 @@ import { useState } from "react";
 import PrettyButton from "@/components/General/PrettyButton";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
+import { Tooltip } from "@/components/Tooltip";
 
 interface UserTabGeneralProps {
   user: User;
