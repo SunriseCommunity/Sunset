@@ -4,6 +4,7 @@ import { BeatmapSet } from "@/lib/hooks/api/beatmap/types";
 
 import { Pause, Play } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
 
 interface AudioPreviewProps {
   beatmapSet: BeatmapSet;
@@ -20,7 +21,9 @@ export default function AudioPreview({ beatmapSet }: AudioPreviewProps) {
   }, [isPlaying]);
 
   return (
-    <PrettyButton
+    <Button
+      size="icon"
+      variant="link"
       onClick={() => {
         if (isPlaying && isPlayingCurrent) {
           pause();
@@ -29,14 +32,13 @@ export default function AudioPreview({ beatmapSet }: AudioPreviewProps) {
 
         play(`https://b.ppy.sh/preview/${beatmapSet.id}.mp3`);
       }}
-      icon={
-        isPlayingCurrent ? (
-          <Pause className="h-8 fill-white" />
-        ) : (
-          <Play className="h-8 fill-white" />
-        )
-      }
       className="text-white relative text-xs min-h-8 hover:bg-opacity-0 bg-opacity-0 px-6 py-1 min-w-full rounded-lg overflow-hidden max-w-64"
-    />
+    >
+      {isPlayingCurrent ? (
+        <Pause className="h-8 fill-white" />
+      ) : (
+        <Play className="h-8 fill-white" />
+      )}
+    </Button>
   );
 }

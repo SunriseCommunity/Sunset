@@ -1,3 +1,4 @@
+import { GameMode } from "@/lib/hooks/api/types";
 import { User } from "@/lib/hooks/api/user/types";
 
 export interface Score {
@@ -10,6 +11,7 @@ export interface Score {
   count_katu: number;
   count_miss: number;
   game_mode: number;
+  game_mode_extended: GameMode;
   grade: string;
   id: number;
   is_passed: boolean;

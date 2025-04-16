@@ -121,11 +121,11 @@ export default function BeatmapSetOverview({
                 )
                 .sort((a, b) => a.mode_int - b.mode_int)
                 .map((difficulty) => (
-                  <div
-                    className="bg-terracotta-800 rounded-full bg-opacity-80 p-0.5 hidden sm:block"
-                    key={difficulty.id}
-                  >
-                    <DifficultyIcon difficulty={difficulty} className="h-4" />
+                  <div className="p-1" key={difficulty.id}>
+                    <DifficultyIcon
+                      difficulty={difficulty}
+                      className="text-sm bg-terracotta-800 rounded-full bg-opacity-80"
+                    />
                   </div>
                 ))}
             </div>
