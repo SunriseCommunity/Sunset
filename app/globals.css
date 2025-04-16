@@ -7,7 +7,7 @@
 }
 
 .row-padding-max-w-2xl {
-  @apply w-full max-w-screen-2xl px-8 sm:px-20 xl:px-36 2xl:px-64 mx-auto;
+  @apply w-full max-w-screen-2xl sm:px-20 xl:px-36 2xl:px-64 mx-auto;
 }
 
 .smooth-transition {
@@ -83,8 +83,8 @@
     --muted-foreground: 240 5% 64.9%;
     --accent: 12 6.5% 15.1%;
     --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 85.7% 97.3%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 60 9.1% 97.8%;
     --border: 31 8% 13%;
     --input: 31 8% 13%;
     --ring: 31 100% 50%;
