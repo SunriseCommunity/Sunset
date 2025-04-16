@@ -9,6 +9,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { useToast } from "@/hooks/use-toast";
 import { useUserSelf } from "@/lib/hooks/api/user/useUser";
 import { clearAuthCookies } from "@/lib/utils/clearAuthCookies";
 
@@ -18,6 +19,7 @@ interface Props extends React.HTMLAttributes<HTMLButtonElement> {
 
 export function HeaderLogoutAlert({ children, ...props }: Props) {
   const { mutate } = useUserSelf();
+  const { toast } = useToast();
 
   return (
     <AlertDialog>
@@ -35,6 +37,7 @@ export function HeaderLogoutAlert({ children, ...props }: Props) {
             onClick={() => {
               clearAuthCookies();
               mutate(undefined);
+              toast({ title: "You have been successfully logged out." });
             }}
           >
             Continue
