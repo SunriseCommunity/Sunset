@@ -84,9 +84,13 @@ export const userColumns: ColumnDef<{
     accessorKey: "user.username",
     header: "",
     cell: ({ row }) => {
-      console.log(row.original);
       const userId = row.original.user.user_id;
       const username = row.original.user.username;
+
+      const table = useContext(UserTableContext);
+      const pageIndex = table.getState().pagination.pageIndex;
+      const pageSize = table.getState().pagination.pageSize;
+      const userRank = row.index + pageIndex * pageSize + 1;
 
       return (
         <div className="p-3 relative flex flex-row items-center space-x-2">
@@ -100,12 +104,14 @@ export const userColumns: ColumnDef<{
               />
             </Suspense>
           </Avatar>
-          <p
+          <UserRankColor
+            rank={userRank}
+            variant="primary"
             className="cursor-pointer hover:text-primary smooth-transition text-lg font-bold"
             onClick={() => (window.location.href = `/user/${userId}`)}
           >
             {username}
-          </p>
+          </UserRankColor>
         </div>
       );
     },

@@ -34,7 +34,7 @@ export default function Topplays() {
         roundBottom={true}
       />
 
-      <PrettyHeader>
+      <PrettyHeader className="border-0">
         <GameModeSelector
           activeMode={activeMode}
           setActiveMode={setActiveMode}
@@ -48,7 +48,7 @@ export default function Topplays() {
       )}
 
       {!isLoading && scores && (
-        <div className="bg-coffee-600 rounded-b-3xl mb-4">
+        <div className="bg-card rounded-b-3xl mb-4">
           <RoundedContent className="min-h-0 h-fit max-h-none rounded-t-xl">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
               {scores?.map((score) => (
