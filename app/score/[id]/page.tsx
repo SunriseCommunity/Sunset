@@ -124,7 +124,7 @@ export default function Score(props: { params: Promise<{ id: number }> }) {
                           <DifficultyIcon
                             iconColor="#facc15"
                             gameMode={score.game_mode}
-                            className="w-5 h-5 mx-2"
+                            className="text-base mx-1"
                           />{" "}
                           ]
                         </p>

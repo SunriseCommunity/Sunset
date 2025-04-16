@@ -39,7 +39,7 @@ export function Combobox({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-auto justify-between"
+          className="w-auto justify-between capitalize"
         >
           {activeValue
             ? values.find((data) => data.value === activeValue)?.label
@@ -55,6 +55,7 @@ export function Combobox({
             <CommandGroup>
               {values.map((data, index) => (
                 <CommandItem
+                  className="capitalize"
                   key={index}
                   value={data.value}
                   onSelect={(currentValue) => {

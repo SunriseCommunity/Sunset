@@ -1,4 +1,5 @@
 import { Combobox } from "@/components/ComboBox";
+import DifficultyIcon from "@/components/DifficultyIcon";
 import { Button } from "@/components/ui/button";
 import {
   GameMode,
@@ -19,7 +20,15 @@ interface GameModeSelectorProps extends React.HTMLAttributes<HTMLDivElement> {
   enabledModes?: GameMode[];
   includeGameModes?: boolean;
   includeGameRules?: boolean;
+  mobileVariant?: "combobox" | "icons";
 }
+
+const GameRuleFlagShort = {
+  STD: GameRuleFlags.Standard,
+  RX: GameRuleFlags.Relax,
+  AP: GameRuleFlags.Autopilot,
+  V2: GameRuleFlags.ScoreV2,
+};
 
 function enrichEnabledModesWithGameModes(enabledModes: GameMode[]) {
   const pushModesToArray = (modes: GameMode[]) => {
@@ -61,6 +70,7 @@ export default function GameModeSelector({
   enabledModes,
   includeGameModes = true,
   includeGameRules = true,
+  mobileVariant = "icons",
   ...props
 }: GameModeSelectorProps) {
   if (enabledModes) enrichEnabledModesWithGameModes(enabledModes);
@@ -69,67 +79,116 @@ export default function GameModeSelector({
     <div
       {...props}
       className={twMerge(
-        `flex lg:place-content-between place-content-end ${
-          includeGameModes && includeGameRules ? "w-full" : ""
-        }`,
+        `flex lg:place-content-between`,
+        includeGameModes && includeGameRules ? "w-full" : "",
+        mobileVariant === "combobox"
+          ? "place-content-end"
+          : "place-content-between",
         props.className
       )}
     >
       {includeGameRules && (
-        <div className="hidden space-x-2 lg:flex">
-          {Object.entries(GameRuleFlags).map(([mode, key]) => (
-            <Button
-              key={mode}
-              className="px-3 py-1"
-              onClick={() => setActiveMode(key)}
-              variant={
-                gameModeToGamerule(activeMode) === gameModeToGamerule(key)
-                  ? "default"
-                  : "secondary"
-              }
-            >
-              {mode}
-            </Button>
-          ))}
-        </div>
+        <>
+          <div className="hidden space-x-2 lg:flex">
+            {Object.entries(GameRuleFlags).map(([mode, key]) => (
+              <Button
+                key={mode}
+                className="px-3 py-1"
+                onClick={() => setActiveMode(key)}
+                variant={
+                  gameModeToGamerule(activeMode) === gameModeToGamerule(key)
+                    ? "default"
+                    : "secondary"
+                }
+              >
+                {mode}
+              </Button>
+            ))}
+          </div>
+          {mobileVariant === "icons" && (
+            <div className="flex space-x-2 lg:hidden">
+              {Object.entries(GameRuleFlagShort).map(([mode, key]) => (
+                <Button
+                  key={mode}
+                  onClick={() => setActiveMode(key)}
+                  size="icon"
+                  variant={
+                    gameModeToGamerule(activeMode) === gameModeToGamerule(key)
+                      ? "default"
+                      : "secondary"
+                  }
+                >
+                  {mode}
+                </Button>
+              ))}
+            </div>
+          )}
+        </>
       )}
 
       {includeGameModes && (
-        <div className="hidden space-x-2 lg:flex">
-          {Object.entries(
-            GameRulesGameModes[gameModeToGamerule(activeMode)]
-          ).map(([mode, key]) => (
-            <Button
-              key={mode}
-              className="px-3 py-1"
-              onClick={() => key != null && setActiveMode(key)}
-              variant={activeMode === key ? "default" : "secondary"}
-              disabled={
-                key === null || (enabledModes && !enabledModes.includes(key))
-              }
-            >
-              {mode}
-            </Button>
-          ))}
-        </div>
+        <>
+          <div className="hidden space-x-2 lg:flex">
+            {Object.entries(
+              GameRulesGameModes[gameModeToGamerule(activeMode)]
+            ).map(([mode, key]) => (
+              <Button
+                key={mode}
+                className="px-3 py-1"
+                onClick={() => key != null && setActiveMode(key)}
+                variant={activeMode === key ? "default" : "secondary"}
+                disabled={
+                  key === null || (enabledModes && !enabledModes.includes(key))
+                }
+              >
+                {mode}
+              </Button>
+            ))}
+          </div>
+          {mobileVariant === "icons" && (
+            <div className="flex space-x-2 lg:hidden">
+              {Object.entries(
+                GameRulesGameModes[gameModeToGamerule(activeMode)]
+              ).map(([mode, key], index) => (
+                <Button
+                  key={mode}
+                  size="icon"
+                  onClick={() => key != null && setActiveMode(key)}
+                  variant={activeMode === key ? "default" : "secondary"}
+                  disabled={
+                    key === null ||
+                    (enabledModes && !enabledModes.includes(key))
+                  }
+                >
+                  {<DifficultyIcon gameMode={index} />}
+                </Button>
+              ))}
+            </div>
+          )}
+        </>
       )}
 
-      <div className="flex lg:hidden">
-        <Combobox
-          activeValue={activeMode.toString()}
-          setActiveValue={(mode: any) => {
-            setActiveMode(parseInt(mode));
-          }}
-          values={Object.entries(GameMode)
-            .filter(([key]) => isNaN(Number(key)))
-            .map(([mode, key]) => {
-              return {
-                label: gameModeToPrettyString(key as GameMode),
-                value: key.toString(),
-              };
-            })}
-        />
-      </div>
+      {mobileVariant === "combobox" && (
+        <div className="flex lg:hidden flex-col">
+          <p className="text-secondary-foreground text-sm lg:hidden flex">
+            Selected mode:
+          </p>
+          <Combobox
+            activeValue={activeMode.toString()}
+            setActiveValue={(mode: any) => {
+              setActiveMode(parseInt(mode));
+            }}
+            values={Object.entries(GameMode)
+              .filter(([key]) => isNaN(Number(key)))
+              .map(([mode, key]) => {
+                return {
+                  label: gameModeToPrettyString(key as GameMode),
+                  value: key.toString(),
+                };
+              })}
+          />
+        </div>
+      )}
     </div>
   );
 }
