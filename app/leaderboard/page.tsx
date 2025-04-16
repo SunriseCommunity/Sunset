@@ -121,9 +121,6 @@ export default function Leaderboard() {
             Ranked Score
           </Button>
         </div>
-      </PrettyHeader>
-
-      <PrettyHeader className="border-b-0 shadow-none grid sm:flex  place-content-start sm:place-content-between sm:space-y-0 space-y-2">
         <div className="flex lg:hidden flex-col lg:flex-row">
           <p className="text-secondary-foreground text-sm">Sort by:</p>
           <Combobox
@@ -133,7 +130,7 @@ export default function Leaderboard() {
             }}
             values={[
               {
-                label: "Performance points",
+                label: "Perf. points",
                 value: UsersLeaderboardType.pp.toString(),
               },
               {
@@ -143,16 +140,13 @@ export default function Leaderboard() {
             ]}
           />
         </div>
-        <div className="flex lg:w-full place-content-between lg:flex-row flex-col">
-          <p className="text-secondary-foreground text-sm lg:hidden flex">
-            Selected mode:
-          </p>
-          <GameModeSelector
-            activeMode={activeMode}
-            setActiveMode={setActiveMode}
-            className="lg:place-content-between place-content-start"
-          />
-        </div>
+      </PrettyHeader>
+
+      <PrettyHeader>
+        <GameModeSelector
+          activeMode={activeMode}
+          setActiveMode={setActiveMode}
+        />
       </PrettyHeader>
 
       <div className="rounded-b-3xl bg-card mb-4 border border-t-0 shadow">

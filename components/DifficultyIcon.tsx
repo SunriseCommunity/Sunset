@@ -4,22 +4,24 @@ import { Beatmap } from "@/lib/hooks/api/beatmap/types";
 import { getStarRatingColor } from "@/lib/utils/getStarRatingColor";
 import { GameMode } from "@/lib/hooks/api/types";
 
-import GameModeBadgeStd from "@/public/images/svg/mode/std.svg";
-import GameModeBadgeTaiko from "@/public/images/svg/mode/taiko.svg";
-import GameModeBadgeCatch from "@/public/images/svg/mode/catch.svg";
-import GameModeBadgeMania from "@/public/images/svg/mode/mania.svg";
 import { getBeatmapStarRating } from "@/lib/utils/getBeatmapStarRating";
+import localFont from "next/font/local";
+import { twMerge } from "tailwind-merge";
+
+export const osuIconFont = localFont({
+  src: "../public/fonts/osu.woff2",
+});
 
 const modeBadgeMap = {
-  [GameMode.std]: GameModeBadgeStd,
-  [GameMode.taiko]: GameModeBadgeTaiko,
-  [GameMode.catch]: GameModeBadgeCatch,
-  [GameMode.mania]: GameModeBadgeMania,
+  [GameMode.std]: "\ue800",
+  [GameMode.taiko]: "\ue803",
+  [GameMode.catch]: "\ue801",
+  [GameMode.mania]: "\ue802",
 };
 
 const modeBadge = (mode: GameMode) => {
   // @ts-ignore
-  return mode in modeBadgeMap ? modeBadgeMap[mode] : GameModeBadgeStd;
+  return mode in modeBadgeMap ? modeBadgeMap[mode] : "\ue800";
 };
 
 interface DifficultyIconProps {
@@ -35,13 +37,13 @@ export default function DifficultyIcon({
   gameMode,
   className,
 }: DifficultyIconProps) {
-  const ModeBadge = gameMode
+  const modeBadgeText = gameMode
     ? modeBadge(gameMode)
     : difficulty
     ? modeBadge(difficulty.mode_int)
     : modeBadge(GameMode.std);
 
-  const BadgeColor =
+  const badgeColor =
     difficulty && gameMode
       ? getStarRatingColor(getBeatmapStarRating(difficulty, gameMode))
       : difficulty
@@ -50,14 +52,24 @@ export default function DifficultyIcon({
         )
       : iconColor
       ? iconColor
-      : "#000000";
+      : null;
 
   return (
-    <ModeBadge
-      fill={BadgeColor}
-      height={24}
-      width="auto"
-      className={className}
-    />
+    <p
+      style={
+        badgeColor
+          ? {
+              color: `${badgeColor}`,
+            }
+          : {}
+      }
+      className={twMerge(
+        "text-2xl text-current -m-1 px-1",
+        osuIconFont.className,
+        className
+      )}
+    >
+      {modeBadgeText}
+    </p>
   );
 }
