@@ -1,4 +1,5 @@
 "use client";
+import { Button } from "@/components/ui/button";
 import { ArrowUp } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -24,12 +25,14 @@ export default function ScrollUpButton() {
 
   if (showButton) {
     return (
-      <div
+      <Button
+        size="icon"
+        variant="secondary"
         onClick={scrollToTop}
-        className="fixed bottom-4 right-4 text-2xl bg-terracotta-500 text-white p-2 rounded-full shadow-lg cursor-pointer"
+        className="fixed bottom-4 right-4 shadow-lg"
       >
         <ArrowUp />
-      </div>
+      </Button>
     );
   }
 }
