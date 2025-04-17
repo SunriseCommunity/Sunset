@@ -99,7 +99,7 @@ export default function UserTabBeatmaps({
                   onClick={handleShowMoreMostPlayed}
                   className="w-full md:w-1/2 flex items-center justify-center"
                   variant="secondary"
-                  isLoading={isLoadingMostPlayed || isValidatingMostPlayed}
+                  isLoading={isLoadingMostPlayed}
                 >
                   <ChevronDown /> Show more
                 </Button>
@@ -146,7 +146,7 @@ export default function UserTabBeatmaps({
                 <Button
                   onClick={handleShowMoreFavourites}
                   className="w-full md:w-1/2 flex items-center justify-center"
-                  isLoading={isLoadingFavourites || isValidatingFavourites}
+                  isLoading={isLoadingFavourites}
                   variant="secondary"
                 >
                   <ChevronDown />

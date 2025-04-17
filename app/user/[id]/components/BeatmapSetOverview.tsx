@@ -114,17 +114,17 @@ export default function BeatmapSetOverview({
               />
             </div>
 
-            <div className="flex flex-row overflow-hidden h-5 flex-wrap mb-1 -ml-0.5 space-x-0.5">
+            <div className="flex flex-row overflow-hidden h-5 flex-wrap mb-2 -ml-0.5 space-x-0.5 bg-terracotta-800 bg-opacity-50 rounded-lg w-fit">
               {beatmapSet.beatmaps
                 .sort(
                   (a, b) => getBeatmapStarRating(a) - getBeatmapStarRating(b)
                 )
                 .sort((a, b) => a.mode_int - b.mode_int)
                 .map((difficulty) => (
-                  <div className="p-1" key={difficulty.id}>
+                  <div className="py-1 px-0.5" key={difficulty.id}>
                     <DifficultyIcon
                       difficulty={difficulty}
-                      className="text-sm bg-terracotta-800 rounded-full bg-opacity-80"
+                      className="text-sm rounded-full"
                     />
                   </div>
                 ))}

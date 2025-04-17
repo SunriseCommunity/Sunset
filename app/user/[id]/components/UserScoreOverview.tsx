@@ -29,11 +29,14 @@ export default function UserScoreOverview({
 
   return (
     <div
-      className={twMerge("text-gray-100 rounded-lg", className)}
+      className={twMerge(
+        "text-gray-100 rounded-lg hover:scale-105 smooth-transition",
+        className
+      )}
       onClick={() => router.push(`/score/${score.id}`)}
     >
       <div className="h-20 relative">
-        <div className="z-20 p-4 bg-gradient-to-l from-accent to-transparent place-content-between flex items-center h-full cursor-pointer">
+        <div className="z-20 p-4 place-content-between flex items-center h-full cursor-pointer">
           <div className="z-20 flex-row overflow-hidden flex-wrap">
             <div className="flex font-bold text-sm md:text-xl drop-shadow-md items-center ">
               <span className="pr-1">
@@ -53,11 +56,11 @@ export default function UserScoreOverview({
                 </div>
               )}
             </div>
-            <div className="flex items-end space-x-3">
+            <div className="flex items-center space-x-3">
               <div className="text-base drop-shadow-md text-gray-100 line-clamp-1">
                 {beatmap?.version ?? <Skeleton className="w-24 h-4" />}
               </div>
-              <div className="text-sm drop-shadow-md text-gray-300 italic line-clamp-1 sm:line-clamp-none">
+              <div className="text-sm drop-shadow-md text-gray-300 italic line-clamp-1">
                 {timeSince(score.when_played) ?? (
                   <Skeleton className="w-24 h-4" />
                 )}
@@ -87,17 +90,17 @@ export default function UserScoreOverview({
         </div>
 
         <>
-          <div className="absolute inset-0 overflow-hidden rounded-t-lg md:rounded-lg">
+          <div className="absolute inset-0 overflow-hidden rounded-t-lg md:rounded-lg ">
             <ImageWithFallback
               src={`https://assets.ppy.sh/beatmaps/${beatmap?.beatmapset_id}/covers/cover.jpg`}
               alt="user bg"
               fill={true}
               objectFit="cover"
-              className="relativ opacity-50"
+              className="relative"
               fallBackSrc="/images/unknown-beatmap-banner.jpg"
             />
           </div>
-          <div className="z-10 absolute inset-0 bg-gradient-to-r from-card to-transparent md:to-primary/20 via-card/70 md:via-card/50 rounded-t-lg md:rounded-lg" />
+          <div className="z-10 absolute inset-0 bg-gradient-to-r from-stone-800 to-transparent md:to-stone-800/50 via-stone-800/70 md:via-stone-800/50  rounded-t-lg md:rounded-lg" />
         </>
       </div>
 
