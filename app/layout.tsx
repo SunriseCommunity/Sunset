@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import ScrollUpButton from "@/components/scrollUpButton";
 import Providers from "@/components/Providers";
 import { Toaster } from "@/components/ui/toaster";
+import ScrollUp from "@/components/ScrollUp";
 
 const font = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -41,13 +42,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={font.className} suppressHydrationWarning>
-      <body className="bg-background text-current min-h-screen flex flex-col  font-medium">
+      <body className="bg-background text-current min-h-screen flex flex-col font-medium">
         <Providers>
           <Header />
           <div className="row-padding-max-w-2xl">{children}</div>
           <main className="flex-grow bg-background -z-30" />
           <Toaster />
           <Footer />
+          <ScrollUp />
         </Providers>
         <ScrollUpButton />
       </body>
