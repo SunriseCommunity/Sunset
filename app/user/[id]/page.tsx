@@ -29,6 +29,7 @@ import UserStatusText, {
   statusColor,
 } from "@/app/user/[id]/components/UserStatusText";
 import UserRanks from "@/app/user/[id]/components/UserRanks";
+import { Tooltip } from "@/components/Tooltip";
 
 const contentTabs = [
   "General",
@@ -164,7 +165,7 @@ export default function UserPage(props: { params: Promise<{ id: number }> }) {
                         alt="User avatar"
                         fill={true}
                         objectFit="cover"
-                        className={`rounded-full md:w-32 md:h-32 border-2 md:border-4 relative border-secondary`}
+                        className={`rounded-full md:w-32 md:h-32 border-2 md:border-4 border-secondary`}
                       />
                       <div
                         className={twMerge(
@@ -174,13 +175,18 @@ export default function UserPage(props: { params: Promise<{ id: number }> }) {
                       />
                     </div>
                     <div className="flex flex-col flex-grow min-w-0">
-                      <UserRankColor
-                        className="md:text-3xl text-lg font-bold relative truncate"
-                        variant="primary"
-                        rank={userStats?.rank ?? -1}
+                      <Tooltip
+                        className="flex flex-row flex-grow min-w-0"
+                        content={user.username}
                       >
-                        {user.username}
-                      </UserRankColor>
+                        <UserRankColor
+                          className="md:text-3xl ml-full text-lg font-bold truncate"
+                          variant="primary"
+                          rank={userStats?.rank ?? -1}
+                        >
+                          {user.username}
+                        </UserRankColor>
+                      </Tooltip>
                       <UserStatusText
                         className="text-xs grid md:flex md:text-base"
                         user={user}
