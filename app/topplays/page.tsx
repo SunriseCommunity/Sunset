@@ -63,7 +63,7 @@ export default function Topplays() {
                 <Button
                   onClick={handleShowMore}
                   className="w-full md:w-1/2 flex items-center justify-center"
-                  isLoading={isLoading || isValidating}
+                  isLoading={isLoading}
                   variant="secondary"
                 >
                   <ChevronDown />

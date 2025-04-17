@@ -21,14 +21,14 @@ export default function BeatmapPlayedOverview({
   return (
     <div
       className={twMerge(
-        "bg-card rounded-lg overflow-hidden text-white",
+        "bg-card rounded-lg overflow-hidden text-white hover:scale-105 smooth-transition",
         className
       )}
       onClick={() =>
         (window.location.href = `/beatmapsets/${beatmap.beatmapset_id}/${beatmap.id}`)
       }
     >
-      <div className="h-20 relative">
+      <div className="h-20 relative ">
         {beatmap?.beatmapset_id ? (
           <ImageWithFallback
             src={`https://assets.ppy.sh/beatmaps/${beatmap?.beatmapset_id}/covers/cover.jpg`}
@@ -41,8 +41,8 @@ export default function BeatmapPlayedOverview({
           <Skeleton className="" />
         )}
 
-        <div className="absolute inset-0 bg-gradient-to-r from-card to-primary/20 via-card/50 flex items-center cursor-pointer">
-          <div className="p-6 flex place-content-between bg-black hover:bg-opacity-40 bg-opacity-50 w-full  smooth-transition items-center">
+        <div className="absolute inset-0 bg-gradient-to-r from-stone-800 to-stone-800/50 via-stone-800/50 flex items-center cursor-pointer">
+          <div className="p-6 flex place-content-between  w-full smooth-transition items-center">
             <div className="flex-row overflow-hidden flex-wrap">
               <div className="flex font-bold text-sm md:text-xl drop-shadow-md items-center ">
                 <span className="pr-1">
