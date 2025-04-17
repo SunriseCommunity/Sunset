@@ -4,6 +4,8 @@ import Image from "next/image";
 import ImageWithFallback from "./ImageWithFallback";
 import { User } from "@/lib/hooks/api/user/types";
 import { FriendshipButton } from "@/components/FriendshipButton";
+import { useRouter } from "next/navigation";
+import UserStatusText from "@/app/user/[id]/components/UserStatusText";
 
 interface UserProfileBannerProps {
   user: User;
@@ -16,13 +18,15 @@ export default function UserElement({
   includeFriendshipButton = false,
   className,
 }: UserProfileBannerProps) {
+  const router = useRouter();
+
   return (
     <div
       className={twMerge(
         "relative w-full overflow-hidden rounded-lg group h-36",
         className
       )}
-      onClick={() => window.open("/user/" + user.user_id)}
+      onClick={() => router.push("/user/" + user.user_id)}
     >
       <div className="relative h-full place-content-between flex-col flex group-hover:cursor-pointer smooth-transition">
         <ImageWithFallback
@@ -74,7 +78,10 @@ export default function UserElement({
         </div>
 
         <div className="relative py-2 px-4 text-white bg-black bg-opacity-50 rounded-b-lg ">
-          <div className="text-gray-300 text-base mb-1">{user.user_status}</div>
+          <UserStatusText
+            className="text-gray-300 text-base mb-1"
+            user={user}
+          />
         </div>
       </div>
     </div>
