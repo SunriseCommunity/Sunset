@@ -215,7 +215,7 @@ export default function UserPage(props: { params: Promise<{ id: number }> }) {
                   ) : (
                     <>
                       <FriendshipButton userId={userId} />
-                      {/* TODO: <PrettyButton onClick={() => {}} icon={<MessageSquare />} /> */}
+                      {/* TODO: <Button onClick={() => {}} icon={<MessageSquare />} /> */}
                     </>
                   )}
                 </div>
