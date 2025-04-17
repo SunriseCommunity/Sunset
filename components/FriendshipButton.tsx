@@ -1,6 +1,6 @@
 "use client";
 
-import PrettyButton from "@/components/General/PrettyButton";
+import { Button } from "@/components/ui/button";
 import { useUserSelf } from "@/lib/hooks/api/user/useUser";
 import {
   useUpdateUserFriendshipStatus,
@@ -44,15 +44,12 @@ export function FriendshipButton({
   const isMutual = is_followed_by_you && is_following_you;
 
   return (
-    <PrettyButton
+    <Button
       onClick={() => {
         updateFriendshipStatus(
           userFriendshipStatus.is_followed_by_you ? "remove" : "add"
         );
       }}
-      icon={
-        userFriendshipStatus.is_followed_by_you ? <UserMinus /> : <UserPlus />
-      }
       className={twMerge(
         isMutual
           ? "bg-pink-700 text-white hover:bg-pink-500"
@@ -61,15 +58,17 @@ export function FriendshipButton({
           : "",
         className
       )}
-      text={
-        includeText
+    >
+      {userFriendshipStatus.is_followed_by_you ? <UserMinus /> : <UserPlus />}
+      <span className="hidden md:inline">
+        {includeText
           ? isMutual
             ? "Unfriend"
             : is_followed_by_you
             ? "Unfollow"
             : "Follow"
-          : undefined
-      }
-    />
+          : undefined}
+      </span>
+    </Button>
   );
 }
