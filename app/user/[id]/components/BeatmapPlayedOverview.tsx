@@ -3,7 +3,7 @@
 import BeatmapStatusIcon from "@/components/BeatmapStatus";
 import ImageWithFallback from "@/components/ImageWithFallback";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Beatmap } from "@/lib/hooks/api/beatmap/types";
+import { Beatmap, BeatmapStatus } from "@/lib/hooks/api/beatmap/types";
 import { PlayIcon } from "lucide-react";
 import { twMerge } from "tailwind-merge";
 
@@ -41,23 +41,31 @@ export default function BeatmapPlayedOverview({
           <Skeleton className="" />
         )}
 
-        <div className="absolute inset-0 bg-gradient-to-l from-accent to-transparent flex items-center cursor-pointer">
+        <div className="absolute inset-0 bg-gradient-to-r from-card to-primary/20 via-card/50 flex items-center cursor-pointer">
           <div className="p-6 flex place-content-between bg-black hover:bg-opacity-40 bg-opacity-50 w-full  smooth-transition items-center">
             <div className="flex-row overflow-hidden flex-wrap">
-              <h1 className="text-xl drop-shadow-md flex items-center ">
+              <div className="flex font-bold text-sm md:text-xl drop-shadow-md items-center ">
                 <span className="pr-1">
-                  <BeatmapStatusIcon status={beatmap.status} />
+                  <BeatmapStatusIcon
+                    status={beatmap?.status ?? BeatmapStatus.Graveyard}
+                  />
                 </span>
-                <p className="text-ellipsis text-nowrap overflow-clip max-w-full">
-                  {beatmap?.artist ?? <Skeleton className="w-20 h-3" />}
-                  &nbsp;-&nbsp;
-                  {beatmap?.title ?? <Skeleton className="w-28 h-3" />}
-                </p>
-              </h1>
-              <div className="flex items-center space-x-2">
-                <p className="text-base drop-shadow-md text-gray-100 ">
-                  {beatmap?.version ?? <Skeleton className="w-16 h-3" />}
-                </p>
+                {beatmap?.artist && beatmap?.title ? (
+                  <span className="line-clamp-2">
+                    {beatmap.artist + " - " + beatmap?.title}
+                  </span>
+                ) : (
+                  <div className="flex items-center">
+                    <Skeleton className="w-28 h-3" />
+                    &nbsp;-&nbsp;
+                    <Skeleton className="w-20 h-3" />
+                  </div>
+                )}
+              </div>
+              <div className="flex items-end space-x-3">
+                <div className="text-base drop-shadow-md text-gray-100 line-clamp-1">
+                  {beatmap?.version ?? <Skeleton className="w-24 h-4" />}
+                </div>
               </div>
             </div>
 

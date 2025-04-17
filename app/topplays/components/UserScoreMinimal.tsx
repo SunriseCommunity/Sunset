@@ -6,19 +6,21 @@ import { Skeleton } from "@/components/ui/skeleton";
 import UserRankColor from "@/components/UserRankNumber";
 import { useBeatmap } from "@/lib/hooks/api/beatmap/useBeatmap";
 import { Score } from "@/lib/hooks/api/score/types";
-import { useUser, useUserStats } from "@/lib/hooks/api/user/useUser";
+import { useUserStats } from "@/lib/hooks/api/user/useUser";
 import { isBeatmapRanked } from "@/lib/utils/isBeatmapRanked";
 import Image from "next/image";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense } from "react";
 import { twMerge } from "tailwind-merge";
 
 interface UserScoreMinimalProps {
   score: Score;
+  showUser?: boolean;
   className?: string;
 }
 
 export default function UserScoreMinimal({
   score,
+  showUser = true,
   className,
 }: UserScoreMinimalProps) {
   const userStatsQuery = useUserStats(score.user_id, score.game_mode_extended);
@@ -76,48 +78,51 @@ export default function UserScoreMinimal({
                 </div>
               </div>
 
-              <div className="flex pb-1">
-                <div className="flex items-center flex-grow min-w-0">
-                  <Avatar className="h-8 w-8 border-2">
-                    <Suspense
-                      fallback={
-                        <AvatarFallback>
-                          <Skeleton className="w-4 h-4" />
-                        </AvatarFallback>
-                      }
-                    >
-                      {user && (
-                        <Image
-                          src={user?.avatar_url ?? ""}
-                          width={64}
-                          height={64}
-                          alt="Avatar"
-                        />
-                      )}
-                    </Suspense>
-                  </Avatar>
+              {showUser && (
+                <div className="flex">
+                  <div className="flex items-center flex-grow min-w-0">
+                    <Avatar className="h-8 w-8 border-2">
+                      <Suspense
+                        fallback={
+                          <AvatarFallback>
+                            <Skeleton className="w-4 h-4" />
+                          </AvatarFallback>
+                        }
+                      >
+                        {user && (
+                          <Image
+                            src={user?.avatar_url ?? ""}
+                            width={64}
+                            height={64}
+                            alt="Avatar"
+                          />
+                        )}
+                      </Suspense>
+                    </Avatar>
 
-                  <div className="line-clamp-1 mx-1">
-                    <UserRankColor
-                      rank={userStats?.rank ?? -1}
-                      variant="primary"
-                      className="truncate"
-                    >
-                      {user?.username ?? <Skeleton className="w-20 h-3" />}
-                    </UserRankColor>
+                    <div className="line-clamp-1 mx-1">
+                      <UserRankColor
+                        rank={userStats?.rank ?? -1}
+                        variant="primary"
+                        className="truncate"
+                      >
+                        {user?.username ?? <Skeleton className="w-20 h-3" />}
+                      </UserRankColor>
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
             </div>
             <div className="flex items-center space-x-4 mx-2">
               <div className="text-end text-nowrap">
                 <p className="text-md opacity-70">{score.mods}</p>
-                <p className="text-2xl text-terracotta-300">
+                <p className="text-2xl text-primary">
                   {beatmap && isBeatmapRanked(beatmap)
                     ? score.performance_points.toFixed()
                     : "- "}
                   pp
                 </p>
+                <p className="text-sm ">acc: {score.accuracy.toFixed(2)}%</p>
               </div>
             </div>
           </div>

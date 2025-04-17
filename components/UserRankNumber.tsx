@@ -37,7 +37,7 @@ export default function UserRankColor({
   }
 
   return (
-    <span
+    <div
       {...props}
       className={twMerge(
         colourPalette[rank]
@@ -50,6 +50,6 @@ export default function UserRankColor({
       )}
     >
       {children}
-    </span>
+    </div>
   );
 }
