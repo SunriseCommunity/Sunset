@@ -31,6 +31,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
+import ScoreStats from "@/app/score/[id]/components/ScoreStats";
 
 export default function Score(props: { params: Promise<{ id: number }> }) {
   const params = use(props.params);
@@ -79,7 +80,9 @@ export default function Score(props: { params: Promise<{ id: number }> }) {
                             status={beatmap.status ?? BeatmapStatus.Graveyard}
                           />
                         </span>
-                        <span className="line-clamp-3">{beatmap.title}</span>
+                        <span className="line-clamp-3 text-white">
+                          {beatmap.title}
+                        </span>
                       </div>
                       <div className="flex items-center space-x-3">
                         <div className="text-base drop-shadow-md text-gray-100 line-clamp-2">
@@ -201,63 +204,15 @@ export default function Score(props: { params: Promise<{ id: number }> }) {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
-              <UserElement user={user} />
+            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-5 gap-4">
+              <div className="xl:col-span-2">
+                <UserElement user={user} />
+              </div>
 
-              <div className="hidden xl:grid"></div>
+              <div className="hidden xl:grid" />
 
-              <div className="flex flex-col text-white">
-                <div className="grid grid-cols-3 gap-4 mb-1">
-                  <div className="bg-terracotta-800 p-3 rounded">
-                    <p className="text-gray-400">Accuracy</p>
-                    <p className="text-base font-bold">
-                      {score.accuracy.toFixed(2)}%
-                    </p>
-                  </div>
-                  <div className="bg-terracotta-800 p-3 rounded">
-                    <p className="text-gray-400">Combo</p>
-                    <p
-                      className={twMerge(
-                        "text-base font-bold",
-                        score.max_combo === beatmap?.max_combo
-                          ? "text-terracotta-300"
-                          : ""
-                      )}
-                    >
-                      {score.max_combo}x
-                    </p>
-                  </div>
-                  <div className="bg-terracotta-800 p-3 rounded">
-                    <p className="text-gray-400">PP</p>
-                    <p className="text-base font-bold items-center flex">
-                      {score.performance_points.toFixed(2)}
-                      {beatmap && !isBeatmapRanked(beatmap) && (
-                        <Tooltip content={`If ranked`}>
-                          <span className="text-yellow-500 ml-1">*</span>
-                        </Tooltip>
-                      )}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-4 gap-4">
-                  <div className="bg-terracotta-800 p-2 rounded text-center">
-                    <p className="text-gray-400">300</p>
-                    <p className="text-base">{score.count_300}</p>
-                  </div>
-                  <div className="bg-terracotta-800 p-2 rounded text-center">
-                    <p className="text-gray-400">100</p>
-                    <p className="text-base">{score.count_100}</p>
-                  </div>
-                  <div className="bg-terracotta-800 p-2 rounded text-center">
-                    <p className="text-gray-400">50</p>
-                    <p className="text-base">{score.count_50}</p>
-                  </div>
-                  <div className="bg-terracotta-800 p-2 rounded text-center">
-                    <p className="text-gray-400">Miss</p>
-                    <p className="text-base">{score.count_miss}</p>
-                  </div>
-                </div>
+              <div className="xl:col-span-2">
+                <ScoreStats score={score} beatmap={beatmap} />
               </div>
             </div>
           </>

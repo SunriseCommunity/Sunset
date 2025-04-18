@@ -81,7 +81,7 @@ export default function UserElement({
         </Link>
 
         <div className="relative py-2 px-4 text-white bg-black bg-opacity-50 rounded-b-lg flex flex-row ">
-          <UserStatusText className="text-gray-300 text-base " user={user} />
+          <UserStatusText user={user} />
         </div>
       </div>
     </div>
