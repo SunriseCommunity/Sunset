@@ -13,13 +13,13 @@ export default function ImageSelect({ setFile, file, isWide }: Props) {
   return (
     <div
       className={`flex items-center  ${
-        isWide ? "max-w-96 w-full" : "max-w-40 w-full"
+        isWide ? "max-w-72 md:max-w-96 w-full" : "max-w-40 w-full"
       }`}
     >
       <label htmlFor={uniqueId} className="cursor-pointer">
         <div
           className={`flex flex-col items-center justify-center ${
-            isWide ? "max-w-96 w-full" : "max-w-40 w-full"
+            isWide ? "max-w-72 md:max-w-96 w-full" : "max-w-40 w-full"
           }`}
         >
           <div
@@ -35,7 +35,7 @@ export default function ImageSelect({ setFile, file, isWide }: Props) {
               }}
             />
             {file ? (
-              <div className={isWide ? "w-96" : "w-40"}>
+              <div className={isWide ? "w-72 md:w-96" : "w-40"}>
                 <AspectRatio
                   ratio={isWide ? 4 / 1 : 1 / 1}
                   className="bg-muted w-full h-full flex"
