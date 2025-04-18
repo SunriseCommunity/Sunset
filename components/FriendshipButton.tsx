@@ -60,15 +60,11 @@ export function FriendshipButton({
       )}
     >
       {userFriendshipStatus.is_followed_by_you ? <UserMinus /> : <UserPlus />}
-      <span className="hidden md:inline">
-        {includeText
-          ? isMutual
-            ? "Unfriend"
-            : is_followed_by_you
-            ? "Unfollow"
-            : "Follow"
-          : undefined}
-      </span>
+      {includeText && (
+        <span className="hidden md:inline">
+          {isMutual ? "Unfriend" : is_followed_by_you ? "Unfollow" : "Follow"}
+        </span>
+      )}
     </Button>
   );
 }
