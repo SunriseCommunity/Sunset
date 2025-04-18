@@ -68,24 +68,25 @@ export default function Score(props: { params: Promise<{ id: number }> }) {
           <>
             <div>
               <div className="md:h-64 relative">
-                <div className="z-20 p-4 place-content-between flex md:flex-row flex-col h-full cursor-pointer">
-                  <Link
-                    href={`/beatmapsets/${beatmap?.beatmapset_id}/${beatmap?.id}`}
-                    className="z-20 w-full h-full flex flex-col overflow-hidden"
-                  >
-                    <div className="flex font-bold text-xl drop-shadow-md items-center ">
-                      <span className="pr-1">
-                        <BeatmapStatusIcon
-                          status={beatmap.status ?? BeatmapStatus.Graveyard}
-                        />
-                      </span>
-                      <span className="line-clamp-3">{beatmap.title}</span>
-                    </div>
-                    <div className="flex items-center space-x-3">
-                      <div className="text-base drop-shadow-md text-gray-100 line-clamp-2">
-                        {beatmap.artist}
+                <div className="z-20 p-4 place-content-between flex md:flex-row flex-col h-full">
+                  <div className="z-20 w-full h-full flex flex-col overflow-hidden">
+                    <Link
+                      href={`/beatmapsets/${beatmap?.beatmapset_id}/${beatmap?.id}`}
+                    >
+                      <div className="flex font-bold text-xl drop-shadow-md items-center ">
+                        <span className="pr-1">
+                          <BeatmapStatusIcon
+                            status={beatmap.status ?? BeatmapStatus.Graveyard}
+                          />
+                        </span>
+                        <span className="line-clamp-3">{beatmap.title}</span>
                       </div>
-                    </div>
+                      <div className="flex items-center space-x-3">
+                        <div className="text-base drop-shadow-md text-gray-100 line-clamp-2">
+                          {beatmap.artist}
+                        </div>
+                      </div>
+                    </Link>
                     <div
                       className={`text-${getGradeColor(
                         score.grade
@@ -93,7 +94,7 @@ export default function Score(props: { params: Promise<{ id: number }> }) {
                     >
                       {score.grade}
                     </div>
-                  </Link>
+                  </div>
 
                   <Separator className="z-20 my-4 h-0 block md:hidden" />
 
@@ -115,13 +116,13 @@ export default function Score(props: { params: Promise<{ id: number }> }) {
                                 className="text-base mx-1 flex-shrink-0"
                               />
                               <span className="ml-1">]</span>
+                              <p className="whitespace-nowrap">
+                                ★{" "}
+                                {beatmap &&
+                                  getBeatmapStarRating(beatmap).toFixed(2)}{" "}
+                                {score.mods}
+                              </p>
                             </div>
-                            <p className="whitespace-nowrap">
-                              ★{" "}
-                              {beatmap &&
-                                getBeatmapStarRating(beatmap).toFixed(2)}{" "}
-                              {score.mods}
-                            </p>
                           </div>
                         </div>
                       </div>

@@ -6,6 +6,7 @@ import { User } from "@/lib/hooks/api/user/types";
 import { FriendshipButton } from "@/components/FriendshipButton";
 import { useRouter } from "next/navigation";
 import UserStatusText from "@/app/user/[id]/components/UserStatusText";
+import Link from "next/link";
 
 interface UserProfileBannerProps {
   user: User;
@@ -27,7 +28,7 @@ export default function UserElement({
         className
       )}
     >
-      <div className="relative h-full place-content-between flex-col flex group-hover:cursor-pointer smooth-transition">
+      <div className="relative h-full place-content-between flex-col flex group-hover:cursor-pointer ">
         <ImageWithFallback
           src={`${user?.banner_url}&default=false`}
           alt=""
@@ -37,11 +38,11 @@ export default function UserElement({
           fallBackSrc="/images/placeholder.png"
         />
 
-        <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-35" />
+        <div className="absolute inset-0 bg-black bg-opacity-50 smooth-transition group-hover:bg-opacity-35" />
 
-        <div
+        <Link
+          href={`/user/${user.user_id}`}
           className="relative flex place-content-between h-24 p-4"
-          onClick={() => router.push("/user/" + user.user_id)}
         >
           <div className="relative flex items-start">
             {/* Profile Picture */}
@@ -77,7 +78,7 @@ export default function UserElement({
               includeText={false}
             />
           )}
-        </div>
+        </Link>
 
         <div className="relative py-2 px-4 text-white bg-black bg-opacity-50 rounded-b-lg flex flex-row ">
           <UserStatusText className="text-gray-300 text-base " user={user} />

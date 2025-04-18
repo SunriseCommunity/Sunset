@@ -58,13 +58,17 @@ function UserRank({
       align="end"
       content={
         bestRankDate ? (
-          <p className="text-xs w-32 md:text-sm md:w-fit">
+          <div className="text-xs w-32 md:text-sm md:w-fit ">
             Highest rank{" "}
-            <UserRankColor className="" variant={variant} rank={bestRank ?? -1}>
+            <UserRankColor
+              className="inline"
+              variant={variant}
+              rank={bestRank ?? -1}
+            >
               #{bestRank}
             </UserRankColor>{" "}
             on {toPrettyDate(bestRankDate)}
-          </p>
+          </div>
         ) : (
           ""
         )

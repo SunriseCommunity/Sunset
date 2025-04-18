@@ -178,6 +178,7 @@ export default function UserPage(props: { params: Promise<{ id: number }> }) {
                       <Tooltip
                         className="flex flex-row flex-grow min-w-0"
                         content={user.username}
+                        align="start"
                       >
                         <UserRankColor
                           className="md:text-3xl ml-full text-lg font-bold truncate"
