@@ -62,15 +62,19 @@ export default function Score(props: { params: Promise<{ id: number }> }) {
     scoreQuery.error ?? userQuery?.error ?? beatmapQuery?.error;
 
   return (
-    <div className="flex flex-col w-full mt-8">
-      <PrettyHeader text="Score Performance" icon={<LucideHistory />} />
-      <RoundedContent className="space-y-2">
+    <div className="flex flex-col space-y-4">
+      <PrettyHeader
+        text="Score Performance"
+        roundBottom
+        icon={<LucideHistory />}
+      />
+      <RoundedContent className="space-y-2 rounded-lg">
         {score && user && beatmap ? (
           <>
             <div>
-              <div className="md:h-64 relative">
-                <div className="z-20 p-4 place-content-between flex md:flex-row flex-col h-full">
-                  <div className="z-20 w-full h-full flex flex-col overflow-hidden">
+              <div className="z-20 md:h-64 relative">
+                <div className="bg-black/60 p-4 place-content-between flex md:flex-row flex-col h-full  rounded-lg">
+                  <div className="w-full h-full flex flex-col overflow-hidden">
                     <Link
                       href={`/beatmapsets/${beatmap?.beatmapset_id}/${beatmap?.id}`}
                     >
@@ -99,9 +103,9 @@ export default function Score(props: { params: Promise<{ id: number }> }) {
                     </div>
                   </div>
 
-                  <Separator className="z-20 my-4 h-0 block md:hidden" />
+                  <Separator className="my-4 h-0 block md:hidden" />
 
-                  <div className="z-20 items-center md:flex flex-col place-content-between space-y-4 w-full md:w-1/2">
+                  <div className="items-center md:flex flex-col place-content-between space-y-4 w-full md:w-1/2">
                     <div className="flex flex-col w-full">
                       <div className="flex justify-end flex-row">
                         <div className="flex justify-end w-full">
@@ -140,7 +144,7 @@ export default function Score(props: { params: Promise<{ id: number }> }) {
                         {score.total_score.toLocaleString()}
                       </p>
                       <div className="text-right">
-                        <div className="flex flex-row items-center justify-end">
+                        <div className="flex flex-row items-center justify-end text-nowrap">
                           <p className="text-gray-200">Submitted on&nbsp;</p>
                           <PrettyDate
                             className="text-gray-200"
@@ -188,19 +192,16 @@ export default function Score(props: { params: Promise<{ id: number }> }) {
                   </div>
                 </div>
 
-                <>
-                  <div className="absolute inset-0 overflow-hidden rounded-t-lg md:rounded-lg ">
-                    <ImageWithFallback
-                      src={`https://assets.ppy.sh/beatmaps/${beatmap?.beatmapset_id}/covers/cover.jpg`}
-                      alt="user bg"
-                      fill={true}
-                      objectFit="cover"
-                      className="relative"
-                      fallBackSrc="/images/unknown-beatmap-banner.jpg"
-                    />
-                  </div>
-                  <div className="z-10 absolute inset-0 bg-stone-800 bg-opacity-80  rounded-t-lg md:rounded-lg" />
-                </>
+                <div className="-z-10 absolute inset-0 overflow-hidden rounded-lg">
+                  <ImageWithFallback
+                    src={`https://assets.ppy.sh/beatmaps/${beatmap?.beatmapset_id}/covers/cover.jpg`}
+                    alt="user bg"
+                    fill={true}
+                    objectFit="cover"
+                    className="relative "
+                    fallBackSrc="/images/unknown-beatmap-banner.jpg"
+                  />
+                </div>
               </div>
             </div>
 

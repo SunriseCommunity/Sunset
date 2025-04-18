@@ -8,7 +8,7 @@ import {
 
 export default async function Footer() {
   return (
-    <footer className="border-t-2 text-current p-4 text-sm text-center space-y-6 bg-background/50 mt-8">
+    <footer className="border-t-2 text-current p-4 text-sm text-center space-y-6 bg-background/50">
       <a
         href={`https://osu-server-list.com/server/sunrise`}
         className="flex items-center justify-center space-x-1 font-bold hover:scale-105  smooth-transition cursor-pointer "

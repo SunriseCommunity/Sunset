@@ -129,145 +129,142 @@ export default function UserPage(props: { params: Promise<{ id: number }> }) {
   const userStats = userStatsQuery.data?.stats;
 
   return (
-    <div className="flex flex-col w-full mt-8">
-      <PrettyHeader
-        icon={<UserIcon />}
-        text="Player info"
-        className="mb-4"
-        roundBottom={true}
-      />
+    <div className="flex flex-col space-y-4">
+      <PrettyHeader icon={<UserIcon />} text="Player info" roundBottom={true} />
 
-      <PrettyHeader className="border-b-0">
-        <GameModeSelector
-          activeMode={activeMode}
-          setActiveMode={setActiveMode}
-        />
-      </PrettyHeader>
+      <div>
+        <PrettyHeader className="border-b-0">
+          <GameModeSelector
+            activeMode={activeMode}
+            setActiveMode={setActiveMode}
+          />
+        </PrettyHeader>
 
-      <RoundedContent className="rounded-lg-b p-0 border-t-0 bg-card">
-        {!userStatsQuery.error && user ? (
-          <>
-            <div className="lg:h-64 md:h-44 h-32 relative">
-              <ImageWithFallback
-                src={`${user?.banner_url}&default=false`}
-                alt=""
-                fill={true}
-                objectFit="cover"
-                className="bg-secondary rounded-t-lg"
-                fallBackSrc="/images/placeholder.png"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent flex w-full">
-                <div className="relative overflow-hidden px-4 py-2 md:p-6 flex items-end place-content-between flex-grow">
-                  <div className="flex items-end space-x-4 w-3/4 ">
-                    <div className="relative w-16 h-16 md:w-32 md:h-32 flex-none">
-                      <Image
-                        src={user.avatar_url}
-                        alt="User avatar"
-                        fill={true}
-                        objectFit="cover"
-                        className={`rounded-full md:w-32 md:h-32 border-2 md:border-4 border-secondary`}
-                      />
-                      <div
-                        className={twMerge(
-                          "absolute bottom-1 right-1 w-5 h-5 md:w-10 md:h-10 rounded-full border-2 md:border-4 border-secondary",
-                          `bg-${statusColor(user.user_status)}`
-                        )}
-                      />
-                    </div>
-                    <div className="flex flex-col flex-grow min-w-0">
-                      <Tooltip
-                        className="flex flex-row flex-grow min-w-0"
-                        content={user.username}
-                        align="start"
-                      >
-                        <UserRankColor
-                          className="md:text-3xl ml-full text-lg font-bold truncate"
-                          variant="primary"
-                          rank={userStats?.rank ?? -1}
+        <RoundedContent className="rounded-lg-b p-0 border-t-0 bg-card">
+          {!userStatsQuery.error && user ? (
+            <>
+              <div className="lg:h-64 md:h-44 h-32 relative">
+                <ImageWithFallback
+                  src={`${user?.banner_url}&default=false`}
+                  alt=""
+                  fill={true}
+                  objectFit="cover"
+                  className="bg-secondary rounded-t-lg"
+                  fallBackSrc="/images/placeholder.png"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent flex w-full">
+                  <div className="relative overflow-hidden px-4 py-2 md:p-6 flex items-end place-content-between flex-grow">
+                    <div className="flex items-end space-x-4 w-3/4 ">
+                      <div className="relative w-16 h-16 md:w-32 md:h-32 flex-none">
+                        <Image
+                          src={user.avatar_url}
+                          alt="User avatar"
+                          fill={true}
+                          objectFit="cover"
+                          className={`rounded-full md:w-32 md:h-32 border-2 md:border-4 border-secondary`}
+                        />
+                        <div
+                          className={twMerge(
+                            "absolute bottom-1 right-1 w-5 h-5 md:w-10 md:h-10 rounded-full border-2 md:border-4 border-secondary",
+                            `bg-${statusColor(user.user_status)}`
+                          )}
+                        />
+                      </div>
+                      <div className="flex flex-col flex-grow min-w-0">
+                        <Tooltip
+                          className="flex flex-row flex-grow min-w-0"
+                          content={user.username}
+                          align="start"
                         >
-                          {user.username}
-                        </UserRankColor>
-                      </Tooltip>
-                      <UserStatusText
-                        className="text-xs grid md:flex md:text-base"
-                        user={user}
-                      />
+                          <UserRankColor
+                            className="md:text-3xl ml-full text-lg font-bold truncate"
+                            variant="primary"
+                            rank={userStats?.rank ?? -1}
+                          >
+                            {user.username}
+                          </UserRankColor>
+                        </Tooltip>
+                        <UserStatusText
+                          className="text-xs grid md:flex md:text-base"
+                          user={user}
+                        />
+                      </div>
                     </div>
+                    <UserRanks user={user} userStats={userStats} />
                   </div>
-                  <UserRanks user={user} userStats={userStats} />
-                </div>
-              </div>
-            </div>
-
-            <div className="px-6 py-4 bg-card">
-              <div className="flex justify-between items-start">
-                <div className="flex flex-wrap gap-2">
-                  <UserBadges badges={user.badges} />
-                </div>
-                <div className="flex space-x-2">
-                  {user.user_id === self.data?.user_id ? (
-                    <Button
-                      onClick={() => router.push("/settings")}
-                      className="w-9 md:w-auto"
-                    >
-                      <Edit3Icon />
-                      <span className="hidden md:inline">Edit profile</span>
-                    </Button>
-                  ) : (
-                    <>
-                      <FriendshipButton userId={userId} />
-                      {/* TODO: <Button onClick={() => {}} icon={<MessageSquare />} /> */}
-                    </>
-                  )}
                 </div>
               </div>
 
-              <div className="my-4">
-                <div className="flex border-b border-gray overflow-x-auto">
-                  {contentTabs.map((tab) => (
-                    <button
-                      key={tab}
-                      className={`text-xs md:text-base py-2 px-4 text-nowrap border-primary/85 ${
-                        activeTab === tab
-                          ? "text-primary/85 border-b-2"
-                          : "text-current hover:text-primary/85 hover:border-b-2"
-                      }`}
-                      onClick={() => setActiveTab(tab)}
-                    >
-                      {tab}
-                    </button>
-                  ))}
+              <div className="px-6 py-4 bg-card">
+                <div className="flex justify-between items-start">
+                  <div className="flex flex-wrap gap-2">
+                    <UserBadges badges={user.badges} />
+                  </div>
+                  <div className="flex space-x-2">
+                    {user.user_id === self.data?.user_id ? (
+                      <Button
+                        onClick={() => router.push("/settings")}
+                        className="w-9 md:w-auto"
+                      >
+                        <Edit3Icon />
+                        <span className="hidden md:inline">Edit profile</span>
+                      </Button>
+                    ) : (
+                      <>
+                        <FriendshipButton userId={userId} />
+                        {/* TODO: <Button onClick={() => {}} icon={<MessageSquare />} /> */}
+                      </>
+                    )}
+                  </div>
                 </div>
-              </div>
 
-              {renderTabContent(userStats, activeTab, activeMode, user)}
-            </div>
-          </>
-        ) : (
-          <RoundedContent className="rounded-l flex flex-col md:flex-row justify-between items-center md:items-start gap-8 ">
-            <div className="flex flex-col space-y-2">
-              <h1 className="text-4xl">
-                {errorMessage ?? "User not found or an error occurred."}
-              </h1>
-              {errorMessage?.includes("restrict") ? (
-                <p>
-                  This means that the user violated the server rules and has
-                  been restricted.
-                </p>
-              ) : (
-                <p>The user may have been deleted or does not exist.</p>
-              )}
-            </div>
-            <Image
-              src="/images/user-not-found.png"
-              alt="404"
-              width={200}
-              height={400}
-              className="max-w-fit"
-            />
-          </RoundedContent>
-        )}
-      </RoundedContent>
+                <div className="my-4">
+                  <div className="flex border-b border-gray overflow-x-auto">
+                    {contentTabs.map((tab) => (
+                      <button
+                        key={tab}
+                        className={`text-xs md:text-base py-2 px-4 text-nowrap border-primary/85 ${
+                          activeTab === tab
+                            ? "text-primary/85 border-b-2"
+                            : "text-current hover:text-primary/85 hover:border-b-2"
+                        }`}
+                        onClick={() => setActiveTab(tab)}
+                      >
+                        {tab}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {renderTabContent(userStats, activeTab, activeMode, user)}
+              </div>
+            </>
+          ) : (
+            <RoundedContent className="rounded-l flex flex-col md:flex-row justify-between items-center md:items-start gap-8 ">
+              <div className="flex flex-col space-y-2">
+                <h1 className="text-4xl">
+                  {errorMessage ?? "User not found or an error occurred."}
+                </h1>
+                {errorMessage?.includes("restrict") ? (
+                  <p>
+                    This means that the user violated the server rules and has
+                    been restricted.
+                  </p>
+                ) : (
+                  <p>The user may have been deleted or does not exist.</p>
+                )}
+              </div>
+              <Image
+                src="/images/user-not-found.png"
+                alt="404"
+                width={200}
+                height={400}
+                className="max-w-fit"
+              />
+            </RoundedContent>
+          )}
+        </RoundedContent>
+      </div>
     </div>
   );
 }
