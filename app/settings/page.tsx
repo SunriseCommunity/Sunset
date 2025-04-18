@@ -22,6 +22,7 @@ import { useEditDescription } from "@/lib/hooks/api/user/useEditDescription";
 import { useUserUpload } from "@/lib/hooks/api/user/useUserUpload";
 import RoundedContent from "@/components/General/RoundedContent";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Settings() {
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
@@ -35,6 +36,8 @@ export default function Settings() {
   const { trigger: triggerUserUpload } = useUserUpload();
 
   const { self, isLoading } = useSelf();
+
+  const { toast } = useToast();
 
   useEffect(() => {
     if (self === undefined) return;
@@ -62,11 +65,14 @@ export default function Settings() {
       },
       {
         onSuccess(data, key, config) {
-          alert("Avatar uploaded successfully!");
+          toast({ title: "Avatar updated successfully!" });
           setIsAvatarUploading(false);
         },
         onError(err, key, config) {
-          alert(err?.message ?? "An unknown error occurred");
+          toast({
+            title: err?.message ?? "An unknown error occurred",
+            variant: "destructive",
+          });
           setIsAvatarUploading(false);
         },
       }
@@ -85,11 +91,14 @@ export default function Settings() {
       },
       {
         onSuccess(data, key, config) {
-          alert("Banner uploaded successfully!");
+          toast({ title: "Banner updated successfully!" });
           setIsBannerUploading(false);
         },
         onError(err, key, config) {
-          alert(err?.message ?? "An unknown error occurred");
+          toast({
+            title: err?.message ?? "An unknown error occurred",
+            variant: "destructive",
+          });
           setIsBannerUploading(false);
         },
       }
@@ -101,10 +110,13 @@ export default function Settings() {
       { description: text },
       {
         onSuccess() {
-          alert("Description updated successfully!");
+          toast({ title: "Description updated successfully!" });
         },
         onError(err) {
-          alert(err.message || "An unknown error occurred");
+          toast({
+            title: err?.message ?? "An unknown error occurred",
+            variant: "destructive",
+          });
         },
       }
     );
@@ -117,23 +129,6 @@ export default function Settings() {
       </div>
     );
 
-  if (self === undefined)
-    return (
-      <div className="flex flex-col w-full">
-        <PrettyHeader
-          className="mb-8"
-          text="Settings"
-          icon={<Cog className="mr-2" />}
-          roundBottom
-        />
-
-        {/* Log in message */}
-        <div className="flex flex-col bg-terracotta-700 p-4 shadow-lg w-full rounded-lg">
-          You must be logged in to view this page.
-        </div>
-      </div>
-    );
-
   return (
     <div className="flex flex-col w-full mt-8 space-y-4 mb-8">
       <PrettyHeader
@@ -143,87 +138,98 @@ export default function Settings() {
         roundBottom
       />
 
-      <div>
-        <PrettyHeader text="Change password" icon={<LockOpenIcon />} />
-        <RoundedContent>
-          <div className="flex flex-col w-11/12 mx-auto">
-            <ChangePasswordInput />
+      {self ? (
+        <>
+          <div>
+            <PrettyHeader text="Change password" icon={<LockOpenIcon />} />
+            <RoundedContent>
+              <div className="flex flex-col w-11/12 mx-auto">
+                <ChangePasswordInput />
+              </div>
+            </RoundedContent>
           </div>
-        </RoundedContent>
-      </div>
 
-      <div>
-        <PrettyHeader text="Change username" icon={<User2Icon />} />
-        <RoundedContent>
-          <div className="flex flex-col w-11/12 mx-auto">
-            <ChangeUsernameInput />
+          <div>
+            <PrettyHeader text="Change username" icon={<User2Icon />} />
+            <RoundedContent>
+              <div className="flex flex-col w-11/12 mx-auto">
+                <ChangeUsernameInput />
+              </div>
+            </RoundedContent>
           </div>
-        </RoundedContent>
-      </div>
 
-      <div>
-        <PrettyHeader text="Change avatar" icon={<User2Icon />} />
-        <RoundedContent>
-          <div className="flex flex-col w-11/12 mx-auto">
-            <ImageSelect setFile={setAvatarFile} file={avatarFile} />
-            <Button
-              isLoading={isAvatarUploading}
-              onClick={uploadAvatar}
-              className="mt-2 w-40 text-sm"
-              variant="secondary"
-            >
-              <CloudUpload />
-              Upload avatar
-            </Button>
-            <label className="text-xs mt-2">
-              * Note: Avatars are limited to 5MB in size
-            </label>
+          <div>
+            <PrettyHeader text="Change avatar" icon={<User2Icon />} />
+            <RoundedContent>
+              <div className="flex flex-col w-11/12 mx-auto">
+                <ImageSelect setFile={setAvatarFile} file={avatarFile} />
+                <Button
+                  isLoading={isAvatarUploading}
+                  onClick={uploadAvatar}
+                  className="mt-2 w-40 text-sm"
+                  variant="secondary"
+                >
+                  <CloudUpload />
+                  Upload avatar
+                </Button>
+                <label className="text-xs mt-2">
+                  * Note: Avatars are limited to 5MB in size
+                </label>
+              </div>
+            </RoundedContent>
           </div>
-        </RoundedContent>
-      </div>
 
-      <div>
-        <PrettyHeader text="Change banner" icon={<Image />} />
-        <RoundedContent>
-          <div className="flex flex-col w-11/12 mx-auto">
-            <ImageSelect setFile={setBannerFile} file={bannerFile} isWide />
-            <Button
-              isLoading={isBannerUploading}
-              onClick={uploadBanner}
-              className="mt-2 w-40 text-sm"
-              variant="secondary"
-            >
-              <CloudUpload />
-              Upload banner
-            </Button>
-            <label className="text-xs mt-2">
-              * Note: Banners are limited to 5MB in size
-            </label>
+          <div>
+            <PrettyHeader text="Change banner" icon={<Image />} />
+            <RoundedContent>
+              <div className="flex flex-col w-11/12 mx-auto">
+                <ImageSelect setFile={setBannerFile} file={bannerFile} isWide />
+                <Button
+                  isLoading={isBannerUploading}
+                  onClick={uploadBanner}
+                  className="mt-2 w-40 text-sm"
+                  variant="secondary"
+                >
+                  <CloudUpload />
+                  Upload banner
+                </Button>
+                <label className="text-xs mt-2">
+                  * Note: Banners are limited to 5MB in size
+                </label>
+              </div>
+            </RoundedContent>
           </div>
-        </RoundedContent>
-      </div>
 
-      <div>
-        <PrettyHeader text="Change description" icon={<NotebookPenIcon />} />
-        <RoundedContent>
-          <div className="flex flex-col w-11/12 mx-auto">
-            <MarkdownInput
-              defaultText={self?.description}
-              onSave={saveDescription}
-              isSaving={isUpdatingDescription}
+          <div>
+            <PrettyHeader
+              text="Change description"
+              icon={<NotebookPenIcon />}
             />
+            <RoundedContent>
+              <div className="flex flex-col w-11/12 mx-auto">
+                <MarkdownInput
+                  defaultText={self?.description}
+                  onSave={saveDescription}
+                  isSaving={isUpdatingDescription}
+                />
+              </div>
+            </RoundedContent>
           </div>
-        </RoundedContent>
-      </div>
 
-      <div>
-        <PrettyHeader text="Options" icon={<CheckSquare />} />
-        <RoundedContent>
-          <div className="flex flex-col w-11/12 mx-auto">
-            <SiteLocalOptions />
+          <div>
+            <PrettyHeader text="Options" icon={<CheckSquare />} />
+            <RoundedContent>
+              <div className="flex flex-col w-11/12 mx-auto">
+                <SiteLocalOptions />
+              </div>
+            </RoundedContent>
           </div>
+        </>
+      ) : (
+        <RoundedContent className="rounded-lg">
+          You must be logged in to view this page.
         </RoundedContent>
-      </div>
+      )}
     </div>
   );
 }

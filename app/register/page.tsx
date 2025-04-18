@@ -7,6 +7,7 @@ import { useState } from "react";
 import { useRegister } from "@/lib/hooks/api/auth/useRegister";
 import Cookies from "js-cookie";
 import useSelf from "@/lib/hooks/useSelf";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Register() {
   const [error, setError] = useState<string | null>(null);
@@ -14,6 +15,8 @@ export default function Register() {
   const { trigger } = useRegister();
 
   const { self, revalidate } = useSelf();
+
+  const { toast } = useToast();
 
   const showError = (message: string) => {
     setError(message);
@@ -68,7 +71,7 @@ export default function Register() {
 
           form.reset();
 
-          alert("Account successfully created!");
+          toast({ title: "Account successfully created!" });
         },
         onError(err) {
           showError(err.message ?? "Unknown error.");
