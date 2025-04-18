@@ -26,7 +26,6 @@ export default function UserElement({
         "relative w-full overflow-hidden rounded-lg group h-36",
         className
       )}
-      onClick={() => router.push("/user/" + user.user_id)}
     >
       <div className="relative h-full place-content-between flex-col flex group-hover:cursor-pointer smooth-transition">
         <ImageWithFallback
@@ -40,7 +39,10 @@ export default function UserElement({
 
         <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-35" />
 
-        <div className="relative flex place-content-between h-24 p-4">
+        <div
+          className="relative flex place-content-between h-24 p-4"
+          onClick={() => router.push("/user/" + user.user_id)}
+        >
           <div className="relative flex items-start">
             {/* Profile Picture */}
             <div className="rounded-full flex-none overflow-hidden border-2 border-white mr-4">
@@ -54,15 +56,15 @@ export default function UserElement({
             </div>
 
             {/* Username, Flag, and Status */}
-            <div>
-              <div className="flex items-center mb-1">
-                <h2 className="text-white md:text-lg lg:text-xl font-bold mr-2 overflow-hidden flex-wrap">
+            <div className="line-clamp-1">
+              <div className="flex items-center mb-1 line-clamp-1">
+                <h2 className="text-white md:text-lg lg:text-xl font-bold mr-2 truncate">
                   {user.username}
                 </h2>
               </div>
               <img
                 src={`/images/flags/${user.country_code}.png`}
-                alt="Russian Flag"
+                alt="User Flag"
                 className="w-6 h-6 mr-2"
               />
             </div>
@@ -77,11 +79,8 @@ export default function UserElement({
           )}
         </div>
 
-        <div className="relative py-2 px-4 text-white bg-black bg-opacity-50 rounded-b-lg ">
-          <UserStatusText
-            className="text-gray-300 text-base mb-1"
-            user={user}
-          />
+        <div className="relative py-2 px-4 text-white bg-black bg-opacity-50 rounded-b-lg flex flex-row ">
+          <UserStatusText className="text-gray-300 text-base " user={user} />
         </div>
       </div>
     </div>
