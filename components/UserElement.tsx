@@ -5,8 +5,11 @@ import ImageWithFallback from "./ImageWithFallback";
 import { User } from "@/lib/hooks/api/user/types";
 import { FriendshipButton } from "@/components/FriendshipButton";
 import { useRouter } from "next/navigation";
-import UserStatusText from "@/app/user/[id]/components/UserStatusText";
+import UserStatusText, {
+  statusColor,
+} from "@/app/user/[id]/components/UserStatusText";
 import Link from "next/link";
+import { MaterialSymbolsCircleOutline } from "@/components/ui/icons/circle-outline";
 
 interface UserProfileBannerProps {
   user: User;
@@ -80,8 +83,15 @@ export default function UserElement({
           )}
         </Link>
 
-        <div className="relative py-2 px-4 text-white bg-black bg-opacity-50 rounded-b-lg flex flex-row ">
-          <UserStatusText user={user} />
+        <div className="relative py-2 px-4 bg-black bg-opacity-50 rounded-b-lg flex flex-row w-full">
+          <div className="flex space-x-2 items-center text-sm w-full">
+            <MaterialSymbolsCircleOutline
+              className={`text-base text-${statusColor(user.user_status)}`}
+            />
+            <div className="flex flex-grow line-clamp-1 w-8/12">
+              <UserStatusText user={user} />
+            </div>
+          </div>
         </div>
       </div>
     </div>
