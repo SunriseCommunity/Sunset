@@ -130,9 +130,8 @@ export default function Settings() {
     );
 
   return (
-    <div className="flex flex-col w-full mt-8 space-y-4 mb-8">
+    <div className="flex flex-col w-full space-y-4">
       <PrettyHeader
-        className="mb-4"
         text="Settings"
         icon={<Cog className="mr-2" />}
         roundBottom

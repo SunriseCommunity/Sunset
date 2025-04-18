@@ -45,7 +45,7 @@ export default function RootLayout({
       <body className="bg-background text-current min-h-screen flex flex-col font-medium">
         <Providers>
           <Header />
-          <div className="row-padding-max-w-2xl">{children}</div>
+          <div className="row-padding-max-w-2xl py-8">{children}</div>
           <main className="flex-grow bg-background -z-30" />
           <Toaster />
           <Footer />
