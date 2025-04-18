@@ -1,4 +1,6 @@
-import PrettyDate from "@/components/General/PrettyDate";
+import PrettyDate, {
+  dateToPrettyString,
+} from "@/components/General/PrettyDate";
 import { Tooltip } from "@/components/Tooltip";
 import { User } from "@/lib/hooks/api/user/types";
 import { twMerge } from "tailwind-merge";
@@ -15,22 +17,22 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export default function UserStatusText({ user, ...props }: Props) {
-  const userStatus = (truncate: boolean, withTime: boolean) => (
-    <div className={twMerge(truncate ? "truncate" : "", "flex flex-nowrap")}>
+  const userStatus = (isTooltip: boolean) => (
+    <p className={isTooltip ? "break-all" : "truncate"}>
       {user.user_status}
       {user.user_status === "Offline" && (
-        <div className="flex flex-nowrap">
+        <span className="">
           , last seen on&nbsp;
-          <PrettyDate time={user.last_online_time} withTime={false} />
-        </div>
+          {dateToPrettyString(user.last_online_time)}
+        </span>
       )}
-    </div>
+    </p>
   );
 
   return (
     <Tooltip
       className="flex flex-row flex-grow min-w-0"
-      content={userStatus(false, false)}
+      content={userStatus(true)}
       align="start"
     >
       <div
@@ -41,7 +43,7 @@ export default function UserStatusText({ user, ...props }: Props) {
           props.className
         )}
       >
-        {userStatus(true, false)}
+        {userStatus(false)}
       </div>
     </Tooltip>
   );
