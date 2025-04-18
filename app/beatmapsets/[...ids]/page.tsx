@@ -13,13 +13,13 @@ import DifficultyInformation from "@/app/beatmapsets/components/DifficultyInform
 import FavouriteButton from "@/app/beatmapsets/components/FavouriteButton";
 import Spinner from "@/components/Spinner";
 import BeatmapLeaderboard from "@/app/beatmapsets/components/BeatmapLeaderboard";
-import OpenBanchoButton from "@/app/beatmapsets/components/OpenBanchoButton";
 import { gameModeToVanilla } from "@/lib/utils/gameMode.util";
 import Image from "next/image";
 import { GameMode } from "@/lib/hooks/api/types";
 import { Beatmap } from "@/lib/hooks/api/beatmap/types";
 import { useBeatmapSet } from "@/lib/hooks/api/beatmap/useBeatmapSet";
 import GameModeSelector from "@/components/GameModeSelector";
+import { BeatmapDropdown } from "@/app/beatmapsets/components/BeatmapDropdown";
 
 export interface BeatmapsetProps {
   params: Promise<{ ids: [number?, number?] }>;
@@ -86,11 +86,10 @@ export default function Beatmapset(props: BeatmapsetProps) {
 
   if (!beatmapSet || !activeBeatmap) {
     return (
-      <main className="container mx-auto my-8">
+      <main className="container space-y-4">
         <PrettyHeader
           icon={<Music2 />}
           text="Beatmap info"
-          className="mb-4"
           roundBottom={true}
         />
         <RoundedContent className="rounded-l flex flex-col md:flex-row justify-between items-center md:items-start gap-8 ">
@@ -114,13 +113,8 @@ export default function Beatmapset(props: BeatmapsetProps) {
   }
 
   return (
-    <div className="flex flex-col w-full mt-8">
-      <PrettyHeader
-        icon={<Music2 />}
-        text="Beatmap info"
-        className="mb-4"
-        roundBottom={true}
-      >
+    <div className="flex flex-col space-y-4">
+      <PrettyHeader icon={<Music2 />} text="Beatmap info" roundBottom={true}>
         <GameModeSelector
           activeMode={activeMode}
           setActiveMode={setActiveMode}
@@ -139,162 +133,174 @@ export default function Beatmapset(props: BeatmapsetProps) {
         />
       </PrettyHeader>
 
-      <RoundedContent className="rounded-lg p-0 shadow-none border-none ">
-        {/* Banner */}
-        <div className="h-80 relative">
-          <ImageWithFallback
-            src={`https://assets.ppy.sh/beatmaps/${beatmapSetId}/covers/cover.jpg`}
-            alt=""
-            fill={true}
-            className="bg-stone-700 rounded-t-lg object-cover"
-            fallBackSrc="/images/unknown-beatmap-banner.jpg"
-          />
-          <div className="absolute inset-0 bg-accent/80 bg-opacity-80 lg:px-6 md:p-4 p-2 rounded-t-lg">
-            <div className="flex justify-between mb-4 h-full">
-              <div className="flex flex-col justify-between">
-                <DifficultySelector
-                  beatmapset={beatmapSet}
-                  activeDifficulty={activeBeatmap}
-                  setDifficulty={setActiveBeatmap}
-                  activeGameMode={gameModeToVanilla(activeMode)}
-                  difficulties={beatmapSet.beatmaps.filter((beatmap) =>
-                    [gameModeToVanilla(activeMode), GameMode.std].includes(
-                      beatmap.mode_int
-                    )
-                  )}
-                />
+      <RoundedContent className="rounded-lg p-0 h-full">
+        <div>
+          <div className="z-20 lg:h-80 relative">
+            <div className="bg-black/60 lg:px-6 md:p-4 p-2 rounded-t-lg h-full">
+              <div className="flex lg:flex-row space-y-4 lg:space-y-0 flex-col justify-between lg:mb-4 h-full">
+                <div className="flex flex-col space-y-6 lg:space-y-0 justify-between">
+                  <DifficultySelector
+                    beatmapset={beatmapSet}
+                    activeDifficulty={activeBeatmap}
+                    setDifficulty={setActiveBeatmap}
+                    activeGameMode={gameModeToVanilla(activeMode)}
+                    difficulties={beatmapSet.beatmaps.filter((beatmap) =>
+                      [gameModeToVanilla(activeMode), GameMode.std].includes(
+                        beatmap.mode_int
+                      )
+                    )}
+                  />
 
-                <div>
-                  <h3 className="text-3xl font-bold text-white">
-                    {beatmapSet.title}
-                  </h3>
-                  <p className="text-gray-200 text-lg">{beatmapSet.artist}</p>
-                </div>
+                  <div>
+                    <h3 className="text-3xl font-bold text-white">
+                      {beatmapSet.title}
+                    </h3>
+                    <p className="text-gray-200 text-lg">{beatmapSet.artist}</p>
+                  </div>
 
-                <div className="flex flex-col space-y-2 text-white">
-                  <div className="flex flex-row items-center">
-                    <ImageWithFallback
-                      src={`https://a.ppy.sh/${beatmapSet.creator_id}`}
-                      alt=""
-                      width={48}
-                      height={48}
-                      className="rounded-lg object-contain bg-stone-800 max-h-12 max-w-12"
-                      fallBackSrc="/images/placeholder.png"
-                    />
-                    <div className="flex flex-col ml-2 text-xs font-light">
-                      <div className="flex items-center">
-                        submitted by&nbsp;
-                        <p className="font-bold">
-                          {beatmapSet.creator || "Unknown"}
-                        </p>
-                      </div>
-                      <div className="flex items-center">
-                        submitted on&nbsp;
-                        <PrettyDate
-                          time={beatmapSet.submitted_date}
-                          className="font-bold"
-                        />
-                      </div>
-                      {beatmapSet.ranked_date && (
+                  <div className="flex flex-col space-y-2 text-white">
+                    <div className="flex flex-row items-center">
+                      <ImageWithFallback
+                        src={`https://a.ppy.sh/${beatmapSet.creator_id}`}
+                        alt=""
+                        width={48}
+                        height={48}
+                        className="rounded-lg object-contain bg-stone-800 max-h-12 max-w-12"
+                        fallBackSrc="/images/placeholder.png"
+                      />
+                      <div className="flex flex-col ml-2 text-xs font-light">
                         <div className="flex items-center">
-                          ranked on&nbsp;
+                          submitted by&nbsp;
+                          <p className="font-bold">
+                            {beatmapSet.creator || "Unknown"}
+                          </p>
+                        </div>
+                        <div className="flex items-center">
+                          submitted on&nbsp;
                           <PrettyDate
-                            time={beatmapSet.ranked_date}
+                            time={beatmapSet.submitted_date}
                             className="font-bold"
                           />
                         </div>
-                      )}
+                        {beatmapSet.ranked_date && (
+                          <div className="flex items-center">
+                            ranked on&nbsp;
+                            <PrettyDate
+                              time={beatmapSet.ranked_date}
+                              className="font-bold"
+                            />
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex flex-row items-center space-x-2">
-                    <FavouriteButton beatmapSet={beatmapSet} />
-                    <DownloadButtons beatmapSet={beatmapSet} />
-                    <OpenBanchoButton beatmapSet={beatmapSet} />
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col justify-between min-w-64">
-                <div className="flex flex-row space-x-1">
-                  {beatmapSet.video && (
-                    <div className="bg-accent bg-opacity-80 p-2 rounded-lg">
-                      <Tooltip content="This beatmap contains video">
-                        <Clapperboard className="h-5" />
-                      </Tooltip>
-                    </div>
-                  )}
-                  <div className="bg-accent bg-opacity-80 py-2 px-8 rounded-lg flex flex-row w-full">
-                    <div className="flex mx-auto space-x-1">
-                      <BeatmapStatusIcon status={activeBeatmap.status} />
-                      <p className="capitalize">{activeBeatmap.status}</p>
+                    <div className="flex flex-wrap flex-row items-center gap-2">
+                      <FavouriteButton beatmapSet={beatmapSet} />
+                      <DownloadButtons beatmapSet={beatmapSet} />
+                      <BeatmapDropdown
+                        beatmap={activeBeatmap}
+                        beatmapSet={beatmapSet}
+                      />
                     </div>
                   </div>
                 </div>
-                <DifficultyInformation
-                  beatmap={activeBeatmap}
-                  activeMode={gameModeToVanilla(activeMode)}
-                />
+
+                <div className="flex flex-col justify-between min-w-64 space-y-4 lg:space-y-0">
+                  <div className="flex flex-row space-x-1">
+                    {beatmapSet.video && (
+                      <div className="bg-accent bg-opacity-80 p-2 rounded-lg">
+                        <Tooltip content="This beatmap contains video">
+                          <Clapperboard className="h-5" />
+                        </Tooltip>
+                      </div>
+                    )}
+                    <div className="bg-accent bg-opacity-80 py-2 px-8 rounded-lg flex flex-row w-full">
+                      <div className="flex mx-auto space-x-1">
+                        <BeatmapStatusIcon status={activeBeatmap.status} />
+                        <p className="capitalize">{activeBeatmap.status}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <DifficultyInformation
+                    beatmap={activeBeatmap}
+                    activeMode={gameModeToVanilla(activeMode)}
+                  />
+                </div>
               </div>
+            </div>
+
+            <div className="-z-10 absolute inset-0 overflow-hidden rounded-t-lg">
+              <ImageWithFallback
+                src={`https://assets.ppy.sh/beatmaps/${activeBeatmap?.beatmapset_id}/covers/cover.jpg`}
+                alt="user bg"
+                fill={true}
+                objectFit="cover"
+                className="relative"
+                fallBackSrc="/images/unknown-beatmap-banner.jpg"
+              />
             </div>
           </div>
         </div>
-      </RoundedContent>
 
-      <RoundedContent className="mb-4 bg-card rounded-b-lg p-0 space-y-2">
-        <RoundedContent className="px-4 pt-4 shadow-none border-none  pb-0 min-h-72 max-h-72 h-72 flex bg-card place-content-between space-x-2 mb-4">
-          <div className="flex flex-col w-2/4 ">
-            <PrettyHeader
-              icon={<Book />}
-              text="Description"
-              className="font-normal py-2 px-4"
-            />
-            {/* TODO: Make spoilerbox work as intended */}
-            <RoundedContent className="min-h-0 h-full overflow-y-auto">
-              <div
-                className="font-normal text-sm w-full"
-                dangerouslySetInnerHTML={{ __html: beatmapSet.description }}
+        <div className="p-4 bg-card">
+          <div className="grid grid-cols-1 lg:grid-cols-6 gap-4">
+            <div className="flex flex-col lg:col-span-3 lg:h-80">
+              <PrettyHeader
+                icon={<Book />}
+                text="Description"
+                className="font-normal py-2 px-4"
               />
-            </RoundedContent>
-          </div>
+              {/* TODO: Make spoilerbox work as intended */}
+              <RoundedContent className="min-h-0 h-full overflow-y-auto">
+                <div
+                  className="font-normal text-sm w-full"
+                  dangerouslySetInnerHTML={{ __html: beatmapSet.description }}
+                />
+              </RoundedContent>
+            </div>
 
-          <div className="flex flex-col w-1/4">
-            <PrettyHeader
-              icon={<Info />}
-              text="Information"
-              className="font-normal py-2 px-4"
-            />
-            <RoundedContent className="space-y-4 h-full overflow-y-auto min-h-0">
-              <div>
-                <div className="flex place-content-between items-end">
-                  <p className="text-xs">Genre</p>
-                  <p className="text-md font-bald">{beatmapSet.genre}</p>
-                </div>
-                <div className="flex place-content-between items-end">
-                  <p className="text-xs">Language</p>
-                  <p className="text-md font-bald">{beatmapSet.language}</p>
-                </div>
-              </div>
-              <div className="flex flex-col">
-                <p className="text-xs">Tags</p>
-                <p className="text-sm font-light">
-                  {beatmapSet.tags.map((tag) => `${tag}`).join(", ")}
-                </p>
-              </div>
-            </RoundedContent>
-          </div>
-        </RoundedContent>
-        {activeBeatmap.is_scoreable && (
-          <div className="flex flex-col w-full">
-            <RoundedContent className="rounded-md mx-4 mt-4">
-              <GameModeSelector
-                activeMode={activeMode}
-                setActiveMode={setActiveMode}
-                includeGameModes={false}
+            <div className="hidden lg:grid" />
+
+            <div className="flex flex-col lg:col-span-2 lg:h-80">
+              <PrettyHeader
+                icon={<Info />}
+                text="Information"
+                className="font-normal py-2 px-4"
               />
-            </RoundedContent>
-
-            <BeatmapLeaderboard beatmap={activeBeatmap} mode={activeMode} />
+              <RoundedContent className="space-y-4 h-full overflow-y-auto min-h-0">
+                <div>
+                  <div className="flex place-content-between items-end">
+                    <p className="text-xs">Genre</p>
+                    <p className="text-md font-bald">{beatmapSet.genre}</p>
+                  </div>
+                  <div className="flex place-content-between items-end">
+                    <p className="text-xs">Language</p>
+                    <p className="text-md font-bald">{beatmapSet.language}</p>
+                  </div>
+                </div>
+                <div className="flex flex-col">
+                  <p className="text-xs">Tags</p>
+                  <p className="text-sm font-light">
+                    {beatmapSet.tags.map((tag) => `${tag}`).join(", ")}
+                  </p>
+                </div>
+              </RoundedContent>
+            </div>
           </div>
-        )}
+
+          {activeBeatmap.is_scoreable && (
+            <div className="flex flex-col w-full">
+              <RoundedContent className="rounded-md mt-4">
+                <GameModeSelector
+                  activeMode={activeMode}
+                  setActiveMode={setActiveMode}
+                  includeGameModes={false}
+                />
+              </RoundedContent>
+
+              <BeatmapLeaderboard beatmap={activeBeatmap} mode={activeMode} />
+            </div>
+          )}
+        </div>
       </RoundedContent>
     </div>
   );
