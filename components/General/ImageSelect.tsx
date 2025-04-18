@@ -1,4 +1,6 @@
 import Spinner from "@/components/Spinner";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
+import Image from "next/image";
 
 type Props = {
   setFile: React.Dispatch<React.SetStateAction<File | null>>;
@@ -33,11 +35,20 @@ export default function ImageSelect({ setFile, file, isWide }: Props) {
               }}
             />
             {file ? (
-              <img
-                src={URL.createObjectURL(file)}
-                alt="avatar"
-                className="w-full rounded-lg hover:opacity-80 smooth-transition"
-              />
+              <div className={isWide ? "w-96" : "w-40"}>
+                <AspectRatio
+                  ratio={isWide ? 4 / 1 : 1 / 1}
+                  className="bg-muted w-full h-full flex"
+                >
+                  <Image
+                    src={URL.createObjectURL(file)}
+                    alt="avatar"
+                    fill={true}
+                    objectFit="cover"
+                    className="w-full h-full rounded-lg hover:opacity-80 smooth-transition"
+                  />
+                </AspectRatio>
+              </div>
             ) : (
               <div className="mx-auto px-12">
                 <Spinner size="lg" />
