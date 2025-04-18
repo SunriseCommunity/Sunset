@@ -97,36 +97,41 @@ export default function Score(props: { params: Promise<{ id: number }> }) {
 
                   <Separator className="z-20 my-4 h-0 block md:hidden" />
 
-                  <div className="z-20 items-center space-x-4 md:flex flex-col place-content-between space-y-4">
+                  <div className="z-20 items-center md:flex flex-col place-content-between space-y-4 w-full md:w-1/2">
                     <div className="flex flex-col w-full">
                       <div className="flex justify-end flex-row">
-                        <div className="text-yellow-400 text-base items-center flex flex-row ">
-                          <div className="flex flex-row items-center">
-                            [
-                            <span className="truncate overflow-hidden whitespace-nowrap">
-                              {beatmap?.version || "Unknown"}
-                            </span>
-                            <DifficultyIcon
-                              iconColor="#facc15"
-                              gameMode={score.game_mode}
-                              className="text-base mx-1"
-                            />{" "}
-                            ]
+                        <div className="flex justify-end w-full">
+                          <div className="text-yellow-400 text-base line-clamp-2 flex flex-col items-end max-w-full">
+                            <div className="flex flex-row items-center w-full">
+                              <span className="mr-1">[</span>
+                              <div className="flex items-center flex-1 overflow-hidden">
+                                <span className="truncate">
+                                  {beatmap?.version || "Unknown"}
+                                </span>
+                              </div>
+                              <DifficultyIcon
+                                iconColor="#facc15"
+                                gameMode={score.game_mode}
+                                className="text-base mx-1 flex-shrink-0"
+                              />
+                              <span className="ml-1">]</span>
+                            </div>
+                            <p className="whitespace-nowrap">
+                              ★{" "}
+                              {beatmap &&
+                                getBeatmapStarRating(beatmap).toFixed(2)}{" "}
+                              {score.mods}
+                            </p>
                           </div>
-                          <p>
-                            ★{" "}
-                            {beatmap &&
-                              getBeatmapStarRating(beatmap).toFixed(2)}{" "}
-                            {score.mods}
-                          </p>
                         </div>
                       </div>
+
                       <p className="text-gray-300 text-right">
                         mapped by {beatmap?.creator || "Unknown Creator"}
                       </p>
                     </div>
 
-                    <div>
+                    <div className="w-full">
                       <p className="text-5xl font-bold text-right text-white">
                         {score.total_score.toLocaleString()}
                       </p>
@@ -145,7 +150,7 @@ export default function Score(props: { params: Promise<{ id: number }> }) {
                       </div>
                     </div>
 
-                    <div className="space-x-2 flex justify-end">
+                    <div className="space-x-2 flex justify-end w-full">
                       <Button
                         onClick={downloadReplay}
                         disabled={!self || !score.has_replay}
