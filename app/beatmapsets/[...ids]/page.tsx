@@ -2,7 +2,7 @@
 import { Book, Clapperboard, Info, Music2 } from "lucide-react";
 import PrettyHeader from "@/components/General/PrettyHeader";
 import RoundedContent from "@/components/General/RoundedContent";
-import { useEffect, useState, use } from "react";
+import { useEffect, useState, use, useCallback } from "react";
 import ImageWithFallback from "@/components/ImageWithFallback";
 import PrettyDate from "@/components/General/PrettyDate";
 import BeatmapStatusIcon from "@/components/BeatmapStatus";
@@ -20,38 +20,52 @@ import { Beatmap } from "@/lib/hooks/api/beatmap/types";
 import { useBeatmapSet } from "@/lib/hooks/api/beatmap/useBeatmapSet";
 import GameModeSelector from "@/components/GameModeSelector";
 import { BeatmapDropdown } from "@/app/beatmapsets/components/BeatmapDropdown";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { tryParseNumber } from "@/lib/utils/type.util";
 
 export interface BeatmapsetProps {
-  params: Promise<{ ids: [number?, number?] }>;
+  params: Promise<{ ids: [string?, string?] }>;
 }
 
 export default function Beatmapset(props: BeatmapsetProps) {
   const params = use(props.params);
+
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const mode = tryParseNumber(searchParams.get("mode")) ?? GameMode.std;
+
   const [beatmapSetId, beatmapId] = params.ids;
 
-  const [activeMode, setActiveMode] = useState(GameMode.std);
-  const [activeBeatmap, _setActiveBeatmap] = useState<Beatmap | null>(null);
+  const [activeMode, setActiveMode] = useState(
+    mode in GameMode ? mode : GameMode.std
+  );
 
-  const beatmapsetQuery = useBeatmapSet(beatmapSetId ?? null);
+  const [activeBeatmap, setActiveBeatmap] = useState<Beatmap | null>(null);
+
+  const beatmapsetQuery = useBeatmapSet(
+    tryParseNumber(beatmapSetId ?? "") ?? null
+  );
   const beatmapSet = beatmapsetQuery.data;
 
   useEffect(() => {
     if (!beatmapSet) return;
 
     const beatmap = beatmapSet.beatmaps.find(
-      (beatmap) => beatmap.id === parseInt(beatmapId as any)
+      (beatmap) => beatmap.id === Number(beatmapId)
     );
 
-    const activeBeatmap = beatmap || beatmapSet.beatmaps[0];
+    const activeBeatmap = beatmap ?? beatmapSet.beatmaps[0];
 
     setActiveBeatmap(activeBeatmap);
-    setActiveMode(activeBeatmap.mode_int);
+    if (!activeMode) setActiveMode(activeBeatmap.mode_int);
   }, [beatmapSet]);
 
   useEffect(() => {
     if (
       !beatmapSet ||
-      [activeMode % 4, GameMode.std].includes(
+      [gameModeToVanilla(activeMode), GameMode.std].includes(
         activeBeatmap?.mode_int ?? GameMode.std
       )
     )
@@ -61,21 +75,38 @@ export default function Beatmapset(props: BeatmapsetProps) {
       (beatmap) => beatmap.mode_int === activeMode
     );
 
-    const activeBeatmapNew = beatmap || beatmapSet.beatmaps[0];
+    const activeBeatmapNew = beatmap ?? beatmapSet.beatmaps[0];
 
     setActiveBeatmap(activeBeatmapNew);
     setActiveMode(activeBeatmapNew.mode_int);
   }, [activeMode]);
 
-  const setActiveBeatmap = (difficulty: Beatmap) => {
-    _setActiveBeatmap(difficulty);
-
-    window.history.pushState(
-      null,
-      "",
-      `/beatmapsets/${beatmapSetId}/${difficulty.id}`
+  useEffect(() => {
+    router.push(
+      pathname + "?" + createQueryString("mode", activeMode.toString())
     );
-  };
+  }, [activeMode]);
+
+  useEffect(() => {
+    if (!activeBeatmap) return;
+
+    if (activeBeatmap.id.toString() !== beatmapId) {
+      router.push(
+        `/beatmapsets/${beatmapSetId}/${activeBeatmap.id}?` +
+          searchParams.toString()
+      );
+    }
+  }, [activeBeatmap]);
+
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set(name, value);
+
+      return params.toString();
+    },
+    [searchParams]
+  );
 
   if (beatmapsetQuery.isLoading)
     return (
@@ -289,7 +320,7 @@ export default function Beatmapset(props: BeatmapsetProps) {
 
           {activeBeatmap.is_scoreable && (
             <div className="flex flex-col w-full space-y-4">
-               <PrettyHeader className="rounded-md mt-4">
+              <PrettyHeader className="rounded-md mt-4">
                 <GameModeSelector
                   activeMode={activeMode}
                   setActiveMode={setActiveMode}

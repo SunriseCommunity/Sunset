@@ -17,9 +17,11 @@ export default function BeatmapLeaderboard({
   beatmap,
   mode,
 }: BeatmapLeaderboardProps) {
-  const searchParams = useSearchParams();
+  const [preferedNumberOfScoresPerLeaderboard] = useState(() => {
+    return localStorage.getItem("preferedNumberOfScoresPerLeaderboard");
+  });
 
-  const size = tryParseNumber(searchParams.get("size")) ?? 50;
+  const size = tryParseNumber(preferedNumberOfScoresPerLeaderboard) ?? 50;
 
   const [pagination, setPagination] = useState({
     pageIndex: 0, // ! NOTE: Not supported by backend
