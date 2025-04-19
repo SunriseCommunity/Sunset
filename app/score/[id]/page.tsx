@@ -51,7 +51,7 @@ export default function Score(props: { params: Promise<{ id: number }> }) {
   const user = userQuery?.data;
   const beatmap = beatmapQuery?.data;
 
-  if (scoreQuery.isLoading || userQuery?.isLoading || beatmapQuery?.isLoading)
+  if (scoreQuery?.isLoading || userQuery?.isLoading || beatmapQuery?.isLoading)
     return (
       <div className="flex justify-center items-center h-96">
         <Spinner size="xl" />
@@ -59,7 +59,10 @@ export default function Score(props: { params: Promise<{ id: number }> }) {
     );
 
   const errorMessage =
-    scoreQuery.error ?? userQuery?.error ?? beatmapQuery?.error;
+    scoreQuery.error?.message ??
+    userQuery?.error?.message ??
+    beatmapQuery?.error?.message ??
+    "Score not found";
 
   return (
     <div className="flex flex-col space-y-4">
@@ -218,10 +221,10 @@ export default function Score(props: { params: Promise<{ id: number }> }) {
             </div>
           </>
         ) : (
-          <>
+          <div className="rounded-l flex flex-col md:flex-row justify-between items-center md:items-start gap-8 ">
             <div className="flex flex-col space-y-2">
-              <h1 className="text-4xl">{errorMessage ?? "Score not found"}</h1>
-              <p className="text-gray-300">
+              <h1 className="text-4xl">{errorMessage}</h1>
+              <p>
                 The score you are looking for does not exist or has been
                 deleted.
               </p>
@@ -233,7 +236,7 @@ export default function Score(props: { params: Promise<{ id: number }> }) {
               height={400}
               className="max-w-fit"
             />
-          </>
+          </div>
         )}
       </RoundedContent>
     </div>
