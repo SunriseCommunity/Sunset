@@ -1,7 +1,7 @@
 "use client";
 
 import Spinner from "@/components/Spinner";
-import { useState, use } from "react";
+import { useState, use, useCallback, useEffect } from "react";
 import Image from "next/image";
 import { Edit3Icon, User as UserIcon } from "lucide-react";
 import UserBadges from "@/app/user/[id]/components/UserBadges";
@@ -24,12 +24,13 @@ import { GameMode } from "@/lib/hooks/api/types";
 import { FriendshipButton } from "@/components/FriendshipButton";
 import { Button } from "@/components/ui/button";
 import UserRankColor from "@/components/UserRankNumber";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import UserStatusText, {
   statusColor,
 } from "@/app/user/[id]/components/UserStatusText";
 import UserRanks from "@/app/user/[id]/components/UserRanks";
 import { Tooltip } from "@/components/Tooltip";
+import { tryParseNumber } from "@/lib/utils/type.util";
 
 const contentTabs = [
   "General",
@@ -103,17 +104,40 @@ const renderTabContent = (
 };
 
 export default function UserPage(props: { params: Promise<{ id: number }> }) {
-  const router = useRouter();
   const params = use(props.params);
   const userId = params.id;
 
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const mode = tryParseNumber(searchParams.get("mode")) ?? GameMode.std;
+
   const [activeTab, setActiveTab] = useState("General");
-  const [activeMode, setActiveMode] = useState(GameMode.std);
+  const [activeMode, setActiveMode] = useState(
+    mode in GameMode ? mode : GameMode.std
+  );
 
   const self = useUserSelf();
 
   const userQuery = useUser(userId);
   const userStatsQuery = useUserStats(userId, activeMode);
+
+  useEffect(() => {
+    router.push(
+      pathname + "?" + createQueryString("mode", activeMode.toString())
+    );
+  }, [activeMode]);
+
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set(name, value);
+
+      return params.toString();
+    },
+    [searchParams]
+  );
 
   if (userQuery.isLoading) {
     return (
