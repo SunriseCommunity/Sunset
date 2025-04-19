@@ -18,11 +18,62 @@ export enum GameMode {
   "scorev2mania" = 15,
 }
 
-export const GameRuleFlags = {
-  Standard: 0,
-  Relax: 4,
-  Autopilot: 8,
-  ScoreV2: 12,
+export const GameRuleFlags: {
+  [key: number]: { [key: string]: GameMode | null };
+} = {
+  0: {
+    Standard: GameMode.std,
+    Relax: GameMode.relaxstd,
+    Autopilot: GameMode.autopilotstd,
+    ScoreV2: GameMode.scorev2std,
+  },
+  1: {
+    Standard: GameMode.taiko,
+    Relax: GameMode.relaxtaiko,
+    Autopilot: null,
+    ScoreV2: GameMode.scorev2taiko,
+  },
+  2: {
+    Standard: GameMode.catch,
+    Relax: GameMode.relaxcatch,
+    Autopilot: null,
+    ScoreV2: GameMode.scorev2catch,
+  },
+  3: {
+    Standard: GameMode.mania,
+    Relax: null,
+    Autopilot: null,
+    ScoreV2: GameMode.scorev2mania,
+  },
+};
+
+export const GameRuleFlagsShort: {
+  [key: number]: { [key: string]: GameMode | null };
+} = {
+  0: {
+    STD: GameMode.std,
+    RX: GameMode.relaxstd,
+    AP: GameMode.autopilotstd,
+    V2: GameMode.scorev2std,
+  },
+  1: {
+    STD: GameMode.taiko,
+    RX: GameMode.relaxtaiko,
+    AP: null,
+    V2: GameMode.scorev2taiko,
+  },
+  2: {
+    STD: GameMode.catch,
+    RX: GameMode.relaxcatch,
+    AP: null,
+    V2: GameMode.scorev2catch,
+  },
+  3: {
+    STD: GameMode.mania,
+    RX: null,
+    Autopilot: null,
+    V2: GameMode.scorev2mania,
+  },
 };
 
 export const GameRulesGameModes: {

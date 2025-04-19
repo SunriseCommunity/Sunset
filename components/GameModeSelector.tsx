@@ -4,11 +4,13 @@ import { Button } from "@/components/ui/button";
 import {
   GameMode,
   GameRuleFlags,
+  GameRuleFlagsShort,
   GameRulesGameModes,
 } from "@/lib/hooks/api/types";
 import {
   gameModeToGamerule,
   gameModeToPrettyString,
+  gameModeToVanilla,
 } from "@/lib/utils/gameMode.util";
 import { twMerge } from "tailwind-merge";
 
@@ -22,13 +24,6 @@ interface GameModeSelectorProps extends React.HTMLAttributes<HTMLDivElement> {
   includeGameRules?: boolean;
   mobileVariant?: "combobox" | "icons";
 }
-
-const GameRuleFlagShort = {
-  STD: GameRuleFlags.Standard,
-  RX: GameRuleFlags.Relax,
-  AP: GameRuleFlags.Autopilot,
-  V2: GameRuleFlags.ScoreV2,
-};
 
 function enrichEnabledModesWithGameModes(enabledModes: GameMode[]) {
   const pushModesToArray = (modes: GameMode[]) => {
@@ -90,32 +85,46 @@ export default function GameModeSelector({
       {includeGameRules && (
         <>
           <div className="hidden space-x-2 lg:flex">
-            {Object.entries(GameRuleFlags).map(([mode, key]) => (
-              <Button
-                key={mode}
-                className="px-3 py-1"
-                onClick={() => setActiveMode(key)}
-                variant={
-                  gameModeToGamerule(activeMode) === gameModeToGamerule(key)
-                    ? "default"
-                    : "secondary"
-                }
-              >
-                {mode}
-              </Button>
-            ))}
-          </div>
-          {mobileVariant === "icons" && (
-            <div className="flex space-x-2 lg:hidden">
-              {Object.entries(GameRuleFlagShort).map(([mode, key]) => (
+            {Object.entries(GameRuleFlags[gameModeToVanilla(activeMode)]).map(
+              ([mode, key]) => (
                 <Button
                   key={mode}
-                  onClick={() => setActiveMode(key)}
-                  size="icon"
+                  className="px-3 py-1"
+                  onClick={() => key != null && setActiveMode(key)}
                   variant={
+                    key != null &&
                     gameModeToGamerule(activeMode) === gameModeToGamerule(key)
                       ? "default"
                       : "secondary"
+                  }
+                  disabled={
+                    key === null ||
+                    (enabledModes && !enabledModes.includes(key))
+                  }
+                >
+                  {mode}
+                </Button>
+              )
+            )}
+          </div>
+          {mobileVariant === "icons" && (
+            <div className="flex space-x-2 lg:hidden">
+              {Object.entries(
+                GameRuleFlagsShort[gameModeToVanilla(activeMode)]
+              ).map(([mode, key]) => (
+                <Button
+                  key={mode}
+                  onClick={() => key != null && setActiveMode(key)}
+                  size="icon"
+                  variant={
+                    key != null &&
+                    gameModeToGamerule(activeMode) === gameModeToGamerule(key)
+                      ? "default"
+                      : "secondary"
+                  }
+                  disabled={
+                    key === null ||
+                    (enabledModes && !enabledModes.includes(key))
                   }
                 >
                   {mode}
