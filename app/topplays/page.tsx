@@ -1,18 +1,27 @@
 "use client";
 import Spinner from "@/components/Spinner";
 import { ChevronDown, LucideHistory } from "lucide-react";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import PrettyHeader from "@/components/General/PrettyHeader";
 import RoundedContent from "@/components/General/RoundedContent";
 import { GameMode } from "@/lib/hooks/api/types";
 import UserScoreMinimal from "./components/UserScoreMinimal";
 import GameModeSelector from "@/components/GameModeSelector";
 import { useTopScores } from "@/lib/hooks/api/score/useTopScores";
-import PrettyButton from "@/components/General/PrettyButton";
 import { Button } from "@/components/ui/button";
+import { tryParseNumber } from "@/lib/utils/type.util";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export default function Topplays() {
-  const [activeMode, setActiveMode] = useState(GameMode.std);
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const mode = tryParseNumber(searchParams.get("mode")) ?? GameMode.std;
+
+  const [activeMode, setActiveMode] = useState(
+    mode in GameMode ? mode : GameMode.std
+  );
 
   const { data, setSize, size, isLoading, isValidating } = useTopScores(
     activeMode,
@@ -24,6 +33,22 @@ export default function Topplays() {
   };
 
   const scores = data?.flatMap((item) => item.scores);
+
+  useEffect(() => {
+    router.push(
+      pathname + "?" + createQueryString("mode", activeMode.toString())
+    );
+  }, [activeMode]);
+
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set(name, value);
+
+      return params.toString();
+    },
+    [searchParams]
+  );
 
   return (
     <div className="flex flex-col w-full space-y-4">
