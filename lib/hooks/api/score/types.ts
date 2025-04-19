@@ -17,7 +17,8 @@ export interface Score {
   is_passed: boolean;
   leaderboard_rank: number;
   max_combo: number;
-  mods?: string;
+  mods: string;
+  mods_int: number
   is_perfect: boolean;
   performance_points: number;
   total_score: number;
