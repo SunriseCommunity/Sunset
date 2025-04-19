@@ -18,7 +18,7 @@ export function useBeatmapLeaderboard(
   }>(
     beatmapId
       ? `beatmap/${beatmapId}/leaderboard?mode=${mode}${
-          mods ? `&mods=${mods}` : ""
+          mods != undefined ? `&mods=${mods}` : ""
         }${limit ? `&limit=${limit}` : ""}`
       : null,
     fetcher,
