@@ -31,7 +31,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
-import ScoreStats from "@/app/score/[id]/components/ScoreStats";
+import ScoreStats from "@/components/ScoreStats";
 
 export default function Score(props: { params: Promise<{ id: number }> }) {
   const params = use(props.params);
@@ -216,7 +216,7 @@ export default function Score(props: { params: Promise<{ id: number }> }) {
               <div className="hidden xl:grid" />
 
               <div className="xl:col-span-2">
-                <ScoreStats score={score} beatmap={beatmap} />
+                <ScoreStats score={score} beatmap={beatmap} variant="score" />
               </div>
             </div>
           </>
