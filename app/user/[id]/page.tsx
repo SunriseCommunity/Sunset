@@ -147,7 +147,8 @@ export default function UserPage(props: { params: Promise<{ id: number }> }) {
     );
   }
 
-  const errorMessage = userStatsQuery.error?.message ?? "User not found";
+  const errorMessage =
+    userStatsQuery.error?.message ?? "User not found or an error occurred.";
 
   const user = userQuery.data;
   const userStats = userStatsQuery.data?.stats;
@@ -266,10 +267,8 @@ export default function UserPage(props: { params: Promise<{ id: number }> }) {
           ) : (
             <RoundedContent className="rounded-l flex flex-col md:flex-row justify-between items-center md:items-start gap-8 ">
               <div className="flex flex-col space-y-2">
-                <h1 className="text-4xl">
-                  {errorMessage ?? "User not found or an error occurred."}
-                </h1>
-                {errorMessage?.includes("restrict") ? (
+                <h1 className="text-4xl">{errorMessage}</h1>
+                {errorMessage.includes("restrict") ? (
                   <p>
                     This means that the user violated the server rules and has
                     been restricted.
