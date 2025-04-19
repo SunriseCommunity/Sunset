@@ -93,10 +93,6 @@ export function UserDataTable<TData, TValue>({
     }
   }, [leaderboardType]);
 
-  useEffect(() => {
-    table.setPageSize(pagination.pageSize);
-  }, data);
-
   return (
     <div>
       <div className="rounded-md border">
@@ -127,7 +123,6 @@ export function UserDataTable<TData, TValue>({
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
                     className="relative overflow-hidden isolate group scale-95 hover:scale-100 smooth-transition"
-                    onClick={() => console.log(row.original)}
                   >
                     {row.getVisibleCells().map((cell) => (
                       <TableCell key={cell.id}>
@@ -179,7 +174,7 @@ export function UserDataTable<TData, TValue>({
             defaultValue={pagination.pageSize.toString()}
           >
             <SelectTrigger className="w-[80px]">
-              <SelectValue placeholder="Theme" />
+              <SelectValue />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="10">10</SelectItem>

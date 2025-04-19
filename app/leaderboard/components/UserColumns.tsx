@@ -13,8 +13,9 @@ import UserRankColor from "@/components/UserRankNumber";
 import { User, UserStats } from "@/lib/hooks/api/user/types";
 import numberWith from "@/lib/utils/numberWith";
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
+import { MoreHorizontal, SortAsc, SortDesc } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { Suspense, useContext } from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -24,6 +25,9 @@ export const userColumns: ColumnDef<{
 }>[] = [
   {
     accessorKey: "stats.rank",
+    sortingFn: (a, b) => {
+      return a.index - b.index;
+    },
     header: ({ column }) => {
       return (
         <Button
@@ -32,6 +36,11 @@ export const userColumns: ColumnDef<{
           className="justify-end text-sm w-full px-0"
         >
           Rank
+          {column.getIsSorted() === "asc" ? (
+            <SortAsc />
+          ) : column.getIsSorted() === "desc" ? (
+            <SortDesc />
+          ) : null}
         </Button>
       );
     },
@@ -104,20 +113,22 @@ export const userColumns: ColumnDef<{
               />
             </Suspense>
           </Avatar>
-          <UserRankColor
-            rank={userRank}
-            variant="primary"
-            className="cursor-pointer hover:text-primary smooth-transition text-lg font-bold"
-            onClick={() => (window.location.href = `/user/${userId}`)}
-          >
-            {username}
-          </UserRankColor>
+          <Link href={`/user/${userId}`}>
+            <UserRankColor
+              rank={userRank}
+              variant="primary"
+              className="cursor-pointer hover:text-primary smooth-transition text-lg font-bold"
+            >
+              {username}
+            </UserRankColor>
+          </Link>
         </div>
       );
     },
   },
   {
-    accessorKey: "pp",
+    id: "pp",
+    accessorKey: "stats.pp",
     header: () => (
       <div className="text-right text-base font-bold text-foreground">
         Performance
@@ -131,7 +142,8 @@ export const userColumns: ColumnDef<{
     },
   },
   {
-    accessorKey: "ranked_score",
+    id: "ranked_score",
+    accessorKey: "stats.ranked_score",
     header: () => (
       <div className="text-right text-base font-bold text-foreground">
         Ranked Score
@@ -156,6 +168,11 @@ export const userColumns: ColumnDef<{
           className="justify-end text-sm w-full px-0"
         >
           Accuracy
+          {column.getIsSorted() === "asc" ? (
+            <SortAsc />
+          ) : column.getIsSorted() === "desc" ? (
+            <SortDesc />
+          ) : null}
         </Button>
       );
     },
@@ -178,6 +195,11 @@ export const userColumns: ColumnDef<{
           className="justify-end text-sm w-full px-0"
         >
           Play count
+          {column.getIsSorted() === "asc" ? (
+            <SortAsc />
+          ) : column.getIsSorted() === "desc" ? (
+            <SortDesc />
+          ) : null}
         </Button>
       );
     },
@@ -202,10 +224,8 @@ export const userColumns: ColumnDef<{
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem
-              onClick={() => (window.location.href = `/user/${userId}`)}
-            >
-              View user profile
+            <DropdownMenuItem asChild>
+              <Link href={`/user/${userId}`}>View user profile</Link>
             </DropdownMenuItem>
             {/* TODO: Add report option */}
           </DropdownMenuContent>
