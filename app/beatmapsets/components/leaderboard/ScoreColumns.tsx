@@ -35,9 +35,7 @@ export const scoreColumns: ColumnDef<Score>[] = [
     cell: ({ row }) => {
       const value = row.index + 1;
 
-      return (
-        <div className="text-center font-bold whitespace-nowrap"># {value}</div>
-      );
+      return <div className="text-center whitespace-nowrap"># {value}</div>;
     },
   },
   {
@@ -53,7 +51,7 @@ export const scoreColumns: ColumnDef<Score>[] = [
     header: ({ column }) => sortableHeader({ column, title: "Score" }),
     cell: ({ row }) => {
       const formatted = numberWith(row.original.total_score, ",");
-      return formatted;
+      return <p className={row.index === 0 ? "font-bold" : ""}>{formatted}</p>;
     },
   },
   {
