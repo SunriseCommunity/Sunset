@@ -321,7 +321,7 @@ export default function Beatmapset(props: BeatmapsetProps) {
               )}
             </div>
           </>
-        ) : (
+        ) : beatmapsetQuery?.error ? (
           <RoundedContent className="rounded-l flex flex-col md:flex-row justify-between items-center md:items-start gap-8 ">
             <div className="flex flex-col space-y-2">
               <h1 className="text-4xl">{errorMessage}</h1>
@@ -338,7 +338,7 @@ export default function Beatmapset(props: BeatmapsetProps) {
               className="max-w-fit"
             />
           </RoundedContent>
-        )}
+        ) : null}
       </RoundedContent>
     </div>
   );

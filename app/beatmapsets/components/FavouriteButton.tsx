@@ -7,12 +7,15 @@ import {
 } from "@/lib/hooks/api/beatmap/useBeatmapSetFavouriteStatus";
 import { Button } from "@/components/ui/button";
 import { twMerge } from "tailwind-merge";
+import useSelf from "@/lib/hooks/useSelf";
 
 interface FavouriteButtonProps {
   beatmapSet: BeatmapSet;
 }
 
 export default function FavouriteButton({ beatmapSet }: FavouriteButtonProps) {
+  const { self } = useSelf();
+
   const beatmapSetFavouritedStatusQuery = useBeatmapSetFavouriteStatus(
     beatmapSet.id
   );

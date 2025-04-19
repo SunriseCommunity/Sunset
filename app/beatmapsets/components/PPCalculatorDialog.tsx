@@ -88,7 +88,7 @@ export function PPCalculatorDialog({
 
   const { data, error } = useBeatmamPp(
     beatmap.id,
-    mode,
+    gameModeToVanilla(mode),
     scoreAttributes.mods,
     scoreAttributes.combo,
     scoreAttributes.misses,
