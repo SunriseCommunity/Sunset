@@ -28,15 +28,12 @@ export default function ScoreLeaderboardData({
   score: Score;
   beatmap: Beatmap;
 }) {
-  const { self } = useSelf();
-  const { downloadReplay } = useDownloadReplay(score.id);
-
   return (
     <RoundedContent className="flex flex-col md:flex-row rounded-lg items-center place-content-between space-y-4 md:space-y-0">
       <div>
         <div className="flex flex-row items-center space-x-2">
           <div className="flex flex-col mx-4">
-            <p className="font-bold"># {score.leaderboard_rank}</p>
+            <p className="font-bold text-nowrap"># {score.leaderboard_rank}</p>
             <p
               className={`text-${getGradeColor(
                 score.grade
@@ -75,31 +72,45 @@ export default function ScoreLeaderboardData({
               height={18}
             />
           </div>
+          <div className="lg:hidden block">
+            <ScoreDropdownInfo score={score} />
+          </div>
         </div>
       </div>
 
       <div className="flex">
         <ScoreStats score={score} beatmap={beatmap} variant="leaderboard" />
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem asChild>
-              <Link href={`/score/${score.id}`}>View Details</Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={downloadReplay}
-              disabled={!self || !score.has_replay}
-            >
-              Download Replay
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div className="hidden lg:block">
+          <ScoreDropdownInfo score={score} />
+        </div>
       </div>
     </RoundedContent>
+  );
+}
+
+function ScoreDropdownInfo({ score }: { score: Score }) {
+  const { self } = useSelf();
+  const { downloadReplay } = useDownloadReplay(score.id);
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" className="h-8 w-8 p-0">
+          <span className="sr-only">Open menu</span>
+          <MoreHorizontal className="h-4 w-4" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuItem asChild>
+          <Link href={`/score/${score.id}`}>View Details</Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={downloadReplay}
+          disabled={!self || !score.has_replay}
+        >
+          Download Replay
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
