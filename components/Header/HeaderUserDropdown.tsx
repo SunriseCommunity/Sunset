@@ -15,16 +15,14 @@ import {
 import Image from "next/image";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import ImageWithFallback from "@/components/ImageWithFallback";
-import { useRouter } from "next/navigation";
 import { HeaderLogoutAlert } from "@/components/Header/HeaderLogoutAlert";
+import Link from "next/link";
 
 interface Props {
   self: User | null;
 }
 
 export default function HeaderUserDropdown({ self }: Props) {
-  const router = useRouter();
-
   return (
     self && (
       <DropdownMenu>
@@ -70,16 +68,14 @@ export default function HeaderUserDropdown({ self }: Props) {
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
-            <DropdownMenuItem
-              onSelect={() => router.push(`/user/${self.user_id}`)}
-            >
-              My Profile
+            <DropdownMenuItem asChild>
+              <Link href={`/user/${self.user_id}`}>My Profile</Link>
             </DropdownMenuItem>
-            <DropdownMenuItem onSelect={() => router.push(`/friends`)}>
-              Friends
+            <DropdownMenuItem asChild>
+              <Link href={`/friends`}>Friends</Link>
             </DropdownMenuItem>
-            <DropdownMenuItem onSelect={() => router.push(`/settings`)}>
-              Settings
+            <DropdownMenuItem asChild>
+              <Link href={`/settings`}>Settings</Link>
             </DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
