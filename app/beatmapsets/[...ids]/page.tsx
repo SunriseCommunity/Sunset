@@ -288,14 +288,14 @@ export default function Beatmapset(props: BeatmapsetProps) {
           </div>
 
           {activeBeatmap.is_scoreable && (
-            <div className="flex flex-col w-full">
-              <RoundedContent className="rounded-md mt-4">
+            <div className="flex flex-col w-full space-y-4">
+               <PrettyHeader className="rounded-md mt-4">
                 <GameModeSelector
                   activeMode={activeMode}
                   setActiveMode={setActiveMode}
                   includeGameModes={false}
                 />
-              </RoundedContent>
+              </PrettyHeader>
 
               <BeatmapLeaderboard beatmap={activeBeatmap} mode={activeMode} />
             </div>

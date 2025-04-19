@@ -1,6 +1,10 @@
 import { toLocalTime } from "@/lib/utils/toLocalTime";
 
-export function timeSince(input: string | Date, forceDays = false) {
+export function timeSince(
+  input: string | Date,
+  forceDays = false,
+  short: boolean = false
+) {
   const date = toLocalTime(input);
 
   const formatter = new Intl.RelativeTimeFormat("en");
@@ -24,9 +28,11 @@ export function timeSince(input: string | Date, forceDays = false) {
   for (let key in ranges) {
     if (ranges[key] <= Math.abs(secondsElapsed)) {
       const delta = Math.round(secondsElapsed / ranges[key]);
-      return formatter.format(delta, key as any);
+      return formatter
+        .format(delta, key as any)
+        .slice(undefined, short ? 3 : undefined);
     }
   }
 
-  return "Just now";
+  return "Now";
 }
