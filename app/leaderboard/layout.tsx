@@ -1,5 +1,6 @@
 import { Metadata } from "next";
-import Page from "./page"; 
+import PageLeaderboard from "./page";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Leaderboard | osu!Sunrise",
@@ -8,4 +9,10 @@ export const metadata: Metadata = {
   },
 };
 
-export default Page;
+export default function Page() {
+  return (
+    <Suspense>
+      <PageLeaderboard />
+    </Suspense>
+  );
+}
