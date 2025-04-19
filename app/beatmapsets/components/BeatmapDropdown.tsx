@@ -7,6 +7,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Beatmap, BeatmapSet } from "@/lib/hooks/api/beatmap/types";
+import { GameMode } from "@/lib/hooks/api/types";
 import { MoreHorizontal } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -14,9 +15,11 @@ import { useState } from "react";
 export function BeatmapDropdown({
   beatmapSet,
   beatmap,
+  activeMode
 }: {
   beatmapSet: BeatmapSet;
   beatmap: Beatmap;
+  activeMode: GameMode
 }) {
   const router = useRouter();
 
@@ -33,7 +36,7 @@ export function BeatmapDropdown({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <PPCalculatorDialog>
+        <PPCalculatorDialog beatmap={beatmap} mode={activeMode}>
           <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
             PP Calculator
           </DropdownMenuItem>
