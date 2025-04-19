@@ -1,8 +1,6 @@
 "use client";
 
 import { ScoreTableContext } from "@/app/beatmapsets/components/leaderboard/ScoreDataTable";
-import { UserTableContext } from "@/app/leaderboard/components/UserDataTable";
-import PrettyDate from "@/components/General/PrettyDate";
 import { Tooltip } from "@/components/Tooltip";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -12,7 +10,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import UserRankColor from "@/components/UserRankNumber";
 import { Score } from "@/lib/hooks/api/score/types";
 import { useDownloadReplay } from "@/lib/hooks/api/score/useDownloadReplay";
 import { GameMode } from "@/lib/hooks/api/types";
@@ -108,12 +105,12 @@ export const scoreColumns: ColumnDef<Score>[] = [
               />
             </Suspense>
           </Avatar>
-          <div
+          <Link
             className="cursor-pointer hover:text-primary smooth-transition"
-            onClick={() => (window.location.href = `/user/${userId}`)}
+            href={`/user/${userId}`}
           >
             {username}
-          </div>
+          </Link>
         </div>
       );
     },

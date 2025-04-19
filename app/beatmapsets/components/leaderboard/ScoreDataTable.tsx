@@ -68,6 +68,17 @@ export function ScoreDataTable<TData, TValue>({
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
 
+  const [preferedNumberOfScores, setPreferedNumberOfScores] = useState(() => {
+    return localStorage.getItem("preferedNumberOfScoresPerLeaderboard") || "50";
+  });
+
+  useEffect(() => {
+    localStorage.setItem(
+      "preferedNumberOfScoresPerLeaderboard",
+      preferedNumberOfScores
+    );
+  }, [preferedNumberOfScores]);
+
   const pageCount = Math.ceil(totalCount / pagination.pageSize);
 
   const table = useReactTable({
@@ -167,9 +178,10 @@ export function ScoreDataTable<TData, TValue>({
       <div className="grid md:place-content-between py-4 md:space-y-0 space-y-4 md:flex">
         <div className="flex items-center space-x-2">
           <Select
-            onValueChange={(v) =>
-              setPagination({ pageIndex: 0, pageSize: Number(v) })
-            }
+            onValueChange={(v) => {
+              setPagination({ pageIndex: 0, pageSize: Number(v) });
+              setPreferedNumberOfScores(v);
+            }}
             defaultValue={pagination.pageSize.toString()}
           >
             <SelectTrigger className="w-[80px]">
