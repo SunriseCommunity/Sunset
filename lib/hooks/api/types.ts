@@ -71,7 +71,7 @@ export const GameRuleFlagsShort: {
   3: {
     STD: GameMode.mania,
     RX: null,
-    Autopilot: null,
+    AP: null,
     V2: GameMode.scorev2mania,
   },
 };

@@ -208,6 +208,7 @@ export default function Beatmapset(props: BeatmapsetProps) {
                           <FavouriteButton beatmapSet={beatmapSet} />
                           <DownloadButtons beatmapSet={beatmapSet} />
                           <BeatmapDropdown
+                            activeMode={activeMode}
                             beatmap={activeBeatmap}
                             beatmapSet={beatmapSet}
                           />

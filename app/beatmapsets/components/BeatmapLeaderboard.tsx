@@ -9,6 +9,7 @@ import { scoreColumns } from "@/app/beatmapsets/components/leaderboard/ScoreColu
 import ScoreLeaderboardData from "@/app/beatmapsets/components/ScoreLeaderboardData";
 import useSelf from "@/lib/hooks/useSelf";
 import { ModsSelector } from "@/app/beatmapsets/components/leaderboard/ModsSelector";
+import { ShortenedMods } from "@/lib/hooks/api/score/types";
 
 interface BeatmapLeaderboardProps {
   beatmap: Beatmap;
@@ -60,7 +61,12 @@ export default function BeatmapLeaderboard({
 
   return (
     <>
-      <ModsSelector mods={mods} setMods={setMods} />
+      <ModsSelector
+        mode={mode}
+        mods={mods}
+        setMods={setMods}
+        ignoreMods={[ShortenedMods.RX, ShortenedMods.AP]}
+      />
       {scores.length > 0 && userScore?.leaderboard_rank != 1 && (
         <ScoreLeaderboardData score={scores[0]} beatmap={beatmap} />
       )}
