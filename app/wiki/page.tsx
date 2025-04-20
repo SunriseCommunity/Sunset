@@ -12,14 +12,9 @@ import {
 
 export default function Wiki() {
   return (
-    <div className="flex flex-col w-full mt-8">
+    <div className="flex flex-col w-full space-y-4">
       {/* Header */}
-      <PrettyHeader
-        text="Wiki"
-        icon={<BookCopy />}
-        className="mb-4"
-        roundBottom={true}
-      />
+      <PrettyHeader text="Wiki" icon={<BookCopy />} roundBottom={true} />
 
       <Accordion type="single" collapsible className="space-y-4">
         <AccordionItem value="item-1" className="border-b-0">
@@ -124,15 +119,19 @@ export default function Wiki() {
               <div className="flex flex-col w-11/12 mx-auto">
                 <p>
                   If you believe you were restricted unfairly, you can appeal
-                  your restriction by contacting the staff with your case. You
-                  can contact the staff{" "}
-                  <a
-                    href="https://discord.gg/BjV7c9VRfn"
-                    className="text-primary hover:underline"
-                  >
-                    here
-                  </a>
-                  .
+                  your restriction by contacting the staff with your case.
+                  {process.env.NEXT_PUBLIC_DISCORD_LINK && (
+                    <span>
+                      You can contact the staff{" "}
+                      <a
+                        href={process.env.NEXT_PUBLIC_DISCORD_LINK}
+                        className="text-primary hover:underline"
+                      >
+                        here
+                      </a>
+                      .
+                    </span>
+                  )}
                 </p>
                 <div />
               </div>

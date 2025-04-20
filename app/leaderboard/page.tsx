@@ -90,14 +90,13 @@ export default function Leaderboard() {
   };
 
   return (
-    <div className="flex flex-col w-full mt-8">
+    <div className="flex flex-col w-full space-y-4">
       <PrettyHeader
         text="Leaderboard"
         icon={<ChartColumnIncreasing />}
-        className="mb-4"
         roundBottom={true}
       >
-        <div className="place-content-end w-full gap-x-2 pt-2 hidden lg:flex">
+        <div className="place-content-end w-full gap-x-2 hidden lg:flex">
           <Button
             onClick={() => {
               setLeaderboardType(UsersLeaderboardType.pp);
@@ -121,6 +120,7 @@ export default function Leaderboard() {
             Ranked Score
           </Button>
         </div>
+
         <div className="flex lg:hidden flex-col lg:flex-row">
           <p className="text-secondary-foreground text-sm">Sort by:</p>
           <Combobox
@@ -142,30 +142,32 @@ export default function Leaderboard() {
         </div>
       </PrettyHeader>
 
-      <PrettyHeader>
-        <GameModeSelector
-          activeMode={activeMode}
-          setActiveMode={setActiveMode}
-        />
-      </PrettyHeader>
+      <div>
+        <PrettyHeader>
+          <GameModeSelector
+            activeMode={activeMode}
+            setActiveMode={setActiveMode}
+          />
+        </PrettyHeader>
 
-      <div className="rounded-b-3xl bg-card mb-4 border border-t-0 shadow">
-        <RoundedContent className="rounded-t-xl border-none shadow-none">
-          {usersLeaderboardQuery.isLoading && users.length === 0 ? (
-            <div className="flex justify-center items-center min-h-36">
-              <Spinner />
-            </div>
-          ) : (
-            <UserDataTable
-              columns={userColumns}
-              data={users}
-              pagination={pagination}
-              totalCount={total_count}
-              leaderboardType={leaderboardType}
-              setPagination={setPagination}
-            />
-          )}
-        </RoundedContent>
+        <div className="rounded-b-3xl bg-card mb-4 border border-t-0 shadow">
+          <RoundedContent className="rounded-t-xl border-none shadow-none">
+            {usersLeaderboardQuery.isLoading && users.length === 0 ? (
+              <div className="flex justify-center items-center min-h-36">
+                <Spinner />
+              </div>
+            ) : (
+              <UserDataTable
+                columns={userColumns}
+                data={users}
+                pagination={pagination}
+                totalCount={total_count}
+                leaderboardType={leaderboardType}
+                setPagination={setPagination}
+              />
+            )}
+          </RoundedContent>
+        </div>
       </div>
     </div>
   );

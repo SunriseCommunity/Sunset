@@ -21,13 +21,8 @@ export default function Friends() {
   )?.total_count;
 
   return (
-    <div className="flex flex-col w-full my-8 ">
-      <PrettyHeader
-        text="Your Friends"
-        icon={<Users2 />}
-        className="mb-4"
-        roundBottom={true}
-      />
+    <div className="flex flex-col w-full space-y-4">
+      <PrettyHeader text="Your Friends" icon={<Users2 />} roundBottom={true} />
 
       {isLoading && (
         <div className="flex justify-center items-center h-96">
@@ -60,7 +55,7 @@ export default function Friends() {
             )}
           </RoundedContent>
         ) : (
-          <RoundedContent className="rounded-l flex flex-col md:flex-row justify-between items-center md:items-start gap-8 ">
+          <RoundedContent className="rounded-l flex flex-col md:flex-row justify-between items-center md:items-start gap-8">
             <div className="flex flex-col space-y-2">
               <h1 className="text-4xl">You have no friends</h1>
               <p className="text-gray-300">
