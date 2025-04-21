@@ -57,6 +57,11 @@ const navigationList = [
     title: "Wiki",
     url: "/wiki",
   },
+  {
+    icon: <BookCopy />,
+    title: "Rules",
+    url: "/rules",
+  },
 ];
 
 export const MobileDrawerContext = createContext<Dispatch<

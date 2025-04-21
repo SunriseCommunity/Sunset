@@ -129,6 +129,14 @@ export default function HeaderSearchCommand() {
             </CommandItem>
 
             <CommandItem
+              onSelect={() => openPage("/rules")}
+              className={filterElement("Rules") ? "hidden" : ""}
+            >
+              <BookCopy />
+              <span>Rules</span>
+            </CommandItem>
+
+            <CommandItem
               onSelect={() =>
                 openPage(self != undefined ? `/user/${self.user_id}` : "")
               }
