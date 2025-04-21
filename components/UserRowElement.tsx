@@ -3,6 +3,7 @@ import { twMerge } from "tailwind-merge";
 import Image from "next/image";
 import ImageWithFallback from "./ImageWithFallback";
 import { User } from "@/lib/hooks/api/user/types";
+import Link from "next/link";
 
 interface UserProfileBannerProps {
   user: User;
@@ -20,7 +21,7 @@ export default function UserRowElement({
         className
       )}
     >
-      <a href={`/user/${user.user_id}`}>
+      <Link href={`/user/${user.user_id}`}>
         <div className="relative h-full place-content-between flex-col flex group-hover:cursor-pointer smooth-transition">
           <ImageWithFallback
             src={`https://a.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/banner/${user.user_id}?default=false`}
@@ -58,7 +59,7 @@ export default function UserRowElement({
             </div>
           </div>
         </div>
-      </a>
+      </Link>
     </div>
   );
 }

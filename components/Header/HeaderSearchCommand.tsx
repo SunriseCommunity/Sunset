@@ -26,6 +26,8 @@ import { DialogTitle } from "@/components/ui/dialog";
 import useSelf from "@/lib/hooks/useSelf";
 import { EosIconsThreeDotsLoading } from "@/components/ui/icons/three-dots-loading";
 import { Button } from "@/components/ui/button";
+import { useBeatmapsetSearch } from "@/lib/hooks/api/beatmap/useBeatmapsetSearch";
+import BeatmapsetRowElement from "@/components/BeatmapsetRowElement";
 
 export default function HeaderSearchCommand() {
   const router = useRouter();
@@ -39,7 +41,19 @@ export default function HeaderSearchCommand() {
     keepPreviousData: true,
   });
 
+  const beatmapsetSearchQuery = useBeatmapsetSearch(
+    searchValue,
+    1,
+    5,
+    [1, 2, 3, 4],
+    undefined,
+    {
+      refreshInterval: 0,
+    }
+  );
+
   const userSearch = userSearchQuery.data;
+  const beatmapsetSearch = beatmapsetSearchQuery.data?.sets;
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -99,10 +113,25 @@ export default function HeaderSearchCommand() {
                 </CommandItem>
               ))
             )}
-            <CommandSeparator />
           </CommandGroup>
-          <CommandGroup heading="Beatmaps">
-            {/* TODO: Add beatmaps search */}
+          <CommandSeparator />
+          <CommandGroup heading="Beatmapsets">
+            {beatmapsetSearchQuery.isLoading && !beatmapsetSearch ? (
+              <div className="flex justify-center h-12 w-full">
+                <EosIconsThreeDotsLoading className="text-4xl" />
+              </div>
+            ) : (
+              searchQuery != "" &&
+              beatmapsetSearch?.map((result, index) => (
+                <CommandItem
+                  key={index}
+                  className="p-0"
+                  onSelect={() => openPage(`/beatmapsets/${result.id}`)}
+                >
+                  <BeatmapsetRowElement beatmapSet={result} />
+                </CommandItem>
+              ))
+            )}
           </CommandGroup>
           <CommandSeparator />
           <CommandGroup heading="Pages">
