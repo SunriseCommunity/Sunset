@@ -19,7 +19,7 @@ export default function MarkdownInput({
   onSave,
   isSaving,
 }: MarkdownInputProps) {
-  const [text, setText] = useState(defaultText);
+  const [text, setText] = useState(defaultText ?? "");
   const [markdown, setMarkdown] = useState("");
 
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
