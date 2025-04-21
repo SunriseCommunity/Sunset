@@ -174,7 +174,7 @@ export default function UserPage(props: { params: Promise<{ id: number }> }) {
                   alt=""
                   fill={true}
                   objectFit="cover"
-                  className="bg-secondary rounded-t-lg"
+                  className="bg-black rounded-t-lg"
                   fallBackSrc="/images/placeholder.png"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent flex w-full">

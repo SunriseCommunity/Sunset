@@ -197,11 +197,11 @@ export default function Score(props: { params: Promise<{ id: number }> }) {
 
                 <div className="-z-10 absolute inset-0 overflow-hidden rounded-lg">
                   <ImageWithFallback
-                    src={`https://assets.ppy.sh/beatmaps/${beatmap?.beatmapset_id}/covers/cover.jpg`}
-                    alt="user bg"
+                    src={`https://assets.ppy.sh/beatmaps/${beatmap?.beatmapset_id}/covers/cover@2x.jpg`}
+                    alt="beatmap image"
                     fill={true}
                     objectFit="cover"
-                    className="relative "
+                    className="relative"
                     fallBackSrc="/images/unknown-beatmap-banner.jpg"
                   />
                 </div>

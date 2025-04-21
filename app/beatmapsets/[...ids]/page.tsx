@@ -242,8 +242,8 @@ export default function Beatmapset(props: BeatmapsetProps) {
 
                 <div className="-z-10 absolute inset-0 overflow-hidden rounded-t-lg">
                   <ImageWithFallback
-                    src={`https://assets.ppy.sh/beatmaps/${activeBeatmap?.beatmapset_id}/covers/cover.jpg`}
-                    alt="user bg"
+                    src={`https://assets.ppy.sh/beatmaps/${beatmapSet.id}/covers/cover@2x.jpg`}
+                    alt="beatmap image"
                     fill={true}
                     objectFit="cover"
                     className="relative"

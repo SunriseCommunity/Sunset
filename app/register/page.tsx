@@ -276,12 +276,12 @@ export default function Register() {
           </p>
 
           <DialogFooter>
-            <Button type="submit" asChild variant="secondary">
+            <Button asChild variant="secondary" className="my-2 md:my-0">
               <Link href={`/wiki`}>View Wiki Guide</Link>
             </Button>
 
             {self && (
-              <Button type="submit" asChild>
+              <Button asChild className="my-2 md:my-0">
                 <Link href={`/user/${self?.user_id}`}>Go to Profile</Link>
               </Button>
             )}
