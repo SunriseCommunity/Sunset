@@ -22,6 +22,7 @@ import GameModeSelector from "@/components/GameModeSelector";
 import { BeatmapDropdown } from "@/app/beatmapsets/components/BeatmapDropdown";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { tryParseNumber } from "@/lib/utils/type.util";
+import BeatmapDescription from "@/app/beatmapsets/components/BeatmapDescriptions";
 
 export interface BeatmapsetProps {
   params: Promise<{ ids: [string?, string?] }>;
@@ -261,13 +262,9 @@ export default function Beatmapset(props: BeatmapsetProps) {
                     text="Description"
                     className="font-normal py-2 px-4"
                   />
-                  {/* TODO: Make spoilerbox work as intended */}
                   <RoundedContent className="min-h-0 h-full overflow-y-auto">
-                    <div
-                      className="font-normal text-sm w-full"
-                      dangerouslySetInnerHTML={{
-                        __html: beatmapSet.description,
-                      }}
+                    <BeatmapDescription
+                      descriptionHtml={beatmapSet.description}
                     />
                   </RoundedContent>
                 </div>
