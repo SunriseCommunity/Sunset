@@ -14,6 +14,7 @@ export default function BeatmapDescription({
     if (!container) return;
 
     parseSpoilerBoxes(container);
+    parseBlockquote(container);
     parseLinks(container);
   }, [descriptionHtml]);
 
@@ -32,6 +33,14 @@ function parseLinks(container: HTMLDivElement) {
   const links = container.querySelectorAll("a");
   links.forEach((a) => {
     a.className = "text-primary hover:underline";
+  });
+}
+
+function parseBlockquote(container: HTMLDivElement) {
+  const quotes = container.querySelectorAll("blockquote");
+  quotes.forEach((quote) => {
+    quote.className =
+      "p-4 my-2 border-l-4 border-gray-300 dark:border-gray-500";
   });
 }
 
