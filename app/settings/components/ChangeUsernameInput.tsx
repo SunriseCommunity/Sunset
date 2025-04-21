@@ -60,7 +60,10 @@ export default function ChangeUsernameInput() {
         onSuccess: () => {
           form.reset();
 
-          toast({ title: "Username changed successfully!" });
+          toast({
+            title: "Username changed successfully!",
+            variant: "success",
+          });
         },
         onError: (err) => {
           showError(err.message ?? "Unknown error.");
