@@ -11,12 +11,11 @@ import { useUsersLeaderboard } from "@/lib/hooks/api/user/useUsersLeaderboard";
 import { Button } from "@/components/ui/button";
 import { UserDataTable } from "@/app/leaderboard/components/UserDataTable";
 import { userColumns } from "@/app/leaderboard/components/UserColumns";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { tryParseNumber } from "@/lib/utils/type.util";
 import { Combobox } from "@/components/ComboBox";
 
 export default function Leaderboard() {
-  const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -40,25 +39,33 @@ export default function Leaderboard() {
   });
 
   useEffect(() => {
-    router.push(
+    window.history.pushState(
+      null,
+      "",
       pathname + "?" + createQueryString("type", leaderboardType.toString())
     );
   }, [leaderboardType]);
 
   useEffect(() => {
-    router.push(
+    window.history.pushState(
+      null,
+      "",
       pathname + "?" + createQueryString("mode", activeMode.toString())
     );
   }, [activeMode]);
 
   useEffect(() => {
-    router.push(
+    window.history.pushState(
+      null,
+      "",
       pathname + "?" + createQueryString("size", pagination.pageSize.toString())
     );
   }, [pagination.pageSize]);
 
   useEffect(() => {
-    router.push(
+    window.history.pushState(
+      null,
+      "",
       pathname +
         "?" +
         createQueryString("page", pagination.pageIndex.toString())
