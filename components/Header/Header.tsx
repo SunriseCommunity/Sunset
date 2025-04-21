@@ -67,6 +67,10 @@ export default function Header() {
                   </DropdownMenuItem>
 
                   <DropdownMenuItem asChild>
+                    <Link href={`/rules`}>rules</Link>
+                  </DropdownMenuItem>
+
+                  <DropdownMenuItem asChild>
                     <Link
                       href={`https://api.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/docs`}
                     >

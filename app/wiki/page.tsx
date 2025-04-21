@@ -1,4 +1,3 @@
-"use client";
 import { BookCopy, LucideMessageCircleQuestion } from "lucide-react";
 import PrettyHeader from "@/components/General/PrettyHeader";
 import RoundedContent from "@/components/General/RoundedContent";
@@ -13,7 +12,6 @@ import {
 export default function Wiki() {
   return (
     <div className="flex flex-col w-full space-y-4">
-      {/* Header */}
       <PrettyHeader text="Wiki" icon={<BookCopy />} roundBottom={true} />
 
       <Accordion type="single" collapsible className="space-y-4">
