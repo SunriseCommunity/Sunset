@@ -97,6 +97,7 @@ export default function HeaderLoginDialog() {
 
           toast({
             title: "You succesfully logged in!",
+            variant: "success",
           });
         },
         onError(err) {

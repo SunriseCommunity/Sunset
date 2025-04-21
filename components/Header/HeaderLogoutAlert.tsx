@@ -37,7 +37,10 @@ export function HeaderLogoutAlert({ children, ...props }: Props) {
             onClick={() => {
               clearAuthCookies();
               mutate(undefined);
-              toast({ title: "You have been successfully logged out." });
+              toast({
+                title: "You have been successfully logged out.",
+                variant: "success",
+              });
             }}
           >
             Continue

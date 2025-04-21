@@ -86,7 +86,10 @@ export default function ChangePasswordInput() {
         onSuccess: () => {
           form.reset();
 
-          toast({ title: "Password changed successfully!" });
+          toast({
+            title: "Password changed successfully!",
+            variant: "success",
+          });
         },
         onError: (err) => {
           showError(err.message ?? "Unknown error.");

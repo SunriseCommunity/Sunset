@@ -65,7 +65,7 @@ export default function Settings() {
       },
       {
         onSuccess(data, key, config) {
-          toast({ title: "Avatar updated successfully!" });
+          toast({ title: "Avatar updated successfully!", variant: "success" });
           setIsAvatarUploading(false);
         },
         onError(err, key, config) {
@@ -91,7 +91,7 @@ export default function Settings() {
       },
       {
         onSuccess(data, key, config) {
-          toast({ title: "Banner updated successfully!" });
+          toast({ title: "Banner updated successfully!", variant: "success" });
           setIsBannerUploading(false);
         },
         onError(err, key, config) {
@@ -110,7 +110,10 @@ export default function Settings() {
       { description: text },
       {
         onSuccess() {
-          toast({ title: "Description updated successfully!" });
+          toast({
+            title: "Description updated successfully!",
+            variant: "success",
+          });
         },
         onError(err) {
           toast({
