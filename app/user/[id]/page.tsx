@@ -124,7 +124,9 @@ export default function UserPage(props: { params: Promise<{ id: number }> }) {
   const userStatsQuery = useUserStats(userId, activeMode);
 
   useEffect(() => {
-    router.push(
+    window.history.pushState(
+      null,
+      "",
       pathname + "?" + createQueryString("mode", activeMode.toString())
     );
   }, [activeMode]);

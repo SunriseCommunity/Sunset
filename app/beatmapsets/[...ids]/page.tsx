@@ -20,7 +20,7 @@ import { Beatmap } from "@/lib/hooks/api/beatmap/types";
 import { useBeatmapSet } from "@/lib/hooks/api/beatmap/useBeatmapSet";
 import GameModeSelector from "@/components/GameModeSelector";
 import { BeatmapDropdown } from "@/app/beatmapsets/components/BeatmapDropdown";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { tryParseNumber } from "@/lib/utils/type.util";
 import BeatmapDescription from "@/app/beatmapsets/components/BeatmapDescriptions";
 
@@ -31,7 +31,6 @@ export interface BeatmapsetProps {
 export default function Beatmapset(props: BeatmapsetProps) {
   const params = use(props.params);
 
-  const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -83,7 +82,9 @@ export default function Beatmapset(props: BeatmapsetProps) {
   }, [activeMode]);
 
   useEffect(() => {
-    router.push(
+    window.history.pushState(
+      null,
+      "",
       pathname + "?" + createQueryString("mode", activeMode.toString())
     );
   }, [activeMode]);
@@ -92,7 +93,9 @@ export default function Beatmapset(props: BeatmapsetProps) {
     if (!activeBeatmap) return;
 
     if (activeBeatmap.id.toString() !== beatmapId) {
-      router.push(
+      window.history.pushState(
+        null,
+        "",
         `/beatmapsets/${beatmapSetId}/${activeBeatmap.id}?` +
           searchParams.toString()
       );

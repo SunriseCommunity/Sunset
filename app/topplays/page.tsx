@@ -10,10 +10,9 @@ import GameModeSelector from "@/components/GameModeSelector";
 import { useTopScores } from "@/lib/hooks/api/score/useTopScores";
 import { Button } from "@/components/ui/button";
 import { tryParseNumber } from "@/lib/utils/type.util";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 
 export default function Topplays() {
-  const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -35,7 +34,9 @@ export default function Topplays() {
   const scores = data?.flatMap((item) => item.scores);
 
   useEffect(() => {
-    router.push(
+    window.history.pushState(
+      null,
+      "",
       pathname + "?" + createQueryString("mode", activeMode.toString())
     );
   }, [activeMode]);
