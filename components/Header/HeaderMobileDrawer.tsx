@@ -13,11 +13,13 @@ import {
   ChartColumnIncreasing,
   Cog,
   DoorOpen,
+  Heart,
   Home,
   LucideHistory,
   Menu,
   UserIcon,
   Users2,
+  UsersRoundIcon,
 } from "lucide-react";
 import HeaderSearchCommand from "@/components/Header/HeaderSearchCommand";
 import { ThemeModeToggle } from "@/components/Header/ThemeModeToggle";
@@ -62,7 +64,28 @@ const navigationList = [
     title: "Rules",
     url: "/rules",
   },
-];
+  {
+    icon: <BookCopy />,
+    title: "API Docs",
+    url: `https://api.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/docs`,
+  },
+].filter(Boolean);
+
+if (process.env.NEXT_PUBLIC_DISCORD_LINK) {
+  navigationList.push({
+    icon: <UsersRoundIcon />,
+    title: "Discord Server",
+    url: process.env.NEXT_PUBLIC_DISCORD_LINK,
+  });
+}
+
+if (process.env.NEXT_PUBLIC_KOFI_LINK || process.env.NEXT_PUBLIC_BOOSTY_LINK) {
+  navigationList.push({
+    icon: <Heart />,
+    title: "Support Us",
+    url: "/support",
+  });
+}
 
 export const MobileDrawerContext = createContext<Dispatch<
   SetStateAction<boolean>
