@@ -185,7 +185,7 @@ export default function HeaderLoginDialog() {
               }}
               className="w-full"
             >
-              Don't have an account? Sign in
+              Don't have an account? Sign up
             </Button>
           </DialogClose>
         </div>
