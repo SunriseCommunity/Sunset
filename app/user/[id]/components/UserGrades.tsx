@@ -27,7 +27,7 @@ function UserGrade(gradeName: string, gradeCount: number) {
       className={`bg-card rounded p-1 text-center `}
       key={`user-grade-${gradeName}`}
     >
-      <p className={`text-${getGradeColor(gradeName)}   text-shadow`}>
+      <p className={`text-${getGradeColor(gradeName)} text-shadow`}>
         {gradeName}
       </p>
       <p className="text-xs">{gradeCount}</p>

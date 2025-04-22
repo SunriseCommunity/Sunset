@@ -164,7 +164,10 @@ export default function Home() {
         <Carousel className="w-full">
           <CarouselContent className="-ml-1">
             {cards.map((card, index) => (
-              <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
+              <CarouselItem
+                key={index}
+                className="md:basis-1/2 pl-0 lg:basis-1/3"
+              >
                 <div className="p-1">
                   <Card className="overflow-y-auto  aspect-square transition-transform duration-300 scale-95 hover:scale-100 h-full">
                     <div className="relative h-1/2 w-full">
