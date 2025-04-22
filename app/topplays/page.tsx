@@ -22,10 +22,10 @@ export default function Topplays() {
     mode in GameMode ? mode : GameMode.std
   );
 
-  const { data, setSize, size, isLoading, isValidating } = useTopScores(
-    activeMode,
-    20
-  );
+  const { data, setSize, size, isLoading } = useTopScores(activeMode, 20);
+
+  const isLoadingMore =
+    isLoading || (size > 0 && data && typeof data[size - 1] === "undefined");
 
   const handleShowMore = () => {
     setSize(size + 1);
@@ -88,7 +88,7 @@ export default function Topplays() {
                   <Button
                     onClick={handleShowMore}
                     className="w-full md:w-1/2 flex items-center justify-center"
-                    isLoading={isLoading}
+                    isLoading={isLoadingMore}
                     variant="secondary"
                   >
                     <ChevronDown />

@@ -34,8 +34,13 @@ export default function UserTabBeatmaps({
     setSize: setMostPlayedSize,
     size: mostPlayedSize,
     isLoading: isLoadingMostPlayed,
-    isValidating: isValidatingMostPlayed,
   } = useUserMostPlayed(userId, gameMode, pageLimitMostPlayed);
+
+  const isLoadingMoreMostPlayed =
+    isLoadingMostPlayed ||
+    (mostPlayedSize > 0 &&
+      mostPlayedData &&
+      typeof mostPlayedData[mostPlayedSize - 1] === "undefined");
 
   const mostPlayed = mostPlayedData?.flatMap((item) => item.most_played);
   const totalCountMostPlayed = mostPlayedData?.find(
@@ -51,8 +56,13 @@ export default function UserTabBeatmaps({
     setSize: setFavouritesSize,
     size: favouritesSize,
     isLoading: isLoadingFavourites,
-    isValidating: isValidatingFavourites,
   } = useUserFavourites(userId, gameMode, pageLimitFavourites);
+
+  const isLoadingMoreFavourites =
+    isLoadingFavourites ||
+    (favouritesSize > 0 &&
+      favouritesData &&
+      typeof favouritesData[favouritesSize - 1] === "undefined");
 
   const favourites = favouritesData?.flatMap((item) => item.sets);
   const totalCountFavourites = favouritesData?.find(
@@ -73,7 +83,7 @@ export default function UserTabBeatmaps({
         }
       />
       <RoundedContent className="min-h-60 h-fit max-h-none mb-6">
-        {!mostPlayed && (isLoadingMostPlayed || isValidatingMostPlayed) && (
+        {!mostPlayed && isLoadingMoreMostPlayed && (
           <div className="flex justify-center items-center h-32">
             <Spinner />
           </div>
@@ -99,7 +109,7 @@ export default function UserTabBeatmaps({
                   onClick={handleShowMoreMostPlayed}
                   className="w-full md:w-1/2 flex items-center justify-center"
                   variant="secondary"
-                  isLoading={isLoadingMostPlayed}
+                  isLoading={isLoadingMoreMostPlayed}
                 >
                   <ChevronDown /> Show more
                 </Button>
@@ -119,7 +129,7 @@ export default function UserTabBeatmaps({
         }
       />
       <RoundedContent className="min-h-60 h-fit max-h-none">
-        {!favourites && (isLoadingFavourites || isValidatingFavourites) && (
+        {!favourites && isLoadingMoreFavourites && (
           <div className="flex justify-center items-center h-32">
             <Spinner />
           </div>
@@ -146,7 +156,7 @@ export default function UserTabBeatmaps({
                 <Button
                   onClick={handleShowMoreFavourites}
                   className="w-full md:w-1/2 flex items-center justify-center"
-                  isLoading={isLoadingFavourites}
+                  isLoading={isLoadingMoreFavourites}
                   variant="secondary"
                 >
                   <ChevronDown />
