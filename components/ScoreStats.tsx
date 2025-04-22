@@ -22,8 +22,10 @@ export default function ScoreStats({ score, beatmap, variant }: Props) {
     <div className="flex flex-col text-white space-y-1">
       <div
         className={twMerge(
-          "grid grid-cols-3 gap-4",
-          variant === "leaderboard" ? "grid-cols-4" : "grid-cols-3"
+          "grid grid-cols-3 gap-4 ",
+          variant === "leaderboard"
+            ? "grid-cols-4 text-xs sm:text-base"
+            : "grid-cols-3"
         )}
       >
         {variant === "leaderboard" && (
