@@ -1,33 +1,45 @@
 import { ChevronRight } from "lucide-react";
-import { useEffect, useRef } from "react";
+import React from "react";
+import { useLayoutEffect, useRef } from "react";
 import { createRoot } from "react-dom/client";
 
-export default function BeatmapDescription({
-  descriptionHtml,
-}: {
-  descriptionHtml: string;
-}) {
-  const containerRef = useRef<HTMLDivElement>(null);
+export const BeatmapDescription = React.memo(
+  ({ descriptionHtml }: { descriptionHtml: string }) => {
+    const containerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
+    useLayoutEffect(() => {
+      const container = containerRef.current;
+      if (!container) return;
 
-    parseSpoilerBoxes(container);
-    parseBlockquote(container);
-    parseLinks(container);
-  }, [descriptionHtml]);
+      const observer = new MutationObserver(() => {
+        parseDescription(container);
+      });
 
-  return (
-    <div
-      className="font-normal text-sm w-full"
-      dangerouslySetInnerHTML={{
-        __html: descriptionHtml,
-      }}
-      ref={containerRef}
-    />
-  );
-}
+      observer.observe(container, { childList: true, subtree: true });
+
+      parseDescription(container);
+
+      return () => observer.disconnect();
+    }, []);
+
+    const parseDescription = (container: HTMLDivElement) => {
+      parseSpoilerBoxes(container);
+      parseBlockquote(container);
+      parseLinks(container);
+      parseWell(container);
+    };
+
+    return (
+      <div
+        className="font-normal text-sm w-full"
+        dangerouslySetInnerHTML={{
+          __html: descriptionHtml,
+        }}
+        ref={containerRef}
+      />
+    );
+  }
+);
 
 function parseLinks(container: HTMLDivElement) {
   const links = container.querySelectorAll("a");
@@ -41,6 +53,14 @@ function parseBlockquote(container: HTMLDivElement) {
   quotes.forEach((quote) => {
     quote.className =
       "p-4 my-2 border-l-4 border-gray-300 dark:border-gray-500";
+  });
+}
+
+function parseWell(container: HTMLDivElement) {
+  const quotes = container.querySelectorAll(".well");
+  quotes.forEach((quote) => {
+    quote.className =
+      "p-4 bg-card border-2 rounded border-gray-300 dark:border-gray-500";
   });
 }
 

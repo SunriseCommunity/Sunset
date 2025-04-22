@@ -24,13 +24,23 @@ export function timeSince(
     const delta = Math.round(secondsElapsed / ranges["days"]);
     return delta === 0 ? "Today" : formatter.format(delta, "days");
   }
-
   for (let key in ranges) {
     if (ranges[key] <= Math.abs(secondsElapsed)) {
       const delta = Math.round(secondsElapsed / ranges[key]);
-      return formatter
-        .format(delta, key as any)
-        .slice(undefined, short ? 3 : undefined);
+      const formatted = formatter.format(
+        delta,
+        key as Intl.RelativeTimeFormatUnit
+      );
+
+      if (short) {
+        const parts = formatted.match(/(-?\d+)\s*(\w+)/);
+        if (parts) {
+          const [, number, unit] = parts;
+          return `${number}${unit[0]}`;
+        }
+      }
+
+      return formatted;
     }
   }
 

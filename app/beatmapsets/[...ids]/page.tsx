@@ -22,7 +22,7 @@ import GameModeSelector from "@/components/GameModeSelector";
 import { BeatmapDropdown } from "@/app/beatmapsets/components/BeatmapDropdown";
 import { usePathname, useSearchParams } from "next/navigation";
 import { tryParseNumber } from "@/lib/utils/type.util";
-import BeatmapDescription from "@/app/beatmapsets/components/BeatmapDescriptions";
+import { BeatmapDescription } from "@/app/beatmapsets/components/BeatmapDescriptions";
 
 export interface BeatmapsetProps {
   params: Promise<{ ids: [string?, string?] }>;
