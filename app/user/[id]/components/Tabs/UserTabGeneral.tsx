@@ -16,7 +16,7 @@ import { User, UserStats } from "@/lib/hooks/api/user/types";
 import { useUserGrades } from "@/lib/hooks/api/user/useGraph";
 import { useUserGraph } from "@/lib/hooks/api/user/useUserGraph";
 import { useState } from "react";
-import PrettyButton from "@/components/General/PrettyButton";
+
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { Tooltip } from "@/components/Tooltip";

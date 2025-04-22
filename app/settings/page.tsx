@@ -1,7 +1,6 @@
 "use client";
 import ImageSelect from "@/components/General/ImageSelect";
 import Spinner from "@/components/Spinner";
-import StatusButton from "@/components/General/PrettyButton";
 import useSelf from "@/lib/hooks/useSelf";
 import {
   CheckSquare,

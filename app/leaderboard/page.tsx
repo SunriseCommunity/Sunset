@@ -150,7 +150,7 @@ export default function Leaderboard() {
       </PrettyHeader>
 
       <div>
-        <PrettyHeader>
+        <PrettyHeader className="border-b-0 ">
           <GameModeSelector
             activeMode={activeMode}
             setActiveMode={setActiveMode}

@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { CloudUpload } from "lucide-react";
 import { remark } from "remark";
 import html from "remark-html";
-import PrettyButton from "@/components/General/PrettyButton";
+
 import remarkGfm from "remark-gfm";
 import { Button } from "@/components/ui/button";
 

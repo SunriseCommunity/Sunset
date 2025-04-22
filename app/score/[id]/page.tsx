@@ -9,7 +9,7 @@ import { BeatmapStatus } from "@/lib/hooks/api/beatmap/types";
 import PrettyDate from "@/components/General/PrettyDate";
 import { getGradeColor } from "@/lib/utils/getGradeColor";
 import UserElement from "@/components/UserElement";
-import PrettyButton from "@/components/General/PrettyButton";
+
 import useSelf from "@/lib/hooks/useSelf";
 
 import { twMerge } from "tailwind-merge";
