@@ -14,6 +14,7 @@ import {
   Keyboard,
   LifeBuoy,
   LoaderPinwheel,
+  Rocket,
   SkipForwardIcon,
   Skull,
   Star,
@@ -77,6 +78,10 @@ const modElements = [
   {
     element: <Star />,
     mod: ShortenedMods.RX,
+  },
+  {
+    element: <Rocket />,
+    mod: ShortenedMods.V2,
   },
 ];
 

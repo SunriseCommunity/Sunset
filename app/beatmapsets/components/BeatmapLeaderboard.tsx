@@ -65,7 +65,7 @@ export default function BeatmapLeaderboard({
         mode={mode}
         mods={mods}
         setMods={setMods}
-        ignoreMods={[ShortenedMods.RX, ShortenedMods.AP]}
+        ignoreMods={[ShortenedMods.RX, ShortenedMods.AP, ShortenedMods.V2]}
       />
       {scores.length > 0 && userScore?.leaderboard_rank != 1 && (
         <ScoreLeaderboardData score={scores[0]} beatmap={beatmap} />
