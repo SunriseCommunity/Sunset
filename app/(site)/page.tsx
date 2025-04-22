@@ -1,5 +1,6 @@
 "use client";
 import BackgroundVideo from "@/app/(site)/components/BackgroundVideo";
+import RecentUsersIcons from "@/app/(site)/components/RecentUsersIcons";
 import ServerStatus from "@/app/(site)/components/ServerStatus";
 import PrettyHeader from "@/components/General/PrettyHeader";
 import RoundedContent from "@/components/General/RoundedContent";
@@ -71,7 +72,11 @@ export default function Home() {
   const serverStatus = serverStatusQuery.data ?? {
     is_online: false,
     users_online: 0,
+    current_users_online: [],
     total_users: 0,
+    recent_users: [],
+    total_scores: 0,
+    total_restrictions: 0,
   };
 
   return (
@@ -134,13 +139,22 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="flex justify-center space-x-4">
+      <div className="flex flex-wrap gap-2 justify-center">
         <ServerStatus
           type="server_status"
           data={serverStatus.is_online ? "Online" : "Offline"}
         />
-        <ServerStatus type="total_users" data={serverStatus.total_users} />
-        <ServerStatus type="users_online" data={serverStatus.users_online} />
+        <ServerStatus type="total_users" data={serverStatus.total_users}>
+          <RecentUsersIcons users={serverStatus.recent_users} />
+        </ServerStatus>
+        <ServerStatus type="users_online" data={serverStatus.users_online}>
+          <RecentUsersIcons users={serverStatus.current_users_online} />
+        </ServerStatus>
+        <ServerStatus
+          type="users_restricted"
+          data={serverStatus.total_restrictions}
+        />
+        <ServerStatus type="total_scores" data={serverStatus.total_scores} />
       </div>
 
       <div className="w-full pb-12 items-center">
@@ -184,8 +198,8 @@ export default function Home() {
         <RoundedContent className="bg-card rounded-lg">test</RoundedContent>
       </div> */}
 
-      <div className="w-full pb-12">
-        <div className="py-8">
+      <div className="w-full p-4">
+        <div className="py-8 space-y-4">
           <h2 className="text-4xl font-bold text-current">
             How do I start playing?
           </h2>
@@ -197,38 +211,44 @@ export default function Home() {
 
         <div className="space-y-2">
           <PrettyHeader icon={<Download />} className="rounded-lg">
-            <div className="w-full flex flex-col mx-2">
-              <p className="text-lg">Download osu! client</p>
-              <p className="text-muted-foreground text-sm">
-                If you do not already have an installed client
-              </p>
+            <div className="flex flex-col md:flex-row space-y-2 w-full">
+              <div className="w-full flex flex-col mx-2">
+                <p className="text-lg">Download osu! client</p>
+                <p className="text-muted-foreground text-sm">
+                  If you do not already have an installed client
+                </p>
+              </div>
+              <Button className="md:w-1/3 md:m-0 w-full m-2">
+                <Link href={"https://osu.ppy.sh/home/download"}>Download</Link>
+              </Button>
             </div>
-            <Button className="w-1/3">
-              <Link href={"https://osu.ppy.sh/home/download"}>Download</Link>
-            </Button>
           </PrettyHeader>
           <PrettyHeader icon={<DoorOpen />} className="rounded-lg">
-            <div className="w-full flex flex-col mx-2">
-              <p className="text-lg">Register osu!sunrise account</p>
-              <p className="text-muted-foreground text-sm">
-                Account will allow you to join the osu!sunrise community
-              </p>
+            <div className="flex flex-col md:flex-row space-y-2 w-full">
+              <div className="w-full flex flex-col mx-2">
+                <p className="text-lg">Register osu!sunrise account</p>
+                <p className="text-muted-foreground text-sm">
+                  Account will allow you to join the osu!sunrise community
+                </p>
+              </div>
+              <Button className="md:w-1/3 md:m-0 w-full m-2">
+                <Link href="/register">Sign up</Link>
+              </Button>
             </div>
-            <Button className="w-1/3">
-              <Link href="/register">Sign up</Link>
-            </Button>
           </PrettyHeader>
           <PrettyHeader icon={<BookOpenCheck />} className="rounded-lg">
-            <div className="w-full flex flex-col mx-2">
-              <p className="text-lg">Follow the connection guide</p>
-              <p className="text-muted-foreground text-sm">
-                Which helps you set up your osu! client to connect to
-                osu!sunrise
-              </p>
+            <div className="flex flex-col md:flex-row space-y-2 w-full">
+              <div className="w-full flex flex-col mx-2">
+                <p className="text-lg">Follow the connection guide</p>
+                <p className="text-muted-foreground text-sm">
+                  Which helps you set up your osu! client to connect to
+                  osu!sunrise
+                </p>
+              </div>
+              <Button className="md:w-1/3 md:m-0 w-full m-2">
+                <Link href="/wiki#How%20to%20connect">Open guide</Link>
+              </Button>
             </div>
-            <Button className="w-1/3">
-              <Link href="/wiki#How%20to%20connect">Open guide</Link>
-            </Button>
           </PrettyHeader>
         </div>
       </div>
