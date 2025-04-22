@@ -85,7 +85,7 @@ function parseSpoilerBoxes(container: HTMLDivElement) {
     icon.insertBefore(mountPoint, icon.firstChild);
 
     createRoot(mountPoint).render(
-      <ChevronRight className="text-white inline-block mr-1" size={16} />
+      <ChevronRight className="text-current inline-block mr-1" size={16} />
     );
 
     body.style.padding = "20px";

@@ -106,7 +106,9 @@ export default function UserScoreOverview({
       <RoundedContent className="bg-card h-20 flex place-content-between mx-auto md:hidden ">
         <div className="items-center space-x-4 flex">
           <div className="text-start text-nowrap">
-            <p className="text-sm opacity-70">{score.mods}</p>
+            <p className="text-sm opacity-70 text-muted-foreground">
+              {score.mods}
+            </p>
             <p className="text-xl text-primary">
               {beatmap && isBeatmapRanked(beatmap)
                 ? score.performance_points.toFixed()
@@ -114,7 +116,9 @@ export default function UserScoreOverview({
               pp
             </p>
 
-            <p className="text-sm ">acc: {score.accuracy.toFixed(2)}%</p>
+            <p className="text-sm text-muted-foreground">
+              acc: {score.accuracy.toFixed(2)}%
+            </p>
           </div>
         </div>
         <div className={`relative text-5xl text-${getGradeColor(score.grade)}`}>

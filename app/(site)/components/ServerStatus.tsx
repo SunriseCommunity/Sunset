@@ -55,9 +55,11 @@ export default function ServerStatus({ type, data, children }: Props) {
       </div>
 
       <div className="flex flex-col">
-        <span className="text-xs text-zinc-400">{statuses[type].name}</span>
+        <span className="text-xs text-muted-foreground">
+          {statuses[type].name}
+        </span>
         <div className="flex items-center gap-2">
-          <span className="text-lg font-bold text-white">
+          <span className="text-lg font-bold text-current">
             {isDataNumber ? <PrettyCounter value={Number(data)} /> : data}
           </span>
 
