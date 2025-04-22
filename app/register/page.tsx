@@ -126,7 +126,7 @@ export default function Register() {
   return (
     <div className="flex flex-col space-y-4">
       <PrettyHeader text="Register" icon={<DoorOpen />} roundBottom={true} />
-      <RoundedContent className="mb-4 rounded-lg">
+      <RoundedContent className="bg-card mb-4 rounded-lg">
         <div className="flex w-11/12 mx-auto">
           <div className="flex flex-col w-11/12 mx-auto space-y-6">
             <h1 className="text-xl">Welcome to the registration page!</h1>
@@ -268,7 +268,10 @@ export default function Register() {
           </DialogHeader>
           <p>
             You can now connect to the server by following the guide on our{" "}
-            <Link href="/wiki" className="text-primary hover:underline">
+            <Link
+              href="/wiki#How%20to%20connect"
+              className="text-primary hover:underline"
+            >
               Wiki page
             </Link>{" "}
             , or customize your profile by updating your avatar and banner
@@ -277,7 +280,7 @@ export default function Register() {
 
           <DialogFooter>
             <Button asChild variant="secondary" className="my-2 md:my-0">
-              <Link href={`/wiki`}>View Wiki Guide</Link>
+              <Link href={`/wiki#How%20to%20connect`}>View Wiki Guide</Link>
             </Button>
 
             {self && (
