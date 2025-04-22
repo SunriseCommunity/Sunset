@@ -85,6 +85,13 @@ export default function Header() {
                       </Link>
                     </DropdownMenuItem>
                   )}
+
+                  {(process.env.NEXT_PUBLIC_KOFI_LINK ||
+                    process.env.NEXT_PUBLIC_BOOSTY_LINK) && (
+                    <DropdownMenuItem asChild>
+                      <Link href="/support">support us</Link>
+                    </DropdownMenuItem>
+                  )}
                 </DropdownMenuGroup>
               </DropdownMenuContent>
             </DropdownMenu>
