@@ -43,7 +43,7 @@ export function BeatmapDropdown({
           </DropdownMenuItem>
         </PPCalculatorDialog>
         {includeOpenBanchoButton == "true" && (
-          <DropdownMenuItem>
+          <DropdownMenuItem asChild>
             <Link href={`https://osu.ppy.sh/beatmaps/${beatmap.id}`}>
               Open on Bancho
             </Link>

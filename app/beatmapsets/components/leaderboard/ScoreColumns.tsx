@@ -43,7 +43,11 @@ export const scoreColumns: ColumnDef<Score>[] = [
     header: "",
     cell: ({ row }) => {
       const { grade } = row.original;
-      return <p className={`text-${getGradeColor(grade)} text-lg`}>{grade}</p>;
+      return (
+        <p className={`text-${getGradeColor(grade)} text-lg text-shadow`}>
+          {grade}
+        </p>
+      );
     },
   },
   {
