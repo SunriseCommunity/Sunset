@@ -25,7 +25,7 @@ export default function ServerStatus({ type, data }: Props) {
   const isDataNumber = !isNaN(Number(data));
 
   return (
-    <div className="px-6 py-3 border-neutral-300 border-[1px] rounded-full backdrop-blur-sm">
+    <div className="px-6 py-3 border rounded-full backdrop-blur-sm">
       <h2 className="text-sm font-medium text-current">
         {statuses[type].name}
       </h2>
