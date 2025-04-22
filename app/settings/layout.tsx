@@ -1,10 +1,10 @@
 import { Metadata } from "next";
-import Page from "./page"; 
+import Page from "./page";
 
 export const metadata: Metadata = {
-  title: "Settings | osu!Sunrise",
+  title: "Settings | osu!sunrise",
   openGraph: {
-    title: "Settings | osu!Sunrise",
+    title: "Settings | osu!sunrise",
   },
 };
 
