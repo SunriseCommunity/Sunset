@@ -1,6 +1,6 @@
 import UserScoreOverview from "@/app/user/[id]/components/UserScoreOverview";
 import { ContentNotExist } from "@/components/ContentNotExist";
-import PrettyButton from "@/components/General/PrettyButton";
+
 import PrettyHeader from "@/components/General/PrettyHeader";
 import RoundedContent from "@/components/General/RoundedContent";
 import Spinner from "@/components/Spinner";

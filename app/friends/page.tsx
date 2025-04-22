@@ -3,13 +3,17 @@ import Spinner from "@/components/Spinner";
 import { ChevronDown, Users2 } from "lucide-react";
 import PrettyHeader from "@/components/General/PrettyHeader";
 import RoundedContent from "@/components/General/RoundedContent";
-import PrettyButton from "@/components/General/PrettyButton";
+
 import { useFriends } from "@/lib/hooks/api/user/useFriends";
 import UserElement from "@/components/UserElement";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
 
 export default function Friends() {
-  const { data, setSize, size, isLoading, isValidating } = useFriends(9);
+  const { data, setSize, size, isLoading } = useFriends(9);
+
+  const isLoadingMore =
+    isLoading || (size > 0 && data && typeof data[size - 1] === "undefined");
 
   const handleShowMore = () => {
     setSize(size + 1);
@@ -44,13 +48,14 @@ export default function Friends() {
 
             {friends.length < totalCount && (
               <div className="flex justify-center mt-4">
-                <PrettyButton
-                  text="Show more"
+                <Button
                   onClick={handleShowMore}
-                  icon={<ChevronDown />}
                   className="w-full md:w-1/2 flex items-center justify-center"
-                  isLoading={isLoading || isValidating}
-                />
+                  isLoading={isLoadingMore}
+                >
+                  <ChevronDown />
+                  Show more
+                </Button>
               </div>
             )}
           </RoundedContent>

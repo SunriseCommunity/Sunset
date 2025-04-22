@@ -1,4 +1,3 @@
-import PrettyButton from "@/components/General/PrettyButton";
 import { Button } from "@/components/ui/button";
 import { BeatmapSet } from "@/lib/hooks/api/beatmap/types";
 import { Download } from "lucide-react";

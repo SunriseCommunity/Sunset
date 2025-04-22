@@ -1,4 +1,3 @@
-import PrettyButton from "@/components/General/PrettyButton";
 import useAudioPlayer from "@/lib/hooks/useAudioPlayer";
 import { BeatmapSet } from "@/lib/hooks/api/beatmap/types";
 

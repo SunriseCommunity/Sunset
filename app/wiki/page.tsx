@@ -94,6 +94,7 @@ const wikiContent = [
             restriction by contacting the staff with your case.
             {process.env.NEXT_PUBLIC_DISCORD_LINK && (
               <span>
+                {" "}
                 You can contact the staff{" "}
                 <a
                   href={process.env.NEXT_PUBLIC_DISCORD_LINK}

@@ -1,4 +1,3 @@
-import PrettyButton from "@/components/General/PrettyButton";
 import RoundedContent from "@/components/General/RoundedContent";
 import ProgressBar from "@/components/ProgressBar";
 import { Tooltip } from "@/components/Tooltip";
@@ -128,7 +127,7 @@ function ValueWithProgressBar({
     <div className="flex flex-row items-center space-x-2 min-w-full">
       <p className="text-xs text-nowrap min-w-24">{title}</p>
       <ProgressBar maxValue={10} value={value} className="lg:max-w-24" />
-      <p>{value}</p>
+      <p>{value.toFixed(1)}</p>
     </div>
   );
 }
