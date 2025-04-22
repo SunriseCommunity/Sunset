@@ -37,7 +37,7 @@ export default function ScoreLeaderboardData({
             <p
               className={`text-${getGradeColor(
                 score.grade
-              )} font-bold text-4xl`}
+              )} font-bold text-4xl text-shadow`}
             >
               {score.grade}
             </p>

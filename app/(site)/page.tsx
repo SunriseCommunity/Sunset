@@ -108,10 +108,11 @@ export default function Home() {
                 <Button
                   className="from-red-400 via-orange-400 to-yellow-400 bg-gradient-to-r bg-size-300 animate-gradient hover:scale-105 smooth-transition"
                   size="lg"
+                  asChild
                 >
                   <Link href="/register">Join now</Link>
                 </Button>
-                <Button variant="secondary" size="sm">
+                <Button variant="secondary" size="sm" asChild>
                   <Link href="/wiki#How%20to%20connect">How to connect</Link>
                 </Button>
               </div>
@@ -218,7 +219,7 @@ export default function Home() {
                   If you do not already have an installed client
                 </p>
               </div>
-              <Button className="md:w-1/3 md:m-0 w-full m-2">
+              <Button className="md:w-1/3 md:m-0 w-full m-2" asChild>
                 <Link href={"https://osu.ppy.sh/home/download"}>Download</Link>
               </Button>
             </div>
@@ -231,7 +232,7 @@ export default function Home() {
                   Account will allow you to join the osu!sunrise community
                 </p>
               </div>
-              <Button className="md:w-1/3 md:m-0 w-full m-2">
+              <Button className="md:w-1/3 md:m-0 w-full m-2" asChild>
                 <Link href="/register">Sign up</Link>
               </Button>
             </div>
@@ -245,7 +246,7 @@ export default function Home() {
                   osu!sunrise
                 </p>
               </div>
-              <Button className="md:w-1/3 md:m-0 w-full m-2">
+              <Button className="md:w-1/3 md:m-0 w-full m-2" asChild>
                 <Link href="/wiki#How%20to%20connect">Open guide</Link>
               </Button>
             </div>

@@ -52,14 +52,14 @@ export default function SupportUs() {
                       </li>
                       <div className="space-x-4 my-2">
                         {process.env.NEXT_PUBLIC_KOFI_LINK && (
-                          <Button size="lg">
+                          <Button size="lg" asChild>
                             <Link href={process.env.NEXT_PUBLIC_KOFI_LINK}>
                               Ko-fi
                             </Link>
                           </Button>
                         )}
                         {process.env.NEXT_PUBLIC_BOOSTY_LINK && (
-                          <Button size="lg">
+                          <Button size="lg" asChild>
                             <Link href={process.env.NEXT_PUBLIC_BOOSTY_LINK}>
                               Boosty
                             </Link>
