@@ -21,12 +21,15 @@ export default function UserTabScores({
   gameMode,
   type,
 }: UserTabScoresProps) {
-  const { data, setSize, size, isLoading, isValidating } = useUserScores(
+  const { data, setSize, size, isLoading } = useUserScores(
     userId,
     gameMode,
     type,
     5
   );
+
+  const isLoadingMore =
+    isLoading || (size > 0 && data && typeof data[size - 1] === "undefined");
 
   const handleShowMore = () => {
     setSize(size + 1);
@@ -70,7 +73,7 @@ export default function UserTabScores({
                 <Button
                   onClick={handleShowMore}
                   className="w-full md:w-1/2 flex items-center justify-center"
-                  isLoading={isLoading}
+                  isLoading={isLoadingMore}
                   variant="secondary"
                 >
                   <ChevronDown />
