@@ -6,6 +6,7 @@ import {
   useUpdateUserFriendshipStatus,
   useUserFriendshipStatus,
 } from "@/lib/hooks/api/user/useUserFriendshipStatus";
+import useSelf from "@/lib/hooks/useSelf";
 import { UserMinus, UserPlus } from "lucide-react";
 import { twMerge } from "tailwind-merge";
 
@@ -18,37 +19,40 @@ export function FriendshipButton({
   includeText?: boolean;
   className?: string;
 }) {
-  const self = useUserSelf();
+  const { self } = useSelf();
 
   const { trigger } = useUpdateUserFriendshipStatus(userId);
 
-  const userFriendshipStatusQuery = useUserFriendshipStatus(userId);
+  const { data, isLoading } = useUserFriendshipStatus(userId);
 
-  const userFriendshipStatus = userFriendshipStatusQuery.data;
+  const userFriendshipStatus = data;
 
   const updateFriendshipStatus = async (action: "add" | "remove") => {
     trigger(
       { action },
       {
-        optimisticData: userFriendshipStatusQuery.data && {
-          ...userFriendshipStatusQuery.data,
+        optimisticData: data && {
+          ...data,
           is_followed_by_you: action === "add",
         },
       }
     );
   };
 
-  if (!self.data || !userFriendshipStatus) return;
+  if (!self || userId === self.user_id) return;
 
-  const { is_followed_by_you, is_following_you } = userFriendshipStatus;
+  const { is_followed_by_you, is_following_you } = userFriendshipStatus ?? {};
   const isMutual = is_followed_by_you && is_following_you;
 
   return (
     <Button
-      onClick={() => {
-        updateFriendshipStatus(
-          userFriendshipStatus.is_followed_by_you ? "remove" : "add"
-        );
+      onClick={(e) => {
+        e.stopPropagation();
+        e.preventDefault();
+
+        if (!userFriendshipStatus) return;
+
+        updateFriendshipStatus(is_followed_by_you ? "remove" : "add");
       }}
       className={twMerge(
         isMutual
@@ -58,8 +62,10 @@ export function FriendshipButton({
           : "",
         className
       )}
+      isLoading={isLoading}
+      variant={isLoading ? "secondary" : "default"}
     >
-      {userFriendshipStatus.is_followed_by_you ? <UserMinus /> : <UserPlus />}
+      {is_followed_by_you ? <UserMinus /> : <UserPlus />}
       {includeText && (
         <span className="hidden md:inline">
           {isMutual ? "Unfriend" : is_followed_by_you ? "Unfollow" : "Follow"}
