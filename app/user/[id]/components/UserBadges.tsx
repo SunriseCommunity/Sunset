@@ -12,9 +12,12 @@ import {
 } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
+import { twMerge } from "tailwind-merge";
+import React from "react";
 
 interface UserBadgesProps {
   badges: UserBadge[];
+  small?: boolean;
 }
 
 // TODO: Should be deprecated in favor of backend-provided badge descriptions, names, and icons
@@ -56,23 +59,36 @@ const badgeMap = {
   },
 };
 
-export default function UserBadges({ badges }: UserBadgesProps) {
+export default function UserBadges({ badges, small }: UserBadgesProps) {
   return (
     <div className="flex flex-wrap gap-2">
       {badges.map((badge, index) => {
-        const { icon, color, description } = badgeMap[badge] || {
-          icon: <BadgeIcon className="w-4 h-4 md:w-6 md:h-6" />,
+        let { icon, color, description } = badgeMap[badge] || {
+          icon: <BadgeIcon className="w-4 h-4 md:w-6 md:h-6 " />,
           color: "bg-slate-600 hover:bg-slate-500",
           description: "",
         };
 
+        if (small)
+          icon = React.cloneElement(icon, {
+            className: "w-4 h-4",
+          });
+
         return (
-          <Tooltip content={description} key={`user-badge-${index}`}>
+          <Tooltip
+            content={
+              <p className="capitalize">{small ? badge : description}</p>
+            }
+            key={`user-badge-${index}`}
+          >
             <Badge
-              className={`flex text-white items-center text-xs md:text-base p-1 gap-1 md:gap-2 md:p-2 rounded-lg ${color} smooth-transition hover:scale-105 `}
+              className={twMerge(
+                `flex text-white items-center text-xs p-1 rounded-lg ${color} smooth-transition hover:scale-105 `,
+                !small ? "md:text-base md:gap-2 md:p-2 gap-1" : ""
+              )}
             >
               {icon}
-              <span>{badge}</span>
+              <span>{!small && badge}</span>
             </Badge>
           </Tooltip>
         );
