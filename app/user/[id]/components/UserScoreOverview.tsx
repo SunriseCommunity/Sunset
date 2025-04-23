@@ -32,10 +32,10 @@ export default function UserScoreOverview({
         className
       )}
     >
-      <div className="h-20 relative">
+      <div className="z-20 h-20 relative ">
         <Link href={`/score/${score.id}`}>
-          <div className="z-20 p-4 place-content-between flex items-center h-full cursor-pointer">
-            <div className="z-20 flex-row overflow-hidden flex-wrap">
+          <div className="bg-black hover:bg-opacity-50 bg-opacity-60 p-4 rounded-t-lg md:rounded-lg place-content-between flex items-center h-full cursor-pointer">
+            <div className="flex-row overflow-hidden flex-wrap">
               <div className="flex font-bold text-sm md:text-xl drop-shadow-md items-center ">
                 <span className="pr-1">
                   <BeatmapStatusIcon
@@ -87,19 +87,16 @@ export default function UserScoreOverview({
             </div>
           </div>
 
-          <>
-            <div className="absolute inset-0 overflow-hidden rounded-t-lg md:rounded-lg ">
-              <ImageWithFallback
-                src={`https://assets.ppy.sh/beatmaps/${beatmap?.beatmapset_id}/covers/cover.jpg`}
-                alt="user bg"
-                fill={true}
-                objectFit="cover"
-                className="relative"
-                fallBackSrc="/images/unknown-beatmap-banner.jpg"
-              />
-            </div>
-            <div className="z-10 absolute inset-0 bg-gradient-to-r from-stone-800 to-transparent md:to-stone-800/50 via-stone-800/70 md:via-stone-800/50  rounded-t-lg md:rounded-lg" />
-          </>
+          <div className="-z-10 absolute inset-0 overflow-hidden rounded-t-lg md:rounded-lg">
+            <ImageWithFallback
+              src={`https://assets.ppy.sh/beatmaps/${beatmap?.beatmapset_id}/covers/cover.jpg`}
+              alt="beatmap image"
+              fill={true}
+              objectFit="cover"
+              className="relative"
+              fallBackSrc="/images/unknown-beatmap-banner.jpg"
+            />
+          </div>
         </Link>
       </div>
 

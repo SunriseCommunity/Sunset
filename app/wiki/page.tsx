@@ -203,9 +203,9 @@ export default function Wiki() {
             value={index.toString()}
             className="border-b-0"
           >
-            <AccordionTrigger className="bg-card rounded-t-lg p-4 flex shadow  [&[data-state=closed]]:rounded-lg">
+            <AccordionTrigger className="bg-card rounded-t-lg p-4 flex shadow [&[data-state=closed]]:rounded-lg">
               <div className="flex space-x-2 items-center">
-                <LucideMessageCircleQuestion />
+                <LucideMessageCircleQuestion className="flex-shrink-0" />
                 <p>{title}</p>
               </div>
             </AccordionTrigger>

@@ -51,8 +51,8 @@ export default function UserScoreMinimal({
           <Skeleton className="" />
         )}
         <Link href={`/score/${score.id}`}>
-          <div className="absolute inset-0 bg-gradient-to-l from-accent to-accent/30 flex items-center cursor-pointer">
-            <div className="py-2 px-4 flex place-content-between bg-black hover:bg-opacity-40 bg-opacity-50 w-full h-full smooth-transition ">
+          <div className="absolute inset-0 bg-black hover:bg-opacity-50 bg-opacity-60 smooth-transition flex items-center cursor-pointer">
+            <div className="py-2 px-4 flex place-content-between w-full h-full">
               <div className="flex-col h-full flex justify-between overflow-hidden ">
                 <div className="flex-col">
                   <div className="font-bold text-sm drop-shadow-md items-center line-clamp-2">
