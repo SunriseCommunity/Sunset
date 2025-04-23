@@ -10,6 +10,7 @@ import UserStatusText, {
 } from "@/app/user/[id]/components/UserStatusText";
 import Link from "next/link";
 import { MaterialSymbolsCircleOutline } from "@/components/ui/icons/circle-outline";
+import UserBadges from "@/app/user/[id]/components/UserBadges";
 
 interface UserProfileBannerProps {
   user: User;
@@ -66,11 +67,24 @@ export default function UserElement({
                   {user.username}
                 </h2>
               </div>
-              <img
-                src={`/images/flags/${user.country_code}.png`}
-                alt="User Flag"
-                className="w-6 h-6 mr-2"
-              />
+              <div className="flex items-center">
+                <img
+                  src={`/images/flags/${user.country_code}.png`}
+                  alt="User Flag"
+                  className="w-8 h-8 mr-4"
+                />
+                <div className="flex flex-wrap gap-2">
+                  <div
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                    }}
+                    className="flex flex-row flex-wrap gap-2"
+                  >
+                    <UserBadges badges={user.badges} small={true} />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
