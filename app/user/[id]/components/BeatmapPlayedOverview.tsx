@@ -40,7 +40,7 @@ export default function BeatmapPlayedOverview({
             <Skeleton className="" />
           )}
 
-          <div className="absolute inset-0 bg-gradient-to-r from-stone-800 to-stone-800/50 via-stone-800/50 flex items-center cursor-pointer">
+          <div className="absolute inset-0 bg-black hover:bg-opacity-50 bg-opacity-60 flex items-center cursor-pointer">
             <div className="p-6 flex place-content-between  w-full smooth-transition items-center">
               <div className="flex-row overflow-hidden flex-wrap">
                 <div className="flex font-bold text-sm md:text-xl drop-shadow-md items-center ">
