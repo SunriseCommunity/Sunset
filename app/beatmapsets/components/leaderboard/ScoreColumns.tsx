@@ -10,6 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import UserHoverCard from "@/components/UserHoverCard";
 import { Score } from "@/lib/hooks/api/score/types";
 import { useDownloadReplay } from "@/lib/hooks/api/score/useDownloadReplay";
 import { GameMode } from "@/lib/hooks/api/types";
@@ -107,12 +108,12 @@ export const scoreColumns: ColumnDef<Score>[] = [
               />
             </Suspense>
           </Avatar>
-          <Link
-            className="cursor-pointer hover:text-primary smooth-transition"
-            href={`/user/${userId}`}
-          >
-            {username}
-          </Link>
+
+          <UserHoverCard user={row.original.user} asChild>
+            <Link href={`/user/${userId}`} className="hover:underline">
+              {username}
+            </Link>
+          </UserHoverCard>
         </div>
       );
     },

@@ -20,6 +20,7 @@ import { Button } from "@/components/ui/button";
 import { MoreHorizontal } from "lucide-react";
 import useSelf from "@/lib/hooks/useSelf";
 import { useDownloadReplay } from "@/lib/hooks/api/score/useDownloadReplay";
+import UserHoverCard from "@/components/UserHoverCard";
 
 export default function ScoreLeaderboardData({
   score,
@@ -53,12 +54,14 @@ export default function ScoreLeaderboardData({
             </Suspense>
           </Avatar>
           <div className="flex flex-col items-start">
-            <Link
-              className="cursor-pointer font-bold hover:text-primary smooth-transition"
-              href={`/user/${score.user.user_id}`}
-            >
-              {score.user.username}
-            </Link>
+            <UserHoverCard user={score.user} asChild>
+              <Link
+                className="cursor-pointer font-bold hover:text-primary smooth-transition"
+                href={`/user/${score.user.user_id}`}
+              >
+                {score.user.username}
+              </Link>
+            </UserHoverCard>
             <Tooltip content={toPrettyDate(score.when_played, true)}>
               <p className="text-muted-foreground text-xs">
                 {timeSince(score.when_played, undefined)}

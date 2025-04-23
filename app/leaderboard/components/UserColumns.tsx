@@ -9,6 +9,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import UserHoverCard from "@/components/UserHoverCard";
 import UserRankColor from "@/components/UserRankNumber";
 import { User, UserStats } from "@/lib/hooks/api/user/types";
 import numberWith from "@/lib/utils/numberWith";
@@ -64,7 +65,7 @@ export const userColumns: ColumnDef<{
           rank={value}
           variant="primary"
           className={twMerge(
-            "text-center font-bold whitespace-nowrap",
+            "text-center font-bold whitespace-nowrap ",
             textSize
           )}
         >
@@ -94,7 +95,7 @@ export const userColumns: ColumnDef<{
     header: "",
     cell: ({ row }) => {
       const userId = row.original.user.user_id;
-      const username = row.original.user.username;
+      const { username, avatar_url } = row.original.user;
 
       const table = useContext(UserTableContext);
       const pageIndex = table.getState().pagination.pageIndex;
@@ -105,23 +106,21 @@ export const userColumns: ColumnDef<{
         <div className="p-3 relative flex flex-row items-center space-x-2">
           <Avatar className="border-2 border-white">
             <Suspense fallback={<AvatarFallback>UA</AvatarFallback>}>
-              <Image
-                src={row.original.user.avatar_url}
-                alt="logo"
-                width={50}
-                height={50}
-              />
+              <Image src={avatar_url} alt="logo" width={50} height={50} />
             </Suspense>
           </Avatar>
-          <Link href={`/user/${userId}`}>
-            <UserRankColor
-              rank={userRank}
-              variant="primary"
-              className="cursor-pointer hover:text-primary smooth-transition text-lg font-bold"
-            >
-              {username}
-            </UserRankColor>
-          </Link>
+
+          <UserHoverCard user={row.original.user} asChild>
+            <Link href={`/user/${userId}`} className="hover:underline">
+              <UserRankColor
+                rank={userRank}
+                variant="primary"
+                className="cursor-pointer smooth-transition text-lg font-bold "
+              >
+                {username}
+              </UserRankColor>
+            </Link>
+          </UserHoverCard>
         </div>
       );
     },

@@ -3,6 +3,7 @@
 import ImageWithFallback from "@/components/ImageWithFallback";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
+import UserHoverCard from "@/components/UserHoverCard";
 import UserRankColor from "@/components/UserRankNumber";
 import { useBeatmap } from "@/lib/hooks/api/beatmap/useBeatmap";
 import { Score } from "@/lib/hooks/api/score/types";
@@ -102,13 +103,19 @@ export default function UserScoreMinimal({
                       </Avatar>
 
                       <div className="line-clamp-1 mx-1">
-                        <UserRankColor
-                          rank={userStats?.rank ?? -1}
-                          variant="primary"
-                          className="truncate"
-                        >
-                          {user?.username ?? <Skeleton className="w-20 h-3" />}
-                        </UserRankColor>
+                        {user ? (
+                          <UserHoverCard user={user} asChild>
+                            <UserRankColor
+                              rank={userStats?.rank ?? -1}
+                              variant="primary"
+                              className="truncate"
+                            >
+                              {user.username}
+                            </UserRankColor>
+                          </UserHoverCard>
+                        ) : (
+                          <Skeleton className="w-20 h-3" />
+                        )}
                       </div>
                     </div>
                   </div>
