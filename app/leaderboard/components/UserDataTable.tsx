@@ -122,7 +122,7 @@ export function UserDataTable<TData, TValue>({
                   <TableRow
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
-                    className="relative overflow-hidden isolate group smooth-transition"
+                    className="relative overflow-hidden isolate group smooth-transition hover:translate-x-2"
                   >
                     {row.getVisibleCells().map((cell) => (
                       <TableCell key={cell.id}>
@@ -145,7 +145,7 @@ export function UserDataTable<TData, TValue>({
                           objectFit="cover"
                           className="relative -z-20 -translate-x-2/4"
                           fallBackSrc="/images/placeholder.png"
-                          fallBackClassName="opacity-0"
+                          fallBackClassName="opacity-0 group-hover:opacity-30"
                         />
                       </div>
                       <div className="absolute inset-0 bg-gradient-to-l from-accent to-accent/75 via-accent group-hover:to-accent/50 -z-10 -mx-1 smooth-transition" />
