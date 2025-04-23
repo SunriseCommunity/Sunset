@@ -122,7 +122,7 @@ export function UserDataTable<TData, TValue>({
                   <TableRow
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
-                    className="relative overflow-hidden isolate group scale-95 hover:scale-100 smooth-transition"
+                    className="relative overflow-hidden isolate group smooth-transition"
                   >
                     {row.getVisibleCells().map((cell) => (
                       <TableCell key={cell.id}>
@@ -134,7 +134,7 @@ export function UserDataTable<TData, TValue>({
                     ))}
 
                     <>
-                      <div className="absolute inset-0 -z-10 overflow-hidden ">
+                      <div className="absolute inset-0 -z-10 overflow-hidden">
                         <ImageWithFallback
                           src={
                             (row.original as { user: User }).user.banner_url +
@@ -143,11 +143,12 @@ export function UserDataTable<TData, TValue>({
                           alt="user bg"
                           fill={true}
                           objectFit="cover"
-                          className="relative -z-20 blur-sm group-hover:blur-none group-hover:opacity-70 opacity-50"
+                          className="relative -z-20 -translate-x-2/4"
                           fallBackSrc="/images/placeholder.png"
+                          fallBackClassName="opacity-0"
                         />
                       </div>
-                      <div className="absolute inset-0 bg-gradient-to-l from-accent to-accent via-accent/30 group-hover:bg-accent/20 -z-10 -mx-1" />
+                      <div className="absolute inset-0 bg-gradient-to-l from-accent to-accent/75 via-accent group-hover:to-accent/50 -z-10 -mx-1 smooth-transition" />
                     </>
                   </TableRow>
                 ))
