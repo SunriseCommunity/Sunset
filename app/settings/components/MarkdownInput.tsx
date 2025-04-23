@@ -4,8 +4,9 @@ import { useEffect, useRef, useState } from "react";
 import { CloudUpload } from "lucide-react";
 import { remark } from "remark";
 import html from "remark-html";
-import PrettyButton from "@/components/General/PrettyButton";
+
 import remarkGfm from "remark-gfm";
+import { Button } from "@/components/ui/button";
 
 interface MarkdownInputProps {
   onSave: (text: string) => void;
@@ -18,7 +19,7 @@ export default function MarkdownInput({
   onSave,
   isSaving,
 }: MarkdownInputProps) {
-  const [text, setText] = useState("");
+  const [text, setText] = useState(defaultText ?? "");
   const [markdown, setMarkdown] = useState("");
 
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -87,48 +88,60 @@ export default function MarkdownInput({
       )}
 
       <textarea
-        className="bg-terracotta-500 p-2 rounded-lg h-32 text-sm text-white"
+        className="bg-card p-2 rounded-lg h-32 text-sm text-current"
         maxLength={2000}
         value={text}
         onChange={(e) => setText(e.target.value)}
         ref={textAreaRef}
-        defaultValue={defaultText}
       ></textarea>
 
       <div className="flex justify-between items-center mt-2">
-        <PrettyButton
-          text="Save"
+        <Button
           className="w-32 text-sm"
-          icon={<CloudUpload />}
           isLoading={isSaving}
-          onClick={() => onSave(text)}
-        />
+          onClick={() => onSave(text ?? "")}
+          variant="secondary"
+        >
+          <CloudUpload />
+          Save
+        </Button>
         <div className="flex">
-          <PrettyButton
+          <Button
             className="w-8 h-8 rounded-lg mr-2"
-            icon={<BoldIcon className="w-4 h-4 " strokeWidth={4} />}
             onClick={() => addToText("****", "****")}
-          />
-          <PrettyButton
+            variant="secondary"
+          >
+            <BoldIcon className="w-4 h-4 " strokeWidth={4} />
+          </Button>
+
+          <Button
             className="w-8 h-8 rounded-lg mr-2"
-            icon={<BoldIcon className="w-4 h-4" />}
             onClick={() => addToText("**", "**")}
-          />
-          <PrettyButton
+            variant="secondary"
+          >
+            <BoldIcon className="w-4 h-4" />
+          </Button>
+          <Button
             className="w-8 h-8 rounded-lg"
-            icon={<Italic className="w-4 h-4" />}
             onClick={() => addToText("*", "*")}
-          />
-          <PrettyButton
+            variant="secondary"
+          >
+            <Italic className="w-4 h-4" />{" "}
+          </Button>
+          <Button
             className="w-8 h-8 rounded-lg ml-2"
-            icon={<Strikethrough className="w-4 h-4" />}
             onClick={() => addToText("~", "~")}
-          />
-          <PrettyButton
+            variant="secondary"
+          >
+            <Strikethrough className="w-4 h-4" />{" "}
+          </Button>
+          <Button
             className="w-8 h-8 rounded-lg ml-2"
-            icon={<ImagePlus className="w-4 h-4" />}
             onClick={() => addToText("![", "](url)")}
-          />
+            variant="secondary"
+          >
+            <ImagePlus className="w-4 h-4" />{" "}
+          </Button>
         </div>
       </div>
 

@@ -1,43 +1,63 @@
-import PrettyButton from "@/components/General/PrettyButton";
+import { Button } from "@/components/ui/button";
 import { BeatmapSet } from "@/lib/hooks/api/beatmap/types";
 import { Download } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface DownloadButtonsProps {
   beatmapSet: BeatmapSet;
 }
 
 export default function DownloadButtons({ beatmapSet }: DownloadButtonsProps) {
+  const router = useRouter();
+
   return (
-    <div className="flex flex-row items-center space-x-2">
-      <PrettyButton
+    <>
+      <Button
         onClick={() =>
-          (window.location.href = `https://osu.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/d/${beatmapSet.id}`)
+          router.push(
+            `https://osu.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/d/${beatmapSet.id}`
+          )
         }
-        text="Download"
-        bottomText={beatmapSet.video ? "with Video" : undefined}
-        icon={<Download />}
-        className="p-2 text-sm min-h-11 "
+        variant="secondary"
+        size="xl"
         disabled={!self}
-      />
+      >
+        <Download />
+        <div className="text-start">
+          Download
+          {beatmapSet.video ? (
+            <p className="text-xs font-light">with Video</p>
+          ) : undefined}
+        </div>
+      </Button>
+
       {beatmapSet.video && (
-        <PrettyButton
+        <Button
           onClick={() =>
-            (window.location.href = `https://osu.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/d/${beatmapSet.id}?noVideo=1`)
+            router.push(
+              `https://osu.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/d/${beatmapSet.id}?noVideo=1`
+            )
           }
-          text="Download"
-          bottomText="without Video"
-          icon={<Download />}
-          className="p-2 text-sm min-h-11"
+          variant="secondary"
+          size="xl"
           disabled={!self}
-        />
+        >
+          <Download />
+          <div className="text-start">
+            Download
+            <p className="text-xs font-light">without Video</p>
+          </div>
+        </Button>
       )}
-      <PrettyButton
-        onClick={() => (window.location.href = `osu://dl/${beatmapSet.id}`)}
-        text="osu!direct"
-        icon={<Download />}
-        className="p-2 text-sm min-h-11 "
+      <Button
+        onClick={() => router.push(`osu://dl/${beatmapSet.id}`)}
+        variant="secondary"
+        size="xl"
         disabled={!self}
-      />
-    </div>
+      >
+        <Download />
+        osu!direct
+      </Button>
+    </>
   );
 }

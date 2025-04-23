@@ -1,37 +1,43 @@
 "use client";
 
 import ImageWithFallback from "@/components/ImageWithFallback";
-import SkeletonLoading from "@/components/SkeletonLoading";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Skeleton } from "@/components/ui/skeleton";
+import UserHoverCard from "@/components/UserHoverCard";
+import UserRankColor from "@/components/UserRankNumber";
 import { useBeatmap } from "@/lib/hooks/api/beatmap/useBeatmap";
 import { Score } from "@/lib/hooks/api/score/types";
-import { useUser } from "@/lib/hooks/api/user/useUser";
+import { useUserStats } from "@/lib/hooks/api/user/useUser";
 import { isBeatmapRanked } from "@/lib/utils/isBeatmapRanked";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import Link from "next/link";
+import { Suspense } from "react";
 import { twMerge } from "tailwind-merge";
 
 interface UserScoreMinimalProps {
   score: Score;
+  showUser?: boolean;
   className?: string;
 }
 
 export default function UserScoreMinimal({
   score,
+  showUser = true,
   className,
 }: UserScoreMinimalProps) {
-  const userQuery = useUser(score.user_id);
+  const userStatsQuery = useUserStats(score.user_id, score.game_mode_extended);
   const beatmapQuery = useBeatmap(score.beatmap_id);
 
-  const user = userQuery.data;
+  const user = userStatsQuery.data?.user;
+  const userStats = userStatsQuery.data?.stats;
   const beatmap = beatmapQuery.data;
 
   return (
     <div
       className={twMerge(
-        "bg-terracotta-700 rounded-lg overflow-hidden",
+        "bg-card rounded-lg overflow-hidden text-white shadow",
         className
       )}
-      onClick={() => (window.location.href = `/score/${score.id}`)}
     >
       <div className="h-28 relative">
         {beatmap?.beatmapset_id ? (
@@ -43,58 +49,93 @@ export default function UserScoreMinimal({
             fallBackSrc="/images/unknown-beatmap-banner.jpg"
           />
         ) : (
-          <SkeletonLoading className="" />
+          <Skeleton className="" />
         )}
-        <div className="absolute inset-0 bg-gradient-to-l from-terracotta-200 to-transparent flex items-center cursor-pointer">
-          <div className="py-2 px-4 flex place-content-between bg-black hover:bg-opacity-40 bg-opacity-50 w-full h-full smooth-transition ">
-            <div className="flex-col h-full flex justify-between overflow-hidden ">
-              <div className="flex-col overflow-hidden flex-wrap">
-                <h1 className="font-bold text-sm drop-shadow-md flex text-ellipsis">
-                  {beatmap?.artist ?? <SkeletonLoading className="w-20 h-3" />}
-                  &nbsp;-&nbsp;
-                  {beatmap?.title ?? <SkeletonLoading className="w-28 h-3" />}
-                </h1>
-                <div className="flex items-center space-x-2">
-                  <p className="text-xs drop-shadow-md text-gray-100 ">
-                    {beatmap?.version ?? (
-                      <SkeletonLoading className="w-16 h-3" />
+        <Link href={`/score/${score.id}`}>
+          <div className="absolute inset-0 bg-black hover:bg-opacity-50 bg-opacity-60 smooth-transition flex items-center cursor-pointer">
+            <div className="py-2 px-4 flex place-content-between w-full h-full">
+              <div className="flex-col h-full flex justify-between overflow-hidden ">
+                <div className="flex-col">
+                  <div className="font-bold text-sm drop-shadow-md items-center line-clamp-2">
+                    {beatmap?.artist && beatmap?.title ? (
+                      beatmap.artist + " - " + beatmap?.title
+                    ) : (
+                      <div className="flex items-center">
+                        <Skeleton className="w-28 h-3" />
+                        &nbsp;-&nbsp;
+                        <Skeleton className="w-20 h-3" />
+                      </div>
                     )}
-                  </p>
-                </div>
-              </div>
-              <div className="flex pb-1">
-                <div className="rounded-md overflow-hidden border-2 border-white mr-2">
-                  {user?.user_id ? (
-                    <Image
-                      src={user?.avatar_url}
-                      alt=""
-                      objectFit="cover"
-                      width={24}
-                      height={24}
-                    />
-                  ) : (
-                    <SkeletonLoading className="w-4 h-4" />
-                  )}
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    {beatmap?.version ? (
+                      <div className="line-clamp-1">
+                        <p className="text-xs drop-shadow-md text-gray-100 truncate">
+                          {beatmap?.version}
+                        </p>
+                      </div>
+                    ) : (
+                      <Skeleton className="w-16 h-3" />
+                    )}
+                  </div>
                 </div>
 
-                <h2 className="text-white text-md font-bold mr-2 overflow-hidden flex-wrap whitespace-nowrap">
-                  {user?.username ?? <SkeletonLoading className="w-24 h-4" />}
-                </h2>
+                {showUser && (
+                  <div className="flex">
+                    <div className="flex items-center flex-grow min-w-0">
+                      <Avatar className="h-8 w-8 border-2">
+                        <Suspense
+                          fallback={
+                            <AvatarFallback>
+                              <Skeleton className="w-4 h-4" />
+                            </AvatarFallback>
+                          }
+                        >
+                          {user && (
+                            <Image
+                              src={user?.avatar_url ?? ""}
+                              width={64}
+                              height={64}
+                              alt="Avatar"
+                            />
+                          )}
+                        </Suspense>
+                      </Avatar>
+
+                      <div className="line-clamp-1 mx-1">
+                        {user ? (
+                          <UserHoverCard user={user} asChild>
+                            <UserRankColor
+                              rank={userStats?.rank ?? -1}
+                              variant="primary"
+                              className="truncate"
+                            >
+                              {user.username}
+                            </UserRankColor>
+                          </UserHoverCard>
+                        ) : (
+                          <Skeleton className="w-20 h-3" />
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
-            </div>
-            <div className="flex items-center space-x-4">
-              <div className="text-end text-nowrap">
-                <p className="text-md opacity-70">{score.mods}</p>
-                <p className="text-2xl text-terracotta-300">
-                  {beatmap && isBeatmapRanked(beatmap)
-                    ? score.performance_points.toFixed()
-                    : "- "}
-                  pp
-                </p>
+              <div className="flex items-center space-x-4 mx-2">
+                <div className="text-end text-nowrap">
+                  <p className="text-md opacity-70">{score.mods}</p>
+                  <p className="text-2xl text-primary">
+                    {beatmap && isBeatmapRanked(beatmap)
+                      ? score.performance_points.toFixed()
+                      : "- "}
+                    pp
+                  </p>
+                  <p className="text-sm ">acc: {score.accuracy.toFixed(2)}%</p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </Link>
       </div>
     </div>
   );

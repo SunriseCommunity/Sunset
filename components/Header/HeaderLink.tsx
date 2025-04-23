@@ -1,45 +1,45 @@
 "use client";
+
+import Link from "next/link";
 import { usePathname } from "next/navigation";
+import React from "react";
 
 interface Props {
   name: string;
-  isHovered: boolean;
+  href?: string;
 }
 
-export default function HeaderLink({ name, isHovered }: Props) {
+export default function HeaderLink({ name, href }: Props) {
   const pathname = usePathname();
-  const linkPath = `/${name.replace(" ", "").toLowerCase()}`;
-  const isActive = pathname === linkPath;
+  const isActive = pathname === href;
 
-  const color = "orange";
+  const Wrapper = href ? Link : React.Fragment;
+  const wrapperProps = href ? { href: href } : {};
 
   return (
-    <a
-      href={linkPath}
+    <div
       aria-label={name}
-      className={`relative px-2 py-1 text-gray-300 smooth-transition cursor-pointer hover:text-white ${
-        !isHovered ? "opacity-40" : ""
-      }`}
+      className="relative px-2 py-1 text-current/30 smooth-transition cursor-pointer hover:text-current opacity-40 group-hover:opacity-100"
     >
-      <p
-        className={`text-base ${
-          isActive ? "text-white font-bold" : ""
-        } hover:bg-neutral-600 hover:bg-opacity-25 p-1 rounded-md smooth-transition`}
-      >
-        {name}
+      {/* @ts-ignore */}
+      <Wrapper {...wrapperProps}>
+        <p
+          className={`text-base ${
+            isActive ? "text-current font-bold" : ""
+          } hover:bg-neutral-600 hover:bg-opacity-25 p-1 rounded-md smooth-transition`}
+        >
+          {name}
 
-        {/* Active indicator */}
-        <span
-          style={{
-            boxShadow: `${isHovered && isActive ? `0 0 8px ${color}` : `none`}`,
-          }}
-          className={`absolute mt-0.5 h-[3px] w-[calc(100%-16px)] smooth-transition ${
-            isActive ? (isHovered ? `bg-${color}-600` : "bg-white") : ""
-          } inline-block rounded-3xl top-full right-2 ${
-            isActive ? "opacity-100" : "opacity-40"
-          }`}
-        />
-      </p>
-    </a>
+          {/* Active indicator */}
+          <span
+            className={`absolute mt-0.5 h-[3px] w-[calc(100%-16px)] smooth-transition ${
+              isActive ? "bg-current group-hover:bg-primary" : ""
+            } inline-block rounded-3xl top-full right-2 ${
+              isActive ? "opacity-100" : "opacity-40"
+            }`}
+          />
+        </p>
+      </Wrapper>
+    </div>
   );
 }

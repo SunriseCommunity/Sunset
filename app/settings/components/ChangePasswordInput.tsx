@@ -1,39 +1,81 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import { DialogFooter } from "@/components/ui/dialog";
+import {
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormMessage,
+  Form,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/hooks/use-toast";
 import { usePasswordChange } from "@/lib/hooks/api/user/usePasswordChange";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
+let password = "";
+
+const formSchema = z.object({
+  currentPassword: z
+    .string()
+    .min(8, {
+      message: "Password must be at least 8 characters.",
+    })
+    .max(32, {
+      message: "Password must be 32 characters or fewer.",
+    }),
+  password: z
+    .string()
+    .min(8, {
+      message: "Password must be at least 8 characters.",
+    })
+    .max(32, {
+      message: "Password must be 32 characters or fewer.",
+    })
+    .refine((value) => {
+      password = value;
+      return true;
+    }),
+  confirmPassword: z
+    .string()
+    .min(8, {
+      message: "Password must be at least 8 characters.",
+    })
+    .max(32, {
+      message: "Password must be 32 characters or fewer.",
+    })
+    .refine((value) => value === password, "Passwords do not match"),
+});
 
 export default function ChangePasswordInput() {
   const [error, setError] = useState<string | null>(null);
+
+  const { toast } = useToast();
+
+  const { trigger } = usePasswordChange();
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      currentPassword: "",
+      password: "",
+      confirmPassword: "",
+    },
+  });
 
   const showError = (message: string) => {
     setError(message);
   };
 
-  const { trigger } = usePasswordChange();
-
-  const submitChangePasswordForm = async (
-    e: React.FormEvent<HTMLFormElement>
-  ) => {
-    e.preventDefault();
+  function onSubmit(values: z.infer<typeof formSchema>) {
     setError(null);
-    const form = e.currentTarget as HTMLFormElement;
 
-    const currentPassword = form.currentPassword.value;
-    const password = form.password.value;
-    const confirmPassword = form.confirmPassword.value;
-
-    if (password !== confirmPassword) {
-      showError("New passwords do not match. Please try again.");
-      return;
-    }
-
-    if (password.length < 8 || password.length > 32) {
-      showError(
-        "Invalid new password. Length should be between 8 and 32 characters."
-      );
-      return;
-    }
+    const { currentPassword, password } = values;
 
     trigger(
       {
@@ -43,65 +85,85 @@ export default function ChangePasswordInput() {
       {
         onSuccess: () => {
           form.reset();
-          alert("Password changed successfully!");
+
+          toast({
+            title: "Password changed successfully!",
+            variant: "success",
+          });
         },
         onError: (err) => {
           showError(err.message ?? "Unknown error.");
+          toast({
+            title: "Error occured while changing password!",
+            description: err.message ?? "Unknown error.",
+            variant: "destructive",
+          });
         },
       }
     );
-  };
+  }
 
   return (
-    <div className="flex flex-col w-1/2">
-      <form className="flex flex-col" onSubmit={submitChangePasswordForm}>
-        <label htmlFor="password" className="text-gray-200 text-sm">
-          Current password
-        </label>
-        <input
-          type="password"
-          placeholder="************"
-          name="currentPassword"
-          className="bg-terracotta-800 p-2 rounded-lg mb-2"
-          maxLength={32}
-          required
-        />
-
-        <div className="my-1">
-          <div className="flex border-b border-gray-700"></div>
-        </div>
-
-        <label htmlFor="password" className="text-gray-200 text-sm">
-          New Password
-        </label>
-        <input
-          type="password"
-          name="password"
-          className="bg-terracotta-800 p-2 rounded-lg mb-2"
-          maxLength={32}
-          required
-        />
-
-        <label htmlFor="confirmPassword" className="text-gray-200 text-sm">
-          Confirm Password
-        </label>
-        <input
-          type="password"
-          name="confirmPassword"
-          className="bg-terracotta-800 p-2 rounded-lg mb-2"
-          maxLength={32}
-          required
-        />
-
-        {error && <p className="text-red-500">{error}</p>}
-
-        <button
-          type="submit"
-          className="bg-terracotta-500 text-white rounded-lg p-2"
-        >
-          Change password
-        </button>
-      </form>
+    <div className="flex flex-col lg:w-1/2">
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <FormField
+            control={form.control}
+            name="currentPassword"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Current Password</FormLabel>
+                <FormControl>
+                  <Input
+                    type="password"
+                    placeholder="************"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>New Password</FormLabel>
+                <FormControl>
+                  <Input
+                    type="password"
+                    placeholder="************"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="confirmPassword"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel> Confirm Password</FormLabel>
+                <FormControl>
+                  <Input
+                    type="password"
+                    placeholder="************"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          {error && <p className="text-sm text-destructive">{error}</p>}
+          <DialogFooter>
+            <Button type="submit">Change password</Button>
+          </DialogFooter>
+        </form>
+      </Form>
     </div>
   );
 }

@@ -3,13 +3,17 @@ import Spinner from "@/components/Spinner";
 import { ChevronDown, Users2 } from "lucide-react";
 import PrettyHeader from "@/components/General/PrettyHeader";
 import RoundedContent from "@/components/General/RoundedContent";
-import PrettyButton from "@/components/General/PrettyButton";
+
 import { useFriends } from "@/lib/hooks/api/user/useFriends";
 import UserElement from "@/components/UserElement";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
 
 export default function Friends() {
-  const { data, setSize, size, isLoading, isValidating } = useFriends(9);
+  const { data, setSize, size, isLoading } = useFriends(9);
+
+  const isLoadingMore =
+    isLoading || (size > 0 && data && typeof data[size - 1] === "undefined");
 
   const handleShowMore = () => {
     setSize(size + 1);
@@ -21,13 +25,8 @@ export default function Friends() {
   )?.total_count;
 
   return (
-    <div className="flex flex-col w-full my-8 ">
-      <PrettyHeader
-        text="Your Friends"
-        icon={<Users2 />}
-        className="mb-4"
-        roundBottom={true}
-      />
+    <div className="flex flex-col w-full space-y-4">
+      <PrettyHeader text="Your Friends" icon={<Users2 />} roundBottom={true} />
 
       {isLoading && (
         <div className="flex justify-center items-center h-96">
@@ -49,18 +48,19 @@ export default function Friends() {
 
             {friends.length < totalCount && (
               <div className="flex justify-center mt-4">
-                <PrettyButton
-                  text="Show more"
+                <Button
                   onClick={handleShowMore}
-                  icon={<ChevronDown />}
                   className="w-full md:w-1/2 flex items-center justify-center"
-                  isLoading={isLoading || isValidating}
-                />
+                  isLoading={isLoadingMore}
+                >
+                  <ChevronDown />
+                  Show more
+                </Button>
               </div>
             )}
           </RoundedContent>
         ) : (
-          <RoundedContent className="rounded-l flex flex-col md:flex-row justify-between items-center md:items-start gap-8 ">
+          <RoundedContent className="rounded-l flex flex-col md:flex-row justify-between items-center md:items-start gap-8">
             <div className="flex flex-col space-y-2">
               <h1 className="text-4xl">You have no friends</h1>
               <p className="text-gray-300">

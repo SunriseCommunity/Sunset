@@ -5,6 +5,8 @@ import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer";
 import ScrollUpButton from "@/components/scrollUpButton";
 import Providers from "@/components/Providers";
+import { Toaster } from "@/components/ui/toaster";
+import ScrollUp from "@/components/ScrollUp";
 
 const font = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -12,22 +14,22 @@ const font = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "osu!Sunrise",
+  title: "osu!sunrise",
   twitter: {
     card: "summary",
   },
-  description: "osu!Sunrise is a private server for osu!, a rhythm game.",
+  description: "osu!sunrise is a private server for osu!, a rhythm game.",
   openGraph: {
-    siteName: "osu!Sunrise",
-    title: "osu!Sunrise",
-    description: "osu!Sunrise is a private server for osu!, a rhythm game.",
+    siteName: "osu!sunrise",
+    title: "osu!sunrise",
+    description: "osu!sunrise is a private server for osu!, a rhythm game.",
 
     images: [
       {
         url: `https://${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/images/metadata.png`,
         width: 800,
         height: 800,
-        alt: "osu!Sunrise Logo",
+        alt: "osu!sunrise Logo",
       },
     ],
   },
@@ -39,13 +41,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={font.className}>
-      <body className="bg-terracotta-900 text-white min-h-screen flex flex-col  font-medium">
+    <html lang="en" className={font.className} suppressHydrationWarning>
+      <body className="bg-background text-current min-h-screen flex flex-col font-medium">
         <Providers>
           <Header />
-          <div className="row-padding-max-w-2xl">{children}</div>
-          <main className="flex-grow bg-terracotta-900 -z-30" />
+          <div className="row-padding-max-w-2xl py-8">{children}</div>
+          <main className="flex-grow bg-background -z-30" />
+          <Toaster />
           <Footer />
+          <ScrollUp />
         </Providers>
         <ScrollUpButton />
       </body>

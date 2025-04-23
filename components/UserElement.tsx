@@ -4,6 +4,13 @@ import Image from "next/image";
 import ImageWithFallback from "./ImageWithFallback";
 import { User } from "@/lib/hooks/api/user/types";
 import { FriendshipButton } from "@/components/FriendshipButton";
+import { useRouter } from "next/navigation";
+import UserStatusText, {
+  statusColor,
+} from "@/app/user/[id]/components/UserStatusText";
+import Link from "next/link";
+import { MaterialSymbolsCircleOutline } from "@/components/ui/icons/circle-outline";
+import UserBadges from "@/app/user/[id]/components/UserBadges";
 
 interface UserProfileBannerProps {
   user: User;
@@ -16,15 +23,16 @@ export default function UserElement({
   includeFriendshipButton = false,
   className,
 }: UserProfileBannerProps) {
+  const router = useRouter();
+
   return (
     <div
       className={twMerge(
         "relative w-full overflow-hidden rounded-lg group h-36",
         className
       )}
-      onClick={() => window.open("/user/" + user.user_id)}
     >
-      <div className="relative h-full place-content-between flex-col flex group-hover:cursor-pointer smooth-transition">
+      <div className="relative h-full place-content-between flex-col flex group-hover:cursor-pointer ">
         <ImageWithFallback
           src={`${user?.banner_url}&default=false`}
           alt=""
@@ -34,9 +42,12 @@ export default function UserElement({
           fallBackSrc="/images/placeholder.png"
         />
 
-        <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-35" />
+        <div className="absolute inset-0 bg-black bg-opacity-50 smooth-transition group-hover:bg-opacity-35" />
 
-        <div className="relative flex place-content-between h-24 p-4">
+        <Link
+          href={`/user/${user.user_id}`}
+          className="relative flex place-content-between h-24 p-4"
+        >
           <div className="relative flex items-start">
             {/* Profile Picture */}
             <div className="rounded-full flex-none overflow-hidden border-2 border-white mr-4">
@@ -50,17 +61,30 @@ export default function UserElement({
             </div>
 
             {/* Username, Flag, and Status */}
-            <div>
-              <div className="flex items-center mb-1">
-                <h2 className="text-white md:text-lg lg:text-xl font-bold mr-2 overflow-hidden flex-wrap">
+            <div className="line-clamp-1">
+              <div className="flex items-center mb-1 line-clamp-1">
+                <h2 className="text-white md:text-lg lg:text-xl font-bold mr-2 truncate">
                   {user.username}
                 </h2>
               </div>
-              <img
-                src={`/images/flags/${user.country_code}.png`}
-                alt="Russian Flag"
-                className="w-6 h-6 mr-2"
-              />
+              <div className="flex items-center">
+                <img
+                  src={`/images/flags/${user.country_code}.png`}
+                  alt="User Flag"
+                  className="w-8 h-8 mr-4"
+                />
+                <div className="flex flex-wrap gap-2">
+                  <div
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                    }}
+                    className="flex flex-row flex-wrap gap-2"
+                  >
+                    <UserBadges badges={user.badges} small={true} />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -71,10 +95,17 @@ export default function UserElement({
               includeText={false}
             />
           )}
-        </div>
+        </Link>
 
-        <div className="relative py-2 px-4 text-white bg-black bg-opacity-50 rounded-b-lg ">
-          <div className="text-gray-300 text-base mb-1">{user.user_status}</div>
+        <div className="relative py-2 px-4 bg-black bg-opacity-50 rounded-b-lg flex flex-row w-full">
+          <div className="flex space-x-2 items-center text-sm w-full">
+            <MaterialSymbolsCircleOutline
+              className={`text-base text-${statusColor(user.user_status)}`}
+            />
+            <div className="flex flex-grow line-clamp-1 w-8/12">
+              <UserStatusText user={user} />
+            </div>
+          </div>
         </div>
       </div>
     </div>

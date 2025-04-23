@@ -1,14 +1,21 @@
 import { ContentNotExist } from "@/components/ContentNotExist";
-import PrettyButton from "@/components/General/PrettyButton";
+
 import PrettyHeader from "@/components/General/PrettyHeader";
 import RoundedContent from "@/components/General/RoundedContent";
 import Spinner from "@/components/Spinner";
 import { GameMode } from "@/lib/hooks/api/types";
-import { ChartBarDecreasing, ChevronDown, Heart, History } from "lucide-react";
+import {
+  ChartBarDecreasing,
+  ChevronDown,
+  Heart,
+  History,
+  Loader2,
+} from "lucide-react";
 import BeatmapPlayedOverview from "../BeatmapPlayedOverview";
 import BeatmapSetOverview from "@/app/user/[id]/components/BeatmapSetOverview";
 import { useUserMostPlayed } from "@/lib/hooks/api/user/useUserMostPlayed";
 import { useUserFavourites } from "@/lib/hooks/api/user/useUserFavourites";
+import { Button } from "@/components/ui/button";
 
 interface UserTabBeatmapsProps {
   userId: number;
@@ -27,8 +34,13 @@ export default function UserTabBeatmaps({
     setSize: setMostPlayedSize,
     size: mostPlayedSize,
     isLoading: isLoadingMostPlayed,
-    isValidating: isValidatingMostPlayed,
   } = useUserMostPlayed(userId, gameMode, pageLimitMostPlayed);
+
+  const isLoadingMoreMostPlayed =
+    isLoadingMostPlayed ||
+    (mostPlayedSize > 0 &&
+      mostPlayedData &&
+      typeof mostPlayedData[mostPlayedSize - 1] === "undefined");
 
   const mostPlayed = mostPlayedData?.flatMap((item) => item.most_played);
   const totalCountMostPlayed = mostPlayedData?.find(
@@ -44,8 +56,13 @@ export default function UserTabBeatmaps({
     setSize: setFavouritesSize,
     size: favouritesSize,
     isLoading: isLoadingFavourites,
-    isValidating: isValidatingFavourites,
   } = useUserFavourites(userId, gameMode, pageLimitFavourites);
+
+  const isLoadingMoreFavourites =
+    isLoadingFavourites ||
+    (favouritesSize > 0 &&
+      favouritesData &&
+      typeof favouritesData[favouritesSize - 1] === "undefined");
 
   const favourites = favouritesData?.flatMap((item) => item.sets);
   const totalCountFavourites = favouritesData?.find(
@@ -66,7 +83,7 @@ export default function UserTabBeatmaps({
         }
       />
       <RoundedContent className="min-h-60 h-fit max-h-none mb-6">
-        {!mostPlayed && (isLoadingMostPlayed || isValidatingMostPlayed) && (
+        {!mostPlayed && isLoadingMoreMostPlayed && (
           <div className="flex justify-center items-center h-32">
             <Spinner />
           </div>
@@ -88,13 +105,14 @@ export default function UserTabBeatmaps({
             ))}
             {mostPlayed.length < totalCountMostPlayed && (
               <div className="flex justify-center mt-4">
-                <PrettyButton
-                  text="Show more"
+                <Button
                   onClick={handleShowMoreMostPlayed}
-                  icon={<ChevronDown />}
                   className="w-full md:w-1/2 flex items-center justify-center"
-                  isLoading={isLoadingMostPlayed || isValidatingMostPlayed}
-                />
+                  variant="secondary"
+                  isLoading={isLoadingMoreMostPlayed}
+                >
+                  <ChevronDown /> Show more
+                </Button>
               </div>
             )}
           </>
@@ -111,7 +129,7 @@ export default function UserTabBeatmaps({
         }
       />
       <RoundedContent className="min-h-60 h-fit max-h-none">
-        {!favourites && (isLoadingFavourites || isValidatingFavourites) && (
+        {!favourites && isLoadingMoreFavourites && (
           <div className="flex justify-center items-center h-32">
             <Spinner />
           </div>
@@ -135,13 +153,15 @@ export default function UserTabBeatmaps({
             </div>
             {favourites.length < totalCountFavourites && (
               <div className="flex justify-center mt-4">
-                <PrettyButton
-                  text="Show more"
+                <Button
                   onClick={handleShowMoreFavourites}
-                  icon={<ChevronDown />}
                   className="w-full md:w-1/2 flex items-center justify-center"
-                  isLoading={isLoadingFavourites || isValidatingFavourites}
-                />
+                  isLoading={isLoadingMoreFavourites}
+                  variant="secondary"
+                >
+                  <ChevronDown />
+                  Show more
+                </Button>
               </div>
             )}
           </>

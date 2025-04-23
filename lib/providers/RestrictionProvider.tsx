@@ -34,13 +34,21 @@ const RestrictionModal = ({ reason }: { reason: string }) => {
 
       <h2 className="text-lg">
         <br /> If you believe this is a mistake, or want to make an appeal,
-        please contact us at{" "}
-        <a
-          href="https://discord.gg/BjV7c9VRfn"
-          className="text-blue-400 hover:underline"
-        >
-          Discord
-        </a>
+        please contact us
+        {process.env.NEXT_PUBLIC_DISCORD_LINK ? (
+          <span>
+            {" "}
+            at{" "}
+            <a
+              href={process.env.NEXT_PUBLIC_DISCORD_LINK}
+              className="text-blue-400 hover:underline"
+            >
+              Discord
+            </a>
+          </span>
+        ) : (
+          "."
+        )}
       </h2>
 
       <div className="mx-auto p-6 bg-stone-800 text-center rounded-lg shadow-lg">

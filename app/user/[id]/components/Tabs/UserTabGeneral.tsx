@@ -3,8 +3,6 @@ import UserStatsChart from "@/app/user/[id]/components/UserStatsChart";
 import { ContentNotExist } from "@/components/ContentNotExist";
 import PrettyHeader from "@/components/General/PrettyHeader";
 import RoundedContent from "@/components/General/RoundedContent";
-import SkeletonLoading from "@/components/SkeletonLoading";
-import { Tooltip } from "@/components/Tooltip";
 import { GameMode } from "@/lib/hooks/api/types";
 import { getLevelWithProgress } from "@/lib/utils/userLevel";
 import NumberWith from "@/lib/utils/numberWith";
@@ -18,7 +16,10 @@ import { User, UserStats } from "@/lib/hooks/api/user/types";
 import { useUserGrades } from "@/lib/hooks/api/user/useGraph";
 import { useUserGraph } from "@/lib/hooks/api/user/useUserGraph";
 import { useState } from "react";
-import PrettyButton from "@/components/General/PrettyButton";
+
+import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
+import { Tooltip } from "@/components/Tooltip";
 
 interface UserTabGeneralProps {
   user: User;
@@ -61,88 +62,89 @@ export default function UserTabGeneral({
 
       <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-4 gap-y-4">
         <div className="flex flex-col col-span-2 sm:col-span-1">
-          <div className="bg-coffee-600 rounded-t-lg p-4 flex items-center">
-            <FolderKanbanIcon className="mr-2" />
-            <h2 className="text-lg font-semibold">Info</h2>
-          </div>
-          <div className="bg-coffee-700 p-4 rounded-b-lg h-fit flex flex-col">
+          <PrettyHeader
+            text="Info"
+            icon={<FolderKanbanIcon className="mr-2" />}
+          />
+
+          <RoundedContent className="p-4 rounded-b-lg h-fit flex flex-col">
             <div className="flex place-content-between items-end">
               <p className="text-xs">Ranked Score</p>
-              <p className="text-md font-bald">
+              <div className="text-md font-bald">
                 {stats ? (
                   NumberWith(stats.ranked_score ?? 0, ",")
                 ) : (
-                  <SkeletonLoading className="w-32 h-4" />
+                  <Skeleton className="w-32 h-4" />
                 )}
-              </p>
+              </div>
             </div>
 
             <div className="flex place-content-between items-end">
               <p className="text-xs">Total Score</p>
-              <p className="text-md font-bald">
+              <div className="text-md font-bald">
                 {stats ? (
                   NumberWith(stats?.total_score ?? 0, ",")
                 ) : (
-                  <SkeletonLoading className="w-32 h-4 mt-1" />
+                  <Skeleton className="w-32 h-4 mt-1" />
                 )}
-              </p>
+              </div>
             </div>
 
             <div className="flex place-content-between items-end">
               <p className="text-xs">Maximum Combo</p>
-              <p className="text-md font-bald">
+              <div className="text-md font-bald">
                 {stats ? (
                   NumberWith(stats?.max_combo ?? 0, ",")
                 ) : (
-                  <SkeletonLoading className="w-24 h-4 mt-1" />
+                  <Skeleton className="w-24 h-4 mt-1" />
                 )}
-              </p>
+              </div>
             </div>
 
             <div className="flex place-content-between items-end">
               <p className="text-xs">Playcount</p>
-              <p className="text-md font-bald">
+              <div className="text-md font-bald">
                 {stats ? (
                   NumberWith(stats?.play_count ?? 0, ",")
                 ) : (
-                  <SkeletonLoading className="w-24 h-4 mt-1" />
+                  <Skeleton className="w-24 h-4 mt-1" />
                 )}
-              </p>
+              </div>
             </div>
 
             <div className="flex place-content-between items-end">
               <p className="text-xs">Hit Accuracy</p>
-              <p className="text-md font-bald">
+              <div className="text-md font-bald">
                 {stats ? (
                   `${stats?.accuracy.toFixed(2)} %`
                 ) : (
-                  <SkeletonLoading className="w-16 h-4 mt-1" />
+                  <Skeleton className="w-16 h-4 mt-1" />
                 )}
-              </p>
+              </div>
             </div>
 
             <div className="flex place-content-between items-end">
               <p className="text-xs">Level</p>
-              <p className="text-md font-bald">
+              <div className="text-md font-bald">
                 {stats ? (
-                  getLevelWithProgress(
-                    BigInt(stats?.total_score) ?? 0
-                  ).toPrecision(4)
+                  getLevelWithProgress(BigInt(stats?.total_score) ?? 0).toFixed(
+                    2
+                  )
                 ) : (
-                  <SkeletonLoading className="w-32 h-4 mt-1" />
+                  <Skeleton className="w-32 h-4 mt-1" />
                 )}
-              </p>
+              </div>
             </div>
 
             <div className="flex place-content-between items-end">
               <p className="text-xs">Playtime</p>
-              <p className="text-md font-bald">
+              <div className="text-md font-bald">
                 {stats ? (
                   playtimeToString(stats?.play_time ?? 0)
                 ) : (
-                  <SkeletonLoading className="w-32 h-4 mt-1" />
+                  <Skeleton className="w-32 h-4 mt-1" />
                 )}
-              </p>
+              </div>
             </div>
 
             <div className="flex place-content-between items-end">
@@ -154,56 +156,54 @@ export default function UserTabGeneral({
               </Tooltip>
             </div>
 
-            <div className="flex border-b border-coffee-600 my-1"></div>
+            <div className="flex border-b my-1"></div>
 
             <div>
               {userGrades ? (
                 <UserGrades grades={userGrades} />
               ) : (
-                <SkeletonLoading className="h-12" />
+                <Skeleton className="h-12" />
               )}
             </div>
-          </div>
+          </RoundedContent>
         </div>
 
         <div className="flex flex-col col-span-2">
-          <div className="bg-coffee-600 rounded-t-lg px-4 py-1 flex justify-between items-center">
-            <div className="flex items-center">
-              <Trophy className="mr-2" />
-              <h2 className="text-lg font-semibold">Rank</h2>
+          {/* <div className="rounded-t-lg px-4 py-1 flex justify-between items-center"> */}
+
+          <PrettyHeader
+            text="Performance"
+            icon={<Trophy className="mr-2" />}
+            className="px-4 py-1"
+          >
+            <div className="flex flex-col place-content-between items-end">
+              <p className="text-sm">Performance</p>
+              <p className="text-2xl font-bald text-primary">
+                {NumberWith(Math.round(stats?.pp ?? 0) ?? 0, ",")}
+              </p>
             </div>
-            <div className="flex items-center">
-              <div className="flex flex-col place-content-between items-end">
-                <p className="text-sm">Performance</p>
-                <p className="text-2xl font-bald text-terracotta-400">
-                  {NumberWith(Math.round(stats?.pp ?? 0) ?? 0, ",")}
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="bg-coffee-700 p-4 rounded-b-lg h-fit">
+          </PrettyHeader>
+          <RoundedContent>
             {userGraph && (
               <>
                 <UserStatsChart data={userGraph} value={chartValue} />
                 <div className="flex place-content-end w-full gap-x-2 pt-2">
-                  <PrettyButton
+                  <Button
                     onClick={() => setChartValue("rank")}
-                    text="Show by rank"
-                    className={
-                      chartValue == "rank" ? "bg-terracotta-400 text-white" : ""
-                    }
-                  />
-                  <PrettyButton
+                    variant={chartValue == "rank" ? "default" : "secondary"}
+                  >
+                    Show by rank
+                  </Button>
+                  <Button
                     onClick={() => setChartValue("pp")}
-                    text="Show by pp"
-                    className={
-                      chartValue == "pp" ? "bg-terracotta-400 text-white" : ""
-                    }
-                  />
+                    variant={chartValue == "pp" ? "default" : "secondary"}
+                  >
+                    Show by pp
+                  </Button>
                 </div>
               </>
             )}
-          </div>
+          </RoundedContent>
         </div>
       </div>
     </div>

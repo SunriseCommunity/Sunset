@@ -6,77 +6,90 @@ import {
   Music,
   Shield,
   BotIcon,
-  Badge,
+  Badge as BadgeIcon,
   BanIcon,
   Trophy,
 } from "lucide-react";
 
+import { Badge } from "@/components/ui/badge";
+import { twMerge } from "tailwind-merge";
+import React from "react";
+
 interface UserBadgesProps {
   badges: UserBadge[];
+  small?: boolean;
 }
 
 // TODO: Should be deprecated in favor of backend-provided badge descriptions, names, and icons
-const BadgeDescription: { [key in UserBadge]: any } = {
-  admin: "Server admin. They keep the peace. 🛡️",
-  developer: "Humble developer. They make the magic happen. 🪄",
-  supporter: "Supported the project. Forever grateful.",
-  bat: "They manage beatmap submissions.",
-  champion: "Current number one player on the server. 🏆",
-  bot: "Beep boop. I'm a bot.",
-  restricted: "This user is restricted.", // Deprecated
+const badgeMap = {
+  developer: {
+    icon: <Coffee className="w-4 h-4 md:w-6 md:h-6" />,
+    color: "bg-orange-500 hover:bg-orange-400",
+    description: "Humble developer.",
+  },
+  bat: {
+    icon: <Music className="w-4 h-4 md:w-6 md:h-6" />,
+    color: "bg-violet-600 hover:bg-violet-500",
+    description: "They manage beatmap submissions.",
+  },
+  bot: {
+    icon: <BotIcon className="w-4 h-4 md:w-6 md:h-6" />,
+    color: "bg-neutral-600 hover:bg-neutral-500",
+    description: "Beep boop. I'm a bot.",
+  },
+  admin: {
+    icon: <Shield className="w-4 h-4 md:w-6 md:h-6" />,
+    color: "bg-red-600 hover:bg-red-500",
+    description: "Server admin. They keep the peace.",
+  },
+  supporter: {
+    icon: <HeartHandshake className="w-4 h-4 md:w-6 md:h-6" />,
+    color: "bg-pink-600 hover:bg-pink-500",
+    description: "Supported the project. Forever grateful.",
+  },
+  champion: {
+    icon: <Trophy className="w-4 h-4 md:w-6 md:h-6" />,
+    color: "bg-amber-500 hover:bg-amber-400",
+    description: "Current number one player on the server.",
+  },
+  restricted: {
+    icon: <BanIcon className="w-4 h-4 md:w-6 md:h-6" />,
+    color: "bg-red-600 hover:bg-red-500",
+    description: "This user is restricted.", // Deprecated
+  },
 };
 
-export default function UserBadges({ badges }: UserBadgesProps) {
+export default function UserBadges({ badges, small }: UserBadgesProps) {
   return (
     <div className="flex flex-wrap gap-2">
       {badges.map((badge, index) => {
-        let badgeIcon;
-        let badgeColor;
+        let { icon, color, description } = badgeMap[badge] || {
+          icon: <BadgeIcon className="w-4 h-4 md:w-6 md:h-6 " />,
+          color: "bg-slate-600 hover:bg-slate-500",
+          description: "",
+        };
 
-        switch (badge) {
-          case "developer":
-            badgeIcon = <Coffee size={24} />;
-            badgeColor = "bg-orange-500 hover:bg-orange-400";
-            break;
-          case "bat":
-            badgeIcon = <Music size={24} />;
-            badgeColor = "bg-violet-600 hover:bg-violet-500";
-            break;
-          case "bot":
-            badgeIcon = <BotIcon size={24} />;
-            badgeColor = "bg-neutral-600 hover:bg-neutral-500";
-            break;
-          case "admin":
-            badgeIcon = <Shield size={24} />;
-            badgeColor = "bg-red-600 hover:bg-red-500";
-            break;
-          case "supporter":
-            badgeIcon = <HeartHandshake size={24} />;
-            badgeColor = "bg-pink-600 hover:bg-pink-500";
-            break;
-          case "champion":
-            badgeIcon = <Trophy size={24} />;
-            badgeColor = "bg-amber-500 hover:bg-amber-400";
-            break;
-          case "restricted":
-            badgeIcon = <BanIcon size={24} />;
-            badgeColor = "bg-red-600 hover:bg-red-500";
-            break;
-          default:
-            badgeIcon = <Badge size={24} />;
-            badgeColor = "bg-slate-600 hover:bg-slate-500";
-            break;
-        }
+        if (small)
+          icon = React.cloneElement(icon, {
+            className: "w-4 h-4",
+          });
 
         return (
-          <Tooltip content={BadgeDescription[badge]}>
-            <div
-              key={`user-badge-${index}`}
-              className={`flex items-center gap-2 p-2 rounded-lg ${badgeColor} smooth-transition hover:scale-105 `}
+          <Tooltip
+            content={
+              <p className="capitalize">{small ? badge : description}</p>
+            }
+            key={`user-badge-${index}`}
+          >
+            <Badge
+              className={twMerge(
+                `flex text-white items-center text-xs p-1 rounded-lg ${color} smooth-transition hover:scale-105 `,
+                !small ? "md:text-base md:gap-2 md:p-2 gap-1" : ""
+              )}
             >
-              {badgeIcon}
-              <span>{badge}</span>
-            </div>
+              {icon}
+              <span>{!small && badge}</span>
+            </Badge>
           </Tooltip>
         );
       })}

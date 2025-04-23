@@ -1,9 +1,10 @@
 import UserScoreOverview from "@/app/user/[id]/components/UserScoreOverview";
 import { ContentNotExist } from "@/components/ContentNotExist";
-import PrettyButton from "@/components/General/PrettyButton";
+
 import PrettyHeader from "@/components/General/PrettyHeader";
 import RoundedContent from "@/components/General/RoundedContent";
 import Spinner from "@/components/Spinner";
+import { Button } from "@/components/ui/button";
 import { GameMode } from "@/lib/hooks/api/types";
 import { UserScoresType } from "@/lib/hooks/api/user/types";
 import { useUserScores } from "@/lib/hooks/api/user/useUserScores";
@@ -20,12 +21,15 @@ export default function UserTabScores({
   gameMode,
   type,
 }: UserTabScoresProps) {
-  const { data, setSize, size, isLoading, isValidating } = useUserScores(
+  const { data, setSize, size, isLoading } = useUserScores(
     userId,
     gameMode,
     type,
     5
   );
+
+  const isLoadingMore =
+    isLoading || (size > 0 && data && typeof data[size - 1] === "undefined");
 
   const handleShowMore = () => {
     setSize(size + 1);
@@ -45,7 +49,7 @@ export default function UserTabScores({
       <PrettyHeader
         text={`${UserScoresType[type]} scores`}
         icon={<ChartColumnIncreasing />}
-        counter={total_count ?? undefined}
+        counter={total_count && total_count > 0 ? total_count : undefined}
       />
       <RoundedContent className="min-h-60 h-fit max-h-none">
         {!data && (
@@ -66,13 +70,15 @@ export default function UserTabScores({
             ))}
             {scores.length < total_count && (
               <div className="flex justify-center mt-4">
-                <PrettyButton
-                  text="Show more"
+                <Button
                   onClick={handleShowMore}
-                  icon={<ChevronDown />}
                   className="w-full md:w-1/2 flex items-center justify-center"
-                  isLoading={isLoading || isValidating}
-                />
+                  isLoading={isLoadingMore}
+                  variant="secondary"
+                >
+                  <ChevronDown />
+                  Show more
+                </Button>
               </div>
             )}
           </div>

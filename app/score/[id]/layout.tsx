@@ -9,11 +9,10 @@ import { Beatmap } from "@/lib/hooks/api/beatmap/types";
 
 export const revalidate = 60;
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { id: number };
+export async function generateMetadata(props: {
+  params: Promise<{ id: number }>;
 }): Promise<Metadata> {
+  const params = await props.params;
   const score = await fetcher<Score>(`score/${params.id}`);
 
   if (!score) {
@@ -35,21 +34,21 @@ export async function generateMetadata({
   }
 
   return {
-    title: `${user.username} on ${beatmap.title} [${beatmap.version}] | osu!Sunrise`,
+    title: `${user.username} on ${beatmap.title} [${beatmap.version}] | osu!sunrise`,
     description: `User ${
       user.username
     } has scored ${score.performance_points.toFixed(2)}pp on ${
       beatmap.title
-    } [${beatmap.version}] in osu!Sunrise.`,
+    } [${beatmap.version}] in osu!sunrise.`,
     openGraph: {
-      title: `${user.username} on ${beatmap.title} - ${beatmap.artist} [${beatmap.version}] | osu!Sunrise`,
+      title: `${user.username} on ${beatmap.title} - ${beatmap.artist} [${beatmap.version}] | osu!sunrise`,
       description: `User ${
         user.username
       } has scored ${score.performance_points.toFixed(2)}pp on ${
         beatmap.title
       } - ${beatmap.artist} [${beatmap.version}] ★${getBeatmapStarRating(
         beatmap
-      ).toFixed(2)} ${score.mods} in osu!Sunrise.`,
+      ).toFixed(2)} ${score.mods} in osu!sunrise.`,
       images: [
         `https://assets.ppy.sh/beatmaps/${beatmap.beatmapset_id}/covers/list@2x.jpg`,
       ],

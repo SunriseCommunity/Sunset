@@ -1,5 +1,5 @@
 "use client";
-import { DoorOpen } from "lucide-react";
+import { AlertCircle, DoorOpen } from "lucide-react";
 import PrettyHeader from "@/components/General/PrettyHeader";
 import RoundedContent from "@/components/General/RoundedContent";
 import Image from "next/image";
@@ -7,46 +7,90 @@ import { useState } from "react";
 import { useRegister } from "@/lib/hooks/api/auth/useRegister";
 import Cookies from "js-cookie";
 import useSelf from "@/lib/hooks/useSelf";
+import { useToast } from "@/hooks/use-toast";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import Link from "next/link";
+import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+
+let password = "";
+
+const formSchema = z.object({
+  username: z
+    .string()
+    .min(2, {
+      message: "Username must be at least 2 characters.",
+    })
+    .max(32, {
+      message: "Username must be 32 characters or fewer.",
+    }),
+  email: z.string(),
+  password: z
+    .string()
+    .min(8, {
+      message: "Password must be at least 8 characters.",
+    })
+    .max(32, {
+      message: "Password must be 32 characters or fewer.",
+    })
+    .refine((value) => {
+      password = value;
+      return true;
+    }),
+  confirmPassword: z
+    .string()
+    .min(8, {
+      message: "Password must be at least 8 characters.",
+    })
+    .max(32, {
+      message: "Password must be 32 characters or fewer.",
+    })
+    .refine((value) => value === password, "Passwords do not match"),
+});
 
 export default function Register() {
+  const [isSuccessfulDialogOpen, setIsSuccessfulDialogOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const { trigger } = useRegister();
 
   const { self, revalidate } = useSelf();
 
-  const showError = (message: string) => {
-    setError(message);
-  };
+  const { toast } = useToast();
 
-  const submitRegisterForm = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      username: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+  });
+
+  function onSubmit(values: z.infer<typeof formSchema>) {
     setError(null);
-    const form = e.currentTarget as HTMLFormElement;
 
-    const username = form.username.value;
-    const email = form.email.value;
-    const password = form.password.value;
-    const confirmPassword = form.confirmPassword.value;
-
-    if (password !== confirmPassword) {
-      showError("Passwords do not match. Please try again.");
-      return;
-    }
-
-    if (username.length < 2 || username.length > 32) {
-      showError(
-        "Invalid username. Length should be between 2 and 32 characters."
-      );
-      return;
-    }
-
-    if (password.length < 8 || password.length > 32) {
-      showError(
-        "Invalid password. Length should be between 8 and 32 characters."
-      );
-      return;
-    }
+    const { username, email, password } = values;
 
     trigger(
       {
@@ -64,112 +108,189 @@ export default function Register() {
             expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
           });
 
-          revalidate();
-
           form.reset();
 
-          alert("Account successfully created!");
+          revalidate();
+
+          toast({ title: "Account successfully created!" });
+
+          setIsSuccessfulDialogOpen(true);
         },
         onError(err) {
-          showError(err.message ?? "Unknown error.");
+          setError(err.message ?? "Unknown error.");
         },
       }
     );
-  };
+  }
 
   return (
-    <div className="flex flex-col w-full mt-8">
-      <PrettyHeader
-        text="Register"
-        icon={<DoorOpen />}
-        className="bg-terracotta-700 mb-4"
-        roundBottom={true}
-      />
-      <RoundedContent className="mb-4 bg-terracotta-700 rounded-lg">
+    <div className="flex flex-col space-y-4">
+      <PrettyHeader text="Register" icon={<DoorOpen />} roundBottom={true} />
+      <RoundedContent className="bg-card mb-4 rounded-lg">
         <div className="flex w-11/12 mx-auto">
-          <div className="flex flex-col w-11/12 mx-auto space-y-2">
-            <h1 className="text-xl pt-6">Welcome to the registration page!</h1>
-            <p className="text-gray-200 ">
+          <div className="flex flex-col w-11/12 mx-auto space-y-6">
+            <h1 className="text-xl">Welcome to the registration page!</h1>
+            <p>
               Hello! Please enter your details to create an account. If you
               don't sure how to connect to the server, or if you have any other
-              questions, please visit our wiki page.
+              questions, please visit our{" "}
+              <Link href="/wiki" className="text-primary hover:underline">
+                Wiki page
+              </Link>
+              .
             </p>
 
-            <div className="flex flex-col space-y-2 pt-6">
+            <div className="flex flex-col space-y-2">
               <h1 className="text-xl">Enter your details</h1>
-              <form className="flex flex-col" onSubmit={submitRegisterForm}>
-                <label htmlFor="username" className="text-gray-200 text-sm">
-                  Username
-                </label>
-                <input
-                  type="text"
-                  placeholder="e.g. username"
-                  name="username"
-                  className="bg-terracotta-800 p-2 rounded-lg mb-2"
-                  pattern="^[a-zA-Z0-9_\- ]{1,32}$"
-                  maxLength={32}
-                  required
-                />
-                <label htmlFor="email" className="text-gray-200 text-sm">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  placeholder="e.g. username@mail.com"
-                  name="email"
-                  pattern="^.+@.+\.[a-zA-Z]{2,63}$"
-                  required
-                  className="bg-terracotta-800 p-2 rounded-lg mb-2"
-                  maxLength={256}
-                />
 
-                <label htmlFor="password" className="text-gray-200 text-sm">
-                  Password
-                </label>
-                <input
-                  type="password"
-                  placeholder="************"
-                  name="password"
-                  className="bg-terracotta-800 p-2 rounded-lg mb-2"
-                  maxLength={32}
-                  required
-                />
-
-                <label
-                  htmlFor="confirmPassword"
-                  className="text-gray-200 text-sm"
+              <Form {...form}>
+                <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className="space-y-2"
                 >
-                  Confirm Password
-                </label>
-                <input
-                  type="password"
-                  placeholder="************"
-                  name="confirmPassword"
-                  className="bg-terracotta-800 p-2 rounded-lg mb-2"
-                  maxLength={32}
-                  required
-                />
+                  <FormField
+                    control={form.control}
+                    name="username"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Username</FormLabel>
+                        <FormControl>
+                          <Input
+                            pattern="^[a-zA-Z0-9_\- ]{1,32}$"
+                            placeholder="e.g. username"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="email"
+                            pattern="^.+@.+\.[a-zA-Z]{2,63}$"
+                            placeholder="e.g. username@mail.com"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                {error && <p className="text-red-500">{error}</p>}
+                  <FormField
+                    control={form.control}
+                    name="password"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Password</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="password"
+                            placeholder="************"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="confirmPassword"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Confirm Password</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="password"
+                            placeholder="************"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                <button
-                  type="submit"
-                  className="bg-terracotta-500 text-white rounded-lg p-2"
-                >
-                  Register
-                </button>
-              </form>
+                  {error && (
+                    <Alert variant="destructive">
+                      <AlertCircle className="h-4 w-4" />
+                      <AlertTitle>Error</AlertTitle>
+                      <AlertDescription>{error}</AlertDescription>
+                    </Alert>
+                  )}
+
+                  <Button type="submit" className="w-full">
+                    Register
+                  </Button>
+                  <span className="text-xs text-secondary-foreground">
+                    By signing up, you agree to the server{" "}
+                    <Link
+                      href="/rules"
+                      className="text-primary hover:underline"
+                    >
+                      rules
+                    </Link>
+                  </span>
+                </form>
+              </Form>
             </div>
           </div>
+
           <Image
             src="/images/register.png"
             alt="register image"
             width={400}
             height={800}
-            className="rounded-lg mt-4"
+            className="rounded-lg mt-4 hidden lg:block"
           />
         </div>
       </RoundedContent>
+
+      <Dialog
+        open={isSuccessfulDialogOpen}
+        onOpenChange={setIsSuccessfulDialogOpen}
+      >
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>You’re all set!</DialogTitle>
+
+            <DialogDescription>
+              Your account has been successfully created.
+            </DialogDescription>
+          </DialogHeader>
+          <p>
+            You can now connect to the server by following the guide on our{" "}
+            <Link
+              href="/wiki#How%20to%20connect"
+              className="text-primary hover:underline"
+            >
+              Wiki page
+            </Link>{" "}
+            , or customize your profile by updating your avatar and banner
+            before you start playing!
+          </p>
+
+          <DialogFooter>
+            <Button asChild variant="secondary" className="my-2 md:my-0">
+              <Link href={`/wiki#How%20to%20connect`}>View Wiki Guide</Link>
+            </Button>
+
+            {self && (
+              <Button asChild className="my-2 md:my-0">
+                <Link href={`/user/${self?.user_id}`}>Go to Profile</Link>
+              </Button>
+            )}
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

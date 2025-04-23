@@ -6,7 +6,7 @@ interface ContentNotExistProps {
 
 export function ContentNotExist({ text }: ContentNotExistProps) {
   return (
-    <div className="text-white p-4 rounded-lg flex flex-row items-center justify-center space-x-4">
+    <div className="text-current p-4 rounded-lg flex flex-col md:flex-row text-center items-center justify-center space-x-4">
       <Image
         src="/images/content-not-found.png"
         alt="content-not-found"

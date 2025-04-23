@@ -43,12 +43,13 @@ export default function UserStatsChart({ data, value: chartValue }: Props) {
     const endDate = new Date();
 
     let snapshotIndex = 0;
-    while (currentDate <= endDate) {
-      const formattedDate = currentDate.toDateString();
 
+    while (currentDate <= endDate) {
       if (snapshotIndex >= snapshots.length) {
         break;
       }
+
+      let formattedDate = currentDate.toDateString();
 
       const formattedCurrentDate = new Date(
         snapshots[snapshotIndex].saved_at
@@ -60,17 +61,23 @@ export default function UserStatsChart({ data, value: chartValue }: Props) {
       ) {
         lastValidSnapshot = { ...snapshots[snapshotIndex] };
         result.push(lastValidSnapshot);
-        snapshotIndex++;
       } else if (lastValidSnapshot) {
         result.push({ ...lastValidSnapshot, saved_at: formattedDate });
       }
 
-      if (formattedCurrentDate < formattedDate) {
-        snapshotIndex++;
-        continue;
+      if (
+        new Date(formattedCurrentDate).getTime() >=
+        new Date(formattedDate).getTime()
+      ) {
+        currentDate.setDate(currentDate.getDate() + 1);
       }
 
-      currentDate.setDate(currentDate.getDate() + 1);
+      if (
+        new Date(formattedCurrentDate).getTime() <=
+        new Date(formattedDate).getTime()
+      ) {
+        snapshotIndex++;
+      }
     }
 
     var isCurrentDay = (n: number) =>

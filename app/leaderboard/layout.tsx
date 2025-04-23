@@ -1,11 +1,18 @@
 import { Metadata } from "next";
-import Page from "./page"; 
+import PageLeaderboard from "./page";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
-  title: "Leaderboard | osu!Sunrise",
+  title: "Leaderboard | osu!sunrise",
   openGraph: {
-    title: "Leaderboard | osu!Sunrise",
+    title: "Leaderboard | osu!sunrise",
   },
 };
 
-export default Page;
+export default function Page() {
+  return (
+    <Suspense>
+      <PageLeaderboard />
+    </Suspense>
+  );
+}

@@ -6,11 +6,10 @@ import { User } from "@/lib/hooks/api/user/types";
 
 export const revalidate = 60;
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { id: number };
+export async function generateMetadata(props: {
+  params: Promise<{ id: number }>;
 }): Promise<Metadata> {
+  const params = await props.params;
   const user = await fetcher<User>(`user/${params.id}`);
 
   if (!user) {
@@ -18,11 +17,11 @@ export async function generateMetadata({
   }
 
   return {
-    title: `${user.username} · user profile | osu!Sunrise`,
+    title: `${user.username} · User Profile | osu!sunrise`,
     description: `We don't know much about them, but we're sure ${user.username} is great.`,
     openGraph: {
-      siteName: "osu!Sunrise",
-      title: `${user.username} · user profile | osu!Sunrise`,
+      siteName: "osu!sunrise",
+      title: `${user.username} · User Profile | osu!sunrise`,
       description: `We don't know much about them, but we're sure ${user.username} is great.`,
       images: [
         `https://a.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/avatar/${user.user_id}`,

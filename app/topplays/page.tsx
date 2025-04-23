@@ -1,22 +1,31 @@
 "use client";
 import Spinner from "@/components/Spinner";
 import { ChevronDown, LucideHistory } from "lucide-react";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import PrettyHeader from "@/components/General/PrettyHeader";
 import RoundedContent from "@/components/General/RoundedContent";
 import { GameMode } from "@/lib/hooks/api/types";
 import UserScoreMinimal from "./components/UserScoreMinimal";
 import GameModeSelector from "@/components/GameModeSelector";
 import { useTopScores } from "@/lib/hooks/api/score/useTopScores";
-import PrettyButton from "@/components/General/PrettyButton";
+import { Button } from "@/components/ui/button";
+import { tryParseNumber } from "@/lib/utils/type.util";
+import { usePathname, useSearchParams } from "next/navigation";
 
 export default function Topplays() {
-  const [activeMode, setActiveMode] = useState(GameMode.std);
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
-  const { data, setSize, size, isLoading, isValidating } = useTopScores(
-    activeMode,
-    20
+  const mode = tryParseNumber(searchParams.get("mode")) ?? GameMode.std;
+
+  const [activeMode, setActiveMode] = useState(
+    mode in GameMode ? mode : GameMode.std
   );
+
+  const { data, setSize, size, isLoading } = useTopScores(activeMode, 20);
+
+  const isLoadingMore =
+    isLoading || (size > 0 && data && typeof data[size - 1] === "undefined");
 
   const handleShowMore = () => {
     setSize(size + 1);
@@ -24,53 +33,73 @@ export default function Topplays() {
 
   const scores = data?.flatMap((item) => item.scores);
 
+  useEffect(() => {
+    window.history.pushState(
+      null,
+      "",
+      pathname + "?" + createQueryString("mode", activeMode.toString())
+    );
+  }, [activeMode]);
+
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set(name, value);
+
+      return params.toString();
+    },
+    [searchParams]
+  );
+
   return (
-    <div className="flex flex-col w-full mt-8">
+    <div className="flex flex-col w-full space-y-4">
       <PrettyHeader
         text="Top plays"
         icon={<LucideHistory />}
-        className="mb-4"
         roundBottom={true}
       />
+      <div>
+        <PrettyHeader className="border-0">
+          <GameModeSelector
+            activeMode={activeMode}
+            setActiveMode={setActiveMode}
+          />
+        </PrettyHeader>
 
-      <PrettyHeader>
-        <GameModeSelector
-          activeMode={activeMode}
-          setActiveMode={setActiveMode}
-        />
-      </PrettyHeader>
+        {isLoading && (
+          <div className="flex justify-center items-center h-96">
+            <Spinner size="xl" />
+          </div>
+        )}
 
-      {isLoading && (
-        <div className="flex justify-center items-center h-96">
-          <Spinner size="xl" />
-        </div>
-      )}
-
-      {!isLoading && scores && (
-        <div className="bg-coffee-600 rounded-b-3xl mb-4">
-          <RoundedContent className="min-h-0 h-fit max-h-none rounded-t-xl">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-              {scores?.map((score) => (
-                <div key={`score-${score.id}`} className="mb-2">
-                  <UserScoreMinimal score={score} />
-                </div>
-              ))}
-            </div>
-
-            {scores.length < 100 && (
-              <div className="flex justify-center mt-4">
-                <PrettyButton
-                  text="Show more"
-                  onClick={handleShowMore}
-                  icon={<ChevronDown />}
-                  className="w-full md:w-1/2 flex items-center justify-center"
-                  isLoading={isLoading || isValidating}
-                />
+        {!isLoading && scores && (
+          <div className="bg-card rounded-b-3xl mb-4">
+            <RoundedContent className="min-h-0 h-fit max-h-none rounded-t-xl">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                {scores?.map((score) => (
+                  <div key={`score-${score.id}`} className="mb-2">
+                    <UserScoreMinimal score={score} />
+                  </div>
+                ))}
               </div>
-            )}
-          </RoundedContent>
-        </div>
-      )}
+
+              {scores.length < 100 && (
+                <div className="flex justify-center mt-4">
+                  <Button
+                    onClick={handleShowMore}
+                    className="w-full md:w-1/2 flex items-center justify-center"
+                    isLoading={isLoadingMore}
+                    variant="secondary"
+                  >
+                    <ChevronDown />
+                    Show more
+                  </Button>
+                </div>
+              )}
+            </RoundedContent>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

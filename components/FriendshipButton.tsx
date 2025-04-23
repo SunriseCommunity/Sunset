@@ -1,11 +1,12 @@
 "use client";
 
-import PrettyButton from "@/components/General/PrettyButton";
+import { Button } from "@/components/ui/button";
 import { useUserSelf } from "@/lib/hooks/api/user/useUser";
 import {
   useUpdateUserFriendshipStatus,
   useUserFriendshipStatus,
 } from "@/lib/hooks/api/user/useUserFriendshipStatus";
+import useSelf from "@/lib/hooks/useSelf";
 import { UserMinus, UserPlus } from "lucide-react";
 import { twMerge } from "tailwind-merge";
 
@@ -18,41 +19,41 @@ export function FriendshipButton({
   includeText?: boolean;
   className?: string;
 }) {
-  const self = useUserSelf();
+  const { self } = useSelf();
 
   const { trigger } = useUpdateUserFriendshipStatus(userId);
 
-  const userFriendshipStatusQuery = useUserFriendshipStatus(userId);
+  const { data, isLoading } = useUserFriendshipStatus(userId);
 
-  const userFriendshipStatus = userFriendshipStatusQuery.data;
+  const userFriendshipStatus = data;
 
   const updateFriendshipStatus = async (action: "add" | "remove") => {
     trigger(
       { action },
       {
-        optimisticData: userFriendshipStatusQuery.data && {
-          ...userFriendshipStatusQuery.data,
+        optimisticData: data && {
+          ...data,
           is_followed_by_you: action === "add",
         },
       }
     );
   };
 
-  if (!self.data || !userFriendshipStatus) return;
+  if (!self || userId === self.user_id) return;
 
-  const { is_followed_by_you, is_following_you } = userFriendshipStatus;
+  const { is_followed_by_you, is_following_you } = userFriendshipStatus ?? {};
   const isMutual = is_followed_by_you && is_following_you;
 
   return (
-    <PrettyButton
-      onClick={() => {
-        updateFriendshipStatus(
-          userFriendshipStatus.is_followed_by_you ? "remove" : "add"
-        );
+    <Button
+      onClick={(e) => {
+        e.stopPropagation();
+        e.preventDefault();
+
+        if (!userFriendshipStatus) return;
+
+        updateFriendshipStatus(is_followed_by_you ? "remove" : "add");
       }}
-      icon={
-        userFriendshipStatus.is_followed_by_you ? <UserMinus /> : <UserPlus />
-      }
       className={twMerge(
         isMutual
           ? "bg-pink-700 text-white hover:bg-pink-500"
@@ -61,15 +62,15 @@ export function FriendshipButton({
           : "",
         className
       )}
-      text={
-        includeText
-          ? isMutual
-            ? "Unfriend"
-            : is_followed_by_you
-            ? "Unfollow"
-            : "Follow"
-          : undefined
-      }
-    />
+      isLoading={isLoading}
+      variant={isLoading ? "secondary" : "default"}
+    >
+      {is_followed_by_you ? <UserMinus /> : <UserPlus />}
+      {includeText && (
+        <span className="hidden md:inline">
+          {isMutual ? "Unfriend" : is_followed_by_you ? "Unfollow" : "Follow"}
+        </span>
+      )}
+    </Button>
   );
 }
