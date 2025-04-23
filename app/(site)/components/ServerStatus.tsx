@@ -1,4 +1,5 @@
 import PrettyCounter from "@/components/General/PrettyCounter";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Activity, Users, AlertTriangle, Trophy, Wifi } from "lucide-react";
 
 interface Props {
@@ -60,7 +61,15 @@ export default function ServerStatus({ type, data, children }: Props) {
         </span>
         <div className="flex items-center gap-2">
           <span className="text-lg font-bold text-current">
-            {isDataNumber ? <PrettyCounter value={Number(data)} /> : data}
+            {data ? (
+              isDataNumber ? (
+                <PrettyCounter value={Number(data)} />
+              ) : (
+                data
+              )
+            ) : (
+              <Skeleton className="w-20 h-6 rounded-lg my-1" />
+            )}
           </span>
 
           {children}

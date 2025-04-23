@@ -69,15 +69,7 @@ export default function Home() {
   const videoUrls = [0, 1, 2, 3].map((n) => `/api/getVideo?id=${n}`);
 
   const serverStatusQuery = useServerStatus();
-  const serverStatus = serverStatusQuery.data ?? {
-    is_online: false,
-    users_online: 0,
-    current_users_online: [],
-    total_users: 0,
-    recent_users: [],
-    total_scores: 0,
-    total_restrictions: 0,
-  };
+  const serverStatus = serverStatusQuery.data;
 
   return (
     <div className="w-full space-y-8">
@@ -143,19 +135,29 @@ export default function Home() {
       <div className="flex flex-wrap gap-2 justify-center">
         <ServerStatus
           type="server_status"
-          data={serverStatus.is_online ? "Online" : "Offline"}
+          data={
+            serverStatus
+              ? serverStatus.is_online
+                ? "Online"
+                : "Offline"
+              : undefined
+          }
         />
-        <ServerStatus type="total_users" data={serverStatus.total_users}>
-          <RecentUsersIcons users={serverStatus.recent_users} />
+        <ServerStatus type="total_users" data={serverStatus?.total_users}>
+          {serverStatus && (
+            <RecentUsersIcons users={serverStatus.recent_users} />
+          )}
         </ServerStatus>
-        <ServerStatus type="users_online" data={serverStatus.users_online}>
-          <RecentUsersIcons users={serverStatus.current_users_online} />
+        <ServerStatus type="users_online" data={serverStatus?.users_online}>
+          {serverStatus && (
+            <RecentUsersIcons users={serverStatus.current_users_online} />
+          )}
         </ServerStatus>
         <ServerStatus
           type="users_restricted"
-          data={serverStatus.total_restrictions}
+          data={serverStatus?.total_restrictions}
         />
-        <ServerStatus type="total_scores" data={serverStatus.total_scores} />
+        <ServerStatus type="total_scores" data={serverStatus?.total_scores} />
       </div>
 
       <div className="w-full pb-12 items-center">
@@ -193,14 +195,6 @@ export default function Home() {
           <CarouselNext className="md:-right-12 right-6" />
         </Carousel>
       </div>
-
-      {/* <div className="w-full pb-12">
-        <h2 className="text-4xl font-bold text-current text-end py-8">
-          Who we are?
-        </h2>
-
-        <RoundedContent className="bg-card rounded-lg">test</RoundedContent>
-      </div> */}
 
       <div className="w-full p-4">
         <div className="py-8 space-y-4">
