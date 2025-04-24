@@ -3,7 +3,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer";
-import ScrollUpButton from "@/components/scrollUpButton";
+import ScrollUpButton from "@/components/ScrollUpButton";
 import Providers from "@/components/Providers";
 import { Toaster } from "@/components/ui/toaster";
 import ScrollUp from "@/components/ScrollUp";
