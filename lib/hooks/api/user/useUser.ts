@@ -1,19 +1,16 @@
 "use client";
 
-import { User, UserStats } from "@/lib/hooks/api/user/types";
-import { GameMode } from "@/lib/hooks/api/types";
+import { GameMode, UserResponse, UserWithStats } from "@/lib/types/api";
 import useSWR from "swr";
 
 export function useUserSelf() {
-  return useSWR<User>("user/self");
+  return useSWR<UserResponse>("user/self");
 }
 
 export function useUser(id: number | null) {
-  return useSWR<User>(id ? `user/${id}` : null);
+  return useSWR<UserResponse>(id ? `user/${id}` : null);
 }
 
 export function useUserStats(id: number | null, mode: GameMode) {
-  return useSWR<{ user: User; stats: UserStats }>(
-    id ? `user/${id}?mode=${mode}` : null
-  );
+  return useSWR<UserWithStats>(id ? `user/${id}/${mode}` : null);
 }

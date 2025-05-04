@@ -32,14 +32,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { GameMode } from "@/lib/hooks/api/types";
 import { gameModeToVanilla } from "@/lib/utils/gameMode.util";
-import { Beatmap } from "@/lib/hooks/api/beatmap/types";
+import { BeatmapResponse, GameMode } from "@/lib/types/api";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  beatmap: Beatmap;
+  beatmap: BeatmapResponse;
   gameMode: GameMode;
   totalCount: number;
   pagination: {
@@ -50,7 +49,7 @@ interface DataTableProps<TData, TValue> {
 }
 
 export const ScoreTableContext = createContext<{
-  beatmap: Beatmap;
+  beatmap: BeatmapResponse;
   gamemode: GameMode;
 } | null>(null);
 
@@ -101,17 +100,19 @@ export function ScoreDataTable<TData, TValue>({
     const visibility = [
       {
         id: "count_geki",
-        shouldShow: [GameMode.mania].includes(vanillaGamemode),
+        shouldShow: [GameMode.MANIA].includes(vanillaGamemode),
       },
       {
         id: "count_katu",
-        shouldShow: [GameMode.mania].includes(vanillaGamemode),
+        shouldShow: [GameMode.MANIA].includes(vanillaGamemode),
       },
       {
         id: "count_50",
-        shouldShow: [GameMode.std, GameMode.mania, GameMode.catch].includes(
-          vanillaGamemode
-        ),
+        shouldShow: [
+          GameMode.STANDARD,
+          GameMode.MANIA,
+          GameMode.CATCH_THE_BEAT,
+        ].includes(vanillaGamemode),
       },
       { id: "performance_points", shouldShow: !!beatmap.ranked },
     ];

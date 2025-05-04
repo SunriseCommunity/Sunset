@@ -5,7 +5,6 @@ import { useState, use } from "react";
 import PrettyHeader from "@/components/General/PrettyHeader";
 import Image from "next/image";
 import RoundedContent from "@/components/General/RoundedContent";
-import { BeatmapStatus } from "@/lib/hooks/api/beatmap/types";
 import PrettyDate from "@/components/General/PrettyDate";
 import { getGradeColor } from "@/lib/utils/getGradeColor";
 import UserElement from "@/components/UserElement";
@@ -32,6 +31,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import ScoreStats from "@/components/ScoreStats";
+import { BeatmapStatusSearch } from "@/lib/types/api";
 
 export default function Score(props: { params: Promise<{ id: number }> }) {
   const params = use(props.params);
@@ -84,7 +84,7 @@ export default function Score(props: { params: Promise<{ id: number }> }) {
                       <div className="flex font-bold text-xl drop-shadow-md items-center ">
                         <span className="pr-1">
                           <BeatmapStatusIcon
-                            status={beatmap.status ?? BeatmapStatus.Graveyard}
+                            status={beatmap.status ?? BeatmapStatusSearch.GRAVEYARD}
                           />
                         </span>
                         <span className="line-clamp-3 text-white">

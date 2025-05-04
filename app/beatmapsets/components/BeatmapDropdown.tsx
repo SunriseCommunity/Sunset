@@ -6,8 +6,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Beatmap, BeatmapSet } from "@/lib/hooks/api/beatmap/types";
-import { GameMode } from "@/lib/hooks/api/types";
+import { BeatmapResponse, BeatmapSetResponse, GameMode } from "@/lib/types/api";
 import { MoreHorizontal } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -18,8 +17,8 @@ export function BeatmapDropdown({
   beatmap,
   activeMode,
 }: {
-  beatmapSet: BeatmapSet;
-  beatmap: Beatmap;
+  beatmapSet: BeatmapSetResponse;
+  beatmap: BeatmapResponse;
   activeMode: GameMode;
 }) {
   const router = useRouter();

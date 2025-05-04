@@ -1,4 +1,4 @@
-import { StatsSnapshot } from "@/lib/hooks/api/user/types";
+import { StatsSnapshotResponse, StatsSnapshotsResponse } from "@/lib/types/api";
 import { timeSince } from "@/lib/utils/timeSince";
 import {
   AreaChart,
@@ -12,10 +12,7 @@ import {
 } from "recharts";
 
 interface Props {
-  data: {
-    snapshots: StatsSnapshot[];
-    total_count: number;
-  };
+  data: StatsSnapshotsResponse;
   value: "pp" | "rank";
 }
 
@@ -31,14 +28,14 @@ export default function UserStatsChart({ data, value: chartValue }: Props) {
   var currentSnapshot = snapshots.pop();
   if (!currentSnapshot) return null;
 
-  var result: StatsSnapshot[] = [];
+  var result: StatsSnapshotResponse[] = [];
 
   if (snapshots.length > 0) {
     snapshots.sort(
       (a, b) => new Date(a.saved_at).getTime() - new Date(b.saved_at).getTime()
     );
 
-    let lastValidSnapshot: StatsSnapshot | null = null;
+    let lastValidSnapshot: StatsSnapshotResponse | null = null;
     let currentDate = new Date(snapshots[0].saved_at);
     const endDate = new Date();
 

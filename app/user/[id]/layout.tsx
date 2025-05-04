@@ -2,7 +2,8 @@ import { Metadata } from "next";
 import Page from "./page";
 import { notFound } from "next/navigation";
 import fetcher from "@/lib/services/fetcher";
-import { User } from "@/lib/hooks/api/user/types";
+import { UserResponse } from "@/lib/types/api";
+
 
 export const revalidate = 60;
 
@@ -10,7 +11,7 @@ export async function generateMetadata(props: {
   params: Promise<{ id: number }>;
 }): Promise<Metadata> {
   const params = await props.params;
-  const user = await fetcher<User>(`user/${params.id}`);
+  const user = await fetcher<UserResponse>(`user/${params.id}`);
 
   if (!user) {
     return notFound();

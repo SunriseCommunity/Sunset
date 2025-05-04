@@ -2,15 +2,15 @@ import { twMerge } from "tailwind-merge";
 
 import Image from "next/image";
 import ImageWithFallback from "./ImageWithFallback";
-import { User } from "@/lib/hooks/api/user/types";
-import { BeatmapSet } from "@/lib/hooks/api/beatmap/types";
+
 import Link from "next/link";
 import DifficultyIcon from "@/components/DifficultyIcon";
 import { getBeatmapStarRating } from "@/lib/utils/getBeatmapStarRating";
 import BeatmapStatusIcon from "@/components/BeatmapStatus";
+import { BeatmapSetResponse } from "@/lib/types/api";
 
 interface UserProfileBannerProps {
-  beatmapSet: BeatmapSet;
+  beatmapSet: BeatmapSetResponse;
   className?: string;
 }
 

@@ -1,19 +1,17 @@
 "use client";
 
-import { Score } from "@/lib/hooks/api/score/types";
-import { GameMode } from "@/lib/hooks/api/types";
-import { UserScoresType } from "@/lib/hooks/api/user/types";
+import { GameMode, GetUserByIdScoresResponse, ScoreTableType } from "@/lib/types/api";
 import useSWRInfinite from "swr/infinite";
 
 export function useUserScores(
   userId: number,
   mode: GameMode,
-  type: UserScoresType,
+  type: ScoreTableType,
   limit?: number
 ) {
   const getKey = (
     pageIndex: number,
-    previousPageData?: { scores: Score[] }
+    previousPageData?: GetUserByIdScoresResponse
   ) => {
     if (previousPageData && previousPageData.scores.length === 0) return null;
 
@@ -28,5 +26,5 @@ export function useUserScores(
     return `user/${userId}/scores?${queryParams.toString()}`;
   };
 
-  return useSWRInfinite<{ scores: Score[]; total_count: number }>(getKey);
+  return useSWRInfinite<GetUserByIdScoresResponse>(getKey);
 }

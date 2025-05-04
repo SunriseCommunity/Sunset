@@ -4,14 +4,18 @@ import { LucideMedal } from "lucide-react";
 import Image from "next/image";
 import PrettyDate from "@/components/General/PrettyDate";
 import Spinner from "@/components/Spinner";
-import { User, UserMedal, UserMedals } from "@/lib/hooks/api/user/types";
 import { useUserMedals } from "@/lib/hooks/api/user/useUserMedals";
-import { GameMode } from "@/lib/hooks/api/types";
 import { Tooltip } from "@/components/Tooltip";
 import { twMerge } from "tailwind-merge";
+import {
+  GameMode,
+  GetUserByIdMedalsResponse,
+  UserMedalResponse,
+  UserResponse,
+} from "@/lib/types/api";
 
 interface UserTabMedalsProps {
-  user: User;
+  user: UserResponse;
   gameMode: GameMode;
 }
 
@@ -28,7 +32,7 @@ export default function UserTabMedals({ user, gameMode }: UserTabMedalsProps) {
 
   const latestMedals = userMedals
     ? Object.values(userMedals)
-        .flatMap((group) => group.medals as UserMedal[])
+        .flatMap((group) => group.medals as UserMedalResponse[])
         .filter((m) => m.unlocked_at)
         .sort(
           (a, b) =>
@@ -72,9 +76,9 @@ export default function UserTabMedals({ user, gameMode }: UserTabMedalsProps) {
 
             <div className="p-4 rounded-b-lg grid grid-cols-4 gap-4 justify-center items-center">
               {userMedals ? (
-                userMedals[category as keyof UserMedals].medals.map((medal) =>
-                  MedalElement(medal)
-                )
+                userMedals[
+                  category as keyof GetUserByIdMedalsResponse
+                ].medals.map((medal) => MedalElement(medal))
               ) : (
                 <div className="mx-auto col-span-4">
                   <Spinner size="lg" />
@@ -88,7 +92,7 @@ export default function UserTabMedals({ user, gameMode }: UserTabMedalsProps) {
   );
 }
 
-function MedalElement(medal: UserMedal) {
+function MedalElement(medal: UserMedalResponse) {
   const isAchieved = medal.unlocked_at !== null;
 
   return (

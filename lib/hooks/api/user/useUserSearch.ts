@@ -1,7 +1,7 @@
 "use client";
 
-import { User } from "@/lib/hooks/api/user/types";
 import fetcher from "@/lib/services/fetcher";
+import { GetUserSearchResponse } from "@/lib/types/api";
 import useSWR, { SWRConfiguration } from "swr";
 
 export function useUserSearch(
@@ -10,7 +10,7 @@ export function useUserSearch(
   limit?: number,
   options?: SWRConfiguration
 ) {
-  return useSWR<User[]>(
+  return useSWR<GetUserSearchResponse>(
     query
       ? `user/search?query=${query}${page ? `&page=${page}` : ""}${
           limit ? `&limit=${limit}` : ""

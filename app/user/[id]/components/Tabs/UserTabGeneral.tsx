@@ -3,7 +3,6 @@ import UserStatsChart from "@/app/user/[id]/components/UserStatsChart";
 import { ContentNotExist } from "@/components/ContentNotExist";
 import PrettyHeader from "@/components/General/PrettyHeader";
 import RoundedContent from "@/components/General/RoundedContent";
-import { GameMode } from "@/lib/hooks/api/types";
 import { getLevelWithProgress } from "@/lib/utils/userLevel";
 import NumberWith from "@/lib/utils/numberWith";
 import { timeSince } from "@/lib/utils/timeSince";
@@ -12,7 +11,6 @@ import { remark } from "remark";
 import remarkGfm from "remark-gfm";
 import html from "remark-html";
 import { playtimeToString } from "@/lib/utils/playtimeToString";
-import { User, UserStats } from "@/lib/hooks/api/user/types";
 import { useUserGrades } from "@/lib/hooks/api/user/useGraph";
 import { useUserGraph } from "@/lib/hooks/api/user/useUserGraph";
 import { useState } from "react";
@@ -20,10 +18,11 @@ import { useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { Tooltip } from "@/components/Tooltip";
+import { GameMode, UserResponse, UserStatsResponse } from "@/lib/types/api";
 
 interface UserTabGeneralProps {
-  user: User;
-  stats: UserStats | undefined;
+  user: UserResponse;
+  stats: UserStatsResponse | undefined;
   gameMode: GameMode;
 }
 

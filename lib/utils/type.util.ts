@@ -1,7 +1,4 @@
-export function isInstance<T extends object>(
-  value: string,
-  type: T
-): type is T {
+export function isInstance<T extends object>(value: string, type: T): boolean {
   return Object.values(type).includes(value);
 }
 

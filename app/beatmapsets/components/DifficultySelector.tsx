@@ -1,19 +1,16 @@
 "use client";
 
-import { Beatmap } from "@/lib/hooks/api/beatmap/types";
 import { twMerge } from "tailwind-merge";
-
 import { useState } from "react";
 import DifficultyIcon from "@/components/DifficultyIcon";
-import { GameMode } from "@/lib/hooks/api/types";
 import { getBeatmapStarRating } from "@/lib/utils/getBeatmapStarRating";
-import { BeatmapSet } from "@/lib/hooks/api/beatmap/types";
+import { BeatmapResponse, BeatmapSetResponse, GameMode } from "@/lib/types/api";
 
 interface DifficultySelectorProps {
-  beatmapset: BeatmapSet;
-  difficulties: Beatmap[];
-  activeDifficulty: Beatmap;
-  setDifficulty: (difficulty: Beatmap) => void;
+  beatmapset: BeatmapSetResponse;
+  difficulties: BeatmapResponse[];
+  activeDifficulty: BeatmapResponse;
+  setDifficulty: (difficulty: BeatmapResponse) => void;
   activeGameMode: GameMode;
   className?: string;
 }
@@ -26,9 +23,8 @@ export default function DifficultySelector({
   activeGameMode,
   className,
 }: DifficultySelectorProps) {
-  const [hoveredDifficulty, setHoveredDifficulty] = useState<Beatmap | null>(
-    null
-  );
+  const [hoveredDifficulty, setHoveredDifficulty] =
+    useState<BeatmapResponse | null>(null);
 
   const selectedDifficulty = hoveredDifficulty
     ? hoveredDifficulty

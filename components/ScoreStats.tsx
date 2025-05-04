@@ -1,8 +1,6 @@
 import { Tooltip } from "@/components/Tooltip";
 import { Separator } from "@/components/ui/separator";
-import { Beatmap } from "@/lib/hooks/api/beatmap/types";
-import { Score } from "@/lib/hooks/api/score/types";
-import { GameMode } from "@/lib/hooks/api/types";
+import { BeatmapResponse, GameMode, ScoreResponse } from "@/lib/types/api";
 import { isBeatmapRanked } from "@/lib/utils/isBeatmapRanked";
 import numberWith from "@/lib/utils/numberWith";
 import { timeSince } from "@/lib/utils/timeSince";
@@ -10,9 +8,9 @@ import toPrettyDate from "@/lib/utils/toPrettyDate";
 import { twMerge } from "tailwind-merge";
 
 interface Props {
-  score: Score;
+  score: ScoreResponse;
   variant: scoreStatsVariant;
-  beatmap?: Beatmap;
+  beatmap?: BeatmapResponse;
 }
 
 type scoreStatsVariant = "score" | "leaderboard";
@@ -74,7 +72,7 @@ export default function ScoreStats({ score, beatmap, variant }: Props) {
                 {timeSince(score.when_played, undefined, true)}
               </Tooltip>
             </DataBox>
-            <DataBox title="Mods" variant={variant} value={score.mods} />
+            <DataBox title="Mods" variant={variant} value={score.mods ?? ""} />
           </div>
         )}
       </div>
@@ -86,10 +84,10 @@ function ScoreGamemodeRelatedStats({
   score,
   variant,
 }: {
-  score: Score;
+  score: ScoreResponse;
   variant: scoreStatsVariant;
 }) {
-  if (score.game_mode === GameMode.std) {
+  if (score.game_mode === GameMode.STANDARD) {
     return (
       <div className="grid grid-cols-4 gap-4">
         <DataBox title="Great" value={score.count_300} variant={variant} />
@@ -100,7 +98,7 @@ function ScoreGamemodeRelatedStats({
     );
   }
 
-  if (score.game_mode === GameMode.taiko) {
+  if (score.game_mode === GameMode.TAIKO) {
     return (
       <div className="grid grid-cols-3 gap-4">
         <DataBox title="Great" value={score.count_300} variant={variant} />
@@ -110,7 +108,7 @@ function ScoreGamemodeRelatedStats({
     );
   }
 
-  if (score.game_mode === GameMode.catch) {
+  if (score.game_mode === GameMode.CATCH_THE_BEAT) {
     return (
       <div className="grid grid-cols-2 gap-x-4 gap-y-1">
         <DataBox title="Great" value={score.count_300} variant={variant} />
@@ -129,7 +127,7 @@ function ScoreGamemodeRelatedStats({
     );
   }
 
-  if (score.game_mode === GameMode.mania) {
+  if (score.game_mode === GameMode.MANIA) {
     return (
       <div className="grid grid-cols-6 gap-1 text-xs">
         <DataBox title="Perfect" value={score.count_geki} variant={variant} />

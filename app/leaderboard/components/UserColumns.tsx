@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import UserHoverCard from "@/components/UserHoverCard";
 import UserRankColor from "@/components/UserRankNumber";
-import { User, UserStats } from "@/lib/hooks/api/user/types";
+import { UserResponse, UserStatsResponse } from "@/lib/types/api";
 import numberWith from "@/lib/utils/numberWith";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal, SortAsc, SortDesc } from "lucide-react";
@@ -21,8 +21,8 @@ import { Suspense, useContext } from "react";
 import { twMerge } from "tailwind-merge";
 
 export const userColumns: ColumnDef<{
-  user: User;
-  stats: UserStats;
+  user: UserResponse;
+  stats: UserStatsResponse;
 }>[] = [
   {
     accessorKey: "stats.rank",

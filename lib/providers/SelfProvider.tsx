@@ -1,10 +1,11 @@
 "use client";
-import { User } from "@/lib/hooks/api/user/types";
+
 import { useUserSelf } from "@/lib/hooks/api/user/useUser";
+import { UserResponse } from "@/lib/types/api";
 import { createContext, ReactNode } from "react";
 
 interface SelfContextType {
-  self: User | undefined;
+  self: UserResponse | undefined;
   isLoading: boolean;
   revalidate: () => void;
 }

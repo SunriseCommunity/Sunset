@@ -4,9 +4,8 @@ import BeatmapStatusIcon from "@/components/BeatmapStatus";
 import RoundedContent from "@/components/General/RoundedContent";
 import ImageWithFallback from "@/components/ImageWithFallback";
 import { Skeleton } from "@/components/ui/skeleton";
-import { BeatmapStatus } from "@/lib/hooks/api/beatmap/types";
 import { useBeatmap } from "@/lib/hooks/api/beatmap/useBeatmap";
-import { Score } from "@/lib/hooks/api/score/types";
+import { BeatmapStatusSearch, ScoreResponse } from "@/lib/types/api";
 import { getGradeColor } from "@/lib/utils/getGradeColor";
 import { isBeatmapRanked } from "@/lib/utils/isBeatmapRanked";
 import { timeSince } from "@/lib/utils/timeSince";
@@ -14,7 +13,7 @@ import Link from "next/link";
 import { twMerge } from "tailwind-merge";
 
 interface UserScoreOverviewProps {
-  score: Score;
+  score: ScoreResponse;
   className?: string;
 }
 
@@ -39,7 +38,7 @@ export default function UserScoreOverview({
               <div className="flex font-bold text-sm md:text-xl drop-shadow-md items-center ">
                 <span className="pr-1">
                   <BeatmapStatusIcon
-                    status={beatmap?.status ?? BeatmapStatus.Graveyard}
+                    status={beatmap?.status ?? BeatmapStatusSearch.GRAVEYARD}
                   />
                 </span>
                 {beatmap?.artist && beatmap?.title ? (

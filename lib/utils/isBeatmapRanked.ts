@@ -1,9 +1,10 @@
-import { Beatmap, BeatmapStatus } from "@/lib/hooks/api/beatmap/types";
+import { BeatmapResponse, BeatmapStatusSearch } from "@/lib/types/api";
+
 
 // NOTE: Temporary fix for the backend not including approved as ranked
-export function isBeatmapRanked(beatmap: Beatmap) {
+export function isBeatmapRanked(beatmap: BeatmapResponse) {
   return (
-    beatmap.status === BeatmapStatus.Ranked ||
-    beatmap.status === BeatmapStatus.Approved
+    beatmap.status === BeatmapStatusSearch.RANKED ||
+    beatmap.status === BeatmapStatusSearch.APPROVED
   );
 }

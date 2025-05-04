@@ -1,5 +1,6 @@
 import { useUserSelf } from "@/lib/hooks/api/user/useUser";
 import poster from "@/lib/services/poster";
+import { EditDescriptionRequest } from "@/lib/types/api";
 import useSWRMutation from "swr/mutation";
 
 export function useEditDescription() {
@@ -9,7 +10,7 @@ export function useEditDescription() {
 
 const editDescription = async (
   url: string,
-  { arg }: { arg: { description: string } }
+  { arg }: { arg: EditDescriptionRequest }
 ) => {
   return await poster(`user/edit/description`, {
     json: {

@@ -2,8 +2,6 @@ import RoundedContent from "@/components/General/RoundedContent";
 import ProgressBar from "@/components/ProgressBar";
 import { Tooltip } from "@/components/Tooltip";
 import useAudioPlayer from "@/lib/hooks/useAudioPlayer";
-import { Beatmap } from "@/lib/hooks/api/beatmap/types";
-import { GameMode } from "@/lib/hooks/api/types";
 import { getBeatmapStarRating } from "@/lib/utils/getBeatmapStarRating";
 import { SecondsToString } from "@/lib/utils/secondsTo";
 import { Clock9, Music, Pause, Play, Star } from "lucide-react";
@@ -11,9 +9,10 @@ import { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { Button } from "@/components/ui/button";
 import { gameModeToVanilla } from "@/lib/utils/gameMode.util";
+import { BeatmapResponse, GameMode } from "@/lib/types/api";
 
 interface DifficultyInformationProps {
-  beatmap: Beatmap;
+  beatmap: BeatmapResponse;
   activeMode: GameMode;
 }
 
@@ -96,19 +95,25 @@ export default function DifficultyInformation({
 
       <RoundedContent className="flex bg-opacity-80 flex-col items-center rounded-lg min-w-full px-3 py-1">
         <div className="flex flex-col items-start min-w-full justify-between">
-          {possibleKeysValue && isCurrentGamemode(GameMode.mania) && (
+          {possibleKeysValue && isCurrentGamemode(GameMode.MANIA) && (
             <ValueWithProgressBar
               title="Key Count:"
               value={parseInt(possibleKeysValue || "4")}
             />
           )}
-          {isCurrentGamemode([GameMode.std, GameMode.catch]) && (
+          {isCurrentGamemode([GameMode.STANDARD, GameMode.CATCH_THE_BEAT]) && (
             <ValueWithProgressBar title="Circle Size:" value={beatmap.cs} />
           )}
-          <ValueWithProgressBar title="HP Drain:" value={beatmap.drain} />
-          <ValueWithProgressBar title="Accuracy:" value={beatmap.accuracy} />
-          {isCurrentGamemode([GameMode.std, GameMode.catch]) && (
-            <ValueWithProgressBar title="Approach Rate:" value={beatmap.ar} />
+          <ValueWithProgressBar title="HP Drain:" value={beatmap.drain ?? 0} />
+          <ValueWithProgressBar
+            title="Accuracy:"
+            value={beatmap.accuracy ?? 0}
+          />
+          {isCurrentGamemode([GameMode.STANDARD, GameMode.CATCH_THE_BEAT]) && (
+            <ValueWithProgressBar
+              title="Approach Rate:"
+              value={beatmap.ar ?? 0}
+            />
           )}
         </div>
       </RoundedContent>

@@ -1,15 +1,17 @@
-import { Beatmap } from "@/lib/hooks/api/beatmap/types";
-import { GameMode } from "@/lib/hooks/api/types";
+import { BeatmapResponse, GameMode } from "@/lib/types/api";
 
-export function getBeatmapStarRating(beatmap: Beatmap, mode?: GameMode) {
-  switch (mode || beatmap.mode_int) {
-    case 0:
+export function getBeatmapStarRating(
+  beatmap: BeatmapResponse,
+  mode?: GameMode
+) {
+  switch (mode ?? beatmap.mode) {
+    case GameMode.STANDARD:
       return beatmap.star_rating_osu;
-    case 1:
+    case GameMode.TAIKO:
       return beatmap.star_rating_taiko;
-    case 2:
+    case GameMode.CATCH_THE_BEAT:
       return beatmap.star_rating_ctb;
-    case 3:
+    case GameMode.MANIA:
       return beatmap.star_rating_mania;
     default:
       return -1;

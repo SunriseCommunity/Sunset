@@ -2,14 +2,14 @@ import PrettyDate from "@/components/General/PrettyDate";
 import { Tooltip } from "@/components/Tooltip";
 import { Skeleton } from "@/components/ui/skeleton";
 import UserRankColor from "@/components/UserRankNumber";
-import { User, UserBadge, UserStats } from "@/lib/hooks/api/user/types";
+import { UserResponse, UserStatsResponse } from "@/lib/types/api";
 import toPrettyDate from "@/lib/utils/toPrettyDate";
 import { Globe } from "lucide-react";
 import { JSX } from "react";
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
-  user: User;
-  userStats: UserStats | undefined;
+  user: UserResponse;
+  userStats: UserStatsResponse | undefined;
 }
 
 export default function UserRanks({ user, userStats, ...props }: Props) {

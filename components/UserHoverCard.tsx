@@ -3,9 +3,7 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
-import { User } from "@/lib/hooks/api/user/types";
 import React from "react";
-import * as HoverCardPrimitive from "@radix-ui/react-hover-card";
 import { MaterialSymbolsCircleOutline } from "@/components/ui/icons/circle-outline";
 import UserStatusText, {
   statusColor,
@@ -15,6 +13,7 @@ import Link from "next/link";
 import Image from "next/image";
 import ImageWithFallback from "@/components/ImageWithFallback";
 import UserBadges from "@/app/user/[id]/components/UserBadges";
+import { UserResponse } from "@/lib/types/api";
 
 export default function UserHoverCard({
   user,
@@ -22,7 +21,7 @@ export default function UserHoverCard({
   align,
   asChild,
 }: {
-  user: User;
+  user: UserResponse;
   children: React.ReactNode;
   align?: "center" | "start" | "end";
   asChild?: boolean;

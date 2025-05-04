@@ -1,7 +1,6 @@
 "use client";
 
-import { PlayedBeatmap } from "@/lib/hooks/api/beatmap/types";
-import { GameMode } from "@/lib/hooks/api/types";
+import { GameMode, GetUserByIdMostplayedResponse } from "@/lib/types/api";
 import useSWRInfinite from "swr/infinite";
 
 export function useUserMostPlayed(
@@ -11,7 +10,7 @@ export function useUserMostPlayed(
 ) {
   const getKey = (
     pageIndex: number,
-    previousPageData?: { most_played: PlayedBeatmap[] }
+    previousPageData?: GetUserByIdMostplayedResponse
   ) => {
     if (previousPageData && previousPageData.most_played.length === 0)
       return null;
@@ -26,7 +25,5 @@ export function useUserMostPlayed(
     return `user/${userId}/mostplayed?${queryParams.toString()}`;
   };
 
-  return useSWRInfinite<{ most_played: PlayedBeatmap[]; total_count: number }>(
-    getKey
-  );
+  return useSWRInfinite<GetUserByIdMostplayedResponse>(getKey);
 }

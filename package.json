@@ -3,12 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbo",
+    "dev": "npm run generate:openapi && next dev --turbo",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "generate:openapi": "dotenv -e .env.local -- openapi-ts"
   },
   "dependencies": {
+    "@hey-api/client-fetch": "^0.10.0",
     "@hookform/resolvers": "^5.0.1",
     "@radix-ui/react-accordion": "^1.2.4",
     "@radix-ui/react-alert-dialog": "^1.1.7",
@@ -52,11 +54,13 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
+    "@hey-api/openapi-ts": "^0.66.7",
     "@svgr/webpack": "^8.1.0",
     "@types/js-cookie": "^3.0.6",
     "@types/node": "^20",
     "@types/react": "19.1.1",
     "@types/react-dom": "19.1.2",
+    "dotenv-cli": "^8.0.0",
     "eslint": "^8",
     "eslint-config-next": "15.3.0",
     "postcss": "^8",

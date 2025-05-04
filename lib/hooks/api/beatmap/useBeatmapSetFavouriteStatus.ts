@@ -2,32 +2,36 @@
 
 import { useUserSelf } from "@/lib/hooks/api/user/useUser";
 import fetcher from "@/lib/services/fetcher";
+import {
+  GetBeatmapsetByIdFavouritedResponse,
+  PostBeatmapsetByIdFavouritedData,
+} from "@/lib/types/api";
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
 
 export function useBeatmapSetFavouriteStatus(beatmapSetId: number) {
   const { data } = useUserSelf();
 
-  return useSWR<{
-    favourited: boolean;
-  }>(data ? `beatmapset/${beatmapSetId}/favourited` : null);
+  return useSWR<GetBeatmapsetByIdFavouritedResponse>(
+    data ? `beatmapset/${beatmapSetId}/favourited` : null
+  );
 }
 
 export function useUpdateBeatmapSetFavouriteStatus(beatmapSetId: number) {
   return useSWRMutation(
     `beatmapset/${beatmapSetId}/favourited`,
-    (_, { arg }: { arg: { favourite: boolean } }) =>
+    (_, { arg }: { arg: PostBeatmapsetByIdFavouritedData["body"] }) =>
       updateBeatmapSetFavouriteStatus(beatmapSetId, { arg })
   );
 }
 
 const updateBeatmapSetFavouriteStatus = async (
   beatmapSetId: number,
-  { arg }: { arg: { favourite: boolean } }
+  { arg }: { arg: PostBeatmapsetByIdFavouritedData["body"] }
 ) => {
   await fetcher(`beatmapset/${beatmapSetId}`, {
-    searchParams: {
-      favourite: arg.favourite,
+    json: {
+      ...arg,
     },
   });
 };

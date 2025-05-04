@@ -1,6 +1,4 @@
 "use client";
-import { GameMode } from "@/lib/hooks/api/types";
-import { Beatmap } from "@/lib/hooks/api/beatmap/types";
 import { useBeatmapLeaderboard } from "@/lib/hooks/api/beatmap/useBeatmapLeaderboard";
 import { ScoreDataTable } from "@/app/beatmapsets/components/leaderboard/ScoreDataTable";
 import { useState } from "react";
@@ -9,10 +7,10 @@ import { scoreColumns } from "@/app/beatmapsets/components/leaderboard/ScoreColu
 import ScoreLeaderboardData from "@/app/beatmapsets/components/ScoreLeaderboardData";
 import useSelf from "@/lib/hooks/useSelf";
 import { ModsSelector } from "@/app/beatmapsets/components/leaderboard/ModsSelector";
-import { ShortenedMods } from "@/lib/hooks/api/score/types";
+import { BeatmapResponse, GameMode, Mods } from "@/lib/types/api";
 
 interface BeatmapLeaderboardProps {
-  beatmap: Beatmap;
+  beatmap: BeatmapResponse;
   mode: GameMode;
 }
 
@@ -33,18 +31,15 @@ export default function BeatmapLeaderboard({
     pageSize: size,
   });
 
-  const [mods, setMods] = useState<string[]>([]);
-
-  const selectedMods =
-    mods.length == 0
-      ? ""
-      : mods.reduce((v, c) => (Number(v ?? 0) + Number(c ?? 0)).toString());
+  const [mods, setMods] = useState<Mods[]>([]);
 
   const beatmapLeaderboardQuery = useBeatmapLeaderboard(
     beatmap.id,
-    mode,
-    tryParseNumber(selectedMods) ?? undefined,
-    pagination.pageSize,
+    {
+      mode: mode,
+      mods: mods,
+      limit: pagination.pageSize,
+    },
     {
       keepPreviousData: true,
     }
@@ -65,7 +60,7 @@ export default function BeatmapLeaderboard({
         mode={mode}
         mods={mods}
         setMods={setMods}
-        ignoreMods={[ShortenedMods.RX, ShortenedMods.AP, ShortenedMods.V2]}
+        ignoreMods={[Mods.RELAX, Mods.RELAX2, Mods.SCORE_V2]}
       />
       {scores.length > 0 && userScore?.leaderboard_rank != 1 && (
         <ScoreLeaderboardData score={scores[0]} beatmap={beatmap} />

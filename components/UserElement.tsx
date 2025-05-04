@@ -2,7 +2,6 @@ import { twMerge } from "tailwind-merge";
 
 import Image from "next/image";
 import ImageWithFallback from "./ImageWithFallback";
-import { User } from "@/lib/hooks/api/user/types";
 import { FriendshipButton } from "@/components/FriendshipButton";
 import { useRouter } from "next/navigation";
 import UserStatusText, {
@@ -11,9 +10,10 @@ import UserStatusText, {
 import Link from "next/link";
 import { MaterialSymbolsCircleOutline } from "@/components/ui/icons/circle-outline";
 import UserBadges from "@/app/user/[id]/components/UserBadges";
+import { UserResponse } from "@/lib/types/api";
 
 interface UserProfileBannerProps {
-  user: User;
+  user: UserResponse;
   includeFriendshipButton?: boolean;
   className?: string;
 }

@@ -29,7 +29,6 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { createContext, useEffect, useState } from "react";
-import { User, UsersLeaderboardType } from "@/lib/hooks/api/user/types";
 import ImageWithFallback from "@/components/ImageWithFallback";
 import React from "react";
 import {
@@ -39,12 +38,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { LeaderboardSortType, UserResponse } from "@/lib/types/api";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   totalCount: number;
-  leaderboardType: UsersLeaderboardType;
+  leaderboardType: LeaderboardSortType;
   pagination: {
     pageIndex: number;
     pageSize: number;
@@ -84,10 +84,10 @@ export function UserDataTable<TData, TValue>({
   });
 
   useEffect(() => {
-    if (leaderboardType == UsersLeaderboardType.pp) {
+    if (leaderboardType == LeaderboardSortType.PP) {
       table.getColumn("ranked_score")?.toggleVisibility(false);
       table.getColumn("pp")?.toggleVisibility(true);
-    } else if (leaderboardType == UsersLeaderboardType.score) {
+    } else if (leaderboardType == LeaderboardSortType.SCORE) {
       table.getColumn("ranked_score")?.toggleVisibility(true);
       table.getColumn("pp")?.toggleVisibility(false);
     }
@@ -137,8 +137,8 @@ export function UserDataTable<TData, TValue>({
                       <div className="absolute inset-0 -z-10 overflow-hidden">
                         <ImageWithFallback
                           src={
-                            (row.original as { user: User }).user.banner_url +
-                            "&default=false"
+                            (row.original as { user: UserResponse }).user
+                              .banner_url + "&default=false"
                           }
                           alt="user bg"
                           fill={true}

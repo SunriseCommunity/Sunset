@@ -2,11 +2,11 @@ import { twMerge } from "tailwind-merge";
 
 import Image from "next/image";
 import ImageWithFallback from "./ImageWithFallback";
-import { User } from "@/lib/hooks/api/user/types";
 import Link from "next/link";
+import { UserResponse } from "@/lib/types/api";
 
 interface UserProfileBannerProps {
-  user: User;
+  user: UserResponse;
   className?: string;
 }
 

@@ -1,13 +1,12 @@
 "use client";
 
-import { Score } from "@/lib/hooks/api/score/types";
-import { GameMode } from "@/lib/hooks/api/types";
+import { GameMode, GetScoreTopResponse } from "@/lib/types/api";
 import useSWRInfinite from "swr/infinite";
 
 export function useTopScores(mode: GameMode, limit?: number) {
   const getKey = (
     pageIndex: number,
-    previousPageData?: { scores: Score[] }
+    previousPageData?: GetScoreTopResponse
   ) => {
     if (previousPageData && previousPageData.scores.length === 0) return null;
 
@@ -21,5 +20,5 @@ export function useTopScores(mode: GameMode, limit?: number) {
     return `score/top?${queryParams.toString()}`;
   };
 
-  return useSWRInfinite<{ scores: Score[]; total_count: number }>(getKey);
+  return useSWRInfinite<GetScoreTopResponse>(getKey);
 }

@@ -1,4 +1,3 @@
-import { BeatmapSet } from "@/lib/hooks/api/beatmap/types";
 import { Heart } from "lucide-react";
 import {
   useBeatmapSetFavouriteStatus,
@@ -7,9 +6,10 @@ import {
 import { Button } from "@/components/ui/button";
 import { twMerge } from "tailwind-merge";
 import useSelf from "@/lib/hooks/useSelf";
+import { BeatmapSetResponse } from "@/lib/types/api";
 
 interface FavouriteButtonProps {
-  beatmapSet: BeatmapSet;
+  beatmapSet: BeatmapSetResponse;
 }
 
 export default function FavouriteButton({ beatmapSet }: FavouriteButtonProps) {
@@ -26,7 +26,7 @@ export default function FavouriteButton({ beatmapSet }: FavouriteButtonProps) {
 
   const handleFavourite = async () => {
     trigger(
-      { favourite: !favourited },
+      { favourited: !favourited },
       {
         optimisticData: {
           favourited: !favourited,

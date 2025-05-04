@@ -7,6 +7,7 @@ import {
   useUserFriendshipStatus,
 } from "@/lib/hooks/api/user/useUserFriendshipStatus";
 import useSelf from "@/lib/hooks/useSelf";
+import { UpdateFriendshipStatusAction } from "@/lib/types/api";
 import { UserMinus, UserPlus } from "lucide-react";
 import { twMerge } from "tailwind-merge";
 
@@ -27,13 +28,15 @@ export function FriendshipButton({
 
   const userFriendshipStatus = data;
 
-  const updateFriendshipStatus = async (action: "add" | "remove") => {
+  const updateFriendshipStatus = async (
+    action: UpdateFriendshipStatusAction
+  ) => {
     trigger(
       { action },
       {
         optimisticData: data && {
           ...data,
-          is_followed_by_you: action === "add",
+          is_followed_by_you: action === UpdateFriendshipStatusAction.ADD,
         },
       }
     );
@@ -52,7 +55,11 @@ export function FriendshipButton({
 
         if (!userFriendshipStatus) return;
 
-        updateFriendshipStatus(is_followed_by_you ? "remove" : "add");
+        updateFriendshipStatus(
+          is_followed_by_you
+            ? UpdateFriendshipStatusAction.REMOVE
+            : UpdateFriendshipStatusAction.ADD
+        );
       }}
       className={twMerge(
         isMutual

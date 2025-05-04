@@ -1,8 +1,6 @@
-import PrettyDate, {
-  dateToPrettyString,
-} from "@/components/General/PrettyDate";
+import { dateToPrettyString } from "@/components/General/PrettyDate";
 import { Tooltip } from "@/components/Tooltip";
-import { User } from "@/lib/hooks/api/user/types";
+import { UserResponse } from "@/lib/types/api";
 import { twMerge } from "tailwind-merge";
 
 export const statusColor = (status: string) =>
@@ -13,7 +11,7 @@ export const statusColor = (status: string) =>
     : "green-600";
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
-  user: User;
+  user: UserResponse;
 }
 
 export default function UserStatusText({ user, ...props }: Props) {

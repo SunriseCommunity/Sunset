@@ -25,15 +25,11 @@ import {
 import { EosIconsThreeDotsLoading } from "@/components/ui/icons/three-dots-loading";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { WorkInProgress } from "@/components/WorkInProgress";
-import { Beatmap } from "@/lib/hooks/api/beatmap/types";
-import { useBeatmamPp } from "@/lib/hooks/api/beatmap/useBeatmamPp";
-import { ShortenedMods } from "@/lib/hooks/api/score/types";
-import { GameMode } from "@/lib/hooks/api/types";
+import { useBeatmamPp } from "@/lib/hooks/api/beatmap/useBeatmapPp";
+import { BeatmapResponse, GameMode, Mods } from "@/lib/types/api";
 import { gameModeToVanilla } from "@/lib/utils/gameMode.util";
 import numberWith from "@/lib/utils/numberWith";
 import { SecondsToString } from "@/lib/utils/secondsTo";
-import { tryParseNumber } from "@/lib/utils/type.util";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Clock9, Star } from "lucide-react";
 import { useState } from "react";
@@ -62,7 +58,7 @@ export function PPCalculatorDialog({
   mode,
   children,
 }: {
-  beatmap: Beatmap;
+  beatmap: BeatmapResponse;
   mode: GameMode;
   children: React.ReactNode;
 }) {
@@ -77,46 +73,44 @@ export function PPCalculatorDialog({
     defaultValues,
   });
 
-  const [mods, setMods] = useState<string[]>([]);
+  const [mods, setMods] = useState<Mods[]>([]);
 
   const [scoreAttributes, setScoreAttributes] = useState<{
     accuracy?: number;
     combo?: number;
     misses?: number;
-    mods?: number;
+    mods?: Mods[];
   }>(defaultValues);
 
   const { data, error } = useBeatmamPp(
     beatmap.id,
-    gameModeToVanilla(mode),
-    scoreAttributes.mods,
-    scoreAttributes.combo,
-    scoreAttributes.misses,
-    scoreAttributes.accuracy,
+    {
+      mode: gameModeToVanilla(mode),
+      mods: scoreAttributes.mods,
+      combo: scoreAttributes.combo,
+      misses: scoreAttributes.misses,
+      accuracy: scoreAttributes.accuracy,
+    },
+
     { keepPreviousData: true }
   );
 
   const performanceResult = data;
 
-  const beatmapLength = mods.includes(ShortenedMods.DT.toString())
+  const beatmapLength = mods.includes(Mods.DOUBLE_TIME)
     ? Math.floor(beatmap.total_length / 1.5)
-    : mods.includes(ShortenedMods.HT.toString())
+    : mods.includes(Mods.HALF_TIME)
     ? Math.floor(beatmap.total_length * 1.33)
     : beatmap.total_length;
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     const { accuracy, combo, misses } = values;
 
-    const selectedMods =
-      mods.length == 0
-        ? ""
-        : mods.reduce((v, c) => (Number(v ?? 0) + Number(c ?? 0)).toString());
-
     setScoreAttributes({
       accuracy,
       combo,
       misses,
-      mods: tryParseNumber(selectedMods),
+      mods: mods,
     });
   }
 
@@ -210,10 +204,10 @@ export function PPCalculatorDialog({
               variant="big"
               className="bg-transparent border-none shadow-none p-0"
               ignoreMods={[
-                ShortenedMods.NM,
-                ShortenedMods.SD,
-                ShortenedMods.PF,
-                ShortenedMods.NC,
+                Mods.NONE,
+                Mods.SUDDEN_DEATH,
+                Mods.PERFECT,
+                Mods.NIGHTCORE,
               ]}
             />
 

@@ -209,7 +209,7 @@ export default function Settings() {
             <RoundedContent>
               <div className="flex flex-col w-11/12 mx-auto">
                 <MarkdownInput
-                  defaultText={self?.description}
+                  defaultText={self?.description ?? ""}
                   onSave={saveDescription}
                   isSaving={isUpdatingDescription}
                 />

@@ -3,7 +3,7 @@ import Page, { BeatmapsetProps } from "./page";
 import { notFound } from "next/navigation";
 import { getBeatmapStarRating } from "@/lib/utils/getBeatmapStarRating";
 import fetcher from "@/lib/services/fetcher";
-import { BeatmapSet } from "@/lib/hooks/api/beatmap/types";
+import { BeatmapSetResponse } from "@/lib/types/api";
 
 export async function generateMetadata(
   props: BeatmapsetProps
@@ -13,7 +13,9 @@ export async function generateMetadata(
 
   if (!beatmapSetId || isNaN(beatmapSetId as any)) return notFound();
 
-  const beatmapSet = await fetcher<BeatmapSet>(`beatmapset/${beatmapSetId}`);
+  const beatmapSet = await fetcher<BeatmapSetResponse>(
+    `beatmapset/${beatmapSetId}`
+  );
 
   if (!beatmapSet) {
     return notFound();

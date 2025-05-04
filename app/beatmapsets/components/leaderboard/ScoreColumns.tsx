@@ -11,10 +11,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import UserHoverCard from "@/components/UserHoverCard";
-import { Score } from "@/lib/hooks/api/score/types";
 import { useDownloadReplay } from "@/lib/hooks/api/score/useDownloadReplay";
-import { GameMode } from "@/lib/hooks/api/types";
 import useSelf from "@/lib/hooks/useSelf";
+import { GameMode, ScoreResponse } from "@/lib/types/api";
 import { gameModeToVanilla } from "@/lib/utils/gameMode.util";
 import { getGradeColor } from "@/lib/utils/getGradeColor";
 import numberWith from "@/lib/utils/numberWith";
@@ -26,7 +25,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Suspense, useContext } from "react";
 
-export const scoreColumns: ColumnDef<Score>[] = [
+export const scoreColumns: ColumnDef<ScoreResponse>[] = [
   {
     accessorKey: "rank",
     sortingFn: (a, b) => {
@@ -178,8 +177,8 @@ export const scoreColumns: ColumnDef<Score>[] = [
         column,
         title:
           gameModeToVanilla(
-            useContext(ScoreTableContext)?.gamemode ?? GameMode.std
-          ) === GameMode.catch
+            useContext(ScoreTableContext)?.gamemode ?? GameMode.STANDARD
+          ) === GameMode.CATCH_THE_BEAT
             ? "L DRP"
             : "Ok",
       }),
@@ -200,8 +199,8 @@ export const scoreColumns: ColumnDef<Score>[] = [
         column,
         title:
           gameModeToVanilla(
-            useContext(ScoreTableContext)?.gamemode ?? GameMode.std
-          ) === GameMode.catch
+            useContext(ScoreTableContext)?.gamemode ?? GameMode.STANDARD
+          ) === GameMode.CATCH_THE_BEAT
             ? "S DRP"
             : "Meh",
       }),
@@ -297,7 +296,7 @@ const sortableHeader = ({
   column,
   title,
 }: {
-  column: Column<Score, unknown>;
+  column: Column<ScoreResponse, unknown>;
   title: string;
 }) => {
   return (

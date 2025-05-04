@@ -1,6 +1,5 @@
 import RoundedContent from "@/components/General/RoundedContent";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Score } from "@/lib/hooks/api/score/types";
 import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,7 +8,6 @@ import { timeSince } from "@/lib/utils/timeSince";
 import toPrettyDate from "@/lib/utils/toPrettyDate";
 import { getGradeColor } from "@/lib/utils/getGradeColor";
 import ScoreStats from "@/components/ScoreStats";
-import { Beatmap } from "@/lib/hooks/api/beatmap/types";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,13 +19,14 @@ import { MoreHorizontal } from "lucide-react";
 import useSelf from "@/lib/hooks/useSelf";
 import { useDownloadReplay } from "@/lib/hooks/api/score/useDownloadReplay";
 import UserHoverCard from "@/components/UserHoverCard";
+import { BeatmapResponse, ScoreResponse } from "@/lib/types/api";
 
 export default function ScoreLeaderboardData({
   score,
   beatmap,
 }: {
-  score: Score;
-  beatmap: Beatmap;
+  score: ScoreResponse;
+  beatmap: BeatmapResponse;
 }) {
   return (
     <RoundedContent className="flex flex-col md:flex-row rounded-lg items-center place-content-between space-y-4 md:space-y-0">
@@ -91,7 +90,7 @@ export default function ScoreLeaderboardData({
   );
 }
 
-function ScoreDropdownInfo({ score }: { score: Score }) {
+function ScoreDropdownInfo({ score }: { score: ScoreResponse }) {
   const { self } = useSelf();
   const { downloadReplay } = useDownloadReplay(score.id);
 

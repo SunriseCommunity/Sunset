@@ -3,9 +3,7 @@ import Page from "./page";
 import { notFound } from "next/navigation";
 import { getBeatmapStarRating } from "@/lib/utils/getBeatmapStarRating";
 import fetcher from "@/lib/services/fetcher";
-import { User } from "@/lib/hooks/api/user/types";
-import { Score } from "@/lib/hooks/api/score/types";
-import { Beatmap } from "@/lib/hooks/api/beatmap/types";
+import { BeatmapResponse, ScoreResponse, UserResponse } from "@/lib/types/api";
 
 export const revalidate = 60;
 
@@ -13,7 +11,7 @@ export async function generateMetadata(props: {
   params: Promise<{ id: number }>;
 }): Promise<Metadata> {
   const params = await props.params;
-  const score = await fetcher<Score>(`score/${params.id}`);
+  const score = await fetcher<ScoreResponse>(`score/${params.id}`);
 
   if (!score) {
     return notFound();
@@ -21,13 +19,13 @@ export async function generateMetadata(props: {
 
   if (!score) return notFound();
 
-  const user = await fetcher<User>(`user/${score.user_id}`);
+  const user = await fetcher<UserResponse>(`user/${score.user_id}`);
 
   if (!user) {
     return notFound();
   }
 
-  const beatmap = await fetcher<Beatmap>(`beatmap/${score.beatmap_id}`);
+  const beatmap = await fetcher<BeatmapResponse>(`beatmap/${score.beatmap_id}`);
 
   if (!beatmap) {
     return notFound();

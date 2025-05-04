@@ -1,8 +1,8 @@
-import { User } from "@/lib/hooks/api/user/types";
+import { UserResponse } from "@/lib/types/api";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function RecentUsersIcons({ users }: { users: User[] }) {
+export default function RecentUsersIcons({ users }: { users: UserResponse[] }) {
   return (
     <div className="flex -space-x-2 mr-2">
       {users.map((u, i) => (

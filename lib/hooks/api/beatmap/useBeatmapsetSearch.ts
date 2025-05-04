@@ -1,9 +1,7 @@
 "use client";
 
-import { BeatmapSet } from "@/lib/hooks/api/beatmap/types";
-import { GameMode } from "@/lib/hooks/api/types";
-import { User } from "@/lib/hooks/api/user/types";
 import fetcher from "@/lib/services/fetcher";
+import { GameMode, GetBeatmapsetSearchResponse } from "@/lib/types/api";
 import useSWR, { SWRConfiguration } from "swr";
 
 export function useBeatmapsetSearch(
@@ -14,7 +12,7 @@ export function useBeatmapsetSearch(
   mode?: GameMode,
   options?: SWRConfiguration
 ) {
-  return useSWR<{ sets: BeatmapSet[] }>(
+  return useSWR<GetBeatmapsetSearchResponse>(
     query
       ? `beatmapset/search?query=${query}${page ? `&page=${page}` : ""}${
           limit ? `&limit=${limit}` : ""

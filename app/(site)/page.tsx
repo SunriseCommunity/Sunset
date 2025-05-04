@@ -145,19 +145,19 @@ export default function Home() {
         />
         <ServerStatus type="total_users" data={serverStatus?.total_users}>
           {serverStatus && (
-            <RecentUsersIcons users={serverStatus.recent_users} />
+            <RecentUsersIcons users={serverStatus.recent_users!} />
           )}
         </ServerStatus>
         <ServerStatus type="users_online" data={serverStatus?.users_online}>
           {serverStatus && (
-            <RecentUsersIcons users={serverStatus.current_users_online} />
+            <RecentUsersIcons users={serverStatus.current_users_online!} />
           )}
         </ServerStatus>
         <ServerStatus
           type="users_restricted"
-          data={serverStatus?.total_restrictions}
+          data={serverStatus?.total_restrictions!}
         />
-        <ServerStatus type="total_scores" data={serverStatus?.total_scores} />
+        <ServerStatus type="total_scores" data={serverStatus?.total_scores!} />
       </div>
 
       <div className="w-full pb-12 items-center">

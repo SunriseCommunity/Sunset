@@ -6,8 +6,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import UserHoverCard from "@/components/UserHoverCard";
 import UserRankColor from "@/components/UserRankNumber";
 import { useBeatmap } from "@/lib/hooks/api/beatmap/useBeatmap";
-import { Score } from "@/lib/hooks/api/score/types";
 import { useUserStats } from "@/lib/hooks/api/user/useUser";
+import { ScoreResponse } from "@/lib/types/api";
 import { isBeatmapRanked } from "@/lib/utils/isBeatmapRanked";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,7 +15,7 @@ import { Suspense } from "react";
 import { twMerge } from "tailwind-merge";
 
 interface UserScoreMinimalProps {
-  score: Score;
+  score: ScoreResponse;
   showUser?: boolean;
   className?: string;
 }
