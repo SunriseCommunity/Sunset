@@ -1,7 +1,8 @@
 "use client";
 
 import { useUserSelf } from "@/lib/hooks/api/user/useUser";
-import fetcher from "@/lib/services/fetcher";
+import poster from "@/lib/services/poster";
+
 import {
   GetBeatmapsetByIdFavouritedResponse,
   PostBeatmapsetByIdFavouritedData,
@@ -29,7 +30,7 @@ const updateBeatmapSetFavouriteStatus = async (
   beatmapSetId: number,
   { arg }: { arg: PostBeatmapsetByIdFavouritedData["body"] }
 ) => {
-  await fetcher(`beatmapset/${beatmapSetId}`, {
+  await poster(`beatmapset/${beatmapSetId}/favourited`, {
     json: {
       ...arg,
     },
