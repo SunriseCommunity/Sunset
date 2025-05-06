@@ -24,6 +24,7 @@ export type BeatmapResponse = {
     drain?: number | null;
     hit_length: number;
     is_scoreable: boolean;
+    is_ranked: boolean;
     last_updated: string;
     mode_int: number;
     mode: GameMode;
@@ -247,6 +248,7 @@ export type MostPlayedBeatmapResponse = {
     drain?: number | null;
     hit_length: number;
     is_scoreable: boolean;
+    is_ranked: boolean;
     last_updated: string;
     mode_int: number;
     mode: GameMode;

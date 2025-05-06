@@ -1,7 +1,5 @@
 import { Tooltip } from "@/components/Tooltip";
-import { Separator } from "@/components/ui/separator";
 import { BeatmapResponse, GameMode, ScoreResponse } from "@/lib/types/api";
-import { isBeatmapRanked } from "@/lib/utils/isBeatmapRanked";
 import numberWith from "@/lib/utils/numberWith";
 import { timeSince } from "@/lib/utils/timeSince";
 import toPrettyDate from "@/lib/utils/toPrettyDate";
@@ -48,7 +46,7 @@ export default function ScoreStats({ score, beatmap, variant }: Props) {
         </DataBox>
         <DataBox title="PP" variant={variant}>
           {score.performance_points.toFixed(2)}
-          {beatmap && !isBeatmapRanked(beatmap) && (
+          {beatmap && !beatmap.is_ranked && (
             <Tooltip content={`If ranked`}>
               <span className="text-yellow-500 ml-1">*</span>
             </Tooltip>

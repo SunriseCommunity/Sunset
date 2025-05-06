@@ -8,7 +8,7 @@ import UserRankColor from "@/components/UserRankNumber";
 import { useBeatmap } from "@/lib/hooks/api/beatmap/useBeatmap";
 import { useUserStats } from "@/lib/hooks/api/user/useUser";
 import { ScoreResponse } from "@/lib/types/api";
-import { isBeatmapRanked } from "@/lib/utils/isBeatmapRanked";
+
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -125,7 +125,7 @@ export default function UserScoreMinimal({
                 <div className="text-end text-nowrap">
                   <p className="text-md opacity-70">{score.mods}</p>
                   <p className="text-2xl text-primary">
-                    {beatmap && isBeatmapRanked(beatmap)
+                    {beatmap && beatmap.is_ranked
                       ? score.performance_points.toFixed()
                       : "- "}
                     pp

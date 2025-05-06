@@ -16,7 +16,6 @@ import { getBeatmapStarRating } from "@/lib/utils/getBeatmapStarRating";
 import DifficultyIcon from "@/components/DifficultyIcon";
 import BeatmapStatusIcon from "@/components/BeatmapStatus";
 import { Tooltip } from "@/components/Tooltip";
-import { isBeatmapRanked } from "@/lib/utils/isBeatmapRanked";
 import ImageWithFallback from "@/components/ImageWithFallback";
 import { useUser } from "@/lib/hooks/api/user/useUser";
 import { useScore } from "@/lib/hooks/api/score/useScore";

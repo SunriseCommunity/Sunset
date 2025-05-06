@@ -7,7 +7,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useBeatmap } from "@/lib/hooks/api/beatmap/useBeatmap";
 import { BeatmapStatusSearch, ScoreResponse } from "@/lib/types/api";
 import { getGradeColor } from "@/lib/utils/getGradeColor";
-import { isBeatmapRanked } from "@/lib/utils/isBeatmapRanked";
 import { timeSince } from "@/lib/utils/timeSince";
 import Link from "next/link";
 import { twMerge } from "tailwind-merge";
@@ -69,7 +68,7 @@ export default function UserScoreOverview({
               <div className="text-end text-nowrap">
                 <p className="text-sm opacity-70">{score.mods}</p>
                 <p className="text-xl text-primary">
-                  {beatmap && isBeatmapRanked(beatmap)
+                  {beatmap && beatmap.is_ranked
                     ? score.performance_points.toFixed()
                     : "- "}
                   pp
@@ -106,7 +105,7 @@ export default function UserScoreOverview({
               {score.mods}
             </p>
             <p className="text-xl text-primary">
-              {beatmap && isBeatmapRanked(beatmap)
+              {beatmap && beatmap.is_ranked
                 ? score.performance_points.toFixed()
                 : "- "}
               pp

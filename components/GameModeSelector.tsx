@@ -44,7 +44,7 @@ function enrichEnabledModesWithGameModes(enabledModes: GameMode[]) {
     pushModesToArray([
       GameMode.RELAX_STANDARD,
       GameMode.AUTOPILOT_STANDARD,
-      GameMode.STANDARD,
+      GameMode.SCORE_V2_STANDARD,
     ]);
   }
 
