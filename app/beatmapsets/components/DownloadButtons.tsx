@@ -1,10 +1,10 @@
 import { Button } from "@/components/ui/button";
-import { BeatmapSet } from "@/lib/hooks/api/beatmap/types";
+import { BeatmapSetResponse } from "@/lib/types/api";
 import { Download } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 interface DownloadButtonsProps {
-  beatmapSet: BeatmapSet;
+  beatmapSet: BeatmapSetResponse;
 }
 
 export default function DownloadButtons({ beatmapSet }: DownloadButtonsProps) {

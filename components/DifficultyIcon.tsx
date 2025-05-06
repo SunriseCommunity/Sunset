@@ -1,22 +1,23 @@
 "use client";
 
-import { Beatmap } from "@/lib/hooks/api/beatmap/types";
+
 import { getStarRatingColor } from "@/lib/utils/getStarRatingColor";
-import { GameMode } from "@/lib/hooks/api/types";
+
 
 import { getBeatmapStarRating } from "@/lib/utils/getBeatmapStarRating";
 import localFont from "next/font/local";
 import { twMerge } from "tailwind-merge";
+import { BeatmapResponse, GameMode } from "@/lib/types/api";
 
 export const osuIconFont = localFont({
   src: "../public/fonts/osu.woff2",
 });
 
 const modeBadgeMap = {
-  [GameMode.std]: "\ue800",
-  [GameMode.taiko]: "\ue803",
-  [GameMode.catch]: "\ue801",
-  [GameMode.mania]: "\ue802",
+  [GameMode.STANDARD]: "\ue800",
+  [GameMode.TAIKO]: "\ue803",
+  [GameMode.CATCH_THE_BEAT]: "\ue801",
+  [GameMode.MANIA]: "\ue802",
 };
 
 const modeBadge = (mode: GameMode) => {
@@ -25,7 +26,7 @@ const modeBadge = (mode: GameMode) => {
 };
 
 interface DifficultyIconProps {
-  difficulty?: Beatmap;
+  difficulty?: BeatmapResponse;
   iconColor?: string;
   gameMode?: GameMode;
   className?: string;
@@ -40,16 +41,14 @@ export default function DifficultyIcon({
   const modeBadgeText = gameMode
     ? modeBadge(gameMode)
     : difficulty
-    ? modeBadge(difficulty.mode_int)
-    : modeBadge(GameMode.std);
+    ? modeBadge(difficulty.mode)
+    : modeBadge(GameMode.STANDARD);
 
   const badgeColor =
     difficulty && gameMode
       ? getStarRatingColor(getBeatmapStarRating(difficulty, gameMode))
       : difficulty
-      ? getStarRatingColor(
-          getBeatmapStarRating(difficulty, difficulty.mode_int)
-        )
+      ? getStarRatingColor(getBeatmapStarRating(difficulty, difficulty.mode))
       : iconColor
       ? iconColor
       : null;

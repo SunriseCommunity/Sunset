@@ -15,14 +15,13 @@ import Spinner from "@/components/Spinner";
 import BeatmapLeaderboard from "@/app/beatmapsets/components/BeatmapLeaderboard";
 import { gameModeToVanilla } from "@/lib/utils/gameMode.util";
 import Image from "next/image";
-import { GameMode } from "@/lib/hooks/api/types";
-import { Beatmap } from "@/lib/hooks/api/beatmap/types";
 import { useBeatmapSet } from "@/lib/hooks/api/beatmap/useBeatmapSet";
 import GameModeSelector from "@/components/GameModeSelector";
 import { BeatmapDropdown } from "@/app/beatmapsets/components/BeatmapDropdown";
 import { usePathname, useSearchParams } from "next/navigation";
-import { tryParseNumber } from "@/lib/utils/type.util";
+import { isInstance, tryParseNumber } from "@/lib/utils/type.util";
 import { BeatmapDescription } from "@/app/beatmapsets/components/BeatmapDescriptions";
+import { BeatmapResponse, GameMode } from "@/lib/types/api";
 
 export interface BeatmapsetProps {
   params: Promise<{ ids: [string?, string?] }>;
@@ -34,15 +33,17 @@ export default function Beatmapset(props: BeatmapsetProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const mode = tryParseNumber(searchParams.get("mode")) ?? GameMode.std;
+  const mode = searchParams.get("mode") ?? GameMode.STANDARD;
 
   const [beatmapSetId, beatmapId] = params.ids;
 
   const [activeMode, setActiveMode] = useState(
-    mode in GameMode ? mode : GameMode.std
+    isInstance(mode, GameMode) ? (mode as GameMode) : GameMode.STANDARD
   );
 
-  const [activeBeatmap, setActiveBeatmap] = useState<Beatmap | null>(null);
+  const [activeBeatmap, setActiveBeatmap] = useState<BeatmapResponse | null>(
+    null
+  );
 
   const beatmapsetQuery = useBeatmapSet(
     tryParseNumber(beatmapSetId ?? "") ?? null
@@ -59,26 +60,26 @@ export default function Beatmapset(props: BeatmapsetProps) {
     const activeBeatmap = beatmap ?? beatmapSet.beatmaps[0];
 
     setActiveBeatmap(activeBeatmap);
-    if (!activeMode) setActiveMode(activeBeatmap.mode_int);
+    if (!activeMode) setActiveMode(activeBeatmap.mode);
   }, [beatmapSet]);
 
   useEffect(() => {
     if (
       !beatmapSet ||
-      [gameModeToVanilla(activeMode), GameMode.std].includes(
-        activeBeatmap?.mode_int ?? GameMode.std
+      [gameModeToVanilla(activeMode), GameMode.STANDARD].includes(
+        activeBeatmap?.mode ?? GameMode.STANDARD
       )
     )
       return;
 
     const beatmap = beatmapSet.beatmaps.find(
-      (beatmap) => beatmap.mode_int === activeMode
+      (beatmap) => beatmap.mode === activeMode
     );
 
     const activeBeatmapNew = beatmap ?? beatmapSet.beatmaps[0];
 
     setActiveBeatmap(activeBeatmapNew);
-    setActiveMode(activeBeatmapNew.mode_int);
+    setActiveMode(activeBeatmapNew.mode);
   }, [activeMode]);
 
   useEffect(() => {
@@ -132,13 +133,10 @@ export default function Beatmapset(props: BeatmapsetProps) {
           enabledModes={
             beatmapSet &&
             beatmapSet.beatmaps.some(
-              (beatmap) => beatmap.mode_int === GameMode.std
+              (beatmap) => beatmap.mode === GameMode.STANDARD
             )
               ? undefined
-              : [
-                  ...(beatmapSet?.beatmaps.map((beatmap) => beatmap.mode_int) ??
-                    []),
-                ]
+              : [...(beatmapSet?.beatmaps.map((beatmap) => beatmap.mode) ?? [])]
           }
         />
       </PrettyHeader>
@@ -159,8 +157,8 @@ export default function Beatmapset(props: BeatmapsetProps) {
                         difficulties={beatmapSet.beatmaps.filter((beatmap) =>
                           [
                             gameModeToVanilla(activeMode),
-                            GameMode.std,
-                          ].includes(beatmap.mode_int)
+                            GameMode.STANDARD,
+                          ].includes(beatmap.mode)
                         )}
                       />
 

@@ -48,6 +48,8 @@ export default function ServerStatus({ type, data, children }: Props) {
           type === "server_status"
             ? data === "Online"
               ? "text-green-500"
+              : data === "Under Maintenance"
+              ? "text-orange-500"
               : "text-red-500"
             : "text-current"
         }`}

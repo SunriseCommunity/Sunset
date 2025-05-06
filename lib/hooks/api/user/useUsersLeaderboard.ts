@@ -1,27 +1,20 @@
 "use client";
 
-import { GameMode } from "@/lib/hooks/api/types";
-import {
-  User,
-  UsersLeaderboardType,
-  UserStats,
-} from "@/lib/hooks/api/user/types";
 import fetcher from "@/lib/services/fetcher";
+import {
+  GameMode,
+  GetUserLeaderboardResponse,
+  LeaderboardSortType,
+} from "@/lib/types/api";
 import useSWR from "swr";
 
 export function useUsersLeaderboard(
   mode: GameMode,
-  type: UsersLeaderboardType,
+  type: LeaderboardSortType,
   page?: number,
   limit?: number
 ) {
-  return useSWR<{
-    users: {
-      user: User;
-      stats: UserStats;
-    }[];
-    total_count: number;
-  }>(
+  return useSWR<GetUserLeaderboardResponse>(
     `user/leaderboard?mode=${mode}&type=${type}${page ? `&page=${page}` : ""}${
       limit ? `&limit=${limit}` : ""
     }`,

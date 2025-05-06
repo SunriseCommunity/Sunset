@@ -1,7 +1,7 @@
 "use client";
 
-import { User } from "@/lib/hooks/api/user/types";
 import { useUserSelf } from "@/lib/hooks/api/user/useUser";
+import { GetUserFriendsResponse } from "@/lib/types/api";
 import useSWRInfinite from "swr/infinite";
 
 export function useFriends(limit?: number) {
@@ -9,7 +9,7 @@ export function useFriends(limit?: number) {
 
   const getKey = (
     pageIndex: number,
-    previousPageData?: { friends: User[] }
+    previousPageData?: GetUserFriendsResponse
   ) => {
     if (!data || (previousPageData && previousPageData.friends.length === 0))
       return null;
@@ -23,5 +23,5 @@ export function useFriends(limit?: number) {
     return `user/friends?${queryParams.toString()}`;
   };
 
-  return useSWRInfinite<{ friends: User[]; total_count: number }>(getKey);
+  return useSWRInfinite<GetUserFriendsResponse>(getKey);
 }

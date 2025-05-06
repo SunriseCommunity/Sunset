@@ -1,4 +1,5 @@
 import poster from "@/lib/services/poster";
+import { PostUserUsernameChangeData } from "@/lib/types/api";
 import useSWRMutation from "swr/mutation";
 
 export function useUsernameChange() {
@@ -7,7 +8,7 @@ export function useUsernameChange() {
 
 const usernameChange = async (
   url: string,
-  { arg }: { arg: { new_username: string } }
+  { arg }: { arg: PostUserUsernameChangeData["body"] }
 ) => {
   return await poster(`user/username/change`, {
     json: {

@@ -2,23 +2,29 @@ import { Combobox } from "@/components/ComboBox";
 import DifficultyIcon from "@/components/DifficultyIcon";
 import { Button } from "@/components/ui/button";
 import {
-  GameMode,
   GameRuleFlags,
   GameRuleFlagsShort,
   GameRulesGameModes,
 } from "@/lib/hooks/api/types";
+import { GameMode } from "@/lib/types/api";
 import {
   gameModeToGamerule,
-  gameModeToPrettyString,
   gameModeToVanilla,
 } from "@/lib/utils/gameMode.util";
 import { twMerge } from "tailwind-merge";
 
+const GameModesIcons = {
+  0: GameMode.STANDARD,
+  1: GameMode.TAIKO,
+  2: GameMode.CATCH_THE_BEAT,
+  3: GameMode.MANIA,
+};
+
 interface GameModeSelectorProps extends React.HTMLAttributes<HTMLDivElement> {
   activeMode: GameMode;
   setActiveMode: (mode: GameMode) => void;
-  activeGameRule?: number;
-  setActiveGameRule?: (rule: number) => void;
+  activeGameRule?: GameMode;
+  setActiveGameRule?: (rule: GameMode) => void;
   enabledModes?: GameMode[];
   includeGameModes?: boolean;
   includeGameRules?: boolean;
@@ -34,28 +40,27 @@ function enrichEnabledModesWithGameModes(enabledModes: GameMode[]) {
     });
   };
 
-  if (enabledModes?.includes(GameMode.std)) {
+  if (enabledModes?.includes(GameMode.STANDARD)) {
     pushModesToArray([
-      GameMode.relaxstd,
-      GameMode.autopilotstd,
-      GameMode.scorev2std,
+      GameMode.RELAX_STANDARD,
+      GameMode.AUTOPILOT_STANDARD,
+      GameMode.SCORE_V2_STANDARD,
     ]);
   }
 
-  if (enabledModes?.includes(GameMode.catch)) {
-    pushModesToArray([GameMode.relaxcatch, GameMode.scorev2catch]);
-  }
-
-  if (enabledModes?.includes(GameMode.taiko)) {
+  if (enabledModes?.includes(GameMode.CATCH_THE_BEAT)) {
     pushModesToArray([
-      GameMode.relaxtaiko,
-      GameMode.scorev2taiko,
-      GameMode.autopilotstd,
+      GameMode.RELAX_CATCH_THE_BEAT,
+      GameMode.SCORE_V2_CATCH_THE_BEAT,
     ]);
   }
 
-  if (enabledModes?.includes(GameMode.mania)) {
-    pushModesToArray([GameMode.scorev2mania]);
+  if (enabledModes?.includes(GameMode.TAIKO)) {
+    pushModesToArray([GameMode.RELAX_TAIKO, GameMode.SCORE_V2_TAIKO]);
+  }
+
+  if (enabledModes?.includes(GameMode.MANIA)) {
+    pushModesToArray([GameMode.SCORE_V2_MANIA]);
   }
 }
 
@@ -85,32 +90,31 @@ export default function GameModeSelector({
       {includeGameRules && (
         <>
           <div className="hidden space-x-2 lg:flex">
-            {Object.entries(GameRuleFlags[gameModeToVanilla(activeMode)]).map(
-              ([mode, key]) => (
-                <Button
-                  key={mode}
-                  className="px-3 py-1"
-                  onClick={() => key != null && setActiveMode(key)}
-                  variant={
-                    key != null &&
-                    gameModeToGamerule(activeMode) === gameModeToGamerule(key)
-                      ? "default"
-                      : "secondary"
-                  }
-                  disabled={
-                    key === null ||
-                    (enabledModes && !enabledModes.includes(key))
-                  }
-                >
-                  {mode}
-                </Button>
-              )
-            )}
+            {Object.entries(
+              GameRuleFlags[gameModeToVanilla(activeMode)] ?? {}
+            ).map(([mode, key]) => (
+              <Button
+                key={mode}
+                className="px-3 py-1"
+                onClick={() => key != null && setActiveMode(key)}
+                variant={
+                  key != null &&
+                  gameModeToGamerule(activeMode) === gameModeToGamerule(key)
+                    ? "default"
+                    : "secondary"
+                }
+                disabled={
+                  key === null || (enabledModes && !enabledModes.includes(key))
+                }
+              >
+                {mode}
+              </Button>
+            ))}
           </div>
           {mobileVariant === "icons" && (
             <div className="flex space-x-2 lg:hidden">
               {Object.entries(
-                GameRuleFlagsShort[gameModeToVanilla(activeMode)]
+                GameRuleFlagsShort[gameModeToVanilla(activeMode)] ?? {}
               ).map(([mode, key]) => (
                 <Button
                   key={mode}
@@ -139,7 +143,7 @@ export default function GameModeSelector({
         <>
           <div className="hidden space-x-2 lg:flex">
             {Object.entries(
-              GameRulesGameModes[gameModeToGamerule(activeMode)]
+              GameRulesGameModes[gameModeToGamerule(activeMode)] ?? {}
             ).map(([mode, key]) => (
               <Button
                 key={mode}
@@ -157,7 +161,7 @@ export default function GameModeSelector({
           {mobileVariant === "icons" && (
             <div className="flex space-x-2 lg:hidden">
               {Object.entries(
-                GameRulesGameModes[gameModeToGamerule(activeMode)]
+                GameRulesGameModes[gameModeToGamerule(activeMode)] ?? {}
               ).map(([mode, key], index) => (
                 <Button
                   key={mode}
@@ -169,7 +173,13 @@ export default function GameModeSelector({
                     (enabledModes && !enabledModes.includes(key))
                   }
                 >
-                  {<DifficultyIcon gameMode={index} />}
+                  {
+                    <DifficultyIcon
+                      gameMode={
+                        GameModesIcons[index as keyof typeof GameModesIcons]
+                      }
+                    />
+                  }
                 </Button>
               ))}
             </div>
@@ -185,13 +195,13 @@ export default function GameModeSelector({
           <Combobox
             activeValue={activeMode.toString()}
             setActiveValue={(mode: any) => {
-              setActiveMode(parseInt(mode));
+              setActiveMode(mode);
             }}
             values={Object.entries(GameMode)
               .filter(([key]) => isNaN(Number(key)))
               .map(([mode, key]) => {
                 return {
-                  label: gameModeToPrettyString(key as GameMode),
+                  label: key,
                   value: key.toString(),
                 };
               })}

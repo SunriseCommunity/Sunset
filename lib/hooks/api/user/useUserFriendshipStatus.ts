@@ -1,18 +1,20 @@
 "use client";
 
-import { UpdateUserFriendshipAction } from "@/lib/hooks/api/user/types";
 import { useUserSelf } from "@/lib/hooks/api/user/useUser";
 import poster from "@/lib/services/poster";
+import {
+  GetUserByIdFriendStatusResponse,
+  PostUserByIdFriendStatusData,
+} from "@/lib/types/api";
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
 
 export function useUserFriendshipStatus(userId: number) {
   const { data } = useUserSelf();
 
-  return useSWR<{
-    is_following_you: boolean;
-    is_followed_by_you: boolean;
-  }>(data && data.user_id != userId ? `user/${userId}/friend/status` : null);
+  return useSWR<GetUserByIdFriendStatusResponse>(
+    data && data.user_id != userId ? `user/${userId}/friend/status` : null
+  );
 }
 
 export function useUpdateUserFriendshipStatus(userId: number) {
@@ -24,11 +26,11 @@ export function useUpdateUserFriendshipStatus(userId: number) {
 
 const updateUserFriendshipStatus = async (
   url: string,
-  { arg }: { arg: { action: UpdateUserFriendshipAction } }
+  { arg }: { arg: PostUserByIdFriendStatusData["body"] }
 ) => {
   await poster(url, {
-    searchParams: {
-      action: arg.action,
+    json: {
+      ...arg,
     },
   });
 };

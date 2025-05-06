@@ -1,5 +1,5 @@
 import { Tooltip } from "@/components/Tooltip";
-import { UserBadge } from "@/lib/hooks/api/user/types";
+
 import {
   Coffee,
   HeartHandshake,
@@ -14,6 +14,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { twMerge } from "tailwind-merge";
 import React from "react";
+import { UserBadge } from "@/lib/types/api";
 
 interface UserBadgesProps {
   badges: UserBadge[];
@@ -22,40 +23,30 @@ interface UserBadgesProps {
 
 // TODO: Should be deprecated in favor of backend-provided badge descriptions, names, and icons
 const badgeMap = {
-  developer: {
+  [UserBadge.DEVELOPER]: {
     icon: <Coffee className="w-4 h-4 md:w-6 md:h-6" />,
     color: "bg-orange-500 hover:bg-orange-400",
     description: "Humble developer.",
   },
-  bat: {
+  [UserBadge.BAT]: {
     icon: <Music className="w-4 h-4 md:w-6 md:h-6" />,
     color: "bg-violet-600 hover:bg-violet-500",
     description: "They manage beatmap submissions.",
   },
-  bot: {
+  [UserBadge.BOT]: {
     icon: <BotIcon className="w-4 h-4 md:w-6 md:h-6" />,
     color: "bg-neutral-600 hover:bg-neutral-500",
     description: "Beep boop. I'm a bot.",
   },
-  admin: {
+  [UserBadge.ADMIN]: {
     icon: <Shield className="w-4 h-4 md:w-6 md:h-6" />,
     color: "bg-red-600 hover:bg-red-500",
     description: "Server admin. They keep the peace.",
   },
-  supporter: {
+  [UserBadge.SUPPORTER]: {
     icon: <HeartHandshake className="w-4 h-4 md:w-6 md:h-6" />,
     color: "bg-pink-600 hover:bg-pink-500",
     description: "Supported the project. Forever grateful.",
-  },
-  champion: {
-    icon: <Trophy className="w-4 h-4 md:w-6 md:h-6" />,
-    color: "bg-amber-500 hover:bg-amber-400",
-    description: "Current number one player on the server.",
-  },
-  restricted: {
-    icon: <BanIcon className="w-4 h-4 md:w-6 md:h-6" />,
-    color: "bg-red-600 hover:bg-red-500",
-    description: "This user is restricted.", // Deprecated
   },
 };
 

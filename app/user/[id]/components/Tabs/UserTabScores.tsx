@@ -5,15 +5,14 @@ import PrettyHeader from "@/components/General/PrettyHeader";
 import RoundedContent from "@/components/General/RoundedContent";
 import Spinner from "@/components/Spinner";
 import { Button } from "@/components/ui/button";
-import { GameMode } from "@/lib/hooks/api/types";
-import { UserScoresType } from "@/lib/hooks/api/user/types";
 import { useUserScores } from "@/lib/hooks/api/user/useUserScores";
+import { GameMode, ScoreTableType } from "@/lib/types/api";
 import { ChartColumnIncreasing, ChevronDown } from "lucide-react";
 
 interface UserTabScoresProps {
   userId: number;
   gameMode: GameMode;
-  type: UserScoresType;
+  type: ScoreTableType;
 }
 
 export default function UserTabScores({
@@ -40,14 +39,14 @@ export default function UserTabScores({
     (item) => item.total_count !== undefined
   )?.total_count;
 
-  if (total_count && type === UserScoresType.best) {
+  if (total_count && type === ScoreTableType.BEST) {
     total_count = Math.min(100, total_count);
   }
 
   return (
     <div className="flex flex-col">
       <PrettyHeader
-        text={`${UserScoresType[type]} scores`}
+        text={`${type} scores`}
         icon={<ChartColumnIncreasing />}
         counter={total_count && total_count > 0 ? total_count : undefined}
       />

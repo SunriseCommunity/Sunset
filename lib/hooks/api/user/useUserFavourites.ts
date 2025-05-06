@@ -1,7 +1,6 @@
 "use client";
 
-import { BeatmapSet, PlayedBeatmap } from "@/lib/hooks/api/beatmap/types";
-import { GameMode } from "@/lib/hooks/api/types";
+import { GameMode, GetUserByIdFavouritesResponse } from "@/lib/types/api";
 import useSWRInfinite from "swr/infinite";
 
 export function useUserFavourites(
@@ -11,7 +10,7 @@ export function useUserFavourites(
 ) {
   const getKey = (
     pageIndex: number,
-    previousPageData?: { sets: BeatmapSet[] }
+    previousPageData?: GetUserByIdFavouritesResponse
   ) => {
     if (previousPageData && previousPageData.sets.length === 0) return null;
 
@@ -25,5 +24,5 @@ export function useUserFavourites(
     return `user/${userId}/favourites?${queryParams.toString()}`;
   };
 
-  return useSWRInfinite<{ sets: BeatmapSet[]; total_count: number }>(getKey);
+  return useSWRInfinite<GetUserByIdFavouritesResponse>(getKey);
 }

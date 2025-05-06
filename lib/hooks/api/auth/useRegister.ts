@@ -1,4 +1,8 @@
 import poster from "@/lib/services/poster";
+import {
+  PostAuthRegisterData,
+  PostAuthRegisterResponse,
+} from "@/lib/types/api";
 import useSWRMutation from "swr/mutation";
 
 export function useRegister() {
@@ -7,13 +11,9 @@ export function useRegister() {
 
 const register = async (
   url: string,
-  { arg }: { arg: { username: string; password: string; email: string } }
+  { arg }: { arg: PostAuthRegisterData["body"] }
 ) => {
-  return await poster<{
-    token: string;
-    refresh_token: string;
-    expires_in: number;
-  }>(`auth/register`, {
+  return await poster<PostAuthRegisterResponse>(`auth/register`, {
     json: {
       ...arg,
     },

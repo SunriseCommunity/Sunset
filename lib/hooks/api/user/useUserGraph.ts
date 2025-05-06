@@ -1,9 +1,8 @@
 "use client";
 
-import { UserGraph } from "@/lib/hooks/api/user/types";
-import { GameMode } from "@/lib/hooks/api/types";
+import { GameMode, GetUserByUserIdGraphResponse } from "@/lib/types/api";
 import useSWR from "swr";
 
 export function useUserGraph(userId: number, mode: GameMode) {
-  return useSWR<UserGraph>(`user/${userId}/graph?mode=${mode}`);
+  return useSWR<GetUserByUserIdGraphResponse>(`user/${userId}/graph?mode=${mode}`);
 }

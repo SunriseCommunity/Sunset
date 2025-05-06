@@ -1,10 +1,10 @@
 "use client";
 
-import { Beatmap } from "@/lib/hooks/api/beatmap/types";
+import { BeatmapResponse } from "@/lib/types/api";
 import useSWR from "swr";
 
 export function useBeatmap(beatmapId: number | null) {
-  return useSWR<Beatmap>(beatmapId ? `beatmap/${beatmapId}` : null, {
+  return useSWR<BeatmapResponse>(beatmapId ? `beatmap/${beatmapId}` : null, {
     dedupingInterval: 1000 * 60 * 10,
   });
 }

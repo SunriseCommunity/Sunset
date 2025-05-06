@@ -11,11 +11,12 @@ import AudioPreview from "@/app/user/[id]/components/AudioPreview";
 import useAudioPlayer from "@/lib/hooks/useAudioPlayer";
 import { getBeatmapStarRating } from "@/lib/utils/getBeatmapStarRating";
 import ImageWithFallback from "@/components/ImageWithFallback";
-import { BeatmapSet } from "@/lib/hooks/api/beatmap/types";
+
 import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
+import { BeatmapSetResponse } from "@/lib/types/api";
 interface BeatmapSetOverviewProps {
-  beatmapSet: BeatmapSet;
+  beatmapSet: BeatmapSetResponse;
 }
 
 export default function BeatmapSetOverview({

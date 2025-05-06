@@ -3,7 +3,6 @@ import { ContentNotExist } from "@/components/ContentNotExist";
 import PrettyHeader from "@/components/General/PrettyHeader";
 import RoundedContent from "@/components/General/RoundedContent";
 import Spinner from "@/components/Spinner";
-import { GameMode } from "@/lib/hooks/api/types";
 import {
   ChartBarDecreasing,
   ChevronDown,
@@ -16,6 +15,7 @@ import BeatmapSetOverview from "@/app/user/[id]/components/BeatmapSetOverview";
 import { useUserMostPlayed } from "@/lib/hooks/api/user/useUserMostPlayed";
 import { useUserFavourites } from "@/lib/hooks/api/user/useUserFavourites";
 import { Button } from "@/components/ui/button";
+import { GameMode } from "@/lib/types/api";
 
 interface UserTabBeatmapsProps {
   userId: number;

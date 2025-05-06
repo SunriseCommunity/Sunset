@@ -3,17 +3,16 @@ import { ChartColumnIncreasing, Router } from "lucide-react";
 import PrettyHeader from "@/components/General/PrettyHeader";
 import RoundedContent from "@/components/General/RoundedContent";
 import { useCallback, useEffect, useState } from "react";
-import { GameMode } from "@/lib/hooks/api/types";
 import Spinner from "@/components/Spinner";
 import GameModeSelector from "@/components/GameModeSelector";
-import { UsersLeaderboardType } from "@/lib/hooks/api/user/types";
 import { useUsersLeaderboard } from "@/lib/hooks/api/user/useUsersLeaderboard";
 import { Button } from "@/components/ui/button";
 import { UserDataTable } from "@/app/leaderboard/components/UserDataTable";
 import { userColumns } from "@/app/leaderboard/components/UserColumns";
 import { usePathname, useSearchParams } from "next/navigation";
-import { tryParseNumber } from "@/lib/utils/type.util";
+import { isInstance, tryParseNumber } from "@/lib/utils/type.util";
 import { Combobox } from "@/components/ComboBox";
+import { GameMode, LeaderboardSortType } from "@/lib/types/api";
 
 export default function Leaderboard() {
   const pathname = usePathname();
@@ -21,16 +20,17 @@ export default function Leaderboard() {
 
   const page = tryParseNumber(searchParams.get("page")) ?? 0;
   const size = tryParseNumber(searchParams.get("size")) ?? 10;
-  const mode = tryParseNumber(searchParams.get("mode")) ?? GameMode.std;
-  const type =
-    tryParseNumber(searchParams.get("type")) ?? UsersLeaderboardType.pp;
+  const mode = searchParams.get("mode") ?? GameMode.STANDARD;
+  const type = searchParams.get("type") ?? LeaderboardSortType.PP;
 
   const [activeMode, setActiveMode] = useState(
-    mode in GameMode ? mode : GameMode.std
+    isInstance(mode, GameMode) ? (mode as GameMode) : GameMode.STANDARD
   );
 
   const [leaderboardType, setLeaderboardType] = useState(
-    type in UsersLeaderboardType ? type : UsersLeaderboardType.pp
+    isInstance(type, LeaderboardSortType)
+      ? (type as LeaderboardSortType)
+      : LeaderboardSortType.PP
   );
 
   const [pagination, setPagination] = useState({
@@ -106,10 +106,10 @@ export default function Leaderboard() {
         <div className="place-content-end w-full gap-x-2 hidden lg:flex">
           <Button
             onClick={() => {
-              setLeaderboardType(UsersLeaderboardType.pp);
+              setLeaderboardType(LeaderboardSortType.PP);
             }}
             variant={
-              leaderboardType == UsersLeaderboardType.pp
+              leaderboardType == LeaderboardSortType.PP
                 ? "default"
                 : "secondary"
             }
@@ -117,9 +117,9 @@ export default function Leaderboard() {
             Performance points
           </Button>
           <Button
-            onClick={() => setLeaderboardType(UsersLeaderboardType.score)}
+            onClick={() => setLeaderboardType(LeaderboardSortType.SCORE)}
             variant={
-              leaderboardType == UsersLeaderboardType.score
+              leaderboardType == LeaderboardSortType.SCORE
                 ? "default"
                 : "secondary"
             }
@@ -133,16 +133,16 @@ export default function Leaderboard() {
           <Combobox
             activeValue={leaderboardType.toString()}
             setActiveValue={(type: any) => {
-              setLeaderboardType(parseInt(type));
+              setLeaderboardType(type);
             }}
             values={[
               {
                 label: "Perf. points",
-                value: UsersLeaderboardType.pp.toString(),
+                value: LeaderboardSortType.PP,
               },
               {
                 label: "Score",
-                value: UsersLeaderboardType.score.toString(),
+                value: LeaderboardSortType.SCORE,
               },
             ]}
           />

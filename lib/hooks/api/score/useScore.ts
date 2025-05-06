@@ -1,8 +1,9 @@
 "use client";
 
-import { Score } from "@/lib/hooks/api/score/types";
+
+import { ScoreResponse } from "@/lib/types/api";
 import useSWR from "swr";
 
 export function useScore(scoreId: number) {
-  return useSWR<Score>(`score/${scoreId}`);
+  return useSWR<ScoreResponse>(`score/${scoreId}`);
 }

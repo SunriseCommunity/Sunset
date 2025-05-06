@@ -1,12 +1,13 @@
 import useAudioPlayer from "@/lib/hooks/useAudioPlayer";
-import { BeatmapSet } from "@/lib/hooks/api/beatmap/types";
+
 
 import { Pause, Play } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { BeatmapSetResponse } from "@/lib/types/api";
 
 interface AudioPreviewProps {
-  beatmapSet: BeatmapSet;
+  beatmapSet: BeatmapSetResponse;
 }
 
 export default function AudioPreview({ beatmapSet }: AudioPreviewProps) {

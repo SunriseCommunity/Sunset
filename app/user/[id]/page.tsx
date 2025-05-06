@@ -13,14 +13,12 @@ import ImageWithFallback from "@/components/ImageWithFallback";
 import UserTabBeatmaps from "./components/Tabs/UserTabBeatmaps";
 import GameModeSelector from "@/components/GameModeSelector";
 import RoundedContent from "@/components/General/RoundedContent";
-import { User, UserScoresType, UserStats } from "@/lib/hooks/api/user/types";
 import {
   useUser,
   useUserSelf,
   useUserStats,
 } from "@/lib/hooks/api/user/useUser";
 import UserTabScores from "@/app/user/[id]/components/Tabs/UserTabScores";
-import { GameMode } from "@/lib/hooks/api/types";
 import { FriendshipButton } from "@/components/FriendshipButton";
 import { Button } from "@/components/ui/button";
 import UserRankColor from "@/components/UserRankNumber";
@@ -30,7 +28,13 @@ import UserStatusText, {
 } from "@/app/user/[id]/components/UserStatusText";
 import UserRanks from "@/app/user/[id]/components/UserRanks";
 import { Tooltip } from "@/components/Tooltip";
-import { tryParseNumber } from "@/lib/utils/type.util";
+import {
+  GameMode,
+  ScoreTableType,
+  UserResponse,
+  UserStatsResponse,
+} from "@/lib/types/api";
+import { isInstance } from "@/lib/utils/type.util";
 
 const contentTabs = [
   "General",
@@ -42,10 +46,10 @@ const contentTabs = [
 ];
 
 const renderTabContent = (
-  userStats: UserStats | undefined,
+  userStats: UserStatsResponse | undefined,
   activeTab: string,
   activeMode: GameMode,
-  user: User
+  user: UserResponse
 ) => {
   switch (activeTab) {
     case "General":
@@ -63,7 +67,7 @@ const renderTabContent = (
           key={`best-${activeMode}`}
           gameMode={activeMode}
           userId={user.user_id}
-          type={UserScoresType.best}
+          type={ScoreTableType.BEST}
         />
       );
     case "Recent scores":
@@ -72,7 +76,7 @@ const renderTabContent = (
           key={`recent-${activeMode}`}
           gameMode={activeMode}
           userId={user.user_id}
-          type={UserScoresType.recent}
+          type={ScoreTableType.RECENT}
         />
       );
     case "First places":
@@ -81,7 +85,7 @@ const renderTabContent = (
           key={`first-${activeMode}`}
           gameMode={activeMode}
           userId={user.user_id}
-          type={UserScoresType.top}
+          type={ScoreTableType.TOP}
         />
       );
     case "Beatmaps":
@@ -111,11 +115,11 @@ export default function UserPage(props: { params: Promise<{ id: number }> }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const mode = tryParseNumber(searchParams.get("mode")) ?? GameMode.std;
+  const mode = searchParams.get("mode") ?? GameMode.STANDARD;
 
   const [activeTab, setActiveTab] = useState("General");
   const [activeMode, setActiveMode] = useState(
-    mode in GameMode ? mode : GameMode.std
+    isInstance(mode, GameMode) ? (mode as GameMode) : GameMode.STANDARD
   );
 
   const self = useUserSelf();

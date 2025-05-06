@@ -1,7 +1,6 @@
 "use client";
 
 import { Suspense } from "react";
-import { User } from "@/lib/hooks/api/user/types";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,9 +16,10 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import ImageWithFallback from "@/components/ImageWithFallback";
 import { HeaderLogoutAlert } from "@/components/Header/HeaderLogoutAlert";
 import Link from "next/link";
+import { UserResponse } from "@/lib/types/api";
 
 interface Props {
-  self: User | null;
+  self: UserResponse | null;
 }
 
 export default function HeaderUserDropdown({ self }: Props) {

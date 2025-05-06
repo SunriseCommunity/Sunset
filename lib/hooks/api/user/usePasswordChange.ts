@@ -1,4 +1,5 @@
 import poster from "@/lib/services/poster";
+import { PostUserPasswordChangeData } from "@/lib/types/api";
 import useSWRMutation from "swr/mutation";
 
 export function usePasswordChange() {
@@ -7,7 +8,7 @@ export function usePasswordChange() {
 
 const passwordChange = async (
   url: string,
-  { arg }: { arg: { current_password: string; new_password: string } }
+  { arg }: { arg: PostUserPasswordChangeData["body"] }
 ) => {
   return await poster(`user/password/change`, {
     json: {

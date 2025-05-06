@@ -1,7 +1,7 @@
 import RoundedContent from "@/components/General/RoundedContent";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { ShortenedMods } from "@/lib/hooks/api/score/types";
-import { GameMode } from "@/lib/hooks/api/types";
+import { GameMode, Mods } from "@/lib/types/api";
 import { gameModeToVanilla } from "@/lib/utils/gameMode.util";
 import {
   Ban,
@@ -25,63 +25,63 @@ import { twMerge } from "tailwind-merge";
 const modElements = [
   {
     element: <Ban />,
-    mod: ShortenedMods.NM,
+    mod: Mods.NONE,
   },
   {
     element: <Candy />,
-    mod: ShortenedMods.EZ,
+    mod: Mods.EASY,
   },
   {
     element: <LifeBuoy />,
-    mod: ShortenedMods.NF,
+    mod: Mods.NO_FAIL,
   },
   {
     element: <Hourglass />,
-    mod: ShortenedMods.HT,
+    mod: Mods.HALF_TIME,
   },
   {
     element: <HandMetal />,
-    mod: ShortenedMods.HR,
+    mod: Mods.HARD_ROCK,
   },
   {
     element: <Skull />,
-    mod: ShortenedMods.SD,
+    mod: Mods.SUDDEN_DEATH,
   },
   {
     element: <ThumbsUp />,
-    mod: ShortenedMods.PF,
+    mod: Mods.PERFECT,
   },
   {
     element: <SkipForwardIcon />,
-    mod: ShortenedMods.DT,
+    mod: Mods.DOUBLE_TIME,
   },
   {
     element: <Headphones />,
-    mod: ShortenedMods.NC,
+    mod: Mods.NIGHTCORE,
   },
   {
     element: <Cloudy />,
-    mod: ShortenedMods.HD,
+    mod: Mods.HIDDEN,
   },
   {
     element: <Flashlight />,
-    mod: ShortenedMods.FL,
+    mod: Mods.FLASHLIGHT,
   },
   {
     element: <LoaderPinwheel />,
-    mod: ShortenedMods.SO,
+    mod: Mods.SPUN_OUT,
   },
   {
     element: <Keyboard />,
-    mod: ShortenedMods.AP,
+    mod: Mods.RELAX2,
   },
   {
     element: <Star />,
-    mod: ShortenedMods.RX,
+    mod: Mods.RELAX,
   },
   {
     element: <Rocket />,
-    mod: ShortenedMods.V2,
+    mod: Mods.SCORE_V2,
   },
 ];
 
@@ -93,21 +93,21 @@ export function ModsSelector({
   ignoreMods,
   className,
 }: {
-  mods: string[];
-  setMods: (mods: string[]) => void;
+  mods: Mods[];
+  setMods: (mods: Mods[]) => void;
   mode?: GameMode;
   variant?: "small" | "big";
-  ignoreMods?: ShortenedMods[];
+  ignoreMods?: Mods[];
   className?: string;
 }) {
   if (mode) {
     ignoreMods = [
-      ...([GameMode.std].includes(gameModeToVanilla(mode))
+      ...([GameMode.STANDARD].includes(gameModeToVanilla(mode))
         ? []
-        : [ShortenedMods.AP, ShortenedMods.SO]
+        : [Mods.RELAX2, Mods.SPUN_OUT]
       ).flat(),
-      ...([GameMode.mania].includes(gameModeToVanilla(mode))
-        ? [ShortenedMods.RX]
+      ...([GameMode.MANIA].includes(gameModeToVanilla(mode))
+        ? [Mods.RELAX]
         : []
       ).flat(),
       ...(ignoreMods ?? []),
@@ -121,7 +121,7 @@ export function ModsSelector({
         value={mods ?? undefined}
         className="flex flex-wrap"
         onValueChange={(e) => {
-          setMods(e.includes("0") ? ["0"] : e);
+          setMods(e.includes(Mods.NONE) ? [Mods.NONE] : (e as Mods[]));
         }}
       >
         {modElements

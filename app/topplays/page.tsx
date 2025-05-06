@@ -4,22 +4,22 @@ import { ChevronDown, LucideHistory } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import PrettyHeader from "@/components/General/PrettyHeader";
 import RoundedContent from "@/components/General/RoundedContent";
-import { GameMode } from "@/lib/hooks/api/types";
 import UserScoreMinimal from "./components/UserScoreMinimal";
 import GameModeSelector from "@/components/GameModeSelector";
 import { useTopScores } from "@/lib/hooks/api/score/useTopScores";
 import { Button } from "@/components/ui/button";
-import { tryParseNumber } from "@/lib/utils/type.util";
 import { usePathname, useSearchParams } from "next/navigation";
+import { GameMode } from "@/lib/types/api";
+import { isInstance } from "@/lib/utils/type.util";
 
 export default function Topplays() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const mode = tryParseNumber(searchParams.get("mode")) ?? GameMode.std;
+  const mode = searchParams.get("mode") ?? GameMode.STANDARD;
 
   const [activeMode, setActiveMode] = useState(
-    mode in GameMode ? mode : GameMode.std
+    isInstance(mode, GameMode) ? (mode as GameMode) : GameMode.STANDARD
   );
 
   const { data, setSize, size, isLoading } = useTopScores(activeMode, 20);
@@ -32,6 +32,8 @@ export default function Topplays() {
   };
 
   const scores = data?.flatMap((item) => item.scores);
+  const totalCountScores =
+    data?.find((item) => item.total_count !== undefined)?.total_count ?? 0;
 
   useEffect(() => {
     window.history.pushState(
@@ -83,7 +85,7 @@ export default function Topplays() {
                 ))}
               </div>
 
-              {scores.length < 100 && (
+              {scores.length < 100 && scores.length < totalCountScores && (
                 <div className="flex justify-center mt-4">
                   <Button
                     onClick={handleShowMore}

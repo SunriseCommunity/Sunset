@@ -3,13 +3,13 @@
 import BeatmapStatusIcon from "@/components/BeatmapStatus";
 import ImageWithFallback from "@/components/ImageWithFallback";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Beatmap, BeatmapStatus } from "@/lib/hooks/api/beatmap/types";
+import { BeatmapResponse, BeatmapStatusSearch } from "@/lib/types/api";
 import { PlayIcon } from "lucide-react";
 import Link from "next/link";
 import { twMerge } from "tailwind-merge";
 
 interface BeatmapPlayedOverviewProps {
-  beatmap: Beatmap;
+  beatmap: BeatmapResponse;
   playcount: number;
   className?: string;
 }
@@ -46,7 +46,7 @@ export default function BeatmapPlayedOverview({
                 <div className="flex font-bold text-sm md:text-xl drop-shadow-md items-center ">
                   <span className="pr-1">
                     <BeatmapStatusIcon
-                      status={beatmap?.status ?? BeatmapStatus.Graveyard}
+                      status={beatmap?.status ?? BeatmapStatusSearch.GRAVEYARD}
                     />
                   </span>
                   {beatmap?.artist && beatmap?.title ? (
