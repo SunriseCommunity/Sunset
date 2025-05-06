@@ -361,6 +361,7 @@ export type StatsSnapshotsResponse = {
 
 export type StatusResponse = {
     is_online: boolean;
+    is_on_maintenance: boolean;
     users_online: number;
     current_users_online?: Array<UserResponse> | null;
     total_users: number;

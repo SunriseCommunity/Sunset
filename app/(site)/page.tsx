@@ -4,6 +4,7 @@ import RecentUsersIcons from "@/app/(site)/components/RecentUsersIcons";
 import ServerStatus from "@/app/(site)/components/ServerStatus";
 import PrettyHeader from "@/components/General/PrettyHeader";
 import RoundedContent from "@/components/General/RoundedContent";
+import ServerMaintenanceDialog from "@/components/ServerMaintenanceDialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -17,6 +18,7 @@ import { useServerStatus } from "@/lib/hooks/api/useServerStatus";
 import { BookOpenCheck, DoorOpen, Download } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 const cards = [
@@ -67,9 +69,16 @@ const cards = [
 
 export default function Home() {
   const videoUrls = [0, 1, 2, 3].map((n) => `/api/getVideo?id=${n}`);
+  const [isMaintenanceDialogOpen, setMaintenanceDialogOpen] = useState<
+    boolean | null
+  >(null);
 
   const serverStatusQuery = useServerStatus();
   const serverStatus = serverStatusQuery.data;
+
+  if (serverStatus?.is_on_maintenance && isMaintenanceDialogOpen == null) {
+    setMaintenanceDialogOpen(true);
+  }
 
   return (
     <div className="w-full space-y-8">
@@ -138,7 +147,9 @@ export default function Home() {
           data={
             serverStatus
               ? serverStatus.is_online
-                ? "Online"
+                ? serverStatus.is_on_maintenance
+                  ? "Under Maintenance"
+                  : "Online"
                 : "Offline"
               : undefined
           }
@@ -250,6 +261,11 @@ export default function Home() {
           </PrettyHeader>
         </div>
       </div>
+
+      <ServerMaintenanceDialog
+        open={!!isMaintenanceDialogOpen}
+        setOpen={setMaintenanceDialogOpen}
+      />
     </div>
   );
 }
