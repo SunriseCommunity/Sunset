@@ -32,6 +32,8 @@ export default function Topplays() {
   };
 
   const scores = data?.flatMap((item) => item.scores);
+  const totalCountScores =
+    data?.find((item) => item.total_count !== undefined)?.total_count ?? 0;
 
   useEffect(() => {
     window.history.pushState(
@@ -83,7 +85,7 @@ export default function Topplays() {
                 ))}
               </div>
 
-              {scores.length < 100 && (
+              {scores.length < 100 && scores.length < totalCountScores && (
                 <div className="flex justify-center mt-4">
                   <Button
                     onClick={handleShowMore}
