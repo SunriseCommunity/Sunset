@@ -115,6 +115,10 @@ export type EditBeatmapsetFavouriteStatusRequest = {
     favourited: boolean;
 };
 
+export type EditDefaultGameModeRequest = {
+    default_gamemode: GameMode;
+};
+
 export type EditDescriptionRequest = {
     description: string;
 };
@@ -414,6 +418,7 @@ export type UserResponse = {
     last_online_time: string;
     restricted: boolean;
     silenced_until?: string | null;
+    default_gamemode: GameMode;
     badges: Array<UserBadge>;
     user_status: string;
 };
@@ -1184,6 +1189,33 @@ export type PostUserEditDescriptionErrors = {
 export type PostUserEditDescriptionError = PostUserEditDescriptionErrors[keyof PostUserEditDescriptionErrors];
 
 export type PostUserEditDescriptionResponses = {
+    /**
+     * OK
+     */
+    200: unknown;
+};
+
+export type PostUserEditDefaultGamemodeData = {
+    body?: EditDefaultGameModeRequest;
+    path?: never;
+    query?: never;
+    url: '/user/edit/default-gamemode';
+};
+
+export type PostUserEditDefaultGamemodeErrors = {
+    /**
+     * Bad Request
+     */
+    400: ErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+};
+
+export type PostUserEditDefaultGamemodeError = PostUserEditDefaultGamemodeErrors[keyof PostUserEditDefaultGamemodeErrors];
+
+export type PostUserEditDefaultGamemodeResponses = {
     /**
      * OK
      */

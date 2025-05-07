@@ -11,6 +11,7 @@ import {
   gameModeToGamerule,
   gameModeToVanilla,
 } from "@/lib/utils/gameMode.util";
+import { Star } from "lucide-react";
 import { twMerge } from "tailwind-merge";
 
 const GameModesIcons = {
@@ -28,6 +29,7 @@ interface GameModeSelectorProps extends React.HTMLAttributes<HTMLDivElement> {
   enabledModes?: GameMode[];
   includeGameModes?: boolean;
   includeGameRules?: boolean;
+  userDefaultGameMode?: GameMode;
   mobileVariant?: "combobox" | "icons";
 }
 
@@ -71,9 +73,13 @@ export default function GameModeSelector({
   includeGameModes = true,
   includeGameRules = true,
   mobileVariant = "icons",
+  userDefaultGameMode,
   ...props
 }: GameModeSelectorProps) {
   if (enabledModes) enrichEnabledModesWithGameModes(enabledModes);
+
+  var defaultGameModeVanilla =
+    userDefaultGameMode && gameModeToVanilla(userDefaultGameMode);
 
   return (
     <div
@@ -95,7 +101,7 @@ export default function GameModeSelector({
             ).map(([mode, key]) => (
               <Button
                 key={mode}
-                className="px-3 py-1"
+                className="relative px-3 py-1"
                 onClick={() => key != null && setActiveMode(key)}
                 variant={
                   key != null &&
@@ -108,6 +114,7 @@ export default function GameModeSelector({
                 }
               >
                 {mode}
+                {key === userDefaultGameMode && <DefaultGameModeStar />}
               </Button>
             ))}
           </div>
@@ -119,6 +126,7 @@ export default function GameModeSelector({
                 <Button
                   key={mode}
                   onClick={() => key != null && setActiveMode(key)}
+                  className="relative"
                   size="icon"
                   variant={
                     key != null &&
@@ -132,6 +140,7 @@ export default function GameModeSelector({
                   }
                 >
                   {mode}
+                  {key === userDefaultGameMode && <DefaultGameModeStar />}
                 </Button>
               ))}
             </div>
@@ -147,7 +156,7 @@ export default function GameModeSelector({
             ).map(([mode, key]) => (
               <Button
                 key={mode}
-                className="px-3 py-1"
+                className="relative px-3 py-1"
                 onClick={() => key != null && setActiveMode(key)}
                 variant={activeMode === key ? "default" : "secondary"}
                 disabled={
@@ -155,6 +164,9 @@ export default function GameModeSelector({
                 }
               >
                 {mode}
+                {key && gameModeToVanilla(key) === defaultGameModeVanilla && (
+                  <DefaultGameModeStar />
+                )}
               </Button>
             ))}
           </div>
@@ -166,6 +178,7 @@ export default function GameModeSelector({
                 <Button
                   key={mode}
                   size="icon"
+                  className="relative"
                   onClick={() => key != null && setActiveMode(key)}
                   variant={activeMode === key ? "default" : "secondary"}
                   disabled={
@@ -173,13 +186,14 @@ export default function GameModeSelector({
                     (enabledModes && !enabledModes.includes(key))
                   }
                 >
-                  {
-                    <DifficultyIcon
-                      gameMode={
-                        GameModesIcons[index as keyof typeof GameModesIcons]
-                      }
-                    />
-                  }
+                  <DifficultyIcon
+                    gameMode={
+                      GameModesIcons[index as keyof typeof GameModesIcons]
+                    }
+                  />
+                  {key && gameModeToVanilla(key) === defaultGameModeVanilla && (
+                    <DefaultGameModeStar />
+                  )}
                 </Button>
               ))}
             </div>
@@ -201,13 +215,21 @@ export default function GameModeSelector({
               .filter(([key]) => isNaN(Number(key)))
               .map(([mode, key]) => {
                 return {
-                  label: key,
+                  label: `${key === userDefaultGameMode ? "* " : ""}${key}`,
                   value: key.toString(),
                 };
               })}
           />
         </div>
       )}
+    </div>
+  );
+}
+
+export function DefaultGameModeStar() {
+  return (
+    <div className="absolute sm:-top-2 -top-2.5 sm:-right-2 -right-2.5 bg-card rounded-full p-0.5">
+      <Star className="h-2 w-2 fill-yellow-400 stroke-yellow-400" />
     </div>
   );
 }

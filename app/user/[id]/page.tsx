@@ -35,6 +35,8 @@ import {
   UserStatsResponse,
 } from "@/lib/types/api";
 import { isInstance } from "@/lib/utils/type.util";
+import { SetDefaultGamemodeButton } from "@/app/user/[id]/components/SetDefaultGamemodeButton";
+import useSelf from "@/lib/hooks/useSelf";
 
 const contentTabs = [
   "General",
@@ -109,31 +111,39 @@ const renderTabContent = (
 
 export default function UserPage(props: { params: Promise<{ id: number }> }) {
   const params = use(props.params);
-  const userId = params.id;
+  const userId = Number(params.id);
 
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const mode = searchParams.get("mode") ?? GameMode.STANDARD;
+  const mode = searchParams.get("mode") ?? "";
 
   const [activeTab, setActiveTab] = useState("General");
-  const [activeMode, setActiveMode] = useState(
-    isInstance(mode, GameMode) ? (mode as GameMode) : GameMode.STANDARD
+  const [activeMode, setActiveMode] = useState<GameMode | null>(
+    isInstance(mode, GameMode) ? (mode as GameMode) : null
   );
 
-  const self = useUserSelf();
+  const { self } = useSelf();
 
-  const userQuery = useUser(userId);
+  const userQuery = userId === self?.user_id ? useUserSelf() : useUser(userId);
   const userStatsQuery = useUserStats(userId, activeMode);
 
   useEffect(() => {
+    if (!activeMode) return;
+
     window.history.pushState(
       null,
       "",
       pathname + "?" + createQueryString("mode", activeMode.toString())
     );
   }, [activeMode]);
+
+  useEffect(() => {
+    if (activeMode || !userQuery.data) return;
+
+    setActiveMode(userQuery.data.default_gamemode);
+  }, [userQuery]);
 
   const createQueryString = useCallback(
     (name: string, value: string) => {
@@ -159,15 +169,20 @@ export default function UserPage(props: { params: Promise<{ id: number }> }) {
   const user = userQuery.data;
   const userStats = userStatsQuery.data?.stats;
 
+  if (!activeMode) return;
+
   return (
     <div className="flex flex-col space-y-4">
-      <PrettyHeader icon={<UserIcon />} text="Player info" roundBottom={true} />
+      <PrettyHeader icon={<UserIcon />} text="Player info" roundBottom={true}>
+        {user && <SetDefaultGamemodeButton gamemode={activeMode} user={user} />}
+      </PrettyHeader>
 
       <div>
         <PrettyHeader className="border-b-0">
           <GameModeSelector
             activeMode={activeMode}
             setActiveMode={setActiveMode}
+            userDefaultGameMode={user?.default_gamemode}
           />
         </PrettyHeader>
 
@@ -232,7 +247,7 @@ export default function UserPage(props: { params: Promise<{ id: number }> }) {
                     <UserBadges badges={user.badges} />
                   </div>
                   <div className="flex space-x-2">
-                    {user.user_id === self.data?.user_id ? (
+                    {user.user_id === self?.user_id ? (
                       <Button
                         onClick={() => router.push("/settings")}
                         className="w-9 md:w-auto"
