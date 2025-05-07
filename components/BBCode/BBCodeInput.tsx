@@ -177,10 +177,12 @@ export default function BBCodeInput({
 
   return (
     <div className="flex flex-col gap-2">
-      {text && text.length > 0 && <BBCodeTextField text={text} />}
+      <div className="overflow-x-auto">
+        {text && text.length > 0 && <BBCodeTextField text={text} />}
+      </div>
 
       <textarea
-        className="bg-card p-2 rounded-lg h-32 text-sm text-current"
+        className="bg-card p-2 rounded-lg h-32 text-sm text-current max-h-96 "
         maxLength={2000}
         value={text ?? ""}
         onChange={(e) => setText(e.target.value)}
