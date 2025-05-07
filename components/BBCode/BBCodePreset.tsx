@@ -29,6 +29,9 @@ export const allowedTags = [
   "c",
   "spoiler",
   "profile",
+  "table",
+  "tr",
+  "td",
 ];
 
 export const customBBCodePreset = reactPreset.extend((tags) => ({

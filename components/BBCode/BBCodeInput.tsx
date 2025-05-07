@@ -127,12 +127,14 @@ export default function BBCodeInput({
   onSave,
   isSaving,
 }: BBCodeInputProps) {
-  const [text, setText] = useState(defaultText ?? "");
+  const [text, setText] = useState<string | null>(null);
 
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
-    setText(defaultText || "");
+    if (text) return;
+
+    setText(defaultText ?? "");
   }, [defaultText]);
 
   const addToText = (beforeText = "", afterText = "") => {
@@ -175,12 +177,12 @@ export default function BBCodeInput({
 
   return (
     <div className="flex flex-col gap-2">
-      {text.length > 0 && <BBCodeTextField text={text} />}
+      {text && text.length > 0 && <BBCodeTextField text={text} />}
 
       <textarea
         className="bg-card p-2 rounded-lg h-32 text-sm text-current"
         maxLength={2000}
-        value={text}
+        value={text ?? ""}
         onChange={(e) => setText(e.target.value)}
         ref={textAreaRef}
       ></textarea>
