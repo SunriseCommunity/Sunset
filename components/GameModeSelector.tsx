@@ -215,7 +215,7 @@ export default function GameModeSelector({
               .filter(([key]) => isNaN(Number(key)))
               .map(([mode, key]) => {
                 return {
-                  label: `${key === userDefaultGameMode ? "* " : ""}${key}`,
+                  label: `${key === userDefaultGameMode ? "★ " : ""}${key}`,
                   value: key.toString(),
                 };
               })}
