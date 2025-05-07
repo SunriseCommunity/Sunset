@@ -20,11 +20,13 @@ export default function UserHoverCard({
   children,
   align,
   asChild,
+  includeFriendshipButton = true,
 }: {
   user: UserResponse;
   children: React.ReactNode;
   align?: "center" | "start" | "end";
   asChild?: boolean;
+  includeFriendshipButton?: boolean;
 }) {
   return (
     <HoverCard openDelay={150}>
@@ -87,12 +89,13 @@ export default function UserHoverCard({
                 </div>
               </div>
             </div>
-
-            <FriendshipButton
-              userId={user.user_id}
-              className="w-10 h-10"
-              includeText={false}
-            />
+            {includeFriendshipButton && (
+              <FriendshipButton
+                userId={user.user_id}
+                className="w-10 h-10"
+                includeText={false}
+              />
+            )}
           </Link>
 
           <div className="relative py-2 px-4 bg-black bg-opacity-80 flex flex-row w-full">

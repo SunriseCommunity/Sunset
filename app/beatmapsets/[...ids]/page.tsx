@@ -20,8 +20,8 @@ import GameModeSelector from "@/components/GameModeSelector";
 import { BeatmapDropdown } from "@/app/beatmapsets/components/BeatmapDropdown";
 import { usePathname, useSearchParams } from "next/navigation";
 import { isInstance, tryParseNumber } from "@/lib/utils/type.util";
-import { BeatmapDescription } from "@/app/beatmapsets/components/BeatmapDescriptions";
 import { BeatmapResponse, GameMode } from "@/lib/types/api";
+import { BBCodeReactParser } from "@/components/BBCode/BBCodeReactParser";
 
 export interface BeatmapsetProps {
   params: Promise<{ ids: [string?, string?] }>;
@@ -266,8 +266,8 @@ export default function Beatmapset(props: BeatmapsetProps) {
                     className="font-normal py-2 px-4"
                   />
                   <RoundedContent className="min-h-0 h-full overflow-y-auto">
-                    <BeatmapDescription
-                      descriptionHtml={beatmapSet.description}
+                    <BBCodeReactParser
+                      textHtml={beatmapSet.description}
                     />
                   </RoundedContent>
                 </div>
