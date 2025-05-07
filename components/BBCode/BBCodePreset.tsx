@@ -135,17 +135,44 @@ export const customBBCodePreset = htmlPreset.extend((tags) => ({
   list: (node) => {
     const isOrdered = !!node.attrs && Object.keys(node.attrs).length > 0;
 
-    const rawItems = (
-      !node.content ? "" : Object.values(node.content).join(" ")
-    )
-      .split(/\[\*\]/)
-      .slice(1);
+    const normalizeContent = (content: any | any[] | undefined): any[] => {
+      if (content === undefined || content === null) return [];
+      return Array.isArray(content) ? content : [content];
+    };
 
-    const items = rawItems.map((item: string) => ({
+    const splitContentByMarker = (content: any): any[][] => {
+      const result: any[][] = [];
+      let current: any[] | null = null;
+
+      for (const item of content) {
+        if (item === "[*]") {
+          if (!current) {
+            current = [];
+          }
+
+          if (current.length > 0) {
+            result.push(current);
+            current = [];
+          }
+        } else if (current != null) {
+          current.push(item);
+        }
+      }
+
+      if (current && current.length > 0) {
+        result.push(current);
+      }
+
+      return result;
+    };
+
+    const contentArray = normalizeContent(node.content);
+    const splitItems = splitContentByMarker(contentArray);
+
+    const items = splitItems.map((itemContent) => ({
       tag: "li",
-      content: item.trim().replaceAll("[break]", ""),
+      content: itemContent,
     }));
-
     return {
       tag: "ol",
       attrs: {
