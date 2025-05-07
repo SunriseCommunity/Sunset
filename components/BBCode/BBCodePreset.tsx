@@ -1,4 +1,4 @@
-import reactPreset from "@bbob/preset-react";
+import htmlPreset from "@bbob/preset-html5";
 
 export const allowedTags = [
   "b",
@@ -34,7 +34,7 @@ export const allowedTags = [
   "td",
 ];
 
-export const customBBCodePreset = reactPreset.extend((tags) => ({
+export const customBBCodePreset = htmlPreset.extend((tags) => ({
   ...tags,
   br: () => ({ tag: "br" }),
   hr: () => ({ tag: "hr" }),
@@ -49,27 +49,6 @@ export const customBBCodePreset = reactPreset.extend((tags) => ({
     tag: "code",
     attrs: {
       className: "p-1 bg-card rounded",
-    },
-    content: node.content,
-  }),
-  b: (node) => ({
-    tag: "bold",
-    attrs: {
-      className: "font-bold",
-    },
-    content: node.content,
-  }),
-  i: (node) => ({
-    tag: "i",
-    attrs: {
-      className: "italic",
-    },
-    content: node.content,
-  }),
-  s: (node) => ({
-    tag: "s",
-    attrs: {
-      className: "line-through",
     },
     content: node.content,
   }),

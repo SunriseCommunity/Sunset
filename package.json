@@ -10,8 +10,8 @@
     "generate:openapi": "dotenv -e .env.local -- openapi-ts"
   },
   "dependencies": {
-    "@bbob/preset-react": "^4.2.0",
-    "@bbob/react": "^4.2.0",
+    "@bbob/html": "^4.2.0",
+    "@bbob/preset-html5": "^4.2.0",
     "@hey-api/client-fetch": "^0.10.0",
     "@hookform/resolvers": "^5.0.1",
     "@radix-ui/react-accordion": "^1.2.4",
