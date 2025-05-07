@@ -33,12 +33,12 @@ export default function Beatmapset(props: BeatmapsetProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const mode = searchParams.get("mode") ?? GameMode.STANDARD;
+  const mode = searchParams.get("mode") ?? "";
 
   const [beatmapSetId, beatmapId] = params.ids;
 
-  const [activeMode, setActiveMode] = useState(
-    isInstance(mode, GameMode) ? (mode as GameMode) : GameMode.STANDARD
+  const [activeMode, setActiveMode] = useState<GameMode | null>(
+    isInstance(mode, GameMode) ? (mode as GameMode) : null
   );
 
   const [activeBeatmap, setActiveBeatmap] = useState<BeatmapResponse | null>(
@@ -66,7 +66,7 @@ export default function Beatmapset(props: BeatmapsetProps) {
   useEffect(() => {
     if (
       !beatmapSet ||
-      [gameModeToVanilla(activeMode), GameMode.STANDARD].includes(
+      [activeMode && gameModeToVanilla(activeMode), GameMode.STANDARD].includes(
         activeBeatmap?.mode ?? GameMode.STANDARD
       )
     )
@@ -83,6 +83,8 @@ export default function Beatmapset(props: BeatmapsetProps) {
   }, [activeMode]);
 
   useEffect(() => {
+    if (!activeMode) return;
+
     window.history.pushState(
       null,
       "",
@@ -113,7 +115,7 @@ export default function Beatmapset(props: BeatmapsetProps) {
     [searchParams]
   );
 
-  if (beatmapsetQuery.isLoading)
+  if (beatmapsetQuery.isLoading || !activeMode)
     return (
       <div className="flex flex-col justify-center items-center h-96">
         <Spinner size="xl" />

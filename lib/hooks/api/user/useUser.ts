@@ -11,6 +11,6 @@ export function useUser(id: number | null) {
   return useSWR<UserResponse>(id ? `user/${id}` : null);
 }
 
-export function useUserStats(id: number | null, mode: GameMode) {
-  return useSWR<UserWithStats>(id ? `user/${id}/${mode}` : null);
+export function useUserStats(id: number | null, mode: GameMode | null) {
+  return useSWR<UserWithStats>(id && mode ? `user/${id}/${mode}` : null);
 }

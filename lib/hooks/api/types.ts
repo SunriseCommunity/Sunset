@@ -31,6 +31,19 @@ export const GameRuleFlags: {
   },
 };
 
+export const GameModeToFlagMap: { [key in GameMode]?: string } = {};
+
+for (const baseMode in GameRuleFlags) {
+  const flags = GameRuleFlags[baseMode as GameMode];
+  if (!flags) continue;
+
+  for (const [flag, mode] of Object.entries(flags)) {
+    if (mode !== null) {
+      GameModeToFlagMap[mode] = flag;
+    }
+  }
+}
+
 export const GameRuleFlagsShort: {
   [K in GameMode]?: { [key: string]: GameMode | null };
 } = {
@@ -88,6 +101,19 @@ export const GameRulesGameModes: {
     "osu!mania": GameMode.SCORE_V2_MANIA,
   },
 };
+
+export const GameModeToGameRuleMap: { [key in GameMode]?: string } = {};
+
+for (const parentMode in GameRulesGameModes) {
+  const modeMappings = GameRulesGameModes[parentMode as GameMode];
+  if (!modeMappings) continue;
+
+  for (const [key, value] of Object.entries(modeMappings)) {
+    if (value !== null) {
+      GameModeToGameRuleMap[value] = key;
+    }
+  }
+}
 
 export interface PossibleErrorResult<T> {
   data: any;
