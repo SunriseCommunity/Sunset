@@ -164,30 +164,32 @@ export default function UserPage(props: { params: Promise<{ id: number }> }) {
   }
 
   const errorMessage =
-    userStatsQuery.error?.message ?? "User not found or an error occurred.";
+    userQuery.error?.message ?? "User not found or an error occurred.";
 
   const user = userQuery.data;
   const userStats = userStatsQuery.data?.stats;
 
-  if (!activeMode) return;
-
   return (
     <div className="flex flex-col space-y-4">
       <PrettyHeader icon={<UserIcon />} text="Player info" roundBottom={true}>
-        {user && <SetDefaultGamemodeButton gamemode={activeMode} user={user} />}
+        {user && activeMode && (
+          <SetDefaultGamemodeButton gamemode={activeMode} user={user} />
+        )}
       </PrettyHeader>
 
       <div>
         <PrettyHeader className="border-b-0">
-          <GameModeSelector
-            activeMode={activeMode}
-            setActiveMode={setActiveMode}
-            userDefaultGameMode={user?.default_gamemode}
-          />
+          {user && activeMode && (
+            <GameModeSelector
+              activeMode={activeMode}
+              setActiveMode={setActiveMode}
+              userDefaultGameMode={user?.default_gamemode}
+            />
+          )}
         </PrettyHeader>
 
         <RoundedContent className="rounded-lg-b p-0 border-t-0 bg-card">
-          {!userStatsQuery.error && user ? (
+          {!userStatsQuery.error && user && activeMode ? (
             <>
               <div className="lg:h-64 md:h-44 h-32 relative">
                 <ImageWithFallback
