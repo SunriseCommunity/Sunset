@@ -10,6 +10,8 @@
     "generate:openapi": "dotenv -e .env.local -- openapi-ts"
   },
   "dependencies": {
+    "@bbob/preset-react": "^4.2.0",
+    "@bbob/react": "^4.2.0",
     "@hey-api/client-fetch": "^0.10.0",
     "@hookform/resolvers": "^5.0.1",
     "@radix-ui/react-accordion": "^1.2.4",
@@ -43,9 +45,6 @@
     "react-dom": "19.1.0",
     "react-hook-form": "^7.55.0",
     "recharts": "^2.15.2",
-    "remark": "^15.0.1",
-    "remark-gfm": "^4.0.0",
-    "remark-html": "^16.0.1",
     "sharp": "^0.33.5",
     "swr": "^2.3.3",
     "tailwind-merge": "^2.6.0",

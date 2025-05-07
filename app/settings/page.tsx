@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import PrettyHeader from "@/components/General/PrettyHeader";
-import MarkdownInput from "./components/MarkdownInput";
+import BBCodeInput from "../../components/BBCode/BBCodeInput";
 import ChangePasswordInput from "@/app/settings/components/ChangePasswordInput";
 import SiteLocalOptions from "@/app/settings/components/SiteLocalOptions";
 import ChangeUsernameInput from "@/app/settings/components/ChangeUsernameInput";
@@ -208,7 +208,7 @@ export default function Settings() {
             />
             <RoundedContent>
               <div className="flex flex-col w-11/12 mx-auto">
-                <MarkdownInput
+                <BBCodeInput
                   defaultText={self?.description ?? ""}
                   onSave={saveDescription}
                   isSaving={isUpdatingDescription}

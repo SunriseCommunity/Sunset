@@ -1,15 +1,11 @@
 import UserGrades from "@/app/user/[id]/components/UserGrades";
 import UserStatsChart from "@/app/user/[id]/components/UserStatsChart";
-import { ContentNotExist } from "@/components/ContentNotExist";
 import PrettyHeader from "@/components/General/PrettyHeader";
 import RoundedContent from "@/components/General/RoundedContent";
 import { getLevelWithProgress } from "@/lib/utils/userLevel";
 import NumberWith from "@/lib/utils/numberWith";
 import { timeSince } from "@/lib/utils/timeSince";
 import { FolderKanbanIcon, Trophy, User2 } from "lucide-react";
-import { remark } from "remark";
-import remarkGfm from "remark-gfm";
-import html from "remark-html";
 import { playtimeToString } from "@/lib/utils/playtimeToString";
 import { useUserGrades } from "@/lib/hooks/api/user/useGraph";
 import { useUserGraph } from "@/lib/hooks/api/user/useUserGraph";
@@ -19,6 +15,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { Tooltip } from "@/components/Tooltip";
 import { GameMode, UserResponse, UserStatsResponse } from "@/lib/types/api";
+
+import BBCodeTextField from "@/components/BBCode/BBCodeTextField";
 
 interface UserTabGeneralProps {
   user: UserResponse;
@@ -39,22 +37,15 @@ export default function UserTabGeneral({
   const userGrades = userGradesQuery.data;
   const userGraph = userGraphQuery.data;
 
-  const markdown = remark()
-    .use(html)
-    .use(remarkGfm)
-    .processSync(user.description ?? "")
-    .toString();
-
   return (
     <div className="flex flex-col">
-      {markdown.length > 0 && (
+      {user.description && user.description.length > 0 && (
         <>
           <PrettyHeader text="About me" icon={<User2 />} />
           <RoundedContent className="min-h-0 h-fit mb-6">
-            <div
-              className="max-h-80 overflow-y-auto"
-              dangerouslySetInnerHTML={{ __html: markdown }}
-            />
+            <div className="max-h-96 overflow-y-auto">
+              <BBCodeTextField text={user.description} />
+            </div>
           </RoundedContent>
         </>
       )}
