@@ -202,79 +202,15 @@ export const customBBCodePreset = reactPreset.extend((tags) => ({
     content: node.content,
   }),
   spoilerbox: (node) => {
-    return {
-      tag: "div",
-      attrs: {
-        class: "js-spoilerbox bbcode-spoilerbox",
-      },
-      content: [
-        {
-          tag: "a",
-          attrs: {
-            class: "js-spoilerbox__link bbcode-spoilerbox__link",
-            href: "#",
-          },
-          content: [
-            {
-              tag: "span",
-              attrs: {
-                class: "bbcode-spoilerbox__link-icon",
-              },
-            },
-            {
-              tag: "text",
-              content: "SPOILER",
-            },
-          ],
-        },
-        {
-          tag: "div",
-          attrs: {
-            class: "js-spoilerbox__body bbcode-spoilerbox__body",
-          },
-          content: node.content,
-        },
-      ],
-    };
+    return createSpoilerBox(node, "SPOILER");
   },
   box: (node) => {
-    return {
-      tag: "div",
-      attrs: {
-        class: "js-spoilerbox bbcode-spoilerbox",
-      },
-      content: [
-        {
-          tag: "a",
-          attrs: {
-            class: "js-spoilerbox__link bbcode-spoilerbox__link",
-            href: "#",
-          },
-          content: [
-            {
-              tag: "span",
-              attrs: {
-                class: "bbcode-spoilerbox__link-icon",
-              },
-            },
-            {
-              tag: "text",
-              content:
-                !!node.attrs && Object.keys(node.attrs).length > 0
-                  ? Object.keys(node.attrs).join(" ")
-                  : "",
-            },
-          ],
-        },
-        {
-          tag: "div",
-          attrs: {
-            class: "js-spoilerbox__body bbcode-spoilerbox__body",
-          },
-          content: node.content,
-        },
-      ],
-    };
+    return createSpoilerBox(
+      node,
+      !!node.attrs && Object.keys(node.attrs).length > 0
+        ? Object.keys(node.attrs).join(" ")
+        : ""
+    );
   },
   profile: (node) => ({
     tag: "div",
@@ -346,3 +282,40 @@ export const customBBCodePreset = reactPreset.extend((tags) => ({
     };
   },
 }));
+
+const createSpoilerBox = (node: any, label: string) => {
+  return {
+    tag: "div",
+    attrs: {
+      class: "js-spoilerbox bbcode-spoilerbox",
+    },
+    content: [
+      {
+        tag: "a",
+        attrs: {
+          class: "js-spoilerbox__link bbcode-spoilerbox__link",
+          href: "#",
+        },
+        content: [
+          {
+            tag: "span",
+            attrs: {
+              class: "bbcode-spoilerbox__link-icon",
+            },
+          },
+          {
+            tag: "text",
+            content: label,
+          },
+        ],
+      },
+      {
+        tag: "div",
+        attrs: {
+          class: "js-spoilerbox__body bbcode-spoilerbox__body",
+        },
+        content: node.content,
+      },
+    ],
+  };
+};
