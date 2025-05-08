@@ -1,15 +1,25 @@
 import Spinner from "@/components/Spinner";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
 
 type Props = {
   setFile: React.Dispatch<React.SetStateAction<File | null>>;
   file: File | null;
   isWide?: boolean;
+  maxFileSizeBytes?: number;
 };
 
-export default function ImageSelect({ setFile, file, isWide }: Props) {
+export default function ImageSelect({
+  setFile,
+  file,
+  isWide,
+  maxFileSizeBytes,
+}: Props) {
   const uniqueId = Math.random().toString(36).substring(7);
+
+  const { toast } = useToast();
+
   return (
     <div
       className={`flex items-center  ${
@@ -23,7 +33,7 @@ export default function ImageSelect({ setFile, file, isWide }: Props) {
           }`}
         >
           <div
-            className={`flex items-center justify-center w-full h-full bg-stone-800 rounded-lg`}
+            className={`flex items-center justify-center w-full h-full bg-transparent rounded-lg`}
           >
             <input
               type="file"
@@ -31,14 +41,26 @@ export default function ImageSelect({ setFile, file, isWide }: Props) {
               accept=".png, .jpg, .jpeg, .gif"
               className="hidden"
               onChange={(e) => {
-                if (e.target.files) setFile(e.target.files[0]);
+                const file = e.target.files?.[0];
+
+                if (!file) return;
+
+                if (maxFileSizeBytes && file.size > maxFileSizeBytes) {
+                  toast({
+                    title: "Selected image is too big!",
+                    variant: "destructive",
+                  });
+                  return;
+                }
+
+                if (e.target.files) setFile(file);
               }}
             />
             {file ? (
               <div className={isWide ? "w-72 md:w-96" : "w-40"}>
                 <AspectRatio
                   ratio={isWide ? 4 / 1 : 1 / 1}
-                  className="bg-muted w-full h-full flex"
+                  className="bg-transparent w-full h-full flex"
                 >
                   <Image
                     src={URL.createObjectURL(file)}
