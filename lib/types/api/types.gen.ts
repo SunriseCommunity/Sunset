@@ -127,6 +127,18 @@ export type EditFriendshipStatusRequest = {
     action: UpdateFriendshipStatusAction;
 };
 
+export type EditUserMetadataRequest = {
+    playstyle?: Array<UserPlaystyle> | null;
+    location?: string | null;
+    interest?: string | null;
+    occupation?: string | null;
+    telegram?: string | null;
+    twitch?: string | null;
+    twitter?: string | null;
+    discord?: string | null;
+    website?: string | null;
+};
+
 export type ErrorResponse = {
     error: string;
 };
@@ -406,6 +418,26 @@ export type UserMedalResponse = {
     readonly description: string;
     readonly unlocked_at?: string | null;
 };
+
+export type UserMetadataResponse = {
+    playstyle: Array<UserPlaystyle>;
+    location?: string | null;
+    interest?: string | null;
+    occupation?: string | null;
+    telegram?: string | null;
+    twitch?: string | null;
+    twitter?: string | null;
+    discord?: string | null;
+    website?: string | null;
+};
+
+export enum UserPlaystyle {
+    NONE = 'None',
+    MOUSE = 'Mouse',
+    KEYBOARD = 'Keyboard',
+    TABLET = 'Tablet',
+    TOUCH = 'Touch'
+}
 
 export type UserResponse = {
     user_id: number;
@@ -1580,6 +1612,64 @@ export type GetUserByIdGradesResponses = {
 };
 
 export type GetUserByIdGradesResponse = GetUserByIdGradesResponses[keyof GetUserByIdGradesResponses];
+
+export type GetUserByIdMetadataData = {
+    body?: never;
+    path: {
+        id: number;
+    };
+    query?: never;
+    url: '/user/{id}/metadata';
+};
+
+export type GetUserByIdMetadataErrors = {
+    /**
+     * Bad Request
+     */
+    400: ErrorResponse;
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+};
+
+export type GetUserByIdMetadataError = GetUserByIdMetadataErrors[keyof GetUserByIdMetadataErrors];
+
+export type GetUserByIdMetadataResponses = {
+    /**
+     * OK
+     */
+    200: UserMetadataResponse;
+};
+
+export type GetUserByIdMetadataResponse = GetUserByIdMetadataResponses[keyof GetUserByIdMetadataResponses];
+
+export type PostUserEditMetadataData = {
+    body?: EditUserMetadataRequest;
+    path?: never;
+    query?: never;
+    url: '/user/edit/metadata';
+};
+
+export type PostUserEditMetadataErrors = {
+    /**
+     * Bad Request
+     */
+    400: ErrorResponse;
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+};
+
+export type PostUserEditMetadataError = PostUserEditMetadataErrors[keyof PostUserEditMetadataErrors];
+
+export type PostUserEditMetadataResponses = {
+    /**
+     * OK
+     */
+    200: unknown;
+};
 
 export type PostUserUploadAvatarData = {
     body?: never;
