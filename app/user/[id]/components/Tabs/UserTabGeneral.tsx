@@ -39,18 +39,7 @@ export default function UserTabGeneral({
 
   return (
     <div className="flex flex-col">
-      {user.description && user.description.length > 0 && (
-        <>
-          <PrettyHeader text="About me" icon={<User2 />} />
-          <RoundedContent className="min-h-0 h-fit mb-6">
-            <div className="max-h-96 overflow-y-auto">
-              <BBCodeTextField text={user.description} />
-            </div>
-          </RoundedContent>
-        </>
-      )}
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-4 gap-y-4">
+      <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-4 gap-4">
         <div className="flex flex-col col-span-2 sm:col-span-1">
           <PrettyHeader
             text="Info"
@@ -195,6 +184,17 @@ export default function UserTabGeneral({
             )}
           </RoundedContent>
         </div>
+
+        {user.description && user.description.length > 0 && (
+          <div className="lg:col-span-3  md:col-span-2 ">
+            <PrettyHeader text="About me" icon={<User2 />} />
+            <RoundedContent className="min-h-0 h-fit">
+              <div className="max-h-96 overflow-y-auto">
+                <BBCodeTextField text={user.description} />
+              </div>
+            </RoundedContent>
+          </div>
+        )}
       </div>
     </div>
   );
