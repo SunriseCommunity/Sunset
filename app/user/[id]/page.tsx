@@ -4,7 +4,7 @@ import Spinner from "@/components/Spinner";
 import { useState, use, useCallback, useEffect } from "react";
 import Image from "next/image";
 import { Edit3Icon, User as UserIcon } from "lucide-react";
-import UserBadges from "@/app/user/[id]/components/UserBadges";
+import UserPrivilegeBadges from "@/app/user/[id]/components/UserPrivilegeBadges";
 import PrettyHeader from "@/components/General/PrettyHeader";
 import UserTabGeneral from "@/app/user/[id]/components/Tabs/UserTabGeneral";
 import { twMerge } from "tailwind-merge";
@@ -37,6 +37,9 @@ import {
 import { isInstance } from "@/lib/utils/type.util";
 import { SetDefaultGamemodeButton } from "@/app/user/[id]/components/SetDefaultGamemodeButton";
 import useSelf from "@/lib/hooks/useSelf";
+import UserGeneralInformation from "@/app/user/[id]/components/UserGeneralInformation";
+import { useUserMetadata } from "@/lib/hooks/api/user/useUserMetadata";
+import UserSocials from "@/app/user/[id]/components/UserSocials";
 
 const contentTabs = [
   "General",
@@ -128,6 +131,7 @@ export default function UserPage(props: { params: Promise<{ id: number }> }) {
 
   const userQuery = userId === self?.user_id ? useUserSelf() : useUser(userId);
   const userStatsQuery = useUserStats(userId, activeMode);
+  const userMetadataQuery = useUserMetadata(userId);
 
   useEffect(() => {
     if (!activeMode) return;
@@ -168,6 +172,7 @@ export default function UserPage(props: { params: Promise<{ id: number }> }) {
 
   const user = userQuery.data;
   const userStats = userStatsQuery.data?.stats;
+  const userMetada = userMetadataQuery.data;
 
   return (
     <div className="flex flex-col space-y-4">
@@ -200,7 +205,7 @@ export default function UserPage(props: { params: Promise<{ id: number }> }) {
                   className="bg-black rounded-t-lg"
                   fallBackSrc="/images/placeholder.png"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent  to-transparent flex w-full">
+                <div className="absolute inset-0 bg-gradient-to-t from-card via-card/20  to-transparent flex w-full">
                   <div className="relative overflow-hidden px-4 py-2 md:p-6 flex items-end place-content-between flex-grow">
                     <div className="flex items-end space-x-4 w-3/4 ">
                       <div className="relative w-16 h-16 md:w-32 md:h-32 flex-none">
@@ -219,19 +224,29 @@ export default function UserPage(props: { params: Promise<{ id: number }> }) {
                         />
                       </div>
                       <div className="flex flex-col flex-grow min-w-0">
-                        <Tooltip
-                          className="flex flex-row flex-grow min-w-0"
-                          content={user.username}
-                          align="start"
-                        >
-                          <UserRankColor
-                            className="md:text-3xl ml-full text-lg font-bold truncate"
-                            variant="primary"
-                            rank={userStats?.rank ?? -1}
+                        <div className="flex flex-col md:flex-row flex-wrap gap-x-2">
+                          <Tooltip
+                            className="flex flex-row min-w-0 space-x-2"
+                            content={user.username}
+                            align="start"
                           >
-                            {user.username}
-                          </UserRankColor>
-                        </Tooltip>
+                            <UserRankColor
+                              className="md:text-3xl ml-full text-lg font-bold truncate mt-0.5"
+                              variant="primary"
+                              rank={userStats?.rank ?? -1}
+                            >
+                              {user.username}
+                            </UserRankColor>
+                          </Tooltip>
+
+                          <div className="mb-2">
+                            <UserPrivilegeBadges
+                              badges={[...user.badges]}
+                              small={true}
+                            />
+                          </div>
+                        </div>
+
                         <UserStatusText
                           className="text-xs grid md:flex md:text-base"
                           user={user}
@@ -246,7 +261,7 @@ export default function UserPage(props: { params: Promise<{ id: number }> }) {
               <div className="px-6 py-4 bg-card">
                 <div className="flex justify-between items-start">
                   <div className="flex flex-wrap gap-2">
-                    <UserBadges badges={user.badges} />
+                    <UserGeneralInformation user={user} metadata={userMetada} />
                   </div>
                   <div className="flex space-x-2">
                     {user.user_id === self?.user_id ? (
@@ -266,7 +281,10 @@ export default function UserPage(props: { params: Promise<{ id: number }> }) {
                   </div>
                 </div>
 
-                <div className="my-4">
+                {userMetada && <UserSocials metadata={userMetada} />}
+
+                <hr className="my-2"></hr>
+                <div className="my-2">
                   <div className="flex border-b border-gray overflow-x-auto">
                     {contentTabs.map((tab) => (
                       <button

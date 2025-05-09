@@ -421,14 +421,14 @@ export type UserMedalResponse = {
 
 export type UserMetadataResponse = {
     playstyle: Array<UserPlaystyle>;
-    location?: string | null;
-    interest?: string | null;
-    occupation?: string | null;
-    telegram?: string | null;
-    twitch?: string | null;
-    twitter?: string | null;
-    discord?: string | null;
-    website?: string | null;
+    location: string;
+    interest: string;
+    occupation: string;
+    telegram: string;
+    twitch: string;
+    twitter: string;
+    discord: string;
+    website: string;
 };
 
 export enum UserPlaystyle {
@@ -436,8 +436,13 @@ export enum UserPlaystyle {
     MOUSE = 'Mouse',
     KEYBOARD = 'Keyboard',
     TABLET = 'Tablet',
-    TOUCH = 'Touch'
+    TOUCH_SCREEN = 'TouchScreen'
 }
+
+export type UserRelationsCountersResponse = {
+    followers: number;
+    following: number;
+};
 
 export type UserResponse = {
     user_id: number;
@@ -1550,6 +1555,37 @@ export type PostUserByIdFriendStatusResponses = {
      */
     200: unknown;
 };
+
+export type GetUserByIdFriendsCountData = {
+    body?: never;
+    path: {
+        id: number;
+    };
+    query?: never;
+    url: '/user/{id}/friends/count';
+};
+
+export type GetUserByIdFriendsCountErrors = {
+    /**
+     * Bad Request
+     */
+    400: ErrorResponse;
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+};
+
+export type GetUserByIdFriendsCountError = GetUserByIdFriendsCountErrors[keyof GetUserByIdFriendsCountErrors];
+
+export type GetUserByIdFriendsCountResponses = {
+    /**
+     * OK
+     */
+    200: UserRelationsCountersResponse;
+};
+
+export type GetUserByIdFriendsCountResponse = GetUserByIdFriendsCountResponses[keyof GetUserByIdFriendsCountResponses];
 
 export type GetUserByIdMedalsData = {
     body?: never;

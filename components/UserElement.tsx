@@ -9,7 +9,7 @@ import UserStatusText, {
 } from "@/app/user/[id]/components/UserStatusText";
 import Link from "next/link";
 import { MaterialSymbolsCircleOutline } from "@/components/ui/icons/circle-outline";
-import UserBadges from "@/app/user/[id]/components/UserBadges";
+import UserPrivilegeBadges from "@/app/user/[id]/components/UserPrivilegeBadges";
 import { UserResponse } from "@/lib/types/api";
 
 interface UserProfileBannerProps {
@@ -81,7 +81,7 @@ export default function UserElement({
                     }}
                     className="flex flex-row flex-wrap gap-2"
                   >
-                    <UserBadges badges={user.badges} small={true} />
+                    <UserPrivilegeBadges badges={user.badges} small={true} />
                   </div>
                 </div>
               </div>

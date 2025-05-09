@@ -5,7 +5,7 @@ import RoundedContent from "@/components/General/RoundedContent";
 import NumberWith from "@/lib/utils/numberWith";
 import { FolderKanbanIcon, Trophy, User2 } from "lucide-react";
 import { playtimeToString } from "@/lib/utils/playtimeToString";
-import { useUserGrades } from "@/lib/hooks/api/user/useGraph";
+import { useUserGrades } from "@/lib/hooks/api/user/useUserGrades";
 import { useUserGraph } from "@/lib/hooks/api/user/useUserGraph";
 import { useState } from "react";
 

@@ -269,7 +269,7 @@ export const zUserPlaystyle = z.enum([
     'Mouse',
     'Keyboard',
     'Tablet',
-    'Touch'
+    'TouchScreen'
 ]);
 
 export const zEditUserMetadataRequest = z.object({
@@ -705,38 +705,19 @@ export const zTokenResponse = z.object({
 
 export const zUserMetadataResponse = z.object({
     playstyle: z.array(zUserPlaystyle),
-    location: z.union([
-        z.string(),
-        z.null()
-    ]).optional(),
-    interest: z.union([
-        z.string(),
-        z.null()
-    ]).optional(),
-    occupation: z.union([
-        z.string(),
-        z.null()
-    ]).optional(),
-    telegram: z.union([
-        z.string(),
-        z.null()
-    ]).optional(),
-    twitch: z.union([
-        z.string(),
-        z.null()
-    ]).optional(),
-    twitter: z.union([
-        z.string(),
-        z.null()
-    ]).optional(),
-    discord: z.union([
-        z.string(),
-        z.null()
-    ]).optional(),
-    website: z.union([
-        z.string(),
-        z.null()
-    ]).optional()
+    location: z.string(),
+    interest: z.string(),
+    occupation: z.string(),
+    telegram: z.string(),
+    twitch: z.string(),
+    twitter: z.string(),
+    discord: z.string(),
+    website: z.string()
+});
+
+export const zUserRelationsCountersResponse = z.object({
+    followers: z.number().int(),
+    following: z.number().int()
 });
 
 export const zUserWithStatsResponse = z.object({
@@ -809,6 +790,8 @@ export const zGetUserSearchResponse = z.array(zUserResponse);
 export const zGetUserFriendsResponse = zFriendsResponse;
 
 export const zGetUserByIdFriendStatusResponse = zFriendStatusResponse;
+
+export const zGetUserByIdFriendsCountResponse = zUserRelationsCountersResponse;
 
 export const zGetUserByIdMedalsResponse = zMedalsResponse;
 

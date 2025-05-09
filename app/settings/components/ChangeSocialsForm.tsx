@@ -43,8 +43,6 @@ export default function ChangeSocialsForm({
     },
   });
 
-  console.log(metadata);
-
   const showError = (message: string) => {
     setError(message);
   };
@@ -55,9 +53,7 @@ export default function ChangeSocialsForm({
     trigger(
       {
         ...values,
-        playstyle: values.playstyle
-          ? (values.playstyle as UserPlaystyle[])
-          : [UserPlaystyle.NONE],
+        playstyle: undefined,
       },
       {
         onSuccess: () => {
@@ -132,7 +128,7 @@ export default function ChangeSocialsForm({
                         <p>{v}</p>
                       </FormLabel>
                       <FormControl>
-                        <Input  {...field} />
+                        <Input {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
