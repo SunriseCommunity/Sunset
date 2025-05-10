@@ -22,7 +22,7 @@ interface Props {
   setActiveValue: (value: string) => void;
   values: { value: string; label: string }[];
   includeInput?: boolean;
-  buttonPreLable?: string;
+  buttonPreLabel?: string;
 }
 
 export function Combobox({
@@ -30,7 +30,7 @@ export function Combobox({
   setActiveValue,
   values,
   includeInput,
-  buttonPreLable,
+  buttonPreLabel,
 }: Props) {
   const [open, setOpen] = useState(false);
 
@@ -44,7 +44,7 @@ export function Combobox({
           className="w-auto justify-between capitalize"
         >
           {activeValue
-            ? (buttonPreLable ? buttonPreLable : "") +
+            ? (buttonPreLabel ? buttonPreLabel : "") +
               values.find((data) => data.value === activeValue)?.label
             : "Select value..."}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />

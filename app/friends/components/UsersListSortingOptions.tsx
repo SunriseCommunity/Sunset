@@ -16,7 +16,7 @@ export function UsersListSortingOptions({
   return (
     <Combobox
       activeValue={sortBy}
-      buttonPreLable="Sort by: "
+      buttonPreLabel="Sort by: "
       setActiveValue={(v: any) => {
         onSortChange(v);
       }}

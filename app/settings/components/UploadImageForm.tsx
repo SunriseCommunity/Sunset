@@ -2,26 +2,12 @@
 
 import ImageSelect from "@/components/General/ImageSelect";
 import { Button } from "@/components/ui/button";
-import { DialogFooter } from "@/components/ui/dialog";
-import {
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormMessage,
-  Form,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { UserFileUpload } from "@/lib/hooks/api/user/types";
-import { usePasswordChange } from "@/lib/hooks/api/user/usePasswordChange";
 import { useUserUpload } from "@/lib/hooks/api/user/useUserUpload";
 import useSelf from "@/lib/hooks/useSelf";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { CloudUpload } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
 
 type UploadImageFormProps = {
   type: UserFileUpload;
@@ -36,7 +22,7 @@ export default function UploadImageForm({ type }: UploadImageFormProps) {
   const { trigger: triggerUserUpload } = useUserUpload();
 
   useEffect(() => {
-    if (self === undefined) return;
+    if (self === undefined || file != null) return;
 
     var urlToFetch = type === "avatar" ? self.avatar_url : self.banner_url;
 
