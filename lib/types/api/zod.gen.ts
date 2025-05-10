@@ -319,11 +319,6 @@ export const zFavouritedResponse = z.object({
     favourited: z.boolean()
 });
 
-export const zFriendStatusResponse = z.object({
-    is_following_you: z.boolean(),
-    is_followed_by_you: z.boolean()
-});
-
 export const zUserBadge = z.enum([
     'Developer',
     'Admin',
@@ -352,6 +347,16 @@ export const zUserResponse = z.object({
     default_gamemode: zGameMode,
     badges: z.array(zUserBadge),
     user_status: z.string()
+});
+
+export const zFollowersResponse = z.object({
+    followers: z.array(zUserResponse),
+    total_count: z.number().int()
+});
+
+export const zFriendStatusResponse = z.object({
+    is_following_you: z.boolean(),
+    is_followed_by_you: z.boolean()
 });
 
 export const zFriendsResponse = z.object({
@@ -788,6 +793,8 @@ export const zGetUserLeaderboardResponse = zLeaderboardResponse;
 export const zGetUserSearchResponse = z.array(zUserResponse);
 
 export const zGetUserFriendsResponse = zFriendsResponse;
+
+export const zGetUserFollowersResponse = zFollowersResponse;
 
 export const zGetUserByIdFriendStatusResponse = zFriendStatusResponse;
 

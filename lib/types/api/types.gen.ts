@@ -147,6 +147,11 @@ export type FavouritedResponse = {
     favourited: boolean;
 };
 
+export type FollowersResponse = {
+    followers: Array<UserResponse>;
+    total_count: number;
+};
+
 export type FriendStatusResponse = {
     is_following_you: boolean;
     is_followed_by_you: boolean;
@@ -1475,6 +1480,10 @@ export type GetUserFriendsErrors = {
      * Bad Request
      */
     400: ErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
 };
 
 export type GetUserFriendsError = GetUserFriendsErrors[keyof GetUserFriendsErrors];
@@ -1487,6 +1496,38 @@ export type GetUserFriendsResponses = {
 };
 
 export type GetUserFriendsResponse = GetUserFriendsResponses[keyof GetUserFriendsResponses];
+
+export type GetUserFollowersData = {
+    body?: never;
+    path?: never;
+    query?: {
+        limit?: number;
+        page?: number;
+    };
+    url: '/user/followers';
+};
+
+export type GetUserFollowersErrors = {
+    /**
+     * Bad Request
+     */
+    400: ErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+};
+
+export type GetUserFollowersError = GetUserFollowersErrors[keyof GetUserFollowersErrors];
+
+export type GetUserFollowersResponses = {
+    /**
+     * OK
+     */
+    200: FollowersResponse;
+};
+
+export type GetUserFollowersResponse = GetUserFollowersResponses[keyof GetUserFollowersResponses];
 
 export type GetUserByIdFriendStatusData = {
     body?: never;
