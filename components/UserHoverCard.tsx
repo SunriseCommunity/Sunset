@@ -12,7 +12,7 @@ import { FriendshipButton } from "@/components/FriendshipButton";
 import Link from "next/link";
 import Image from "next/image";
 import ImageWithFallback from "@/components/ImageWithFallback";
-import UserBadges from "@/app/user/[id]/components/UserBadges";
+import UserPrivilegeBadges from "@/app/user/[id]/components/UserPrivilegeBadges";
 import { UserResponse } from "@/lib/types/api";
 
 export default function UserHoverCard({
@@ -83,7 +83,7 @@ export default function UserHoverCard({
                       }}
                       className="flex flex-row flex-wrap gap-2"
                     >
-                      <UserBadges badges={user.badges} small={true} />
+                      <UserPrivilegeBadges badges={user.badges} small={true} />
                     </div>
                   </div>
                 </div>

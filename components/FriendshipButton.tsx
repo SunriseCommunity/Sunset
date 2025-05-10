@@ -5,7 +5,7 @@ import { useUserSelf } from "@/lib/hooks/api/user/useUser";
 import {
   useUpdateUserFriendshipStatus,
   useUserFriendshipStatus,
-} from "@/lib/hooks/api/user/useUserFriendshipStatus";
+} from "@/lib/hooks/api/user/useUserFriends";
 import useSelf from "@/lib/hooks/useSelf";
 import { UpdateFriendshipStatusAction } from "@/lib/types/api";
 import { UserMinus, UserPlus } from "lucide-react";

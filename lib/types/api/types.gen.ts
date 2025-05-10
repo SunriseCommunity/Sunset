@@ -127,12 +127,29 @@ export type EditFriendshipStatusRequest = {
     action: UpdateFriendshipStatusAction;
 };
 
+export type EditUserMetadataRequest = {
+    playstyle?: Array<UserPlaystyle> | null;
+    location?: string | null;
+    interest?: string | null;
+    occupation?: string | null;
+    telegram?: string | null;
+    twitch?: string | null;
+    twitter?: string | null;
+    discord?: string | null;
+    website?: string | null;
+};
+
 export type ErrorResponse = {
     error: string;
 };
 
 export type FavouritedResponse = {
     favourited: boolean;
+};
+
+export type FollowersResponse = {
+    followers: Array<UserResponse>;
+    total_count: number;
 };
 
 export type FriendStatusResponse = {
@@ -405,6 +422,31 @@ export type UserMedalResponse = {
     readonly name: string;
     readonly description: string;
     readonly unlocked_at?: string | null;
+};
+
+export type UserMetadataResponse = {
+    playstyle: Array<UserPlaystyle>;
+    location: string;
+    interest: string;
+    occupation: string;
+    telegram: string;
+    twitch: string;
+    twitter: string;
+    discord: string;
+    website: string;
+};
+
+export enum UserPlaystyle {
+    NONE = 'None',
+    MOUSE = 'Mouse',
+    KEYBOARD = 'Keyboard',
+    TABLET = 'Tablet',
+    TOUCH_SCREEN = 'TouchScreen'
+}
+
+export type UserRelationsCountersResponse = {
+    followers: number;
+    following: number;
 };
 
 export type UserResponse = {
@@ -1438,6 +1480,10 @@ export type GetUserFriendsErrors = {
      * Bad Request
      */
     400: ErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
 };
 
 export type GetUserFriendsError = GetUserFriendsErrors[keyof GetUserFriendsErrors];
@@ -1450,6 +1496,38 @@ export type GetUserFriendsResponses = {
 };
 
 export type GetUserFriendsResponse = GetUserFriendsResponses[keyof GetUserFriendsResponses];
+
+export type GetUserFollowersData = {
+    body?: never;
+    path?: never;
+    query?: {
+        limit?: number;
+        page?: number;
+    };
+    url: '/user/followers';
+};
+
+export type GetUserFollowersErrors = {
+    /**
+     * Bad Request
+     */
+    400: ErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+};
+
+export type GetUserFollowersError = GetUserFollowersErrors[keyof GetUserFollowersErrors];
+
+export type GetUserFollowersResponses = {
+    /**
+     * OK
+     */
+    200: FollowersResponse;
+};
+
+export type GetUserFollowersResponse = GetUserFollowersResponses[keyof GetUserFollowersResponses];
 
 export type GetUserByIdFriendStatusData = {
     body?: never;
@@ -1519,6 +1597,37 @@ export type PostUserByIdFriendStatusResponses = {
     200: unknown;
 };
 
+export type GetUserByIdFriendsCountData = {
+    body?: never;
+    path: {
+        id: number;
+    };
+    query?: never;
+    url: '/user/{id}/friends/count';
+};
+
+export type GetUserByIdFriendsCountErrors = {
+    /**
+     * Bad Request
+     */
+    400: ErrorResponse;
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+};
+
+export type GetUserByIdFriendsCountError = GetUserByIdFriendsCountErrors[keyof GetUserByIdFriendsCountErrors];
+
+export type GetUserByIdFriendsCountResponses = {
+    /**
+     * OK
+     */
+    200: UserRelationsCountersResponse;
+};
+
+export type GetUserByIdFriendsCountResponse = GetUserByIdFriendsCountResponses[keyof GetUserByIdFriendsCountResponses];
+
 export type GetUserByIdMedalsData = {
     body?: never;
     path: {
@@ -1580,6 +1689,64 @@ export type GetUserByIdGradesResponses = {
 };
 
 export type GetUserByIdGradesResponse = GetUserByIdGradesResponses[keyof GetUserByIdGradesResponses];
+
+export type GetUserByIdMetadataData = {
+    body?: never;
+    path: {
+        id: number;
+    };
+    query?: never;
+    url: '/user/{id}/metadata';
+};
+
+export type GetUserByIdMetadataErrors = {
+    /**
+     * Bad Request
+     */
+    400: ErrorResponse;
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+};
+
+export type GetUserByIdMetadataError = GetUserByIdMetadataErrors[keyof GetUserByIdMetadataErrors];
+
+export type GetUserByIdMetadataResponses = {
+    /**
+     * OK
+     */
+    200: UserMetadataResponse;
+};
+
+export type GetUserByIdMetadataResponse = GetUserByIdMetadataResponses[keyof GetUserByIdMetadataResponses];
+
+export type PostUserEditMetadataData = {
+    body?: EditUserMetadataRequest;
+    path?: never;
+    query?: never;
+    url: '/user/edit/metadata';
+};
+
+export type PostUserEditMetadataErrors = {
+    /**
+     * Bad Request
+     */
+    400: ErrorResponse;
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+};
+
+export type PostUserEditMetadataError = PostUserEditMetadataErrors[keyof PostUserEditMetadataErrors];
+
+export type PostUserEditMetadataResponses = {
+    /**
+     * OK
+     */
+    200: unknown;
+};
 
 export type PostUserUploadAvatarData = {
     body?: never;
