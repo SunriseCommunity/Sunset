@@ -22,7 +22,7 @@ import { FollowersResponse, FriendsResponse } from "@/lib/types/api";
 type UsersType = "friends" | "followers";
 
 export default function Friends() {
-  const [sortBy, setSortBy] = useState<UsersListSortingType>("username");
+  const [sortBy, setSortBy] = useState<UsersListSortingType>("lastActive");
   const [viewMode, setViewMode] = useState<UsersListViewModeType>("grid");
 
   useEffect(() => {
