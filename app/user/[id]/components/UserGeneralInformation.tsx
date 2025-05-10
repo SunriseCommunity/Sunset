@@ -42,7 +42,7 @@ export default function UserGeneralInformation({
   const friendsData = friendsQuery.data;
 
   return (
-    <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm my-1 text-muted-foreground/80 mt-3">
+    <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm my-1 text-muted-foreground/70 mt-3">
       <div className="flex items-center gap-1">
         <Calendar className="h-4 w-4" />
         <span>
@@ -59,14 +59,14 @@ export default function UserGeneralInformation({
 
       <div className="flex items-center gap-1">
         <UserIcon className="h-4 w-4" />
-        <span className="font-bold text-gray-300">
+        <span className="font-bold text-muted-foreground">
           {friendsData?.followers ?? 0}
         </span>{" "}
         Followers
       </div>
       <div className="flex items-center gap-1">
         <UserIcon className="h-4 w-4" />
-        <span className="font-bold text-gray-300">
+        <span className="font-bold text-muted-foreground">
           {friendsData?.following ?? 0}
         </span>{" "}
         Following

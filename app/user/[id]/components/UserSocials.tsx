@@ -69,7 +69,7 @@ export default function UserSocials({ metadata }: UserSocialsProps) {
 
   return (
     <>
-      <div className="flex flex-wrap gap-x-6 gap-y-2 my-1 text-xs text-muted-foreground/80">
+      <div className="flex flex-wrap gap-x-6 gap-y-2 my-1 text-xs text-muted-foreground/70">
         {Object.keys(metadata)
           .filter(
             (v) =>
@@ -87,7 +87,7 @@ export default function UserSocials({ metadata }: UserSocialsProps) {
             );
           })}
       </div>
-      <div className="flex flex-wrap gap-x-6 gap-y-2 my-1 text-xs text-muted-foreground/80">
+      <div className="flex flex-wrap gap-x-6 gap-y-2 my-1 text-xs text-muted-foreground/70">
         {Object.keys(metadata)
           .filter(
             (v) =>

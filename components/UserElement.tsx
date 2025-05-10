@@ -48,7 +48,7 @@ export default function UserElement({
           href={`/user/${user.user_id}`}
           className="relative flex place-content-between h-24 p-4"
         >
-          <div className="relative flex items-start">
+          <div className="relative flex items-start overflow-hidden">
             {/* Profile Picture */}
             <div className="rounded-full flex-none overflow-hidden border-2 border-white mr-4">
               <Image
@@ -100,7 +100,9 @@ export default function UserElement({
         <div className="relative py-2 px-4 bg-black bg-opacity-50 rounded-b-lg flex flex-row w-full">
           <div className="flex space-x-2 items-center text-sm w-full">
             <MaterialSymbolsCircleOutline
-              className={`text-base text-${statusColor(user.user_status)}`}
+              className={`text-base text-${statusColor(
+                user.user_status
+              )} flex-shrink-0`}
             />
             <div className="flex flex-grow line-clamp-1 w-8/12">
               <UserStatusText user={user} />

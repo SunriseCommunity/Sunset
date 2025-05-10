@@ -239,7 +239,7 @@ export default function UserPage(props: { params: Promise<{ id: number }> }) {
                             </UserRankColor>
                           </Tooltip>
 
-                          <div className="mb-2">
+                          <div className="gap-y-2">
                             <UserPrivilegeBadges
                               badges={[...user.badges]}
                               small={true}
