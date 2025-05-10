@@ -25,6 +25,10 @@ export const kyInstance = ky.create({
 const fetcher = async <T>(url: string, options?: Options) => {
   const token = await getUserToken();
 
+  if (!token && url.includes("user/self")) {
+    return null;
+  }
+
   const result = await kyInstance
     .get(url, {
       ...options,
