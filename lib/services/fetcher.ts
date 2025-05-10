@@ -26,7 +26,7 @@ const fetcher = async <T>(url: string, options?: Options) => {
   const token = await getUserToken();
 
   if (!token && url.includes("user/self")) {
-    return null;
+    throw new Error("Unauthorized");
   }
 
   const result = await kyInstance
