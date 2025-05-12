@@ -27,6 +27,6 @@ export default function BeatmapStatusIcon({ status }: BeatmapStatusIconProps) {
     case BeatmapStatusSearch.WIP:
       return <Construction className="text-orange-500" />;
     case BeatmapStatusSearch.GRAVEYARD:
-      return <CircleHelp className="text-gray-200" />;
+      return <CircleHelp className="text-muted-foreground" />;
   }
 }
