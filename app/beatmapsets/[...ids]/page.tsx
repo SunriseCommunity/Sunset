@@ -22,6 +22,9 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { isInstance, tryParseNumber } from "@/lib/utils/type.util";
 import { BeatmapResponse, GameMode } from "@/lib/types/api";
 import { BBCodeReactParser } from "@/components/BBCode/BBCodeReactParser";
+import { BeatmapInfoAccordion } from "@/app/beatmapsets/BeatmapInfoAccordion";
+import UserHoverCard from "@/components/UserHoverCard";
+import Link from "next/link";
 
 export interface BeatmapsetProps {
   params: Promise<{ ids: [string?, string?] }>;
@@ -206,6 +209,43 @@ export default function Beatmapset(props: BeatmapsetProps) {
                                 />
                               </div>
                             )}
+                            {activeBeatmap.beatmap_nominator_user && (
+                              <div className="flex w-full items-center gap-1">
+                                <div className="text-current lowercase">
+                                  {activeBeatmap.status} by{" "}
+                                </div>
+                                <UserHoverCard
+                                  user={activeBeatmap.beatmap_nominator_user}
+                                  asChild
+                                >
+                                  <Link
+                                    className="cursor-pointer font-bold hover:text-primary smooth-transition"
+                                    href={`/user/${activeBeatmap.beatmap_nominator_user.user_id}`}
+                                  >
+                                    <div className="flex gap-1 items-center ">
+                                      <div className="relative w-4 h-4 overflow-hidden rounded">
+                                        <Image
+                                          src={
+                                            activeBeatmap.beatmap_nominator_user
+                                              .avatar_url || "/placeholder.svg"
+                                          }
+                                          alt={`${activeBeatmap.beatmap_nominator_user.username}'s avatar`}
+                                          width={32}
+                                          height={32}
+                                          className="object-cover"
+                                        />
+                                      </div>
+                                      <span className="text-primary font-bold">
+                                        {
+                                          activeBeatmap.beatmap_nominator_user
+                                            .username
+                                        }
+                                      </span>
+                                    </div>
+                                  </Link>
+                                </UserHoverCard>
+                              </div>
+                            )}
                           </div>
                         </div>
                         <div className="flex flex-wrap flex-row items-center gap-2">
@@ -266,40 +306,17 @@ export default function Beatmapset(props: BeatmapsetProps) {
                     className="font-normal py-2 px-4"
                   />
                   <RoundedContent className="min-h-0 h-full overflow-y-auto">
-                    <BBCodeReactParser
-                      textHtml={beatmapSet.description}
-                    />
+                    <BBCodeReactParser textHtml={beatmapSet.description} />
                   </RoundedContent>
                 </div>
 
                 <div className="hidden lg:grid" />
 
                 <div className="flex flex-col lg:col-span-2 lg:h-80">
-                  <PrettyHeader
-                    icon={<Info />}
-                    text="Information"
-                    className="font-normal py-2 px-4"
+                  <BeatmapInfoAccordion
+                    beatmapSet={beatmapSet}
+                    beatmap={activeBeatmap}
                   />
-                  <RoundedContent className="space-y-4 h-full overflow-y-auto min-h-0">
-                    <div>
-                      <div className="flex place-content-between items-end">
-                        <p className="text-xs">Genre</p>
-                        <p className="text-md font-bald">{beatmapSet.genre}</p>
-                      </div>
-                      <div className="flex place-content-between items-end">
-                        <p className="text-xs">Language</p>
-                        <p className="text-md font-bald">
-                          {beatmapSet.language}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex flex-col">
-                      <p className="text-xs">Tags</p>
-                      <p className="text-sm font-light">
-                        {beatmapSet.tags.map((tag) => `${tag}`).join(", ")}
-                      </p>
-                    </div>
-                  </RoundedContent>
                 </div>
               </div>
 

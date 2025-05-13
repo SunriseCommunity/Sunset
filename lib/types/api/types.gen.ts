@@ -33,6 +33,13 @@ export type BeatmapResponse = {
     artist?: string | null;
     creator?: string | null;
     creator_id: number;
+    beatmap_nominator_user?: UserResponse;
+    can_be_hyped: boolean;
+};
+
+export type BeatmapSetHypeCountResponse = {
+    current_hypes: number;
+    required_hypes: number;
 };
 
 export type BeatmapSetResponse = {
@@ -51,6 +58,8 @@ export type BeatmapSetResponse = {
     genre: string;
     language: string;
     tags: Array<string>;
+    beatmap_nominator_user?: UserResponse;
+    can_be_hyped: boolean;
 };
 
 export type BeatmapSetsResponse = {
@@ -188,6 +197,15 @@ export type GradesResponse = {
     count_d: number;
 };
 
+export type InventoryItemResponse = {
+    quantity: number;
+    item_type: ItemType;
+};
+
+export enum ItemType {
+    HYPE = 'Hype'
+}
+
 export type LeaderboardResponse = {
     users: Array<UserWithStats>;
     total_count: number;
@@ -278,6 +296,8 @@ export type MostPlayedBeatmapResponse = {
     artist?: string | null;
     creator?: string | null;
     creator_id: number;
+    beatmap_nominator_user?: UserResponse;
+    can_be_hyped: boolean;
     play_count: number;
 };
 
@@ -890,6 +910,70 @@ export type GetBeatmapsetByIdResponses = {
 };
 
 export type GetBeatmapsetByIdResponse = GetBeatmapsetByIdResponses[keyof GetBeatmapsetByIdResponses];
+
+export type GetBeatmapsetByIdHypeData = {
+    body?: never;
+    path: {
+        id: number;
+    };
+    query?: never;
+    url: '/beatmapset/{id}/hype';
+};
+
+export type GetBeatmapsetByIdHypeErrors = {
+    /**
+     * Bad Request
+     */
+    400: ErrorResponse;
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+};
+
+export type GetBeatmapsetByIdHypeError = GetBeatmapsetByIdHypeErrors[keyof GetBeatmapsetByIdHypeErrors];
+
+export type GetBeatmapsetByIdHypeResponses = {
+    /**
+     * OK
+     */
+    200: BeatmapSetHypeCountResponse;
+};
+
+export type GetBeatmapsetByIdHypeResponse = GetBeatmapsetByIdHypeResponses[keyof GetBeatmapsetByIdHypeResponses];
+
+export type PostBeatmapsetByIdHypeData = {
+    body?: never;
+    path: {
+        id: number;
+    };
+    query?: never;
+    url: '/beatmapset/{id}/hype';
+};
+
+export type PostBeatmapsetByIdHypeErrors = {
+    /**
+     * Bad Request
+     */
+    400: ErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+};
+
+export type PostBeatmapsetByIdHypeError = PostBeatmapsetByIdHypeErrors[keyof PostBeatmapsetByIdHypeErrors];
+
+export type PostBeatmapsetByIdHypeResponses = {
+    /**
+     * OK
+     */
+    200: unknown;
+};
 
 export type GetBeatmapsetByIdFavouritedData = {
     body?: never;
@@ -1596,6 +1680,41 @@ export type PostUserByIdFriendStatusResponses = {
      */
     200: unknown;
 };
+
+export type GetUserInventoryItemData = {
+    body?: never;
+    path?: never;
+    query?: {
+        type?: ItemType;
+    };
+    url: '/user/inventory/item';
+};
+
+export type GetUserInventoryItemErrors = {
+    /**
+     * Bad Request
+     */
+    400: ErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+};
+
+export type GetUserInventoryItemError = GetUserInventoryItemErrors[keyof GetUserInventoryItemErrors];
+
+export type GetUserInventoryItemResponses = {
+    /**
+     * OK
+     */
+    200: InventoryItemResponse;
+};
+
+export type GetUserInventoryItemResponse = GetUserInventoryItemResponses[keyof GetUserInventoryItemResponses];
 
 export type GetUserByIdFriendsCountData = {
     body?: never;
