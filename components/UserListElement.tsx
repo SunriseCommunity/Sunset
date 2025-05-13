@@ -5,11 +5,11 @@ import { UserResponse } from "@/lib/types/api";
 import { FriendshipButton } from "@/components/FriendshipButton";
 import UserStatusText, {
   statusColor,
-} from "@/app/user/[id]/components/UserStatusText";
+} from "@/app/(website)/user/[id]/components/UserStatusText";
 import { MaterialSymbolsCircleOutline } from "@/components/ui/icons/circle-outline";
 import ImageWithFallback from "@/components/ImageWithFallback";
 import { Tooltip } from "@/components/Tooltip";
-import UserPrivilegeBadges from "@/app/user/[id]/components/UserPrivilegeBadges";
+import UserPrivilegeBadges from "@/app/(website)/user/[id]/components/UserPrivilegeBadges";
 import Link from "next/link";
 
 interface UserListItemProps {

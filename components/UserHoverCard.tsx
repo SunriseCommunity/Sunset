@@ -7,12 +7,12 @@ import React from "react";
 import { MaterialSymbolsCircleOutline } from "@/components/ui/icons/circle-outline";
 import UserStatusText, {
   statusColor,
-} from "@/app/user/[id]/components/UserStatusText";
+} from "@/app/(website)/user/[id]/components/UserStatusText";
 import { FriendshipButton } from "@/components/FriendshipButton";
 import Link from "next/link";
 import Image from "next/image";
 import ImageWithFallback from "@/components/ImageWithFallback";
-import UserPrivilegeBadges from "@/app/user/[id]/components/UserPrivilegeBadges";
+import UserPrivilegeBadges from "@/app/(website)/user/[id]/components/UserPrivilegeBadges";
 import { UserResponse } from "@/lib/types/api";
 
 export default function UserHoverCard({

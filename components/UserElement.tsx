@@ -6,10 +6,10 @@ import { FriendshipButton } from "@/components/FriendshipButton";
 import { useRouter } from "next/navigation";
 import UserStatusText, {
   statusColor,
-} from "@/app/user/[id]/components/UserStatusText";
+} from "@/app/(website)/user/[id]/components/UserStatusText";
 import Link from "next/link";
 import { MaterialSymbolsCircleOutline } from "@/components/ui/icons/circle-outline";
-import UserPrivilegeBadges from "@/app/user/[id]/components/UserPrivilegeBadges";
+import UserPrivilegeBadges from "@/app/(website)/user/[id]/components/UserPrivilegeBadges";
 import { UserResponse } from "@/lib/types/api";
 
 interface UserProfileBannerProps {
