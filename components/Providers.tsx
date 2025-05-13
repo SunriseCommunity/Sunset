@@ -26,7 +26,8 @@ export default function Providers({ children }: { children: ReactNode }) {
         <SelfProvider>
           <RestrictionProvider>
             <AudioProvider>
-              {children} <Toaster />
+              {children}
+              <Toaster />
             </AudioProvider>
           </RestrictionProvider>
         </SelfProvider>

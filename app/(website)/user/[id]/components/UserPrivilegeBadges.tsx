@@ -17,6 +17,8 @@ import { UserBadge } from "@/lib/types/api";
 interface UserPrivilegeBadgesProps {
   badges: UserBadge[];
   small?: boolean;
+  className?: string;
+  withToolTip?: boolean;
 }
 
 const badgeMap = {
@@ -48,9 +50,11 @@ const badgeMap = {
 export default function UserPrivilegeBadges({
   badges,
   small,
+  className,
+  withToolTip = true,
 }: UserPrivilegeBadgesProps) {
   return (
-    <div className="flex flex-wrap gap-1">
+    <div className={twMerge("flex flex-wrap gap-1", className)}>
       {badges.map((badge, index) => {
         let { icon, color } = badgeMap[badge] || {
           icon: <BadgeIcon className="w-4 h-4 md:w-6 md:h-6 " />,
@@ -68,12 +72,14 @@ export default function UserPrivilegeBadges({
           <Tooltip
             content={<p className="capitalize">{badge}</p>}
             key={`user-badge-${index}`}
+            disabled={!withToolTip}
           >
             <div className="bg-black/50 rounded-lg">
               <Badge
                 className={twMerge(
-                  `flex text-white items-center text-xs p-1 rounded-lg ${color} smooth-transition hover:scale-105`,
-                  !small ? "md:text-base md:gap-2 md:p-1.5 gap-1" : ""
+                  `flex text-white items-center text-xs p-1 rounded-lg ${color} smooth-transition`,
+                  !small ? "md:text-base md:gap-2 md:p-1.5 gap-1" : "",
+                  withToolTip ? "hover:scale-105" : ""
                 )}
               >
                 {icon}

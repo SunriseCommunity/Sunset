@@ -15,6 +15,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Brand } from "@/components/Brand";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -43,15 +44,10 @@ export default function Header() {
         )}
       >
         <div className="flex items-center space-x-6">
-          {/* Brand */}
           <a href="/" className="smooth-transition">
-            <h1 className="text-4xl font-semibold smooth-transition pb-1 cursor-pointer flex flex-row">
-              <span className="text-primary dark">sun</span>
-              <span className="text-current">rise</span>
-            </h1>
+            <Brand />
           </a>
 
-          {/* Links */}
           <div className="hidden md:flex items-center space-x-6 text-sm font-medium">
             <HeaderLink name="leaderboard" href="/leaderboard" />
             <HeaderLink name="top plays" href="/topplays" />

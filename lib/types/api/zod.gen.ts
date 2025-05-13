@@ -384,6 +384,38 @@ export const zGradesResponse = z.object({
     count_d: z.number().int()
 });
 
+export const zHypedBeatmapSetResponse = z.object({
+    id: z.number().int(),
+    artist: z.string(),
+    title: z.string(),
+    creator: z.string(),
+    creator_id: z.number().int(),
+    status: zBeatmapStatusSearch,
+    last_updated: z.string().datetime(),
+    submitted_date: z.string().datetime(),
+    ranked_date: z.union([
+        z.string().datetime(),
+        z.null()
+    ]).optional(),
+    video: z.boolean(),
+    beatmaps: z.array(zBeatmapResponse),
+    description: z.string(),
+    genre: z.string(),
+    language: z.string(),
+    tags: z.array(z.string()),
+    beatmap_nominator_user: zUserResponse.optional(),
+    can_be_hyped: z.boolean(),
+    hypeCount: z.number().int()
+});
+
+export const zHypedBeatmapSetsResponse = z.object({
+    sets: z.array(zHypedBeatmapSetResponse),
+    total_count: z.union([
+        z.number().int(),
+        z.null()
+    ]).optional()
+});
+
 export const zItemType = z.enum([
     'Hype'
 ]);
@@ -781,6 +813,8 @@ export const zGetBeatmapsetByBeatmapSetByIdLeaderboardResponse = zScoresResponse
 export const zGetBeatmapsetByIdResponse = zBeatmapSetResponse;
 
 export const zGetBeatmapsetByIdHypeResponse = zBeatmapSetHypeCountResponse;
+
+export const zPostBeatmapsetGetHypedSetsResponse = zHypedBeatmapSetsResponse;
 
 export const zGetBeatmapsetByIdFavouritedResponse = zFavouritedResponse;
 

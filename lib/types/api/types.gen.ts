@@ -197,6 +197,32 @@ export type GradesResponse = {
     count_d: number;
 };
 
+export type HypedBeatmapSetResponse = {
+    id: number;
+    artist: string;
+    title: string;
+    creator: string;
+    creator_id: number;
+    status: BeatmapStatusSearch;
+    last_updated: string;
+    submitted_date: string;
+    ranked_date?: string | null;
+    video: boolean;
+    beatmaps: Array<BeatmapResponse>;
+    description: string;
+    genre: string;
+    language: string;
+    tags: Array<string>;
+    beatmap_nominator_user?: UserResponse;
+    can_be_hyped: boolean;
+    hypeCount: number;
+};
+
+export type HypedBeatmapSetsResponse = {
+    sets: Array<HypedBeatmapSetResponse>;
+    total_count?: number | null;
+};
+
 export type InventoryItemResponse = {
     quantity: number;
     item_type: ItemType;
@@ -974,6 +1000,42 @@ export type PostBeatmapsetByIdHypeResponses = {
      */
     200: unknown;
 };
+
+export type PostBeatmapsetGetHypedSetsData = {
+    body?: never;
+    path?: never;
+    query?: {
+        limit?: number;
+        page?: number;
+    };
+    url: '/beatmapset/get-hyped-sets';
+};
+
+export type PostBeatmapsetGetHypedSetsErrors = {
+    /**
+     * Bad Request
+     */
+    400: ErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+};
+
+export type PostBeatmapsetGetHypedSetsError = PostBeatmapsetGetHypedSetsErrors[keyof PostBeatmapsetGetHypedSetsErrors];
+
+export type PostBeatmapsetGetHypedSetsResponses = {
+    /**
+     * OK
+     */
+    200: HypedBeatmapSetsResponse;
+};
+
+export type PostBeatmapsetGetHypedSetsResponse = PostBeatmapsetGetHypedSetsResponses[keyof PostBeatmapsetGetHypedSetsResponses];
 
 export type GetBeatmapsetByIdFavouritedData = {
     body?: never;
