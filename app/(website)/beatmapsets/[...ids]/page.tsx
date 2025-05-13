@@ -22,7 +22,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { isInstance, tryParseNumber } from "@/lib/utils/type.util";
 import { BeatmapResponse, GameMode } from "@/lib/types/api";
 import { BBCodeReactParser } from "@/components/BBCode/BBCodeReactParser";
-import { BeatmapInfoAccordion } from "@/app/(website)/beatmapsets/BeatmapInfoAccordion";
+import { BeatmapInfoAccordion } from "@/app/(website)/beatmapsets/components/BeatmapInfoAccordion";
 import UserHoverCard from "@/components/UserHoverCard";
 import Link from "next/link";
 
