@@ -63,7 +63,7 @@ export default function ServerStatus({ type, data, children }: Props) {
         </span>
         <div className="flex items-center gap-2">
           <span className="text-lg font-bold text-current">
-            {data ? (
+            {data !== undefined ? (
               isDataNumber ? (
                 <PrettyCounter value={Number(data)} />
               ) : (
