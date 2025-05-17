@@ -23,8 +23,7 @@ import { isInstance, tryParseNumber } from "@/lib/utils/type.util";
 import { BeatmapResponse, GameMode } from "@/lib/types/api";
 import { BBCodeReactParser } from "@/components/BBCode/BBCodeReactParser";
 import { BeatmapInfoAccordion } from "@/app/(website)/beatmapsets/components/BeatmapInfoAccordion";
-import UserHoverCard from "@/components/UserHoverCard";
-import Link from "next/link";
+import { BeatmapNominatorUser } from "@/app/(website)/beatmapsets/components/BeatmapNominatorUser";
 
 export interface BeatmapsetProps {
   params: Promise<{ ids: [string?, string?] }>;
@@ -214,36 +213,9 @@ export default function Beatmapset(props: BeatmapsetProps) {
                                 <div className="text-current lowercase">
                                   {activeBeatmap.status} by{" "}
                                 </div>
-                                <UserHoverCard
+                                <BeatmapNominatorUser
                                   user={activeBeatmap.beatmap_nominator_user}
-                                  asChild
-                                >
-                                  <Link
-                                    className="cursor-pointer font-bold hover:text-primary smooth-transition"
-                                    href={`/user/${activeBeatmap.beatmap_nominator_user.user_id}`}
-                                  >
-                                    <div className="flex gap-1 items-center ">
-                                      <div className="relative w-4 h-4 overflow-hidden rounded">
-                                        <Image
-                                          src={
-                                            activeBeatmap.beatmap_nominator_user
-                                              .avatar_url || "/placeholder.svg"
-                                          }
-                                          alt={`${activeBeatmap.beatmap_nominator_user.username}'s avatar`}
-                                          width={32}
-                                          height={32}
-                                          className="object-cover"
-                                        />
-                                      </div>
-                                      <span className="text-primary font-bold">
-                                        {
-                                          activeBeatmap.beatmap_nominator_user
-                                            .username
-                                        }
-                                      </span>
-                                    </div>
-                                  </Link>
-                                </UserHoverCard>
+                                />
                               </div>
                             )}
                           </div>
@@ -342,7 +314,7 @@ export default function Beatmapset(props: BeatmapsetProps) {
           <RoundedContent className="rounded-l flex flex-col md:flex-row justify-between items-center md:items-start gap-8 ">
             <div className="flex flex-col space-y-2">
               <h1 className="text-4xl">{errorMessage}</h1>
-              <p className="text-gray-300">
+              <p className="text-muted-foreground">
                 The beatmapset you are looking for does not exist or has been
                 deleted.
               </p>
