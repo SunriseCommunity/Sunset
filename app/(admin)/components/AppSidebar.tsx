@@ -1,7 +1,8 @@
 "use client";
 
 import { SidebarUser } from "@/app/(admin)/components/SidebarUser";
-import { Brand } from "@/components/Brand";
+
+import { ThemeModeToggle } from "@/components/Header/ThemeModeToggle";
 import {
   Sidebar,
   SidebarContent,
@@ -14,20 +15,17 @@ import {
   SidebarMenuBadge,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarSeparator,
 } from "@/components/ui/sidebar";
-import { useIsMobile } from "@/hooks/use-mobile";
 import { useBeatmapSetGetHypedSets } from "@/lib/hooks/api/beatmap/useBeatmapSetHypedSets";
-import { useUserSelf } from "@/lib/hooks/api/user/useUser";
-import { useServerStatus } from "@/lib/hooks/api/useServerStatus";
 import useSelf from "@/lib/hooks/useSelf";
-import { Home, ChevronsUp, Music2, Settings, MonitorCog } from "lucide-react";
+import { Home, ChevronsUp, Music2, Moon, Sun } from "lucide-react";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
 const infoTabs = [
   {
     title: "Dashboard",
-    url: "#",
+    url: "/admin/dashboard",
     icon: Home,
   },
 ];
@@ -35,12 +33,12 @@ const infoTabs = [
 const actionTabs = [
   {
     title: "Beatmap ranking",
-    url: "#",
+    url: "/admin/beatmaps/search",
     icon: Music2,
   },
   {
     title: "Beatmap requests",
-    url: "#",
+    url: "/admin/beatmaps/request",
     icon: ChevronsUp,
     badge: () => {
       const requestsQuery = useBeatmapSetGetHypedSets();
@@ -95,6 +93,18 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+
+      <SidebarGroup>
+        <ThemeModeToggle>
+          <SidebarMenuButton>
+            <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 " />
+            <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+            Change theme
+          </SidebarMenuButton>
+        </ThemeModeToggle>
+      </SidebarGroup>
+
+      <SidebarSeparator />
       <SidebarFooter>{self && <SidebarUser self={self} />}</SidebarFooter>
     </Sidebar>
   );
