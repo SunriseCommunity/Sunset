@@ -28,6 +28,7 @@ import { EosIconsThreeDotsLoading } from "@/components/ui/icons/three-dots-loadi
 import { Button } from "@/components/ui/button";
 import { useBeatmapsetSearch } from "@/lib/hooks/api/beatmap/useBeatmapsetSearch";
 import BeatmapsetRowElement from "@/components/BeatmapsetRowElement";
+import { BeatmapStatusSearch } from "@/lib/types/api";
 
 export default function HeaderSearchCommand() {
   const router = useRouter();
@@ -43,9 +44,13 @@ export default function HeaderSearchCommand() {
 
   const beatmapsetSearchQuery = useBeatmapsetSearch(
     searchValue,
-    1,
     5,
-    [1, 2, 3, 4],
+    [
+      BeatmapStatusSearch.APPROVED,
+      BeatmapStatusSearch.LOVED,
+      BeatmapStatusSearch.QUALIFIED,
+      BeatmapStatusSearch.RANKED,
+    ],
     undefined,
     {
       refreshInterval: 0,
@@ -53,7 +58,7 @@ export default function HeaderSearchCommand() {
   );
 
   const userSearch = userSearchQuery.data;
-  const beatmapsetSearch = beatmapsetSearchQuery.data?.sets;
+  const beatmapsetSearch = beatmapsetSearchQuery.data?.flatMap((d) => d.sets);
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -142,6 +147,7 @@ export default function HeaderSearchCommand() {
               <ChartColumnIncreasing />
               <span>Leaderboard</span>
             </CommandItem>
+
             <CommandItem
               onSelect={() => openPage("/topplays")}
               className={filterElement("Top plays") ? "hidden" : ""}
@@ -149,6 +155,15 @@ export default function HeaderSearchCommand() {
               <LucideHistory />
               <span>Top plays</span>
             </CommandItem>
+
+            <CommandItem
+              onSelect={() => openPage("/beatmaps/search")}
+              className={filterElement("Beatmaps search") ? "hidden" : ""}
+            >
+              <Search />
+              <span>Beatmaps search</span>
+            </CommandItem>
+
             <CommandItem
               onSelect={() => openPage("/wiki")}
               className={filterElement("Wiki") ? "hidden" : ""}

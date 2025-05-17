@@ -17,6 +17,7 @@ import {
   Home,
   LucideHistory,
   Menu,
+  Search,
   UserIcon,
   Users2,
   UsersRoundIcon,
@@ -53,6 +54,11 @@ const navigationList = [
     icon: <LucideHistory />,
     title: "Top plays",
     url: "/topplays",
+  },
+  {
+    icon: <Search />,
+    title: "Beatmaps search",
+    url: "/beatmaps/search",
   },
   {
     icon: <BookCopy />,

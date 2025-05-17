@@ -5,9 +5,22 @@ import { useRouter } from "next/navigation";
 
 interface DownloadButtonsProps {
   beatmapSet: BeatmapSetResponse;
+  vairant?:
+    | "default"
+    | "destructive"
+    | "outline"
+    | "secondary"
+    | "accent"
+    | "ghost"
+    | "link";
+  size?: "default" | "sm" | "lg" | "xl" | "icon";
 }
 
-export default function DownloadButtons({ beatmapSet }: DownloadButtonsProps) {
+export default function DownloadButtons({
+  beatmapSet,
+  vairant = "secondary",
+  size = "xl",
+}: DownloadButtonsProps) {
   const router = useRouter();
 
   return (
@@ -18,8 +31,8 @@ export default function DownloadButtons({ beatmapSet }: DownloadButtonsProps) {
             `https://osu.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/d/${beatmapSet.id}`
           )
         }
-        variant="secondary"
-        size="xl"
+        variant={vairant}
+        size={size}
         disabled={!self}
       >
         <Download />
@@ -38,8 +51,8 @@ export default function DownloadButtons({ beatmapSet }: DownloadButtonsProps) {
               `https://osu.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/d/${beatmapSet.id}?noVideo=1`
             )
           }
-          variant="secondary"
-          size="xl"
+          variant={vairant}
+          size={size}
           disabled={!self}
         >
           <Download />
@@ -51,8 +64,8 @@ export default function DownloadButtons({ beatmapSet }: DownloadButtonsProps) {
       )}
       <Button
         onClick={() => router.push(`osu://dl/${beatmapSet.id}`)}
-        variant="secondary"
-        size="xl"
+        variant={vairant}
+        size={size}
         disabled={!self}
       >
         <Download />

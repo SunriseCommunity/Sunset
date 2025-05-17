@@ -48,9 +48,10 @@ export default function Header() {
             <Brand />
           </a>
 
-          <div className="hidden md:flex items-center space-x-6 text-sm font-medium">
+          <div className="hidden md:flex items-center  lg:space-x-4 text-sm font-medium">
             <HeaderLink name="leaderboard" href="/leaderboard" />
             <HeaderLink name="top plays" href="/topplays" />
+            <HeaderLink name="beatmaps" href="/beatmaps/search" />
 
             <DropdownMenu>
               <DropdownMenuTrigger className="focus-visible:outline-none">

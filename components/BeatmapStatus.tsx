@@ -7,26 +7,51 @@ import {
   Construction,
   Heart,
 } from "lucide-react";
+import { twMerge } from "tailwind-merge";
 
 interface BeatmapStatusIconProps {
   status: BeatmapStatusSearch;
 }
 
-export default function BeatmapStatusIcon({ status }: BeatmapStatusIconProps) {
+export const getBeatmapStatusStatusColor = (status: BeatmapStatusSearch) => {
   switch (status) {
     case BeatmapStatusSearch.LOVED:
-      return <Heart className="text-pink-500 w-5 mx-0.5 fill-pink-500" />;
+      return "pink-500";
     case BeatmapStatusSearch.QUALIFIED:
-      return <Check className="text-blue-500" />;
+      return "blue-500";
     case BeatmapStatusSearch.APPROVED:
-      return <Check className="text-green-500" />;
+      return "green-500";
     case BeatmapStatusSearch.RANKED:
-      return <ChevronsUp className="text-blue-500" />;
+      return "blue-500";
     case BeatmapStatusSearch.PENDING:
-      return <Clock2Icon className="text-yellow-500" />;
+      return "yellow-500";
     case BeatmapStatusSearch.WIP:
-      return <Construction className="text-orange-500" />;
+      return "orange-500";
     case BeatmapStatusSearch.GRAVEYARD:
-      return <CircleHelp className="text-muted-foreground" />;
+      return "muted-foreground";
+
+    default:
+      return "";
+  }
+};
+
+export default function BeatmapStatusIcon({ status }: BeatmapStatusIconProps) {
+  const color = `text-${getBeatmapStatusStatusColor(status)}`;
+
+  switch (status) {
+    case BeatmapStatusSearch.LOVED:
+      return <Heart className={twMerge(color, `w-5 mx-0.5 fill-pink-500`)} />;
+    case BeatmapStatusSearch.QUALIFIED:
+      return <Check className={color} />;
+    case BeatmapStatusSearch.APPROVED:
+      return <Check className={color} />;
+    case BeatmapStatusSearch.RANKED:
+      return <ChevronsUp className={color} />;
+    case BeatmapStatusSearch.PENDING:
+      return <Clock2Icon className={color} />;
+    case BeatmapStatusSearch.WIP:
+      return <Construction className={color} />;
+    case BeatmapStatusSearch.GRAVEYARD:
+      return <CircleHelp className={color} />;
   }
 }
