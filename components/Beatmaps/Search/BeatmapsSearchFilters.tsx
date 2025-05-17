@@ -1,0 +1,98 @@
+"use client";
+
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { MultiSelect } from "@/components/ui/multi-select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { BeatmapStatusSearch, GameMode } from "@/lib/types/api";
+import { useState } from "react";
+
+const beatmapSearchStatusList = Object.values(BeatmapStatusSearch)
+  .filter((v) => v != BeatmapStatusSearch.ANY)
+  .map((v) => {
+    return {
+      value: v,
+      label: v,
+    };
+  });
+
+interface BeatmapFiltersProps {
+  onApplyFilters: (filters: {
+    mode: GameMode | null;
+    status: BeatmapStatusSearch[] | null;
+  }) => void;
+  isLoading: boolean;
+  defaultMode: GameMode | null;
+  defaultStatus: BeatmapStatusSearch[] | null;
+}
+
+export function BeatmapsSearchFilters({
+  onApplyFilters,
+  isLoading,
+  defaultMode,
+  defaultStatus,
+}: BeatmapFiltersProps) {
+  const [mode, setMode] = useState<GameMode | null>(defaultMode);
+  const [status, setStatus] = useState<BeatmapStatusSearch[] | null>(
+    defaultStatus
+  );
+
+  const handleApplyFilters = () => {
+    onApplyFilters({
+      mode,
+      status: (status?.length ?? 0) > 0 ? status : null,
+    });
+  };
+
+  return (
+    <Card>
+      <CardContent className="grid grid-cols-1 gap-4 p-4 md:grid-cols-2">
+        <div className="space-y-2">
+          <label className="text-sm font-medium">Mode</label>
+          <Select
+            value={mode ?? "any"}
+            onValueChange={(v) => setMode(v != "any" ? (v as GameMode) : null)}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Any" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value={"any"}>Any</SelectItem>
+              <SelectItem value={GameMode.STANDARD}>osu!</SelectItem>
+              <SelectItem value={GameMode.TAIKO}>osu!taiko</SelectItem>
+              <SelectItem value={GameMode.CATCH_THE_BEAT}>osu!catch</SelectItem>
+              <SelectItem value={GameMode.MANIA}>osu!mania</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="space-y-2">
+          <label className="text-sm font-medium">Status</label>
+          <MultiSelect
+            options={beatmapSearchStatusList}
+            defaultValue={status ?? []}
+            onValueChange={(v) =>
+              setStatus(!v.includes("") ? (v as BeatmapStatusSearch[]) : null)
+            }
+          />
+        </div>
+
+        <div className="flex gap-2 md:col-span-2">
+          <Button
+            onClick={handleApplyFilters}
+            className="flex-1"
+            isLoading={isLoading}
+          >
+            Apply Filters
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}

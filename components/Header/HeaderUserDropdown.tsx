@@ -27,6 +27,7 @@ import {
 } from "lucide-react";
 import UserPrivilegeBadges from "@/app/(website)/user/[id]/components/UserPrivilegeBadges";
 import { usePathname, useRouter } from "next/navigation";
+import { isUserCanUseAdminPanel } from "@/lib/utils/isUserCanUseAdminPanel";
 
 interface Props {
   self: UserResponse | null;
@@ -113,9 +114,7 @@ export default function HeaderUserDropdown({
               </Link>
             </DropdownMenuItem>
           </DropdownMenuGroup>
-          {self.badges.map((b) =>
-            [UserBadge.BAT, UserBadge.ADMIN].includes(b)
-          ) && (
+          {isUserCanUseAdminPanel(self) && (
             <>
               <DropdownMenuSeparator />
 
