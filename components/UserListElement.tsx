@@ -14,9 +14,13 @@ import Link from "next/link";
 
 interface UserListItemProps {
   user: UserResponse;
+  includeFriendshipButton?: boolean;
 }
 
-export function UserListItem({ user }: UserListItemProps) {
+export function UserListItem({
+  user,
+  includeFriendshipButton = true,
+}: UserListItemProps) {
   return (
     <div className="relative bg-transparent z-10 rounded-lg px-3 flex group items-center justify-between shadow-md">
       <>
@@ -97,13 +101,15 @@ export function UserListItem({ user }: UserListItemProps) {
         </div>
       </Link>
 
-      <div className="flex items-center gap-2">
-        <FriendshipButton
-          userId={user.user_id}
-          className="w-10 h-10"
-          includeText={false}
-        />
-      </div>
+      {includeFriendshipButton && (
+        <div className="flex items-center gap-2">
+          <FriendshipButton
+            userId={user.user_id}
+            className="w-10 h-10"
+            includeText={false}
+          />
+        </div>
+      )}
     </div>
   );
 }

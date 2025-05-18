@@ -29,7 +29,11 @@ export default function Page() {
           <CardContent className="space-y-2">
             {serverStatus?.recent_users &&
               serverStatus.recent_users.map((user, i) => (
-                <UserListItem user={user} key={i} />
+                <UserListItem
+                  user={user}
+                  key={i}
+                  includeFriendshipButton={false}
+                />
               ))}
           </CardContent>
         </Card>

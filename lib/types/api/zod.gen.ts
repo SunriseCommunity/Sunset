@@ -814,7 +814,7 @@ export const zGetBeatmapsetByIdResponse = zBeatmapSetResponse;
 
 export const zGetBeatmapsetByIdHypeResponse = zBeatmapSetHypeCountResponse;
 
-export const zPostBeatmapsetGetHypedSetsResponse = zHypedBeatmapSetsResponse;
+export const zGetBeatmapsetGetHypedSetsResponse = zHypedBeatmapSetsResponse;
 
 export const zGetBeatmapsetByIdFavouritedResponse = zFavouritedResponse;
 

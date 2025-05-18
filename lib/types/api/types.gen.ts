@@ -1001,7 +1001,7 @@ export type PostBeatmapsetByIdHypeResponses = {
     200: unknown;
 };
 
-export type PostBeatmapsetGetHypedSetsData = {
+export type GetBeatmapsetGetHypedSetsData = {
     body?: never;
     path?: never;
     query?: {
@@ -1011,7 +1011,7 @@ export type PostBeatmapsetGetHypedSetsData = {
     url: '/beatmapset/get-hyped-sets';
 };
 
-export type PostBeatmapsetGetHypedSetsErrors = {
+export type GetBeatmapsetGetHypedSetsErrors = {
     /**
      * Bad Request
      */
@@ -1026,16 +1026,16 @@ export type PostBeatmapsetGetHypedSetsErrors = {
     404: ErrorResponse;
 };
 
-export type PostBeatmapsetGetHypedSetsError = PostBeatmapsetGetHypedSetsErrors[keyof PostBeatmapsetGetHypedSetsErrors];
+export type GetBeatmapsetGetHypedSetsError = GetBeatmapsetGetHypedSetsErrors[keyof GetBeatmapsetGetHypedSetsErrors];
 
-export type PostBeatmapsetGetHypedSetsResponses = {
+export type GetBeatmapsetGetHypedSetsResponses = {
     /**
      * OK
      */
     200: HypedBeatmapSetsResponse;
 };
 
-export type PostBeatmapsetGetHypedSetsResponse = PostBeatmapsetGetHypedSetsResponses[keyof PostBeatmapsetGetHypedSetsResponses];
+export type GetBeatmapsetGetHypedSetsResponse = GetBeatmapsetGetHypedSetsResponses[keyof GetBeatmapsetGetHypedSetsResponses];
 
 export type GetBeatmapsetByIdFavouritedData = {
     body?: never;

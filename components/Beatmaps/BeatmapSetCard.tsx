@@ -50,7 +50,13 @@ export function BeatmapSetCard({ beatmapSet }: BeatmapSetCardProps) {
             </div>
           </div>
           <div className="flex">
-            <Link href={`/beatmapsets/${beatmapSet.id}`} className="flex-grow">
+            <Link
+              href={
+                (pathname.includes("/admin/") ? "/admin" : "") +
+                `/beatmapsets/${beatmapSet.id}`
+              }
+              className="flex-grow"
+            >
               <h3 className="line-clamp-2 font-semibold text-white">
                 {beatmapSet.title}
               </h3>

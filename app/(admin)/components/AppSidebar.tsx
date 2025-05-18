@@ -41,7 +41,7 @@ const actionTabs = [
   },
   {
     title: "Beatmap requests",
-    url: "/admin/beatmaps/request",
+    url: "/admin/beatmaps/requests",
     icon: ChevronsUp,
     requires: UserBadge.BAT,
     badge: () => {
@@ -49,7 +49,9 @@ const actionTabs = [
 
       const { data } = requestsQuery;
 
-      return data?.total_count;
+      return (
+        data?.find((item) => item.total_count !== undefined)?.total_count ?? 0
+      );
     },
   },
 ];
