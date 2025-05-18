@@ -5,17 +5,20 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { twMerge } from "tailwind-merge";
+import { Badge } from "@/components/ui/badge";
 
 interface CollapsibleBadgeListProps {
   badges: React.ReactNode[];
   maxVisible?: number;
   className?: string;
+  disableButton?: boolean;
 }
 
 export function CollapsibleBadgeList({
   badges,
   maxVisible = 3,
   className,
+  disableButton = false,
 }: CollapsibleBadgeListProps) {
   const [expanded, setExpanded] = React.useState(false);
   const hasMoreBadges = badges.length > maxVisible;
@@ -27,17 +30,23 @@ export function CollapsibleBadgeList({
     <div className={twMerge("flex flex-wrap items-center gap-2", className)}>
       {visibleBadges}
 
-      {!expanded && hasMoreBadges && (
-        <Button
-          variant="ghost"
-          size="sm"
-          className="h-6 rounded-md px-2 text-xs font-normal border"
-          onClick={() => setExpanded(true)}
-        >
-          +{hiddenCount} more
-          <ChevronDown className="ml-1 h-3 w-3" />
-        </Button>
-      )}
+      {!expanded &&
+        hasMoreBadges &&
+        (!disableButton ? (
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-6 rounded-md px-2 text-xs font-normal border"
+            onClick={() => setExpanded(true)}
+          >
+            +{hiddenCount} more
+            <ChevronDown className="ml-1 h-3 w-3" />
+          </Button>
+        ) : (
+          <Badge variant="secondary" className="p-0.5 rounded-full">
+            +{hiddenCount}
+          </Badge>
+        ))}
 
       {expanded && (
         <Button
@@ -46,7 +55,6 @@ export function CollapsibleBadgeList({
           className="h-6 rounded-md px-2 text-xs font-normal border"
           onClick={() => setExpanded(false)}
         >
-          Collapse
           <ChevronUp className="ml-1 h-3 w-3" />
         </Button>
       )}

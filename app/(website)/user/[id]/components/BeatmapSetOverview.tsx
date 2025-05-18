@@ -2,9 +2,7 @@
 
 import { useState } from "react";
 import { Calendar } from "lucide-react";
-import Image from "next/image";
 import BeatmapStatusIcon from "@/components/BeatmapStatus";
-import DifficultyIcon from "@/components/DifficultyIcon";
 import PrettyDate from "@/components/General/PrettyDate";
 import { twMerge } from "tailwind-merge";
 import AudioPreview from "@/app/(website)/user/[id]/components/AudioPreview";
@@ -15,6 +13,9 @@ import ImageWithFallback from "@/components/ImageWithFallback";
 import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
 import { BeatmapSetResponse } from "@/lib/types/api";
+import { CircularProgress } from "@/components/ui/circular-progress";
+import { CollapsibleBadgeList } from "@/components/CollapsibleBadgeList";
+import BeatmapDifficultyBadge from "@/components/BeatmapDifficultyBadge";
 interface BeatmapSetOverviewProps {
   beatmapSet: BeatmapSetResponse;
 }
@@ -24,7 +25,7 @@ export default function BeatmapSetOverview({
 }: BeatmapSetOverviewProps) {
   const [isHovered, setIsHovered] = useState(false);
 
-  const { player, isPlaying } = useAudioPlayer();
+  const { player, isPlaying, currentTimestamp } = useAudioPlayer();
 
   const isPlayingThis = player.current?.src.includes(`${beatmapSet.id}.mp3`);
 
@@ -63,7 +64,7 @@ export default function BeatmapSetOverview({
 
         <div
           className={twMerge(
-            "absolute inset-0 bg-terracotta-800 bg-opacity-50 flex items-center justify-center z-20 smooth-transition",
+            "absolute inset-0  flex items-center justify-center z-30 smooth-transition",
             isHovered || (isPlaying && isPlayingThis)
               ? "opacity-100"
               : "opacity-0"
@@ -71,16 +72,35 @@ export default function BeatmapSetOverview({
         >
           <AudioPreview beatmapSet={beatmapSet} />
         </div>
+
+        <div
+          className={twMerge(
+            "absolute inset-0 bg-terracotta-800 bg-opacity-50 flex items-center justify-center z-20 smooth-transition",
+            isHovered || (isPlaying && isPlayingThis)
+              ? "opacity-100"
+              : "opacity-0"
+          )}
+        >
+          <CircularProgress
+            value={currentTimestamp * 10}
+            strokeWidth={4}
+            className="hidden"
+            progressClassName={twMerge(
+              "relative",
+              !isPlayingThis ? "hidden" : undefined
+            )}
+          />
+        </div>
       </div>
 
       <div className="flex-col flex overflow-hidden z-10 w-full bg-gradient-to-r from-accent  to-transparent justify-between h-24">
-        <Link href={`/beatmapsets/${beatmapSet.id}`}>
-          <div
-            className={twMerge(
-              "bg-black px-3 py-1 z-20 w-full h-full smooth-transition",
-              isHovered ? " bg-opacity-70" : " bg-opacity-50"
-            )}
-          >
+        <div
+          className={twMerge(
+            "bg-black px-3 py-1 z-20 w-full h-full smooth-transition",
+            isHovered ? " bg-opacity-70" : " bg-opacity-50"
+          )}
+        >
+          <Link href={`/beatmapsets/${beatmapSet.id}`}>
             <div>
               <div className="flex items-center">
                 <span className="-ml-1 mr-1">
@@ -97,39 +117,42 @@ export default function BeatmapSetOverview({
                 mapped by {beatmapSet.creator}
               </p>
             </div>
+          </Link>
+          <div className="flex-col flex">
+            <div
+              className={twMerge(
+                "flex items-center smooth-transition text-gray-300",
+                isHovered ? "opacity-100" : "opacity-0"
+              )}
+            >
+              <Calendar className="w-[11px] h-[11px] mr-1" />
+              <PrettyDate
+                time={beatmapSet.submitted_date}
+                className="font-bold text-[10px]"
+              />
+            </div>
 
-            <div className="flex-col flex -mb-1.5">
-              <div
-                className={twMerge(
-                  "flex items-center smooth-transition text-gray-300",
-                  isHovered ? "opacity-100" : "opacity-0"
-                )}
-              >
-                <Calendar className="w-[11px] h-[11px] mr-1" />
-                <PrettyDate
-                  time={beatmapSet.submitted_date}
-                  className="font-bold text-[10px]"
-                />
-              </div>
-
-              <div className="flex flex-row overflow-hidden h-5 flex-wrap mb-2 -ml-0.5 space-x-0.5 bg-terracotta-800 bg-opacity-50 rounded-lg w-fit">
-                {beatmapSet.beatmaps
+            <div className="flex flex-row overflow-hidden h-5 flex-wrap -ml-0.5 space-x-0.5  rounded-lg w-fit">
+              <CollapsibleBadgeList
+                maxVisible={11}
+                disableButton
+                className="gap-0.5"
+                badges={beatmapSet.beatmaps
                   .sort(
                     (a, b) => getBeatmapStarRating(a) - getBeatmapStarRating(b)
                   )
                   .sort((a, b) => a.mode_int - b.mode_int)
-                  .map((difficulty) => (
-                    <div className="py-1 px-0.5" key={difficulty.id}>
-                      <DifficultyIcon
-                        difficulty={difficulty}
-                        className="text-sm rounded-full"
-                      />
-                    </div>
+                  .map((beatmap, i) => (
+                    <BeatmapDifficultyBadge
+                      key={i}
+                      beatmap={beatmap}
+                      iconPreview
+                    />
                   ))}
-              </div>
+              />
             </div>
           </div>
-        </Link>
+        </div>
       </div>
     </div>
   );

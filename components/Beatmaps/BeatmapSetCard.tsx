@@ -83,11 +83,8 @@ export function BeatmapSetCard({ beatmapSet }: BeatmapSetCardProps) {
         <div className="h-full ">
           <CollapsibleBadgeList
             badges={beatmapSet.beatmaps
-              .sort(
-                (a, b) =>
-                  getBeatmapStarRating(a, a.mode) -
-                  getBeatmapStarRating(b, b.mode)
-              )
+              .sort((a, b) => getBeatmapStarRating(a) - getBeatmapStarRating(b))
+              .sort((a, b) => a.mode_int - b.mode_int)
               .map((beatmap, i) => (
                 <BeatmapDifficultyBadge key={i} beatmap={beatmap} />
               ))}

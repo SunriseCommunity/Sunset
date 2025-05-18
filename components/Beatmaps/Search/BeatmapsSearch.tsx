@@ -12,10 +12,10 @@ import { BeatmapStatusSearch, GameMode } from "@/lib/types/api";
 import { BeatmapsSearchFilters } from "@/components/Beatmaps/Search/BeatmapsSearchFilters";
 import { useBeatmapsetSearch } from "@/lib/hooks/api/beatmap/useBeatmapsetSearch";
 import { BeatmapSetCard } from "@/components/Beatmaps/BeatmapSetCard";
-import useDebounce from "@/lib/hooks/useDebounce";
-import { BeatmapSetListItem } from "@/components/Beatmaps/BeatmapSetListItem";
 import { twMerge } from "tailwind-merge";
-import { DefaultGameModeStar } from "@/components/GameModeSelector";
+import BeatmapSetOverview from "@/app/(website)/user/[id]/components/BeatmapSetOverview";
+import useDebounce from "@/lib/hooks/useDebounce";
+import { Card, CardContent } from "@/components/ui/card";
 
 export default function BeatmapsSearch({
   forceThreeGridCols = false,
@@ -148,11 +148,13 @@ export default function BeatmapsSearch({
             </div>
           </TabsContent>
           <TabsContent value="list" className="m-0">
-            <div className="space-y-2">
-              {beatmapsets?.map((beatmapSet, i) => (
-                <BeatmapSetListItem key={i} beatmapSet={beatmapSet} />
-              ))}
-            </div>
+            <Card className="p-4">
+              <CardContent className="grid grid-cols-1 gap-4 sm:grid-cols-2 p-0">
+                {beatmapsets?.map((beatmapSet, i) => (
+                  <BeatmapSetOverview key={i} beatmapSet={beatmapSet} />
+                ))}
+              </CardContent>
+            </Card>
           </TabsContent>
         </Tabs>
         {beatmapsets && beatmapsets?.length >= 24 && (
