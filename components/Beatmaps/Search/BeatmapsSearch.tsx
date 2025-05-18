@@ -70,8 +70,8 @@ export default function BeatmapsSearch({
 
   return (
     <div className="space-y-2">
-      <div className="flex flex-col gap-8 md:flex-row">
-        <div className="flex flex-1 items-center space-x-2">
+      <div className="flex flex-col gap-6 md:flex-row">
+        <div className="flex flex-1 items-center space-x-6">
           <div className="relative flex-1">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
@@ -91,7 +91,7 @@ export default function BeatmapsSearch({
             <Filter className="mr-2 h-4 w-4" />
             Filters
             {(statusFilter != null || modeFilter != null) && (
-              <div className="absolute bg-primary sm:-top-2 text-primary-foreground -top-2.5 sm:-right-2 -right-2.5 rounded-full w-6 h-6 flex items-center justify-center text-sm">
+              <div className="absolute bg-primary sm:-top-2 text-primary-foreground -top-2.5 sm:-left-2 -left-2.5 rounded-full w-6 h-6 flex items-center justify-center text-sm">
                 {[statusFilter, modeFilter].filter((v) => v != null).length}
               </div>
             )}
