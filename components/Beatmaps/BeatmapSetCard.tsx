@@ -36,7 +36,7 @@ export function BeatmapSetCard({ beatmapSet }: BeatmapSetCardProps) {
   }, [isPlaying]);
 
   return (
-    <Card className="flex flex-col overflow-hidden h-full">
+    <Card className="flex flex-col overflow-hidden h-full" key={beatmapSet.id}>
       <div
         className="h-32 bg-cover bg-center "
         style={{
@@ -88,8 +88,8 @@ export function BeatmapSetCard({ beatmapSet }: BeatmapSetCardProps) {
                   getBeatmapStarRating(a, a.mode) -
                   getBeatmapStarRating(b, b.mode)
               )
-              .map((beatmap) => (
-                <BeatmapDifficultyBadge beatmap={beatmap} />
+              .map((beatmap, i) => (
+                <BeatmapDifficultyBadge key={i} beatmap={beatmap} />
               ))}
           />
         </div>

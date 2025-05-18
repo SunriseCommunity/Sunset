@@ -33,8 +33,8 @@ export function BeatmapSetListItem({ beatmapSet }: BeatmapSetListItemProps) {
                   getBeatmapStarRating(a, a.mode) -
                   getBeatmapStarRating(b, b.mode)
               )
-              .map((beatmap) => (
-                <BeatmapDifficultyBadge beatmap={beatmap} />
+              .map((beatmap, i) => (
+                <BeatmapDifficultyBadge key={i} beatmap={beatmap} />
               ))}
           />
           <BeatmapStatusBadge status={beatmapSet.status} />
