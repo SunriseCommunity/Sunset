@@ -77,7 +77,7 @@ export function UserListItem({ user }: UserListItemProps) {
             />
           </div>
 
-          <div className="flex space-x-2 flex-grow items-center text-sm bg-black bg-opacity-70 p-0.5 mt-1 rounded-t-lg">
+          <div className="flex space-x-2 flex-grow items-center text-sm bg-muted bg-opacity-70 p-0.5 mt-1 rounded-t-lg">
             <MaterialSymbolsCircleOutline
               className={`text-base text-${statusColor(
                 user.user_status

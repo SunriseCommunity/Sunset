@@ -1,6 +1,7 @@
 "use client";
 
 import { SidebarUser } from "@/app/(admin)/components/SidebarUser";
+import HeaderLoginDialog from "@/components/Header/HeaderLoginDialog";
 
 import { ThemeModeToggle } from "@/components/Header/ThemeModeToggle";
 import {
@@ -19,6 +20,7 @@ import {
 } from "@/components/ui/sidebar";
 import { useBeatmapSetGetHypedSets } from "@/lib/hooks/api/beatmap/useBeatmapSetHypedSets";
 import useSelf from "@/lib/hooks/useSelf";
+import { UserBadge } from "@/lib/types/api";
 import { Home, ChevronsUp, Music2, Moon, Sun } from "lucide-react";
 import Link from "next/link";
 
@@ -35,11 +37,13 @@ const actionTabs = [
     title: "Beatmap ranking",
     url: "/admin/beatmaps/search",
     icon: Music2,
+    requires: UserBadge.BAT,
   },
   {
     title: "Beatmap requests",
     url: "/admin/beatmaps/request",
     icon: ChevronsUp,
+    requires: UserBadge.BAT,
     badge: () => {
       const requestsQuery = useBeatmapSetGetHypedSets();
 
@@ -76,19 +80,28 @@ export function AppSidebar() {
           <SidebarGroupLabel>Actions</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {actionTabs.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <Link href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                  {item.badge && (
-                    <SidebarMenuBadge>{item.badge()}</SidebarMenuBadge>
-                  )}
-                </SidebarMenuItem>
-              ))}
+              {actionTabs.map((item) => {
+                var requirements =
+                  item.requires &&
+                  !self?.badges.includes(item.requires) &&
+                  !self?.badges.includes(UserBadge.ADMIN);
+
+                var badge = item.badge && (
+                  <SidebarMenuBadge>{item.badge()}</SidebarMenuBadge>
+                );
+
+                return requirements ? undefined : (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild>
+                      <Link href={item.url}>
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                    {badge}
+                  </SidebarMenuItem>
+                );
+              })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -105,7 +118,9 @@ export function AppSidebar() {
       </SidebarGroup>
 
       <SidebarSeparator />
-      <SidebarFooter>{self && <SidebarUser self={self} />}</SidebarFooter>
+      <SidebarFooter>
+        {self ? <SidebarUser self={self} /> : <HeaderLoginDialog />}
+      </SidebarFooter>
     </Sidebar>
   );
 }
