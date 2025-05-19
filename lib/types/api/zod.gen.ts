@@ -760,6 +760,11 @@ export const zTokenResponse = z.object({
     expires_in: z.number().int()
 });
 
+export const zUpdateBeatmapsCustomStatusRequest = z.object({
+    ids: z.array(z.number().int()),
+    status: zBeatmapStatusWeb
+});
+
 export const zUserMetadataResponse = z.object({
     playstyle: z.array(zUserPlaystyle),
     location: z.string(),

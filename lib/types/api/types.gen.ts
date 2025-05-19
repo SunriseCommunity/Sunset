@@ -450,6 +450,11 @@ export type TokenResponse = {
     expires_in: number;
 };
 
+export type UpdateBeatmapsCustomStatusRequest = {
+    ids: Array<number>;
+    status: BeatmapStatusWeb;
+};
+
 export enum UpdateFriendshipStatusAction {
     ADD = 'Add',
     REMOVE = 'Remove'
@@ -1102,12 +1107,9 @@ export type PostBeatmapsetByIdFavouritedResponses = {
 };
 
 export type PostBeatmapUpdateCustomStatusData = {
-    body?: never;
+    body?: UpdateBeatmapsCustomStatusRequest;
     path?: never;
-    query?: {
-        id?: Array<number>;
-        status?: BeatmapStatusWeb;
-    };
+    query?: never;
     url: '/beatmap/update-custom-status';
 };
 
