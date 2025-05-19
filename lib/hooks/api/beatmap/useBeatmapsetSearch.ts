@@ -2,7 +2,7 @@
 
 import fetcher from "@/lib/services/fetcher";
 import {
-  BeatmapStatusSearch,
+  BeatmapStatusWeb,
   GameMode,
   GetBeatmapsetSearchResponse,
 } from "@/lib/types/api";
@@ -12,7 +12,7 @@ import useSWRInfinite from "swr/infinite";
 export function useBeatmapsetSearch(
   query: string,
   limit?: number,
-  status?: BeatmapStatusSearch[],
+  status?: BeatmapStatusWeb[],
   mode?: GameMode,
   options?: SWRConfiguration
 ) {

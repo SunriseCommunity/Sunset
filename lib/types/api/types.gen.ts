@@ -5,7 +5,7 @@ export type BeatmapResponse = {
     beatmapset_id: number;
     hash: string;
     version: string;
-    status: BeatmapStatusSearch;
+    status: BeatmapStatusWeb;
     star_rating_osu: number;
     star_rating_taiko: number;
     star_rating_ctb: number;
@@ -48,7 +48,7 @@ export type BeatmapSetResponse = {
     title: string;
     creator: string;
     creator_id: number;
-    status: BeatmapStatusSearch;
+    status: BeatmapStatusWeb;
     last_updated: string;
     submitted_date: string;
     ranked_date?: string | null;
@@ -67,13 +67,13 @@ export type BeatmapSetsResponse = {
     total_count?: number | null;
 };
 
-export enum BeatmapStatusSearch {
+export enum BeatmapStatusWeb {
     PENDING = 'Pending',
     RANKED = 'Ranked',
     APPROVED = 'Approved',
     QUALIFIED = 'Qualified',
     LOVED = 'Loved',
-    ANY = 'Any',
+    UNKNOWN = 'Unknown',
     GRAVEYARD = 'Graveyard',
     WIP = 'Wip'
 }
@@ -203,7 +203,7 @@ export type HypedBeatmapSetResponse = {
     title: string;
     creator: string;
     creator_id: number;
-    status: BeatmapStatusSearch;
+    status: BeatmapStatusWeb;
     last_updated: string;
     submitted_date: string;
     ranked_date?: string | null;
@@ -294,7 +294,7 @@ export type MostPlayedBeatmapResponse = {
     beatmapset_id: number;
     hash: string;
     version: string;
-    status: BeatmapStatusSearch;
+    status: BeatmapStatusWeb;
     star_rating_osu: number;
     star_rating_taiko: number;
     star_rating_ctb: number;
@@ -1098,17 +1098,49 @@ export type PostBeatmapsetByIdFavouritedResponses = {
     /**
      * OK
      */
-    200: BeatmapSetResponse;
+    200: unknown;
 };
 
-export type PostBeatmapsetByIdFavouritedResponse = PostBeatmapsetByIdFavouritedResponses[keyof PostBeatmapsetByIdFavouritedResponses];
+export type PostBeatmapUpdateCustomStatusData = {
+    body?: never;
+    path?: never;
+    query?: {
+        id?: Array<number>;
+        status?: BeatmapStatusWeb;
+    };
+    url: '/beatmap/update-custom-status';
+};
+
+export type PostBeatmapUpdateCustomStatusErrors = {
+    /**
+     * Bad Request
+     */
+    400: ErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+};
+
+export type PostBeatmapUpdateCustomStatusError = PostBeatmapUpdateCustomStatusErrors[keyof PostBeatmapUpdateCustomStatusErrors];
+
+export type PostBeatmapUpdateCustomStatusResponses = {
+    /**
+     * OK
+     */
+    200: unknown;
+};
 
 export type GetBeatmapsetSearchData = {
     body?: never;
     path?: never;
     query?: {
         query?: string;
-        status?: Array<BeatmapStatusSearch>;
+        status?: Array<BeatmapStatusWeb>;
         mode?: GameMode;
         limit?: number;
         page?: number;

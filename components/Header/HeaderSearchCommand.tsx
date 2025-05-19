@@ -28,7 +28,7 @@ import { EosIconsThreeDotsLoading } from "@/components/ui/icons/three-dots-loadi
 import { Button } from "@/components/ui/button";
 import { useBeatmapsetSearch } from "@/lib/hooks/api/beatmap/useBeatmapsetSearch";
 import BeatmapsetRowElement from "@/components/BeatmapsetRowElement";
-import { BeatmapStatusSearch } from "@/lib/types/api";
+import { BeatmapStatusWeb } from "@/lib/types/api";
 
 export default function HeaderSearchCommand() {
   const router = useRouter();
@@ -46,10 +46,10 @@ export default function HeaderSearchCommand() {
     searchValue,
     5,
     [
-      BeatmapStatusSearch.APPROVED,
-      BeatmapStatusSearch.LOVED,
-      BeatmapStatusSearch.QUALIFIED,
-      BeatmapStatusSearch.RANKED,
+      BeatmapStatusWeb.APPROVED,
+      BeatmapStatusWeb.LOVED,
+      BeatmapStatusWeb.QUALIFIED,
+      BeatmapStatusWeb.RANKED,
     ],
     undefined,
     {

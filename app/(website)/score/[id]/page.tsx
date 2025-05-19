@@ -30,7 +30,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import ScoreStats from "@/components/ScoreStats";
-import { BeatmapStatusSearch } from "@/lib/types/api";
+import { BeatmapStatusWeb } from "@/lib/types/api";
 
 export default function Score(props: { params: Promise<{ id: number }> }) {
   const params = use(props.params);
@@ -83,7 +83,9 @@ export default function Score(props: { params: Promise<{ id: number }> }) {
                       <div className="flex font-bold text-xl drop-shadow-md items-center ">
                         <span className="pr-1">
                           <BeatmapStatusIcon
-                            status={beatmap.status ?? BeatmapStatusSearch.GRAVEYARD}
+                            status={
+                              beatmap.status ?? BeatmapStatusWeb.GRAVEYARD
+                            }
                           />
                         </span>
                         <span className="line-clamp-3 text-white">

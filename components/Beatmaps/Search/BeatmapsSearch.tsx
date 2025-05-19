@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search, Filter, ChevronDown } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BeatmapStatusSearch, GameMode } from "@/lib/types/api";
+import { BeatmapStatusWeb, GameMode } from "@/lib/types/api";
 
 import { BeatmapsSearchFilters } from "@/components/Beatmaps/Search/BeatmapsSearchFilters";
 import { useBeatmapsetSearch } from "@/lib/hooks/api/beatmap/useBeatmapsetSearch";
@@ -23,12 +23,10 @@ export default function BeatmapsSearch({
   forceThreeGridCols?: boolean;
 }) {
   const [modeFilter, setModeFilter] = useState<GameMode | null>(null);
-  const [statusFilter, setStatusFilter] = useState<
-    BeatmapStatusSearch[] | null
-  >([
-    BeatmapStatusSearch.RANKED,
-    BeatmapStatusSearch.LOVED,
-    BeatmapStatusSearch.APPROVED,
+  const [statusFilter, setStatusFilter] = useState<BeatmapStatusWeb[] | null>([
+    BeatmapStatusWeb.RANKED,
+    BeatmapStatusWeb.LOVED,
+    BeatmapStatusWeb.APPROVED,
   ]);
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -60,7 +58,7 @@ export default function BeatmapsSearch({
 
   const applyFilters = (filters: {
     mode: GameMode | null;
-    status: BeatmapStatusSearch[] | null;
+    status: BeatmapStatusWeb[] | null;
   }) => {
     let { mode, status } = filters;
 

@@ -2,13 +2,13 @@
 
 import { z } from 'zod';
 
-export const zBeatmapStatusSearch = z.enum([
+export const zBeatmapStatusWeb = z.enum([
     'Pending',
     'Ranked',
     'Approved',
     'Qualified',
     'Loved',
-    'Any',
+    'Unknown',
     'Graveyard',
     'Wip'
 ]);
@@ -63,7 +63,7 @@ export const zBeatmapResponse = z.object({
     beatmapset_id: z.number().int(),
     hash: z.string(),
     version: z.string(),
-    status: zBeatmapStatusSearch,
+    status: zBeatmapStatusWeb,
     star_rating_osu: z.number(),
     star_rating_taiko: z.number(),
     star_rating_ctb: z.number(),
@@ -127,7 +127,7 @@ export const zBeatmapSetResponse = z.object({
     title: z.string(),
     creator: z.string(),
     creator_id: z.number().int(),
-    status: zBeatmapStatusSearch,
+    status: zBeatmapStatusWeb,
     last_updated: z.string().datetime(),
     submitted_date: z.string().datetime(),
     ranked_date: z.union([
@@ -390,7 +390,7 @@ export const zHypedBeatmapSetResponse = z.object({
     title: z.string(),
     creator: z.string(),
     creator_id: z.number().int(),
-    status: zBeatmapStatusSearch,
+    status: zBeatmapStatusWeb,
     last_updated: z.string().datetime(),
     submitted_date: z.string().datetime(),
     ranked_date: z.union([
@@ -516,7 +516,7 @@ export const zMostPlayedBeatmapResponse = z.object({
     beatmapset_id: z.number().int(),
     hash: z.string(),
     version: z.string(),
-    status: zBeatmapStatusSearch,
+    status: zBeatmapStatusWeb,
     star_rating_osu: z.number(),
     star_rating_taiko: z.number(),
     star_rating_ctb: z.number(),
@@ -817,8 +817,6 @@ export const zGetBeatmapsetByIdHypeResponse = zBeatmapSetHypeCountResponse;
 export const zGetBeatmapsetGetHypedSetsResponse = zHypedBeatmapSetsResponse;
 
 export const zGetBeatmapsetByIdFavouritedResponse = zFavouritedResponse;
-
-export const zPostBeatmapsetByIdFavouritedResponse = zBeatmapSetResponse;
 
 export const zGetBeatmapsetSearchResponse = zBeatmapSetsResponse;
 

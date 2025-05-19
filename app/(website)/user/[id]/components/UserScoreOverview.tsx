@@ -5,7 +5,7 @@ import RoundedContent from "@/components/General/RoundedContent";
 import ImageWithFallback from "@/components/ImageWithFallback";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useBeatmap } from "@/lib/hooks/api/beatmap/useBeatmap";
-import { BeatmapStatusSearch, ScoreResponse } from "@/lib/types/api";
+import { BeatmapStatusWeb, ScoreResponse } from "@/lib/types/api";
 import { getGradeColor } from "@/lib/utils/getGradeColor";
 import { timeSince } from "@/lib/utils/timeSince";
 import Link from "next/link";
@@ -37,7 +37,7 @@ export default function UserScoreOverview({
               <div className="flex font-bold text-sm md:text-xl drop-shadow-md items-center ">
                 <span className="pr-1">
                   <BeatmapStatusIcon
-                    status={beatmap?.status ?? BeatmapStatusSearch.GRAVEYARD}
+                    status={beatmap?.status ?? BeatmapStatusWeb.GRAVEYARD}
                   />
                 </span>
                 {beatmap?.artist && beatmap?.title ? (

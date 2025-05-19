@@ -10,11 +10,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { BeatmapStatusSearch, GameMode } from "@/lib/types/api";
+import { BeatmapStatusWeb, GameMode } from "@/lib/types/api";
 import { useState } from "react";
 
-const beatmapSearchStatusList = Object.values(BeatmapStatusSearch)
-  .filter((v) => v != BeatmapStatusSearch.ANY)
+const beatmapSearchStatusList = Object.values(BeatmapStatusWeb)
+  .filter((v) => v != BeatmapStatusWeb.UNKNOWN)
   .map((v) => {
     return {
       value: v,
@@ -25,11 +25,11 @@ const beatmapSearchStatusList = Object.values(BeatmapStatusSearch)
 interface BeatmapFiltersProps {
   onApplyFilters: (filters: {
     mode: GameMode | null;
-    status: BeatmapStatusSearch[] | null;
+    status: BeatmapStatusWeb[] | null;
   }) => void;
   isLoading: boolean;
   defaultMode: GameMode | null;
-  defaultStatus: BeatmapStatusSearch[] | null;
+  defaultStatus: BeatmapStatusWeb[] | null;
 }
 
 export function BeatmapsSearchFilters({
@@ -39,7 +39,7 @@ export function BeatmapsSearchFilters({
   defaultStatus,
 }: BeatmapFiltersProps) {
   const [mode, setMode] = useState<GameMode | null>(defaultMode);
-  const [status, setStatus] = useState<BeatmapStatusSearch[] | null>(
+  const [status, setStatus] = useState<BeatmapStatusWeb[] | null>(
     defaultStatus
   );
 
@@ -78,7 +78,7 @@ export function BeatmapsSearchFilters({
             options={beatmapSearchStatusList}
             defaultValue={status ?? []}
             onValueChange={(v) =>
-              setStatus(!v.includes("") ? (v as BeatmapStatusSearch[]) : null)
+              setStatus(!v.includes("") ? (v as BeatmapStatusWeb[]) : null)
             }
           />
         </div>

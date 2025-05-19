@@ -1,11 +1,11 @@
 import { getBeatmapStatusStatusColor } from "@/components/BeatmapStatus";
 import { Badge } from "@/components/ui/badge";
-import { BeatmapStatusSearch } from "@/lib/types/api";
+import { BeatmapStatusWeb } from "@/lib/types/api";
 
 import { twMerge } from "tailwind-merge";
 
 interface BeatmapStatusBadgeProps {
-  status: BeatmapStatusSearch;
+  status: BeatmapStatusWeb;
 }
 
 export default function BeatmapStatusBadge({

@@ -1,4 +1,4 @@
-import { BeatmapStatusSearch } from "@/lib/types/api";
+import { BeatmapStatusWeb } from "@/lib/types/api";
 import {
   Check,
   ChevronsUp,
@@ -10,24 +10,24 @@ import {
 import { twMerge } from "tailwind-merge";
 
 interface BeatmapStatusIconProps {
-  status: BeatmapStatusSearch;
+  status: BeatmapStatusWeb;
 }
 
-export const getBeatmapStatusStatusColor = (status: BeatmapStatusSearch) => {
+export const getBeatmapStatusStatusColor = (status: BeatmapStatusWeb) => {
   switch (status) {
-    case BeatmapStatusSearch.LOVED:
+    case BeatmapStatusWeb.LOVED:
       return "pink-500";
-    case BeatmapStatusSearch.QUALIFIED:
+    case BeatmapStatusWeb.QUALIFIED:
       return "blue-500";
-    case BeatmapStatusSearch.APPROVED:
+    case BeatmapStatusWeb.APPROVED:
       return "green-500";
-    case BeatmapStatusSearch.RANKED:
+    case BeatmapStatusWeb.RANKED:
       return "blue-500";
-    case BeatmapStatusSearch.PENDING:
+    case BeatmapStatusWeb.PENDING:
       return "yellow-500";
-    case BeatmapStatusSearch.WIP:
+    case BeatmapStatusWeb.WIP:
       return "orange-500";
-    case BeatmapStatusSearch.GRAVEYARD:
+    case BeatmapStatusWeb.GRAVEYARD:
       return "muted-foreground";
 
     default:
@@ -39,19 +39,19 @@ export default function BeatmapStatusIcon({ status }: BeatmapStatusIconProps) {
   const color = `text-${getBeatmapStatusStatusColor(status)}`;
 
   switch (status) {
-    case BeatmapStatusSearch.LOVED:
+    case BeatmapStatusWeb.LOVED:
       return <Heart className={twMerge(color, `w-5 mx-0.5 fill-pink-500`)} />;
-    case BeatmapStatusSearch.QUALIFIED:
+    case BeatmapStatusWeb.QUALIFIED:
       return <Check className={color} />;
-    case BeatmapStatusSearch.APPROVED:
+    case BeatmapStatusWeb.APPROVED:
       return <Check className={color} />;
-    case BeatmapStatusSearch.RANKED:
+    case BeatmapStatusWeb.RANKED:
       return <ChevronsUp className={color} />;
-    case BeatmapStatusSearch.PENDING:
+    case BeatmapStatusWeb.PENDING:
       return <Clock2Icon className={color} />;
-    case BeatmapStatusSearch.WIP:
+    case BeatmapStatusWeb.WIP:
       return <Construction className={color} />;
-    case BeatmapStatusSearch.GRAVEYARD:
+    case BeatmapStatusWeb.GRAVEYARD:
       return <CircleHelp className={color} />;
   }
 }
