@@ -15,6 +15,7 @@ interface TooltipProps {
   disabled?: boolean;
   className?: string;
   asChild?: boolean;
+  onOpenChange?: () => void;
 }
 
 export function Tooltip({
@@ -26,11 +27,12 @@ export function Tooltip({
   sideOffset,
   disabled,
   className,
+  onOpenChange,
 }: TooltipProps) {
   if (disabled) return <>{children}</>;
 
   return (
-    <Popover>
+    <Popover onOpenChange={onOpenChange}>
       <PopoverTrigger className={twMerge("cursor-pointer", className)}>
         {children}
       </PopoverTrigger>

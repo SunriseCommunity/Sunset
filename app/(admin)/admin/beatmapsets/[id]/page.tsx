@@ -33,7 +33,7 @@ import {
 import { Separator } from "@radix-ui/react-dropdown-menu";
 import { Badge } from "@/components/ui/badge";
 import BeatmapStatusBadge from "@/components/BeatmapStatusBadge";
-import { BeatmapsStatusTable } from "@/app/(admin)/admin/beatmapsets/components/beatmapsStatusTable";
+import { BeatmapsStatusTable } from "@/app/(admin)/admin/beatmapsets/components/BeatmapsStatusTable";
 
 export interface BeatmapsetProps {
   params: Promise<{ id: number }>;

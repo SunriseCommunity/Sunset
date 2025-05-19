@@ -25,7 +25,7 @@ import {
 import { EosIconsThreeDotsLoading } from "@/components/ui/icons/three-dots-loading";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { useBeatmamPp } from "@/lib/hooks/api/beatmap/useBeatmapPp";
+import { useBeatmapPp } from "@/lib/hooks/api/beatmap/useBeatmapPp";
 import { BeatmapResponse, GameMode, Mods } from "@/lib/types/api";
 import { gameModeToVanilla } from "@/lib/utils/gameMode.util";
 import numberWith from "@/lib/utils/numberWith";
@@ -62,6 +62,8 @@ export function PPCalculatorDialog({
   mode: GameMode;
   children: React.ReactNode;
 }) {
+  const [isOpen, setIsOpen] = useState(false);
+
   const defaultValues = {
     accuracy: 100.0,
     combo: beatmap.max_combo,
@@ -82,8 +84,8 @@ export function PPCalculatorDialog({
     mods?: Mods[];
   }>(defaultValues);
 
-  const { data, error } = useBeatmamPp(
-    beatmap.id,
+  const { data, error } = useBeatmapPp(
+    isOpen ? beatmap.id : null,
     {
       mode: gameModeToVanilla(mode),
       mods: scoreAttributes.mods,
@@ -91,7 +93,6 @@ export function PPCalculatorDialog({
       misses: scoreAttributes.misses,
       accuracy: scoreAttributes.accuracy,
     },
-
     { keepPreviousData: true }
   );
 
@@ -115,7 +116,7 @@ export function PPCalculatorDialog({
   }
 
   return (
-    <Dialog>
+    <Dialog onOpenChange={setIsOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

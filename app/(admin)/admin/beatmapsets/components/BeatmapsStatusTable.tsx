@@ -20,7 +20,7 @@ import {
   GameMode,
 } from "@/lib/types/api";
 import { getBeatmapStarRating } from "@/lib/utils/getBeatmapStarRating";
-import { BeatmapStatusSelect } from "@/app/(admin)/admin/beatmapsets/components/beatmapStatusSelect";
+import { BeatmapStatusSelect } from "@/app/(admin)/admin/beatmapsets/components/BeatmapStatusSelect";
 import { Calculator, Undo2 } from "lucide-react";
 import { PPCalculatorDialog } from "@/app/(website)/beatmapsets/components/PPCalculatorDialog";
 import { BeatmapNominatorUser } from "@/app/(website)/beatmapsets/components/BeatmapNominatorUser";
@@ -30,6 +30,9 @@ import DifficultyIcon from "@/components/DifficultyIcon";
 import Image from "next/image";
 import Link from "next/link";
 import { useUpdateBeatmapCustomStatus } from "@/lib/hooks/api/beatmap/useUpdateBeatmapCustomStatus";
+import { getStarRatingColor } from "@/lib/utils/getStarRatingColor";
+import { Tooltip } from "@/components/Tooltip";
+import { BeatmapPerformanceTooltip } from "@/app/(admin)/admin/beatmapsets/components/BeatmapPerformanceTooltip";
 
 export function BeatmapsStatusTable({
   beatmapSet,
@@ -133,6 +136,7 @@ export function BeatmapsStatusTable({
                   aria-label="Select all"
                 />
               </TableHead>
+
               <TableHead>ID</TableHead>
               <TableHead>Hash</TableHead>
               <TableHead>Mapper</TableHead>
@@ -140,16 +144,11 @@ export function BeatmapsStatusTable({
               <TableHead>Length</TableHead>
               <TableHead>BPM</TableHead>
               <TableHead>Difficulty</TableHead>
-
               {shouldIncludeCircleSize && <TableHead>CS</TableHead>}
-
               <TableHead>HP</TableHead>
               <TableHead>Accuracy</TableHead>
-
               {shouldIncludeApproachRate && <TableHead>AR</TableHead>}
-
               <TableHead>Mode</TableHead>
-
               <TableHead>Status</TableHead>
               <TableHead />
               <TableHead>Edited by</TableHead>
@@ -162,6 +161,7 @@ export function BeatmapsStatusTable({
                   getBeatmapStarRating(b, b.mode) -
                   getBeatmapStarRating(a, a.mode)
               )
+              .sort((a, b) => a.mode_int - b.mode_int)
               .map((beatmap) => {
                 const includeCircleSize = [
                   GameMode.STANDARD,
@@ -213,7 +213,17 @@ export function BeatmapsStatusTable({
                     </TableCell>
                     <TableCell>{beatmap.bpm}</TableCell>
                     <TableCell>
-                      {getBeatmapStarRating(beatmap, beatmap.mode)} ★
+                      <span
+                        className="text-shadow px-0.5"
+                        style={{
+                          color: `${getStarRatingColor(
+                            getBeatmapStarRating(beatmap)
+                          )}`,
+                        }}
+                      >
+                        ★
+                      </span>
+                      {getBeatmapStarRating(beatmap)}
                     </TableCell>
 
                     {shouldIncludeCircleSize ? (
@@ -261,7 +271,7 @@ export function BeatmapsStatusTable({
                       </div>
                     </TableCell>
 
-                    <TableCell>
+                    <TableCell className="flex items-center justify-center gap-2">
                       <PPCalculatorDialog beatmap={beatmap} mode={beatmap.mode}>
                         <Button
                           size="icon"
@@ -271,6 +281,8 @@ export function BeatmapsStatusTable({
                           <Calculator />
                         </Button>
                       </PPCalculatorDialog>
+
+                      <BeatmapPerformanceTooltip beatmap={beatmap} />
                     </TableCell>
 
                     <TableCell>
