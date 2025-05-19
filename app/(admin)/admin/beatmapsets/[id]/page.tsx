@@ -12,7 +12,7 @@ import { useBeatmapSet } from "@/lib/hooks/api/beatmap/useBeatmapSet";
 import { BeatmapDropdown } from "@/app/(website)/beatmapsets/components/BeatmapDropdown";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { isInstance, tryParseNumber } from "@/lib/utils/type.util";
-import { BeatmapResponse, GameMode } from "@/lib/types/api";
+import { BeatmapResponse, BeatmapStatusWeb, GameMode } from "@/lib/types/api";
 import UserHoverCard from "@/components/UserHoverCard";
 import Link from "next/link";
 import {
@@ -101,15 +101,16 @@ export default function AdminBeatmapset(props: BeatmapsetProps) {
                           className="font-bold"
                         />
                       </div>
-                      {beatmapSet.ranked_date && (
-                        <div className="flex items-center">
-                          ranked on&nbsp;
-                          <PrettyDate
-                            time={beatmapSet.ranked_date}
-                            className="font-bold"
-                          />
-                        </div>
-                      )}
+                      {beatmapSet.ranked_date &&
+                        beatmapSet.status === BeatmapStatusWeb.RANKED && (
+                          <div className="flex items-center">
+                            ranked on&nbsp;
+                            <PrettyDate
+                              time={beatmapSet.ranked_date}
+                              className="font-bold"
+                            />
+                          </div>
+                        )}
                     </div>
                   </div>
 

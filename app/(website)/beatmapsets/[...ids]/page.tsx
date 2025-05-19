@@ -20,7 +20,7 @@ import GameModeSelector from "@/components/GameModeSelector";
 import { BeatmapDropdown } from "@/app/(website)/beatmapsets/components/BeatmapDropdown";
 import { usePathname, useSearchParams } from "next/navigation";
 import { isInstance, tryParseNumber } from "@/lib/utils/type.util";
-import { BeatmapResponse, GameMode } from "@/lib/types/api";
+import { BeatmapResponse, BeatmapStatusWeb, GameMode } from "@/lib/types/api";
 import { BBCodeReactParser } from "@/components/BBCode/BBCodeReactParser";
 import { BeatmapInfoAccordion } from "@/app/(website)/beatmapsets/components/BeatmapInfoAccordion";
 import { BeatmapNominatorUser } from "@/app/(website)/beatmapsets/components/BeatmapNominatorUser";
@@ -199,15 +199,16 @@ export default function Beatmapset(props: BeatmapsetProps) {
                                 className="font-bold"
                               />
                             </div>
-                            {beatmapSet.ranked_date && (
-                              <div className="flex items-center">
-                                ranked on&nbsp;
-                                <PrettyDate
-                                  time={beatmapSet.ranked_date}
-                                  className="font-bold"
-                                />
-                              </div>
-                            )}
+                            {beatmapSet.ranked_date &&
+                              beatmapSet.status === BeatmapStatusWeb.RANKED && (
+                                <div className="flex items-center">
+                                  ranked on&nbsp;
+                                  <PrettyDate
+                                    time={beatmapSet.ranked_date}
+                                    className="font-bold"
+                                  />
+                                </div>
+                              )}
                             {activeBeatmap.beatmap_nominator_user && (
                               <div className="flex w-full items-center gap-1">
                                 <div className="text-current lowercase">
