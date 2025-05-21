@@ -2,17 +2,6 @@
 
 import { z } from 'zod';
 
-export const zBeatmapStatusWeb = z.enum([
-    'Pending',
-    'Ranked',
-    'Approved',
-    'Qualified',
-    'Loved',
-    'Unknown',
-    'Graveyard',
-    'Wip'
-]);
-
 export const zGameMode = z.enum([
     'Standard',
     'Taiko',
@@ -57,6 +46,23 @@ export const zUserResponse = z.object({
     badges: z.array(zUserBadge),
     user_status: z.string()
 });
+
+export const zBeatmapEventType = z.enum([
+    'BeatmapSetHyped',
+    'BeatmapStatusChanged',
+    'BeatmapSetHypeCleared'
+]);
+
+export const zBeatmapStatusWeb = z.enum([
+    'Pending',
+    'Ranked',
+    'Approved',
+    'Qualified',
+    'Loved',
+    'Unknown',
+    'Graveyard',
+    'Wip'
+]);
 
 export const zBeatmapResponse = z.object({
     id: z.number().int(),
@@ -116,11 +122,6 @@ export const zBeatmapResponse = z.object({
     can_be_hyped: z.boolean()
 });
 
-export const zBeatmapSetHypeCountResponse = z.object({
-    current_hypes: z.number().int(),
-    required_hypes: z.number().int()
-});
-
 export const zBeatmapSetResponse = z.object({
     id: z.number().int(),
     artist: z.string(),
@@ -142,6 +143,30 @@ export const zBeatmapSetResponse = z.object({
     tags: z.array(z.string()),
     beatmap_nominator_user: zUserResponse.optional(),
     can_be_hyped: z.boolean()
+});
+
+export const zBeatmapEventResponse = z.object({
+    event_id: z.number().int(),
+    executor: zUserResponse,
+    type: zBeatmapEventType,
+    beatmapset_id: z.number().int(),
+    beatmapset: zBeatmapSetResponse,
+    beatmap_hash: z.union([
+        z.string(),
+        z.null()
+    ]).optional(),
+    new_status: zBeatmapStatusWeb.optional(),
+    created_at: z.string().datetime()
+});
+
+export const zBeatmapSetEventsResponse = z.object({
+    events: z.array(zBeatmapEventResponse),
+    total_count: z.number().int()
+});
+
+export const zBeatmapSetHypeCountResponse = z.object({
+    current_hypes: z.number().int(),
+    required_hypes: z.number().int()
 });
 
 export const zBeatmapSetsResponse = z.object({
@@ -820,6 +845,10 @@ export const zGetBeatmapsetByIdResponse = zBeatmapSetResponse;
 export const zGetBeatmapsetByIdHypeResponse = zBeatmapSetHypeCountResponse;
 
 export const zGetBeatmapsetGetHypedSetsResponse = zHypedBeatmapSetsResponse;
+
+export const zGetBeatmapsetByIdEventsResponse = zBeatmapSetEventsResponse;
+
+export const zGetBeatmapsetEventsResponse = zBeatmapSetEventsResponse;
 
 export const zGetBeatmapsetByIdFavouritedResponse = zFavouritedResponse;
 

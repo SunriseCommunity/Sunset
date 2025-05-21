@@ -1,5 +1,6 @@
 "use client";
 
+import { BeatmapSetsEvents } from "@/app/(admin)/admin/beatmapsets/components/BeatmapSetsEvents";
 import { ServerStatusCards } from "@/app/(admin)/admin/dashboard/components/serverStatusCards";
 import {
   Card,
@@ -23,7 +24,7 @@ export default function Page() {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
         <Card className="lg:col-span-3">
           <CardHeader>
-            <CardTitle>New users</CardTitle>
+            <CardTitle>New Users</CardTitle>
             <CardDescription>Latest registered users</CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
@@ -39,11 +40,20 @@ export default function Page() {
         </Card>
         <Card className="lg:col-span-4">
           <CardHeader>
-            <CardTitle>Recent scores</CardTitle>
+            <CardTitle>Recent Scores</CardTitle>
             <CardDescription>Latests submitted users scores</CardDescription>
           </CardHeader>
           <CardContent>
             <WorkInProgress />
+          </CardContent>
+        </Card>
+        <Card className="lg:col-span-6">
+          <CardHeader>
+            <CardTitle>Recent Beatmap Status Events</CardTitle>
+            <CardDescription>Latests changes with beatmaps</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <BeatmapSetsEvents />
           </CardContent>
         </Card>
       </div>

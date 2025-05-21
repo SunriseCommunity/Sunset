@@ -1,27 +1,15 @@
 "use client";
-import { ArrowLeft, Download, ExternalLink } from "lucide-react";
+import { ArrowLeft, ExternalLink } from "lucide-react";
 import RoundedContent from "@/components/General/RoundedContent";
-import { useEffect, useState, use, useCallback } from "react";
+import { use } from "react";
 import ImageWithFallback from "@/components/ImageWithFallback";
 import PrettyDate from "@/components/General/PrettyDate";
 import DownloadButtons from "@/app/(website)/beatmapsets/components/DownloadButtons";
 import Spinner from "@/components/Spinner";
-import { gameModeToVanilla } from "@/lib/utils/gameMode.util";
 import Image from "next/image";
 import { useBeatmapSet } from "@/lib/hooks/api/beatmap/useBeatmapSet";
-import { BeatmapDropdown } from "@/app/(website)/beatmapsets/components/BeatmapDropdown";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { isInstance, tryParseNumber } from "@/lib/utils/type.util";
-import { BeatmapResponse, BeatmapStatusWeb, GameMode } from "@/lib/types/api";
-import UserHoverCard from "@/components/UserHoverCard";
-import Link from "next/link";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { useRouter } from "next/navigation";
+import { BeatmapStatusWeb } from "@/lib/types/api";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -30,10 +18,8 @@ import {
   CardDescription,
   CardContent,
 } from "@/components/ui/card";
-import { Separator } from "@radix-ui/react-dropdown-menu";
-import { Badge } from "@/components/ui/badge";
-import BeatmapStatusBadge from "@/components/BeatmapStatusBadge";
 import { BeatmapsStatusTable } from "@/app/(admin)/admin/beatmapsets/components/BeatmapsStatusTable";
+import { BeatmapSetEvents } from "@/app/(admin)/admin/beatmapsets/components/BeatmapSetEvents";
 
 export interface BeatmapsetProps {
   params: Promise<{ id: number }>;
@@ -177,7 +163,7 @@ export default function AdminBeatmapset(props: BeatmapsetProps) {
                 <CardDescription>Changes with this beatmaps</CardDescription>
               </CardHeader>
               <CardContent>
-                <p>TODO</p>
+                <BeatmapSetEvents beatmapSet={beatmapSet} />
               </CardContent>
             </Card>
           </div>
