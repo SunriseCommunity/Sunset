@@ -291,13 +291,15 @@ export function BeatmapsStatusTable({
                     </TableCell>
 
                     <TableCell>
-                      {beatmap.beatmap_nominator_user ? (
-                        <BeatmapNominatorUser
-                          user={beatmap.beatmap_nominator_user}
-                        />
-                      ) : (
-                        "No one"
-                      )}
+                      <div className="text-nowrap">
+                        {beatmap.beatmap_nominator_user ? (
+                          <BeatmapNominatorUser
+                            user={beatmap.beatmap_nominator_user}
+                          />
+                        ) : (
+                          "No one"
+                        )}
+                      </div>
                     </TableCell>
                   </TableRow>
                 );
