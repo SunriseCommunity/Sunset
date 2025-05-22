@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+import { useToast } from "@/hooks/use-toast";
 import {
   useBeatmapSetAddHype,
   useBeatmapSetHype,
@@ -14,6 +15,8 @@ export function BeatmapNomination({ beatmap }: { beatmap: BeatmapResponse }) {
 
   const { trigger } = useBeatmapSetAddHype(beatmap.beatmapset_id);
 
+  const { toast } = useToast();
+
   const usersHypeQuery = useGetUserHypes();
   const usersHypeData = usersHypeQuery.data;
 
@@ -21,7 +24,21 @@ export function BeatmapNomination({ beatmap }: { beatmap: BeatmapResponse }) {
 
   const handleHype = () => {
     if (userHypesLeft > 0) {
-      trigger();
+      trigger(null, {
+        onSuccess: () => {
+          toast({
+            title: "Beatmap hyped successfully!",
+            variant: "success",
+          });
+        },
+        onError: (err) => {
+          toast({
+            title: "Error occured while hyping beatmapset!",
+            description: err.message ?? "Unknown error.",
+            variant: "destructive",
+          });
+        },
+      });
     }
   };
 
