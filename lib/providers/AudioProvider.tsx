@@ -20,6 +20,7 @@ interface AudioProviderProps {
 
 export const AudioProvider: React.FC<AudioProviderProps> = ({ children }) => {
   const [currentTimestamp, setCurrentTimestamp] = useState<number>(0);
+  const [volume, setVolume] = useState<number>(0.4);
   const [isPlaying, setIsPlaying] = useState(false);
   const player = useRef<HTMLAudioElement>(null);
 
@@ -38,6 +39,8 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({ children }) => {
 
     player.current.oncanplay = () => {
       if (!player.current) return;
+
+      player.current.volume = volume;
 
       player.current.play();
       setIsPlaying(true);

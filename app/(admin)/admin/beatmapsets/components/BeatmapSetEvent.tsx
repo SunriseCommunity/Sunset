@@ -40,9 +40,9 @@ export function BeatmapSetEvent({ event }: { event: BeatmapEventResponse }) {
           changed beatmap
           <SmallBeatmapElement beatmapSet={beatmapset} beatmap={beatmap} />
           status to
-          <p className="text-primary font-semibold">
+          <span className="text-primary font-semibold ml-1">
             {new_status ?? "their default status"}
-          </p>
+          </span>
         </>
       );
       break;
@@ -57,11 +57,11 @@ export function BeatmapSetEvent({ event }: { event: BeatmapEventResponse }) {
       <div className="flex flex-wrap gap-5 w-full items-center place-content-between text-sm font-normal">
         <div className="flex gap-5 w-3/4">
           <p className="text-nowrap">ID: {event_id}</p>
-          <div className="flex flex-wrap gap-1">
-            <p>User </p>
+          <p>
+            <span>User </span>
             <BeatmapNominatorUser user={executor} />
-            {eventMessage}.
-          </div>
+            <span>{eventMessage}.</span>
+          </p>
         </div>
         <div className="flex gap-1 items-center">
           <Clock className="w-4 h-4" />

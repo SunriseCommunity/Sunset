@@ -236,7 +236,7 @@ export default function Beatmapset(props: BeatmapsetProps) {
                     <div className="flex flex-col justify-between min-w-64 space-y-4 lg:space-y-0">
                       <div className="flex flex-row space-x-1">
                         {beatmapSet.video && (
-                          <div className="bg-accent bg-opacity-80 p-2 rounded-lg">
+                          <div className="bg-accent bg-opacity-80 p-2 rounded-lg flex items-center">
                             <Tooltip content="This beatmap contains video">
                               <Clapperboard className="h-5" />
                             </Tooltip>

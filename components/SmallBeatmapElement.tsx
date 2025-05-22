@@ -24,21 +24,19 @@ export function SmallBeatmapElement({
         }`
       }
     >
-      <div className="flex gap-1 items-center">
-        <div className="relative w-4 h-4 overflow-hidden rounded">
+      <span className="text-primary font-bold mx-1">
+        <span>
           <Image
             src={`https://assets.ppy.sh/beatmaps/${beatmapSet.id}/covers/list@2x.jpg`}
             alt={`${beatmapSet.id}'s thumbnail`}
-            width={32}
-            height={32}
-            className="object-cover"
+            width={16}
+            height={16}
+            className="object-cover rounded align-middle inline-block mr-1"
           />
-        </div>
-        <span className="text-primary font-semibold">
-          {beatmapSet.artist} - {beatmapSet.title}{" "}
-          {beatmap ? `[${beatmap.version}]` : ""}
         </span>
-      </div>
+        {beatmapSet.artist} - {beatmapSet.title}
+        {beatmap ? ` [${beatmap.version}]` : ""}
+      </span>
     </Link>
   );
 }

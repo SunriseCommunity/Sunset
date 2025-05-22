@@ -93,7 +93,7 @@ export default function BeatmapSetOverview({
         </div>
       </div>
 
-      <div className="flex-col flex overflow-hidden z-10 w-full bg-gradient-to-r from-accent  to-transparent justify-between h-24">
+      <div className="flex-col flex overflow-hidden z-10 w-full bg-gradient-to-r from-black/70 to-transparent justify-between h-24">
         <div
           className={twMerge(
             "bg-black px-3 py-1 z-20 w-full h-full smooth-transition",

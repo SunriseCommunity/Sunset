@@ -47,7 +47,7 @@ export default function Page() {
             <WorkInProgress />
           </CardContent>
         </Card>
-        <Card className="lg:col-span-6">
+        <Card className="lg:col-span-6 md:col-span-2">
           <CardHeader>
             <CardTitle>Recent Beatmap Status Events</CardTitle>
             <CardDescription>Latests changes with beatmaps</CardDescription>

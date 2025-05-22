@@ -17,6 +17,7 @@ import {
   Home,
   LucideHistory,
   Menu,
+  MonitorCog,
   Search,
   UserIcon,
   Users2,
@@ -38,6 +39,7 @@ import {
 import Image from "next/image";
 import { HeaderLogoutAlert } from "@/components/Header/HeaderLogoutAlert";
 import HeaderLoginDialog from "@/components/Header/HeaderLoginDialog";
+import { isUserCanUseAdminPanel } from "@/lib/utils/isUserCanUseAdminPanel";
 
 const navigationList = [
   {
@@ -171,6 +173,18 @@ export default function HeaderMobileDrawer() {
                         <p>Settings</p>
                       </Link>
                     </DrawerClose>
+                    {isUserCanUseAdminPanel(self) && (
+                      <>
+                        <Separator className="my-2" />
+
+                        <DrawerClose asChild>
+                          <Link href={`/admin`} className="flex space-x-2">
+                            <MonitorCog />
+                            <p>Admin panel</p>
+                          </Link>
+                        </DrawerClose>
+                      </>
+                    )}
                     <Separator className="my-2" />
                     <HeaderLogoutAlert className="w-full">
                       <div className="flex space-x-2">

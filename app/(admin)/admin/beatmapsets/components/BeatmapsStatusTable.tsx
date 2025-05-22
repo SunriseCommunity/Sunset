@@ -98,7 +98,7 @@ export function BeatmapsStatusTable({
     <div className="space-y-4">
       <>
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             <Input placeholder="Search beatmaps..." className="w-[250px]" />
             <Button variant="outline">Search</Button>
           </div>
@@ -271,18 +271,23 @@ export function BeatmapsStatusTable({
                       </div>
                     </TableCell>
 
-                    <TableCell className="flex items-center justify-center gap-2">
-                      <PPCalculatorDialog beatmap={beatmap} mode={beatmap.mode}>
-                        <Button
-                          size="icon"
-                          variant="secondary"
-                          className="align-middle"
+                    <TableCell>
+                      <div className="flex gap-1">
+                        <PPCalculatorDialog
+                          beatmap={beatmap}
+                          mode={beatmap.mode}
                         >
-                          <Calculator />
-                        </Button>
-                      </PPCalculatorDialog>
+                          <Button
+                            size="icon"
+                            variant="secondary"
+                            className="align-middle"
+                          >
+                            <Calculator />
+                          </Button>
+                        </PPCalculatorDialog>
 
-                      <BeatmapPerformanceTooltip beatmap={beatmap} />
+                        <BeatmapPerformanceTooltip beatmap={beatmap} />
+                      </div>
                     </TableCell>
 
                     <TableCell>

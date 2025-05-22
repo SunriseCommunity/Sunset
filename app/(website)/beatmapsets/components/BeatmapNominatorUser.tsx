@@ -10,18 +10,19 @@ export function BeatmapNominatorUser({ user }: { user: UserResponse }) {
         className="cursor-pointer font-bold hover:text-primary smooth-transition"
         href={`/user/${user.user_id}`}
       >
-        <div className="flex gap-1 items-center ">
-          <div className="relative w-4 h-4 overflow-hidden rounded">
+        <span className="text-primary font-bold mx-1">
+          <span>
             <Image
               src={user.avatar_url || "/placeholder.svg"}
               alt={`${user.username}'s avatar`}
-              width={32}
-              height={32}
-              className="object-cover"
+              width={16}
+              height={16}
+              className="object-cover rounded align-middle inline-block mr-1"
             />
-          </div>
-          <span className="text-primary font-bold">{user.username}</span>
-        </div>
+          </span>
+
+          {user.username}
+        </span>
       </Link>
     </UserHoverCard>
   );
