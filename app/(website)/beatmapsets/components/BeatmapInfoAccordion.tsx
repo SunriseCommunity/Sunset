@@ -35,9 +35,9 @@ export function BeatmapInfoAccordion({
     };
   }, []);
 
-  return isScreenSmall || !beatmap.can_be_hyped ? (
+  return isScreenSmall || !beatmapSet.can_be_hyped ? (
     <div className="space-y-2">
-      {beatmap.can_be_hyped && (
+      {beatmapSet.can_be_hyped && (
         <div className="text-sm">
           <PrettyHeader>
             <div className="flex space-x-2 items-center">
@@ -64,7 +64,7 @@ export function BeatmapInfoAccordion({
     </div>
   ) : (
     <Accordion type="single" className="space-y-2" defaultValue="info">
-      {beatmap.can_be_hyped && (
+      {beatmapSet.can_be_hyped && (
         <AccordionItem value="hype" className="border-0">
           <AccordionTrigger className="bg-card border rounded-t-lg p-4 flex shadow [&[data-state=closed]]:rounded-lg">
             <div className="flex space-x-2 items-center">

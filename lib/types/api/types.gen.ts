@@ -51,7 +51,6 @@ export type BeatmapResponse = {
     creator?: string | null;
     creator_id: number;
     beatmap_nominator_user?: UserResponse;
-    can_be_hyped: boolean;
 };
 
 export type BeatmapSetEventsResponse = {
@@ -345,7 +344,6 @@ export type MostPlayedBeatmapResponse = {
     creator?: string | null;
     creator_id: number;
     beatmap_nominator_user?: UserResponse;
-    can_be_hyped: boolean;
     play_count: number;
 };
 

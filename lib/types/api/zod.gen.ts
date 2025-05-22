@@ -118,8 +118,7 @@ export const zBeatmapResponse = z.object({
         z.null()
     ]).optional(),
     creator_id: z.number().int(),
-    beatmap_nominator_user: zUserResponse.optional(),
-    can_be_hyped: z.boolean()
+    beatmap_nominator_user: zUserResponse.optional()
 });
 
 export const zBeatmapSetResponse = z.object({
@@ -591,7 +590,6 @@ export const zMostPlayedBeatmapResponse = z.object({
     ]).optional(),
     creator_id: z.number().int(),
     beatmap_nominator_user: zUserResponse.optional(),
-    can_be_hyped: z.boolean(),
     play_count: z.number().int()
 });
 
