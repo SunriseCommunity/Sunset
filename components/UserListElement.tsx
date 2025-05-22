@@ -5,18 +5,22 @@ import { UserResponse } from "@/lib/types/api";
 import { FriendshipButton } from "@/components/FriendshipButton";
 import UserStatusText, {
   statusColor,
-} from "@/app/user/[id]/components/UserStatusText";
+} from "@/app/(website)/user/[id]/components/UserStatusText";
 import { MaterialSymbolsCircleOutline } from "@/components/ui/icons/circle-outline";
 import ImageWithFallback from "@/components/ImageWithFallback";
 import { Tooltip } from "@/components/Tooltip";
-import UserPrivilegeBadges from "@/app/user/[id]/components/UserPrivilegeBadges";
+import UserPrivilegeBadges from "@/app/(website)/user/[id]/components/UserPrivilegeBadges";
 import Link from "next/link";
 
 interface UserListItemProps {
   user: UserResponse;
+  includeFriendshipButton?: boolean;
 }
 
-export function UserListItem({ user }: UserListItemProps) {
+export function UserListItem({
+  user,
+  includeFriendshipButton = true,
+}: UserListItemProps) {
   return (
     <div className="relative bg-transparent z-10 rounded-lg px-3 flex group items-center justify-between shadow-md">
       <>
@@ -77,7 +81,7 @@ export function UserListItem({ user }: UserListItemProps) {
             />
           </div>
 
-          <div className="flex space-x-2 flex-grow items-center text-sm bg-black bg-opacity-70 p-0.5 mt-1 rounded-t-lg">
+          <div className="flex space-x-2 flex-grow items-center text-sm bg-muted bg-opacity-70 p-0.5 mt-1 rounded-t-lg">
             <MaterialSymbolsCircleOutline
               className={`text-base text-${statusColor(
                 user.user_status
@@ -97,13 +101,15 @@ export function UserListItem({ user }: UserListItemProps) {
         </div>
       </Link>
 
-      <div className="flex items-center gap-2">
-        <FriendshipButton
-          userId={user.user_id}
-          className="w-10 h-10"
-          includeText={false}
-        />
-      </div>
+      {includeFriendshipButton && (
+        <div className="flex items-center gap-2">
+          <FriendshipButton
+            userId={user.user_id}
+            className="w-10 h-10"
+            includeText={false}
+          />
+        </div>
+      )}
     </div>
   );
 }

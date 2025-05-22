@@ -26,7 +26,7 @@ export default function HeaderLink({ name, href }: Props) {
         <p
           className={`text-base ${
             isActive ? "text-current font-bold" : ""
-          } hover:bg-neutral-600 hover:bg-opacity-25 p-1 rounded-md smooth-transition`}
+          } hover:bg-neutral-600 hover:bg-opacity-25 text-nowrap p-1 rounded-md smooth-transition`}
         >
           {name}
 

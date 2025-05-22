@@ -2,17 +2,6 @@
 
 import { z } from 'zod';
 
-export const zBeatmapStatusSearch = z.enum([
-    'Pending',
-    'Ranked',
-    'Approved',
-    'Qualified',
-    'Loved',
-    'Any',
-    'Graveyard',
-    'Wip'
-]);
-
 export const zGameMode = z.enum([
     'Standard',
     'Taiko',
@@ -28,12 +17,59 @@ export const zGameMode = z.enum([
     'ScoreV2Mania'
 ]);
 
+export const zUserBadge = z.enum([
+    'Developer',
+    'Admin',
+    'Bat',
+    'Bot',
+    'Supporter'
+]);
+
+export const zUserResponse = z.object({
+    user_id: z.number().int(),
+    username: z.string(),
+    description: z.union([
+        z.string(),
+        z.null()
+    ]).optional(),
+    country_code: z.string(),
+    register_date: z.string().datetime(),
+    avatar_url: z.string(),
+    banner_url: z.string(),
+    last_online_time: z.string().datetime(),
+    restricted: z.boolean(),
+    silenced_until: z.union([
+        z.string().datetime(),
+        z.null()
+    ]).optional(),
+    default_gamemode: zGameMode,
+    badges: z.array(zUserBadge),
+    user_status: z.string()
+});
+
+export const zBeatmapEventType = z.enum([
+    'BeatmapSetHyped',
+    'BeatmapStatusChanged',
+    'BeatmapSetHypeCleared'
+]);
+
+export const zBeatmapStatusWeb = z.enum([
+    'Pending',
+    'Ranked',
+    'Approved',
+    'Qualified',
+    'Loved',
+    'Unknown',
+    'Graveyard',
+    'Wip'
+]);
+
 export const zBeatmapResponse = z.object({
     id: z.number().int(),
     beatmapset_id: z.number().int(),
     hash: z.string(),
     version: z.string(),
-    status: zBeatmapStatusSearch,
+    status: zBeatmapStatusWeb,
     star_rating_osu: z.number(),
     star_rating_taiko: z.number(),
     star_rating_ctb: z.number(),
@@ -81,7 +117,8 @@ export const zBeatmapResponse = z.object({
         z.string(),
         z.null()
     ]).optional(),
-    creator_id: z.number().int()
+    creator_id: z.number().int(),
+    beatmap_nominator_user: zUserResponse.optional()
 });
 
 export const zBeatmapSetResponse = z.object({
@@ -90,7 +127,7 @@ export const zBeatmapSetResponse = z.object({
     title: z.string(),
     creator: z.string(),
     creator_id: z.number().int(),
-    status: zBeatmapStatusSearch,
+    status: zBeatmapStatusWeb,
     last_updated: z.string().datetime(),
     submitted_date: z.string().datetime(),
     ranked_date: z.union([
@@ -102,7 +139,33 @@ export const zBeatmapSetResponse = z.object({
     description: z.string(),
     genre: z.string(),
     language: z.string(),
-    tags: z.array(z.string())
+    tags: z.array(z.string()),
+    beatmap_nominator_user: zUserResponse.optional(),
+    can_be_hyped: z.boolean()
+});
+
+export const zBeatmapEventResponse = z.object({
+    event_id: z.number().int(),
+    executor: zUserResponse,
+    type: zBeatmapEventType,
+    beatmapset_id: z.number().int(),
+    beatmapset: zBeatmapSetResponse,
+    beatmap_hash: z.union([
+        z.string(),
+        z.null()
+    ]).optional(),
+    new_status: zBeatmapStatusWeb.optional(),
+    created_at: z.string().datetime()
+});
+
+export const zBeatmapSetEventsResponse = z.object({
+    events: z.array(zBeatmapEventResponse),
+    total_count: z.number().int()
+});
+
+export const zBeatmapSetHypeCountResponse = z.object({
+    current_hypes: z.number().int(),
+    required_hypes: z.number().int()
 });
 
 export const zBeatmapSetsResponse = z.object({
@@ -319,36 +382,6 @@ export const zFavouritedResponse = z.object({
     favourited: z.boolean()
 });
 
-export const zUserBadge = z.enum([
-    'Developer',
-    'Admin',
-    'Bat',
-    'Bot',
-    'Supporter'
-]);
-
-export const zUserResponse = z.object({
-    user_id: z.number().int(),
-    username: z.string(),
-    description: z.union([
-        z.string(),
-        z.null()
-    ]).optional(),
-    country_code: z.string(),
-    register_date: z.string().datetime(),
-    avatar_url: z.string(),
-    banner_url: z.string(),
-    last_online_time: z.string().datetime(),
-    restricted: z.boolean(),
-    silenced_until: z.union([
-        z.string().datetime(),
-        z.null()
-    ]).optional(),
-    default_gamemode: zGameMode,
-    badges: z.array(zUserBadge),
-    user_status: z.string()
-});
-
 export const zFollowersResponse = z.object({
     followers: z.array(zUserResponse),
     total_count: z.number().int()
@@ -373,6 +406,47 @@ export const zGradesResponse = z.object({
     count_b: z.number().int(),
     count_c: z.number().int(),
     count_d: z.number().int()
+});
+
+export const zHypedBeatmapSetResponse = z.object({
+    id: z.number().int(),
+    artist: z.string(),
+    title: z.string(),
+    creator: z.string(),
+    creator_id: z.number().int(),
+    status: zBeatmapStatusWeb,
+    last_updated: z.string().datetime(),
+    submitted_date: z.string().datetime(),
+    ranked_date: z.union([
+        z.string().datetime(),
+        z.null()
+    ]).optional(),
+    video: z.boolean(),
+    beatmaps: z.array(zBeatmapResponse),
+    description: z.string(),
+    genre: z.string(),
+    language: z.string(),
+    tags: z.array(z.string()),
+    beatmap_nominator_user: zUserResponse.optional(),
+    can_be_hyped: z.boolean(),
+    hypeCount: z.number().int()
+});
+
+export const zHypedBeatmapSetsResponse = z.object({
+    sets: z.array(zHypedBeatmapSetResponse),
+    total_count: z.union([
+        z.number().int(),
+        z.null()
+    ]).optional()
+});
+
+export const zItemType = z.enum([
+    'Hype'
+]);
+
+export const zInventoryItemResponse = z.object({
+    quantity: z.number().int(),
+    item_type: zItemType
 });
 
 export const zUserStatsResponse = z.object({
@@ -466,7 +540,7 @@ export const zMostPlayedBeatmapResponse = z.object({
     beatmapset_id: z.number().int(),
     hash: z.string(),
     version: z.string(),
-    status: zBeatmapStatusSearch,
+    status: zBeatmapStatusWeb,
     star_rating_osu: z.number(),
     star_rating_taiko: z.number(),
     star_rating_ctb: z.number(),
@@ -515,6 +589,7 @@ export const zMostPlayedBeatmapResponse = z.object({
         z.null()
     ]).optional(),
     creator_id: z.number().int(),
+    beatmap_nominator_user: zUserResponse.optional(),
     play_count: z.number().int()
 });
 
@@ -708,6 +783,11 @@ export const zTokenResponse = z.object({
     expires_in: z.number().int()
 });
 
+export const zUpdateBeatmapsCustomStatusRequest = z.object({
+    ids: z.array(z.number().int()),
+    status: zBeatmapStatusWeb
+});
+
 export const zUserMetadataResponse = z.object({
     playstyle: z.array(zUserPlaystyle),
     location: z.string(),
@@ -760,9 +840,15 @@ export const zGetBeatmapsetByBeatmapSetByIdLeaderboardResponse = zScoresResponse
 
 export const zGetBeatmapsetByIdResponse = zBeatmapSetResponse;
 
-export const zGetBeatmapsetByIdFavouritedResponse = zFavouritedResponse;
+export const zGetBeatmapsetByIdHypeResponse = zBeatmapSetHypeCountResponse;
 
-export const zPostBeatmapsetByIdFavouritedResponse = zBeatmapSetResponse;
+export const zGetBeatmapsetGetHypedSetsResponse = zHypedBeatmapSetsResponse;
+
+export const zGetBeatmapsetByIdEventsResponse = zBeatmapSetEventsResponse;
+
+export const zGetBeatmapsetEventsResponse = zBeatmapSetEventsResponse;
+
+export const zGetBeatmapsetByIdFavouritedResponse = zFavouritedResponse;
 
 export const zGetBeatmapsetSearchResponse = zBeatmapSetsResponse;
 
@@ -797,6 +883,8 @@ export const zGetUserFriendsResponse = zFriendsResponse;
 export const zGetUserFollowersResponse = zFollowersResponse;
 
 export const zGetUserByIdFriendStatusResponse = zFriendStatusResponse;
+
+export const zGetUserInventoryItemResponse = zInventoryItemResponse;
 
 export const zGetUserByIdFriendsCountResponse = zUserRelationsCountersResponse;
 

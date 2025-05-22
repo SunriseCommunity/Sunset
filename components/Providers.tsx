@@ -1,5 +1,6 @@
 "use client";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { Toaster } from "@/components/ui/toaster";
 import { AudioProvider } from "@/lib/providers/AudioProvider";
 import { RestrictionProvider } from "@/lib/providers/RestrictionProvider";
 import { SelfProvider } from "@/lib/providers/SelfProvider";
@@ -24,7 +25,10 @@ export default function Providers({ children }: { children: ReactNode }) {
       >
         <SelfProvider>
           <RestrictionProvider>
-            <AudioProvider>{children}</AudioProvider>
+            <AudioProvider>
+              {children}
+              <Toaster />
+            </AudioProvider>
           </RestrictionProvider>
         </SelfProvider>
       </ThemeProvider>

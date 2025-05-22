@@ -39,7 +39,7 @@
   }
 
   .text-shadow {
-    text-shadow: rgba(0, 0, 0, 0.8) 1px 1px 1px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
   }
 }
 
@@ -70,6 +70,14 @@
     --chart-4: 34.05 100% 88.49%;
     --chart-5: 22.93 95.59% 52.35%;
     --radius: 0.5rem;
+    --sidebar-background: 0 0% 93%;
+    --sidebar-foreground: 0 0% 20%;
+    --sidebar-primary: 22.93 92.59% 40%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 0 0% 85%;
+    --sidebar-accent-foreground: 0 0% 15%;
+    --sidebar-border: 0 0% 80%;
+    --sidebar-ring: 22.93 90% 45%;
   }
 
   .dark {
@@ -97,6 +105,14 @@
     --chart-3: 31 23% 25%;
     --chart-4: 31 14% 20%;
     --chart-5: 31 103% 50%;
+    --sidebar-background: 24 9.8% 7.5%;
+    --sidebar-foreground: 0 0% 90%;
+    --sidebar-primary: 31 100% 45%;
+    --sidebar-primary-foreground: 31 100% 10%;
+    --sidebar-accent: 31 14% 20%;
+    --sidebar-accent-foreground: 0 0% 95%;
+    --sidebar-border: 31 8% 11%;
+    --sidebar-ring: 31 95% 45%;
   }
 }
 

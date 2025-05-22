@@ -39,13 +39,12 @@ export default function BeatmapsetRowElement({
           <div className="absolute inset-0 bg-black bg-opacity-70 group-hover:bg-opacity-50 smooth-transition" />
 
           <div className="relative flex items-center">
-            <div className="w-16 h-16 rounded-lg overflow-hidden mr-4">
+            <div className="w-16 h-16 relative rounded-lg overflow-hidden mr-4">
               <ImageWithFallback
                 src={`https://assets.ppy.sh/beatmaps/${beatmapSet.id}/covers/list@2x.jpg`}
                 alt=""
-                width={256}
-                height={256}
-                className="w-full h-16 object-cover"
+                fill={true}
+                objectFit="cover"
                 fallBackSrc="/images/unknown-beatmap-banner.jpg"
               />
             </div>
