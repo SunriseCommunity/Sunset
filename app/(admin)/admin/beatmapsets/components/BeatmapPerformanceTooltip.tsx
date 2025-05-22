@@ -1,6 +1,7 @@
 import { Tooltip } from "@/components/Tooltip";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { EosIconsThreeDotsLoading } from "@/components/ui/icons/three-dots-loading";
 import { ShortenedMods } from "@/lib/hooks/api/score/types";
 import fetcher from "@/lib/services/fetcher";
 import {
@@ -64,23 +65,27 @@ export function BeatmapPerformanceTooltip({
       content={
         <div className="flex gap-2 flex-col">
           <div className="flex gap-1 flex-col">
-            {beatmapPerformances.map((pp, i) => {
-              return (
-                <Badge
-                  variant="outline"
-                  className="place-content-between gap-1"
-                  key={i}
-                >
-                  <span>
-                    {ShortenedMods[performance[i]]} {100}%
-                  </span>
-                  <span> - </span>
-                  <span>{pp?.pp.toFixed(2)}pp</span>
-                </Badge>
-              );
-            })}
+            {beatmapPerformances.length > 0 ? (
+              beatmapPerformances.map((pp, i) => {
+                return (
+                  <Badge
+                    variant="outline"
+                    className="place-content-between gap-1"
+                    key={i}
+                  >
+                    <span>
+                      {ShortenedMods[performance[i]]} {100}%
+                    </span>
+                    <span> - </span>
+                    <span>{pp?.pp.toFixed(2)}pp</span>
+                  </Badge>
+                );
+              })
+            ) : (
+              <EosIconsThreeDotsLoading className="h-6 w-6 mx-auto" />
+            )}
           </div>
-          <div className="flex place-content-between">
+          <div className="flex place-content-between gap-2">
             {gamerule.map((rule, i) => (
               <Button
                 variant={currentGamerule === rule ? "secondary" : "outline"}
