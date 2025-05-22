@@ -17,7 +17,11 @@ import {
   UsersListViewModeType,
 } from "@/app/(website)/friends/components/UsersListViewModeOptions";
 import { useFollowers } from "@/lib/hooks/api/user/useFollowers";
-import { FollowersResponse, FriendsResponse } from "@/lib/types/api";
+import {
+  FollowersResponse,
+  FriendsResponse,
+  UserResponse,
+} from "@/lib/types/api";
 
 type UsersType = "friends" | "followers";
 
@@ -62,11 +66,17 @@ export default function Friends() {
   const sortedUsers = [...users].sort((a, b) => {
     if (sortBy === "username") {
       return a.username.localeCompare(b.username);
-    } else {
-      const dateA = new Date(a.last_online_time);
-      const dateB = new Date(b.last_online_time);
-      return dateB.getTime() - dateA.getTime();
     }
+
+    const getDateSortValue = (user: UserResponse) => {
+      const time = new Date(user.last_online_time).getTime();
+      const isOffline = user.user_status === "Offline";
+
+      // Offline users get a penalty in priority
+      return isOffline ? time - 1e12 : time;
+    };
+
+    return getDateSortValue(b) - getDateSortValue(a);
   });
 
   return (
