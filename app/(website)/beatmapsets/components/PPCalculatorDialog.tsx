@@ -165,7 +165,7 @@ export function PPCalculatorDialog({
                   <FormItem>
                     <FormLabel>Accuracy</FormLabel>
                     <FormControl>
-                      <Input type="number" {...field} />
+                      <Input step="any" type="number" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
