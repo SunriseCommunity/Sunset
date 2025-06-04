@@ -36,7 +36,7 @@ export function BeatmapInfoAccordion({
   }, []);
 
   return isScreenSmall || !beatmapSet.can_be_hyped ? (
-    <div className="space-y-2">
+    <div className="h-full space-y-2">
       {beatmapSet.can_be_hyped && (
         <div className="text-sm">
           <PrettyHeader>
@@ -50,14 +50,14 @@ export function BeatmapInfoAccordion({
           </RoundedContent>
         </div>
       )}
-      <div>
+      <div className="h-full">
         <PrettyHeader>
           <div className="flex space-x-2 items-center">
             <Info />
             <p className="text-sm">Information</p>
           </div>
         </PrettyHeader>
-        <RoundedContent className="space-y-4 flex-1 min-h-0 overflow-y-auto">
+        <RoundedContent className="space-y-4 flex-1 min-h-0 lg:h-64 overflow-y-auto">
           <BeatmapMetadata beatmapSet={beatmapSet} />
         </RoundedContent>
       </div>
@@ -111,7 +111,7 @@ function BeatmapMetadata({ beatmapSet }: { beatmapSet: BeatmapSetResponse }) {
       </div>
       <div className="flex flex-col">
         <p className="text-xs">Tags</p>
-        <p className="text-sm font-light">
+        <p className="text-sm font-light ">
           {beatmapSet.tags.map((tag) => `${tag}`).join(", ")}
         </p>
       </div>
