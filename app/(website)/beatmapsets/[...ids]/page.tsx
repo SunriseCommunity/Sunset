@@ -149,9 +149,9 @@ export default function Beatmapset(props: BeatmapsetProps) {
         {beatmapSet && activeBeatmap ? (
           <>
             <div>
-              <div className="z-20 lg:h-80 relative">
-                <div className="bg-black/60 lg:px-6 md:p-4 p-2 rounded-t-lg h-full">
-                  <div className="flex lg:flex-row space-y-4 lg:space-y-0 flex-col justify-between lg:mb-4 h-full">
+              <div className="z-20 lg:min-h-80 h-full flex relative">
+                <div className="bg-black/60 lg:px-6 md:p-4 p-2 rounded-t-lg flex-grow flex">
+                  <div className="flex lg:flex-row flex-grow space-y-4 lg:space-y-0 flex-col justify-between lg:mb-4">
                     <div className="flex flex-col space-y-6 lg:space-y-0 justify-between">
                       <DifficultySelector
                         beatmapset={beatmapSet}
