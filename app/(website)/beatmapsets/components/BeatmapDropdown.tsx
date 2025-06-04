@@ -31,7 +31,7 @@ export function BeatmapDropdown({
   });
 
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <Button variant="secondary" size="xl">
           <span className="sr-only">Open menu</span>
