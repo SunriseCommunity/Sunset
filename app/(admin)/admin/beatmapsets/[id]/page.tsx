@@ -21,6 +21,7 @@ import {
 import { BeatmapsStatusTable } from "@/app/(admin)/admin/beatmapsets/components/BeatmapsStatusTable";
 import { BeatmapSetEvents } from "@/app/(admin)/admin/beatmapsets/components/BeatmapSetEvents";
 import PrettyHeader from "@/components/General/PrettyHeader";
+import Link from "next/link";
 
 export interface BeatmapsetProps {
   params: Promise<{ id: number }>;
@@ -109,28 +110,20 @@ export default function AdminBeatmapset(props: BeatmapsetProps) {
                     <div className="flex flex-wrap flex-row items-center gap-2">
                       <DownloadButtons beatmapSet={beatmapSet} />
 
-                      <Button
-                        onClick={() =>
-                          router.push(`/beatmapsets/${beatmapSet.id}`)
-                        }
-                        variant="secondary"
-                        size="xl"
-                      >
-                        <ExternalLink />
-                        Open on Sunrise
+                      <Button variant="secondary" size="xl" asChild>
+                        <Link href={`/beatmapsets/${beatmapSet.id}`}>
+                          <ExternalLink />
+                          Open on Sunrise
+                        </Link>
                       </Button>
 
-                      <Button
-                        onClick={() =>
-                          router.push(
-                            `https://osu.ppy.sh/beatmapsets/${beatmapSet.id}`
-                          )
-                        }
-                        variant="secondary"
-                        size="xl"
-                      >
-                        <ExternalLink />
-                        Open on Bancho
+                      <Button variant="secondary" size="xl" asChild>
+                        <Link
+                          href={`https://osu.ppy.sh/beatmapsets/${beatmapSet.id}`}
+                        >
+                          <ExternalLink />
+                          Open on Bancho
+                        </Link>
                       </Button>
                     </div>
                   </div>
