@@ -96,18 +96,18 @@ export default function HeaderUserDropdown({
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
             <DropdownMenuItem asChild>
-              <Link href={`/user/${self.user_id}`}>
+              <Link href={`/user/${self.user_id}`} className="cursor-pointer">
                 <UserCircleIcon />
                 My Profile
               </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem asChild>
+            <DropdownMenuItem asChild className="cursor-pointer">
               <Link href={`/friends`}>
                 <Users2 />
                 Friends
               </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem asChild>
+            <DropdownMenuItem asChild className="cursor-pointer">
               <Link href={`/settings`}>
                 <Cog />
                 Settings
@@ -118,7 +118,7 @@ export default function HeaderUserDropdown({
             <>
               <DropdownMenuSeparator />
 
-              <DropdownMenuItem asChild>
+              <DropdownMenuItem asChild className="cursor-pointer">
                 {pathname.includes("/admin") ? (
                   <Link href={`/`}>
                     <Home />
@@ -135,7 +135,11 @@ export default function HeaderUserDropdown({
           )}
 
           <DropdownMenuSeparator />
-          <DropdownMenuItem onSelect={(e) => e.preventDefault()} asChild>
+          <DropdownMenuItem
+            onSelect={(e) => e.preventDefault()}
+            asChild
+            className="cursor-pointer"
+          >
             <HeaderLogoutAlert className="w-full text-start">
               <LogOutIcon />
               Log out
