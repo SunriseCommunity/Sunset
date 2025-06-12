@@ -29,7 +29,9 @@ export default function ImageWithFallback({
       alt={alt}
       onError={(e: any) => setError(e)}
       {...props}
-      className={error ? fallBackClassName : props.className}
+      className={
+        error ? twMerge(props.className, fallBackClassName) : props.className
+      }
     />
   );
 }

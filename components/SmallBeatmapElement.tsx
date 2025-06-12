@@ -1,3 +1,4 @@
+import ImageWithFallback from "@/components/ImageWithFallback";
 import { BeatmapResponse, BeatmapSetResponse } from "@/lib/types/api";
 import Image from "next/image";
 import Link from "next/link";
@@ -26,12 +27,13 @@ export function SmallBeatmapElement({
     >
       <span className="text-primary font-bold mx-1">
         <span>
-          <Image
+          <ImageWithFallback
             src={`https://assets.ppy.sh/beatmaps/${beatmapSet.id}/covers/list@2x.jpg`}
             alt={`${beatmapSet.id}'s thumbnail`}
             width={16}
             height={16}
-            className="object-cover rounded align-middle inline-block mr-1"
+            className="object-cover aspect-square rounded align-middle inline-block mr-1"
+            fallBackSrc="/images/unknown-beatmap-banner.jpg"
           />
         </span>
         {beatmapSet.artist} - {beatmapSet.title}
