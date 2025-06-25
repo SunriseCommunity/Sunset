@@ -35,7 +35,7 @@ const wikiContent = [
             <li>
               In the target field, add{" "}
               <code className="text-primary/80">
-                -devserver osu-sunrise.top
+                -devserver {process.env.NEXT_PUBLIC_SERVER_DOMAIN}
               </code>{" "}
               at the end of the path.
             </li>
