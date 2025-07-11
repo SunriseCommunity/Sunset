@@ -32,7 +32,7 @@ docker compose -f docker-compose.yml up -d # Creates the container with app and 
 > ```bash
 > NODE_TLS_REJECT_UNAUTHORIZED=0
 > ```
-> to you `.env` file. 
+> to you `.env.local` file. 
 
 
 ## Contributing 💖
