@@ -6,6 +6,7 @@ import {
   CheckSquare,
   CloudUpload,
   Cog,
+  FlagIcon,
   Image,
   LockOpenIcon,
   NotebookPenIcon,
@@ -32,6 +33,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import UploadImageForm from "@/app/(website)/settings/components/UploadImageForm";
+import ChangeCountryInput from "@/app/(website)/settings/components/ChangeCountryInput";
 
 export default function Settings() {
   const { trigger, isMutating: isUpdatingDescription } = useEditDescription();
@@ -160,6 +162,17 @@ export default function Settings() {
         <RoundedContent>
           <div className="flex flex-col w-11/12 mx-auto">
             <ChangeUsernameInput />
+          </div>
+        </RoundedContent>
+      ),
+    },
+    {
+      icon: <FlagIcon />,
+      title: "Change country flag",
+      content: (
+        <RoundedContent>
+          <div className="flex flex-col w-11/12 mx-auto">
+            {self ? <ChangeCountryInput user={self} /> : ""}
           </div>
         </RoundedContent>
       ),
