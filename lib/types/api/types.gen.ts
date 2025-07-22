@@ -108,6 +108,230 @@ export type ChangePasswordRequest = {
     new_password: string;
 };
 
+export type CountryChangeRequest = {
+    new_country: CountryCode;
+};
+
+export enum CountryCode {
+    XX = 'XX',
+    AD = 'AD',
+    AF = 'AF',
+    AI = 'AI',
+    AL = 'AL',
+    AM = 'AM',
+    AO = 'AO',
+    AQ = 'AQ',
+    AR = 'AR',
+    AS = 'AS',
+    AT = 'AT',
+    AU = 'AU',
+    AW = 'AW',
+    AZ = 'AZ',
+    BB = 'BB',
+    BD = 'BD',
+    BE = 'BE',
+    BF = 'BF',
+    BG = 'BG',
+    BH = 'BH',
+    BI = 'BI',
+    BJ = 'BJ',
+    BM = 'BM',
+    BO = 'BO',
+    BR = 'BR',
+    BS = 'BS',
+    BT = 'BT',
+    BV = 'BV',
+    BW = 'BW',
+    BY = 'BY',
+    BZ = 'BZ',
+    CA = 'CA',
+    CC = 'CC',
+    CF = 'CF',
+    CH = 'CH',
+    CK = 'CK',
+    CL = 'CL',
+    CM = 'CM',
+    CN = 'CN',
+    CO = 'CO',
+    CR = 'CR',
+    CU = 'CU',
+    CV = 'CV',
+    CX = 'CX',
+    CY = 'CY',
+    CZ = 'CZ',
+    DE = 'DE',
+    DJ = 'DJ',
+    DK = 'DK',
+    DM = 'DM',
+    DO = 'DO',
+    DZ = 'DZ',
+    EC = 'EC',
+    EE = 'EE',
+    EG = 'EG',
+    EH = 'EH',
+    ER = 'ER',
+    ES = 'ES',
+    ET = 'ET',
+    FI = 'FI',
+    FJ = 'FJ',
+    FK = 'FK',
+    FO = 'FO',
+    FR = 'FR',
+    GA = 'GA',
+    GB = 'GB',
+    GD = 'GD',
+    GE = 'GE',
+    GF = 'GF',
+    GH = 'GH',
+    GI = 'GI',
+    GL = 'GL',
+    GM = 'GM',
+    GN = 'GN',
+    GP = 'GP',
+    GQ = 'GQ',
+    GR = 'GR',
+    GT = 'GT',
+    GU = 'GU',
+    GW = 'GW',
+    GY = 'GY',
+    HK = 'HK',
+    HN = 'HN',
+    HR = 'HR',
+    HT = 'HT',
+    HU = 'HU',
+    ID = 'ID',
+    IE = 'IE',
+    IL = 'IL',
+    IN = 'IN',
+    IO = 'IO',
+    IQ = 'IQ',
+    IS = 'IS',
+    IT = 'IT',
+    JM = 'JM',
+    JO = 'JO',
+    JP = 'JP',
+    KE = 'KE',
+    KG = 'KG',
+    KH = 'KH',
+    KI = 'KI',
+    KM = 'KM',
+    KR = 'KR',
+    KW = 'KW',
+    KY = 'KY',
+    KZ = 'KZ',
+    LB = 'LB',
+    LI = 'LI',
+    LK = 'LK',
+    LR = 'LR',
+    LS = 'LS',
+    LT = 'LT',
+    LU = 'LU',
+    LV = 'LV',
+    MA = 'MA',
+    MC = 'MC',
+    MG = 'MG',
+    MH = 'MH',
+    ML = 'ML',
+    MM = 'MM',
+    MN = 'MN',
+    MP = 'MP',
+    MQ = 'MQ',
+    MR = 'MR',
+    MS = 'MS',
+    MT = 'MT',
+    MU = 'MU',
+    MV = 'MV',
+    MW = 'MW',
+    MX = 'MX',
+    MY = 'MY',
+    MZ = 'MZ',
+    NA = 'NA',
+    NC = 'NC',
+    NE = 'NE',
+    NF = 'NF',
+    NG = 'NG',
+    NI = 'NI',
+    NL = 'NL',
+    NO = 'NO',
+    NP = 'NP',
+    NR = 'NR',
+    NU = 'NU',
+    NZ = 'NZ',
+    OM = 'OM',
+    PA = 'PA',
+    PE = 'PE',
+    PF = 'PF',
+    PG = 'PG',
+    PH = 'PH',
+    PK = 'PK',
+    PL = 'PL',
+    PN = 'PN',
+    PR = 'PR',
+    PS = 'PS',
+    PT = 'PT',
+    PW = 'PW',
+    PY = 'PY',
+    QA = 'QA',
+    RE = 'RE',
+    RO = 'RO',
+    RU = 'RU',
+    RW = 'RW',
+    SA = 'SA',
+    SB = 'SB',
+    SC = 'SC',
+    SD = 'SD',
+    SE = 'SE',
+    SG = 'SG',
+    SI = 'SI',
+    SJ = 'SJ',
+    SK = 'SK',
+    SL = 'SL',
+    SM = 'SM',
+    SN = 'SN',
+    SO = 'SO',
+    SR = 'SR',
+    ST = 'ST',
+    SV = 'SV',
+    SZ = 'SZ',
+    TC = 'TC',
+    TD = 'TD',
+    TF = 'TF',
+    TG = 'TG',
+    TH = 'TH',
+    TJ = 'TJ',
+    TK = 'TK',
+    TM = 'TM',
+    TN = 'TN',
+    TO = 'TO',
+    TR = 'TR',
+    TT = 'TT',
+    TV = 'TV',
+    TW = 'TW',
+    TZ = 'TZ',
+    UA = 'UA',
+    UG = 'UG',
+    US = 'US',
+    UY = 'UY',
+    UZ = 'UZ',
+    VE = 'VE',
+    VN = 'VN',
+    VU = 'VU',
+    WF = 'WF',
+    WS = 'WS',
+    YE = 'YE',
+    YT = 'YT',
+    RS = 'RS',
+    ZA = 'ZA',
+    ZM = 'ZM',
+    ME = 'ME',
+    ZW = 'ZW',
+    AX = 'AX',
+    GG = 'GG',
+    IM = 'IM',
+    JE = 'JE',
+    MF = 'MF'
+}
+
 export type DifficultyAttributes = {
     aim?: number | null;
     aimDifficultStrainCount?: number | null;
@@ -524,7 +748,7 @@ export type UserResponse = {
     user_id: number;
     username: string;
     description?: string | null;
-    country_code: string;
+    country_code: CountryCode;
     register_date: string;
     avatar_url: string;
     banner_url: string;
@@ -2159,6 +2383,33 @@ export type PostUserUsernameChangeErrors = {
 export type PostUserUsernameChangeError = PostUserUsernameChangeErrors[keyof PostUserUsernameChangeErrors];
 
 export type PostUserUsernameChangeResponses = {
+    /**
+     * OK
+     */
+    200: unknown;
+};
+
+export type PostUserCountryChangeData = {
+    body?: CountryChangeRequest;
+    path?: never;
+    query?: never;
+    url: '/user/country/change';
+};
+
+export type PostUserCountryChangeErrors = {
+    /**
+     * Bad Request
+     */
+    400: ErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+};
+
+export type PostUserCountryChangeError = PostUserCountryChangeErrors[keyof PostUserCountryChangeErrors];
+
+export type PostUserCountryChangeResponses = {
     /**
      * OK
      */
