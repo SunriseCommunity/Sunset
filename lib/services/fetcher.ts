@@ -1,14 +1,18 @@
 import { getUserToken } from "@/lib/actions/getUserToken";
 import { PossibleErrorResult } from "@/lib/hooks/api/types";
+import { ProblemDetailsResponseType } from "@/lib/types/api";
 import ky, { HTTPError, Options } from "ky";
 
 const errorInterceptor = async (error: HTTPError) => {
   const { response } = error;
   const contentType = response?.headers?.get("content-type");
 
-  if (contentType != null && contentType?.indexOf("application/json") !== -1) {
-    const data = (await response.json()) as PossibleErrorResult<null>;
-    error.message = data.error ?? "Unknown error";
+  if (
+    contentType != null &&
+    contentType?.indexOf("application/problem+json") !== -1
+  ) {
+    const data = (await response.json()) as ProblemDetailsResponseType;
+    error.message = data.detail ?? data.title ?? "Unknown error";
   } else {
     error.message = await response.text();
   }

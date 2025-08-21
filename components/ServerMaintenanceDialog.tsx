@@ -46,7 +46,11 @@ export default function ServerMaintenanceDialog({
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <Button type="submit" variant="destructive">
+          <Button
+            type="button"
+            variant="destructive"
+            onClick={() => setOpen(false)}
+          >
             Okay, I understand
           </Button>
         </DialogFooter>
