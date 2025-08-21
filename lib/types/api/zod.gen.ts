@@ -411,12 +411,19 @@ export const zCategory = z.object({
 });
 
 export const zChangePasswordRequest = z.object({
-    current_password: z.string(),
-    new_password: z.string()
+    current_password: z.string().min(1),
+    new_password: z.string().min(1)
 });
 
 export const zCountryChangeRequest = z.object({
     new_country: zCountryCode
+});
+
+export const zCustomBeatmapStatusChangeResponse = z.object({
+    beatmap: zBeatmapResponse,
+    new_status: zBeatmapStatusWeb,
+    old_status: zBeatmapStatusWeb,
+    bat: zUserResponse
 });
 
 export const zDifficultyAttributes = z.object({
@@ -539,7 +546,7 @@ export const zEditDefaultGameModeRequest = z.object({
 });
 
 export const zEditDescriptionRequest = z.object({
-    description: z.string()
+    description: z.string().min(1).max(2000)
 });
 
 export const zUpdateFriendshipStatusAction = z.enum([
@@ -596,10 +603,6 @@ export const zEditUserMetadataRequest = z.object({
         z.string().max(200),
         z.null()
     ]).optional()
-});
-
-export const zErrorResponse = z.object({
-    error: z.string()
 });
 
 export const zFavouritedResponse = z.object({
@@ -899,8 +902,36 @@ export const zPerformanceAttributes = z.object({
     state: zScoreState
 });
 
+export const zProblemDetailsResponseType = z.object({
+    type: z.union([
+        z.string(),
+        z.null()
+    ]).optional(),
+    title: z.union([
+        z.string(),
+        z.null()
+    ]).optional(),
+    status: z.union([
+        z.number().int(),
+        z.null()
+    ]).optional(),
+    detail: z.union([
+        z.string(),
+        z.null()
+    ]).optional(),
+    instance: z.union([
+        z.string(),
+        z.null()
+    ]).optional(),
+    traceId: z.union([
+        z.string(),
+        z.null()
+    ]).optional(),
+    errors: z.unknown().optional()
+});
+
 export const zRefreshTokenRequest = z.object({
-    refresh_token: z.string()
+    refresh_token: z.string().min(1)
 });
 
 export const zRefreshTokenResponse = z.object({
@@ -909,9 +940,9 @@ export const zRefreshTokenResponse = z.object({
 });
 
 export const zRegisterRequest = z.object({
-    username: z.string(),
-    password: z.string(),
-    email: z.string()
+    username: z.string().min(1),
+    password: z.string().min(1),
+    email: z.string().min(1).regex(/^\S+@\S+\.\S+$/)
 });
 
 export const zScoreResponse = z.object({
@@ -997,8 +1028,8 @@ export const zStatusResponse = z.object({
 });
 
 export const zTokenRequest = z.object({
-    username: z.string(),
-    password: z.string()
+    username: z.string().min(1),
+    password: z.string().min(1)
 });
 
 export const zTokenResponse = z.object({
@@ -1035,7 +1066,17 @@ export const zUserWithStatsResponse = z.object({
 });
 
 export const zUsernameChangeRequest = z.object({
-    new_username: z.string()
+    new_username: z.string().min(1)
+});
+
+export const zWebSocketEventType = z.enum([
+    'NewScoreSubmitted',
+    'CustomBeatmapStatusChanged'
+]);
+
+export const zWebSocketMessage = z.object({
+    messageType: zWebSocketEventType,
+    data: z.string().readonly()
 });
 
 export const zPostAuthTokenResponse = zTokenResponse;
@@ -1117,3 +1158,5 @@ export const zGetUserByIdMedalsResponse = zMedalsResponse;
 export const zGetUserByIdGradesResponse = zGradesResponse;
 
 export const zGetUserByIdMetadataResponse = zUserMetadataResponse;
+
+export const zGetWsResponse = zWebSocketMessage;
