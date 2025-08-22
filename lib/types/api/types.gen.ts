@@ -592,6 +592,10 @@ export type PerformanceAttributes = {
     state: ScoreState;
 };
 
+export type PreviousUsernamesResponse = {
+    usernames: Array<string>;
+};
+
 export type ProblemDetailsResponseType = {
     type?: string | null;
     title?: string | null;
@@ -1922,6 +1926,37 @@ export type GetUserByIdFavouritesResponses = {
 };
 
 export type GetUserByIdFavouritesResponse = GetUserByIdFavouritesResponses[keyof GetUserByIdFavouritesResponses];
+
+export type GetUserByIdPreviousUsernamesData = {
+    body?: never;
+    path: {
+        id: number;
+    };
+    query?: never;
+    url: '/user/{id}/previous-usernames';
+};
+
+export type GetUserByIdPreviousUsernamesErrors = {
+    /**
+     * Bad Request
+     */
+    400: ProblemDetailsResponseType;
+    /**
+     * Not Found
+     */
+    404: ProblemDetailsResponseType;
+};
+
+export type GetUserByIdPreviousUsernamesError = GetUserByIdPreviousUsernamesErrors[keyof GetUserByIdPreviousUsernamesErrors];
+
+export type GetUserByIdPreviousUsernamesResponses = {
+    /**
+     * OK
+     */
+    200: PreviousUsernamesResponse;
+};
+
+export type GetUserByIdPreviousUsernamesResponse = GetUserByIdPreviousUsernamesResponses[keyof GetUserByIdPreviousUsernamesResponses];
 
 export type GetUserLeaderboardData = {
     body?: never;

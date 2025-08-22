@@ -902,6 +902,10 @@ export const zPerformanceAttributes = z.object({
     state: zScoreState
 });
 
+export const zPreviousUsernamesResponse = z.object({
+    usernames: z.array(z.string())
+});
+
 export const zProblemDetailsResponseType = z.object({
     type: z.union([
         z.string(),
@@ -1138,6 +1142,8 @@ export const zGetUserByIdScoresResponse = zScoresResponse;
 export const zGetUserByIdMostplayedResponse = zMostPlayedResponse;
 
 export const zGetUserByIdFavouritesResponse = zBeatmapSetsResponse;
+
+export const zGetUserByIdPreviousUsernamesResponse = zPreviousUsernamesResponse;
 
 export const zGetUserLeaderboardResponse = zLeaderboardResponse;
 

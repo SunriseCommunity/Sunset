@@ -40,6 +40,7 @@ import useSelf from "@/lib/hooks/useSelf";
 import UserGeneralInformation from "@/app/(website)/user/[id]/components/UserGeneralInformation";
 import { useUserMetadata } from "@/lib/hooks/api/user/useUserMetadata";
 import UserSocials from "@/app/(website)/user/[id]/components/UserSocials";
+import UserPreviousUsernamesTooltip from "@/app/(website)/user/[id]/components/UserPreviousUsernamesTooltip";
 
 const contentTabs = [
   "General",
@@ -224,7 +225,7 @@ export default function UserPage(props: { params: Promise<{ id: number }> }) {
                         />
                       </div>
                       <div className="flex flex-col flex-grow min-w-0">
-                        <div className="flex flex-col md:flex-row flex-wrap gap-x-2">
+                        <div className="flex flex-row flex-wrap gap-x-2">
                           <Tooltip
                             className="flex flex-row min-w-0 space-x-2"
                             content={user.username}
@@ -238,6 +239,11 @@ export default function UserPage(props: { params: Promise<{ id: number }> }) {
                               {user.username}
                             </UserRankColor>
                           </Tooltip>
+
+                          <UserPreviousUsernamesTooltip
+                            user={user}
+                            className="place-self-start -ml-1"
+                          />
 
                           <div className="gap-y-2">
                             <UserPrivilegeBadges
