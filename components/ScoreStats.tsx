@@ -20,7 +20,7 @@ export default function ScoreStats({ score, beatmap, variant }: Props) {
         className={twMerge(
           "grid grid-cols-3 gap-1 ",
           variant === "leaderboard"
-            ? "grid-cols-4 text-xs sm:text-base"
+            ? "grid-cols-4 text-base"
             : "grid-cols-3"
         )}
       >
@@ -95,7 +95,7 @@ function ScoreGamemodeRelatedStats({
         className={twMerge(
           "grid gap-1",
           variant === "leaderboard"
-            ? "grid-cols-6"
+            ? "md:grid-cols-6 grid-cols-4"
             : "grid-cols-4"
         )}
       >
@@ -114,7 +114,7 @@ function ScoreGamemodeRelatedStats({
         className={twMerge(
           "grid gap-1",
           variant === "leaderboard"
-            ? "grid-cols-5"
+            ? "md:grid-cols-5 grid-cols-3"
             : "grid-cols-3"
         )}
       >
@@ -133,7 +133,7 @@ function ScoreGamemodeRelatedStats({
         className={twMerge(
           "grid gap-1",
           variant === "leaderboard"
-            ? "grid-cols-6"
+            ? "md:grid-cols-6 grid-cols-4"
             : "grid-cols-4"
         )}
       ></div>
@@ -160,7 +160,7 @@ function ScoreGamemodeRelatedStats({
         className={twMerge(
           "grid gap-1",
           variant === "leaderboard"
-            ? "grid-cols-8"
+            ? "md:grid-cols-8 grid-cols-6"
             : "grid-cols-6"
         )}
       >
@@ -190,11 +190,11 @@ function DataBox({
   return (
     <div
       className={twMerge(
-        " rounded text-center text-card-foreground p-2",
-        variant === "score" ? " bg-card" : ""
+        " rounded text-center text-card-foreground",
+        variant === "score" ? " bg-card p-2" : "p-1"
       )}
     >
-      <p className="text-card-foreground/50">{title}</p>
+      <p className="text-card-foreground/50 text-sm sm:text-base">{title}</p>
       <p className="text-base">{value}</p>
       {children}
     </div>

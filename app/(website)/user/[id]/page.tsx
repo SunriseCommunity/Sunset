@@ -44,7 +44,8 @@ import UserPreviousUsernamesTooltip from "@/app/(website)/user/[id]/components/U
 
 const contentTabs = [
   "General",
-  "Scores",
+  "Best scores",
+  "Recent scores",
   "First places",
   "Beatmaps",
   "Medals",
@@ -66,22 +67,23 @@ const renderTabContent = (
           gameMode={activeMode}
         />
       );
-    case "Scores":
+    case "Best scores":
       return (
-        <div>
-          <UserTabScores
-            key={`best-${activeMode}`}
-            gameMode={activeMode}
-            userId={user.user_id}
-            type={ScoreTableType.BEST}
-          />
-          <UserTabScores
-            key={`recent-${activeMode}`}
-            gameMode={activeMode}
-            userId={user.user_id}
-            type={ScoreTableType.RECENT}
-          />
-        </div>
+        <UserTabScores
+          key={`best-${activeMode}`}
+          gameMode={activeMode}
+          userId={user.user_id}
+          type={ScoreTableType.BEST}
+        />
+      );
+    case "Recent scores":
+      return (
+        <UserTabScores
+          key={`recent-${activeMode}`}
+          gameMode={activeMode}
+          userId={user.user_id}
+          type={ScoreTableType.RECENT}
+        />
       );
     case "First places":
       return (
