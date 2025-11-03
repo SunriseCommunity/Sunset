@@ -21,7 +21,7 @@ import {
 import { useBeatmapSetGetHypedSets } from "@/lib/hooks/api/beatmap/useBeatmapSetHypedSets";
 import useSelf from "@/lib/hooks/useSelf";
 import { UserBadge } from "@/lib/types/api";
-import { Home, ChevronsUp, Music2, Moon, Sun } from "lucide-react";
+import { Home, ChevronsUp, Music2, Moon, Sun, Users } from "lucide-react";
 import Link from "next/link";
 
 const infoTabs = [
@@ -29,6 +29,11 @@ const infoTabs = [
     title: "Dashboard",
     url: "/admin/dashboard",
     icon: Home,
+  },
+  {
+    title: "Users",
+    url: "/admin/users/search",
+    icon: Users,
   },
 ];
 

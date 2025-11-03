@@ -756,6 +756,15 @@ export enum UserPlaystyle {
     TOUCH_SCREEN = 'TouchScreen'
 }
 
+export enum UserPrivilege {
+    USER = 'User',
+    SUPPORTER = 'Supporter',
+    BAT = 'Bat',
+    ADMIN = 'Admin',
+    DEVELOPER = 'Developer',
+    SERVER_BOT = 'ServerBot'
+}
+
 export type UserRelationsCountersResponse = {
     followers: number;
     following: number;
@@ -764,6 +773,24 @@ export type UserRelationsCountersResponse = {
 export type UserResponse = {
     user_id: number;
     username: string;
+    description?: string | null;
+    country_code: CountryCode;
+    register_date: string;
+    avatar_url: string;
+    banner_url: string;
+    last_online_time: string;
+    restricted: boolean;
+    silenced_until?: string | null;
+    default_gamemode: GameMode;
+    badges: Array<UserBadge>;
+    user_status: string;
+};
+
+export type UserSensitiveResponse = {
+    user_id: number;
+    username: string;
+    email: string;
+    privilege: UserPrivilege;
     description?: string | null;
     country_code: CountryCode;
     register_date: string;
@@ -808,6 +835,11 @@ export type UserWithStatsResponse = {
 
 export type UsernameChangeRequest = {
     new_username: string;
+};
+
+export type UsersSensitiveListResponse = {
+    users: Array<UserSensitiveResponse>;
+    total_count: number;
 };
 
 export enum WebSocketEventType {
@@ -2020,6 +2052,35 @@ export type GetUserSearchResponses = {
 };
 
 export type GetUserSearchResponse = GetUserSearchResponses[keyof GetUserSearchResponses];
+
+export type GetUserSearchListData = {
+    body?: never;
+    path?: never;
+    query?: {
+        query?: string;
+        limit?: number;
+        page?: number;
+    };
+    url: '/user/search/list';
+};
+
+export type GetUserSearchListErrors = {
+    /**
+     * Bad Request
+     */
+    400: ProblemDetailsResponseType;
+};
+
+export type GetUserSearchListError = GetUserSearchListErrors[keyof GetUserSearchListErrors];
+
+export type GetUserSearchListResponses = {
+    /**
+     * OK
+     */
+    200: UsersSensitiveListResponse;
+};
+
+export type GetUserSearchListResponse = GetUserSearchListResponses[keyof GetUserSearchListResponses];
 
 export type GetUserFriendsData = {
     body?: never;

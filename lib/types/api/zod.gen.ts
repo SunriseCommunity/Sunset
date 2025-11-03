@@ -1059,9 +1059,42 @@ export const zUserMetadataResponse = z.object({
     website: z.string()
 });
 
+export const zUserPrivilege = z.enum([
+    'User',
+    'Supporter',
+    'Bat',
+    'Admin',
+    'Developer',
+    'ServerBot'
+]);
+
 export const zUserRelationsCountersResponse = z.object({
     followers: z.number().int(),
     following: z.number().int()
+});
+
+export const zUserSensitiveResponse = z.object({
+    user_id: z.number().int(),
+    username: z.string(),
+    email: z.string(),
+    privilege: zUserPrivilege,
+    description: z.union([
+        z.string(),
+        z.null()
+    ]).optional(),
+    country_code: zCountryCode,
+    register_date: z.string().datetime(),
+    avatar_url: z.string(),
+    banner_url: z.string(),
+    last_online_time: z.string().datetime(),
+    restricted: z.boolean(),
+    silenced_until: z.union([
+        z.string().datetime(),
+        z.null()
+    ]).optional(),
+    default_gamemode: zGameMode,
+    badges: z.array(zUserBadge),
+    user_status: z.string()
 });
 
 export const zUserWithStatsResponse = z.object({
@@ -1071,6 +1104,11 @@ export const zUserWithStatsResponse = z.object({
 
 export const zUsernameChangeRequest = z.object({
     new_username: z.string().min(1)
+});
+
+export const zUsersSensitiveListResponse = z.object({
+    users: z.array(zUserSensitiveResponse),
+    total_count: z.number().int()
 });
 
 export const zWebSocketEventType = z.enum([
@@ -1148,6 +1186,8 @@ export const zGetUserByIdPreviousUsernamesResponse = zPreviousUsernamesResponse;
 export const zGetUserLeaderboardResponse = zLeaderboardResponse;
 
 export const zGetUserSearchResponse = z.array(zUserResponse);
+
+export const zGetUserSearchListResponse = zUsersSensitiveListResponse;
 
 export const zGetUserFriendsResponse = zFriendsResponse;
 
