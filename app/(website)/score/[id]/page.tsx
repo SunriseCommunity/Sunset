@@ -25,6 +25,7 @@ import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
@@ -35,6 +36,10 @@ import { BeatmapStatusWeb } from "@/lib/types/api";
 export default function Score(props: { params: Promise<{ id: number }> }) {
   const params = use(props.params);
   const { self } = useSelf();
+
+  const [useSpaciousUI] = useState(() => {
+    return localStorage.getItem("useSpaciousUI") || "false";
+  });
 
   const { isLoading: isReplayLoading, downloadReplay } = useDownloadReplay(
     params.id
@@ -215,7 +220,16 @@ export default function Score(props: { params: Promise<{ id: number }> }) {
               <div className="xl:col-span-2">
                 <UserElement user={user} />
               </div>
-              <div className="xl:col-span-3">
+
+              {useSpaciousUI == "true" && (
+                <div className="hidden xl:grid" />
+              )}
+
+              <div className={twMerge(
+                useSpaciousUI === "true"
+                  ? "xl:col-span-2"
+                  : "xl:col-span-3"
+              )}>
                 <ScoreStats score={score} beatmap={beatmap} variant="score" />
               </div>
             </div>
