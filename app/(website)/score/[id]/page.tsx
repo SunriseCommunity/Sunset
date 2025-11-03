@@ -74,7 +74,7 @@ export default function Score(props: { params: Promise<{ id: number }> }) {
         {score && user && beatmap ? (
           <>
             <div>
-              <div className="z-20 md:h-64 relative">
+              <div className="z-20 md:h-60 relative">
                 <div className="bg-black/60 p-4 place-content-between flex md:flex-row flex-col h-full  rounded-lg">
                   <div className="w-full h-full flex flex-col overflow-hidden">
                     <Link
@@ -105,6 +105,9 @@ export default function Score(props: { params: Promise<{ id: number }> }) {
                     >
                       {score.grade}
                     </div>
+                    <span className="line-clamp-3 text-xl font-bold my-auto">
+                      {score.mods}
+                    </span>
                   </div>
 
                   <Separator className="my-4 h-0 block md:hidden" />
@@ -115,24 +118,23 @@ export default function Score(props: { params: Promise<{ id: number }> }) {
                         <div className="flex justify-end w-full">
                           <div className="text-yellow-400 text-base line-clamp-2 flex flex-col items-end max-w-full">
                             <div className="flex flex-row items-center w-full">
-                              <span className="mr-1">[</span>
-                              <div className="flex items-center flex-1 overflow-hidden">
-                                <span className="truncate">
-                                  {beatmap?.version || "Unknown"}
-                                </span>
-                              </div>
                               <DifficultyIcon
                                 iconColor="#facc15"
                                 gameMode={score.game_mode}
                                 className="text-base mx-1 flex-shrink-0"
                               />
-                              <span className="ml-1">]</span>
                               <p className="whitespace-nowrap">
                                 ★{" "}
                                 {beatmap &&
                                   getBeatmapStarRating(beatmap).toFixed(2)}{" "}
-                                {score.mods}
                               </p>
+                                <span className="ml-2">[</span>
+                              <div className="flex items-center flex-1 overflow-hidden">
+                                <span className="truncate">
+                                  {beatmap?.version || "Unknown"}
+                                </span>
+                              </div>
+                              <span>]</span>
                             </div>
                           </div>
                         </div>
@@ -213,10 +215,7 @@ export default function Score(props: { params: Promise<{ id: number }> }) {
               <div className="xl:col-span-2">
                 <UserElement user={user} />
               </div>
-
-              <div className="hidden xl:grid" />
-
-              <div className="xl:col-span-2">
+              <div className="xl:col-span-3">
                 <ScoreStats score={score} beatmap={beatmap} variant="score" />
               </div>
             </div>

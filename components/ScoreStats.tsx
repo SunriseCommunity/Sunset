@@ -18,7 +18,7 @@ export default function ScoreStats({ score, beatmap, variant }: Props) {
     <div className="flex flex-col text-white space-y-1">
       <div
         className={twMerge(
-          "grid grid-cols-3 gap-4 ",
+          "grid grid-cols-3 gap-1 ",
           variant === "leaderboard"
             ? "grid-cols-4 text-xs sm:text-base"
             : "grid-cols-3"
@@ -57,22 +57,24 @@ export default function ScoreStats({ score, beatmap, variant }: Props) {
       <div
         className={twMerge(
           variant === "leaderboard"
-            ? "flex flex-col place-content-between md:flex-row md:gap-4"
+            ? "flex flex-col place-content-between md:flex-row md:gap-2"
             : ""
         )}
       >
-        <ScoreGamemodeRelatedStats score={score} variant={variant} />
-
-        {variant === "leaderboard" && (
-          <div className="grid grid-cols-2 gap-4">
+        <ScoreGamemodeRelatedStats score={score} variant={variant}>
+          {variant === "leaderboard" && (
             <DataBox title="Time" variant={variant}>
-              <Tooltip content={toPrettyDate(score.when_played, true)}>
+              <Tooltip content={toPrettyDate(score.when_played, true)} className="text-base">
                 {timeSince(score.when_played, undefined, true)}
               </Tooltip>
             </DataBox>
-            <DataBox title="Mods" variant={variant} value={score.mods ?? ""} />
-          </div>
-        )}
+          )}
+          {
+            variant === "leaderboard" && (
+              <DataBox title="Mods" variant={variant} value={score.mods ?? ""} />
+            )
+          }
+        </ScoreGamemodeRelatedStats>
       </div>
     </div>
   );
@@ -81,34 +83,38 @@ export default function ScoreStats({ score, beatmap, variant }: Props) {
 function ScoreGamemodeRelatedStats({
   score,
   variant,
+  children
 }: {
   score: ScoreResponse;
   variant: scoreStatsVariant;
+  children: React.ReactNode;
 }) {
   if (score.game_mode === GameMode.STANDARD) {
     return (
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-4 gap-1">
         <DataBox title="Great" value={score.count_300} variant={variant} />
         <DataBox title="Ok" value={score.count_100} variant={variant} />
         <DataBox title="Meh" value={score.count_50} variant={variant} />
         <DataBox title="Miss" value={score.count_miss} variant={variant} />
+        {children}
       </div>
     );
   }
 
   if (score.game_mode === GameMode.TAIKO) {
     return (
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-3 gap-1">
         <DataBox title="Great" value={score.count_300} variant={variant} />
         <DataBox title="Miss" value={score.count_miss} variant={variant} />
         <DataBox title="Ok" value={score.count_100} variant={variant} />
+        {children}
       </div>
     );
   }
 
   if (score.game_mode === GameMode.CATCH_THE_BEAT) {
     return (
-      <div className="grid grid-cols-2 gap-x-4 gap-y-1">
+      <div className="grid grid-cols-4 gap-x-1 gap-y-1">
         <DataBox title="Great" value={score.count_300} variant={variant} />
         <DataBox title="Miss" value={score.count_miss} variant={variant} />
         <DataBox
@@ -121,19 +127,28 @@ function ScoreGamemodeRelatedStats({
           value={score.count_50}
           variant={variant}
         />
+        {children}
       </div>
     );
   }
 
   if (score.game_mode === GameMode.MANIA) {
     return (
-      <div className="grid grid-cols-6 gap-1 text-xs">
+      <div
+        className={twMerge(
+          "grid gap-1 text-xs",
+          variant === "leaderboard"
+            ? "grid-cols-8"
+            : "grid-cols-6"
+        )}
+      >
         <DataBox title="Perfect" value={score.count_geki} variant={variant} />
         <DataBox title="Great" value={score.count_300} variant={variant} />
         <DataBox title="Good" value={score.count_katu} variant={variant} />
         <DataBox title="Ok" value={score.count_100} variant={variant} />
         <DataBox title="Meh" value={score.count_50} variant={variant} />
         <DataBox title="Miss" value={score.count_miss} variant={variant} />
+        {children}
       </div>
     );
   }
@@ -153,8 +168,8 @@ function DataBox({
   return (
     <div
       className={twMerge(
-        " rounded text-center text-card-foreground",
-        variant === "score" ? "bg-card p-2.5" : ""
+        " rounded text-center text-card-foreground p-2",
+        variant === "score" ? " bg-card" : ""
       )}
     >
       <p className="text-card-foreground/50">{title}</p>

@@ -30,7 +30,7 @@ export default function UserScoreOverview({
         className
       )}
     >
-      <div className="z-20 h-20 relative ">
+      <div className="z-20 h-16 relative ">
         <Link href={`/score/${score.id}`}>
           <div className="bg-black hover:bg-opacity-50 bg-opacity-60 p-4 rounded-t-lg md:rounded-lg place-content-between flex items-center h-full cursor-pointer">
             <div className="flex-row overflow-hidden flex-wrap">
@@ -41,7 +41,7 @@ export default function UserScoreOverview({
                   />
                 </span>
                 {beatmap?.artist && beatmap?.title ? (
-                  <span className="line-clamp-2">
+                  <span className="line-clamp-1">
                     {beatmap.artist + " - " + beatmap?.title}
                   </span>
                 ) : (
@@ -54,7 +54,7 @@ export default function UserScoreOverview({
               </div>
               <div className="flex items-center space-x-3">
                 <div className="text-base drop-shadow-md text-gray-100 line-clamp-1">
-                  {beatmap?.version ?? <Skeleton className="w-24 h-4" />}
+                  {beatmap?.version ?? <Skeleton className="w-24 h-4" />} <span className="text-sm opacity-70">{score.mods}</span>
                 </div>
                 <div className="text-sm drop-shadow-md text-gray-300 italic line-clamp-1">
                   {timeSince(score.when_played) ?? (
@@ -66,7 +66,6 @@ export default function UserScoreOverview({
 
             <div className="z-20 hidden items-center space-x-4 md:flex">
               <div className="text-end text-nowrap">
-                <p className="text-sm opacity-70">{score.mods}</p>
                 <p className="text-xl text-primary">
                   {beatmap && beatmap.is_ranked
                     ? score.performance_points.toFixed()
