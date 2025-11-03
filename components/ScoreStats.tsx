@@ -91,7 +91,14 @@ function ScoreGamemodeRelatedStats({
 }) {
   if (score.game_mode === GameMode.STANDARD) {
     return (
-      <div className="grid grid-cols-4 gap-1">
+      <div
+        className={twMerge(
+          "grid gap-1",
+          variant === "leaderboard"
+            ? "grid-cols-6"
+            : "grid-cols-4"
+        )}
+      >
         <DataBox title="Great" value={score.count_300} variant={variant} />
         <DataBox title="Ok" value={score.count_100} variant={variant} />
         <DataBox title="Meh" value={score.count_50} variant={variant} />
@@ -103,7 +110,14 @@ function ScoreGamemodeRelatedStats({
 
   if (score.game_mode === GameMode.TAIKO) {
     return (
-      <div className="grid grid-cols-3 gap-1">
+      <div
+        className={twMerge(
+          "grid gap-1",
+          variant === "leaderboard"
+            ? "grid-cols-5"
+            : "grid-cols-3"
+        )}
+      >
         <DataBox title="Great" value={score.count_300} variant={variant} />
         <DataBox title="Miss" value={score.count_miss} variant={variant} />
         <DataBox title="Ok" value={score.count_100} variant={variant} />
@@ -114,7 +128,15 @@ function ScoreGamemodeRelatedStats({
 
   if (score.game_mode === GameMode.CATCH_THE_BEAT) {
     return (
-      <div className="grid grid-cols-4 gap-x-1 gap-y-1">
+      <div className="">
+        <div
+        className={twMerge(
+          "grid gap-1",
+          variant === "leaderboard"
+            ? "grid-cols-6"
+            : "grid-cols-4"
+        )}
+      ></div>
         <DataBox title="Great" value={score.count_300} variant={variant} />
         <DataBox title="Miss" value={score.count_miss} variant={variant} />
         <DataBox
@@ -136,7 +158,7 @@ function ScoreGamemodeRelatedStats({
     return (
       <div
         className={twMerge(
-          "grid gap-1 text-xs",
+          "grid gap-1",
           variant === "leaderboard"
             ? "grid-cols-8"
             : "grid-cols-6"
