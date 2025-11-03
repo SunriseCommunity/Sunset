@@ -45,7 +45,7 @@ const modNames: Record<string, string> = {
   'NC': 'Nightcore',
   'FL': 'Flashlight',
   'SO': 'Spun Out',
-  'AP': 'Auto Pilot',
+  'AP': 'Autopilot',
   'PF': 'Perfect',
   'FI': 'Fade In',
   'RD': 'Random',
