@@ -32,6 +32,7 @@ import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import ScoreStats from "@/components/ScoreStats";
 import { BeatmapStatusWeb } from "@/lib/types/api";
+import { ModIcons } from "@/components/ModIcons";
 
 export default function Score(props: { params: Promise<{ id: number }> }) {
   const params = use(props.params);
@@ -79,7 +80,7 @@ export default function Score(props: { params: Promise<{ id: number }> }) {
         {score && user && beatmap ? (
           <>
             <div>
-              <div className="z-20 md:h-60 relative">
+              <div className="z-20 md:h-64 relative">
                 <div className="bg-black/60 p-4 place-content-between flex md:flex-row flex-col h-full  rounded-lg">
                   <div className="w-full h-full flex flex-col overflow-hidden">
                     <Link
@@ -111,7 +112,7 @@ export default function Score(props: { params: Promise<{ id: number }> }) {
                       {score.grade}
                     </div>
                     <span className="line-clamp-3 text-xl font-bold my-auto">
-                      {score.mods}
+                      <ModIcons modsBitset={score.mods_int ?? 0} />
                     </span>
                   </div>
 
