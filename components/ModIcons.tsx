@@ -83,7 +83,7 @@ export function ModIcons({
   const activeMods: string[] = LEGACY_BITSET.filter(([bit]) => (modsBitset & (bit as number)) !== 0).map(([, name]) => name as string);
 
   return (
-    <span className="flex flex-row space-x-1">
+    <span className="flex flex-row space-x-1 md:justify-start justify-center">
       {activeMods.map((modName) => (
         <ModElement key={modName} modAcronym={modName} />
       ))}

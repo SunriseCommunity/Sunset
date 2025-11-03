@@ -111,7 +111,7 @@ export default function Score(props: { params: Promise<{ id: number }> }) {
                     >
                       {score.grade}
                     </div>
-                    <span className="line-clamp-3 text-xl font-bold my-auto">
+                    <span className="line-clamp-3 text-xl font-bold my-auto md:pt-0 pt-2">
                       <ModIcons modsBitset={score.mods_int ?? 0} />
                     </span>
                   </div>
