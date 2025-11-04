@@ -1,4 +1,5 @@
 import RoundedContent from "@/components/General/RoundedContent";
+import { ModElement } from "@/components/ModIcons";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { ShortenedMods } from "@/lib/hooks/api/score/types";
 import { GameMode, Mods } from "@/lib/types/api";
@@ -23,66 +24,21 @@ import {
 import { twMerge } from "tailwind-merge";
 
 const modElements = [
-  {
-    element: <Ban />,
-    mod: Mods.NONE,
-  },
-  {
-    element: <Candy />,
-    mod: Mods.EASY,
-  },
-  {
-    element: <LifeBuoy />,
-    mod: Mods.NO_FAIL,
-  },
-  {
-    element: <Hourglass />,
-    mod: Mods.HALF_TIME,
-  },
-  {
-    element: <HandMetal />,
-    mod: Mods.HARD_ROCK,
-  },
-  {
-    element: <Skull />,
-    mod: Mods.SUDDEN_DEATH,
-  },
-  {
-    element: <ThumbsUp />,
-    mod: Mods.PERFECT,
-  },
-  {
-    element: <SkipForwardIcon />,
-    mod: Mods.DOUBLE_TIME,
-  },
-  {
-    element: <Headphones />,
-    mod: Mods.NIGHTCORE,
-  },
-  {
-    element: <Cloudy />,
-    mod: Mods.HIDDEN,
-  },
-  {
-    element: <Flashlight />,
-    mod: Mods.FLASHLIGHT,
-  },
-  {
-    element: <LoaderPinwheel />,
-    mod: Mods.SPUN_OUT,
-  },
-  {
-    element: <Keyboard />,
-    mod: Mods.RELAX2,
-  },
-  {
-    element: <Star />,
-    mod: Mods.RELAX,
-  },
-  {
-    element: <Rocket />,
-    mod: Mods.SCORE_V2,
-  },
+  Mods.NONE,
+  Mods.EASY,
+  Mods.NO_FAIL,
+  Mods.HALF_TIME,
+  Mods.HARD_ROCK,
+  Mods.SUDDEN_DEATH,
+  Mods.PERFECT,
+  Mods.DOUBLE_TIME,
+  Mods.NIGHTCORE,
+  Mods.HIDDEN,
+  Mods.FLASHLIGHT,
+  Mods.SPUN_OUT,
+  Mods.RELAX2,
+  Mods.RELAX,
+  Mods.SCORE_V2
 ];
 
 export function ModsSelector({
@@ -125,19 +81,16 @@ export function ModsSelector({
         }}
       >
         {modElements
-          .filter(({ mod }) => !ignoreMods?.includes(mod))
-          .map(({ element, mod }) => (
+          .filter((mod) => !ignoreMods?.includes(mod))
+          .map((mod) => (
             <ToggleGroupItem
               key={mod}
               size={variant === "small" ? "lg" : "xl"}
               value={mod.toString()}
               variant={variant === "small" ? "default" : "outline"}
-              className="capitalize p-1"
+              className="capitalize p-0 h-auto"
             >
-              <div className="items-center flex flex-col">
-                {element}
-                {ShortenedMods[mod]}
-              </div>
+              <ModElement key={mod} modAcronym={ShortenedMods[mod]} variant="leaderboard" />
             </ToggleGroupItem>
           ))}
       </ToggleGroup>
