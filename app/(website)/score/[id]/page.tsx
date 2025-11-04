@@ -39,7 +39,8 @@ export default function Score(props: { params: Promise<{ id: number }> }) {
   const { self } = useSelf();
 
   const [useSpaciousUI] = useState(() => {
-    return localStorage.getItem("useSpaciousUI") || "false";
+    if (typeof window === "undefined") return false;
+    return localStorage.getItem("useSpaciousUI") === "true";
   });
 
   const { isLoading: isReplayLoading, downloadReplay } = useDownloadReplay(
@@ -80,7 +81,7 @@ export default function Score(props: { params: Promise<{ id: number }> }) {
         {score && user && beatmap ? (
           <>
             <div>
-              <div className="z-20 md:h-64 relative">
+              <div className="z-20 md:h-68 relative">
                 <div className="bg-black/60 p-4 place-content-between flex md:flex-row flex-col h-full  rounded-lg">
                   <div className="w-full h-full flex flex-col overflow-hidden">
                     <Link
@@ -111,7 +112,7 @@ export default function Score(props: { params: Promise<{ id: number }> }) {
                     >
                       {score.grade}
                     </div>
-                    <span className="line-clamp-3 text-xl font-bold my-auto md:pt-0 pt-2">
+                    <span className="line-clamp-3 text-xl font-bold my-auto md:pt-0 mb-0">
                       <ModIcons modsBitset={score.mods_int ?? 0} />
                     </span>
                   </div>
@@ -222,15 +223,9 @@ export default function Score(props: { params: Promise<{ id: number }> }) {
                 <UserElement user={user} />
               </div>
 
-              {useSpaciousUI == "true" && (
-                <div className="hidden xl:grid" />
-              )}
+              {useSpaciousUI && <div className="hidden xl:grid" />}
 
-              <div className={twMerge(
-                useSpaciousUI === "true"
-                  ? "xl:col-span-2"
-                  : "xl:col-span-3"
-              )}>
+              <div className={useSpaciousUI ? "xl:col-span-2" : "xl:col-span-3"}>
                 <ScoreStats score={score} beatmap={beatmap} variant="score" />
               </div>
             </div>

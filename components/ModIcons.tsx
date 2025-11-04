@@ -3,6 +3,7 @@
 
 import Image from "next/image";
 import { Tooltip } from "@/components/Tooltip";
+import { twMerge } from "tailwind-merge";
 
 const LEGACY_BITSET = [
   [1 << 0, 'NF'],
@@ -33,6 +34,7 @@ const LEGACY_BITSET = [
 ];
 
 const modNames: Record<string, string> = {
+  'NM': 'No Mod',
   'NF': 'No Fail',
   'EZ': 'Easy',
   'TD': 'Touch Device',
@@ -60,8 +62,6 @@ const modNames: Record<string, string> = {
   '9K': '9 Keys',
 };
 
-const LEGACY_PREFERENCE_MODS_BITSET = 0b01000000000000000100001000100000;
-
 function acronymToName(modAcronym: string): string {
   let name = modNames[modAcronym];
   if (name !== undefined) {
@@ -85,25 +85,37 @@ export function ModIcons({
   return (
     <span className="flex flex-row space-x-1 md:justify-start justify-center">
       {activeMods.map((modName) => (
-        <ModElement key={modName} modAcronym={modName} />
+        <ModElement key={modName} modAcronym={modName}  />
       ))}
     </span>
   );
 }
 
-function ModElement({ modAcronym }: { modAcronym: string }) {
+export function ModElement({ modAcronym, variant }: { modAcronym: string, variant?: "leaderboard" | "default" }) {
   const modName = acronymToName(modAcronym);
   const formattedName = formatModName(modName);
 
   return (
     <Tooltip content={modName} className="text-base">
-      <Image
-        src={`/images/mods/mod-${formattedName}.svg`}
-        alt={modName}
-        width={50}
-        height={50}
-        className={`center bg-secondary p-1 rounded-md`}
-      />
+      <div
+        className={twMerge(
+          "center p-1 rounded-md",
+          variant == "leaderboard" ? "" : "bg-secondary"
+        )}>
+        <div
+          className={twMerge(
+            "w-10 h-7 mask-center mask-no-repeat mask-contain bg-secondary-foreground m-0",
+            variant == "leaderboard" ? "" : "bg-secondary-foreground",
+          )}
+          style={{
+            WebkitMaskImage: `url(/images/mods/mod-${formattedName}.svg)`,
+            maskImage: `url(/images/mods/mod-${formattedName}.svg)`,
+            WebkitMaskSize: "contain",
+          }}
+          aria-label={modName}
+        />
+        <span className="text-sm">{modAcronym}</span>
+      </div>
     </Tooltip>
   );
 }

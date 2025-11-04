@@ -44,7 +44,7 @@ export default function SiteLocalOptions() {
           }
         />
         <Label htmlFor="use-spacious-ui">
-          Use spacious UI (more empty space between elements)
+          Use spacious UI (Increase spacing between elements)
         </Label>
       </div>
     </div>
