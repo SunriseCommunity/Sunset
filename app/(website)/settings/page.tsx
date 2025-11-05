@@ -34,34 +34,11 @@ import {
 } from "@/components/ui/accordion";
 import UploadImageForm from "@/app/(website)/settings/components/UploadImageForm";
 import ChangeCountryInput from "@/app/(website)/settings/components/ChangeCountryInput";
+import ChangeDescriptionInput from "@/app/(website)/settings/components/ChangeDescriptionInput";
 
 export default function Settings() {
-  const { trigger, isMutating: isUpdatingDescription } = useEditDescription();
-
   const { self, isLoading } = useSelf();
-  const { data: userMetada } = useUserMetadata(self?.user_id ?? null);
-
-  const { toast } = useToast();
-
-  const saveDescription = (text: string) => {
-    trigger(
-      { description: text },
-      {
-        onSuccess() {
-          toast({
-            title: "Description updated successfully!",
-            variant: "success",
-          });
-        },
-        onError(err) {
-          toast({
-            title: err?.message ?? "An unknown error occurred",
-            variant: "destructive",
-          });
-        },
-      }
-    );
-  };
+  const { data: userMetadata } = useUserMetadata(self?.user_id ?? null);
 
   const settingsContent = [
     {
@@ -94,11 +71,7 @@ export default function Settings() {
       content: (
         <RoundedContent>
           <div className="flex flex-col w-11/12 mx-auto">
-            <BBCodeInput
-              defaultText={self?.description ?? ""}
-              onSave={saveDescription}
-              isSaving={isUpdatingDescription}
-            />
+            {self ? <ChangeDescriptionInput user={self} /> : <Spinner />}
           </div>
         </RoundedContent>
       ),
@@ -109,8 +82,8 @@ export default function Settings() {
       content: (
         <RoundedContent>
           <div className="flex flex-col w-11/12 mx-auto">
-            {userMetada ? (
-              <ChangeSocialsForm metadata={userMetada} />
+            {userMetadata && self ? (
+              <ChangeSocialsForm metadata={userMetadata} user={self} />
             ) : (
               <Spinner />
             )}
@@ -124,8 +97,8 @@ export default function Settings() {
       content: (
         <RoundedContent>
           <div className="flex flex-col w-11/12 mx-auto">
-            {userMetada ? (
-              <ChangePlaystyleForm metadata={userMetada} />
+            {userMetadata && self ? (
+              <ChangePlaystyleForm metadata={userMetadata} user={self} />
             ) : (
               <Spinner />
             )}
