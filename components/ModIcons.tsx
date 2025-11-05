@@ -96,7 +96,7 @@ export function ModElement({ modAcronym, variant }: { modAcronym: string, varian
   const formattedName = formatModName(modName);
 
   return (
-    <Tooltip content={modName} className="text-base">
+    <Tooltip content={modName} disabled={variant === "leaderboard"} className="text-base">
       <div
         className={twMerge(
           "center p-1 rounded-md",
