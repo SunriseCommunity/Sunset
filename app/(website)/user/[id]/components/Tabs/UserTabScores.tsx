@@ -60,7 +60,7 @@ export default function UserTabScores({
         {data && scores && total_count != undefined && (
           <div>
             {scores.length <= 0 && (
-              <ContentNotExist text="User has no best scores" />
+              <ContentNotExist text={`User has no ${type.toString().toLowerCase()} scores`} />
             )}
             {scores.map((score) => (
               <div key={`score-${score.id}`} className="mb-2">
