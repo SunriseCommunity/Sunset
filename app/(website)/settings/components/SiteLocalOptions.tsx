@@ -10,7 +10,7 @@ export default function SiteLocalOptions() {
   });
 
   const [useSpaciousUI, setUseSpaciousUI] = useState(() => {
-    return localStorage.getItem("useSpaciousUI") || "true";
+    return localStorage.getItem("useSpaciousUI") || "false";
   });
 
   useEffect(() => {
