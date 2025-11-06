@@ -605,6 +605,14 @@ export const zEditUserMetadataRequest = z.object({
     ]).optional()
 });
 
+export const zEditUserRestrictionRequest = z.object({
+    is_restrict: z.boolean(),
+    restriction_reason: z.union([
+        z.string().min(3).max(256),
+        z.null()
+    ]).optional()
+});
+
 export const zFavouritedResponse = z.object({
     favourited: z.boolean()
 });
@@ -949,6 +957,10 @@ export const zRegisterRequest = z.object({
     email: z.string().min(1).regex(/^\S+@\S+\.\S+$/)
 });
 
+export const zResetPasswordRequest = z.object({
+    new_password: z.string().min(1)
+});
+
 export const zScoreResponse = z.object({
     accuracy: z.number(),
     beatmap_id: z.number().int(),
@@ -1167,6 +1179,8 @@ export const zGetScoreTopResponse = zScoresResponse;
 
 export const zGetUserByIdResponse = zUserResponse;
 
+export const zGetUserByIdSensitiveResponse = zUserSensitiveResponse;
+
 export const zGetUserByIdByModeResponse = zUserWithStatsResponse;
 
 export const zGetUserSelfResponse = zUserResponse;
@@ -1191,7 +1205,11 @@ export const zGetUserSearchListResponse = zUsersSensitiveListResponse;
 
 export const zGetUserFriendsResponse = zFriendsResponse;
 
+export const zGetUserByIdFriendsResponse = zFriendsResponse;
+
 export const zGetUserFollowersResponse = zFollowersResponse;
+
+export const zGetUserByIdFollowersResponse = zFollowersResponse;
 
 export const zGetUserByIdFriendStatusResponse = zFriendStatusResponse;
 
