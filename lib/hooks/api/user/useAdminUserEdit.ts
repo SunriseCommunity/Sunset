@@ -9,6 +9,7 @@ import {
   GetUserByIdFriendsResponse,
   GetUserByIdFollowersResponse,
   EditUserRestrictionRequest,
+  ResetPasswordRequest,
 } from "@/lib/types/api";
 import useSWRMutation from "swr/mutation";
 import { mutate } from "swr";
@@ -63,7 +64,7 @@ export function useAdminCountryChange(userId: number) {
 export function useAdminPasswordChange(userId: number) {
   return useSWRMutation(
     `user/${userId}`,
-    async (url: string, { arg }: { arg: ChangePasswordRequest }) => {
+    async (url: string, { arg }: { arg: ResetPasswordRequest }) => {
       return await poster(`user/${userId}/password/change`, {
         json: arg,
       });
