@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export function WorkInProgress() {
   return (
-    <div className="text-current p-4 rounded-lg items-center justify-center space-x-4">
+    <div className="text-current p-4 rounded-lg items-center justify-center space-x-4 flex flex-col">
       <Image
         src="/images/wip.png"
         alt="wip"

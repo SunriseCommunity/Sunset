@@ -3,7 +3,7 @@
 import Spinner from "@/components/Spinner";
 import { useState, use, useCallback, useEffect } from "react";
 import Image from "next/image";
-import { Edit3Icon, User as UserIcon } from "lucide-react";
+import { Edit3Icon, LucideSettings, User as UserIcon } from "lucide-react";
 import UserPrivilegeBadges from "@/app/(website)/user/[id]/components/UserPrivilegeBadges";
 import PrettyHeader from "@/components/General/PrettyHeader";
 import UserTabGeneral from "@/app/(website)/user/[id]/components/Tabs/UserTabGeneral";
@@ -41,6 +41,7 @@ import UserGeneralInformation from "@/app/(website)/user/[id]/components/UserGen
 import { useUserMetadata } from "@/lib/hooks/api/user/useUserMetadata";
 import UserSocials from "@/app/(website)/user/[id]/components/UserSocials";
 import UserPreviousUsernamesTooltip from "@/app/(website)/user/[id]/components/UserPreviousUsernamesTooltip";
+import { isUserCanUseAdminPanel } from "@/lib/utils/isUserCanUseAdminPanel";
 
 const contentTabs = [
   "General",
@@ -283,6 +284,17 @@ export default function UserPage(props: { params: Promise<{ id: number }> }) {
                         <FriendshipButton userId={userId} />
                         {/* TODO: <Button onClick={() => {}} icon={<MessageSquare />} /> */}
                       </>
+                    )}
+                    {self && isUserCanUseAdminPanel(self) && (
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={() => {
+                          router.push(`/admin/users/${user.user_id}/edit`);
+                        }}
+                      >
+                        <LucideSettings />
+                      </Button>
                     )}
                   </div>
                 </div>

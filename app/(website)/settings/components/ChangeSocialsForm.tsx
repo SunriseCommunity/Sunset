@@ -13,28 +13,39 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
+import { useAdminEditUserMetadata } from "@/lib/hooks/api/user/useAdminUserEdit";
 import { useEditUserMetadata } from "@/lib/hooks/api/user/useUserMetadata";
 import { useUsernameChange } from "@/lib/hooks/api/user/useUsernameChange";
-import { UserMetadataResponse, UserPlaystyle } from "@/lib/types/api";
+import useSelf from "@/lib/hooks/useSelf";
+import { UserMetadataResponse, UserResponse } from "@/lib/types/api";
 import { zEditUserMetadataRequest } from "@/lib/types/api/zod.gen";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Separator } from "@radix-ui/react-dropdown-menu";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { twMerge } from "tailwind-merge";
 import { z } from "zod";
 
 const formSchema = zEditUserMetadataRequest;
 
 export default function ChangeSocialsForm({
+  user,
   metadata,
+  className,
 }: {
+  user: UserResponse;
   metadata: UserMetadataResponse;
+  className?: string;
 }) {
   const [error, setError] = useState<string | null>(null);
+  const self = useSelf();
 
   const { toast } = useToast();
 
-  const { trigger } = useEditUserMetadata();
+  const { trigger: triggerSelf } = useEditUserMetadata();
+  const { trigger: triggerUser } = useAdminEditUserMetadata(user.user_id);
+
+  const isSelf = user.user_id === self?.self?.user_id;
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -49,6 +60,8 @@ export default function ChangeSocialsForm({
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     setError(null);
+
+    const trigger = isSelf ? triggerSelf : triggerUser;
 
     trigger(
       {
@@ -75,7 +88,7 @@ export default function ChangeSocialsForm({
   }
 
   return (
-    <div className="flex flex-col lg:w-1/2">
+    <div className={twMerge("flex flex-col lg:w-1/2", className)}>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <h3 className="text-xl font-medium">General</h3>

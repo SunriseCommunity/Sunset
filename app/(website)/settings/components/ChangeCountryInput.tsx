@@ -19,23 +19,48 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
+import { useAdminCountryChange } from "@/lib/hooks/api/user/useAdminUserEdit";
 import { useCountryChange } from "@/lib/hooks/api/user/useCountryChange";
 import { useUsernameChange } from "@/lib/hooks/api/user/useUsernameChange";
-import { CountryCode, GameMode, UserResponse } from "@/lib/types/api";
+import useSelf from "@/lib/hooks/useSelf";
+import {
+  CountryCode,
+  GameMode,
+  UserBadge,
+  UserResponse,
+} from "@/lib/types/api";
 import { zCountryChangeRequest } from "@/lib/types/api/zod.gen";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { twMerge } from "tailwind-merge";
 import { z } from "zod";
 
 const formSchema = zCountryChangeRequest;
 
-export default function ChangeCountryInput({ user }: { user: UserResponse }) {
+export default function ChangeCountryInput({
+  user,
+  className,
+}: {
+  user: UserResponse;
+  className?: string;
+}) {
   const [error, setError] = useState<string | null>(null);
+
+  const self = useSelf();
+
+  const shouldUseAdminPrivileges = self?.self?.badges.includes(UserBadge.ADMIN);
+
+  const isSelf =
+    user.user_id === self?.self?.user_id && !shouldUseAdminPrivileges;
 
   const { toast } = useToast();
 
-  const { trigger, isMutating } = useCountryChange();
+  const { trigger: triggerSelfChange, isMutating: isChangingSelf } =
+    useCountryChange();
+
+  const { trigger: triggerUserChange, isMutating: isChangingUser } =
+    useAdminCountryChange(user.user_id);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -53,35 +78,40 @@ export default function ChangeCountryInput({ user }: { user: UserResponse }) {
 
     const { new_country } = values;
 
-    trigger(
-      {
-        new_country: new_country as CountryCode,
-      },
-      {
-        onSuccess: () => {
-          form.reset();
+    const payload = {
+      new_country: new_country as CountryCode,
+    };
 
-          toast({
-            title: "Country flag changed successfully!",
-            variant: "success",
-          });
-        },
-        onError: (err) => {
-          showError(err.message ?? "Unknown error.");
-          toast({
-            title: "Error occured while changing country flag!",
-            description: err.message ?? "Unknown error.",
-            variant: "destructive",
-          });
-        },
-      }
-    );
+    const options = {
+      onSuccess: () => {
+        form.reset();
+
+        toast({
+          title: "Country flag changed successfully!",
+          variant: "success",
+        });
+      },
+      onError: (err: any) => {
+        showError(err.message ?? "Unknown error.");
+        toast({
+          title: "Error occured while changing country flag!",
+          description: err.message ?? "Unknown error.",
+          variant: "destructive",
+        });
+      },
+    };
+
+    if (isSelf) {
+      triggerSelfChange(payload, options);
+    } else {
+      triggerUserChange(payload, options);
+    }
   }
 
   const regionNames = new Intl.DisplayNames(["en"], { type: "region" });
 
   return (
-    <div className="flex flex-col lg:w-1/2">
+    <div className={twMerge("flex flex-col lg:w-1/2", className)}>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
@@ -91,33 +121,31 @@ export default function ChangeCountryInput({ user }: { user: UserResponse }) {
               <FormItem>
                 <FormLabel>New Country Flag</FormLabel>
                 <FormControl>
-                  <Select>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select new country flag" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {Object.values(CountryCode)
-                          .filter((v) => v != CountryCode.XX)
-                          .map((v) => (
-                            <SelectItem value={v}>
-                              <div className="flex flex-row items-center">
-                                <img
-                                  src={`/images/flags/${v}.png`}
-                                  alt="Country Flag"
-                                  className="md:w-6 md:h-6 w-5 h-5 mr-2"
-                                />
-                                {regionNames.of(v)}
-                              </div>
-                            </SelectItem>
-                          ))}
-                      </SelectContent>
-                    </Select>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select new country flag" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {Object.values(CountryCode)
+                        .filter((v) => v != CountryCode.XX)
+                        .map((v) => (
+                          <SelectItem value={v} key={v}>
+                            <div className="flex flex-row items-center">
+                              <img
+                                src={`/images/flags/${v}.png`}
+                                alt="Country Flag"
+                                className="md:w-6 md:h-6 w-5 h-5 mr-2"
+                              />
+                              {regionNames.of(v)}
+                            </div>
+                          </SelectItem>
+                        ))}
+                    </SelectContent>
                   </Select>
                 </FormControl>
                 <FormMessage />
@@ -126,7 +154,11 @@ export default function ChangeCountryInput({ user }: { user: UserResponse }) {
           />
           {error && <p className="text-sm text-destructive">{error}</p>}
           <DialogFooter>
-            <Button type="submit" disabled={isMutating}>
+            <Button
+              type="submit"
+              disabled={isChangingSelf || isChangingUser}
+              className="w-full"
+            >
               Change country flag
             </Button>
           </DialogFooter>

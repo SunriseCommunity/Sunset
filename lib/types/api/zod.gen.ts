@@ -605,6 +605,27 @@ export const zEditUserMetadataRequest = z.object({
     ]).optional()
 });
 
+export const zUserPrivilege = z.enum([
+    'User',
+    'Supporter',
+    'Bat',
+    'Admin',
+    'Developer',
+    'ServerBot'
+]);
+
+export const zEditUserPrivilegeRequest = z.object({
+    privilege: z.array(zUserPrivilege)
+});
+
+export const zEditUserRestrictionRequest = z.object({
+    is_restrict: z.boolean(),
+    restriction_reason: z.union([
+        z.string().min(3).max(256),
+        z.null()
+    ]).optional()
+});
+
 export const zFavouritedResponse = z.object({
     favourited: z.boolean()
 });
@@ -949,6 +970,10 @@ export const zRegisterRequest = z.object({
     email: z.string().min(1).regex(/^\S+@\S+\.\S+$/)
 });
 
+export const zResetPasswordRequest = z.object({
+    new_password: z.string().min(1)
+});
+
 export const zScoreResponse = z.object({
     accuracy: z.number(),
     beatmap_id: z.number().int(),
@@ -1064,6 +1089,30 @@ export const zUserRelationsCountersResponse = z.object({
     following: z.number().int()
 });
 
+export const zUserSensitiveResponse = z.object({
+    user_id: z.number().int(),
+    username: z.string(),
+    email: z.string(),
+    privilege: zUserPrivilege,
+    description: z.union([
+        z.string(),
+        z.null()
+    ]).optional(),
+    country_code: zCountryCode,
+    register_date: z.string().datetime(),
+    avatar_url: z.string(),
+    banner_url: z.string(),
+    last_online_time: z.string().datetime(),
+    restricted: z.boolean(),
+    silenced_until: z.union([
+        z.string().datetime(),
+        z.null()
+    ]).optional(),
+    default_gamemode: zGameMode,
+    badges: z.array(zUserBadge),
+    user_status: z.string()
+});
+
 export const zUserWithStatsResponse = z.object({
     user: zUserResponse,
     stats: zUserStatsResponse.optional()
@@ -1071,6 +1120,11 @@ export const zUserWithStatsResponse = z.object({
 
 export const zUsernameChangeRequest = z.object({
     new_username: z.string().min(1)
+});
+
+export const zUsersSensitiveListResponse = z.object({
+    users: z.array(zUserSensitiveResponse),
+    total_count: z.number().int()
 });
 
 export const zWebSocketEventType = z.enum([
@@ -1129,6 +1183,8 @@ export const zGetScoreTopResponse = zScoresResponse;
 
 export const zGetUserByIdResponse = zUserResponse;
 
+export const zGetUserByIdSensitiveResponse = zUserSensitiveResponse;
+
 export const zGetUserByIdByModeResponse = zUserWithStatsResponse;
 
 export const zGetUserSelfResponse = zUserResponse;
@@ -1149,9 +1205,15 @@ export const zGetUserLeaderboardResponse = zLeaderboardResponse;
 
 export const zGetUserSearchResponse = z.array(zUserResponse);
 
+export const zGetUserSearchListResponse = zUsersSensitiveListResponse;
+
 export const zGetUserFriendsResponse = zFriendsResponse;
 
+export const zGetUserByIdFriendsResponse = zFriendsResponse;
+
 export const zGetUserFollowersResponse = zFollowersResponse;
+
+export const zGetUserByIdFollowersResponse = zFollowersResponse;
 
 export const zGetUserByIdFriendStatusResponse = zFriendStatusResponse;
 
