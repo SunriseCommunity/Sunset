@@ -9,6 +9,7 @@ import {
   GetUserByIdFriendsResponse,
   GetUserByIdFollowersResponse,
   EditUserRestrictionRequest,
+  EditUserPrivilegeRequest,
   ResetPasswordRequest,
 } from "@/lib/types/api";
 import useSWRMutation from "swr/mutation";
@@ -174,4 +175,19 @@ export function useAdminEditRestriction(userId: number) {
 
 export function useAdminUserSensitive(userId: number) {
   return useSWR<UserSensitiveResponse>(`user/${userId}/sensitive`);
+}
+
+export function useAdminEditPrivilege(userId: number) {
+  return useSWRMutation(
+    `user/${userId}`,
+    async (url: string, { arg }: { arg: EditUserPrivilegeRequest }) => {
+      const result = await poster(`user/${userId}/edit/privilege`, {
+        json: arg,
+      });
+
+      mutate(`user/${userId}`);
+      mutate(`user/${userId}/sensitive`);
+      return result;
+    }
+  );
 }

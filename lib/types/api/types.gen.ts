@@ -400,6 +400,10 @@ export type EditUserMetadataRequest = {
     website?: string | null;
 };
 
+export type EditUserPrivilegeRequest = {
+    privilege: Array<UserPrivilege>;
+};
+
 export type EditUserRestrictionRequest = {
     is_restrict: boolean;
     restriction_reason?: string | null;
@@ -2562,6 +2566,35 @@ export type PostUserByIdEditMetadataErrors = {
 export type PostUserByIdEditMetadataError = PostUserByIdEditMetadataErrors[keyof PostUserByIdEditMetadataErrors];
 
 export type PostUserByIdEditMetadataResponses = {
+    /**
+     * OK
+     */
+    200: unknown;
+};
+
+export type PostUserByIdEditPrivilegeData = {
+    body?: EditUserPrivilegeRequest;
+    path: {
+        id: number;
+    };
+    query?: never;
+    url: '/user/{id}/edit/privilege';
+};
+
+export type PostUserByIdEditPrivilegeErrors = {
+    /**
+     * Bad Request
+     */
+    400: ProblemDetailsResponseType;
+    /**
+     * Not Found
+     */
+    404: ProblemDetailsResponseType;
+};
+
+export type PostUserByIdEditPrivilegeError = PostUserByIdEditPrivilegeErrors[keyof PostUserByIdEditPrivilegeErrors];
+
+export type PostUserByIdEditPrivilegeResponses = {
     /**
      * OK
      */

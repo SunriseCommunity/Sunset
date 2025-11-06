@@ -605,6 +605,19 @@ export const zEditUserMetadataRequest = z.object({
     ]).optional()
 });
 
+export const zUserPrivilege = z.enum([
+    'User',
+    'Supporter',
+    'Bat',
+    'Admin',
+    'Developer',
+    'ServerBot'
+]);
+
+export const zEditUserPrivilegeRequest = z.object({
+    privilege: z.array(zUserPrivilege)
+});
+
 export const zEditUserRestrictionRequest = z.object({
     is_restrict: z.boolean(),
     restriction_reason: z.union([
@@ -1070,15 +1083,6 @@ export const zUserMetadataResponse = z.object({
     discord: z.string(),
     website: z.string()
 });
-
-export const zUserPrivilege = z.enum([
-    'User',
-    'Supporter',
-    'Bat',
-    'Admin',
-    'Developer',
-    'ServerBot'
-]);
 
 export const zUserRelationsCountersResponse = z.object({
     followers: z.number().int(),

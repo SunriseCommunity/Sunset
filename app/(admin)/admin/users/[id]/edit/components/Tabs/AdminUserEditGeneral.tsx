@@ -17,6 +17,7 @@ import AdminUserConnections from "@/app/(admin)/admin/users/[id]/edit/components
 import UserStatusText, {
   statusColor,
 } from "@/app/(website)/user/[id]/components/UserStatusText";
+import AdminUserPrivilegeInput from "@/app/(admin)/admin/users/[id]/edit/components/AdminUserPrivilegeInput";
 
 export const SensitiveInfoContext = createContext<boolean>(false);
 

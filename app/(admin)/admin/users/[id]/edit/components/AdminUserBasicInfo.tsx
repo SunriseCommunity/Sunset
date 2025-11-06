@@ -12,6 +12,7 @@ import AdminUserRestrictButton from "@/app/(admin)/admin/users/[id]/edit/compone
 import AdminUserEmailInput from "@/app/(admin)/admin/users/[id]/edit/components/AdminUserEmailInput";
 import AdminUserUsernameInput from "@/app/(admin)/admin/users/[id]/edit/components/AdminUserUsernameInput";
 import AdminUserResetPassword from "@/app/(admin)/admin/users/[id]/edit/components/AdminUserResetPassword";
+import AdminUserPrivilegeInput from "@/app/(admin)/admin/users/[id]/edit/components/AdminUserPrivilegeInput";
 
 export default function AdminUserBasicInfo({
   user,
@@ -44,6 +45,8 @@ export default function AdminUserBasicInfo({
           </Label>
           <AdminUserEmailInput user={user} />
         </div>
+
+        <AdminUserPrivilegeInput user={user} />
 
         <div className="border-t border-border" />
 
