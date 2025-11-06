@@ -9,9 +9,17 @@ export default function SiteLocalOptions() {
     return localStorage.getItem("includeOpenBanchoButton") || "false";
   });
 
+  const [useSpaciousUI, setUseSpaciousUI] = useState(() => {
+    return localStorage.getItem("useSpaciousUI") || "false";
+  });
+
   useEffect(() => {
     localStorage.setItem("includeOpenBanchoButton", includeOpenBanchoButton);
   }, [includeOpenBanchoButton]);
+
+  useEffect(() => {
+    localStorage.setItem("useSpaciousUI", useSpaciousUI);
+  }, [useSpaciousUI]);
 
   return (
     <div>
@@ -25,6 +33,18 @@ export default function SiteLocalOptions() {
         />
         <Label htmlFor="include-bancho-button">
           Include "Open on Bancho" button in beatmap page
+        </Label>
+      </div>
+      <div className="flex items-center space-x-2 mt-4">
+        <Switch
+          id="use-spacious-ui"
+          checked={useSpaciousUI === "true"}
+          onCheckedChange={(checked) =>
+            setUseSpaciousUI(checked ? "true" : "false")
+          }
+        />
+        <Label htmlFor="use-spacious-ui">
+          Use spacious UI (Increase spacing between elements)
         </Label>
       </div>
     </div>
