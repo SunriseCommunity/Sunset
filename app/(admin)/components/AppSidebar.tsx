@@ -87,7 +87,7 @@ export function AppSidebar() {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>
-            {self && infoTabsWithAccess.length > 0 ? "Information" : ""}
+            {self ? (infoTabsWithAccess.length > 0 ? "Information" : "") : null}
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
@@ -104,7 +104,7 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
           <SidebarGroupLabel>
-            {self && actionTabsWithAccess.length > 0 ? "Actions" : ""}
+            {self ? (actionTabsWithAccess.length > 0 ? "Actions" : "") : null}
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
