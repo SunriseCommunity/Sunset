@@ -20,9 +20,10 @@ import {
 } from "@/components/ui/sidebar";
 import { useBeatmapSetGetHypedSets } from "@/lib/hooks/api/beatmap/useBeatmapSetHypedSets";
 import useSelf from "@/lib/hooks/useSelf";
-import { UserBadge } from "@/lib/types/api";
+import { HypedBeatmapSetsResponse, UserBadge } from "@/lib/types/api";
 import { Home, ChevronsUp, Music2, Moon, Sun, Users } from "lucide-react";
 import Link from "next/link";
+import { SWRInfiniteResponse } from "swr/infinite";
 
 const infoTabs = [
   {
@@ -34,6 +35,7 @@ const infoTabs = [
     title: "Users",
     url: "/admin/users/search",
     icon: Users,
+    requires: UserBadge.ADMIN,
   },
 ];
 
@@ -49,9 +51,9 @@ const actionTabs = [
     url: "/admin/beatmaps/requests",
     icon: ChevronsUp,
     requires: UserBadge.BAT,
-    badge: () => {
-      const requestsQuery = useBeatmapSetGetHypedSets();
-
+    beatmapsRequestBadge: (
+      requestsQuery: SWRInfiniteResponse<HypedBeatmapSetsResponse, any>
+    ) => {
       const { data } = requestsQuery;
 
       return (
@@ -63,16 +65,33 @@ const actionTabs = [
 
 export function AppSidebar() {
   const { self } = useSelf();
+  const requestsQuery = useBeatmapSetGetHypedSets();
+
+  const infoTabsWithAccess = infoTabs.filter((item) => {
+    if (!self) return false;
+
+    var requirements = item.requires && !self.badges.includes(item.requires);
+    return !requirements;
+  });
+
+  const actionTabsWithAccess = actionTabs.filter((item) => {
+    if (!self) return false;
+
+    var requirements = item.requires && !self.badges.includes(item.requires);
+    return !requirements;
+  });
 
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader />
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Information</SidebarGroupLabel>
+          <SidebarGroupLabel>
+            {self && infoTabsWithAccess.length > 0 ? "Information" : ""}
+          </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {infoTabs.map((item) => (
+              {infoTabsWithAccess.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <Link href={item.url}>
@@ -84,31 +103,26 @@ export function AppSidebar() {
               ))}
             </SidebarMenu>
           </SidebarGroupContent>
-          <SidebarGroupLabel>Actions</SidebarGroupLabel>
+          <SidebarGroupLabel>
+            {self && actionTabsWithAccess.length > 0 ? "Actions" : ""}
+          </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {actionTabs.map((item) => {
-                var requirements =
-                  item.requires &&
-                  !self?.badges.includes(item.requires) &&
-                  !self?.badges.includes(UserBadge.ADMIN);
-
-                var badge = item.badge && (
-                  <SidebarMenuBadge>{item.badge()}</SidebarMenuBadge>
-                );
-
-                return requirements ? undefined : (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild>
-                      <Link href={item.url}>
-                        <item.icon />
-                        <span>{item.title}</span>
-                      </Link>
-                    </SidebarMenuButton>
-                    {badge}
-                  </SidebarMenuItem>
-                );
-              })}
+              {actionTabsWithAccess.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    <Link href={item.url}>
+                      <item.icon />
+                      <span>{item.title}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                  {item.beatmapsRequestBadge && (
+                    <SidebarMenuBadge>
+                      {item.beatmapsRequestBadge(requestsQuery)}
+                    </SidebarMenuBadge>
+                  )}
+                </SidebarMenuItem>
+              ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
