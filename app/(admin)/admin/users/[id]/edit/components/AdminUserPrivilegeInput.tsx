@@ -37,9 +37,9 @@ export default function AdminUserPrivilegeInput({
 }: {
   user: UserSensitiveResponse;
 }) {
-  const [selectedPrivileges, setSelectedPrivileges] = useState<string[]>([
-    user.privilege,
-  ]);
+  const [selectedPrivileges, setSelectedPrivileges] = useState<UserPrivilege[]>(
+    user.privilege
+  );
   const [error, setError] = useState<string | null>(null);
 
   const { trigger: editPrivilege, isMutating: isUpdatingPrivilege } =
@@ -47,7 +47,7 @@ export default function AdminUserPrivilegeInput({
   const { toast } = useToast();
 
   useEffect(() => {
-    setSelectedPrivileges(user.privilege as unknown as string[]); // TODO: Backend returns string[]
+    setSelectedPrivileges(user.privilege);
   }, [user.privilege]);
 
   const handleSave = async () => {
@@ -89,7 +89,9 @@ export default function AdminUserPrivilegeInput({
       <div className="flex items-start gap-2">
         <MultiSelect
           options={PRIVILEGE_OPTIONS}
-          onValueChange={setSelectedPrivileges}
+          onValueChange={(values: string[]) =>
+            setSelectedPrivileges(values as UserPrivilege[])
+          }
           defaultValue={Object.values(user.privilege).filter(
             (v) => v != UserPrivilege.USER
           )}

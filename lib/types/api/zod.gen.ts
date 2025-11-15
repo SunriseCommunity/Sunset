@@ -626,6 +626,37 @@ export const zEditUserRestrictionRequest = z.object({
     ]).optional()
 });
 
+export const zUserEventType = z.enum([
+    'GameLogin',
+    'WebLogin',
+    'Register',
+    'ChangeEmail',
+    'ChangePassword',
+    'ChangeAvatar',
+    'ChangeBanner',
+    'ChangeUsername',
+    'ChangeCountry',
+    'ChangePrivilege',
+    'ChangeMetadata',
+    'ChangeDescription',
+    'ChangeDefaultGameMode',
+    'ChangeFriendshipStatus'
+]);
+
+export const zEventUserResponse = z.object({
+    id: z.number().int(),
+    user: zUserResponse,
+    event_type: zUserEventType,
+    ip: z.string(),
+    json_data: z.string(),
+    created_at: z.string().datetime()
+});
+
+export const zEventUsersResponse = z.object({
+    events: z.array(zEventUserResponse),
+    total_count: z.number().int()
+});
+
 export const zFavouritedResponse = z.object({
     favourited: z.boolean()
 });
@@ -1093,7 +1124,7 @@ export const zUserSensitiveResponse = z.object({
     user_id: z.number().int(),
     username: z.string(),
     email: z.string(),
-    privilege: zUserPrivilege,
+    privilege: z.array(zUserPrivilege),
     description: z.union([
         z.string(),
         z.null()
@@ -1216,6 +1247,8 @@ export const zGetUserFollowersResponse = zFollowersResponse;
 export const zGetUserByIdFollowersResponse = zFollowersResponse;
 
 export const zGetUserByIdFriendStatusResponse = zFriendStatusResponse;
+
+export const zGetUserByIdEventsResponse = zEventUsersResponse;
 
 export const zGetUserInventoryItemResponse = zInventoryItemResponse;
 

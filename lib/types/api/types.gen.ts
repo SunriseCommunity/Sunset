@@ -409,6 +409,20 @@ export type EditUserRestrictionRequest = {
     restriction_reason?: string | null;
 };
 
+export type EventUserResponse = {
+    id: number;
+    user: UserResponse;
+    event_type: UserEventType;
+    ip: string;
+    json_data: string;
+    created_at: string;
+};
+
+export type EventUsersResponse = {
+    events: Array<EventUserResponse>;
+    total_count: number;
+};
+
 export type FavouritedResponse = {
     favourited: boolean;
 };
@@ -742,6 +756,23 @@ export enum UserBadge {
     SUPPORTER = 'Supporter'
 }
 
+export enum UserEventType {
+    GAME_LOGIN = 'GameLogin',
+    WEB_LOGIN = 'WebLogin',
+    REGISTER = 'Register',
+    CHANGE_EMAIL = 'ChangeEmail',
+    CHANGE_PASSWORD = 'ChangePassword',
+    CHANGE_AVATAR = 'ChangeAvatar',
+    CHANGE_BANNER = 'ChangeBanner',
+    CHANGE_USERNAME = 'ChangeUsername',
+    CHANGE_COUNTRY = 'ChangeCountry',
+    CHANGE_PRIVILEGE = 'ChangePrivilege',
+    CHANGE_METADATA = 'ChangeMetadata',
+    CHANGE_DESCRIPTION = 'ChangeDescription',
+    CHANGE_DEFAULT_GAME_MODE = 'ChangeDefaultGameMode',
+    CHANGE_FRIENDSHIP_STATUS = 'ChangeFriendshipStatus'
+}
+
 export type UserMedalResponse = {
     readonly id: number;
     readonly name: string;
@@ -803,7 +834,7 @@ export type UserSensitiveResponse = {
     user_id: number;
     username: string;
     email: string;
-    privilege: UserPrivilege;
+    privilege: Array<UserPrivilege>;
     description?: string | null;
     country_code: CountryCode;
     register_date: string;
@@ -2383,6 +2414,40 @@ export type PostUserByIdFriendStatusResponses = {
      */
     200: unknown;
 };
+
+export type GetUserByIdEventsData = {
+    body?: Array<UserEventType>;
+    path: {
+        id: number;
+    };
+    query?: {
+        limit?: number;
+        page?: number;
+    };
+    url: '/user/{id}/events';
+};
+
+export type GetUserByIdEventsErrors = {
+    /**
+     * Bad Request
+     */
+    400: ProblemDetailsResponseType;
+    /**
+     * Unauthorized
+     */
+    401: ProblemDetailsResponseType;
+};
+
+export type GetUserByIdEventsError = GetUserByIdEventsErrors[keyof GetUserByIdEventsErrors];
+
+export type GetUserByIdEventsResponses = {
+    /**
+     * OK
+     */
+    200: EventUsersResponse;
+};
+
+export type GetUserByIdEventsResponse = GetUserByIdEventsResponses[keyof GetUserByIdEventsResponses];
 
 export type GetUserInventoryItemData = {
     body?: never;
