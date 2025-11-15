@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { UserSensitiveResponse } from "@/lib/types/api";
 import { timeSince } from "@/lib/utils/timeSince";
-import { isUserCanUseAdminPanel } from "@/lib/utils/isUserCanUseAdminPanel";
+import { isUserHasAdminPrivilege } from "@/lib/utils/userPrivileges.util";
 import { ColumnDef } from "@tanstack/react-table";
 import { Edit, SortAsc, SortDesc, Eye, EyeOff } from "lucide-react";
 import Image from "next/image";
@@ -289,7 +289,7 @@ export const adminUserColumns: ColumnDef<UserSensitiveResponse>[] = [
       const userId = row.original.user_id;
       const { self } = useSelf();
 
-      const canEdit = self && isUserCanUseAdminPanel(self);
+      const canEdit = self && isUserHasAdminPrivilege(self);
 
       return (
         <div className="px-2">

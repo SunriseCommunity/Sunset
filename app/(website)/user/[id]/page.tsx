@@ -41,7 +41,7 @@ import UserGeneralInformation from "@/app/(website)/user/[id]/components/UserGen
 import { useUserMetadata } from "@/lib/hooks/api/user/useUserMetadata";
 import UserSocials from "@/app/(website)/user/[id]/components/UserSocials";
 import UserPreviousUsernamesTooltip from "@/app/(website)/user/[id]/components/UserPreviousUsernamesTooltip";
-import { isUserCanUseAdminPanel } from "@/lib/utils/isUserCanUseAdminPanel";
+import { isUserHasAdminPrivilege } from "@/lib/utils/userPrivileges.util";
 
 const contentTabs = [
   "General",
@@ -285,10 +285,10 @@ export default function UserPage(props: { params: Promise<{ id: number }> }) {
                         {/* TODO: <Button onClick={() => {}} icon={<MessageSquare />} /> */}
                       </>
                     )}
-                    {self && isUserCanUseAdminPanel(self) && (
+                    {self && isUserHasAdminPrivilege(self) && (
                       <Button
                         variant="outline"
-                        size="icon"
+                        className="border-0 w-9"
                         onClick={() => {
                           router.push(`/admin/users/${user.user_id}/edit`);
                         }}

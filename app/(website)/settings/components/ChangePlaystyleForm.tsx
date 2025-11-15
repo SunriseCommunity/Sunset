@@ -101,54 +101,52 @@ export default function ChangePlaystyleForm({
   }
 
   return (
-    <div className="flex flex-col lg:w-1/2">
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="gap-2 flex sm:flex-row flex-col"
-        >
-          <FormField
-            control={form.control}
-            name={"playstyle"}
-            render={({ field }) => (
-              <>
-                {Object.values(UserPlaystyle)
-                  .filter((v) => v != UserPlaystyle.NONE)
-                  .map((value) => {
-                    return (
-                      <CardContent
-                        className="p-2 rounded-lg flex-grow"
-                        key={value}
-                      >
-                        <FormItem key={value}>
-                          <FormControl>
-                            <div className="flex items-center space-x-2">
-                              <Checkbox
-                                checked={playstyle.includes(value)}
-                                onCheckedChange={(v) =>
-                                  handleCheckboxChange(!!v, value)
-                                }
-                                type="submit"
-                              />
-                              <label
-                                htmlFor={field.name}
-                                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                              >
-                                {value}
-                              </label>
-                            </div>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      </CardContent>
-                    );
-                  })}
-              </>
-            )}
-          />
-          {error && <p className="text-sm text-destructive">{error}</p>}
-        </form>
-      </Form>
-    </div>
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="gap-2 flex sm:flex-row flex-col flex-wrap"
+      >
+        <FormField
+          control={form.control}
+          name={"playstyle"}
+          render={({ field }) => (
+            <>
+              {Object.values(UserPlaystyle)
+                .filter((v) => v != UserPlaystyle.NONE)
+                .map((value) => {
+                  return (
+                    <CardContent
+                      className="p-2 rounded-lg flex-grow"
+                      key={value}
+                    >
+                      <FormItem key={value}>
+                        <FormControl>
+                          <div className="flex items-center space-x-2">
+                            <Checkbox
+                              checked={playstyle.includes(value)}
+                              onCheckedChange={(v) =>
+                                handleCheckboxChange(!!v, value)
+                              }
+                              type="submit"
+                            />
+                            <label
+                              htmlFor={field.name}
+                              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                            >
+                              {value}
+                            </label>
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    </CardContent>
+                  );
+                })}
+            </>
+          )}
+        />
+        {error && <p className="text-sm text-destructive">{error}</p>}
+      </form>
+    </Form>
   );
 }

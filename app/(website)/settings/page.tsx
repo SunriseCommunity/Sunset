@@ -107,11 +107,13 @@ export default function Settings() {
       content: (
         <RoundedContent>
           <div className="flex flex-col w-11/12 mx-auto">
-            {userMetadata && self ? (
-              <ChangePlaystyleForm metadata={userMetadata} user={self} />
-            ) : (
-              <Spinner />
-            )}
+            <div className="flex flex-col lg:w-1/2">
+              {userMetadata && self ? (
+                <ChangePlaystyleForm metadata={userMetadata} user={self} />
+              ) : (
+                <Spinner />
+              )}
+            </div>
           </div>
         </RoundedContent>
       ),

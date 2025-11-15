@@ -30,21 +30,21 @@ export default function AdminUserProfile({
       </CardHeader>
       <CardContent>
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="description">
-              <FileText className="w-4 h-4 mr-1" />
+          <TabsList className="grid w-full grid-cols-4 ">
+            <TabsTrigger value="description" className="text-xs md:text-sm">
+              <FileText className="w-4 h-4 mr-1 flex-shrink-0 " />
               About
             </TabsTrigger>
-            <TabsTrigger value="country">
-              <Flag className="w-4 h-4 mr-1" />
+            <TabsTrigger value="country" className="text-xs md:text-sm">
+              <Flag className="w-4 h-4 mr-1 flex-shrink-0" />
               Country
             </TabsTrigger>
-            <TabsTrigger value="socials">
-              <Globe className="w-4 h-4 mr-1" />
+            <TabsTrigger value="socials" className="text-xs md:text-sm">
+              <Globe className="w-4 h-4 mr-1 flex-shrink-0 " />
               Socials
             </TabsTrigger>
-            <TabsTrigger value="playstyle">
-              <Gamepad2 className="w-4 h-4 mr-1" />
+            <TabsTrigger value="playstyle" className="text-xs md:text-sm">
+              <Gamepad2 className="w-4 h-4 mr-1 flex-shrink-0 " />
               Playstyle
             </TabsTrigger>
           </TabsList>

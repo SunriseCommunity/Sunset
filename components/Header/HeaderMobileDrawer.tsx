@@ -39,7 +39,7 @@ import {
 import Image from "next/image";
 import { HeaderLogoutAlert } from "@/components/Header/HeaderLogoutAlert";
 import HeaderLoginDialog from "@/components/Header/HeaderLoginDialog";
-import { isUserCanUseAdminPanel } from "@/lib/utils/isUserCanUseAdminPanel";
+import { isUserCanUseAdminPanel } from "@/lib/utils/userPrivileges.util";
 
 const navigationList = [
   {
