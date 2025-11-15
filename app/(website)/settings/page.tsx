@@ -71,7 +71,17 @@ export default function Settings() {
       content: (
         <RoundedContent>
           <div className="flex flex-col w-11/12 mx-auto">
-            {self ? <ChangeDescriptionInput user={self} /> : <Spinner />}
+            {self ? (
+              <>
+                <ChangeDescriptionInput user={self} />{" "}
+                <label className="text-xs mt-2">
+                  * Reminder: Do not post any inappropriate content. Try to keep
+                  it family friendly :)
+                </label>
+              </>
+            ) : (
+              <Spinner />
+            )}
           </div>
         </RoundedContent>
       ),
