@@ -21,6 +21,7 @@ import UserStatusText, {
 export const adminUserColumns: ColumnDef<UserSensitiveResponse>[] = [
   {
     accessorKey: "user_id",
+
     header: ({ column }) => {
       return (
         <Button
@@ -87,7 +88,7 @@ export const adminUserColumns: ColumnDef<UserSensitiveResponse>[] = [
       return (
         <Link
           href={`/admin/users/${user_id}/edit`}
-          className="flex items-center space-x-3 hover:underline px-4"
+          className="flex items-center space-x-3 hover:underline px-2"
         >
           <Image
             src={avatar_url}
@@ -107,7 +108,7 @@ export const adminUserColumns: ColumnDef<UserSensitiveResponse>[] = [
     cell: ({ row }) => {
       const badges = row.original.badges;
       return (
-        <div className="flex items-center px-2">
+        <div className="flex items-center ">
           {badges.length > 0 ? (
             <UserPrivilegeBadges
               badges={badges}
@@ -206,24 +207,25 @@ export const adminUserColumns: ColumnDef<UserSensitiveResponse>[] = [
       const isOffline = userStatus === "Offline";
 
       return (
-        <div className="text-sm px-2">
-          <Tooltip content={new Date(lastOnline).toLocaleString()}>
-            <div className="flex items-center gap-2">
-              <div
-                className={`w-2 h-2 rounded-full ${
-                  !isOffline
-                    ? `bg-${statusColor(userStatus)} animate-pulse`
-                    : "bg-gray-500"
-                }`}
-              />
-
-              <UserStatusText
-                className={!isOffline ? "font-bold" : ""}
-                user={row.original}
-                disabled
-              />
-            </div>
-          </Tooltip>
+        <div className="text-sm text-muted-foreground px-2 text-nowrap">
+          <div className="flex items-center gap-2">
+            <div
+              className={`w-2 h-2 rounded-full ${
+                !isOffline
+                  ? `bg-${statusColor(userStatus)} animate-pulse`
+                  : "bg-gray-500"
+              }`}
+            />
+            {isOffline ? (
+              <Tooltip content={new Date(lastOnline).toLocaleString()}>
+                <span>{timeSince(lastOnline)}</span>
+              </Tooltip>
+            ) : (
+              <p className={`text-sm ${`text-${statusColor(userStatus)}`}`}>
+                Online
+              </p>
+            )}
+          </div>
         </div>
       );
     },
