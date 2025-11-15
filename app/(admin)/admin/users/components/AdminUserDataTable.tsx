@@ -194,4 +194,3 @@ export function AdminUserDataTable<TData, TValue>({
     </div>
   );
 }
-

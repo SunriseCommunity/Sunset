@@ -71,7 +71,7 @@ export const adminUserColumns: ColumnDef<UserSensitiveResponse>[] = [
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="justify-start text-sm w-full px-2"
+          className="justify-start text-sm w-full px-2 flex items-center whitespace-nowrap"
         >
           Username
           {column.getIsSorted() === "asc" ? (
@@ -86,8 +86,8 @@ export const adminUserColumns: ColumnDef<UserSensitiveResponse>[] = [
       const { username, user_id, avatar_url } = row.original;
       return (
         <Link
-          href={`/user/${user_id}`}
-          className="flex items-center space-x-3 hover:underline px-2"
+          href={`/admin/users/${user_id}/edit`}
+          className="flex items-center space-x-3 hover:underline px-4"
         >
           <Image
             src={avatar_url}
@@ -109,7 +109,11 @@ export const adminUserColumns: ColumnDef<UserSensitiveResponse>[] = [
       return (
         <div className="flex items-center px-2">
           {badges.length > 0 ? (
-            <UserPrivilegeBadges badges={badges} small={true} />
+            <UserPrivilegeBadges
+              badges={badges}
+              small={true}
+              className="flex-shrink-0"
+            />
           ) : (
             <span className="text-muted-foreground text-sm">None</span>
           )}
@@ -170,7 +174,7 @@ export const adminUserColumns: ColumnDef<UserSensitiveResponse>[] = [
     cell: ({ row }) => {
       const registerDate = row.original.register_date;
       return (
-        <div className="text-sm text-muted-foreground px-2">
+        <div className="text-sm text-muted-foreground px-2 text-nowrap">
           <Tooltip content={new Date(registerDate).toLocaleString()}>
             <span>{timeSince(registerDate)}</span>
           </Tooltip>
@@ -216,6 +220,7 @@ export const adminUserColumns: ColumnDef<UserSensitiveResponse>[] = [
               <UserStatusText
                 className={!isOffline ? "font-bold" : ""}
                 user={row.original}
+                disabled
               />
             </div>
           </Tooltip>
@@ -264,13 +269,11 @@ export const adminUserColumns: ColumnDef<UserSensitiveResponse>[] = [
               onClick={() => setIsVisible(!isVisible)}
               className="h-6 w-6 p-0 flex-shrink-0"
             >
-              <Tooltip content={isVisible ? "Hide" : "Show"}>
-                {isVisible ? (
-                  <EyeOff className="h-4 w-4" />
-                ) : (
-                  <Eye className="h-4 w-4" />
-                )}
-              </Tooltip>
+              {isVisible ? (
+                <EyeOff className="h-4 w-4" />
+              ) : (
+                <Eye className="h-4 w-4" />
+              )}
             </Button>
           )}
         </div>

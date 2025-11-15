@@ -95,6 +95,7 @@ export default function AdminUserEditGeneral({
                     <UserStatusText
                       className={!isUserOffline ? "font-bold" : ""}
                       user={user}
+                      disabled
                     />
                   </div>
                 </Tooltip>
