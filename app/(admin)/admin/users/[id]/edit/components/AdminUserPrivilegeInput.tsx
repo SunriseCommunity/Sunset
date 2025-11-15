@@ -47,7 +47,7 @@ export default function AdminUserPrivilegeInput({
   const { toast } = useToast();
 
   useEffect(() => {
-    setSelectedPrivileges([user.privilege]);
+    setSelectedPrivileges(user.privilege as unknown as string[]); // TODO: Backend returns string[]
   }, [user.privilege]);
 
   const handleSave = async () => {
@@ -105,7 +105,8 @@ export default function AdminUserPrivilegeInput({
         </Button>
       </div>
       {error && <p className="text-sm text-destructive">{error}</p>}
-      {selectedPrivileges.length > 0 && (
+      {selectedPrivileges.filter((p) => p !== UserPrivilege.USER).length >
+        0 && (
         <p className="text-xs text-muted-foreground">
           Selected {selectedPrivileges.length}{" "}
           {selectedPrivileges.length === 1 ? "privilege" : "privileges"}
