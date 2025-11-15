@@ -87,7 +87,7 @@ export default function Beatmapset(props: BeatmapsetProps) {
   useEffect(() => {
     if (!activeMode) return;
 
-    window.history.pushState(
+    window.history.replaceState(
       null,
       "",
       pathname + "?" + createQueryString("mode", activeMode.toString())
@@ -98,7 +98,7 @@ export default function Beatmapset(props: BeatmapsetProps) {
     if (!activeBeatmap) return;
 
     if (activeBeatmap.id.toString() !== beatmapId) {
-      window.history.pushState(
+      window.history.replaceState(
         null,
         "",
         `/beatmapsets/${beatmapSetId}/${activeBeatmap.id}?` +

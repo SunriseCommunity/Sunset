@@ -178,7 +178,7 @@ export default function Wiki() {
   useEffect(() => {
     const element = wikiContent[tryParseNumber(value) ?? -1];
 
-    window.history.pushState(
+    window.history.replaceState(
       null,
       "",
       pathname + (element ? "#" + encodeURIComponent(element.title) : "")

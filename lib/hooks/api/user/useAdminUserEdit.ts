@@ -11,10 +11,13 @@ import {
   EditUserRestrictionRequest,
   EditUserPrivilegeRequest,
   ResetPasswordRequest,
+  GetUserByIdEventsResponse,
+  UserEventType,
 } from "@/lib/types/api";
 import useSWRMutation from "swr/mutation";
-import { mutate } from "swr";
+import { mutate, SWRConfiguration } from "swr";
 import useSWR from "swr";
+import fetcher from "@/lib/services/fetcher";
 
 export function useAdminEditUserMetadata(userId: number) {
   return useSWRMutation(
@@ -190,4 +193,29 @@ export function useAdminEditPrivilege(userId: number) {
       return result;
     }
   );
+}
+
+export function useUserEvents(
+  userId: number,
+  query: string | null,
+  page?: number,
+  limit?: number,
+  events?: UserEventType[],
+  options?: SWRConfiguration
+) {
+  const queryParams = new URLSearchParams();
+  if (limit) queryParams.append("limit", limit.toString());
+  if (page) queryParams.append("page", page.toString());
+  if (query) queryParams.append("query", query);
+  if (events && events.length > 0)
+    events.forEach((event) => queryParams.append("types", event));
+
+  const queryString = queryParams.toString();
+  const endpoint = `user/${userId}/events${
+    queryString ? `?${queryString}` : ""
+  }`;
+
+  return useSWR<GetUserByIdEventsResponse>(endpoint, fetcher, {
+    ...options,
+  });
 }

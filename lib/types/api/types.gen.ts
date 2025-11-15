@@ -2416,13 +2416,15 @@ export type PostUserByIdFriendStatusResponses = {
 };
 
 export type GetUserByIdEventsData = {
-    body?: Array<UserEventType>;
+    body?: never;
     path: {
         id: number;
     };
     query?: {
         limit?: number;
         page?: number;
+        query?: string;
+        types?: Array<UserEventType>;
     };
     url: '/user/{id}/events';
 };

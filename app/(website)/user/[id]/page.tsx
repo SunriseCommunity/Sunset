@@ -138,7 +138,7 @@ export default function UserPage(props: { params: Promise<{ id: number }> }) {
   useEffect(() => {
     if (!activeMode) return;
 
-    window.history.pushState(
+    window.history.replaceState(
       null,
       "",
       pathname + "?" + createQueryString("mode", activeMode.toString())

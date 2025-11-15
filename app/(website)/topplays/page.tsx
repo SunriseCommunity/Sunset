@@ -36,7 +36,7 @@ export default function Topplays() {
     data?.find((item) => item.total_count !== undefined)?.total_count ?? 0;
 
   useEffect(() => {
-    window.history.pushState(
+    window.history.replaceState(
       null,
       "",
       pathname + "?" + createQueryString("mode", activeMode.toString())
