@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { EosIconsThreeDotsLoading } from "@/components/ui/icons/three-dots-loading";
 import fetcher from "@/lib/services/fetcher";
 import { BeatmapResponse, BeatmapStatusWeb, Mods } from "@/lib/types/api";
+import { getUserToken } from "@/lib/actions/getUserToken";
 import { Binoculars } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -28,19 +29,35 @@ export function BeatmapSuggestedSubmissionStatusesTooltip({
   const fetchData = async (force?: boolean) => {
     if (suggestions.length > 0 && !force) return;
 
+    const token = await getUserToken();
+
     const results = await Promise.all(
       [
         {
           serverName: "Akatsuki",
-          suggestedStatus: fetcher<{ ranked: number }>(
-            `api/v1/beatmaps?b=${beatmap.id}`,
-            {
-              prefixUrl: `https://akatsuki.gg/`,
-              credentials: "omit",
+          suggestedStatus: (async () => {
+            if (!token) {
+              return undefined;
             }
-          ).then((res) => {
-            return statusMap[res?.ranked];
-          }),
+            try {
+              const response = await fetch(
+                `/api/getBeatmapSuggestion?beatmapId=${beatmap.id}`,
+                {
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                  },
+                }
+              );
+              if (!response.ok) {
+                return undefined;
+              }
+              const data: { suggestedStatus?: BeatmapStatusWeb } =
+                await response.json();
+              return data.suggestedStatus;
+            } catch {
+              return undefined;
+            }
+          })(),
         },
         {
           serverName: "Gatari",
@@ -62,8 +79,6 @@ export function BeatmapSuggestedSubmissionStatusesTooltip({
         };
       })
     );
-
-    console.log(results);
 
     setSuggestions(results);
   };
