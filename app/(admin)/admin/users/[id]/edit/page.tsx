@@ -55,7 +55,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   return (
     <div className="flex flex-col w-full space-y-4">
       <PrettyHeader
-        text={`Edit User: ${user.username}`}
+        text={`Edit User: ${user.username} (ID: ${user.user_id})`}
         roundBottom
         icon={<User />}
       />
