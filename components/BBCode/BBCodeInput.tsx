@@ -31,6 +31,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import Link from "next/link";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface BBCodeInputProps {
   onSave: (text: string) => void;
@@ -130,6 +131,7 @@ export default function BBCodeInput({
   const [text, setText] = useState<string | null>(null);
 
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     if (text) return;
@@ -175,6 +177,52 @@ export default function BBCodeInput({
     }, 0);
   };
 
+  const formattors = (
+    <>
+      {formatorsArray.map(({ icon, text, format }, i) => {
+        const { start, end } = format;
+        return (
+          <HoverCard openDelay={150} closeDelay={150} key={i}>
+            <HoverCardTrigger>
+              <Button
+                className="w-8 h-8 rounded-lg"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  addToText(start, end);
+                }}
+                variant="secondary"
+              >
+                {icon}
+              </Button>
+            </HoverCardTrigger>
+            <HoverCardContent className="w-fit">{text}</HoverCardContent>
+          </HoverCard>
+        );
+      })}
+      <Select
+        onValueChange={(v) => addToText(`[size=${v}]`, "[/size]")}
+        value=""
+      >
+        <SelectTrigger className="w-[110px] bg-secondary shadow-sm hover:bg-secondary/80 data-[placeholder]:text-secondary-foreground">
+          <SelectValue placeholder="Font Size" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="50">Tiny</SelectItem>
+          <SelectItem value="85">Small</SelectItem>
+          <SelectItem value="100">Normal</SelectItem>
+          <SelectItem value="150">Large</SelectItem>
+        </SelectContent>
+      </Select>
+      <Link
+        href="https://osu.ppy.sh/wiki/en/BBCode"
+        className="text-sm text-secondary-foreground hover:underline"
+      >
+        Help
+      </Link>
+    </>
+  );
+
   return (
     <div className="flex flex-col gap-2">
       <div className="overflow-x-auto">
@@ -189,9 +237,9 @@ export default function BBCodeInput({
         ref={textAreaRef}
       ></textarea>
 
-      <div className="flex justify-between md:flex-row flex-col gap-2 items-center mt-2">
+      <div className="flex md:flex-row flex-col gap-2 items-center mt-2 flex-wrap justify-end">
         <Button
-          className="md:w-32 w-full text-sm"
+          className="md:w-32 w-full text-sm mr-auto"
           isLoading={isSaving}
           onClick={() => onSave(text ?? "")}
           variant="secondary"
@@ -199,55 +247,12 @@ export default function BBCodeInput({
           <CloudUpload />
           Save
         </Button>
-        <div className="flex gap-2 flex-wrap items-center">
-          {formatorsArray.map(({ icon, text, format }, i) => {
-            const { start, end } = format;
-            return (
-              <HoverCard openDelay={150} closeDelay={150} key={i}>
-                <HoverCardTrigger>
-                  <Button
-                    className="w-8 h-8 rounded-lg"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      addToText(start, end);
-                    }}
-                    variant="secondary"
-                  >
-                    {icon}
-                  </Button>
-                </HoverCardTrigger>
-                <HoverCardContent className="w-fit">{text}</HoverCardContent>
-              </HoverCard>
-            );
-          })}
-          <Select
-            onValueChange={(v) => addToText(`[size=${v}]`, "[/size]")}
-            value=""
-          >
-            <SelectTrigger className="w-[110px] bg-secondary shadow-sm hover:bg-secondary/80 data-[placeholder]:text-secondary-foreground">
-              <SelectValue placeholder="Font Size" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="50">Tiny</SelectItem>
-              <SelectItem value="85">Small</SelectItem>
-              <SelectItem value="100">Normal</SelectItem>
-              <SelectItem value="150">Large</SelectItem>
-            </SelectContent>
-          </Select>
-          <Link
-            href="https://osu.ppy.sh/wiki/en/BBCode"
-            className="text-sm text-secondary-foreground hover:underline"
-          >
-            Help
-          </Link>
-        </div>
+        {isMobile ? (
+          <div className="flex gap-2 flex-wrap items-center">{formattors}</div>
+        ) : (
+          formattors
+        )}
       </div>
-
-      <label className="text-xs mt-2">
-        * Reminder: Do not post any inappropriate content. Try to keep it family
-        friendly :)
-      </label>
     </div>
   );
 }

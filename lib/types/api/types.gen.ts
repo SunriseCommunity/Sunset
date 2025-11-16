@@ -400,6 +400,29 @@ export type EditUserMetadataRequest = {
     website?: string | null;
 };
 
+export type EditUserPrivilegeRequest = {
+    privilege: Array<UserPrivilege>;
+};
+
+export type EditUserRestrictionRequest = {
+    is_restrict: boolean;
+    restriction_reason?: string | null;
+};
+
+export type EventUserResponse = {
+    id: number;
+    user: UserResponse;
+    event_type: UserEventType;
+    ip: string;
+    json_data: string;
+    created_at: string;
+};
+
+export type EventUsersResponse = {
+    events: Array<EventUserResponse>;
+    total_count: number;
+};
+
 export type FavouritedResponse = {
     favourited: boolean;
 };
@@ -626,6 +649,10 @@ export type RegisterRequest = {
     email: string;
 };
 
+export type ResetPasswordRequest = {
+    new_password: string;
+};
+
 export type ScoreResponse = {
     accuracy: number;
     beatmap_id: number;
@@ -729,6 +756,23 @@ export enum UserBadge {
     SUPPORTER = 'Supporter'
 }
 
+export enum UserEventType {
+    GAME_LOGIN = 'GameLogin',
+    WEB_LOGIN = 'WebLogin',
+    REGISTER = 'Register',
+    CHANGE_EMAIL = 'ChangeEmail',
+    CHANGE_PASSWORD = 'ChangePassword',
+    CHANGE_AVATAR = 'ChangeAvatar',
+    CHANGE_BANNER = 'ChangeBanner',
+    CHANGE_USERNAME = 'ChangeUsername',
+    CHANGE_COUNTRY = 'ChangeCountry',
+    CHANGE_PRIVILEGE = 'ChangePrivilege',
+    CHANGE_METADATA = 'ChangeMetadata',
+    CHANGE_DESCRIPTION = 'ChangeDescription',
+    CHANGE_DEFAULT_GAME_MODE = 'ChangeDefaultGameMode',
+    CHANGE_FRIENDSHIP_STATUS = 'ChangeFriendshipStatus'
+}
+
 export type UserMedalResponse = {
     readonly id: number;
     readonly name: string;
@@ -756,6 +800,15 @@ export enum UserPlaystyle {
     TOUCH_SCREEN = 'TouchScreen'
 }
 
+export enum UserPrivilege {
+    USER = 'User',
+    SUPPORTER = 'Supporter',
+    BAT = 'Bat',
+    ADMIN = 'Admin',
+    DEVELOPER = 'Developer',
+    SERVER_BOT = 'ServerBot'
+}
+
 export type UserRelationsCountersResponse = {
     followers: number;
     following: number;
@@ -764,6 +817,24 @@ export type UserRelationsCountersResponse = {
 export type UserResponse = {
     user_id: number;
     username: string;
+    description?: string | null;
+    country_code: CountryCode;
+    register_date: string;
+    avatar_url: string;
+    banner_url: string;
+    last_online_time: string;
+    restricted: boolean;
+    silenced_until?: string | null;
+    default_gamemode: GameMode;
+    badges: Array<UserBadge>;
+    user_status: string;
+};
+
+export type UserSensitiveResponse = {
+    user_id: number;
+    username: string;
+    email: string;
+    privilege: Array<UserPrivilege>;
     description?: string | null;
     country_code: CountryCode;
     register_date: string;
@@ -808,6 +879,11 @@ export type UserWithStatsResponse = {
 
 export type UsernameChangeRequest = {
     new_username: string;
+};
+
+export type UsersSensitiveListResponse = {
+    users: Array<UserSensitiveResponse>;
+    total_count: number;
 };
 
 export enum WebSocketEventType {
@@ -1643,6 +1719,37 @@ export type GetUserByIdResponses = {
 
 export type GetUserByIdResponse = GetUserByIdResponses[keyof GetUserByIdResponses];
 
+export type GetUserByIdSensitiveData = {
+    body?: never;
+    path: {
+        id: number;
+    };
+    query?: never;
+    url: '/user/{id}/sensitive';
+};
+
+export type GetUserByIdSensitiveErrors = {
+    /**
+     * Bad Request
+     */
+    400: ProblemDetailsResponseType;
+    /**
+     * Not Found
+     */
+    404: ProblemDetailsResponseType;
+};
+
+export type GetUserByIdSensitiveError = GetUserByIdSensitiveErrors[keyof GetUserByIdSensitiveErrors];
+
+export type GetUserByIdSensitiveResponses = {
+    /**
+     * OK
+     */
+    200: UserSensitiveResponse;
+};
+
+export type GetUserByIdSensitiveResponse = GetUserByIdSensitiveResponses[keyof GetUserByIdSensitiveResponses];
+
 export type GetUserByIdByModeData = {
     body?: never;
     path: {
@@ -1762,6 +1869,35 @@ export type PostUserEditDescriptionResponses = {
     200: unknown;
 };
 
+export type PostUserByIdEditDescriptionData = {
+    body?: EditDescriptionRequest;
+    path: {
+        id: number;
+    };
+    query?: never;
+    url: '/user/{id}/edit/description';
+};
+
+export type PostUserByIdEditDescriptionErrors = {
+    /**
+     * Bad Request
+     */
+    400: ProblemDetailsResponseType;
+    /**
+     * Unauthorized
+     */
+    401: ProblemDetailsResponseType;
+};
+
+export type PostUserByIdEditDescriptionError = PostUserByIdEditDescriptionErrors[keyof PostUserByIdEditDescriptionErrors];
+
+export type PostUserByIdEditDescriptionResponses = {
+    /**
+     * OK
+     */
+    200: unknown;
+};
+
 export type PostUserEditDefaultGamemodeData = {
     body?: EditDefaultGameModeRequest;
     path?: never;
@@ -1783,6 +1919,35 @@ export type PostUserEditDefaultGamemodeErrors = {
 export type PostUserEditDefaultGamemodeError = PostUserEditDefaultGamemodeErrors[keyof PostUserEditDefaultGamemodeErrors];
 
 export type PostUserEditDefaultGamemodeResponses = {
+    /**
+     * OK
+     */
+    200: unknown;
+};
+
+export type PostUserByIdEditRestrictionData = {
+    body?: EditUserRestrictionRequest;
+    path: {
+        id: number;
+    };
+    query?: never;
+    url: '/user/{id}/edit/restriction';
+};
+
+export type PostUserByIdEditRestrictionErrors = {
+    /**
+     * Bad Request
+     */
+    400: ProblemDetailsResponseType;
+    /**
+     * Unauthorized
+     */
+    401: ProblemDetailsResponseType;
+};
+
+export type PostUserByIdEditRestrictionError = PostUserByIdEditRestrictionErrors[keyof PostUserByIdEditRestrictionErrors];
+
+export type PostUserByIdEditRestrictionResponses = {
     /**
      * OK
      */
@@ -2021,6 +2186,35 @@ export type GetUserSearchResponses = {
 
 export type GetUserSearchResponse = GetUserSearchResponses[keyof GetUserSearchResponses];
 
+export type GetUserSearchListData = {
+    body?: never;
+    path?: never;
+    query?: {
+        query?: string;
+        limit?: number;
+        page?: number;
+    };
+    url: '/user/search/list';
+};
+
+export type GetUserSearchListErrors = {
+    /**
+     * Bad Request
+     */
+    400: ProblemDetailsResponseType;
+};
+
+export type GetUserSearchListError = GetUserSearchListErrors[keyof GetUserSearchListErrors];
+
+export type GetUserSearchListResponses = {
+    /**
+     * OK
+     */
+    200: UsersSensitiveListResponse;
+};
+
+export type GetUserSearchListResponse = GetUserSearchListResponses[keyof GetUserSearchListResponses];
+
 export type GetUserFriendsData = {
     body?: never;
     path?: never;
@@ -2053,6 +2247,40 @@ export type GetUserFriendsResponses = {
 
 export type GetUserFriendsResponse = GetUserFriendsResponses[keyof GetUserFriendsResponses];
 
+export type GetUserByIdFriendsData = {
+    body?: never;
+    path: {
+        id: number;
+    };
+    query?: {
+        limit?: number;
+        page?: number;
+    };
+    url: '/user/{id}/friends';
+};
+
+export type GetUserByIdFriendsErrors = {
+    /**
+     * Bad Request
+     */
+    400: ProblemDetailsResponseType;
+    /**
+     * Unauthorized
+     */
+    401: ProblemDetailsResponseType;
+};
+
+export type GetUserByIdFriendsError = GetUserByIdFriendsErrors[keyof GetUserByIdFriendsErrors];
+
+export type GetUserByIdFriendsResponses = {
+    /**
+     * OK
+     */
+    200: FriendsResponse;
+};
+
+export type GetUserByIdFriendsResponse = GetUserByIdFriendsResponses[keyof GetUserByIdFriendsResponses];
+
 export type GetUserFollowersData = {
     body?: never;
     path?: never;
@@ -2084,6 +2312,40 @@ export type GetUserFollowersResponses = {
 };
 
 export type GetUserFollowersResponse = GetUserFollowersResponses[keyof GetUserFollowersResponses];
+
+export type GetUserByIdFollowersData = {
+    body?: never;
+    path: {
+        id: number;
+    };
+    query?: {
+        limit?: number;
+        page?: number;
+    };
+    url: '/user/{id}/followers';
+};
+
+export type GetUserByIdFollowersErrors = {
+    /**
+     * Bad Request
+     */
+    400: ProblemDetailsResponseType;
+    /**
+     * Unauthorized
+     */
+    401: ProblemDetailsResponseType;
+};
+
+export type GetUserByIdFollowersError = GetUserByIdFollowersErrors[keyof GetUserByIdFollowersErrors];
+
+export type GetUserByIdFollowersResponses = {
+    /**
+     * OK
+     */
+    200: FollowersResponse;
+};
+
+export type GetUserByIdFollowersResponse = GetUserByIdFollowersResponses[keyof GetUserByIdFollowersResponses];
 
 export type GetUserByIdFriendStatusData = {
     body?: never;
@@ -2152,6 +2414,42 @@ export type PostUserByIdFriendStatusResponses = {
      */
     200: unknown;
 };
+
+export type GetUserByIdEventsData = {
+    body?: never;
+    path: {
+        id: number;
+    };
+    query?: {
+        limit?: number;
+        page?: number;
+        query?: string;
+        types?: Array<UserEventType>;
+    };
+    url: '/user/{id}/events';
+};
+
+export type GetUserByIdEventsErrors = {
+    /**
+     * Bad Request
+     */
+    400: ProblemDetailsResponseType;
+    /**
+     * Unauthorized
+     */
+    401: ProblemDetailsResponseType;
+};
+
+export type GetUserByIdEventsError = GetUserByIdEventsErrors[keyof GetUserByIdEventsErrors];
+
+export type GetUserByIdEventsResponses = {
+    /**
+     * OK
+     */
+    200: EventUsersResponse;
+};
+
+export type GetUserByIdEventsResponse = GetUserByIdEventsResponses[keyof GetUserByIdEventsResponses];
 
 export type GetUserInventoryItemData = {
     body?: never;
@@ -2312,6 +2610,64 @@ export type GetUserByIdMetadataResponses = {
 
 export type GetUserByIdMetadataResponse = GetUserByIdMetadataResponses[keyof GetUserByIdMetadataResponses];
 
+export type PostUserByIdEditMetadataData = {
+    body?: EditUserMetadataRequest;
+    path: {
+        id: number;
+    };
+    query?: never;
+    url: '/user/{id}/edit/metadata';
+};
+
+export type PostUserByIdEditMetadataErrors = {
+    /**
+     * Bad Request
+     */
+    400: ProblemDetailsResponseType;
+    /**
+     * Not Found
+     */
+    404: ProblemDetailsResponseType;
+};
+
+export type PostUserByIdEditMetadataError = PostUserByIdEditMetadataErrors[keyof PostUserByIdEditMetadataErrors];
+
+export type PostUserByIdEditMetadataResponses = {
+    /**
+     * OK
+     */
+    200: unknown;
+};
+
+export type PostUserByIdEditPrivilegeData = {
+    body?: EditUserPrivilegeRequest;
+    path: {
+        id: number;
+    };
+    query?: never;
+    url: '/user/{id}/edit/privilege';
+};
+
+export type PostUserByIdEditPrivilegeErrors = {
+    /**
+     * Bad Request
+     */
+    400: ProblemDetailsResponseType;
+    /**
+     * Not Found
+     */
+    404: ProblemDetailsResponseType;
+};
+
+export type PostUserByIdEditPrivilegeError = PostUserByIdEditPrivilegeErrors[keyof PostUserByIdEditPrivilegeErrors];
+
+export type PostUserByIdEditPrivilegeResponses = {
+    /**
+     * OK
+     */
+    200: unknown;
+};
+
 export type PostUserEditMetadataData = {
     body?: EditUserMetadataRequest;
     path?: never;
@@ -2333,6 +2689,35 @@ export type PostUserEditMetadataErrors = {
 export type PostUserEditMetadataError = PostUserEditMetadataErrors[keyof PostUserEditMetadataErrors];
 
 export type PostUserEditMetadataResponses = {
+    /**
+     * OK
+     */
+    200: unknown;
+};
+
+export type PostUserByIdUploadAvatarData = {
+    body?: never;
+    path: {
+        id: number;
+    };
+    query?: never;
+    url: '/user/{id}/upload/avatar';
+};
+
+export type PostUserByIdUploadAvatarErrors = {
+    /**
+     * Bad Request
+     */
+    400: ProblemDetailsResponseType;
+    /**
+     * Unauthorized
+     */
+    401: ProblemDetailsResponseType;
+};
+
+export type PostUserByIdUploadAvatarError = PostUserByIdUploadAvatarErrors[keyof PostUserByIdUploadAvatarErrors];
+
+export type PostUserByIdUploadAvatarResponses = {
     /**
      * OK
      */
@@ -2366,6 +2751,35 @@ export type PostUserUploadAvatarResponses = {
     200: unknown;
 };
 
+export type PostUserByIdUploadBannerData = {
+    body?: never;
+    path: {
+        id: number;
+    };
+    query?: never;
+    url: '/user/{id}/upload/banner';
+};
+
+export type PostUserByIdUploadBannerErrors = {
+    /**
+     * Bad Request
+     */
+    400: ProblemDetailsResponseType;
+    /**
+     * Unauthorized
+     */
+    401: ProblemDetailsResponseType;
+};
+
+export type PostUserByIdUploadBannerError = PostUserByIdUploadBannerErrors[keyof PostUserByIdUploadBannerErrors];
+
+export type PostUserByIdUploadBannerResponses = {
+    /**
+     * OK
+     */
+    200: unknown;
+};
+
 export type PostUserUploadBannerData = {
     body?: never;
     path?: never;
@@ -2387,6 +2801,35 @@ export type PostUserUploadBannerErrors = {
 export type PostUserUploadBannerError = PostUserUploadBannerErrors[keyof PostUserUploadBannerErrors];
 
 export type PostUserUploadBannerResponses = {
+    /**
+     * OK
+     */
+    200: unknown;
+};
+
+export type PostUserByIdPasswordChangeData = {
+    body?: ResetPasswordRequest;
+    path: {
+        id: number;
+    };
+    query?: never;
+    url: '/user/{id}/password/change';
+};
+
+export type PostUserByIdPasswordChangeErrors = {
+    /**
+     * Bad Request
+     */
+    400: ProblemDetailsResponseType;
+    /**
+     * Unauthorized
+     */
+    401: ProblemDetailsResponseType;
+};
+
+export type PostUserByIdPasswordChangeError = PostUserByIdPasswordChangeErrors[keyof PostUserByIdPasswordChangeErrors];
+
+export type PostUserByIdPasswordChangeResponses = {
     /**
      * OK
      */
@@ -2420,6 +2863,35 @@ export type PostUserPasswordChangeResponses = {
     200: unknown;
 };
 
+export type PostUserByIdUsernameChangeData = {
+    body?: UsernameChangeRequest;
+    path: {
+        id: number;
+    };
+    query?: never;
+    url: '/user/{id}/username/change';
+};
+
+export type PostUserByIdUsernameChangeErrors = {
+    /**
+     * Bad Request
+     */
+    400: ProblemDetailsResponseType;
+    /**
+     * Unauthorized
+     */
+    401: ProblemDetailsResponseType;
+};
+
+export type PostUserByIdUsernameChangeError = PostUserByIdUsernameChangeErrors[keyof PostUserByIdUsernameChangeErrors];
+
+export type PostUserByIdUsernameChangeResponses = {
+    /**
+     * OK
+     */
+    200: unknown;
+};
+
 export type PostUserUsernameChangeData = {
     body?: UsernameChangeRequest;
     path?: never;
@@ -2441,6 +2913,35 @@ export type PostUserUsernameChangeErrors = {
 export type PostUserUsernameChangeError = PostUserUsernameChangeErrors[keyof PostUserUsernameChangeErrors];
 
 export type PostUserUsernameChangeResponses = {
+    /**
+     * OK
+     */
+    200: unknown;
+};
+
+export type PostUserByIdCountryChangeData = {
+    body?: CountryChangeRequest;
+    path: {
+        id: number;
+    };
+    query?: never;
+    url: '/user/{id}/country/change';
+};
+
+export type PostUserByIdCountryChangeErrors = {
+    /**
+     * Bad Request
+     */
+    400: ProblemDetailsResponseType;
+    /**
+     * Unauthorized
+     */
+    401: ProblemDetailsResponseType;
+};
+
+export type PostUserByIdCountryChangeError = PostUserByIdCountryChangeErrors[keyof PostUserByIdCountryChangeErrors];
+
+export type PostUserByIdCountryChangeResponses = {
     /**
      * OK
      */

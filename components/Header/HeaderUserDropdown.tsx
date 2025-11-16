@@ -27,7 +27,7 @@ import {
 } from "lucide-react";
 import UserPrivilegeBadges from "@/app/(website)/user/[id]/components/UserPrivilegeBadges";
 import { usePathname, useRouter } from "next/navigation";
-import { isUserCanUseAdminPanel } from "@/lib/utils/isUserCanUseAdminPanel";
+import { isUserCanUseAdminPanel } from "@/lib/utils/userPrivileges.util";
 
 interface Props {
   self: UserResponse | null;

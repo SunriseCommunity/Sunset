@@ -14,7 +14,7 @@ export default function AdminLayout({
           <SidebarTrigger />
         </div>
 
-        <div className="p-4 w-full">{children}</div>
+        <div className="py-4 px-4 w-full max-w-7xl mx-auto">{children}</div>
       </main>
     </SidebarProvider>
   );

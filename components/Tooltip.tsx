@@ -28,12 +28,16 @@ export function Tooltip({
   disabled,
   className,
   onOpenChange,
+  asChild,
 }: TooltipProps) {
   if (disabled) return <>{children}</>;
 
   return (
     <Popover onOpenChange={onOpenChange}>
-      <PopoverTrigger className={twMerge("cursor-pointer", className)}>
+      <PopoverTrigger
+        className={twMerge("cursor-pointer", className)}
+        asChild={asChild}
+      >
         {children}
       </PopoverTrigger>
       <PopoverContent

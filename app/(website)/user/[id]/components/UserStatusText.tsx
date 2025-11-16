@@ -12,9 +12,16 @@ export const statusColor = (status: string) =>
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   user: UserResponse;
+  asChild?: boolean;
+  disabled?: boolean;
 }
 
-export default function UserStatusText({ user, ...props }: Props) {
+export default function UserStatusText({
+  user,
+  asChild,
+  disabled,
+  ...props
+}: Props) {
   const userStatus = (isTooltip: boolean) => (
     <p className={isTooltip ? "break-all" : "truncate"}>
       {user.user_status}
@@ -32,6 +39,8 @@ export default function UserStatusText({ user, ...props }: Props) {
       className="flex flex-row flex-grow min-w-0"
       content={userStatus(true)}
       align="start"
+      asChild={asChild}
+      disabled={disabled}
     >
       <div
         {...props}

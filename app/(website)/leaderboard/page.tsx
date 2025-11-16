@@ -39,7 +39,7 @@ export default function Leaderboard() {
   });
 
   useEffect(() => {
-    window.history.pushState(
+    window.history.replaceState(
       null,
       "",
       pathname + "?" + createQueryString("type", leaderboardType.toString())
@@ -47,7 +47,7 @@ export default function Leaderboard() {
   }, [leaderboardType]);
 
   useEffect(() => {
-    window.history.pushState(
+    window.history.replaceState(
       null,
       "",
       pathname + "?" + createQueryString("mode", activeMode.toString())
@@ -55,7 +55,7 @@ export default function Leaderboard() {
   }, [activeMode]);
 
   useEffect(() => {
-    window.history.pushState(
+    window.history.replaceState(
       null,
       "",
       pathname + "?" + createQueryString("size", pagination.pageSize.toString())
@@ -63,7 +63,7 @@ export default function Leaderboard() {
   }, [pagination.pageSize]);
 
   useEffect(() => {
-    window.history.pushState(
+    window.history.replaceState(
       null,
       "",
       pathname +

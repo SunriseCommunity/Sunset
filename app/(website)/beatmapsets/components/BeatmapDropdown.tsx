@@ -9,7 +9,7 @@ import {
 import { useUserSelf } from "@/lib/hooks/api/user/useUser";
 import useSelf from "@/lib/hooks/useSelf";
 import { BeatmapResponse, BeatmapSetResponse, GameMode } from "@/lib/types/api";
-import { isUserCanUseAdminPanel } from "@/lib/utils/isUserCanUseAdminPanel";
+import { isUserHasBATPrivilege } from "@/lib/utils/userPrivileges.util";
 import { MoreHorizontal } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -51,7 +51,7 @@ export function BeatmapDropdown({
             </Link>
           </DropdownMenuItem>
         )}
-        {self && isUserCanUseAdminPanel(self) && (
+        {self && isUserHasBATPrivilege(self) && (
           <DropdownMenuItem asChild>
             <Link href={`/admin/beatmapsets/${beatmap.beatmapset_id}`}>
               Open with Admin Panel

@@ -21,20 +21,16 @@ export default function ImageSelect({
   const { toast } = useToast();
 
   return (
-    <div
-      className={`flex items-center  ${
-        isWide ? "max-w-72 md:max-w-96 w-full" : "max-w-40 w-full"
-      }`}
-    >
-      <label htmlFor={uniqueId} className="cursor-pointer">
+    <div className="flex items-center w-full justify-center">
+      <label htmlFor={uniqueId} className="cursor-pointer w-full">
         <div
           className={`flex flex-col items-center justify-center ${
-            isWide ? "max-w-72 md:max-w-96 w-full" : "max-w-40 w-full"
+            isWide
+              ? "w-72 md:w-96 max-w-full flex-shrink"
+              : "w-40 max-w-full flex-shrink"
           }`}
         >
-          <div
-            className={`flex items-center justify-center w-full h-full bg-transparent rounded-lg`}
-          >
+          <div className="flex items-center justify-center w-full bg-transparent rounded-lg">
             <input
               type="file"
               id={uniqueId}
@@ -42,9 +38,7 @@ export default function ImageSelect({
               className="hidden"
               onChange={(e) => {
                 const file = e.target.files?.[0];
-
                 if (!file) return;
-
                 if (maxFileSizeBytes && file.size > maxFileSizeBytes) {
                   toast({
                     title: "Selected image is too big!",
@@ -52,23 +46,22 @@ export default function ImageSelect({
                   });
                   return;
                 }
-
                 if (e.target.files) setFile(file);
               }}
             />
+
             {file ? (
-              <div className={isWide ? "w-72 md:w-96" : "w-40"}>
-                <AspectRatio
-                  ratio={isWide ? 4 / 1 : 1 / 1}
-                  className="bg-transparent w-full h-full flex"
-                >
-                  <Image
-                    src={URL.createObjectURL(file)}
-                    alt="avatar"
-                    fill={true}
-                    objectFit="cover"
-                    className="w-full h-full rounded-lg hover:opacity-80 smooth-transition"
-                  />
+              <div className="w-full flex-shrink">
+                <AspectRatio ratio={isWide ? 4 / 1 : 1 / 1} className="w-full">
+                  <div className="relative w-full h-full">
+                    <Image
+                      src={URL.createObjectURL(file)}
+                      alt="avatar"
+                      fill
+                      style={{ objectFit: "cover" }}
+                      className="rounded-lg hover:opacity-80 smooth-transition"
+                    />
+                  </div>
                 </AspectRatio>
               </div>
             ) : (
