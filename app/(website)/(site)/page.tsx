@@ -18,20 +18,20 @@ import { useServerStatus } from "@/lib/hooks/api/useServerStatus";
 import { BookOpenCheck, DoorOpen, Download } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { twMerge } from "tailwind-merge";
+import { useTranslations, NextIntlClientProvider } from "next-intl";
 
 const cards = [
   {
-    title: "Truly Free Features",
-    description:
-      "Enjoy features like osu!direct and username changes without any paywalls — completely free for all players!",
+    titleKey: "cards.free_features.title",
+    descriptionKey: "cards.free_features.description",
     imageUrl: "/images/frontpage/freefeatures.png",
   },
+
   {
-    title: "Custom PP Calculations",
-    description:
-      "We use the latest performance point (PP) system for vanilla scores while applying a custom, well-balanced formula for Relax and Autopilot modes.",
+    titleKey: "cards.pp_system.title",
+    descriptionKey: "cards.pp_system.description",
     imageUrl: "/images/frontpage/ppsystem.png",
   },
   // TODO: Soon™...
@@ -42,27 +42,23 @@ const cards = [
   //   imageUrl: "/images/not-found.jpg",
   // },
   {
-    title: "Earn Custom Medals",
-    description:
-      "Earn unique, server-exclusive medals as you accomplish various milestones and achievements.",
+    titleKey: "cards.medals.title",
+    descriptionKey: "cards.medals.description",
     imageUrl: "/images/frontpage/medals.png",
   },
   {
-    title: "Frequent Updates",
-    description:
-      "We’re always improving! Expect regular updates, new features, and ongoing performance optimizations.",
+    titleKey: "cards.updates.title",
+    descriptionKey: "cards.updates.description",
     imageUrl: "/images/frontpage/updates.png",
   },
   {
-    title: "Built-in PP Calculator",
-    description:
-      "Our website offers a built-in PP calculator for quick and easy performance point estimates.",
+    titleKey: "cards.pp_calc.title",
+    descriptionKey: "cards.pp_calc.description",
     imageUrl: "/images/frontpage/ppcalc.png",
   },
   {
-    title: "Custom-Built Bancho Core",
-    description:
-      "Unlike most private osu! servers, we’ve developed our own custom bancho core for better stability and unique feature support.",
+    titleKey: "cards.sunrise_core.title",
+    descriptionKey: "cards.sunrise_core.description",
     imageUrl: "/images/frontpage/sunrisecore.png",
   },
 ];
@@ -73,6 +69,7 @@ export default function Home() {
     boolean | null
   >(null);
 
+  const t = useTranslations("main_page");
   const serverStatusQuery = useServerStatus();
   const serverStatus = serverStatusQuery.data;
 
@@ -97,14 +94,10 @@ export default function Home() {
                   <span className="text-current">rise</span>
                 </h1>
                 <p className="text-muted-foreground italic text-sm">
-                  - yet another osu! server
+                  {t("features.motto")}
                 </p>
               </div>
-              <p>
-                Features rich osu! server with support for Relax, Autopilot and
-                ScoreV2 gameplay, with a custom art‑state PP calculation system
-                tailored for Relax and Autopilot.
-              </p>
+              <p>{t("features.description")}</p>
               <div className="flex items-end space-x-4">
                 <Button
                   className="from-red-400 via-orange-400 to-yellow-400 bg-gradient-to-r bg-size-300 animate-gradient hover:scale-105 smooth-transition"
@@ -186,15 +179,17 @@ export default function Home() {
                     <div className="relative h-1/2 w-full">
                       <Image
                         src={card.imageUrl || "/placeholder.svg"}
-                        alt={card.title}
+                        alt={card.titleKey}
                         fill
                         className="object-cover rounded-t-lg "
                       />
                     </div>
                     <CardContent className="p-4">
-                      <h3 className="text-lg font-bold mb-2">{card.title}</h3>
+                      <h3 className="text-lg font-bold mb-2">
+                        {t(card.titleKey)}
+                      </h3>
                       <p className="text-sm text-muted-foreground">
-                        {card.description}
+                        {t(card.descriptionKey)}
                       </p>
                     </CardContent>
                   </Card>

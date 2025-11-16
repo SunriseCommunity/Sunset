@@ -4,6 +4,7 @@ import "./globals.css";
 import ScrollUpButton from "@/components/ScrollUpButton";
 import Providers from "@/components/Providers";
 import ScrollUp from "@/components/ScrollUp";
+import { getLocale, getMessages } from 'next-intl/server';
 
 const font = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -32,15 +33,23 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  
+  // Parallel fetch i18n data and global config to reduce waiting time
+  const [locale, messages] = await Promise.all([
+    getLocale(),
+    getMessages(),
+  ]);
+
   return (
     <html lang="en" className={font.className} suppressHydrationWarning>
       <body className="bg-background text-current min-h-screen flex flex-col font-medium">
-        <Providers>
+        <Providers locale={locale} messages={messages}>
           {children}
           <ScrollUp />
         </Providers>

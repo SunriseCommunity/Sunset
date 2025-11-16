@@ -7,8 +7,9 @@ import { SelfProvider } from "@/lib/providers/SelfProvider";
 import fetcher from "@/lib/services/fetcher";
 import { ReactNode } from "react";
 import { SWRConfig } from "swr";
+import { NextIntlClientProvider } from 'next-intl';
 
-export default function Providers({ children }: { children: ReactNode }) {
+export default function Providers({ children, locale, messages }: { children: ReactNode, locale: string, messages: Record<string, string> }) {
   return (
     <SWRConfig
       value={{
@@ -26,8 +27,10 @@ export default function Providers({ children }: { children: ReactNode }) {
         <SelfProvider>
           <RestrictionProvider>
             <AudioProvider>
-              {children}
-              <Toaster />
+              <NextIntlClientProvider locale={locale} messages={messages}>
+                {children}
+                <Toaster />
+              </NextIntlClientProvider>
             </AudioProvider>
           </RestrictionProvider>
         </SelfProvider>

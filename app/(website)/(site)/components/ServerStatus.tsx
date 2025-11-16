@@ -1,6 +1,7 @@
 import PrettyCounter from "@/components/General/PrettyCounter";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Activity, Users, AlertTriangle, Trophy, Wifi } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface Props {
   type:
@@ -15,29 +16,31 @@ interface Props {
 
 const statuses = {
   total_users: {
-    name: "Total Users",
+    nameKey: "total_users",
     icon: <Users className="h-4 w-4 text-blue-500" />,
   },
   users_online: {
-    name: "Users Online",
+    nameKey: "users_online",
     icon: <Activity className="h-4 w-4 text-orange-500" />,
   },
   users_restricted: {
-    name: "Users Restricted",
+    nameKey: "users_restricted",
     icon: <AlertTriangle className="h-4 w-4 text-red-500" />,
   },
   total_scores: {
-    name: "Total Scores",
+    nameKey: "total_scores",
     icon: <Trophy className="h-4 w-4 text-yellow-500" />,
   },
   server_status: {
-    name: "Server Status",
+    nameKey: "server_status",
     icon: <Wifi className="h-4 w-4 " />,
   },
 };
 
 export default function ServerStatus({ type, data, children }: Props) {
   const isDataNumber = !isNaN(Number(data));
+
+  const t = useTranslations("statuses");
 
   return (
     <div
@@ -59,7 +62,7 @@ export default function ServerStatus({ type, data, children }: Props) {
 
       <div className="flex flex-col">
         <span className="text-xs text-muted-foreground">
-          {statuses[type].name}
+          {t(statuses[type].nameKey)}
         </span>
         <div className="flex items-center gap-2">
           <span className="text-lg font-bold text-current">
