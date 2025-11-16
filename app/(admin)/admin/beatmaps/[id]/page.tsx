@@ -17,7 +17,7 @@ export default function BeatmapsRedirect(props: BeatmapsProps) {
   const beatmap = beatmapQuery.data;
 
   if (beatmap) {
-    window.location.href = `/admin/beatmapsets/${beatmap.beatmapset_id}`;
+    window.location.href = `/admin/beatmapsets/${beatmap.beatmapset_id}/${params.id}`;
   }
 
   if (beatmapQuery.error) {

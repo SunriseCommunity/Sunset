@@ -29,7 +29,7 @@ export const kyInstance = ky.create({
 const fetcher = async <T>(url: string, options?: Options) => {
   const token = await getUserToken();
 
-  if (!token && url.includes("user/self") && options?.credentials !== "omit") {
+  if (!token && url.includes("user/self")) {
     throw new Error("Unauthorized");
   }
 
@@ -37,9 +37,7 @@ const fetcher = async <T>(url: string, options?: Options) => {
     .get(url, {
       ...options,
       headers: {
-        ...(token && options?.credentials !== "omit"
-          ? { Authorization: `Bearer ${token}` }
-          : {}),
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
       },
     })
     .then(async (res) => {
