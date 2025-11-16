@@ -33,6 +33,7 @@ import { useUpdateBeatmapCustomStatus } from "@/lib/hooks/api/beatmap/useUpdateB
 import { getStarRatingColor } from "@/lib/utils/getStarRatingColor";
 import { Tooltip } from "@/components/Tooltip";
 import { BeatmapPerformanceTooltip } from "@/app/(admin)/admin/beatmapsets/components/BeatmapPerformanceTooltip";
+import { BeatmapSuggestedSubmissionStatusesTooltip } from "@/app/(admin)/admin/beatmapsets/components/BeatmapSuggestedSubmissionStatusesTooltip";
 
 export function BeatmapsStatusTable({
   beatmapSet,
@@ -287,6 +288,9 @@ export function BeatmapsStatusTable({
                         </PPCalculatorDialog>
 
                         <BeatmapPerformanceTooltip beatmap={beatmap} />
+                        <BeatmapSuggestedSubmissionStatusesTooltip
+                          beatmap={beatmap}
+                        />
                       </div>
                     </TableCell>
 
