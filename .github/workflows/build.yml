@@ -25,11 +25,3 @@ jobs:
       - name: Build project
         run: |
           npm run build
-
-      - name: Install serve globally
-        run: |
-          npm install -g serve
-
-      - name: Start project
-        run: |
-          npm run start
