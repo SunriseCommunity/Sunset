@@ -1,5 +1,13 @@
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/app/(admin)/components/AppSidebar";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Admin Panel | osu!sunrise",
+  openGraph: {
+    title: "Admin Panel | osu!sunrise",
+  },
+};
 
 export default function AdminLayout({
   children,
