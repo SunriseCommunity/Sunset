@@ -21,6 +21,7 @@ export function useBeatmapsetSearch(
     previousPageData?: GetBeatmapsetSearchResponse
   ) => {
     if (previousPageData && previousPageData.sets.length === 0) return null;
+    if (limit === 0) return null;
 
     const queryParams = new URLSearchParams({
       page: (pageIndex + 1).toString(),

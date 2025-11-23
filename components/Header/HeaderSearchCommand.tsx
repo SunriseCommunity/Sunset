@@ -44,7 +44,7 @@ export default function HeaderSearchCommand() {
 
   const beatmapsetSearchQuery = useBeatmapsetSearch(
     searchValue,
-    5,
+    searchValue === "" ? 0 : 5,
     [
       BeatmapStatusWeb.APPROVED,
       BeatmapStatusWeb.LOVED,
