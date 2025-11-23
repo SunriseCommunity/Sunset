@@ -10,6 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
 import { BeatmapStatusWeb, GameMode } from "@/lib/types/api";
 import { useState } from "react";
 
@@ -26,10 +27,12 @@ interface BeatmapFiltersProps {
   onApplyFilters: (filters: {
     mode: GameMode | null;
     status: BeatmapStatusWeb[] | null;
+    searchByCustomStatus: boolean;
   }) => void;
   isLoading: boolean;
   defaultMode: GameMode | null;
   defaultStatus: BeatmapStatusWeb[] | null;
+  defaultSearchByCustomStatus: boolean;
 }
 
 export function BeatmapsSearchFilters({
@@ -42,11 +45,13 @@ export function BeatmapsSearchFilters({
   const [status, setStatus] = useState<BeatmapStatusWeb[] | null>(
     defaultStatus
   );
+  const [searchByCustomStatus, setSearchByCustomStatus] = useState(false);
 
   const handleApplyFilters = () => {
     onApplyFilters({
       mode,
       status: (status?.length ?? 0) > 0 ? status : null,
+      searchByCustomStatus,
     });
   };
 
@@ -57,6 +62,7 @@ export function BeatmapsSearchFilters({
           <label className="text-sm font-medium">Mode</label>
           <Select
             value={mode ?? "any"}
+            disabled={searchByCustomStatus}
             onValueChange={(v) => setMode(v != "any" ? (v as GameMode) : null)}
           >
             <SelectTrigger>
@@ -79,6 +85,16 @@ export function BeatmapsSearchFilters({
             defaultValue={status ?? []}
             onValueChange={(v) =>
               setStatus(!v.includes("") ? (v as BeatmapStatusWeb[]) : null)
+            }
+          />
+        </div>
+
+        <div className="space-x-2 flex items-center">
+          <label className="text-sm font-medium">Search by Custom Status</label>
+          <Switch
+            checked={searchByCustomStatus}
+            onCheckedChange={() =>
+              setSearchByCustomStatus(!searchByCustomStatus)
             }
           />
         </div>

@@ -770,7 +770,9 @@ export enum UserEventType {
     CHANGE_METADATA = 'ChangeMetadata',
     CHANGE_DESCRIPTION = 'ChangeDescription',
     CHANGE_DEFAULT_GAME_MODE = 'ChangeDefaultGameMode',
-    CHANGE_FRIENDSHIP_STATUS = 'ChangeFriendshipStatus'
+    CHANGE_FRIENDSHIP_STATUS = 'ChangeFriendshipStatus',
+    RESTRICT = 'Restrict',
+    UNRESTRICT = 'Unrestrict'
 }
 
 export type UserMedalResponse = {
@@ -1565,6 +1567,7 @@ export type GetBeatmapsetSearchData = {
         query?: string;
         status?: Array<BeatmapStatusWeb>;
         mode?: GameMode;
+        searchByCustomStatus?: boolean;
         limit?: number;
         page?: number;
     };

@@ -640,7 +640,9 @@ export const zUserEventType = z.enum([
     'ChangeMetadata',
     'ChangeDescription',
     'ChangeDefaultGameMode',
-    'ChangeFriendshipStatus'
+    'ChangeFriendshipStatus',
+    'Restrict',
+    'Unrestrict'
 ]);
 
 export const zEventUserResponse = z.object({

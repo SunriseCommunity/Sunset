@@ -33,13 +33,15 @@ export default function BeatmapsSearch({
   const searchValue = useDebounce<string>(searchQuery, 450);
 
   const [showFilters, setShowFilters] = useState(false);
+  const [searchByCustomStatus, setSearchByCustomStatus] = useState(false);
   const [viewMode, setViewMode] = useState("grid");
 
   const { data, setSize, size, isLoading } = useBeatmapsetSearch(
     searchValue,
-    24,
+    searchByCustomStatus ? 12 : 24,
     statusFilter ?? undefined,
     modeFilter ?? undefined,
+    searchByCustomStatus,
     {
       refreshInterval: 0,
       revalidateOnFocus: false,
@@ -59,11 +61,13 @@ export default function BeatmapsSearch({
   const applyFilters = (filters: {
     mode: GameMode | null;
     status: BeatmapStatusWeb[] | null;
+    searchByCustomStatus: boolean;
   }) => {
-    let { mode, status } = filters;
+    let { mode, status, searchByCustomStatus } = filters;
 
     setModeFilter(mode);
     setStatusFilter(status ?? null);
+    setSearchByCustomStatus(searchByCustomStatus);
   };
 
   return (
@@ -73,6 +77,7 @@ export default function BeatmapsSearch({
           <div className="relative flex-1">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
+              disabled={searchByCustomStatus}
               type="search"
               placeholder="Search beatmaps..."
               className="pl-8"
@@ -127,6 +132,7 @@ export default function BeatmapsSearch({
             isLoading={!!isLoadingMore}
             defaultMode={modeFilter}
             defaultStatus={statusFilter}
+            defaultSearchByCustomStatus={searchByCustomStatus}
           />
         </div>
       </div>
@@ -155,19 +161,20 @@ export default function BeatmapsSearch({
             </Card>
           </TabsContent>
         </Tabs>
-        {beatmapsets && beatmapsets?.length >= 24 && (
-          <div className="flex justify-center mt-4">
-            <Button
-              onClick={handleShowMore}
-              className="w-full md:w-1/2 flex items-center justify-center"
-              isLoading={isLoadingMore}
-              variant="secondary"
-            >
-              <ChevronDown />
-              Show more
-            </Button>
-          </div>
-        )}
+        {beatmapsets &&
+          beatmapsets?.length >= (searchByCustomStatus ? 12 : 24) && (
+            <div className="flex justify-center mt-4">
+              <Button
+                onClick={handleShowMore}
+                className="w-full md:w-1/2 flex items-center justify-center"
+                isLoading={isLoadingMore}
+                variant="secondary"
+              >
+                <ChevronDown />
+                Show more
+              </Button>
+            </div>
+          )}
       </div>
     </div>
   );

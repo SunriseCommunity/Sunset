@@ -14,6 +14,7 @@ export function useBeatmapsetSearch(
   limit?: number,
   status?: BeatmapStatusWeb[],
   mode?: GameMode,
+  searchByCustomStatus?: boolean,
   options?: SWRConfiguration
 ) {
   const getKey = (
@@ -27,9 +28,14 @@ export function useBeatmapsetSearch(
       page: (pageIndex + 1).toString(),
     });
 
-    if (query) queryParams.append("query", query.toString());
+    if (query && !searchByCustomStatus)
+      queryParams.append("query", query.toString());
     if (limit) queryParams.append("limit", limit.toString());
-    if (mode) queryParams.append("mode", mode.toString());
+    if (mode && !searchByCustomStatus)
+      queryParams.append("mode", mode.toString());
+    if (searchByCustomStatus) {
+      queryParams.append("searchByCustomStatus", "true");
+    }
 
     if (status && status.length > 0) {
       status.forEach((s) => queryParams.append("status", s));

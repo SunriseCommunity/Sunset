@@ -9,7 +9,6 @@ import { Search, Filter, ChevronDown, Rocket, ChevronsUp } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { BeatmapsSearchFilters } from "@/components/Beatmaps/Search/BeatmapsSearchFilters";
-import { useBeatmapsetSearch } from "@/lib/hooks/api/beatmap/useBeatmapsetSearch";
 import { BeatmapSetCard } from "@/components/Beatmaps/BeatmapSetCard";
 import { twMerge } from "tailwind-merge";
 import BeatmapSetOverview from "@/app/(website)/user/[id]/components/BeatmapSetOverview";
