@@ -1,3 +1,5 @@
+import createNextIntlPlugin from 'next-intl/plugin';
+
 /** @type {import('next').NextConfig} */
 const domain = process.env.NEXT_PUBLIC_SERVER_DOMAIN || "ppy.sh";
 
@@ -67,4 +69,5 @@ const nextConfig = {
   reactStrictMode: false,
 };
 
-export default nextConfig;
+const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
+export default withNextIntl(nextConfig);

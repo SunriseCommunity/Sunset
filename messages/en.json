@@ -1,0 +1,65 @@
+{
+    "main_page": {
+        "features": {
+            "motto": "- yet another osu! server",
+            "description": "Features rich osu! server with support for Relax, Autopilot and ScoreV2 gameplay, with a custom art‑state PP calculation system tailored for Relax and Autopilot.",
+            "buttons": {
+                "register": "Join now",
+                "wiki": "How to connect"
+            }
+        },
+        "why_us": "Why us?",
+        "cards": {
+            "free_features": {
+                "title": "Truly Free Features",
+                "description": "Enjoy features like osu!direct and username changes without any paywalls — completely free for all players!"
+            },
+            "pp_system": {
+                "title": "Custom PP Calculations",
+                "description": "We use the latest performance point (PP) system for vanilla scores while applying a custom, well-balanced formula for Relax and Autopilot modes."
+            },
+            "medals": {
+                "title": "Earn Custom Medals",
+                "description": "Earn unique, server-exclusive medals as you accomplish various milestones and achievements."
+            },
+            "updates": {
+                "title": "Frequent Updates",
+                "description": "We’re always improving! Expect regular updates, new features, and ongoing performance optimizations."
+            },
+            "pp_calc": {
+                "title": "Built-in PP Calculator",
+                "description": "Our website offers a built-in PP calculator for quick and easy performance point estimates."
+            },
+            "sunrise_core": {
+                "title": "Custom-Built Bancho Core",
+                "description": "Unlike most private osu! servers, we’ve developed our own custom bancho core for better stability and unique feature support."
+            }
+        },
+        "how_to_start": {
+            "title": "How do I start playing?",
+            "description": "Just three simple steps and you're ready to go!",
+            "download_tile": {
+                "title": "Download osu! clinet",
+                "description": "If you do not already have an installed client",
+                "button": "Download"
+            },
+            "registr_tile": {
+                "title": "Register osu!sunrise account",
+                "description": "Account will allow you to join the osu!sunrise community",
+                "button": "Sign up"
+            },
+            "guide_tuile": {
+                "title": "Follow the connection guide",
+                "description": "Which helps you set up your osu! client to connect to osu!sunrise",
+                "button": "Open guide"
+            }
+        }
+    },
+    "statuses": {
+        "total_users": "Total Users",
+        "users_online": "Users Online",
+        "users_restricted": "Users Restricted",
+        "total_scores": "Total Scores",
+        "server_status": "Server Status"
+    }
+}
