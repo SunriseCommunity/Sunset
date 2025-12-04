@@ -68,14 +68,17 @@
           "description": "Which helps you set up your osu! client to connect to osu!sunrise",
           "button": "Open guide"
         }
+      },
+      "statuses": {
+        "total_users": "Total Users",
+        "users_online": "Users Online",
+        "users_restricted": "Users Restricted",
+        "total_scores": "Total Scores",
+        "server_status": "Server Status",
+        "online": "Online",
+        "offline": "Offline",
+        "under_maintenance": "Under Maintenance"
       }
     }
-  },
-  "statuses": {
-    "total_users": "Total Users",
-    "users_online": "Users Online",
-    "users_restricted": "Users Restricted",
-    "total_scores": "Total Scores",
-    "server_status": "Server Status"
   }
 }

@@ -8,6 +8,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { tTags } from "@/lib/i18n/translationTags";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 
 export default function ServerMaintenanceDialog({
@@ -17,6 +19,8 @@ export default function ServerMaintenanceDialog({
   open: boolean;
   setOpen: (e: boolean) => void;
 }) {
+  const t = useTranslations("components.server_maintenance_dialog");
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
@@ -25,8 +29,7 @@ export default function ServerMaintenanceDialog({
           <DialogDescription>
             <div className="flex flex-col ">
               <p>
-                The server is currently in <b>maintenance mode</b>, so some
-                features of the website <b>may not function correctly</b>.
+                {t.rich("message", tTags)}
                 {process.env.NEXT_PUBLIC_DISCORD_LINK && (
                   <span>
                     <br />

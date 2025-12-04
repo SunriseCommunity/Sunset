@@ -40,7 +40,7 @@ const statuses = {
 export default function ServerStatus({ type, data, children }: Props) {
   const isDataNumber = !isNaN(Number(data));
 
-  const t = useTranslations("statuses");
+  const t = useTranslations("pages.main_page.statuses");
 
   return (
     <div
@@ -49,9 +49,9 @@ export default function ServerStatus({ type, data, children }: Props) {
       <div
         className={`flex-shrink-0 ${
           type === "server_status"
-            ? data === "Online"
+            ? data === t("online")
               ? "text-green-500"
-              : data === "Under Maintenance"
+              : data === t("under_maintenance")
               ? "text-orange-500"
               : "text-red-500"
             : "text-current"

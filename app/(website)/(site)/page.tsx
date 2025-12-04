@@ -18,9 +18,9 @@ import { useServerStatus } from "@/lib/hooks/api/useServerStatus";
 import { BookOpenCheck, DoorOpen, Download } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useTransition } from "react";
+import { useState } from "react";
 import { twMerge } from "tailwind-merge";
-import { useTranslations, NextIntlClientProvider } from "next-intl";
+import { useTranslations } from "next-intl";
 
 const cards = [
   {
@@ -69,7 +69,9 @@ export default function Home() {
     boolean | null
   >(null);
 
-  const t = useTranslations("main_page");
+  const t = useTranslations("pages.main_page");
+  const tGeneral = useTranslations("general");
+
   const serverStatusQuery = useServerStatus();
   const serverStatus = serverStatusQuery.data;
 
@@ -90,8 +92,12 @@ export default function Home() {
             <div className="flex flex-col justify-center space-y-4 my-4 md:w-5/12 ">
               <div className="">
                 <h1 className="text-6xl">
-                  <span className="text-primary dark">sun</span>
-                  <span className="text-current">rise</span>
+                  <span className="text-primary dark">
+                    {tGeneral("server_title.split.part_1")}
+                  </span>
+                  <span className="text-current">
+                    {tGeneral("server_title.split.part_2")}
+                  </span>
                 </h1>
                 <p className="text-muted-foreground italic text-sm">
                   {t("features.motto")}
@@ -104,10 +110,12 @@ export default function Home() {
                   size="lg"
                   asChild
                 >
-                  <Link href="/register">Join now</Link>
+                  <Link href="/register">{t("features.buttons.register")}</Link>
                 </Button>
                 <Button variant="secondary" size="sm" asChild>
-                  <Link href="/wiki#How%20to%20connect">How to connect</Link>
+                  <Link href="/wiki#How%20to%20connect">
+                    {t("features.buttons.wiki")}
+                  </Link>
                 </Button>
               </div>
             </div>
@@ -141,9 +149,9 @@ export default function Home() {
             serverStatus
               ? serverStatus.is_online
                 ? serverStatus.is_on_maintenance
-                  ? "Under Maintenance"
-                  : "Online"
-                : "Offline"
+                  ? t("statuses.under_maintenance")
+                  : t("statuses.online")
+                : t("statuses.offline")
               : undefined
           }
         />
@@ -165,7 +173,7 @@ export default function Home() {
       </div>
 
       <div className="w-full pb-12 items-center">
-        <h2 className="text-4xl font-bold text-center py-8">Why us?</h2>
+        <h2 className="text-4xl font-bold text-center py-8">{t("why_us")}</h2>
 
         <Carousel className="w-full">
           <CarouselContent className="-ml-1">
@@ -205,11 +213,11 @@ export default function Home() {
       <div className="w-full p-4">
         <div className="py-8 space-y-4">
           <h2 className="text-4xl font-bold text-current">
-            How do I start playing?
+            {t("how_to_start.title")}
           </h2>
 
           <p className="text-muted-foreground">
-            Just three simple steps and you're ready to go!
+            {t("how_to_start.description")}
           </p>
         </div>
 
@@ -217,40 +225,49 @@ export default function Home() {
           <PrettyHeader icon={<Download />} className="rounded-lg">
             <div className="flex flex-col md:flex-row space-y-2 w-full">
               <div className="w-full flex flex-col mx-2">
-                <p className="text-lg">Download osu! client</p>
+                <p className="text-lg">
+                  {t("how_to_start.download_tile.title")}
+                </p>
                 <p className="text-muted-foreground text-sm">
-                  If you do not already have an installed client
+                  {t("how_to_start.download_tile.description")}
                 </p>
               </div>
               <Button className="md:w-1/3 md:m-0 w-full m-2" asChild>
-                <Link href={"https://osu.ppy.sh/home/download"}>Download</Link>
+                <Link href={"https://osu.ppy.sh/home/download"}>
+                  {t("how_to_start.download_tile.button")}
+                </Link>
               </Button>
             </div>
           </PrettyHeader>
           <PrettyHeader icon={<DoorOpen />} className="rounded-lg">
             <div className="flex flex-col md:flex-row space-y-2 w-full">
               <div className="w-full flex flex-col mx-2">
-                <p className="text-lg">Register osu!sunrise account</p>
+                <p className="text-lg">
+                  {t("how_to_start.register_tile.title")}
+                </p>
                 <p className="text-muted-foreground text-sm">
-                  Account will allow you to join the osu!sunrise community
+                  {t("how_to_start.register_tile.description")}
                 </p>
               </div>
               <Button className="md:w-1/3 md:m-0 w-full m-2" asChild>
-                <Link href="/register">Sign up</Link>
+                <Link href="/register">
+                  {t("how_to_start.register_tile.button")}
+                </Link>
               </Button>
             </div>
           </PrettyHeader>
           <PrettyHeader icon={<BookOpenCheck />} className="rounded-lg">
             <div className="flex flex-col md:flex-row space-y-2 w-full">
               <div className="w-full flex flex-col mx-2">
-                <p className="text-lg">Follow the connection guide</p>
+                <p className="text-lg">{t("how_to_start.guide_tile.title")}</p>
                 <p className="text-muted-foreground text-sm">
-                  Which helps you set up your osu! client to connect to
-                  osu!sunrise
+                  {t("how_to_start.guide_tile.description")}
                 </p>
               </div>
               <Button className="md:w-1/3 md:m-0 w-full m-2" asChild>
-                <Link href="/wiki#How%20to%20connect">Open guide</Link>
+                <Link href="/wiki#How%20to%20connect">
+                  {t("how_to_start.guide_tile.button")}
+                </Link>
               </Button>
             </div>
           </PrettyHeader>
