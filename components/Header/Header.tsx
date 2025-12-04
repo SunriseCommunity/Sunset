@@ -18,9 +18,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Brand } from "@/components/Brand";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
+
+  const router = useRouter();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,7 +42,7 @@ export default function Header() {
 
   const changeLanguage = useCallback((locale: string) => {
     Cookies.set("locale", locale);
-    window.location.reload();
+    router.refresh();
   }, []);
 
   return (
