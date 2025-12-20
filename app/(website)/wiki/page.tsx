@@ -10,160 +10,148 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState, useMemo } from "react";
 import { tryParseNumber } from "@/lib/utils/type.util";
-
-const wikiContent = [
-  {
-    title: "How to connect",
-    content: (
-      <RoundedContent>
-        <div className="flex flex-col w-11/12 mx-auto">
-          <h1 className="text-xl">
-            To connect to the server, you need to have a copy of the game
-            installed on your computer. You can download the game from the
-            official osu! website.
-          </h1>
-          <ol className="list-decimal list-inside mt-2">
-            <li>
-              Locale the <code className="text-primary/80">osu!.exe</code> file
-              on in game directory.
-            </li>
-            <li>Create a shortcut of the file.</li>
-            <li>Right click on the shortcut and select properties.</li>
-            <li>
-              In the target field, add{" "}
-              <code className="text-primary/80">
-                -devserver {process.env.NEXT_PUBLIC_SERVER_DOMAIN}
-              </code>{" "}
-              at the end of the path.
-            </li>
-            <li>Click apply and then OK.</li>
-            <li>Double click on the shortcut to start the game.</li>
-          </ol>
-          <Image
-            src="/images/wiki/osu-connect.png"
-            alt="osu connect image"
-            width={800}
-            height={200}
-            className="rounded-lg mt-4"
-          />
-        </div>
-      </RoundedContent>
-    ),
-  },
-  {
-    title: "Can I have multiple accounts?",
-    content: (
-      <RoundedContent>
-        <div className="flex flex-col w-11/12 mx-auto">
-          <h1 className="text-xl">
-            No. You are only allowed to have one account per person.
-          </h1>
-          <p className="mt-2">
-            If you are caught with multiple accounts, you will be banned from
-            the server.
-          </p>
-        </div>
-      </RoundedContent>
-    ),
-  },
-  {
-    title: "Can I use cheats or hacks?",
-    content: (
-      <RoundedContent>
-        <div className="flex flex-col w-11/12 mx-auto">
-          <h1 className="text-xl">No. You will be banned if you are caught.</h1>
-          <p className="mt-2">
-            We are very strict on cheating and do not tolerate it at all.
-            <br />
-            If you suspect someone of cheating, please report them to the staff.
-          </p>
-        </div>
-      </RoundedContent>
-    ),
-  },
-  {
-    title: "I think I was restricted unfairly. How can I appeal?",
-    content: (
-      <RoundedContent>
-        <div className="flex flex-col w-11/12 mx-auto">
-          <p>
-            If you believe you were restricted unfairly, you can appeal your
-            restriction by contacting the staff with your case.
-            {process.env.NEXT_PUBLIC_DISCORD_LINK && (
-              <span>
-                {" "}
-                You can contact the staff{" "}
-                <a
-                  href={process.env.NEXT_PUBLIC_DISCORD_LINK}
-                  className="text-primary hover:underline"
-                >
-                  here
-                </a>
-                .
-              </span>
-            )}
-          </p>
-          <div />
-        </div>
-      </RoundedContent>
-    ),
-  },
-  {
-    title: "Can I contribute/suggest changes to the server?",
-    content: (
-      <RoundedContent>
-        <div className="flex flex-col w-11/12 mx-auto">
-          <h1 className="text-xl">Yes! We are always open to suggestions.</h1>
-          <p className="mt-2">
-            If you have any suggestions, please submit them at our{" "}
-            <a
-              href="https://github.com/SunriseCommunity"
-              className="text-primary hover:underline"
-            >
-              GitHub
-            </a>{" "}
-            page. <br />
-            Longterm contributors can also have chance to get permanent
-            supporter tag.
-          </p>
-        </div>
-      </RoundedContent>
-    ),
-  },
-  {
-    title:
-      "I can’t download maps when I’m in multiplayer, but I can download them from the main menu",
-    content: (
-      <RoundedContent>
-        <div className="flex flex-col w-11/12 mx-auto">
-          <h1 className="text-xl">
-            Disable{" "}
-            <code className="text-primary/80 text-lg">
-              Automatically start osu!direct downloads
-            </code>{" "}
-            from the options and try again.
-          </h1>
-        </div>
-      </RoundedContent>
-    ),
-  },
-];
+import { useT } from "@/lib/i18n/utils";
+import Link from "next/link";
 
 export default function Wiki() {
-  const router = useRouter();
   const pathname = usePathname();
+  const t = useT("pages.wiki.articles");
+  const tHeader = useT("pages.wiki");
 
   const [value, setValue] = useState<string | null>(null);
 
+  const wikiContent = useMemo(
+    () => [
+      {
+        tag: "howToConnect",
+        title: t("howToConnect.title"),
+        content: (
+          <RoundedContent>
+            <div className="flex flex-col w-11/12 mx-auto">
+              <h1 className="text-xl">{t("howToConnect.intro")}</h1>
+              <ol className="list-decimal list-inside mt-2">
+                <li>{t.rich("howToConnect.step1")}</li>
+                <li>{t("howToConnect.step2")}</li>
+                <li>{t("howToConnect.step3")}</li>
+                <li>
+                  {t.rich("howToConnect.step4", {
+                    serverDomain: process.env.NEXT_PUBLIC_SERVER_DOMAIN || "",
+                  })}
+                </li>
+                <li>{t("howToConnect.step5")}</li>
+                <li>{t("howToConnect.step6")}</li>
+              </ol>
+              <Image
+                src="/images/wiki/osu-connect.png"
+                alt={t("howToConnect.imageAlt")}
+                width={800}
+                height={200}
+                className="rounded-lg mt-4"
+              />
+            </div>
+          </RoundedContent>
+        ),
+      },
+      {
+        tag: "multipleAccounts",
+        title: t("multipleAccounts.title"),
+        content: (
+          <RoundedContent>
+            <div className="flex flex-col w-11/12 mx-auto">
+              <h1 className="text-xl">{t("multipleAccounts.answer")}</h1>
+              <p className="mt-2">{t("multipleAccounts.consequence")}</p>
+            </div>
+          </RoundedContent>
+        ),
+      },
+      {
+        tag: "cheatsHacks",
+        title: t("cheatsHacks.title"),
+        content: (
+          <RoundedContent>
+            <div className="flex flex-col w-11/12 mx-auto">
+              <h1 className="text-xl">{t("cheatsHacks.answer")}</h1>
+              <p className="mt-2">{t.rich("cheatsHacks.policy")}</p>
+            </div>
+          </RoundedContent>
+        ),
+      },
+      {
+        tag: "appealRestriction",
+        title: t("appealRestriction.title"),
+        content: (
+          <RoundedContent>
+            <div className="flex flex-col w-11/12 mx-auto">
+              <p>
+                {t("appealRestriction.instructions")}
+                {process.env.NEXT_PUBLIC_DISCORD_LINK && (
+                  <span>
+                    {" "}
+                    {t.rich("appealRestriction.contactStaff", {
+                      a: (chunks) => (
+                        <Link
+                          href={process.env.NEXT_PUBLIC_DISCORD_LINK ?? ""}
+                          className="text-primary underline hover:opacity-80 transition-opacity"
+                        >
+                          {chunks}
+                        </Link>
+                      ),
+                    })}
+                  </span>
+                )}
+              </p>
+              <div />
+            </div>
+          </RoundedContent>
+        ),
+      },
+      {
+        tag: "contributeSuggest",
+        title: t("contributeSuggest.title"),
+        content: (
+          <RoundedContent>
+            <div className="flex flex-col w-11/12 mx-auto">
+              <h1 className="text-xl">{t("contributeSuggest.answer")}</h1>
+              <p className="mt-2">
+                {t.rich("contributeSuggest.instructions", {
+                  a: (chunks) => (
+                    <Link
+                      href="https://github.com/SunriseCommunity"
+                      className="text-primary underline hover:opacity-80 transition-opacity"
+                    >
+                      {chunks}
+                    </Link>
+                  ),
+                })}
+              </p>
+            </div>
+          </RoundedContent>
+        ),
+      },
+      {
+        tag: "multiplayerDownload",
+        title: t("multiplayerDownload.title"),
+        content: (
+          <RoundedContent>
+            <div className="flex flex-col w-11/12 mx-auto">
+              <h1 className="text-xl">
+                {t.rich("multiplayerDownload.solution")}
+              </h1>
+            </div>
+          </RoundedContent>
+        ),
+      },
+    ],
+    [t]
+  );
+
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const element = wikiContent.find(
-        ({ title: t }) =>
-          t === decodeURIComponent(window.location.hash).slice(1)
-      );
+      const hash = decodeURIComponent(window.location.hash).slice(1);
+      const element = wikiContent.find(({ tag }) => tag === hash);
 
       if (element) {
         const index = wikiContent.indexOf(element).toString();
@@ -181,13 +169,17 @@ export default function Wiki() {
     window.history.replaceState(
       null,
       "",
-      pathname + (element ? "#" + encodeURIComponent(element.title) : "")
+      pathname + (element ? "#" + encodeURIComponent(element.tag) : "")
     );
-  }, [value]);
+  }, [value, pathname, wikiContent]);
 
   return (
     <div className="flex flex-col w-full space-y-4">
-      <PrettyHeader text="Wiki" icon={<BookCopy />} roundBottom={true} />
+      <PrettyHeader
+        text={tHeader("header")}
+        icon={<BookCopy />}
+        roundBottom={true}
+      />
 
       <Accordion
         type="single"

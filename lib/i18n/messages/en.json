@@ -2,7 +2,7 @@
   "general": {
     "appName": {
       "text": "osu!sunrise",
-      "context": "The name of the application or server"
+      "context": "The name of the application, will be inclided in various places such as the title meta tag"
     },
     "serverTitle": {
       "full": {
@@ -211,6 +211,124 @@
         "underMaintenance": {
           "text": "Under Maintenance",
           "context": "Status indicator when the server is under maintenance"
+        }
+      }
+    },
+    "wiki": {
+      "meta": {
+        "title": {
+          "text": "Wiki | {appName}",
+          "context": "The title for the wiki page of the osu!sunrise website"
+        }
+      },
+      "header": {
+        "text": "Wiki",
+        "context": "The main header text for the wiki page"
+      },
+      "articles": {
+        "howToConnect": {
+          "title": {
+            "text": "How to connect",
+            "context": "Title of the wiki article explaining how to connect to the server"
+          },
+          "intro": {
+            "text": "To connect to the server, you need to have a copy of the game installed on your computer. You can download the game from the official osu! website.",
+            "context": "Introduction text explaining the prerequisites for connecting to the server"
+          },
+          "step1": {
+            "text": "Locate the <code>osu!.exe</code> file in the game directory.",
+            "context": "First step instruction for connecting to the server"
+          },
+          "step2": {
+            "text": "Create a shortcut of the file.",
+            "context": "Second step instruction for connecting to the server"
+          },
+          "step3": {
+            "text": "Right click on the shortcut and select properties.",
+            "context": "Third step instruction for connecting to the server"
+          },
+          "step4": {
+            "text": "In the target field, add <code>-devserver {serverDomain}</code> at the end of the path.",
+            "context": "Fourth step instruction for connecting to the server, includes server domain parameter"
+          },
+          "step5": {
+            "text": "Click apply and then OK.",
+            "context": "Fifth step instruction for connecting to the server"
+          },
+          "step6": {
+            "text": "Double click on the shortcut to start the game.",
+            "context": "Sixth step instruction for connecting to the server"
+          },
+          "imageAlt": {
+            "text": "osu connect image",
+            "context": "Alt text for the connection guide image"
+          }
+        },
+        "multipleAccounts": {
+          "title": {
+            "text": "Can I have multiple accounts?",
+            "context": "Title of the wiki article about multiple accounts policy"
+          },
+          "answer": {
+            "text": "No. You are only allowed to have one account per person.",
+            "context": "Direct answer to the multiple accounts question"
+          },
+          "consequence": {
+            "text": "If you are caught with multiple accounts, you will be banned from the server.",
+            "context": "Explanation of the consequence for having multiple accounts"
+          }
+        },
+        "cheatsHacks": {
+          "title": {
+            "text": "Can I use cheats or hacks?",
+            "context": "Title of the wiki article about cheating policy"
+          },
+          "answer": {
+            "text": "No. You will be banned if you are caught.",
+            "context": "Direct answer to the cheating question"
+          },
+          "policy": {
+            "text": "We are very strict on cheating and do not tolerate it at all.<br></br>If you suspect someone of cheating, please report them to the staff.",
+            "context": "Explanation of the cheating policy and how to report cheaters"
+          }
+        },
+        "appealRestriction": {
+          "title": {
+            "text": "I think I was restricted unfairly. How can I appeal?",
+            "context": "Title of the wiki article about appealing restrictions"
+          },
+          "instructions": {
+            "text": "If you believe you were restricted unfairly, you can appeal your restriction by contacting the staff with your case.",
+            "context": "Instructions on how to appeal a restriction"
+          },
+          "contactStaff": {
+            "text": "You can contact the staff <a>here</a>.",
+            "context": "Information about where to contact staff for appeals, includes link placeholder"
+          }
+        },
+        "contributeSuggest": {
+          "title": {
+            "text": "Can I contribute/suggest changes to the server?",
+            "context": "Title of the wiki article about contributing to the server"
+          },
+          "answer": {
+            "text": "Yes! We are always open to suggestions.",
+            "context": "Positive answer about contributing to the server"
+          },
+          "instructions": {
+            "text": "If you have any suggestions, please submit them at our <a>GitHub</a> page.<br></br>Longterm contributors can also have chance to get permanent supporter tag.",
+            "context": "Instructions on how to contribute, includes GitHub link and information about supporter tags"
+          }
+        },
+        "multiplayerDownload": {
+          "title": {
+            "text": "I can't download maps when I'm in multiplayer, but I can download them from the main menu",
+            "context": "Title of the wiki article about downloading maps in multiplayer"
+          },
+          "solution": {
+            "text": "Disable <code>Automatically start osu!direct downloads</code> from the options and try again.",
+            "context": "Solution to the multiplayer download issue"
+          }
         }
       }
     }

@@ -12,9 +12,7 @@ export const defaultTags = {
   p: (chunks: ReactNode) => <p>{chunks}</p>,
   b: (chunks: ReactNode) => <b className="font-semibold">{chunks}</b>,
   i: (chunks: ReactNode) => <i className="italic">{chunks}</i>,
-  code: (chunks: ReactNode) => (
-    <code className="text-primary/80">{chunks}</code>
-  ),
+  code: (chunks: ReactNode) => <code className="text-primary">{chunks}</code>,
   br: () => <br />,
 };
 
