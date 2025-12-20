@@ -26,7 +26,7 @@ export default function Wiki() {
   const wikiContent = useMemo(
     () => [
       {
-        tag: "howToConnect",
+        tag: "How to connect",
         title: t("howToConnect.title"),
         content: (
           <RoundedContent>
@@ -56,7 +56,7 @@ export default function Wiki() {
         ),
       },
       {
-        tag: "multipleAccounts",
+        tag: "Can I have multiple accounts?",
         title: t("multipleAccounts.title"),
         content: (
           <RoundedContent>
@@ -68,7 +68,7 @@ export default function Wiki() {
         ),
       },
       {
-        tag: "cheatsHacks",
+        tag: "Can I use cheats or hacks?",
         title: t("cheatsHacks.title"),
         content: (
           <RoundedContent>
@@ -80,7 +80,7 @@ export default function Wiki() {
         ),
       },
       {
-        tag: "appealRestriction",
+        tag: "I think I was restricted unfairly. How can I appeal?",
         title: t("appealRestriction.title"),
         content: (
           <RoundedContent>
@@ -109,7 +109,7 @@ export default function Wiki() {
         ),
       },
       {
-        tag: "contributeSuggest",
+        tag: "Can I contribute/suggest changes to the server?",
         title: t("contributeSuggest.title"),
         content: (
           <RoundedContent>
@@ -132,7 +132,7 @@ export default function Wiki() {
         ),
       },
       {
-        tag: "multiplayerDownload",
+        tag: "I can’t download maps when I’m in multiplayer, but I can download them from the main menu",
         title: t("multiplayerDownload.title"),
         content: (
           <RoundedContent>
