@@ -18,7 +18,8 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "next/link": ["./lib/overrides/next/link"]
     },
     "target": "ES2017"
   },
