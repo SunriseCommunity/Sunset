@@ -471,6 +471,136 @@
           }
         }
       }
+    },
+    "register": {
+      "meta": {
+        "title": {
+          "text": "Register | {appName}",
+          "context": "The title for the register page of the osu!sunrise website"
+        }
+      },
+      "header": {
+        "text": "Register",
+        "context": "The main header text for the register page"
+      },
+      "welcome": {
+        "title": {
+          "text": "Welcome to the registration page!",
+          "context": "Welcome title on the registration page"
+        },
+        "description": {
+          "text": "Hello! Please enter your details to create an account. If you aren't sure how to connect to the server, or if you have any other questions, please visit our <a>Wiki page</a>.",
+          "context": "Welcome description text with link to wiki page"
+        }
+      },
+      "form": {
+        "title": {
+          "text": "Enter your details",
+          "context": "Title for the registration form section"
+        },
+        "labels": {
+          "username": {
+            "text": "Username",
+            "context": "Label for the username input field"
+          },
+          "email": {
+            "text": "Email",
+            "context": "Label for the email input field"
+          },
+          "password": {
+            "text": "Password",
+            "context": "Label for the password input field"
+          },
+          "confirmPassword": {
+            "text": "Confirm Password",
+            "context": "Label for the confirm password input field"
+          }
+        },
+        "placeholders": {
+          "username": {
+            "text": "e.g. username",
+            "context": "Placeholder text for the username input field"
+          },
+          "email": {
+            "text": "e.g. username@mail.com",
+            "context": "Placeholder text for the email input field"
+          },
+          "password": {
+            "text": "************",
+            "context": "Placeholder text for the password input field"
+          }
+        },
+        "validation": {
+          "usernameMin": {
+            "text": "Username must be at least {min} characters.",
+            "context": "Validation error message when username is too short, includes minimum length parameter"
+          },
+          "usernameMax": {
+            "text": "Username must be {max} characters or fewer.",
+            "context": "Validation error message when username is too long, includes maximum length parameter"
+          },
+          "passwordMin": {
+            "text": "Password must be at least {min} characters.",
+            "context": "Validation error message when password is too short, includes minimum length parameter"
+          },
+          "passwordMax": {
+            "text": "Password must be {max} characters or fewer.",
+            "context": "Validation error message when password is too long, includes maximum length parameter"
+          },
+          "passwordsDoNotMatch": {
+            "text": "Passwords do not match",
+            "context": "Validation error message when password and confirm password do not match"
+          }
+        },
+        "error": {
+          "title": {
+            "text": "Error",
+            "context": "Title for the error alert"
+          },
+          "unknown": {
+            "text": "Unknown error.",
+            "context": "Generic error message when an unknown error occurs"
+          }
+        },
+        "submit": {
+          "text": "Register",
+          "context": "Text for the registration submit button"
+        },
+        "terms": {
+          "text": "By signing up, you agree to the server <a>rules</a>",
+          "context": "Terms agreement text with link to rules page"
+        }
+      },
+      "success": {
+        "dialog": {
+          "title": {
+            "text": "You're all set!",
+            "context": "Title of the success dialog after registration"
+          },
+          "description": {
+            "text": "Your account has been successfully created.",
+            "context": "Description in the success dialog"
+          },
+          "message": {
+            "text": "You can now connect to the server by following the guide on our <a>Wiki page</a>, or customize your profile by updating your avatar and banner before you start playing!",
+            "context": "Success message with link to wiki page"
+          },
+          "buttons": {
+            "viewWiki": {
+              "text": "View Wiki Guide",
+              "context": "Button text to view the wiki guide"
+            },
+            "goToProfile": {
+              "text": "Go to Profile",
+              "context": "Button text to go to user profile"
+            }
+          }
+        },
+        "toast": {
+          "text": "Account successfully created!",
+          "context": "Toast notification message when account is successfully created"
+        }
+      }
     }
   }
 }

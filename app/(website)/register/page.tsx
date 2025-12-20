@@ -3,7 +3,7 @@ import { AlertCircle, DoorOpen } from "lucide-react";
 import PrettyHeader from "@/components/General/PrettyHeader";
 import RoundedContent from "@/components/General/RoundedContent";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useMemo, useCallback, useRef } from "react";
 import { useRegister } from "@/lib/hooks/api/auth/useRegister";
 import Cookies from "js-cookie";
 import useSelf from "@/lib/hooks/useSelf";
@@ -31,51 +31,57 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-
-let password = "";
-
-const formSchema = z.object({
-  username: z
-    .string()
-    .min(2, {
-      message: "Username must be at least 2 characters.",
-    })
-    .max(32, {
-      message: "Username must be 32 characters or fewer.",
-    }),
-  email: z.string(),
-  password: z
-    .string()
-    .min(8, {
-      message: "Password must be at least 8 characters.",
-    })
-    .max(32, {
-      message: "Password must be 32 characters or fewer.",
-    })
-    .refine((value) => {
-      password = value;
-      return true;
-    }),
-  confirmPassword: z
-    .string()
-    .min(8, {
-      message: "Password must be at least 8 characters.",
-    })
-    .max(32, {
-      message: "Password must be 32 characters or fewer.",
-    })
-    .refine((value) => value === password, "Passwords do not match"),
-});
+import { useT } from "@/lib/i18n/utils";
 
 export default function Register() {
   const [isSuccessfulDialogOpen, setIsSuccessfulDialogOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const passwordRef = useRef<string>("");
 
   const { trigger } = useRegister();
-
   const { self, revalidate } = useSelf();
-
   const { toast } = useToast();
+  const t = useT("pages.register");
+
+  const formSchema = useMemo(
+    () =>
+      z.object({
+        username: z
+          .string()
+          .min(2, {
+            message: t("form.validation.usernameMin", { min: 2 }),
+          })
+          .max(32, {
+            message: t("form.validation.usernameMax", { max: 32 }),
+          }),
+        email: z.string(),
+        password: z
+          .string()
+          .min(8, {
+            message: t("form.validation.passwordMin", { min: 8 }),
+          })
+          .max(32, {
+            message: t("form.validation.passwordMax", { max: 32 }),
+          })
+          .refine((value) => {
+            passwordRef.current = value;
+            return true;
+          }),
+        confirmPassword: z
+          .string()
+          .min(8, {
+            message: t("form.validation.passwordMin", { min: 8 }),
+          })
+          .max(32, {
+            message: t("form.validation.passwordMax", { max: 32 }),
+          })
+          .refine(
+            (value) => value === passwordRef.current,
+            t("form.validation.passwordsDoNotMatch")
+          ),
+      }),
+    [t]
+  );
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -87,61 +93,95 @@ export default function Register() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    setError(null);
+  const onSubmit = useCallback(
+    (values: z.infer<typeof formSchema>) => {
+      setError(null);
 
-    const { username, email, password } = values;
+      const { username, email, password } = values;
 
-    trigger(
-      {
-        email,
-        username,
-        password,
-      },
-      {
-        onSuccess: (data) => {
-          Cookies.set("session_token", data.token, {
-            expires: new Date(Date.now() + data.expires_in),
-          });
-
-          Cookies.set("refresh_token", data.refresh_token, {
-            expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-          });
-
-          form.reset();
-
-          revalidate();
-
-          toast({ title: "Account successfully created!" });
-
-          setIsSuccessfulDialogOpen(true);
+      trigger(
+        {
+          email,
+          username,
+          password,
         },
-        onError(err) {
-          setError(err.message ?? "Unknown error.");
-        },
-      }
-    );
-  }
+        {
+          onSuccess: (data) => {
+            Cookies.set("session_token", data.token, {
+              expires: new Date(Date.now() + data.expires_in),
+            });
+
+            Cookies.set("refresh_token", data.refresh_token, {
+              expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+            });
+
+            form.reset();
+
+            revalidate();
+
+            toast({ title: t("success.toast") });
+
+            setIsSuccessfulDialogOpen(true);
+          },
+          onError(err) {
+            setError(err.message ?? t("form.error.unknown"));
+          },
+        }
+      );
+    },
+    [trigger, form, revalidate, toast, t]
+  );
+
+  const welcomeDescription = useMemo(
+    () =>
+      t.rich("welcome.description", {
+        a: (chunks) => (
+          <Link href="/wiki" className="text-primary hover:underline">
+            {chunks}
+          </Link>
+        ),
+      }),
+    [t]
+  );
+
+  const termsText = useMemo(
+    () =>
+      t.rich("form.terms", {
+        a: (chunks) => (
+          <Link href="/rules" className="text-primary hover:underline">
+            {chunks}
+          </Link>
+        ),
+      }),
+    [t]
+  );
+
+  const successMessage = useMemo(
+    () =>
+      t.rich("success.dialog.message", {
+        a: (chunks) => (
+          <Link
+            href="/wiki#How%20to%20connect"
+            className="text-primary hover:underline"
+          >
+            {chunks}
+          </Link>
+        ),
+      }),
+    [t]
+  );
 
   return (
     <div className="flex flex-col space-y-4">
-      <PrettyHeader text="Register" icon={<DoorOpen />} roundBottom={true} />
+      <PrettyHeader text={t("header")} icon={<DoorOpen />} roundBottom={true} />
       <RoundedContent className="bg-card mb-4 rounded-lg">
         <div className="flex w-11/12 mx-auto">
           <div className="flex flex-col w-11/12 mx-auto space-y-6">
-            <h1 className="text-xl">Welcome to the registration page!</h1>
-            <p>
-              Hello! Please enter your details to create an account. If you
-              don't sure how to connect to the server, or if you have any other
-              questions, please visit our{" "}
-              <Link href="/wiki" className="text-primary hover:underline">
-                Wiki page
-              </Link>
-              .
-            </p>
+            <h1 className="text-xl">{t("welcome.title")}</h1>
+            <p>{welcomeDescription}</p>
 
             <div className="flex flex-col space-y-2">
-              <h1 className="text-xl">Enter your details</h1>
+              <h1 className="text-xl">{t("form.title")}</h1>
 
               <Form {...form}>
                 <form
@@ -153,11 +193,11 @@ export default function Register() {
                     name="username"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Username</FormLabel>
+                        <FormLabel>{t("form.labels.username")}</FormLabel>
                         <FormControl>
                           <Input
                             pattern="^[a-zA-Z0-9_\- ]{1,32}$"
-                            placeholder="e.g. username"
+                            placeholder={t("form.placeholders.username")}
                             {...field}
                           />
                         </FormControl>
@@ -170,12 +210,12 @@ export default function Register() {
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Email</FormLabel>
+                        <FormLabel>{t("form.labels.email")}</FormLabel>
                         <FormControl>
                           <Input
                             type="email"
                             pattern="^.+@.+\.[a-zA-Z]{2,63}$"
-                            placeholder="e.g. username@mail.com"
+                            placeholder={t("form.placeholders.email")}
                             {...field}
                           />
                         </FormControl>
@@ -189,11 +229,11 @@ export default function Register() {
                     name="password"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Password</FormLabel>
+                        <FormLabel>{t("form.labels.password")}</FormLabel>
                         <FormControl>
                           <Input
                             type="password"
-                            placeholder="************"
+                            placeholder={t("form.placeholders.password")}
                             {...field}
                           />
                         </FormControl>
@@ -206,11 +246,13 @@ export default function Register() {
                     name="confirmPassword"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Confirm Password</FormLabel>
+                        <FormLabel>
+                          {t("form.labels.confirmPassword")}
+                        </FormLabel>
                         <FormControl>
                           <Input
                             type="password"
-                            placeholder="************"
+                            placeholder={t("form.placeholders.password")}
                             {...field}
                           />
                         </FormControl>
@@ -222,22 +264,16 @@ export default function Register() {
                   {error && (
                     <Alert variant="destructive">
                       <AlertCircle className="h-4 w-4" />
-                      <AlertTitle>Error</AlertTitle>
+                      <AlertTitle>{t("form.error.title")}</AlertTitle>
                       <AlertDescription>{error}</AlertDescription>
                     </Alert>
                   )}
 
                   <Button type="submit" className="w-full">
-                    Register
+                    {t("form.submit")}
                   </Button>
                   <span className="text-xs text-secondary-foreground">
-                    By signing up, you agree to the server{" "}
-                    <Link
-                      href="/rules"
-                      className="text-primary hover:underline"
-                    >
-                      rules
-                    </Link>
+                    {termsText}
                   </span>
                 </form>
               </Form>
@@ -258,34 +294,28 @@ export default function Register() {
         open={isSuccessfulDialogOpen}
         onOpenChange={setIsSuccessfulDialogOpen}
       >
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:min-w-[425px]">
           <DialogHeader>
-            <DialogTitle>You’re all set!</DialogTitle>
+            <DialogTitle>{t("success.dialog.title")}</DialogTitle>
 
             <DialogDescription>
-              Your account has been successfully created.
+              {t("success.dialog.description")}
             </DialogDescription>
           </DialogHeader>
-          <p>
-            You can now connect to the server by following the guide on our{" "}
-            <Link
-              href="/wiki#How%20to%20connect"
-              className="text-primary hover:underline"
-            >
-              Wiki page
-            </Link>{" "}
-            , or customize your profile by updating your avatar and banner
-            before you start playing!
-          </p>
+          <p>{successMessage}</p>
 
           <DialogFooter>
             <Button asChild variant="secondary" className="my-2 md:my-0">
-              <Link href={`/wiki#How%20to%20connect`}>View Wiki Guide</Link>
+              <Link href={`/wiki#How%20to%20connect`}>
+                {t("success.dialog.buttons.viewWiki")}
+              </Link>
             </Button>
 
             {self && (
               <Button asChild className="my-2 md:my-0">
-                <Link href={`/user/${self?.user_id}`}>Go to Profile</Link>
+                <Link href={`/user/${self?.user_id}`}>
+                  {t("success.dialog.buttons.goToProfile")}
+                </Link>
               </Button>
             )}
           </DialogFooter>
