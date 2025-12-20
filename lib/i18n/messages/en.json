@@ -601,6 +601,68 @@
           "context": "Toast notification message when account is successfully created"
         }
       }
+    },
+    "support": {
+      "meta": {
+        "title": {
+          "text": "Support Us | {appName}",
+          "context": "The title for the support page of the osu!sunrise website"
+        }
+      },
+      "header": {
+        "text": "Support Us",
+        "context": "The main header text for the support page"
+      },
+      "section": {
+        "title": {
+          "text": "How You Can Help Us",
+          "context": "Title of the support section explaining how users can help"
+        },
+        "intro": {
+          "text": "While all osu!sunrise features has always been free, running and improving the server requires resources, time, and effort, while being mainly maintained by a <b>single</b> developer.<br></br><br></br>If you love osu!sunrise and want to see it grow even further, here are a few ways you can support us:",
+          "context": "Introduction text explaining why support is needed, includes bold text for emphasis and line breaks"
+        },
+        "donate": {
+          "title": {
+            "text": "<b>Donate.</b>",
+            "context": "Title of the donation option, displayed in bold"
+          },
+          "description": {
+            "text": "Your generous donations help us maintain and enhance the osu! servers. Every little bit counts! With your support, we can cover hosting costs, implement new features, and ensure a smoother experience for everyone.",
+            "context": "Description text explaining how donations help the server"
+          },
+          "buttons": {
+            "kofi": {
+              "text": "Ko-fi",
+              "context": "Button text for Ko-fi donation platform"
+            },
+            "boosty": {
+              "text": "Boosty",
+              "context": "Button text for Boosty donation platform"
+            }
+          }
+        },
+        "spreadTheWord": {
+          "title": {
+            "text": "<b>Spread the Word.</b>",
+            "context": "Title of the spread the word option, displayed in bold"
+          },
+          "description": {
+            "text": "The more people who know about osu!sunrise, the more vibrant and exciting our community will be. Tell your friends, share on social media, and invite new players to join.",
+            "context": "Description text encouraging users to share the server"
+          }
+        },
+        "justPlay": {
+          "title": {
+            "text": "<b>Just Play on the Server.</b>",
+            "context": "Title of the just play option, displayed in bold"
+          },
+          "description": {
+            "text": "One of the easiest ways to support osu!sunrise is simply by playing on the server! The more players we have, the better the community and experience become. By joining in, you're helping to grow the server and keeping it active for all players.",
+            "context": "Description text explaining that playing on the server is a form of support"
+          }
+        }
+      }
     }
   }
 }
