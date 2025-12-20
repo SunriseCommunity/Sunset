@@ -1,7 +1,7 @@
 import PrettyCounter from "@/components/General/PrettyCounter";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useT } from "@/lib/i18n/utils";
 import { Activity, Users, AlertTriangle, Trophy, Wifi } from "lucide-react";
-import { useTranslations } from "next-intl";
 
 interface Props {
   type:
@@ -40,7 +40,7 @@ const statuses = {
 export default function ServerStatus({ type, data, children }: Props) {
   const isDataNumber = !isNaN(Number(data));
 
-  const t = useTranslations("pages.mainPage.statuses");
+  const t = useT("pages.mainPage.statuses");
 
   return (
     <div

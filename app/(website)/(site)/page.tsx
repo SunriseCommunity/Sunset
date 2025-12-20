@@ -20,6 +20,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
+import { useT } from "@/lib/i18n/utils";
 import { useTranslations } from "next-intl";
 
 const cards = [
@@ -69,8 +70,8 @@ export default function Home() {
     boolean | null
   >(null);
 
-  const t = useTranslations("pages.mainPage");
-  const tGeneral = useTranslations("general");
+  const t = useT("pages.mainPage");
+  const tGeneral = useT("general");
 
   const serverStatusQuery = useServerStatus();
   const serverStatus = serverStatusQuery.data;
