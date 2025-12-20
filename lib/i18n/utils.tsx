@@ -1,9 +1,9 @@
-"use client";
 import {
   RichTranslationValues,
   TranslationValues,
   useTranslations,
 } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import { ReactNode } from "react";
 
 export type TranslationKey = string;
@@ -18,9 +18,25 @@ export const defaultTags = {
   br: () => <br />,
 };
 
-export function useT(namespace: string) {
+export function useT(namespace?: string) {
   const t = useTranslations(namespace);
   const appName = useTranslations("general")("appName");
+
+  const plainT = (key: TranslationKey, values?: TranslationValues) =>
+    t(key, { appName, ...values });
+
+  const richT = (key: TranslationKey, values?: RichTranslationValues) =>
+    t.rich(key, { ...defaultTags, appName, ...values });
+
+  plainT.rich = richT;
+
+  return plainT;
+}
+
+export async function getT(namespace?: string) {
+  const t = await getTranslations(namespace);
+
+  const appName = await getTranslations("general").then((t) => t("appName"));
 
   const plainT = (key: TranslationKey, values?: TranslationValues) =>
     t(key, { appName, ...values });

@@ -22,16 +22,17 @@ import { BeatmapsStatusTable } from "@/app/(admin)/admin/beatmapsets/components/
 import { BeatmapSetEvents } from "@/app/(admin)/admin/beatmapsets/components/BeatmapSetEvents";
 import PrettyHeader from "@/components/General/PrettyHeader";
 import Link from "next/link";
+import { tryParseNumber } from "@/lib/utils/type.util";
 
 export interface BeatmapsetProps {
-  params: Promise<{ id: number }>;
+  params: Promise<{ id: string }>;
 }
 
 export default function AdminBeatmapset(props: BeatmapsetProps) {
   const params = use(props.params);
   const router = useRouter();
 
-  const beatmapSetId = params.id;
+  const beatmapSetId = tryParseNumber(params.id) ?? 0;
 
   const beatmapsetQuery = useBeatmapSet(beatmapSetId);
   const beatmapSet = beatmapsetQuery.data;
@@ -120,6 +121,7 @@ export default function AdminBeatmapset(props: BeatmapsetProps) {
                       <Button variant="secondary" size="xl" asChild>
                         <Link
                           href={`https://osu.ppy.sh/beatmapsets/${beatmapSet.id}`}
+                          
                         >
                           <ExternalLink />
                           Open on Bancho

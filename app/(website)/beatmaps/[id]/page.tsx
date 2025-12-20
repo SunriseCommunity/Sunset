@@ -7,14 +7,15 @@ import PrettyHeader from "@/components/General/PrettyHeader";
 import RoundedContent from "@/components/General/RoundedContent";
 import Image from "next/image";
 import { Music2 } from "lucide-react";
+import { tryParseNumber } from "@/lib/utils/type.util";
 
 interface BeatmapsProps {
-  params: Promise<{ id: number }>;
+  params: Promise<{ id: string }>;
 }
 
 export default function BeatmapsRedirect(props: BeatmapsProps) {
   const params = use(props.params);
-  const beatmapQuery = useBeatmap(params.id);
+  const beatmapQuery = useBeatmap(tryParseNumber(params.id) ?? 0);
   const beatmap = beatmapQuery.data;
 
   if (beatmap) {

@@ -26,7 +26,7 @@ import { BeatmapInfoAccordion } from "@/app/(website)/beatmapsets/components/Bea
 import { BeatmapNominatorUser } from "@/app/(website)/beatmapsets/components/BeatmapNominatorUser";
 
 export interface BeatmapsetProps {
-  params: Promise<{ ids: [string?, string?] }>;
+  params: Promise<{ ids: (string | undefined)[] }>;
 }
 
 export default function Beatmapset(props: BeatmapsetProps) {

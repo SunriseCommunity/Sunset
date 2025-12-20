@@ -34,7 +34,7 @@ import {
   UserResponse,
   UserStatsResponse,
 } from "@/lib/types/api";
-import { isInstance } from "@/lib/utils/type.util";
+import { isInstance, tryParseNumber } from "@/lib/utils/type.util";
 import { SetDefaultGamemodeButton } from "@/app/(website)/user/[id]/components/SetDefaultGamemodeButton";
 import useSelf from "@/lib/hooks/useSelf";
 import UserGeneralInformation from "@/app/(website)/user/[id]/components/UserGeneralInformation";
@@ -114,9 +114,9 @@ const renderTabContent = (
   }
 };
 
-export default function UserPage(props: { params: Promise<{ id: number }> }) {
+export default function UserPage(props: { params: Promise<{ id: string }> }) {
   const params = use(props.params);
-  const userId = Number(params.id);
+  const userId = tryParseNumber(params.id) ?? 0;
 
   const router = useRouter();
   const pathname = usePathname();

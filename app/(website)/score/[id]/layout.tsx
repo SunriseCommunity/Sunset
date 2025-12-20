@@ -8,7 +8,7 @@ import { BeatmapResponse, ScoreResponse, UserResponse } from "@/lib/types/api";
 export const revalidate = 60;
 
 export async function generateMetadata(props: {
-  params: Promise<{ id: number }>;
+  params: Promise<{ id: string }>;
 }): Promise<Metadata> {
   const params = await props.params;
   const score = await fetcher<ScoreResponse>(`score/${params.id}`);
