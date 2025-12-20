@@ -31,6 +31,16 @@
   },
   "pages": {
     "mainPage": {
+      "meta": {
+        "title": {
+          "text": "Welcome | {appName}",
+          "context": "The title for the main page of the osu!sunrise website"
+        },
+        "description": {
+          "text": "Join osu!sunrise, a feature-rich private osu! server with Relax, Autopilot, ScoreV2 support, and a custom PP system tailored for Relax and Autopilot gameplay.",
+          "context": "The meta description for the main page of the osu!sunrise website"
+        }
+      },
       "features": {
         "motto": {
           "text": "- yet another osu! server",

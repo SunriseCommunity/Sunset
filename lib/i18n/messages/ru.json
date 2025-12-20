@@ -2,6 +2,10 @@
   "pages": {
     "mainPage": {
       "TODO": "UPDATE TRANSLATION, AI FOR NOW",
+      "meta": {
+        "title": "Добро пожаловать! | {appName}",
+        "description": "Присоединяйтесь к osu!sunrise, функциональному приватному серверу osu!, поддерживающему Relax, Autopilot и ScoreV2, а также собственной системой расчёта PP, адаптированной под Relax и Autopilot."
+      },
       "features": {
         "motto": "- ещё один osu! сервер",
         "description": "Функциональный osu! сервер с поддержкой Relax, Autopilot и ScoreV2, а также собственной системой расчёта PP, адаптированной под Relax и Autopilot.",
