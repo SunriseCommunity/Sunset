@@ -18,7 +18,7 @@ export default function ServerMaintenanceDialog({
   open: boolean;
   setOpen: (e: boolean) => void;
 }) {
-  const t = useT("components.server_maintenance_dialog");
+  const t = useT("components.serverMaintenanceDialog");
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>

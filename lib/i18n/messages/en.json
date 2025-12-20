@@ -1,20 +1,20 @@
 {
   "general": {
-    "app_name": {
+    "appName": {
       "text": "osu!sunrise",
       "context": "The name of the application or server"
     },
-    "server_title": {
+    "serverTitle": {
       "full": {
         "text": "sunrise",
         "context": "The full name of the server"
       },
       "split": {
-        "part_1": {
+        "part1": {
           "text": "sun",
           "context": "The first part of the split server name"
         },
-        "part_2": {
+        "part2": {
           "text": "rise",
           "context": "The second part of the split server name"
         }
@@ -22,7 +22,7 @@
     }
   },
   "components": {
-    "server_maintenance_dialog": {
+    "serverMaintenanceDialog": {
       "message": {
         "text": "The server is currently in <b>maintenance mode</b>, so some features of the website <b>may not function correctly</b>.",
         "context": "This message is shown to users when the server is under maintenance."
@@ -30,7 +30,7 @@
     }
   },
   "pages": {
-    "main_page": {
+    "mainPage": {
       "features": {
         "motto": {
           "text": "- yet another osu! server",
@@ -51,12 +51,12 @@
           }
         }
       },
-      "why_us": {
+      "whyUs": {
         "text": "Why us?",
         "context": "Section heading asking why users should choose this server"
       },
       "cards": {
-        "free_features": {
+        "freeFeatures": {
           "title": {
             "text": "Truly Free Features",
             "context": "Title of the free features card on the main page"
@@ -66,7 +66,7 @@
             "context": "Description text explaining the free features available on the server"
           }
         },
-        "pp_system": {
+        "ppSystem": {
           "title": {
             "text": "Custom PP Calculations",
             "context": "Title of the PP system card on the main page"
@@ -96,7 +96,7 @@
             "context": "Description text explaining the server's update frequency"
           }
         },
-        "pp_calc": {
+        "ppCalc": {
           "title": {
             "text": "Built-in PP Calculator",
             "context": "Title of the PP calculator card on the main page"
@@ -106,7 +106,7 @@
             "context": "Description text explaining the built-in PP calculator feature"
           }
         },
-        "sunrise_core": {
+        "sunriseCore": {
           "title": {
             "text": "Custom-Built Bancho Core",
             "context": "Title of the bancho core card on the main page"
@@ -117,7 +117,7 @@
           }
         }
       },
-      "how_to_start": {
+      "howToStart": {
         "title": {
           "text": "How do I start playing?",
           "context": "Section heading for the getting started guide"
@@ -126,7 +126,7 @@
           "text": "Just three simple steps and you're ready to go!",
           "context": "Description text introducing the getting started steps"
         },
-        "download_tile": {
+        "downloadTile": {
           "title": {
             "text": "Download osu! clinet",
             "context": "Title of the download step tile"
@@ -140,7 +140,7 @@
             "context": "Button text to download the osu! client"
           }
         },
-        "register_tile": {
+        "registerTile": {
           "title": {
             "text": "Register osu!sunrise account",
             "context": "Title of the registration step tile"
@@ -154,7 +154,7 @@
             "context": "Button text to register a new account"
           }
         },
-        "guide_tile": {
+        "guideTile": {
           "title": {
             "text": "Follow the connection guide",
             "context": "Title of the connection guide step tile"
@@ -170,23 +170,23 @@
         }
       },
       "statuses": {
-        "total_users": {
+        "totalUsers": {
           "text": "Total Users",
           "context": "Label for the total number of registered users"
         },
-        "users_online": {
+        "usersOnline": {
           "text": "Users Online",
           "context": "Label for the number of currently online users"
         },
-        "users_restricted": {
+        "usersRestricted": {
           "text": "Users Restricted",
           "context": "Label for the number of restricted users"
         },
-        "total_scores": {
+        "totalScores": {
           "text": "Total Scores",
           "context": "Label for the total number of scores submitted"
         },
-        "server_status": {
+        "serverStatus": {
           "text": "Server Status",
           "context": "Label for the current server status"
         },
@@ -198,7 +198,7 @@
           "text": "Offline",
           "context": "Status indicator when the server is offline"
         },
-        "under_maintenance": {
+        "underMaintenance": {
           "text": "Under Maintenance",
           "context": "Status indicator when the server is under maintenance"
         }

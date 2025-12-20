@@ -24,14 +24,14 @@ import { useTranslations } from "next-intl";
 
 const cards = [
   {
-    titleKey: "cards.free_features.title",
-    descriptionKey: "cards.free_features.description",
+    titleKey: "cards.freeFeatures.title",
+    descriptionKey: "cards.freeFeatures.description",
     imageUrl: "/images/frontpage/freefeatures.png",
   },
 
   {
-    titleKey: "cards.pp_system.title",
-    descriptionKey: "cards.pp_system.description",
+    titleKey: "cards.ppSystem.title",
+    descriptionKey: "cards.ppSystem.description",
     imageUrl: "/images/frontpage/ppsystem.png",
   },
   // TODO: Soon™...
@@ -52,13 +52,13 @@ const cards = [
     imageUrl: "/images/frontpage/updates.png",
   },
   {
-    titleKey: "cards.pp_calc.title",
-    descriptionKey: "cards.pp_calc.description",
+    titleKey: "cards.ppCalc.title",
+    descriptionKey: "cards.ppCalc.description",
     imageUrl: "/images/frontpage/ppcalc.png",
   },
   {
-    titleKey: "cards.sunrise_core.title",
-    descriptionKey: "cards.sunrise_core.description",
+    titleKey: "cards.sunriseCore.title",
+    descriptionKey: "cards.sunriseCore.description",
     imageUrl: "/images/frontpage/sunrisecore.png",
   },
 ];
@@ -69,7 +69,7 @@ export default function Home() {
     boolean | null
   >(null);
 
-  const t = useTranslations("pages.main_page");
+  const t = useTranslations("pages.mainPage");
   const tGeneral = useTranslations("general");
 
   const serverStatusQuery = useServerStatus();
@@ -93,10 +93,10 @@ export default function Home() {
               <div className="">
                 <h1 className="text-6xl">
                   <span className="text-primary dark">
-                    {tGeneral("server_title.split.part_1")}
+                    {tGeneral("serverTitle.split.part1")}
                   </span>
                   <span className="text-current">
-                    {tGeneral("server_title.split.part_2")}
+                    {tGeneral("serverTitle.split.part2")}
                   </span>
                 </h1>
                 <p className="text-muted-foreground italic text-sm">
@@ -149,7 +149,7 @@ export default function Home() {
             serverStatus
               ? serverStatus.is_online
                 ? serverStatus.is_on_maintenance
-                  ? t("statuses.under_maintenance")
+                  ? t("statuses.underMaintenance")
                   : t("statuses.online")
                 : t("statuses.offline")
               : undefined
@@ -173,7 +173,7 @@ export default function Home() {
       </div>
 
       <div className="w-full pb-12 items-center">
-        <h2 className="text-4xl font-bold text-center py-8">{t("why_us")}</h2>
+        <h2 className="text-4xl font-bold text-center py-8">{t("whyUs")}</h2>
 
         <Carousel className="w-full">
           <CarouselContent className="-ml-1">
@@ -213,28 +213,24 @@ export default function Home() {
       <div className="w-full p-4">
         <div className="py-8 space-y-4">
           <h2 className="text-4xl font-bold text-current">
-            {t("how_to_start.title")}
+            {t("howToStart.title")}
           </h2>
 
-          <p className="text-muted-foreground">
-            {t("how_to_start.description")}
-          </p>
+          <p className="text-muted-foreground">{t("howToStart.description")}</p>
         </div>
 
         <div className="space-y-2">
           <PrettyHeader icon={<Download />} className="rounded-lg">
             <div className="flex flex-col md:flex-row space-y-2 w-full">
               <div className="w-full flex flex-col mx-2">
-                <p className="text-lg">
-                  {t("how_to_start.download_tile.title")}
-                </p>
+                <p className="text-lg">{t("howToStart.downloadTile.title")}</p>
                 <p className="text-muted-foreground text-sm">
-                  {t("how_to_start.download_tile.description")}
+                  {t("howToStart.downloadTile.description")}
                 </p>
               </div>
               <Button className="md:w-1/3 md:m-0 w-full m-2" asChild>
                 <Link href={"https://osu.ppy.sh/home/download"}>
-                  {t("how_to_start.download_tile.button")}
+                  {t("howToStart.downloadTile.button")}
                 </Link>
               </Button>
             </div>
@@ -242,16 +238,14 @@ export default function Home() {
           <PrettyHeader icon={<DoorOpen />} className="rounded-lg">
             <div className="flex flex-col md:flex-row space-y-2 w-full">
               <div className="w-full flex flex-col mx-2">
-                <p className="text-lg">
-                  {t("how_to_start.register_tile.title")}
-                </p>
+                <p className="text-lg">{t("howToStart.registerTile.title")}</p>
                 <p className="text-muted-foreground text-sm">
-                  {t("how_to_start.register_tile.description")}
+                  {t("howToStart.registerTile.description")}
                 </p>
               </div>
               <Button className="md:w-1/3 md:m-0 w-full m-2" asChild>
                 <Link href="/register">
-                  {t("how_to_start.register_tile.button")}
+                  {t("howToStart.registerTile.button")}
                 </Link>
               </Button>
             </div>
@@ -259,14 +253,14 @@ export default function Home() {
           <PrettyHeader icon={<BookOpenCheck />} className="rounded-lg">
             <div className="flex flex-col md:flex-row space-y-2 w-full">
               <div className="w-full flex flex-col mx-2">
-                <p className="text-lg">{t("how_to_start.guide_tile.title")}</p>
+                <p className="text-lg">{t("howToStart.guideTile.title")}</p>
                 <p className="text-muted-foreground text-sm">
-                  {t("how_to_start.guide_tile.description")}
+                  {t("howToStart.guideTile.description")}
                 </p>
               </div>
               <Button className="md:w-1/3 md:m-0 w-full m-2" asChild>
                 <Link href="/wiki#How%20to%20connect">
-                  {t("how_to_start.guide_tile.button")}
+                  {t("howToStart.guideTile.button")}
                 </Link>
               </Button>
             </div>

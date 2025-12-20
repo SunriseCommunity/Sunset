@@ -16,23 +16,23 @@ interface Props {
 
 const statuses = {
   total_users: {
-    nameKey: "total_users",
+    nameKey: "totalUsers",
     icon: <Users className="h-4 w-4 text-blue-500" />,
   },
   users_online: {
-    nameKey: "users_online",
+    nameKey: "usersOnline",
     icon: <Activity className="h-4 w-4 text-orange-500" />,
   },
   users_restricted: {
-    nameKey: "users_restricted",
+    nameKey: "usersRestricted",
     icon: <AlertTriangle className="h-4 w-4 text-red-500" />,
   },
   total_scores: {
-    nameKey: "total_scores",
+    nameKey: "totalScores",
     icon: <Trophy className="h-4 w-4 text-yellow-500" />,
   },
   server_status: {
-    nameKey: "server_status",
+    nameKey: "serverStatus",
     icon: <Wifi className="h-4 w-4 " />,
   },
 };
@@ -40,7 +40,7 @@ const statuses = {
 export default function ServerStatus({ type, data, children }: Props) {
   const isDataNumber = !isNaN(Number(data));
 
-  const t = useTranslations("pages.main_page.statuses");
+  const t = useTranslations("pages.mainPage.statuses");
 
   return (
     <div
@@ -51,7 +51,7 @@ export default function ServerStatus({ type, data, children }: Props) {
           type === "server_status"
             ? data === t("online")
               ? "text-green-500"
-              : data === t("under_maintenance")
+              : data === t("underMaintenance")
               ? "text-orange-500"
               : "text-red-500"
             : "text-current"

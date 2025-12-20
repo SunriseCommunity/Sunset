@@ -1,6 +1,6 @@
 {
   "pages": {
-    "main_page": {
+    "mainPage": {
       "TODO": "UPDATE TRANSLATION, AI FOR NOW",
       "features": {
         "motto": "- ещё один osu! сервер",
@@ -10,13 +10,13 @@
           "wiki": "Как подключиться"
         }
       },
-      "why_us": "Почему мы?",
+      "whyUs": "Почему мы?",
       "cards": {
-        "free_features": {
+        "freeFeatures": {
           "title": "Настоящие бесплатные функции",
           "description": "Пользуйтесь osu!direct, сменой никнейма и другими функциями без каких-либо платных ограничений — абсолютно бесплатно!"
         },
-        "pp_system": {
+        "ppSystem": {
           "title": "Уникальная система PP",
           "description": "Мы используем современную систему performance point (PP) для обычных результатов и собственную сбалансированную формулу для Relax и Autopilot."
         },
@@ -28,41 +28,41 @@
           "title": "Частые обновления",
           "description": "Мы постоянно улучшаем сервер! Ожидайте регулярные обновления, новые функции и оптимизацию производительности."
         },
-        "pp_calc": {
+        "ppCalc": {
           "title": "Встроенный калькулятор PP",
           "description": "Наш сайт включает встроенный калькулятор PP для быстрых и удобных расчётов."
         },
-        "sunrise_core": {
+        "sunriseCore": {
           "title": "Собственный Bancho-ядро",
           "description": "В отличие от большинства приватных серверов osu!, мы разработали собственное ядро bancho для лучшей стабильности и поддержки уникальных функций."
         }
       },
-      "how_to_start": {
+      "howToStart": {
         "title": "Как начать играть?",
         "description": "Всего три простых шага — и вы готовы!",
-        "download_tile": {
+        "downloadTile": {
           "title": "Скачать osu! клиент",
           "description": "Если у вас ещё не установлен клиент",
           "button": "Скачать"
         },
-        "register_tile": {
+        "registerTile": {
           "title": "Создать аккаунт osu!sunrise",
           "description": "Аккаунт позволит вам присоединиться к сообществу osu!sunrise",
           "button": "Регистрация"
         },
-        "guide_tile": {
+        "guideTile": {
           "title": "Следовать инструкции по подключению",
           "description": "Поможет настроить ваш osu! клиент для подключения к osu!sunrise",
           "button": "Открыть инструкцию"
         }
+      },
+      "statuses": {
+        "totalUsers": "Всего пользователей",
+        "usersOnline": "Пользователи онлайн",
+        "usersRestricted": "Ограниченные пользователи",
+        "totalScores": "Всего результатов",
+        "serverStatus": "Статус сервера"
       }
     }
-  },
-  "statuses": {
-    "total_users": "Всего пользователей",
-    "users_online": "Пользователи онлайн",
-    "users_restricted": "Ограниченные пользователи",
-    "total_scores": "Всего результатов",
-    "server_status": "Статус сервера"
   }
 }

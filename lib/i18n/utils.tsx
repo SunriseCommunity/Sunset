@@ -20,7 +20,7 @@ export const defaultTags = {
 
 export function useT(namespace: string) {
   const t = useTranslations(namespace);
-  const appName = useTranslations("general")("app_name");
+  const appName = useTranslations("general")("appName");
 
   const plainT = (key: TranslationKey, values?: TranslationValues) =>
     t(key, { appName, ...values });
