@@ -16,6 +16,7 @@ import { useUserMostPlayed } from "@/lib/hooks/api/user/useUserMostPlayed";
 import { useUserFavourites } from "@/lib/hooks/api/user/useUserFavourites";
 import { Button } from "@/components/ui/button";
 import { GameMode } from "@/lib/types/api";
+import { useT } from "@/lib/i18n/utils";
 
 interface UserTabBeatmapsProps {
   userId: number;
@@ -73,10 +74,12 @@ export default function UserTabBeatmaps({
     setFavouritesSize(favouritesSize + 1);
   };
 
+  const t = useT("pages.user.components.beatmapsTab");
+
   return (
     <div className="flex flex-col">
       <PrettyHeader
-        text="Most played"
+        text={t("mostPlayed")}
         icon={<ChartBarDecreasing />}
         counter={
           totalCountMostPlayed ?? 0 > 0 ? totalCountMostPlayed : undefined
@@ -90,7 +93,7 @@ export default function UserTabBeatmaps({
         )}
 
         {totalCountMostPlayed === 0 && (
-          <ContentNotExist text="User has no most played beatmaps" />
+          <ContentNotExist text={t("noMostPlayed")} />
         )}
 
         {totalCountMostPlayed != undefined && mostPlayed != undefined && (
@@ -111,7 +114,7 @@ export default function UserTabBeatmaps({
                   variant="secondary"
                   isLoading={isLoadingMoreMostPlayed}
                 >
-                  <ChevronDown /> Show more
+                  <ChevronDown /> {t("showMore")}
                 </Button>
               </div>
             )}
@@ -120,7 +123,7 @@ export default function UserTabBeatmaps({
       </RoundedContent>
 
       <PrettyHeader
-        text="Favourite Beatmaps"
+        text={t("favouriteBeatmaps")}
         icon={<Heart />}
         counter={
           totalCountFavourites && totalCountFavourites > 0
@@ -136,7 +139,7 @@ export default function UserTabBeatmaps({
         )}
 
         {totalCountFavourites === 0 && (
-          <ContentNotExist text="User has no favourite beatmaps" />
+          <ContentNotExist text={t("noFavourites")} />
         )}
 
         {totalCountFavourites != undefined && favourites != undefined && (
@@ -160,7 +163,7 @@ export default function UserTabBeatmaps({
                   variant="secondary"
                 >
                   <ChevronDown />
-                  Show more
+                  {t("showMore")}
                 </Button>
               </div>
             )}

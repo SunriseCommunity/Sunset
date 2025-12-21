@@ -1,5 +1,6 @@
 import PrettyCounter from "@/components/General/PrettyCounter";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useT } from "@/lib/i18n/utils";
 import { Activity, Users, AlertTriangle, Trophy, Wifi } from "lucide-react";
 
 interface Props {
@@ -15,29 +16,31 @@ interface Props {
 
 const statuses = {
   total_users: {
-    name: "Total Users",
+    nameKey: "totalUsers",
     icon: <Users className="h-4 w-4 text-blue-500" />,
   },
   users_online: {
-    name: "Users Online",
+    nameKey: "usersOnline",
     icon: <Activity className="h-4 w-4 text-orange-500" />,
   },
   users_restricted: {
-    name: "Users Restricted",
+    nameKey: "usersRestricted",
     icon: <AlertTriangle className="h-4 w-4 text-red-500" />,
   },
   total_scores: {
-    name: "Total Scores",
+    nameKey: "totalScores",
     icon: <Trophy className="h-4 w-4 text-yellow-500" />,
   },
   server_status: {
-    name: "Server Status",
+    nameKey: "serverStatus",
     icon: <Wifi className="h-4 w-4 " />,
   },
 };
 
 export default function ServerStatus({ type, data, children }: Props) {
   const isDataNumber = !isNaN(Number(data));
+
+  const t = useT("pages.mainPage.statuses");
 
   return (
     <div
@@ -46,9 +49,9 @@ export default function ServerStatus({ type, data, children }: Props) {
       <div
         className={`flex-shrink-0 ${
           type === "server_status"
-            ? data === "Online"
+            ? data === t("online")
               ? "text-green-500"
-              : data === "Under Maintenance"
+              : data === t("underMaintenance")
               ? "text-orange-500"
               : "text-red-500"
             : "text-current"
@@ -59,7 +62,7 @@ export default function ServerStatus({ type, data, children }: Props) {
 
       <div className="flex flex-col">
         <span className="text-xs text-muted-foreground">
-          {statuses[type].name}
+          {t(statuses[type].nameKey)}
         </span>
         <div className="flex items-center gap-2">
           <span className="text-lg font-bold text-current">

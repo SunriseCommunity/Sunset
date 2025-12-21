@@ -14,6 +14,7 @@ import { MoreHorizontal } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useT } from "@/lib/i18n/utils";
 
 export function BeatmapDropdown({
   beatmapSet,
@@ -24,6 +25,7 @@ export function BeatmapDropdown({
   beatmap: BeatmapResponse;
   activeMode: GameMode;
 }) {
+  const t = useT("pages.beatmapsets.components.dropdown");
   const { self } = useSelf();
 
   const [includeOpenBanchoButton] = useState(() => {
@@ -34,27 +36,27 @@ export function BeatmapDropdown({
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <Button variant="secondary" size="xl">
-          <span className="sr-only">Open menu</span>
+          <span className="sr-only">{t("openMenu")}</span>
           <MoreHorizontal className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <PPCalculatorDialog beatmap={beatmap} mode={activeMode}>
           <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-            PP Calculator
+            {t("ppCalculator")}
           </DropdownMenuItem>
         </PPCalculatorDialog>
         {includeOpenBanchoButton == "true" && (
           <DropdownMenuItem asChild>
             <Link href={`https://osu.ppy.sh/beatmaps/${beatmap.id}`}>
-              Open on Bancho
+              {t("openOnBancho")}
             </Link>
           </DropdownMenuItem>
         )}
         {self && isUserHasBATPrivilege(self) && (
           <DropdownMenuItem asChild>
             <Link href={`/admin/beatmapsets/${beatmap.beatmapset_id}`}>
-              Open with Admin Panel
+              {t("openWithAdminPanel")}
             </Link>
           </DropdownMenuItem>
         )}

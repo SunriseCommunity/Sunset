@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { getBeatmapStarRating } from "@/lib/utils/getBeatmapStarRating";
 import fetcher from "@/lib/services/fetcher";
 import { BeatmapSetResponse } from "@/lib/types/api";
+import { getT } from "@/lib/i18n/utils";
 
 export async function generateMetadata(
   props: BeatmapsetProps
@@ -27,19 +28,32 @@ export async function generateMetadata(
       )
     : null;
 
+  const t = await getT("pages.beatmapsets.meta");
+
+  const difficultyInfo = beatmap
+    ? `[${beatmap.version}] ★${getBeatmapStarRating(beatmap).toFixed(2)}`
+    : "";
+
   return {
-    title: `${beatmapSet.artist} - ${beatmapSet.title} | osu!sunrise`,
-    description: `Beatmapset info for ${beatmapSet.title} by ${beatmapSet.artist}`,
+    title: t("title", {
+      artist: beatmapSet.artist,
+      title: beatmapSet.title,
+    }),
+    description: t("description", {
+      title: beatmapSet.title,
+      artist: beatmapSet.artist,
+    }),
     openGraph: {
       siteName: "osu!sunrise",
-      title: `${beatmapSet.artist} - ${beatmapSet.title} | osu!sunrise`,
-      description: `Beatmapset info for ${beatmapSet.title} by ${
-        beatmapSet.artist
-      } ${
-        beatmap
-          ? `[${beatmap.version}] ★${getBeatmapStarRating(beatmap).toFixed(2)}`
-          : ""
-      }`,
+      title: t("openGraph.title", {
+        artist: beatmapSet.artist,
+        title: beatmapSet.title,
+      }),
+      description: t("openGraph.description", {
+        title: beatmapSet.title,
+        artist: beatmapSet.artist,
+        difficultyInfo: difficultyInfo,
+      }),
       images: [
         `https://assets.ppy.sh/beatmaps/${beatmapSetId}/covers/list@2x.jpg`,
       ],

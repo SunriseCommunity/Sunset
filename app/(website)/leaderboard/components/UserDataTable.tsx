@@ -39,6 +39,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { LeaderboardSortType, UserResponse } from "@/lib/types/api";
+import { useT } from "@/lib/i18n/utils";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -62,6 +63,7 @@ export function UserDataTable<TData, TValue>({
   leaderboardType,
   setPagination,
 }: DataTableProps<TData, TValue>) {
+  const t = useT("pages.leaderboard.table");
   const [sorting, setSorting] = useState<SortingState>([]);
 
   const [columnVisibility, setColumnVisibility] =
@@ -158,7 +160,7 @@ export function UserDataTable<TData, TValue>({
                     colSpan={columns.length}
                     className="h-24 text-center"
                   >
-                    No results.
+                    {t("emptyState")}
                   </TableCell>
                 </TableRow>
               )}
@@ -183,22 +185,22 @@ export function UserDataTable<TData, TValue>({
               <SelectItem value="50">50</SelectItem>
             </SelectContent>
           </Select>
-          <p>users per page</p>
+          <p>{t("pagination.usersPerPage")}</p>
         </div>
 
         <div className="flex items-center ">
           <p>
-            Showing{" "}
-            {Math.min(
-              pagination.pageIndex * pagination.pageSize + 1,
-              totalCount
-            )}{" "}
-            -{" "}
-            {Math.min(
-              (pagination.pageIndex + 1) * pagination.pageSize,
-              totalCount
-            )}{" "}
-            of {totalCount}
+            {t("pagination.showing", {
+              start: Math.min(
+                pagination.pageIndex * pagination.pageSize + 1,
+                totalCount
+              ),
+              end: Math.min(
+                (pagination.pageIndex + 1) * pagination.pageSize,
+                totalCount
+              ),
+              total: totalCount,
+            })}
           </p>
         </div>
 

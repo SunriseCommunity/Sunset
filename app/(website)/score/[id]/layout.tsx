@@ -4,11 +4,12 @@ import { notFound } from "next/navigation";
 import { getBeatmapStarRating } from "@/lib/utils/getBeatmapStarRating";
 import fetcher from "@/lib/services/fetcher";
 import { BeatmapResponse, ScoreResponse, UserResponse } from "@/lib/types/api";
+import { getT } from "@/lib/i18n/utils";
 
 export const revalidate = 60;
 
 export async function generateMetadata(props: {
-  params: Promise<{ id: number }>;
+  params: Promise<{ id: string }>;
 }): Promise<Metadata> {
   const params = await props.params;
   const score = await fetcher<ScoreResponse>(`score/${params.id}`);
@@ -16,8 +17,6 @@ export async function generateMetadata(props: {
   if (!score) {
     return notFound();
   }
-
-  if (!score) return notFound();
 
   const user = await fetcher<UserResponse>(`user/${score.user_id}`);
 
@@ -31,22 +30,38 @@ export async function generateMetadata(props: {
     return notFound();
   }
 
+  const t = await getT("pages.score.meta");
+  const starRating = getBeatmapStarRating(beatmap).toFixed(2);
+  const pp = score.performance_points.toFixed(2);
+
   return {
-    title: `${user.username} on ${beatmap.title} [${beatmap.version}] | osu!sunrise`,
-    description: `User ${
-      user.username
-    } has scored ${score.performance_points.toFixed(2)}pp on ${
-      beatmap.title
-    } [${beatmap.version}] in osu!sunrise.`,
+    title: t("title", {
+      username: user.username,
+      beatmapTitle: beatmap.title ?? "Unknown",
+      beatmapVersion: beatmap.version,
+    }),
+    description: t("description", {
+      username: user.username,
+      pp,
+      beatmapTitle: beatmap.title ?? "Unknown",
+      beatmapVersion: beatmap.version,
+    }),
     openGraph: {
-      title: `${user.username} on ${beatmap.title} - ${beatmap.artist} [${beatmap.version}] | osu!sunrise`,
-      description: `User ${
-        user.username
-      } has scored ${score.performance_points.toFixed(2)}pp on ${
-        beatmap.title
-      } - ${beatmap.artist} [${beatmap.version}] ★${getBeatmapStarRating(
-        beatmap
-      ).toFixed(2)} ${score.mods} in osu!sunrise.`,
+      title: t("openGraph.title", {
+        username: user.username,
+        beatmapTitle: beatmap.title ?? "Unknown",
+        beatmapArtist: beatmap.artist ?? "Unknown",
+        beatmapVersion: beatmap.version,
+      }),
+      description: t("openGraph.description", {
+        username: user.username,
+        pp,
+        beatmapTitle: beatmap.title ?? "Unknown",
+        beatmapArtist: beatmap.artist ?? "Unknown",
+        beatmapVersion: beatmap.version,
+        starRating,
+        mods: score.mods ?? "",
+      }),
       images: [
         `https://assets.ppy.sh/beatmaps/${beatmap.beatmapset_id}/covers/list@2x.jpg`,
       ],

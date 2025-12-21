@@ -6,12 +6,15 @@ import { useAdminEditDescription } from "@/lib/hooks/api/user/useAdminUserEdit";
 import { useEditDescription } from "@/lib/hooks/api/user/useEditDescription";
 import useSelf from "@/lib/hooks/useSelf";
 import { UserResponse } from "@/lib/types/api";
+import { useT } from "@/lib/i18n/utils";
 
 export default function ChangeDescriptionInput({
   user,
 }: {
   user: UserResponse;
 }) {
+  const t = useT("pages.settings.components.description");
+  const tCommon = useT("pages.settings.common");
   const self = useSelf();
 
   const { trigger: triggerSelf, isMutating: isUpdatingSelfDescription } =
@@ -31,13 +34,13 @@ export default function ChangeDescriptionInput({
       {
         onSuccess() {
           toast({
-            title: "Description updated successfully!",
+            title: t("toast.success"),
             variant: "success",
           });
         },
         onError(err) {
           toast({
-            title: err?.message ?? "An unknown error occurred",
+            title: err?.message ?? t("toast.error"),
             variant: "destructive",
           });
         },

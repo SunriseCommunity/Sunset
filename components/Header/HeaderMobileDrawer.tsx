@@ -35,74 +35,85 @@ import {
   SetStateAction,
   Suspense,
   useState,
+  useMemo,
 } from "react";
 import Image from "next/image";
 import { HeaderLogoutAlert } from "@/components/Header/HeaderLogoutAlert";
 import HeaderLoginDialog from "@/components/Header/HeaderLoginDialog";
 import { isUserCanUseAdminPanel } from "@/lib/utils/userPrivileges.util";
-
-const navigationList = [
-  {
-    icon: <Home />,
-    title: "Home",
-    url: "/",
-  },
-  {
-    icon: <ChartColumnIncreasing />,
-    title: "Leaderboard",
-    url: "/leaderboard",
-  },
-  {
-    icon: <LucideHistory />,
-    title: "Top plays",
-    url: "/topplays",
-  },
-  {
-    icon: <Search />,
-    title: "Beatmaps search",
-    url: "/beatmaps/search",
-  },
-  {
-    icon: <BookCopy />,
-    title: "Wiki",
-    url: "/wiki",
-  },
-  {
-    icon: <BookCopy />,
-    title: "Rules",
-    url: "/rules",
-  },
-  {
-    icon: <BookCopy />,
-    title: "API Docs",
-    url: `https://api.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/docs`,
-  },
-].filter(Boolean);
-
-if (process.env.NEXT_PUBLIC_DISCORD_LINK) {
-  navigationList.push({
-    icon: <UsersRoundIcon />,
-    title: "Discord Server",
-    url: process.env.NEXT_PUBLIC_DISCORD_LINK,
-  });
-}
-
-if (process.env.NEXT_PUBLIC_KOFI_LINK || process.env.NEXT_PUBLIC_BOOSTY_LINK) {
-  navigationList.push({
-    icon: <Heart />,
-    title: "Support Us",
-    url: "/support",
-  });
-}
+import { useT } from "@/lib/i18n/utils";
+import { LanguageSelector } from "@/components/Header/LanguageSelector";
 
 export const MobileDrawerContext = createContext<Dispatch<
   SetStateAction<boolean>
 > | null>(null);
 
 export default function HeaderMobileDrawer() {
+  const t = useT("components.headerMobileDrawer");
   const [open, setOpen] = useState(false);
 
   const { self } = useSelf();
+
+  const navigationList = useMemo(() => {
+    const list = [
+      {
+        icon: <Home />,
+        title: t("navigation.home"),
+        url: "/",
+      },
+      {
+        icon: <ChartColumnIncreasing />,
+        title: t("navigation.leaderboard"),
+        url: "/leaderboard",
+      },
+      {
+        icon: <LucideHistory />,
+        title: t("navigation.topPlays"),
+        url: "/topplays",
+      },
+      {
+        icon: <Search />,
+        title: t("navigation.beatmapsSearch"),
+        url: "/beatmaps/search",
+      },
+      {
+        icon: <BookCopy />,
+        title: t("navigation.wiki"),
+        url: "/wiki",
+      },
+      {
+        icon: <BookCopy />,
+        title: t("navigation.rules"),
+        url: "/rules",
+      },
+      {
+        icon: <BookCopy />,
+        title: t("navigation.apiDocs"),
+        url: `https://api.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/docs`,
+      },
+    ];
+
+    if (process.env.NEXT_PUBLIC_DISCORD_LINK) {
+      list.push({
+        icon: <UsersRoundIcon />,
+        title: t("navigation.discordServer"),
+        url: process.env.NEXT_PUBLIC_DISCORD_LINK,
+      });
+    }
+
+    if (
+      process.env.NEXT_PUBLIC_KOFI_LINK ||
+      process.env.NEXT_PUBLIC_BOOSTY_LINK
+    ) {
+      list.push({
+        icon: <Heart />,
+        title: t("navigation.supportUs"),
+        url: "/support",
+      });
+    }
+
+    return list;
+  }, [t]);
 
   return (
     <MobileDrawerContext.Provider value={setOpen}>
@@ -141,6 +152,7 @@ export default function HeaderMobileDrawer() {
               <div className="flex-shrink-0 scale-125 ">
                 <HeaderSearchCommand />
                 <ThemeModeToggle />
+                <LanguageSelector />
               </div>
             </div>
           </DrawerHeader>
@@ -156,21 +168,21 @@ export default function HeaderMobileDrawer() {
                         className="flex space-x-2"
                       >
                         <UserIcon />
-                        <p>Your profile</p>
+                        <p>{t("yourProfile")}</p>
                       </Link>
                     </DrawerClose>
                     <Separator className="my-2" />
                     <DrawerClose asChild>
                       <Link href={`/friends`} className="flex space-x-2">
                         <Users2 />
-                        <p>Friends</p>
+                        <p>{t("friends")}</p>
                       </Link>
                     </DrawerClose>
                     <Separator className="my-2" />
                     <DrawerClose asChild>
                       <Link href={`/settings`} className="flex space-x-2">
                         <Cog />
-                        <p>Settings</p>
+                        <p>{t("settings")}</p>
                       </Link>
                     </DrawerClose>
                     {isUserCanUseAdminPanel(self) && (
@@ -180,7 +192,7 @@ export default function HeaderMobileDrawer() {
                         <DrawerClose asChild>
                           <Link href={`/admin`} className="flex space-x-2">
                             <MonitorCog />
-                            <p>Admin panel</p>
+                            <p>{t("adminPanel")}</p>
                           </Link>
                         </DrawerClose>
                       </>
@@ -189,7 +201,7 @@ export default function HeaderMobileDrawer() {
                     <HeaderLogoutAlert className="w-full">
                       <div className="flex space-x-2">
                         <DoorOpen />
-                        <p>Log out</p>
+                        <p>{t("logOut")}</p>
                       </div>
                     </HeaderLogoutAlert>
                     <Separator className="my-2" />

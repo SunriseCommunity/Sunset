@@ -1,0 +1,2384 @@
+{
+  "general": {
+    "appName": {
+      "text": "osu!sunrise",
+      "context": "The name of the application, will be inclided in various places such as the title meta tag"
+    },
+    "serverTitle": {
+      "full": {
+        "text": "sunrise",
+        "context": "The full name of the server"
+      },
+      "split": {
+        "part1": {
+          "text": "sun",
+          "context": "The first part of the split server name"
+        },
+        "part2": {
+          "text": "rise",
+          "context": "The second part of the split server name"
+        }
+      }
+    }
+  },
+  "components": {
+    "serverMaintenanceDialog": {
+      "title": {
+        "text": "Hey! Stop right there!",
+        "context": "Title of the server maintenance dialog"
+      },
+      "discordMessage": {
+        "text": "For more information view our Discord server.",
+        "context": "Message directing users to Discord for more information about server maintenance"
+      },
+      "button": {
+        "text": "Okay, I understand",
+        "context": "Button text to acknowledge the maintenance message"
+      },
+      "message": {
+        "text": "The server is currently in <b>maintenance mode</b>, so some features of the website <b>may not function correctly</b>.",
+        "context": "This message is shown to users when the server is under maintenance."
+      }
+    },
+    "contentNotExist": {
+      "defaultText": {
+        "text": "Content not found",
+        "context": "Default message when content does not exist"
+      }
+    },
+    "workInProgress": {
+      "title": {
+        "text": "Work in progress",
+        "context": "Title for work in progress message"
+      },
+      "description": {
+        "text": "This content is still being worked on. Please check back later.",
+        "context": "Description message for work in progress content"
+      }
+    },
+    "beatmapSetCard": {
+      "submittedBy": {
+        "text": "submitted by",
+        "context": "Label showing who submitted the beatmap"
+      },
+      "submittedOn": {
+        "text": "submitted on",
+        "context": "Label showing when the beatmap was submitted"
+      },
+      "view": {
+        "text": "View",
+        "context": "Button text to view the beatmap"
+      }
+    },
+    "friendshipButton": {
+      "unfriend": {
+        "text": "Unfriend",
+        "context": "Button text to unfriend a user (mutual friendship)"
+      },
+      "unfollow": {
+        "text": "Unfollow",
+        "context": "Button text to unfollow a user"
+      },
+      "follow": {
+        "text": "Follow",
+        "context": "Button text to follow a user"
+      }
+    },
+    "gameModeSelector": {
+      "selectedMode": {
+        "text": "Selected mode:",
+        "context": "Label for selected game mode in mobile combobox view"
+      }
+    },
+    "header": {
+      "links": {
+        "leaderboard": {
+          "text": "leaderboard",
+          "context": "Header navigation link text for leaderboard"
+        },
+        "topPlays": {
+          "text": "top plays",
+          "context": "Header navigation link text for top plays"
+        },
+        "beatmaps": {
+          "text": "beatmaps",
+          "context": "Header navigation link text for beatmaps"
+        },
+        "help": {
+          "text": "help",
+          "context": "Header navigation link text for help dropdown"
+        },
+        "wiki": {
+          "text": "wiki",
+          "context": "Help dropdown menu item for wiki"
+        },
+        "rules": {
+          "text": "rules",
+          "context": "Help dropdown menu item for rules"
+        },
+        "apiDocs": {
+          "text": "api docs",
+          "context": "Help dropdown menu item for API documentation"
+        },
+        "discordServer": {
+          "text": "discord server",
+          "context": "Help dropdown menu item for Discord server"
+        },
+        "supportUs": {
+          "text": "support us",
+          "context": "Help dropdown menu item for support page"
+        }
+      }
+    },
+    "headerLoginDialog": {
+      "signIn": {
+        "text": "sign in",
+        "context": "Button text to open sign in dialog"
+      },
+      "title": {
+        "text": "Sign In To Proceed",
+        "context": "Title of the login dialog"
+      },
+      "description": {
+        "text": "Welcome back.",
+        "context": "Description text in the login dialog"
+      },
+      "username": {
+        "label": {
+          "text": "Username",
+          "context": "Form label for username input"
+        },
+        "placeholder": {
+          "text": "e.g. username",
+          "context": "Placeholder text for username input"
+        }
+      },
+      "password": {
+        "label": {
+          "text": "Password",
+          "context": "Form label for password input"
+        },
+        "placeholder": {
+          "text": "************",
+          "context": "Placeholder text for password input (masked)"
+        }
+      },
+      "login": {
+        "text": "Login",
+        "context": "Button text to submit login form"
+      },
+      "signUp": {
+        "text": "Don't have an account? Sign up",
+        "context": "Link text to navigate to registration page"
+      },
+      "toast": {
+        "success": {
+          "text": "You succesfully logged in!",
+          "context": "Success toast message after successful login"
+        }
+      },
+      "validation": {
+        "usernameMinLength": {
+          "text": "Username must be at least 2 characters.",
+          "context": "Validation error message for username minimum length"
+        },
+        "usernameMaxLength": {
+          "text": "Username must be 32 characters or fewer.",
+          "context": "Validation error message for username maximum length"
+        },
+        "passwordMinLength": {
+          "text": "Password must be at least 8 characters.",
+          "context": "Validation error message for password minimum length"
+        },
+        "passwordMaxLength": {
+          "text": "Password must be 32 characters or fewer.",
+          "context": "Validation error message for password maximum length"
+        }
+      }
+    },
+    "headerLogoutAlert": {
+      "title": {
+        "text": "Are you sure?",
+        "context": "Title of the logout confirmation dialog"
+      },
+      "description": {
+        "text": "You will need to log in again to access your account.",
+        "context": "Description text explaining the consequences of logging out"
+      },
+      "cancel": {
+        "text": "Cancel",
+        "context": "Button text to cancel logout"
+      },
+      "continue": {
+        "text": "Continue",
+        "context": "Button text to confirm logout"
+      },
+      "toast": {
+        "success": {
+          "text": "You have been successfully logged out.",
+          "context": "Success toast message after successful logout"
+        }
+      }
+    },
+    "headerSearchCommand": {
+      "placeholder": {
+        "text": "Type to search...",
+        "context": "Placeholder text for the search command input"
+      },
+      "headings": {
+        "users": {
+          "text": "Users",
+          "context": "Heading for users section in search results"
+        },
+        "beatmapsets": {
+          "text": "Beatmapsets",
+          "context": "Heading for beatmapsets section in search results"
+        },
+        "pages": {
+          "text": "Pages",
+          "context": "Heading for pages section in search results"
+        }
+      },
+      "pages": {
+        "leaderboard": {
+          "text": "Leaderboard",
+          "context": "Search result item for leaderboard page"
+        },
+        "topPlays": {
+          "text": "Top plays",
+          "context": "Search result item for top plays page"
+        },
+        "beatmapsSearch": {
+          "text": "Beatmaps search",
+          "context": "Search result item for beatmaps search page"
+        },
+        "wiki": {
+          "text": "Wiki",
+          "context": "Search result item for wiki page"
+        },
+        "rules": {
+          "text": "Rules",
+          "context": "Search result item for rules page"
+        },
+        "yourProfile": {
+          "text": "Your profile",
+          "context": "Search result item for user's own profile"
+        },
+        "friends": {
+          "text": "Friends",
+          "context": "Search result item for friends page"
+        },
+        "settings": {
+          "text": "Settings",
+          "context": "Search result item for settings page"
+        }
+      }
+    },
+    "headerUserDropdown": {
+      "myProfile": {
+        "text": "My Profile",
+        "context": "Dropdown menu item for user's profile"
+      },
+      "friends": {
+        "text": "Friends",
+        "context": "Dropdown menu item for friends page"
+      },
+      "settings": {
+        "text": "Settings",
+        "context": "Dropdown menu item for settings page"
+      },
+      "returnToMainSite": {
+        "text": "Return to main site",
+        "context": "Dropdown menu item to return from admin panel to main site"
+      },
+      "adminPanel": {
+        "text": "Admin panel",
+        "context": "Dropdown menu item to access admin panel"
+      },
+      "logOut": {
+        "text": "Log out",
+        "context": "Dropdown menu item to log out"
+      }
+    },
+    "headerMobileDrawer": {
+      "navigation": {
+        "home": {
+          "text": "Home",
+          "context": "Mobile drawer navigation item for home page"
+        },
+        "leaderboard": {
+          "text": "Leaderboard",
+          "context": "Mobile drawer navigation item for leaderboard"
+        },
+        "topPlays": {
+          "text": "Top plays",
+          "context": "Mobile drawer navigation item for top plays"
+        },
+        "beatmapsSearch": {
+          "text": "Beatmaps search",
+          "context": "Mobile drawer navigation item for beatmaps search"
+        },
+        "wiki": {
+          "text": "Wiki",
+          "context": "Mobile drawer navigation item for wiki"
+        },
+        "rules": {
+          "text": "Rules",
+          "context": "Mobile drawer navigation item for rules"
+        },
+        "apiDocs": {
+          "text": "API Docs",
+          "context": "Mobile drawer navigation item for API documentation"
+        },
+        "discordServer": {
+          "text": "Discord Server",
+          "context": "Mobile drawer navigation item for Discord server"
+        },
+        "supportUs": {
+          "text": "Support Us",
+          "context": "Mobile drawer navigation item for support page"
+        }
+      },
+      "yourProfile": {
+        "text": "Your profile",
+        "context": "Mobile drawer menu item for user's profile"
+      },
+      "friends": {
+        "text": "Friends",
+        "context": "Mobile drawer menu item for friends"
+      },
+      "settings": {
+        "text": "Settings",
+        "context": "Mobile drawer menu item for settings"
+      },
+      "adminPanel": {
+        "text": "Admin panel",
+        "context": "Mobile drawer menu item for admin panel"
+      },
+      "logOut": {
+        "text": "Log out",
+        "context": "Mobile drawer menu item to log out"
+      }
+    },
+    "footer": {
+      "voteMessage": {
+        "text": "Please vote for us on osu-server-list!",
+        "context": "Message encouraging users to vote on osu-server-list"
+      },
+      "copyright": {
+        "text": "© 2024-2025 Sunrise Community",
+        "context": "Copyright text in footer"
+      },
+      "sourceCode": {
+        "text": "Source Code",
+        "context": "Link text for source code repository"
+      },
+      "serverStatus": {
+        "text": "Server Status",
+        "context": "Link text for server status page"
+      },
+      "disclaimer": {
+        "text": "We are not affiliated with \"ppy\" and \"osu!\" in any way. All rights reserved to their respective owners.",
+        "context": "Disclaimer text about not being affiliated with ppy/osu!"
+      }
+    },
+    "comboBox": {
+      "selectValue": {
+        "text": "Select value...",
+        "context": "Placeholder text when no value is selected in combobox"
+      },
+      "searchValue": {
+        "text": "Search value...",
+        "context": "Placeholder text for search input in combobox"
+      },
+      "noValuesFound": {
+        "text": "No values found.",
+        "context": "Message shown when no search results are found in combobox"
+      }
+    },
+    "beatmapsetRowElement": {
+      "mappedBy": {
+        "text": "mapped by {creator}",
+        "context": "Text showing who mapped the beatmap, includes creator name as parameter"
+      }
+    },
+    "themeModeToggle": {
+      "toggleTheme": {
+        "text": "Toggle theme",
+        "context": "Screen reader text for theme toggle button"
+      },
+      "light": {
+        "text": "Light",
+        "context": "Theme option for light mode"
+      },
+      "dark": {
+        "text": "Dark",
+        "context": "Theme option for dark mode"
+      },
+      "system": {
+        "text": "System",
+        "context": "Theme option for system default mode"
+      }
+    },
+    "imageSelect": {
+      "imageTooBig": {
+        "text": "Selected image is too big!",
+        "context": "Error message when selected image exceeds maximum file size"
+      }
+    },
+    "notFound": {
+      "meta": {
+        "title": {
+          "text": "Not Found | {appName}",
+          "context": "Page title for 404 not found page"
+        },
+        "description": {
+          "text": "The page you're looking for isn't here. Sorry.",
+          "context": "Meta description for 404 not found page"
+        }
+      },
+      "title": {
+        "text": "Not Found | 404",
+        "context": "Main heading for 404 not found page"
+      },
+      "description": {
+        "text": "What you're looking for isn't here. Sorry.",
+        "context": "Description text explaining the page was not found"
+      }
+    },
+    "rootLayout": {
+      "meta": {
+        "title": {
+          "text": "{appName}",
+          "context": "Root layout page title"
+        },
+        "description": {
+          "text": "{appName} is a private server for osu!, a rhythm game.",
+          "context": "Root layout meta description"
+        }
+      }
+    }
+  },
+  "pages": {
+    "mainPage": {
+      "meta": {
+        "title": {
+          "text": "Welcome | {appName}",
+          "context": "The title for the main page of the osu!sunrise website"
+        },
+        "description": {
+          "text": "Join osu!sunrise, a feature-rich private osu! server with Relax, Autopilot, ScoreV2 support, and a custom PP system tailored for Relax and Autopilot gameplay.",
+          "context": "The meta description for the main page of the osu!sunrise website"
+        }
+      },
+      "features": {
+        "motto": {
+          "text": "- yet another osu! server",
+          "context": "The tagline or motto displayed on the main page"
+        },
+        "description": {
+          "text": "Features rich osu! server with support for Relax, Autopilot and ScoreV2 gameplay, with a custom art‑state PP calculation system tailored for Relax and Autopilot.",
+          "context": "The main description text explaining the server's features on the homepage"
+        },
+        "buttons": {
+          "register": {
+            "text": "Join now",
+            "context": "Button text to register a new account"
+          },
+          "wiki": {
+            "text": "How to connect",
+            "context": "Button text linking to the connection guide"
+          }
+        }
+      },
+      "whyUs": {
+        "text": "Why us?",
+        "context": "Section heading asking why users should choose this server"
+      },
+      "cards": {
+        "freeFeatures": {
+          "title": {
+            "text": "Truly Free Features",
+            "context": "Title of the free features card on the main page"
+          },
+          "description": {
+            "text": "Enjoy features like osu!direct and username changes without any paywalls — completely free for all players!",
+            "context": "Description text explaining the free features available on the server"
+          }
+        },
+        "ppSystem": {
+          "title": {
+            "text": "Custom PP Calculations",
+            "context": "Title of the PP system card on the main page"
+          },
+          "description": {
+            "text": "We use the latest performance point (PP) system for vanilla scores while applying a custom, well-balanced formula for Relax and Autopilot modes.",
+            "context": "Description text explaining the custom PP calculation system"
+          }
+        },
+        "medals": {
+          "title": {
+            "text": "Earn Custom Medals",
+            "context": "Title of the medals card on the main page"
+          },
+          "description": {
+            "text": "Earn unique, server-exclusive medals as you accomplish various milestones and achievements.",
+            "context": "Description text explaining the custom medals system"
+          }
+        },
+        "updates": {
+          "title": {
+            "text": "Frequent Updates",
+            "context": "Title of the updates card on the main page"
+          },
+          "description": {
+            "text": "We're always improving! Expect regular updates, new features, and ongoing performance optimizations.",
+            "context": "Description text explaining the server's update frequency"
+          }
+        },
+        "ppCalc": {
+          "title": {
+            "text": "Built-in PP Calculator",
+            "context": "Title of the PP calculator card on the main page"
+          },
+          "description": {
+            "text": "Our website offers a built-in PP calculator for quick and easy performance point estimates.",
+            "context": "Description text explaining the built-in PP calculator feature"
+          }
+        },
+        "sunriseCore": {
+          "title": {
+            "text": "Custom-Built Bancho Core",
+            "context": "Title of the bancho core card on the main page"
+          },
+          "description": {
+            "text": "Unlike most private osu! servers, we've developed our own custom bancho core for better stability and unique feature support.",
+            "context": "Description text explaining the custom bancho core development"
+          }
+        }
+      },
+      "howToStart": {
+        "title": {
+          "text": "How do I start playing?",
+          "context": "Section heading for the getting started guide"
+        },
+        "description": {
+          "text": "Just three simple steps and you're ready to go!",
+          "context": "Description text introducing the getting started steps"
+        },
+        "downloadTile": {
+          "title": {
+            "text": "Download osu! clinet",
+            "context": "Title of the download step tile"
+          },
+          "description": {
+            "text": "If you do not already have an installed client",
+            "context": "Description text for the download step"
+          },
+          "button": {
+            "text": "Download",
+            "context": "Button text to download the osu! client"
+          }
+        },
+        "registerTile": {
+          "title": {
+            "text": "Register osu!sunrise account",
+            "context": "Title of the registration step tile"
+          },
+          "description": {
+            "text": "Account will allow you to join the osu!sunrise community",
+            "context": "Description text for the registration step"
+          },
+          "button": {
+            "text": "Sign up",
+            "context": "Button text to register a new account"
+          }
+        },
+        "guideTile": {
+          "title": {
+            "text": "Follow the connection guide",
+            "context": "Title of the connection guide step tile"
+          },
+          "description": {
+            "text": "Which helps you set up your osu! client to connect to osu!sunrise",
+            "context": "Description text for the connection guide step"
+          },
+          "button": {
+            "text": "Open guide",
+            "context": "Button text to open the connection guide"
+          }
+        }
+      },
+      "statuses": {
+        "totalUsers": {
+          "text": "Total Users",
+          "context": "Label for the total number of registered users"
+        },
+        "usersOnline": {
+          "text": "Users Online",
+          "context": "Label for the number of currently online users"
+        },
+        "usersRestricted": {
+          "text": "Users Restricted",
+          "context": "Label for the number of restricted users"
+        },
+        "totalScores": {
+          "text": "Total Scores",
+          "context": "Label for the total number of scores submitted"
+        },
+        "serverStatus": {
+          "text": "Server Status",
+          "context": "Label for the current server status"
+        },
+        "online": {
+          "text": "Online",
+          "context": "Status indicator when the server is online"
+        },
+        "offline": {
+          "text": "Offline",
+          "context": "Status indicator when the server is offline"
+        },
+        "underMaintenance": {
+          "text": "Under Maintenance",
+          "context": "Status indicator when the server is under maintenance"
+        }
+      }
+    },
+    "wiki": {
+      "meta": {
+        "title": {
+          "text": "Wiki | {appName}",
+          "context": "The title for the wiki page of the osu!sunrise website"
+        }
+      },
+      "header": {
+        "text": "Wiki",
+        "context": "The main header text for the wiki page"
+      },
+      "articles": {
+        "howToConnect": {
+          "title": {
+            "text": "How to connect",
+            "context": "Title of the wiki article explaining how to connect to the server"
+          },
+          "intro": {
+            "text": "To connect to the server, you need to have a copy of the game installed on your computer. You can download the game from the official osu! website.",
+            "context": "Introduction text explaining the prerequisites for connecting to the server"
+          },
+          "step1": {
+            "text": "Locate the <code>osu!.exe</code> file in the game directory.",
+            "context": "First step instruction for connecting to the server"
+          },
+          "step2": {
+            "text": "Create a shortcut of the file.",
+            "context": "Second step instruction for connecting to the server"
+          },
+          "step3": {
+            "text": "Right click on the shortcut and select properties.",
+            "context": "Third step instruction for connecting to the server"
+          },
+          "step4": {
+            "text": "In the target field, add <code>-devserver {serverDomain}</code> at the end of the path.",
+            "context": "Fourth step instruction for connecting to the server, includes server domain parameter"
+          },
+          "step5": {
+            "text": "Click apply and then OK.",
+            "context": "Fifth step instruction for connecting to the server"
+          },
+          "step6": {
+            "text": "Double click on the shortcut to start the game.",
+            "context": "Sixth step instruction for connecting to the server"
+          },
+          "imageAlt": {
+            "text": "osu connect image",
+            "context": "Alt text for the connection guide image"
+          }
+        },
+        "multipleAccounts": {
+          "title": {
+            "text": "Can I have multiple accounts?",
+            "context": "Title of the wiki article about multiple accounts policy"
+          },
+          "answer": {
+            "text": "No. You are only allowed to have one account per person.",
+            "context": "Direct answer to the multiple accounts question"
+          },
+          "consequence": {
+            "text": "If you are caught with multiple accounts, you will be banned from the server.",
+            "context": "Explanation of the consequence for having multiple accounts"
+          }
+        },
+        "cheatsHacks": {
+          "title": {
+            "text": "Can I use cheats or hacks?",
+            "context": "Title of the wiki article about cheating policy"
+          },
+          "answer": {
+            "text": "No. You will be banned if you are caught.",
+            "context": "Direct answer to the cheating question"
+          },
+          "policy": {
+            "text": "We are very strict on cheating and do not tolerate it at all.<br></br>If you suspect someone of cheating, please report them to the staff.",
+            "context": "Explanation of the cheating policy and how to report cheaters"
+          }
+        },
+        "appealRestriction": {
+          "title": {
+            "text": "I think I was restricted unfairly. How can I appeal?",
+            "context": "Title of the wiki article about appealing restrictions"
+          },
+          "instructions": {
+            "text": "If you believe you were restricted unfairly, you can appeal your restriction by contacting the staff with your case.",
+            "context": "Instructions on how to appeal a restriction"
+          },
+          "contactStaff": {
+            "text": "You can contact the staff <a>here</a>.",
+            "context": "Information about where to contact staff for appeals, includes link placeholder"
+          }
+        },
+        "contributeSuggest": {
+          "title": {
+            "text": "Can I contribute/suggest changes to the server?",
+            "context": "Title of the wiki article about contributing to the server"
+          },
+          "answer": {
+            "text": "Yes! We are always open to suggestions.",
+            "context": "Positive answer about contributing to the server"
+          },
+          "instructions": {
+            "text": "If you have any suggestions, please submit them at our <a>GitHub</a> page.<br></br>Longterm contributors can also have chance to get permanent supporter tag.",
+            "context": "Instructions on how to contribute, includes GitHub link and information about supporter tags"
+          }
+        },
+        "multiplayerDownload": {
+          "title": {
+            "text": "I can't download maps when I'm in multiplayer, but I can download them from the main menu",
+            "context": "Title of the wiki article about downloading maps in multiplayer"
+          },
+          "solution": {
+            "text": "Disable <code>Automatically start osu!direct downloads</code> from the options and try again.",
+            "context": "Solution to the multiplayer download issue"
+          }
+        }
+      }
+    },
+    "rules": {
+      "meta": {
+        "title": {
+          "text": "Rules | {appName}",
+          "context": "The title for the rules page of the osu!sunrise website"
+        }
+      },
+      "header": {
+        "text": "Rules",
+        "context": "The main header text for the rules page"
+      },
+      "sections": {
+        "generalRules": {
+          "title": {
+            "text": "General rules",
+            "context": "Title of the general rules section"
+          },
+          "noCheating": {
+            "title": {
+              "text": "<b>No Cheating or Hacking.</b>",
+              "context": "Title of the no cheating rule, displayed in bold"
+            },
+            "description": {
+              "text": "Any form of cheating, including aimbots, relax hacks, macros, or modified clients that give unfair advantage is strictly prohibited. Play fair, improve fair.",
+              "context": "Description of the no cheating rule"
+            },
+            "warning": {
+              "text": "As you can see, I wrote this in a bigger font for all you \"wannabe\" cheaters who think you can migrate from another private server to here after being banned. You will be found and executed (in Minecraft) if you cheat. So please, don't.",
+              "context": "Warning message for potential cheaters"
+            }
+          },
+          "noMultiAccount": {
+            "title": {
+              "text": "<b>No Multi-Accounting or Account Sharing.</b>",
+              "context": "Title of the no multi-accounting rule, displayed in bold"
+            },
+            "description": {
+              "text": "Only one account per player is allowed. If your primary account was restricted without an explanation, please contact support.",
+              "context": "Description of the no multi-accounting rule"
+            }
+          },
+          "noImpersonation": {
+            "title": {
+              "text": "<b>No Impersonating Popular Players or Staff</b>",
+              "context": "Title of the no impersonation rule, displayed in bold"
+            },
+            "description": {
+              "text": "Do not pretend to be a staff member or any well-known player. Misleading others can result in a username change or permanent ban.",
+              "context": "Description of the no impersonation rule"
+            }
+          }
+        },
+        "chatCommunityRules": {
+          "title": {
+            "text": "Chat & Community Rules",
+            "context": "Title of the chat and community rules section"
+          },
+          "beRespectful": {
+            "title": {
+              "text": "<b>Be Respectful.</b>",
+              "context": "Title of the be respectful rule, displayed in bold"
+            },
+            "description": {
+              "text": "Treat others with kindness. Harassment, hate speech, discrimination, or toxic behaviour won't be tolerated.",
+              "context": "Description of the be respectful rule"
+            }
+          },
+          "noNSFW": {
+            "title": {
+              "text": "<b>No NSFW or Inappropriate Content</b>",
+              "context": "Title of the no NSFW content rule, displayed in bold"
+            },
+            "description": {
+              "text": "Keep the server appropriate for all audiences — this applies to all user content, including but not limited to usernames, banners, avatars and profile descriptions.",
+              "context": "Description of the no NSFW content rule"
+            }
+          },
+          "noAdvertising": {
+            "title": {
+              "text": "<b>Advertising is forbidden.</b>",
+              "context": "Title of the no advertising rule, displayed in bold"
+            },
+            "description": {
+              "text": "Don't promote other servers, websites, or products without admin approval.",
+              "context": "Description of the no advertising rule"
+            }
+          }
+        },
+        "disclaimer": {
+          "title": {
+            "text": "Important Disclaimer",
+            "context": "Title of the important disclaimer section"
+          },
+          "intro": {
+            "text": "By creating and/or maintaining an account on our platform, you acknowledge and agree to the following terms:",
+            "context": "Introduction text for the disclaimer section"
+          },
+          "noLiability": {
+            "title": {
+              "text": "<b>No Liability.</b>",
+              "context": "Title of the no liability disclaimer, displayed in bold"
+            },
+            "description": {
+              "text": "You accept full responsibility for your participation in any services provided by Sunrise and acknowledge that you cannot hold the organization accountable for any consequences that may arise from your usage.",
+              "context": "Description of the no liability disclaimer"
+            }
+          },
+          "accountRestrictions": {
+            "title": {
+              "text": "<b>Account Restrictions.</b>",
+              "context": "Title of the account restrictions disclaimer, displayed in bold"
+            },
+            "description": {
+              "text": "The administration reserves the right to restrict or suspend any account, with or without prior notice, for violations of server rules or at their discretion.",
+              "context": "Description of the account restrictions disclaimer"
+            }
+          },
+          "ruleChanges": {
+            "title": {
+              "text": "<b>Rule Changes.</b>",
+              "context": "Title of the rule changes disclaimer, displayed in bold"
+            },
+            "description": {
+              "text": "The server rules are subject to change at any time. The administration may update, modify, or remove any rule with or without prior notification, and all players are expected to stay informed of any changes.",
+              "context": "Description of the rule changes disclaimer"
+            }
+          },
+          "agreementByParticipation": {
+            "title": {
+              "text": "<b>Agreement by Participation.</b>",
+              "context": "Title of the agreement by participation disclaimer, displayed in bold"
+            },
+            "description": {
+              "text": "By creating and/or maintaining an account on the server, you automatically agree to these terms and commit to adhering to the rules and guidelines in effect at the time.",
+              "context": "Description of the agreement by participation disclaimer"
+            }
+          }
+        }
+      }
+    },
+    "register": {
+      "meta": {
+        "title": {
+          "text": "Register | {appName}",
+          "context": "The title for the register page of the osu!sunrise website"
+        }
+      },
+      "header": {
+        "text": "Register",
+        "context": "The main header text for the register page"
+      },
+      "welcome": {
+        "title": {
+          "text": "Welcome to the registration page!",
+          "context": "Welcome title on the registration page"
+        },
+        "description": {
+          "text": "Hello! Please enter your details to create an account. If you aren't sure how to connect to the server, or if you have any other questions, please visit our <a>Wiki page</a>.",
+          "context": "Welcome description text with link to wiki page"
+        }
+      },
+      "form": {
+        "title": {
+          "text": "Enter your details",
+          "context": "Title for the registration form section"
+        },
+        "labels": {
+          "username": {
+            "text": "Username",
+            "context": "Label for the username input field"
+          },
+          "email": {
+            "text": "Email",
+            "context": "Label for the email input field"
+          },
+          "password": {
+            "text": "Password",
+            "context": "Label for the password input field"
+          },
+          "confirmPassword": {
+            "text": "Confirm Password",
+            "context": "Label for the confirm password input field"
+          }
+        },
+        "placeholders": {
+          "username": {
+            "text": "e.g. username",
+            "context": "Placeholder text for the username input field"
+          },
+          "email": {
+            "text": "e.g. username@mail.com",
+            "context": "Placeholder text for the email input field"
+          },
+          "password": {
+            "text": "************",
+            "context": "Placeholder text for the password input field"
+          }
+        },
+        "validation": {
+          "usernameMin": {
+            "text": "Username must be at least {min} characters.",
+            "context": "Validation error message when username is too short, includes minimum length parameter"
+          },
+          "usernameMax": {
+            "text": "Username must be {max} characters or fewer.",
+            "context": "Validation error message when username is too long, includes maximum length parameter"
+          },
+          "passwordMin": {
+            "text": "Password must be at least {min} characters.",
+            "context": "Validation error message when password is too short, includes minimum length parameter"
+          },
+          "passwordMax": {
+            "text": "Password must be {max} characters or fewer.",
+            "context": "Validation error message when password is too long, includes maximum length parameter"
+          },
+          "passwordsDoNotMatch": {
+            "text": "Passwords do not match",
+            "context": "Validation error message when password and confirm password do not match"
+          }
+        },
+        "error": {
+          "title": {
+            "text": "Error",
+            "context": "Title for the error alert"
+          },
+          "unknown": {
+            "text": "Unknown error.",
+            "context": "Generic error message when an unknown error occurs"
+          }
+        },
+        "submit": {
+          "text": "Register",
+          "context": "Text for the registration submit button"
+        },
+        "terms": {
+          "text": "By signing up, you agree to the server <a>rules</a>",
+          "context": "Terms agreement text with link to rules page"
+        }
+      },
+      "success": {
+        "dialog": {
+          "title": {
+            "text": "You're all set!",
+            "context": "Title of the success dialog after registration"
+          },
+          "description": {
+            "text": "Your account has been successfully created.",
+            "context": "Description in the success dialog"
+          },
+          "message": {
+            "text": "You can now connect to the server by following the guide on our <a>Wiki page</a>, or customize your profile by updating your avatar and banner before you start playing!",
+            "context": "Success message with link to wiki page"
+          },
+          "buttons": {
+            "viewWiki": {
+              "text": "View Wiki Guide",
+              "context": "Button text to view the wiki guide"
+            },
+            "goToProfile": {
+              "text": "Go to Profile",
+              "context": "Button text to go to user profile"
+            }
+          }
+        },
+        "toast": {
+          "text": "Account successfully created!",
+          "context": "Toast notification message when account is successfully created"
+        }
+      }
+    },
+    "support": {
+      "meta": {
+        "title": {
+          "text": "Support Us | {appName}",
+          "context": "The title for the support page of the osu!sunrise website"
+        }
+      },
+      "header": {
+        "text": "Support Us",
+        "context": "The main header text for the support page"
+      },
+      "section": {
+        "title": {
+          "text": "How You Can Help Us",
+          "context": "Title of the support section explaining how users can help"
+        },
+        "intro": {
+          "text": "While all osu!sunrise features has always been free, running and improving the server requires resources, time, and effort, while being mainly maintained by a <b>single</b> developer.<br></br><br></br>If you love osu!sunrise and want to see it grow even further, here are a few ways you can support us:",
+          "context": "Introduction text explaining why support is needed, includes bold text for emphasis and line breaks"
+        },
+        "donate": {
+          "title": {
+            "text": "<b>Donate.</b>",
+            "context": "Title of the donation option, displayed in bold"
+          },
+          "description": {
+            "text": "Your generous donations help us maintain and enhance the osu! servers. Every little bit counts! With your support, we can cover hosting costs, implement new features, and ensure a smoother experience for everyone.",
+            "context": "Description text explaining how donations help the server"
+          },
+          "buttons": {
+            "kofi": {
+              "text": "Ko-fi",
+              "context": "Button text for Ko-fi donation platform"
+            },
+            "boosty": {
+              "text": "Boosty",
+              "context": "Button text for Boosty donation platform"
+            }
+          }
+        },
+        "spreadTheWord": {
+          "title": {
+            "text": "<b>Spread the Word.</b>",
+            "context": "Title of the spread the word option, displayed in bold"
+          },
+          "description": {
+            "text": "The more people who know about osu!sunrise, the more vibrant and exciting our community will be. Tell your friends, share on social media, and invite new players to join.",
+            "context": "Description text encouraging users to share the server"
+          }
+        },
+        "justPlay": {
+          "title": {
+            "text": "<b>Just Play on the Server.</b>",
+            "context": "Title of the just play option, displayed in bold"
+          },
+          "description": {
+            "text": "One of the easiest ways to support osu!sunrise is simply by playing on the server! The more players we have, the better the community and experience become. By joining in, you're helping to grow the server and keeping it active for all players.",
+            "context": "Description text explaining that playing on the server is a form of support"
+          }
+        }
+      }
+    },
+    "topplays": {
+      "meta": {
+        "title": {
+          "text": "Top Plays | {appName}",
+          "context": "The title for the top plays page of the osu!sunrise website"
+        }
+      },
+      "header": {
+        "text": "Top plays",
+        "context": "The main header text for the top plays page"
+      },
+      "showMore": {
+        "text": "Show more",
+        "context": "Button text to load more top plays"
+      },
+      "components": {
+        "userScoreMinimal": {
+          "pp": {
+            "text": "pp",
+            "context": "Abbreviation for performance points, displayed after the PP value"
+          },
+          "accuracy": {
+            "text": "acc:",
+            "context": "Abbreviation for accuracy, displayed before the accuracy percentage"
+          }
+        }
+      }
+    },
+    "score": {
+      "meta": {
+        "title": {
+          "text": "{username} on {beatmapTitle} [{beatmapVersion}] | {appName}",
+          "context": "The title for the score page, includes username, beatmap title, version, and app name as parameters"
+        },
+        "description": {
+          "text": "User {username} has scored {pp}pp on {beatmapTitle} [{beatmapVersion}] in {appName}.",
+          "context": "The meta description for the score page, includes username, PP value, beatmap title, version, and app name as parameters"
+        },
+        "openGraph": {
+          "title": {
+            "text": "{username} on {beatmapTitle} - {beatmapArtist} [{beatmapVersion}] | {appName}",
+            "context": "The OpenGraph title for the score page, includes username, beatmap title, artist, version, and app name as parameters"
+          },
+          "description": {
+            "text": "User {username} has scored {pp}pp on {beatmapTitle} - {beatmapArtist} [{beatmapVersion}] ★{starRating} {mods} in {appName}.",
+            "context": "The OpenGraph description for the score page, includes username, PP value, beatmap title, artist, version, star rating, mods, and app name as parameters"
+          }
+        }
+      },
+      "header": {
+        "text": "Score Performance",
+        "context": "The main header text for the score page"
+      },
+      "beatmap": {
+        "versionUnknown": {
+          "text": "Unknown",
+          "context": "Fallback text when beatmap version is not available"
+        },
+        "mappedBy": {
+          "text": "mapped by",
+          "context": "Text displayed before the beatmap creator name"
+        },
+        "creatorUnknown": {
+          "text": "Unknown Creator",
+          "context": "Fallback text when beatmap creator is not available"
+        }
+      },
+      "score": {
+        "submittedOn": {
+          "text": "Submitted on",
+          "context": "Text displayed before the score submission date"
+        },
+        "playedBy": {
+          "text": "Played by",
+          "context": "Text displayed before the player username"
+        },
+        "userUnknown": {
+          "text": "Unknown user",
+          "context": "Fallback text when user is not available"
+        }
+      },
+      "actions": {
+        "downloadReplay": {
+          "text": "Download Replay",
+          "context": "Button text to download the replay file"
+        },
+        "openMenu": {
+          "text": "Open menu",
+          "context": "Screen reader text for the dropdown menu button"
+        }
+      },
+      "error": {
+        "notFound": {
+          "text": "Score not found",
+          "context": "Error message when score cannot be found"
+        },
+        "description": {
+          "text": "The score you are looking for does not exist or has been deleted.",
+          "context": "Error description explaining that the score doesn't exist or was deleted"
+        }
+      }
+    },
+    "leaderboard": {
+      "meta": {
+        "title": {
+          "text": "Leaderboard | {appName}",
+          "context": "The title for the leaderboard page of the osu!sunrise website"
+        }
+      },
+      "header": {
+        "text": "Leaderboard",
+        "context": "The main header text for the leaderboard page"
+      },
+      "sortBy": {
+        "label": {
+          "text": "Sort by:",
+          "context": "Label for the sort by selector on mobile view"
+        },
+        "performancePoints": {
+          "text": "Performance points",
+          "context": "Button text for sorting by performance points"
+        },
+        "rankedScore": {
+          "text": "Ranked Score",
+          "context": "Button text for sorting by ranked score"
+        },
+        "performancePointsShort": {
+          "text": "Perf. points",
+          "context": "Short label for performance points in mobile combobox"
+        },
+        "scoreShort": {
+          "text": "Score",
+          "context": "Short label for score in mobile combobox"
+        }
+      },
+      "table": {
+        "columns": {
+          "rank": {
+            "text": "Rank",
+            "context": "Column header for user rank"
+          },
+          "performance": {
+            "text": "Performance",
+            "context": "Column header for performance points"
+          },
+          "rankedScore": {
+            "text": "Ranked Score",
+            "context": "Column header for ranked score"
+          },
+          "accuracy": {
+            "text": "Accuracy",
+            "context": "Column header for accuracy"
+          },
+          "playCount": {
+            "text": "Play count",
+            "context": "Column header for play count"
+          }
+        },
+        "actions": {
+          "openMenu": {
+            "text": "Open menu",
+            "context": "Screen reader text for the dropdown menu button"
+          },
+          "viewUserProfile": {
+            "text": "View user profile",
+            "context": "Dropdown menu item text to view user profile"
+          }
+        },
+        "emptyState": {
+          "text": "No results.",
+          "context": "Message displayed when there are no results in the table"
+        },
+        "pagination": {
+          "usersPerPage": {
+            "text": "users per page",
+            "context": "Label for the users per page selector"
+          },
+          "showing": {
+            "text": "Showing {start} - {end} of {total}",
+            "context": "Pagination text showing the range of displayed users, includes start, end, and total as parameters"
+          }
+        }
+      }
+    },
+    "friends": {
+      "meta": {
+        "title": {
+          "text": "Your Friends | {appName}",
+          "context": "The title for the friends page of the osu!sunrise website"
+        }
+      },
+      "header": {
+        "text": "Your Connections",
+        "context": "The main header text for the friends page"
+      },
+      "tabs": {
+        "friends": {
+          "text": "Friends",
+          "context": "Button text to show friends list"
+        },
+        "followers": {
+          "text": "Followers",
+          "context": "Button text to show followers list"
+        }
+      },
+      "sorting": {
+        "label": {
+          "text": "Sort by:",
+          "context": "Label for the sort by selector"
+        },
+        "username": {
+          "text": "Username",
+          "context": "Sorting option to sort by username"
+        },
+        "recentlyActive": {
+          "text": "Recently active",
+          "context": "Sorting option to sort by recently active users"
+        }
+      },
+      "showMore": {
+        "text": "Show more",
+        "context": "Button text to load more users"
+      },
+      "emptyState": {
+        "text": "No users found",
+        "context": "Message displayed when there are no users in the list"
+      }
+    },
+    "beatmaps": {
+      "search": {
+        "meta": {
+          "title": {
+            "text": "Beatmaps search | {appName}",
+            "context": "The title for the beatmaps search page of the osu!sunrise website"
+          }
+        },
+        "header": {
+          "text": "Beatmaps search",
+          "context": "The main header text for the beatmaps search page"
+        }
+      },
+      "detail": {
+        "meta": {
+          "title": {
+            "text": "Beatmap info | {appName}",
+            "context": "The title for the beatmap detail page of the osu!sunrise website"
+          }
+        },
+        "header": {
+          "text": "Beatmap info",
+          "context": "The header text for the beatmap detail page"
+        },
+        "notFound": {
+          "title": {
+            "text": "Beatmapset not found",
+            "context": "Title displayed when a beatmapset is not found"
+          },
+          "description": {
+            "text": "The beatmapset you are looking for does not exist or has been deleted.",
+            "context": "Description message when a beatmapset is not found or has been deleted"
+          }
+        }
+      },
+      "components": {
+        "search": {
+          "searchPlaceholder": {
+            "text": "Search beatmaps...",
+            "context": "Placeholder text for the beatmaps search input field"
+          },
+          "filters": {
+            "text": "Filters",
+            "context": "Button text to toggle filters panel"
+          },
+          "viewMode": {
+            "grid": {
+              "text": "Grid",
+              "context": "Button text for grid view mode"
+            },
+            "list": {
+              "text": "List",
+              "context": "Button text for list view mode"
+            }
+          },
+          "showMore": {
+            "text": "Show more",
+            "context": "Button text to load more beatmapsets"
+          }
+        },
+        "filters": {
+          "mode": {
+            "label": {
+              "text": "Mode",
+              "context": "Label for the game mode filter selector"
+            },
+            "any": {
+              "text": "Any",
+              "context": "Option to select any game mode (no filter)"
+            },
+            "standard": {
+              "text": "osu!",
+              "context": "Game mode option for osu!standard"
+            },
+            "taiko": {
+              "text": "osu!taiko",
+              "context": "Game mode option for osu!taiko"
+            },
+            "catch": {
+              "text": "osu!catch",
+              "context": "Game mode option for osu!catch"
+            },
+            "mania": {
+              "text": "osu!mania",
+              "context": "Game mode option for osu!mania"
+            }
+          },
+          "status": {
+            "label": {
+              "text": "Status",
+              "context": "Label for the beatmap status filter selector"
+            }
+          },
+          "searchByCustomStatus": {
+            "label": {
+              "text": "Search by Custom Status",
+              "context": "Label for the search by custom status toggle switch"
+            }
+          },
+          "applyFilters": {
+            "text": "Apply Filters",
+            "context": "Button text to apply the selected filters"
+          }
+        }
+      }
+    },
+    "beatmapsets": {
+      "meta": {
+        "title": {
+          "text": "{artist} - {title} | {appName}",
+          "context": "The title for the beatmapset detail page, includes artist and title as parameters"
+        },
+        "description": {
+          "text": "Beatmapset info for {title} by {artist}",
+          "context": "The meta description for the beatmapset detail page, includes title and artist as parameters"
+        },
+        "openGraph": {
+          "title": {
+            "text": "{artist} - {title} | {appName}",
+            "context": "The OpenGraph title for the beatmapset detail page, includes artist and title as parameters"
+          },
+          "description": {
+            "text": "Beatmapset info for {title} by {artist} {difficultyInfo}",
+            "context": "The OpenGraph description for the beatmapset detail page, includes title, artist, and optional difficulty info as parameters"
+          }
+        }
+      },
+      "header": {
+        "text": "Beatmap info",
+        "context": "The main header text for the beatmapset detail page"
+      },
+      "error": {
+        "notFound": {
+          "title": {
+            "text": "Beatmapset not found",
+            "context": "Title displayed when a beatmapset is not found"
+          },
+          "description": {
+            "text": "The beatmapset you are looking for does not exist or has been deleted.",
+            "context": "Description message when a beatmapset is not found or has been deleted"
+          }
+        }
+      },
+      "submission": {
+        "submittedBy": {
+          "text": "submitted by",
+          "context": "Text label indicating who submitted the beatmapset"
+        },
+        "submittedOn": {
+          "text": "submitted on",
+          "context": "Text label indicating when the beatmapset was submitted"
+        },
+        "rankedOn": {
+          "text": "ranked on",
+          "context": "Text label indicating when the beatmapset was ranked"
+        },
+        "statusBy": {
+          "text": "{status} by",
+          "context": "Text indicating the beatmap status and who set it, includes status as parameter"
+        }
+      },
+      "video": {
+        "tooltip": {
+          "text": "This beatmap contains video",
+          "context": "Tooltip text for the video icon indicating the beatmap has a video"
+        }
+      },
+      "description": {
+        "header": {
+          "text": "Description",
+          "context": "Header text for the beatmapset description section"
+        }
+      },
+      "components": {
+        "dropdown": {
+          "openMenu": {
+            "text": "Open menu",
+            "context": "Screen reader text for the dropdown menu button"
+          },
+          "ppCalculator": {
+            "text": "PP Calculator",
+            "context": "Dropdown menu item text to open PP calculator"
+          },
+          "openOnBancho": {
+            "text": "Open on Bancho",
+            "context": "Dropdown menu item text to open beatmap on official osu! website"
+          },
+          "openWithAdminPanel": {
+            "text": "Open with Admin Panel",
+            "context": "Dropdown menu item text to open beatmap in admin panel (for BAT users)"
+          }
+        },
+        "infoAccordion": {
+          "communityHype": {
+            "text": "Community Hype",
+            "context": "Header text for the community hype section"
+          },
+          "information": {
+            "text": "Information",
+            "context": "Header text for the beatmap information section"
+          },
+          "metadata": {
+            "genre": {
+              "text": "Genre",
+              "context": "Label for the beatmap genre"
+            },
+            "language": {
+              "text": "Language",
+              "context": "Label for the beatmap language"
+            },
+            "tags": {
+              "text": "Tags",
+              "context": "Label for the beatmap tags"
+            }
+          }
+        },
+        "downloadButtons": {
+          "download": {
+            "text": "Download",
+            "context": "Button text to download the beatmapset"
+          },
+          "withVideo": {
+            "text": "with Video",
+            "context": "Text indicating the download includes video"
+          },
+          "withoutVideo": {
+            "text": "without Video",
+            "context": "Text indicating the download excludes video"
+          },
+          "osuDirect": {
+            "text": "osu!direct",
+            "context": "Button text for osu!direct download"
+          }
+        },
+        "difficultyInformation": {
+          "tooltips": {
+            "totalLength": {
+              "text": "Total Length",
+              "context": "Tooltip text for the total length of the beatmap"
+            },
+            "bpm": {
+              "text": "BPM",
+              "context": "Tooltip text for beats per minute"
+            },
+            "starRating": {
+              "text": "Star Rating",
+              "context": "Tooltip text for the star rating"
+            }
+          },
+          "labels": {
+            "keyCount": {
+              "text": "Key Count:",
+              "context": "Label for the key count (mania mode)"
+            },
+            "circleSize": {
+              "text": "Circle Size:",
+              "context": "Label for circle size (standard/catch mode)"
+            },
+            "hpDrain": {
+              "text": "HP Drain:",
+              "context": "Label for HP drain"
+            },
+            "accuracy": {
+              "text": "Accuracy:",
+              "context": "Label for accuracy difficulty"
+            },
+            "approachRate": {
+              "text": "Approach Rate:",
+              "context": "Label for approach rate (standard/catch mode)"
+            }
+          }
+        },
+        "nomination": {
+          "description": {
+            "text": "Hype this map if you enjoyed playing it to help it progress to <b>Ranked</b> status.",
+            "context": "Description text explaining the hype feature, includes bold tag for Ranked"
+          },
+          "hypeProgress": {
+            "text": "Hype progress",
+            "context": "Label for the hype progress indicator"
+          },
+          "hypeBeatmap": {
+            "text": "Hype beatmap!",
+            "context": "Button text to hype a beatmap"
+          },
+          "hypesRemaining": {
+            "text": "You have <b>{count} hypes</b> remaining for this week",
+            "context": "Text showing remaining hypes for the week, includes count as parameter and bold tag"
+          },
+          "toast": {
+            "success": {
+              "text": "Beatmap hyped successfully!",
+              "context": "Success toast message when a beatmap is hyped"
+            },
+            "error": {
+              "text": "Error occured while hyping beatmapset!",
+              "context": "Error toast message when hyping fails"
+            }
+          }
+        },
+        "ppCalculator": {
+          "title": {
+            "text": "PP Calculator",
+            "context": "Title of the PP calculator dialog"
+          },
+          "pp": {
+            "text": "PP: <b>{value}</b>",
+            "context": "Label for performance points"
+          },
+          "totalLength": {
+            "text": "Total Length",
+            "context": "Tooltip text for total length in PP calculator"
+          },
+          "form": {
+            "accuracy": {
+              "label": {
+                "text": "Accuracy",
+                "context": "Form label for accuracy input"
+              },
+              "validation": {
+                "negative": {
+                  "text": "Accuracy can't be negative",
+                  "context": "Validation error message for negative accuracy"
+                },
+                "tooHigh": {
+                  "text": "Accuracy can't be greater that 100",
+                  "context": "Validation error message for accuracy over 100"
+                }
+              }
+            },
+            "combo": {
+              "label": {
+                "text": "Combo",
+                "context": "Form label for combo input"
+              },
+              "validation": {
+                "negative": {
+                  "text": "Combo can't be negative",
+                  "context": "Validation error message for negative combo"
+                }
+              }
+            },
+            "misses": {
+              "label": {
+                "text": "Misses",
+                "context": "Form label for misses input"
+              },
+              "validation": {
+                "negative": {
+                  "text": "Misses can't be negative",
+                  "context": "Validation error message for negative misses"
+                }
+              }
+            },
+            "calculate": {
+              "text": "Calculate",
+              "context": "Button text to calculate PP"
+            },
+            "unknownError": {
+              "text": "Unknown error",
+              "context": "Generic error message for unknown errors"
+            }
+          }
+        },
+        "leaderboard": {
+          "columns": {
+            "rank": {
+              "text": "Rank",
+              "context": "Column header for rank"
+            },
+            "score": {
+              "text": "Score",
+              "context": "Column header for score"
+            },
+            "accuracy": {
+              "text": "Accuracy",
+              "context": "Column header for accuracy"
+            },
+            "player": {
+              "text": "Player",
+              "context": "Column header for player"
+            },
+            "maxCombo": {
+              "text": "Max Combo",
+              "context": "Column header for max combo"
+            },
+            "perfect": {
+              "text": "Perfect",
+              "context": "Column header for perfect hits (geki)"
+            },
+            "great": {
+              "text": "Great",
+              "context": "Column header for great hits (300)"
+            },
+            "good": {
+              "text": "Good",
+              "context": "Column header for good hits (katu)"
+            },
+            "ok": {
+              "text": "Ok",
+              "context": "Column header for ok hits (100)"
+            },
+            "lDrp": {
+              "text": "L DRP",
+              "context": "Column header for large droplets (catch mode, 100)"
+            },
+            "meh": {
+              "text": "Meh",
+              "context": "Column header for meh hits (50)"
+            },
+            "sDrp": {
+              "text": "S DRP",
+              "context": "Column header for small droplets (catch mode, 50)"
+            },
+            "miss": {
+              "text": "Miss",
+              "context": "Column header for misses"
+            },
+            "pp": {
+              "text": "PP",
+              "context": "Column header for performance points"
+            },
+            "time": {
+              "text": "Time",
+              "context": "Column header for time played"
+            },
+            "mods": {
+              "text": "Mods",
+              "context": "Column header for mods"
+            }
+          },
+          "actions": {
+            "openMenu": {
+              "text": "Open menu",
+              "context": "Screen reader text for the dropdown menu button"
+            },
+            "viewDetails": {
+              "text": "View Details",
+              "context": "Dropdown menu item text to view score details"
+            },
+            "downloadReplay": {
+              "text": "Download Replay",
+              "context": "Dropdown menu item text to download replay"
+            }
+          },
+          "table": {
+            "emptyState": {
+              "text": "No scores found. Be the first to submit one!",
+              "context": "Message displayed when there are no scores in the leaderboard"
+            },
+            "pagination": {
+              "scoresPerPage": {
+                "text": "scores per page",
+                "context": "Label for the scores per page selector"
+              },
+              "showing": {
+                "text": "Showing {start} - {end} of {total}",
+                "context": "Pagination text showing the range of displayed scores, includes start, end, and total as parameters"
+              }
+            }
+          }
+        }
+      }
+    },
+    "settings": {
+      "meta": {
+        "title": {
+          "text": "Settings | {appName}",
+          "context": "The title for the settings page of the osu!sunrise website"
+        }
+      },
+      "header": {
+        "text": "Settings",
+        "context": "The main header text for the settings page"
+      },
+      "notLoggedIn": {
+        "text": "You must be logged in to view this page.",
+        "context": "Message displayed when user is not logged in"
+      },
+      "sections": {
+        "changeAvatar": {
+          "text": "Change avatar",
+          "context": "Title for the change avatar section"
+        },
+        "changeBanner": {
+          "text": "Change banner",
+          "context": "Title for the change banner section"
+        },
+        "changeDescription": {
+          "text": "Change description",
+          "context": "Title for the change description section"
+        },
+        "socials": {
+          "text": "Socials",
+          "context": "Title for the socials section"
+        },
+        "playstyle": {
+          "text": "Playstyle",
+          "context": "Title for the playstyle section"
+        },
+        "options": {
+          "text": "Options",
+          "context": "Title for the options section"
+        },
+        "changePassword": {
+          "text": "Change password",
+          "context": "Title for the change password section"
+        },
+        "changeUsername": {
+          "text": "Change username",
+          "context": "Title for the change username section"
+        },
+        "changeCountryFlag": {
+          "text": "Change country flag",
+          "context": "Title for the change country flag section"
+        }
+      },
+      "description": {
+        "reminder": {
+          "text": "* Reminder: Do not post any inappropriate content. Try to keep it family friendly :)",
+          "context": "Reminder message for description field about keeping content appropriate"
+        }
+      },
+      "components": {
+        "username": {
+          "label": {
+            "text": "New Username",
+            "context": "Form label for new username input"
+          },
+          "placeholder": {
+            "text": "e.g. username",
+            "context": "Placeholder text for username input"
+          },
+          "button": {
+            "text": "Change username",
+            "context": "Button text to change username"
+          },
+          "validation": {
+            "minLength": {
+              "text": "Username must be at least {min} characters.",
+              "context": "Validation error message for username minimum length, includes min as parameter"
+            },
+            "maxLength": {
+              "text": "Username must be {max} characters or fewer.",
+              "context": "Validation error message for username maximum length, includes max as parameter"
+            }
+          },
+          "toast": {
+            "success": {
+              "text": "Username changed successfully!",
+              "context": "Success toast message when username is changed"
+            },
+            "error": {
+              "text": "Error occured while changing username!",
+              "context": "Error toast message when username change fails"
+            }
+          },
+          "reminder": {
+            "text": "* Reminder: Please keep your username family friendly, or it will be changed for you. Abusing this feature will result in a ban.",
+            "context": "Reminder message about keeping username appropriate"
+          }
+        },
+        "password": {
+          "labels": {
+            "current": {
+              "text": "Current Password",
+              "context": "Form label for current password input"
+            },
+            "new": {
+              "text": "New Password",
+              "context": "Form label for new password input"
+            },
+            "confirm": {
+              "text": "Confirm Password",
+              "context": "Form label for confirm password input"
+            }
+          },
+          "placeholder": {
+            "text": "************",
+            "context": "Placeholder text for password inputs"
+          },
+          "button": {
+            "text": "Change password",
+            "context": "Button text to change password"
+          },
+          "validation": {
+            "minLength": {
+              "text": "Password must be at least {min} characters.",
+              "context": "Validation error message for password minimum length, includes min as parameter"
+            },
+            "maxLength": {
+              "text": "Password must be {max} characters or fewer.",
+              "context": "Validation error message for password maximum length, includes max as parameter"
+            },
+            "mismatch": {
+              "text": "Passwords do not match",
+              "context": "Validation error message when passwords don't match"
+            }
+          },
+          "toast": {
+            "success": {
+              "text": "Password changed successfully!",
+              "context": "Success toast message when password is changed"
+            },
+            "error": {
+              "text": "Error occured while changing password!",
+              "context": "Error toast message when password change fails"
+            }
+          }
+        },
+        "description": {
+          "toast": {
+            "success": {
+              "text": "Description updated successfully!",
+              "context": "Success toast message when description is updated"
+            },
+            "error": {
+              "text": "An unknown error occurred",
+              "context": "Generic error message for description update"
+            }
+          }
+        },
+        "country": {
+          "label": {
+            "text": "New Country Flag",
+            "context": "Form label for country flag selector"
+          },
+          "placeholder": {
+            "text": "Select new country flag",
+            "context": "Placeholder text for country flag selector"
+          },
+          "button": {
+            "text": "Change country flag",
+            "context": "Button text to change country flag"
+          },
+          "toast": {
+            "success": {
+              "text": "Country flag changed successfully!",
+              "context": "Success toast message when country flag is changed"
+            },
+            "error": {
+              "text": "Error occured while changing country flag!",
+              "context": "Error toast message when country flag change fails"
+            }
+          }
+        },
+        "socials": {
+          "headings": {
+            "general": {
+              "text": "General",
+              "context": "Heading for general information section in socials form"
+            },
+            "socials": {
+              "text": "Socials",
+              "context": "Heading for socials section in socials form"
+            }
+          },
+          "fields": {
+            "location": {
+              "text": "location",
+              "context": "Field label for location"
+            },
+            "interest": {
+              "text": "interest",
+              "context": "Field label for interest"
+            },
+            "occupation": {
+              "text": "occupation",
+              "context": "Field label for occupation"
+            }
+          },
+          "button": {
+            "text": "Update socials",
+            "context": "Button text to update socials"
+          },
+          "toast": {
+            "success": {
+              "text": "Socials updated successfully!",
+              "context": "Success toast message when socials are updated"
+            },
+            "error": {
+              "text": "Error occured while updating socials!",
+              "context": "Error toast message when socials update fails"
+            }
+          }
+        },
+        "playstyle": {
+          "options": {
+            "Mouse": {
+              "text": "Mouse",
+              "context": "Playstyle option for mouse input"
+            },
+            "Keyboard": {
+              "text": "Keyboard",
+              "context": "Playstyle option for keyboard input"
+            },
+            "Tablet": {
+              "text": "Tablet",
+              "context": "Playstyle option for tablet input"
+            },
+            "TouchScreen": {
+              "text": "Touch Screen",
+              "context": "Playstyle option for touch screen input"
+            }
+          },
+          "toast": {
+            "success": {
+              "text": "Playstyle updated successfully!",
+              "context": "Success toast message when playstyle is updated"
+            },
+            "error": {
+              "text": "Error occured while updating playstyle!",
+              "context": "Error toast message when playstyle update fails"
+            }
+          }
+        },
+        "uploadImage": {
+          "types": {
+            "avatar": {
+              "text": "avatar",
+              "context": "The word 'avatar' for image upload type"
+            },
+            "banner": {
+              "text": "banner",
+              "context": "The word 'banner' for image upload type"
+            }
+          },
+          "button": {
+            "text": "Upload {type}",
+            "context": "Button text to upload image, includes type (avatar/banner) as parameter"
+          },
+          "toast": {
+            "success": {
+              "text": "{type} updated successfully!",
+              "context": "Success toast message when image is uploaded, includes type (avatar/banner) as parameter"
+            },
+            "error": {
+              "text": "An unknown error occurred",
+              "context": "Generic error message for image upload"
+            }
+          },
+          "note": {
+            "text": "* Note: {type}s are limited to 5MB in size",
+            "context": "Note about file size limit, includes type (avatar/banner) as parameter"
+          }
+        },
+        "siteOptions": {
+          "includeBanchoButton": {
+            "text": "Include \"Open on Bancho\" button in beatmap page",
+            "context": "Label for toggle to include Open on Bancho button"
+          },
+          "useSpaciousUI": {
+            "text": "Use spacious UI (Increase spacing between elements)",
+            "context": "Label for toggle to use spacious UI"
+          }
+        }
+      },
+      "common": {
+        "unknownError": {
+          "text": "Unknown error.",
+          "context": "Generic error message for unknown errors"
+        }
+      }
+    },
+    "user": {
+      "meta": {
+        "title": {
+          "text": "{username} · User Profile | {appName}",
+          "context": "Page title for user profile page, includes username and app name as parameters"
+        },
+        "description": {
+          "text": "We don't know much about them, but we're sure {username} is great.",
+          "context": "Meta description for user profile page, includes username as parameter"
+        }
+      },
+      "header": {
+        "text": "Player info",
+        "context": "Header text for the user profile page"
+      },
+      "tabs": {
+        "general": {
+          "text": "General",
+          "context": "Tab name for general information"
+        },
+        "bestScores": {
+          "text": "Best scores",
+          "context": "Tab name for best scores"
+        },
+        "recentScores": {
+          "text": "Recent scores",
+          "context": "Tab name for recent scores"
+        },
+        "firstPlaces": {
+          "text": "First places",
+          "context": "Tab name for first place scores"
+        },
+        "beatmaps": {
+          "text": "Beatmaps",
+          "context": "Tab name for beatmaps"
+        },
+        "medals": {
+          "text": "Medals",
+          "context": "Tab name for medals"
+        }
+      },
+      "buttons": {
+        "editProfile": {
+          "text": "Edit profile",
+          "context": "Button text to edit user profile"
+        },
+        "setDefaultGamemode": {
+          "text": "Set <b>{gamemode} {flag}</b> as profile default game mode",
+          "context": "Button text to set default gamemode, includes gamemode name and flag emoji as parameters"
+        }
+      },
+      "errors": {
+        "userNotFound": {
+          "text": "User not found or an error occurred.",
+          "context": "Error message when user is not found or an error occurs"
+        },
+        "restricted": {
+          "text": "This means that the user violated the server rules and has been restricted.",
+          "context": "Explanation message when user has been restricted"
+        },
+        "userDeleted": {
+          "text": "The user may have been deleted or does not exist.",
+          "context": "Error message when user may have been deleted or doesn't exist"
+        }
+      },
+      "components": {
+        "generalTab": {
+          "info": {
+            "text": "Info",
+            "context": "Section header for user information"
+          },
+          "rankedScore": {
+            "text": "Ranked Score",
+            "context": "Label for ranked score statistic"
+          },
+          "hitAccuracy": {
+            "text": "Hit Accuracy",
+            "context": "Label for hit accuracy statistic"
+          },
+          "playcount": {
+            "text": "Playcount",
+            "context": "Label for playcount statistic"
+          },
+          "totalScore": {
+            "text": "Total Score",
+            "context": "Label for total score statistic"
+          },
+          "maximumCombo": {
+            "text": "Maximum Combo",
+            "context": "Label for maximum combo statistic"
+          },
+          "playtime": {
+            "text": "Playtime",
+            "context": "Label for playtime statistic"
+          },
+          "performance": {
+            "text": "Performance",
+            "context": "Section header for performance information"
+          },
+          "showByRank": {
+            "text": "Show by rank",
+            "context": "Button text to show chart by rank"
+          },
+          "showByPp": {
+            "text": "Show by pp",
+            "context": "Button text to show chart by performance points"
+          },
+          "aboutMe": {
+            "text": "About me",
+            "context": "Section header for user description/about section"
+          }
+        },
+        "scoresTab": {
+          "bestScores": {
+            "text": "Best scores",
+            "context": "Header for best scores section"
+          },
+          "recentScores": {
+            "text": "Recent scores",
+            "context": "Header for recent scores section"
+          },
+          "firstPlaces": {
+            "text": "First places",
+            "context": "Header for first places section"
+          },
+          "noScores": {
+            "text": "User has no {type} scores",
+            "context": "Message when user has no scores of the specified type, includes type as parameter"
+          },
+          "showMore": {
+            "text": "Show more",
+            "context": "Button text to load more scores"
+          }
+        },
+        "beatmapsTab": {
+          "mostPlayed": {
+            "text": "Most played",
+            "context": "Header for most played beatmaps section"
+          },
+          "noMostPlayed": {
+            "text": "User has no most played beatmaps",
+            "context": "Message when user has no most played beatmaps"
+          },
+          "favouriteBeatmaps": {
+            "text": "Favourite Beatmaps",
+            "context": "Header for favourite beatmaps section"
+          },
+          "noFavourites": {
+            "text": "User has no favourite beatmaps",
+            "context": "Message when user has no favourite beatmaps"
+          },
+          "showMore": {
+            "text": "Show more",
+            "context": "Button text to load more beatmaps"
+          }
+        },
+        "medalsTab": {
+          "medals": {
+            "text": "Medals",
+            "context": "Header for medals section"
+          },
+          "latest": {
+            "text": "Latest",
+            "context": "Header for latest medals section"
+          },
+          "categories": {
+            "hushHush": {
+              "text": "Hush hush",
+              "context": "Medal category name"
+            },
+            "beatmapHunt": {
+              "text": "Beatmap hunt",
+              "context": "Medal category name"
+            },
+            "modIntroduction": {
+              "text": "Mod introduction",
+              "context": "Medal category name"
+            },
+            "skill": {
+              "text": "Skill",
+              "context": "Medal category name"
+            }
+          },
+          "achievedOn": {
+            "text": "achieved on",
+            "context": "Text shown before the date when a medal was achieved"
+          },
+          "notAchieved": {
+            "text": "Not achieved",
+            "context": "Text shown when a medal has not been achieved"
+          }
+        },
+        "generalInformation": {
+          "joined": {
+            "text": "Joined <b>{time}</b>",
+            "context": "Text showing when user joined, includes time as parameter"
+          },
+          "followers": {
+            "text": "<b>{count}</b> Followers",
+            "context": "Text showing followers count, includes count as parameter"
+          },
+          "following": {
+            "text": "<b>{count}</b> Following",
+            "context": "Text showing following count, includes count as parameter"
+          },
+          "playsWith": {
+            "text": "Plays with <b>{playstyle}</b>",
+            "context": "Text showing playstyle, includes playstyle as parameter with formatting"
+          }
+        },
+        "statusText": {
+          "lastSeenOn": {
+            "text": ", last seen on {date}",
+            "context": "Text shown before the last seen date when user is offline, includes date as parameter"
+          }
+        },
+        "ranks": {
+          "highestRank": {
+            "text": "Highest rank <rankValue>{rank}</rankValue> on {date}",
+            "context": "Tooltip text for highest rank achieved, includes rank number and date as parameters, rank is formatted"
+          }
+        },
+        "previousUsernames": {
+          "previouslyKnownAs": {
+            "text": "This user was previously known as:",
+            "context": "Tooltip text explaining that the user had previous usernames"
+          }
+        },
+        "beatmapSetOverview": {
+          "by": {
+            "text": "by {artist}",
+            "context": "Text showing beatmap artist, includes artist name as parameter"
+          },
+          "mappedBy": {
+            "text": "mapped by {creator}",
+            "context": "Text showing beatmap creator/mapper, includes creator name as parameter"
+          }
+        },
+        "privilegeBadges": {
+          "badges": {
+            "Developer": {
+              "text": "Developer",
+              "context": "Name of the Developer badge"
+            },
+            "Admin": {
+              "text": "Admin",
+              "context": "Name of the Admin badge"
+            },
+            "Bat": {
+              "text": "BAT",
+              "context": "Name of the BAT (Beatmap Appreciation Team) badge"
+            },
+            "Bot": {
+              "text": "Bot",
+              "context": "Name of the Bot badge"
+            },
+            "Supporter": {
+              "text": "Supporter",
+              "context": "Name of the Supporter badge"
+            }
+          }
+        },
+        "scoreOverview": {
+          "pp": {
+            "text": "pp",
+            "context": "Abbreviation for performance points"
+          },
+          "accuracy": {
+            "text": "acc: {accuracy}%",
+            "context": "Text showing score accuracy, includes accuracy percentage as parameter"
+          }
+        },
+        "statsChart": {
+          "date": {
+            "text": "Date",
+            "context": "Label for the date axis on the stats chart"
+          },
+          "types": {
+            "pp": {
+              "text": "pp",
+              "context": "Abbreviation for performance points in chart tooltip"
+            },
+            "rank": {
+              "text": "rank",
+              "context": "Word for rank in chart tooltip"
+            }
+          },
+          "tooltip": {
+            "text": "{value} {type}",
+            "context": "Tooltip text showing chart value and type (pp/rank), includes value and type as parameters"
+          }
+        }
+      }
+    }
+  }
+}

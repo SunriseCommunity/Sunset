@@ -20,18 +20,19 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
+import { useT } from "@/lib/i18n/utils";
+import { useTranslations } from "next-intl";
 
 const cards = [
   {
-    title: "Truly Free Features",
-    description:
-      "Enjoy features like osu!direct and username changes without any paywalls — completely free for all players!",
+    titleKey: "cards.freeFeatures.title",
+    descriptionKey: "cards.freeFeatures.description",
     imageUrl: "/images/frontpage/freefeatures.png",
   },
+
   {
-    title: "Custom PP Calculations",
-    description:
-      "We use the latest performance point (PP) system for vanilla scores while applying a custom, well-balanced formula for Relax and Autopilot modes.",
+    titleKey: "cards.ppSystem.title",
+    descriptionKey: "cards.ppSystem.description",
     imageUrl: "/images/frontpage/ppsystem.png",
   },
   // TODO: Soon™...
@@ -42,27 +43,23 @@ const cards = [
   //   imageUrl: "/images/not-found.jpg",
   // },
   {
-    title: "Earn Custom Medals",
-    description:
-      "Earn unique, server-exclusive medals as you accomplish various milestones and achievements.",
+    titleKey: "cards.medals.title",
+    descriptionKey: "cards.medals.description",
     imageUrl: "/images/frontpage/medals.png",
   },
   {
-    title: "Frequent Updates",
-    description:
-      "We’re always improving! Expect regular updates, new features, and ongoing performance optimizations.",
+    titleKey: "cards.updates.title",
+    descriptionKey: "cards.updates.description",
     imageUrl: "/images/frontpage/updates.png",
   },
   {
-    title: "Built-in PP Calculator",
-    description:
-      "Our website offers a built-in PP calculator for quick and easy performance point estimates.",
+    titleKey: "cards.ppCalc.title",
+    descriptionKey: "cards.ppCalc.description",
     imageUrl: "/images/frontpage/ppcalc.png",
   },
   {
-    title: "Custom-Built Bancho Core",
-    description:
-      "Unlike most private osu! servers, we’ve developed our own custom bancho core for better stability and unique feature support.",
+    titleKey: "cards.sunriseCore.title",
+    descriptionKey: "cards.sunriseCore.description",
     imageUrl: "/images/frontpage/sunrisecore.png",
   },
 ];
@@ -72,6 +69,9 @@ export default function Home() {
   const [isMaintenanceDialogOpen, setMaintenanceDialogOpen] = useState<
     boolean | null
   >(null);
+
+  const t = useT("pages.mainPage");
+  const tGeneral = useT("general");
 
   const serverStatusQuery = useServerStatus();
   const serverStatus = serverStatusQuery.data;
@@ -93,28 +93,30 @@ export default function Home() {
             <div className="flex flex-col justify-center space-y-4 my-4 md:w-5/12 ">
               <div className="">
                 <h1 className="text-6xl">
-                  <span className="text-primary dark">sun</span>
-                  <span className="text-current">rise</span>
+                  <span className="text-primary dark">
+                    {tGeneral("serverTitle.split.part1")}
+                  </span>
+                  <span className="text-current">
+                    {tGeneral("serverTitle.split.part2")}
+                  </span>
                 </h1>
                 <p className="text-muted-foreground italic text-sm">
-                  - yet another osu! server
+                  {t("features.motto")}
                 </p>
               </div>
-              <p>
-                Features rich osu! server with support for Relax, Autopilot and
-                ScoreV2 gameplay, with a custom art‑state PP calculation system
-                tailored for Relax and Autopilot.
-              </p>
+              <p>{t("features.description")}</p>
               <div className="flex items-end space-x-4">
                 <Button
                   className="from-red-400 via-orange-400 to-yellow-400 bg-gradient-to-r bg-size-300 animate-gradient hover:scale-105 smooth-transition"
                   size="lg"
                   asChild
                 >
-                  <Link href="/register">Join now</Link>
+                  <Link href="/register">{t("features.buttons.register")}</Link>
                 </Button>
                 <Button variant="secondary" size="sm" asChild>
-                  <Link href="/wiki#How%20to%20connect">How to connect</Link>
+                  <Link href="/wiki#How%20to%20connect">
+                    {t("features.buttons.wiki")}
+                  </Link>
                 </Button>
               </div>
             </div>
@@ -148,9 +150,9 @@ export default function Home() {
             serverStatus
               ? serverStatus.is_online
                 ? serverStatus.is_on_maintenance
-                  ? "Under Maintenance"
-                  : "Online"
-                : "Offline"
+                  ? t("statuses.underMaintenance")
+                  : t("statuses.online")
+                : t("statuses.offline")
               : undefined
           }
         />
@@ -172,7 +174,7 @@ export default function Home() {
       </div>
 
       <div className="w-full pb-12 items-center">
-        <h2 className="text-4xl font-bold text-center py-8">Why us?</h2>
+        <h2 className="text-4xl font-bold text-center py-8">{t("whyUs")}</h2>
 
         <Carousel className="w-full">
           <CarouselContent className="-ml-1">
@@ -186,15 +188,17 @@ export default function Home() {
                     <div className="relative h-1/2 w-full">
                       <Image
                         src={card.imageUrl || "/placeholder.svg"}
-                        alt={card.title}
+                        alt={card.titleKey}
                         fill
                         className="object-cover rounded-t-lg "
                       />
                     </div>
                     <CardContent className="p-4">
-                      <h3 className="text-lg font-bold mb-2">{card.title}</h3>
+                      <h3 className="text-lg font-bold mb-2">
+                        {t(card.titleKey)}
+                      </h3>
                       <p className="text-sm text-muted-foreground">
-                        {card.description}
+                        {t(card.descriptionKey)}
                       </p>
                     </CardContent>
                   </Card>
@@ -210,52 +214,55 @@ export default function Home() {
       <div className="w-full p-4">
         <div className="py-8 space-y-4">
           <h2 className="text-4xl font-bold text-current">
-            How do I start playing?
+            {t("howToStart.title")}
           </h2>
 
-          <p className="text-muted-foreground">
-            Just three simple steps and you're ready to go!
-          </p>
+          <p className="text-muted-foreground">{t("howToStart.description")}</p>
         </div>
 
         <div className="space-y-2">
           <PrettyHeader icon={<Download />} className="rounded-lg">
             <div className="flex flex-col md:flex-row space-y-2 w-full">
               <div className="w-full flex flex-col mx-2">
-                <p className="text-lg">Download osu! client</p>
+                <p className="text-lg">{t("howToStart.downloadTile.title")}</p>
                 <p className="text-muted-foreground text-sm">
-                  If you do not already have an installed client
+                  {t("howToStart.downloadTile.description")}
                 </p>
               </div>
               <Button className="md:w-1/3 md:m-0 w-full m-2" asChild>
-                <Link href={"https://osu.ppy.sh/home/download"}>Download</Link>
+                <Link href={"https://osu.ppy.sh/home/download"}>
+                  {t("howToStart.downloadTile.button")}
+                </Link>
               </Button>
             </div>
           </PrettyHeader>
           <PrettyHeader icon={<DoorOpen />} className="rounded-lg">
             <div className="flex flex-col md:flex-row space-y-2 w-full">
               <div className="w-full flex flex-col mx-2">
-                <p className="text-lg">Register osu!sunrise account</p>
+                <p className="text-lg">{t("howToStart.registerTile.title")}</p>
                 <p className="text-muted-foreground text-sm">
-                  Account will allow you to join the osu!sunrise community
+                  {t("howToStart.registerTile.description")}
                 </p>
               </div>
               <Button className="md:w-1/3 md:m-0 w-full m-2" asChild>
-                <Link href="/register">Sign up</Link>
+                <Link href="/register">
+                  {t("howToStart.registerTile.button")}
+                </Link>
               </Button>
             </div>
           </PrettyHeader>
           <PrettyHeader icon={<BookOpenCheck />} className="rounded-lg">
             <div className="flex flex-col md:flex-row space-y-2 w-full">
               <div className="w-full flex flex-col mx-2">
-                <p className="text-lg">Follow the connection guide</p>
+                <p className="text-lg">{t("howToStart.guideTile.title")}</p>
                 <p className="text-muted-foreground text-sm">
-                  Which helps you set up your osu! client to connect to
-                  osu!sunrise
+                  {t("howToStart.guideTile.description")}
                 </p>
               </div>
               <Button className="md:w-1/3 md:m-0 w-full m-2" asChild>
-                <Link href="/wiki#How%20to%20connect">Open guide</Link>
+                <Link href="/wiki#How%20to%20connect">
+                  {t("howToStart.guideTile.button")}
+                </Link>
               </Button>
             </div>
           </PrettyHeader>

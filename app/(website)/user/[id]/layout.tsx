@@ -3,12 +3,12 @@ import Page from "./page";
 import { notFound } from "next/navigation";
 import fetcher from "@/lib/services/fetcher";
 import { UserResponse } from "@/lib/types/api";
-
+import { getT } from "@/lib/i18n/utils";
 
 export const revalidate = 60;
 
 export async function generateMetadata(props: {
-  params: Promise<{ id: number }>;
+  params: Promise<{ id: string }>;
 }): Promise<Metadata> {
   const params = await props.params;
   const user = await fetcher<UserResponse>(`user/${params.id}`);
@@ -17,13 +17,15 @@ export async function generateMetadata(props: {
     return notFound();
   }
 
+  const t = await getT("pages.user.meta");
+
   return {
-    title: `${user.username} · User Profile | osu!sunrise`,
-    description: `We don't know much about them, but we're sure ${user.username} is great.`,
+    title: t("title", { username: user.username }),
+    description: t("description", { username: user.username }),
     openGraph: {
       siteName: "osu!sunrise",
-      title: `${user.username} · User Profile | osu!sunrise`,
-      description: `We don't know much about them, but we're sure ${user.username} is great.`,
+      title: t("title", { username: user.username }),
+      description: t("description", { username: user.username }),
       images: [
         `https://a.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/avatar/${user.user_id}`,
       ],

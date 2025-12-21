@@ -3,7 +3,7 @@ import { useBeatmapLeaderboard } from "@/lib/hooks/api/beatmap/useBeatmapLeaderb
 import { ScoreDataTable } from "@/app/(website)/beatmapsets/components/leaderboard/ScoreDataTable";
 import { useState } from "react";
 import { tryParseNumber } from "@/lib/utils/type.util";
-import { scoreColumns } from "@/app/(website)/beatmapsets/components/leaderboard/ScoreColumns";
+import { useScoreColumns } from "@/app/(website)/beatmapsets/components/leaderboard/ScoreColumns";
 import ScoreLeaderboardData from "@/app/(website)/beatmapsets/components/ScoreLeaderboardData";
 import useSelf from "@/lib/hooks/useSelf";
 import { ModsSelector } from "@/app/(website)/beatmapsets/components/leaderboard/ModsSelector";
@@ -19,6 +19,7 @@ export default function BeatmapLeaderboard({
   mode,
 }: BeatmapLeaderboardProps) {
   const { self } = useSelf();
+  const scoreColumns = useScoreColumns();
 
   const [preferedNumberOfScoresPerLeaderboard] = useState(() => {
     return localStorage.getItem("preferedNumberOfScoresPerLeaderboard");

@@ -35,6 +35,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
 import { z } from "zod";
+import { useT } from "@/lib/i18n/utils";
+import Cookies from "js-cookie";
 
 const formSchema = zCountryChangeRequest;
 
@@ -45,6 +47,8 @@ export default function ChangeCountryInput({
   user: UserResponse;
   className?: string;
 }) {
+  const t = useT("pages.settings.components.country");
+  const tCommon = useT("pages.settings.common");
   const [error, setError] = useState<string | null>(null);
 
   const self = useSelf();
@@ -87,15 +91,15 @@ export default function ChangeCountryInput({
         form.reset();
 
         toast({
-          title: "Country flag changed successfully!",
+          title: t("toast.success"),
           variant: "success",
         });
       },
       onError: (err: any) => {
-        showError(err.message ?? "Unknown error.");
+        showError(err.message ?? tCommon("unknownError"));
         toast({
-          title: "Error occured while changing country flag!",
-          description: err.message ?? "Unknown error.",
+          title: t("toast.error"),
+          description: err.message ?? tCommon("unknownError"),
           variant: "destructive",
         });
       },
@@ -108,7 +112,9 @@ export default function ChangeCountryInput({
     }
   }
 
-  const regionNames = new Intl.DisplayNames(["en"], { type: "region" });
+  const regionNames = new Intl.DisplayNames([Cookies.get("locale") || "en"], {
+    type: "region",
+  });
 
   return (
     <div className={twMerge("flex flex-col lg:w-1/2", className)}>
@@ -119,7 +125,7 @@ export default function ChangeCountryInput({
             name="new_country"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>New Country Flag</FormLabel>
+                <FormLabel>{t("label")}</FormLabel>
                 <FormControl>
                   <Select
                     onValueChange={field.onChange}
@@ -127,7 +133,7 @@ export default function ChangeCountryInput({
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select new country flag" />
+                        <SelectValue placeholder={t("placeholder")} />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -159,7 +165,7 @@ export default function ChangeCountryInput({
               disabled={isChangingSelf || isChangingUser}
               className="w-full"
             >
-              Change country flag
+              {t("button")}
             </Button>
           </DialogFooter>
         </form>

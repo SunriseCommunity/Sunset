@@ -24,12 +24,14 @@ import { BeatmapResponse, BeatmapStatusWeb, GameMode } from "@/lib/types/api";
 import { BBCodeReactParser } from "@/components/BBCode/BBCodeReactParser";
 import { BeatmapInfoAccordion } from "@/app/(website)/beatmapsets/components/BeatmapInfoAccordion";
 import { BeatmapNominatorUser } from "@/app/(website)/beatmapsets/components/BeatmapNominatorUser";
+import { useT } from "@/lib/i18n/utils";
 
 export interface BeatmapsetProps {
-  params: Promise<{ ids: [string?, string?] }>;
+  params: Promise<{ ids: (string | undefined)[] }>;
 }
 
 export default function Beatmapset(props: BeatmapsetProps) {
+  const t = useT("pages.beatmapsets");
   const params = use(props.params);
 
   const pathname = usePathname();
@@ -125,11 +127,11 @@ export default function Beatmapset(props: BeatmapsetProps) {
     );
 
   const errorMessage =
-    beatmapsetQuery?.error?.message ?? "Beatmapset not found";
+    beatmapsetQuery?.error?.message ?? t("error.notFound.title");
 
   return (
     <div className="flex flex-col space-y-4">
-      <PrettyHeader icon={<Music2 />} text="Beatmap info" roundBottom={true}>
+      <PrettyHeader icon={<Music2 />} text={t("header")} roundBottom={true}>
         <GameModeSelector
           activeMode={activeMode}
           setActiveMode={setActiveMode}
@@ -187,13 +189,13 @@ export default function Beatmapset(props: BeatmapsetProps) {
                           />
                           <div className="flex flex-col ml-2 text-xs font-light">
                             <div className="flex items-center">
-                              submitted by&nbsp;
+                              {t("submission.submittedBy")}&nbsp;
                               <p className="font-bold">
                                 {beatmapSet.creator || "Unknown"}
                               </p>
                             </div>
                             <div className="flex items-center">
-                              submitted on&nbsp;
+                              {t("submission.submittedOn")}&nbsp;
                               <PrettyDate
                                 time={beatmapSet.submitted_date}
                                 className="font-bold"
@@ -202,7 +204,7 @@ export default function Beatmapset(props: BeatmapsetProps) {
                             {beatmapSet.ranked_date &&
                               beatmapSet.status === BeatmapStatusWeb.RANKED && (
                                 <div className="flex items-center">
-                                  ranked on&nbsp;
+                                  {t("submission.rankedOn")}&nbsp;
                                   <PrettyDate
                                     time={beatmapSet.ranked_date}
                                     className="font-bold"
@@ -212,7 +214,9 @@ export default function Beatmapset(props: BeatmapsetProps) {
                             {activeBeatmap.beatmap_nominator_user && (
                               <div className="flex w-full items-center gap-1">
                                 <div className="text-current lowercase">
-                                  {activeBeatmap.status} by{" "}
+                                  {t("submission.statusBy", {
+                                    status: activeBeatmap.status,
+                                  })}{" "}
                                 </div>
                                 <BeatmapNominatorUser
                                   user={activeBeatmap.beatmap_nominator_user}
@@ -237,7 +241,7 @@ export default function Beatmapset(props: BeatmapsetProps) {
                       <div className="flex flex-row space-x-1">
                         {beatmapSet.video && (
                           <div className="bg-accent bg-opacity-80 p-2 rounded-lg flex items-center">
-                            <Tooltip content="This beatmap contains video">
+                            <Tooltip content={t("video.tooltip")}>
                               <Clapperboard className="h-5" />
                             </Tooltip>
                           </div>
@@ -275,7 +279,7 @@ export default function Beatmapset(props: BeatmapsetProps) {
                 <div className="flex flex-col lg:col-span-3 lg:h-80">
                   <PrettyHeader
                     icon={<Book />}
-                    text="Description"
+                    text={t("description.header")}
                     className="font-normal py-2 px-4"
                   />
                   <RoundedContent className="min-h-0 h-full overflow-y-auto">
@@ -316,8 +320,7 @@ export default function Beatmapset(props: BeatmapsetProps) {
             <div className="flex flex-col space-y-2">
               <h1 className="text-4xl">{errorMessage}</h1>
               <p className="text-muted-foreground">
-                The beatmapset you are looking for does not exist or has been
-                deleted.
+                {t("error.notFound.description")}
               </p>
             </div>
             <Image

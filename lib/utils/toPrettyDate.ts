@@ -1,4 +1,5 @@
 import { toLocalTime } from "@/lib/utils/toLocalTime";
+import Cookies from "js-cookie";
 
 export default function toPrettyDate(input: string | Date, withTime?: boolean) {
   const options: Intl.DateTimeFormatOptions = {
@@ -13,5 +14,7 @@ export default function toPrettyDate(input: string | Date, withTime?: boolean) {
     options.hour = "numeric";
   }
 
-  return toLocalTime(input).toLocaleDateString("en-US", options);
+  const locale = Cookies.get("locale") || "en";
+
+  return toLocalTime(input).toLocaleDateString(locale, options);
 }

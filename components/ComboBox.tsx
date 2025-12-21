@@ -16,6 +16,7 @@ import { cn } from "@/lib/utils";
 
 import { ChevronsUpDown, Check } from "lucide-react";
 import { useState } from "react";
+import { useT } from "@/lib/i18n/utils";
 
 interface Props {
   activeValue: string;
@@ -32,6 +33,7 @@ export function Combobox({
   includeInput,
   buttonPreLabel,
 }: Props) {
+  const t = useT("components.comboBox");
   const [open, setOpen] = useState(false);
 
   return (
@@ -46,15 +48,15 @@ export function Combobox({
           {activeValue
             ? (buttonPreLabel ? buttonPreLabel : "") +
               values.find((data) => data.value === activeValue)?.label
-            : "Select value..."}
+            : t("selectValue")}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
         <Command>
-          {includeInput && <CommandInput placeholder="Search value..." />}
+          {includeInput && <CommandInput placeholder={t("searchValue")} />}
           <CommandList>
-            <CommandEmpty>No values found.</CommandEmpty>
+            <CommandEmpty>{t("noValuesFound")}</CommandEmpty>
             <CommandGroup>
               {values.map((data, index) => (
                 <CommandItem

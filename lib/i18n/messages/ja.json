@@ -1,0 +1,911 @@
+{
+  "general": {
+    "appName": "osu!sunrise",
+    "serverTitle": {
+      "full": "sunrise",
+      "split": {
+        "part1": "sun",
+        "part2": "rise"
+      }
+    }
+  },
+  "components": {
+    "serverMaintenanceDialog": {
+      "title": "ちょっと待って！そこでストップ！",
+      "discordMessage": "詳細はDiscordサーバーをご確認ください。",
+      "button": "OK、理解しました",
+      "message": "現在サーバーは<b>メンテナンスモード</b>です。そのため、ウェブサイトの一部機能が<b>正しく動作しない可能性</b>があります。"
+    },
+    "contentNotExist": {
+      "defaultText": "コンテンツが見つかりません"
+    },
+    "workInProgress": {
+      "title": "作業中",
+      "description": "このコンテンツは現在作業中です。しばらくしてから再度ご確認ください。"
+    },
+    "beatmapSetCard": {
+      "submittedBy": "投稿者",
+      "submittedOn": "投稿日",
+      "view": "表示"
+    },
+    "friendshipButton": {
+      "unfriend": "フレンド解除",
+      "unfollow": "フォロー解除",
+      "follow": "フォロー"
+    },
+    "gameModeSelector": {
+      "selectedMode": "選択中のモード："
+    },
+    "header": {
+      "links": {
+        "leaderboard": "ランキング",
+        "topPlays": "トッププレイ",
+        "beatmaps": "ビートマップ",
+        "help": "ヘルプ",
+        "wiki": "Wiki",
+        "rules": "ルール",
+        "apiDocs": "APIドキュメント",
+        "discordServer": "Discordサーバー",
+        "supportUs": "支援する"
+      }
+    },
+    "headerLoginDialog": {
+      "signIn": "ログイン",
+      "title": "続行するにはログインしてください",
+      "description": "お帰りなさい。",
+      "username": {
+        "label": "ユーザー名",
+        "placeholder": "例：username"
+      },
+      "password": {
+        "label": "パスワード",
+        "placeholder": "************"
+      },
+      "login": "ログイン",
+      "signUp": "アカウントをお持ちでないですか？登録する",
+      "toast": {
+        "success": "ログインに成功しました！"
+      },
+      "validation": {
+        "usernameMinLength": "ユーザー名は2文字以上で入力してください。",
+        "usernameMaxLength": "ユーザー名は32文字以内で入力してください。",
+        "passwordMinLength": "パスワードは8文字以上で入力してください。",
+        "passwordMaxLength": "パスワードは32文字以内で入力してください。"
+      }
+    },
+    "headerLogoutAlert": {
+      "title": "本当によろしいですか？",
+      "description": "アカウントにアクセスするには再度ログインが必要になります。",
+      "cancel": "キャンセル",
+      "continue": "続行",
+      "toast": {
+        "success": "ログアウトしました。"
+      }
+    },
+    "headerSearchCommand": {
+      "placeholder": "検索する内容を入力...",
+      "headings": {
+        "users": "ユーザー",
+        "beatmapsets": "ビートマップセット",
+        "pages": "ページ"
+      },
+      "pages": {
+        "leaderboard": "ランキング",
+        "topPlays": "トッププレイ",
+        "beatmapsSearch": "ビートマップ検索",
+        "wiki": "Wiki",
+        "rules": "ルール",
+        "yourProfile": "あなたのプロフィール",
+        "friends": "フレンド",
+        "settings": "設定"
+      }
+    },
+    "headerUserDropdown": {
+      "myProfile": "マイプロフィール",
+      "friends": "フレンド",
+      "settings": "設定",
+      "returnToMainSite": "メインサイトに戻る",
+      "adminPanel": "管理パネル",
+      "logOut": "ログアウト"
+    },
+    "headerMobileDrawer": {
+      "navigation": {
+        "home": "ホーム",
+        "leaderboard": "ランキング",
+        "topPlays": "トッププレイ",
+        "beatmapsSearch": "ビートマップ検索",
+        "wiki": "Wiki",
+        "rules": "ルール",
+        "apiDocs": "APIドキュメント",
+        "discordServer": "Discordサーバー",
+        "supportUs": "支援する"
+      },
+      "yourProfile": "あなたのプロフィール",
+      "friends": "フレンド",
+      "settings": "設定",
+      "adminPanel": "管理パネル",
+      "logOut": "ログアウト"
+    },
+    "footer": {
+      "voteMessage": "osu-server-listで投票してください！",
+      "copyright": "© 2024-2025 Sunrise Community",
+      "sourceCode": "ソースコード",
+      "serverStatus": "サーバーステータス",
+      "disclaimer": "当サービスは「ppy」および「osu!」とは一切関係ありません。権利はそれぞれの所有者に帰属します。"
+    },
+    "comboBox": {
+      "selectValue": "値を選択...",
+      "searchValue": "値を検索...",
+      "noValuesFound": "結果が見つかりません。"
+    },
+    "beatmapsetRowElement": {
+      "mappedBy": "譜面作成：{creator}"
+    },
+    "themeModeToggle": {
+      "toggleTheme": "テーマを切り替え",
+      "light": "ライト",
+      "dark": "ダーク",
+      "system": "システム"
+    },
+    "imageSelect": {
+      "imageTooBig": "選択した画像が大きすぎます！"
+    },
+    "notFound": {
+      "meta": {
+        "title": "ページが見つかりません | {appName}",
+        "description": "申し訳ありませんが、要求されたページはここにはないようです。"
+      },
+      "title": "ページが見つかりません | 404",
+      "description": "申し訳ありませんが、要求されたページはここにはないようです。"
+    },
+    "rootLayout": {
+      "meta": {
+        "title": "{appName}",
+        "description": "{appName} はリズムゲーム「osu!」のプライベートサーバーです。"
+      }
+    }
+  },
+  "pages": {
+    "mainPage": {
+      "meta": {
+        "title": "ようこそ | {appName}",
+        "description": "osu!sunriseに参加しよう。Relax・Autopilot・ScoreV2対応、そしてRelax/Autopilot向けに調整されたカスタムPPシステムを備えた機能豊富なプライベートosu!サーバーです。"
+      },
+      "features": {
+        "motto": "- いつものosu!サーバー（またひとつ）",
+        "description": "Relax・Autopilot・ScoreV2のゲームプレイに対応し、Relax/Autopilot向けに調整されたカスタムPP計算を備えた機能豊富なosu!サーバー。",
+        "buttons": {
+          "register": "今すぐ参加",
+          "wiki": "接続方法"
+        }
+      },
+      "whyUs": "なぜ私たち？",
+      "cards": {
+        "freeFeatures": {
+          "title": "本当に無料の機能",
+          "description": "osu!directやユーザー名変更などの機能を、課金なしで利用できます — すべてのプレイヤーに完全無料！"
+        },
+        "ppSystem": {
+          "title": "カスタムPP計算",
+          "description": "通常スコアには最新のPPシステムを採用しつつ、Relax/Autopilotにはバランスの取れたカスタム式を適用しています。"
+        },
+        "medals": {
+          "title": "カスタムメダルを獲得",
+          "description": "さまざまなマイルストーンや実績を達成して、サーバー限定のユニークなメダルを獲得しよう。"
+        },
+        "updates": {
+          "title": "頻繁なアップデート",
+          "description": "私たちは常に改善しています！定期的なアップデート、新機能、継続的なパフォーマンス最適化をお楽しみに。"
+        },
+        "ppCalc": {
+          "title": "内蔵PP計算機",
+          "description": "当サイトには、手軽にPPの目安を計算できる内蔵PP計算機があります。"
+        },
+        "sunriseCore": {
+          "title": "自社開発のBanchoコア",
+          "description": "多くのプライベートosu!サーバーとは異なり、私たちは独自のBanchoコアを開発しました。より高い安定性と、独自機能のサポートを実現します。"
+        }
+      },
+      "howToStart": {
+        "title": "どうやって始めるの？",
+        "description": "たった3ステップで準備完了！",
+        "downloadTile": {
+          "title": "osu!クライアントをダウンロード",
+          "description": "まだクライアントをインストールしていない場合",
+          "button": "ダウンロード"
+        },
+        "registerTile": {
+          "title": "osu!sunriseアカウントを登録",
+          "description": "アカウントを作成してosu!sunriseコミュニティに参加しよう",
+          "button": "登録"
+        },
+        "guideTile": {
+          "title": "接続ガイドに従う",
+          "description": "osu!クライアントをosu!sunriseに接続できるように設定します",
+          "button": "ガイドを開く"
+        }
+      },
+      "statuses": {
+        "totalUsers": "総ユーザー数",
+        "usersOnline": "オンラインユーザー",
+        "usersRestricted": "制限ユーザー",
+        "totalScores": "総スコア数",
+        "serverStatus": "サーバーステータス",
+        "online": "オンライン",
+        "offline": "オフライン",
+        "underMaintenance": "メンテナンス中"
+      }
+    },
+    "wiki": {
+      "meta": {
+        "title": "Wiki | {appName}"
+      },
+      "header": "Wiki",
+      "articles": {
+        "howToConnect": {
+          "title": "接続方法",
+          "intro": "サーバーに接続するには、PCにゲームがインストールされている必要があります。公式osu!サイトからダウンロードできます。",
+          "step1": "ゲームディレクトリ内の <code>osu!.exe</code> を見つけます。",
+          "step2": "そのファイルのショートカットを作成します。",
+          "step3": "ショートカットを右クリックして「プロパティ」を選択します。",
+          "step4": "「リンク先」欄の末尾に <code>-devserver {serverDomain}</code> を追加します。",
+          "step5": "「適用」をクリックしてから「OK」を押します。",
+          "step6": "ショートカットをダブルクリックしてゲームを起動します。",
+          "imageAlt": "osu 接続画像"
+        },
+        "multipleAccounts": {
+          "title": "複数アカウントは作れますか？",
+          "answer": "いいえ。1人につき1アカウントのみです。",
+          "consequence": "複数アカウントが発覚した場合、サーバーからBANされます。"
+        },
+        "cheatsHacks": {
+          "title": "チートやハックは使えますか？",
+          "answer": "いいえ。発覚した場合はBANされます。",
+          "policy": "当サーバーはチートに非常に厳しく、一切容認しません。<br></br>チートの疑いがある場合はスタッフに報告してください。"
+        },
+        "appealRestriction": {
+          "title": "不当に制限されたと思います。どうすれば異議申し立てできますか？",
+          "instructions": "不当に制限されたと思われる場合は、詳細を添えてスタッフに連絡し、制限の異議申し立てを行ってください。",
+          "contactStaff": "スタッフへの連絡は<a>こちら</a>。"
+        },
+        "contributeSuggest": {
+          "title": "サーバーへの貢献／改善提案はできますか？",
+          "answer": "はい！提案はいつでも歓迎です。",
+          "instructions": "提案がある場合は、<a>GitHub</a>で送信してください。<br></br>長期的な貢献者は、永久Supporterタグを獲得できる可能性もあります。"
+        },
+        "multiplayerDownload": {
+          "title": "マルチプレイ中にマップをダウンロードできません（メインメニューでは可能）",
+          "solution": "オプションの <code>Automatically start osu!direct downloads</code> を無効にして、再度お試しください。"
+        }
+      }
+    },
+    "rules": {
+      "meta": {
+        "title": "ルール | {appName}"
+      },
+      "header": "ルール",
+      "sections": {
+        "generalRules": {
+          "title": "一般ルール",
+          "noCheating": {
+            "title": "<b>チートやハックは禁止。</b>",
+            "description": "エイムボット、Relaxハック、マクロ、不正な改造クライアントなど、あらゆるチート行為は禁止です。フェアに遊び、フェアに上達しましょう。",
+            "warning": "見ての通り、他サーバーでBANされてここに移って来ようとする“wannabe”チーター向けに大きめの文字で書きました。チートしたら見つけて処します（Minecraftで）。なので、やめてください。"
+          },
+          "noMultiAccount": {
+            "title": "<b>複数アカウント・アカウント共有は禁止。</b>",
+            "description": "プレイヤー1人につきアカウントは1つのみです。理由なくメインアカウントが制限された場合は、サポートに連絡してください。"
+          },
+          "noImpersonation": {
+            "title": "<b>有名プレイヤーやスタッフのなりすましは禁止</b>",
+            "description": "スタッフや有名プレイヤーになりすまさないでください。誤解を招く行為はユーザー名変更や永久BANの対象となります。"
+          }
+        },
+        "chatCommunityRules": {
+          "title": "チャット＆コミュニティルール",
+          "beRespectful": {
+            "title": "<b>敬意を持って接しましょう。</b>",
+            "description": "他者に優しく接してください。嫌がらせ、ヘイトスピーチ、差別、毒性のある行動は許容されません。"
+          },
+          "noNSFW": {
+            "title": "<b>NSFW／不適切なコンテンツは禁止</b>",
+            "description": "サーバーは全年齢向けに保ってください。これはユーザー名、バナー、アバター、プロフィール説明など、あらゆるユーザーコンテンツに適用されます。"
+          },
+          "noAdvertising": {
+            "title": "<b>宣伝は禁止です。</b>",
+            "description": "管理者の許可なく他サーバー、Webサイト、製品などを宣伝しないでください。"
+          }
+        },
+        "disclaimer": {
+          "title": "重要な免責事項",
+          "intro": "当プラットフォームでアカウントを作成・維持することにより、以下の条件に同意したものとみなされます：",
+          "noLiability": {
+            "title": "<b>免責。</b>",
+            "description": "Sunriseが提供するサービスへの参加に関して、あなたは全責任を負うものとし、利用によって生じ得る結果について組織に責任を問えないことを認めます。"
+          },
+          "accountRestrictions": {
+            "title": "<b>アカウント制限。</b>",
+            "description": "運営は、規約違反または運営の裁量により、事前通知の有無にかかわらず任意のアカウントを制限または停止する権利を留保します。"
+          },
+          "ruleChanges": {
+            "title": "<b>ルール変更。</b>",
+            "description": "サーバールールは随時変更される場合があります。運営は事前通知の有無にかかわらず規則を更新、変更、削除でき、プレイヤーは変更を把握する責任があります。"
+          },
+          "agreementByParticipation": {
+            "title": "<b>参加による同意。</b>",
+            "description": "当サーバーでアカウントを作成・維持することにより、あなたは自動的にこれらの条件に同意し、その時点で有効なルールとガイドラインを遵守することに同意したものとみなされます。"
+          }
+        }
+      }
+    },
+    "register": {
+      "meta": {
+        "title": "登録 | {appName}"
+      },
+      "header": "登録",
+      "welcome": {
+        "title": "登録ページへようこそ！",
+        "description": "こんにちは！アカウントを作成するために必要事項を入力してください。接続方法が分からない場合や質問がある場合は、<a>Wikiページ</a>をご覧ください。"
+      },
+      "form": {
+        "title": "必要事項を入力",
+        "labels": {
+          "username": "ユーザー名",
+          "email": "メールアドレス",
+          "password": "パスワード",
+          "confirmPassword": "パスワード（確認）"
+        },
+        "placeholders": {
+          "username": "例：username",
+          "email": "例：username@mail.com",
+          "password": "************"
+        },
+        "validation": {
+          "usernameMin": "ユーザー名は{min}文字以上で入力してください。",
+          "usernameMax": "ユーザー名は{max}文字以内で入力してください。",
+          "passwordMin": "パスワードは{min}文字以上で入力してください。",
+          "passwordMax": "パスワードは{max}文字以内で入力してください。",
+          "passwordsDoNotMatch": "パスワードが一致しません"
+        },
+        "error": {
+          "title": "エラー",
+          "unknown": "不明なエラーです。"
+        },
+        "submit": "登録",
+        "terms": "登録することでサーバーの<a>ルール</a>に同意したものとみなされます"
+      },
+      "success": {
+        "dialog": {
+          "title": "準備完了！",
+          "description": "アカウントの作成が完了しました。",
+          "message": "<a>Wikiページ</a>のガイドに従ってサーバーに接続できます。プレイを始める前に、アバターやバナーを更新してプロフィールをカスタマイズすることもできます！",
+          "buttons": {
+            "viewWiki": "Wikiガイドを見る",
+            "goToProfile": "プロフィールへ"
+          }
+        },
+        "toast": "アカウントを作成しました！"
+      }
+    },
+    "support": {
+      "meta": {
+        "title": "支援する | {appName}"
+      },
+      "header": "支援する",
+      "section": {
+        "title": "支援方法",
+        "intro": "osu!sunriseの機能は常に無料ですが、サーバーの運用・改善にはリソース、時間、労力が必要で、主に<b>1人</b>の開発者によって維持されています。<br></br><br></br>osu!sunriseが好きで、もっと成長してほしいと思ってくれたら、以下の方法で支援できます：",
+        "donate": {
+          "title": "<b>寄付する。</b>",
+          "description": "皆さまからの寄付は、osu!サーバーの維持・改善に役立ちます。少額でも大きな助けになります！ご支援により、ホスティング費用の確保、新機能の実装、そしてより快適な体験を提供できます。",
+          "buttons": {
+            "kofi": "Ko-fi",
+            "boosty": "Boosty"
+          }
+        },
+        "spreadTheWord": {
+          "title": "<b>広める。</b>",
+          "description": "osu!sunriseを知る人が増えるほど、コミュニティはより活気に溢れます。友達に教えたり、SNSで共有したり、新しいプレイヤーを招待しましょう。"
+        },
+        "justPlay": {
+          "title": "<b>サーバーで遊ぶ。</b>",
+          "description": "osu!sunriseを支援する最も簡単な方法のひとつは、サーバーでプレイすることです！プレイヤーが増えるほど、コミュニティと体験はより良くなります。参加することで、サーバーの成長と活性化に貢献できます。"
+        }
+      }
+    },
+    "topplays": {
+      "meta": {
+        "title": "トッププレイ | {appName}"
+      },
+      "header": "トッププレイ",
+      "showMore": "もっと見る",
+      "components": {
+        "userScoreMinimal": {
+          "pp": "pp",
+          "accuracy": "acc:"
+        }
+      }
+    },
+    "score": {
+      "meta": {
+        "title": "{username} の {beatmapTitle} [{beatmapVersion}] | {appName}",
+        "description": "ユーザー {username} は {appName} で {beatmapTitle} [{beatmapVersion}] を {pp}pp でプレイしました。",
+        "openGraph": {
+          "title": "{username} の {beatmapTitle} - {beatmapArtist} [{beatmapVersion}] | {appName}",
+          "description": "ユーザー {username} は {appName} で {beatmapTitle} - {beatmapArtist} [{beatmapVersion}] ★{starRating} {mods} を {pp}pp でプレイしました。"
+        }
+      },
+      "header": "スコア詳細",
+      "beatmap": {
+        "versionUnknown": "不明",
+        "mappedBy": "譜面作成",
+        "creatorUnknown": "不明な作成者"
+      },
+      "score": {
+        "submittedOn": "提出日",
+        "playedBy": "プレイヤー",
+        "userUnknown": "不明なユーザー"
+      },
+      "actions": {
+        "downloadReplay": "リプレイをダウンロード",
+        "openMenu": "メニューを開く"
+      },
+      "error": {
+        "notFound": "スコアが見つかりません",
+        "description": "お探しのスコアは存在しないか、削除された可能性があります。"
+      }
+    },
+    "leaderboard": {
+      "meta": {
+        "title": "ランキング | {appName}"
+      },
+      "header": "ランキング",
+      "sortBy": {
+        "label": "並び替え：",
+        "performancePoints": "PP",
+        "rankedScore": "Rankedスコア",
+        "performancePointsShort": "PP",
+        "scoreShort": "スコア"
+      },
+      "table": {
+        "columns": {
+          "rank": "順位",
+          "performance": "PP",
+          "rankedScore": "Rankedスコア",
+          "accuracy": "精度",
+          "playCount": "プレイ回数"
+        },
+        "actions": {
+          "openMenu": "メニューを開く",
+          "viewUserProfile": "ユーザープロフィールを見る"
+        },
+        "emptyState": "結果がありません。",
+        "pagination": {
+          "usersPerPage": "件/ページ",
+          "showing": "{start} - {end} / {total} を表示"
+        }
+      }
+    },
+    "friends": {
+      "meta": {
+        "title": "フレンド | {appName}"
+      },
+      "header": "つながり",
+      "tabs": {
+        "friends": "フレンド",
+        "followers": "フォロワー"
+      },
+      "sorting": {
+        "label": "並び替え：",
+        "username": "ユーザー名",
+        "recentlyActive": "最近のアクティブ"
+      },
+      "showMore": "もっと見る",
+      "emptyState": "ユーザーが見つかりません"
+    },
+    "beatmaps": {
+      "search": {
+        "meta": {
+          "title": "ビートマップ検索 | {appName}"
+        },
+        "header": "ビートマップ検索"
+      },
+      "detail": {
+        "meta": {
+          "title": "ビートマップ情報 | {appName}"
+        },
+        "header": "ビートマップ情報",
+        "notFound": {
+          "title": "ビートマップセットが見つかりません",
+          "description": "お探しのビートマップセットは存在しないか、削除された可能性があります。"
+        }
+      },
+      "components": {
+        "search": {
+          "searchPlaceholder": "ビートマップを検索...",
+          "filters": "フィルター",
+          "viewMode": {
+            "grid": "グリッド",
+            "list": "リスト"
+          },
+          "showMore": "もっと見る"
+        },
+        "filters": {
+          "mode": {
+            "label": "モード",
+            "any": "すべて",
+            "standard": "osu!",
+            "taiko": "osu!taiko",
+            "catch": "osu!catch",
+            "mania": "osu!mania"
+          },
+          "status": {
+            "label": "ステータス"
+          },
+          "searchByCustomStatus": {
+            "label": "カスタムステータスで検索"
+          },
+          "applyFilters": "フィルターを適用"
+        }
+      }
+    },
+    "beatmapsets": {
+      "meta": {
+        "title": "{artist} - {title} | {appName}",
+        "description": "{artist} の {title} のビートマップセット情報",
+        "openGraph": {
+          "title": "{artist} - {title} | {appName}",
+          "description": "{artist} の {title} のビートマップセット情報 {difficultyInfo}"
+        }
+      },
+      "header": "ビートマップ情報",
+      "error": {
+        "notFound": {
+          "title": "ビートマップセットが見つかりません",
+          "description": "お探しのビートマップセットは存在しないか、削除された可能性があります。"
+        }
+      },
+      "submission": {
+        "submittedBy": "投稿者",
+        "submittedOn": "投稿日",
+        "rankedOn": "Ranked日",
+        "statusBy": "{status}："
+      },
+      "video": {
+        "tooltip": "このビートマップには動画があります"
+      },
+      "description": {
+        "header": "説明"
+      },
+      "components": {
+        "dropdown": {
+          "openMenu": "メニューを開く",
+          "ppCalculator": "PP計算機",
+          "openOnBancho": "Banchoで開く",
+          "openWithAdminPanel": "管理パネルで開く"
+        },
+        "infoAccordion": {
+          "communityHype": "コミュニティHype",
+          "information": "情報",
+          "metadata": {
+            "genre": "ジャンル",
+            "language": "言語",
+            "tags": "タグ"
+          }
+        },
+        "downloadButtons": {
+          "download": "ダウンロード",
+          "withVideo": "動画あり",
+          "withoutVideo": "動画なし",
+          "osuDirect": "osu!direct"
+        },
+        "difficultyInformation": {
+          "tooltips": {
+            "totalLength": "総再生時間",
+            "bpm": "BPM",
+            "starRating": "★難易度"
+          },
+          "labels": {
+            "keyCount": "キー数：",
+            "circleSize": "CS：",
+            "hpDrain": "HP：",
+            "accuracy": "OD：",
+            "approachRate": "AR："
+          }
+        },
+        "nomination": {
+          "description": "このマップが気に入ったらHypeして、<b>Ranked</b>への進行を手伝いましょう。",
+          "hypeProgress": "Hypeの進行状況",
+          "hypeBeatmap": "Hypeする！",
+          "hypesRemaining": "今週このビートマップに使えるHypeが<b>{count}回</b>残っています",
+          "toast": {
+            "success": "Hypeに成功しました！",
+            "error": "Hype中にエラーが発生しました！"
+          }
+        },
+        "ppCalculator": {
+          "title": "PP計算機",
+          "pp": "PP: <b>{value}</b>",
+          "totalLength": "総再生時間",
+          "form": {
+            "accuracy": {
+              "label": "精度",
+              "validation": {
+                "negative": "精度は0未満にできません",
+                "tooHigh": "精度は100を超えられません"
+              }
+            },
+            "combo": {
+              "label": "コンボ",
+              "validation": {
+                "negative": "コンボは0未満にできません"
+              }
+            },
+            "misses": {
+              "label": "ミス数",
+              "validation": {
+                "negative": "ミス数は0未満にできません"
+              }
+            },
+            "calculate": "計算",
+            "unknownError": "不明なエラー"
+          }
+        },
+        "leaderboard": {
+          "columns": {
+            "rank": "順位",
+            "score": "スコア",
+            "accuracy": "精度",
+            "player": "プレイヤー",
+            "maxCombo": "最大コンボ",
+            "perfect": "PERFECT",
+            "great": "GREAT",
+            "good": "GOOD",
+            "ok": "OK",
+            "lDrp": "L DRP",
+            "meh": "MEH",
+            "sDrp": "S DRP",
+            "miss": "MISS",
+            "pp": "PP",
+            "time": "時間",
+            "mods": "MOD"
+          },
+          "actions": {
+            "openMenu": "メニューを開く",
+            "viewDetails": "詳細を見る",
+            "downloadReplay": "リプレイをダウンロード"
+          },
+          "table": {
+            "emptyState": "スコアが見つかりません。最初のスコアを送信しましょう！",
+            "pagination": {
+              "scoresPerPage": "件/ページ",
+              "showing": "{start} - {end} / {total} を表示"
+            }
+          }
+        }
+      }
+    },
+    "settings": {
+      "meta": {
+        "title": "設定 | {appName}"
+      },
+      "header": "設定",
+      "notLoggedIn": "このページを表示するにはログインが必要です。",
+      "sections": {
+        "changeAvatar": "アバターを変更",
+        "changeBanner": "バナーを変更",
+        "changeDescription": "説明文を変更",
+        "socials": "ソーシャル",
+        "playstyle": "プレイスタイル",
+        "options": "オプション",
+        "changePassword": "パスワードを変更",
+        "changeUsername": "ユーザー名を変更",
+        "changeCountryFlag": "国旗を変更"
+      },
+      "description": {
+        "reminder": "* 注意：不適切な内容は投稿しないでください。できるだけ全年齢向けにしましょう :)"
+      },
+      "components": {
+        "username": {
+          "label": "新しいユーザー名",
+          "placeholder": "例：username",
+          "button": "ユーザー名を変更",
+          "validation": {
+            "minLength": "ユーザー名は{min}文字以上で入力してください。",
+            "maxLength": "ユーザー名は{max}文字以内で入力してください。"
+          },
+          "toast": {
+            "success": "ユーザー名を変更しました！",
+            "error": "ユーザー名の変更中にエラーが発生しました！"
+          },
+          "reminder": "* 注意：ユーザー名は全年齢向けにしてください。そうでない場合、運営により変更されることがあります。この機能の悪用はBANの対象となります。"
+        },
+        "password": {
+          "labels": {
+            "current": "現在のパスワード",
+            "new": "新しいパスワード",
+            "confirm": "パスワード（確認）"
+          },
+          "placeholder": "************",
+          "button": "パスワードを変更",
+          "validation": {
+            "minLength": "パスワードは{min}文字以上で入力してください。",
+            "maxLength": "パスワードは{max}文字以内で入力してください。",
+            "mismatch": "パスワードが一致しません"
+          },
+          "toast": {
+            "success": "パスワードを変更しました！",
+            "error": "パスワードの変更中にエラーが発生しました！"
+          }
+        },
+        "description": {
+          "toast": {
+            "success": "説明文を更新しました！",
+            "error": "不明なエラーが発生しました"
+          }
+        },
+        "country": {
+          "label": "新しい国旗",
+          "placeholder": "新しい国旗を選択",
+          "button": "国旗を変更",
+          "toast": {
+            "success": "国旗を変更しました！",
+            "error": "国旗の変更中にエラーが発生しました！"
+          }
+        },
+        "socials": {
+          "headings": {
+            "general": "一般",
+            "socials": "ソーシャル"
+          },
+          "fields": {
+            "location": "所在地",
+            "interest": "興味",
+            "occupation": "職業"
+          },
+          "button": "ソーシャルを更新",
+          "toast": {
+            "success": "ソーシャルを更新しました！",
+            "error": "ソーシャルの更新中にエラーが発生しました！"
+          }
+        },
+        "playstyle": {
+          "options": {
+            "Mouse": "マウス",
+            "Keyboard": "キーボード",
+            "Tablet": "タブレット",
+            "TouchScreen": "タッチスクリーン"
+          },
+          "toast": {
+            "success": "プレイスタイルを更新しました！",
+            "error": "プレイスタイルの更新中にエラーが発生しました！"
+          }
+        },
+        "uploadImage": {
+          "types": {
+            "avatar": "アバター",
+            "banner": "バナー"
+          },
+          "button": "{type}をアップロード",
+          "toast": {
+            "success": "{type}を更新しました！",
+            "error": "不明なエラーが発生しました"
+          },
+          "note": "* 注意：{type}は5MBまでです"
+        },
+        "siteOptions": {
+          "includeBanchoButton": "ビートマップページに「Open on Bancho」ボタンを表示する",
+          "useSpaciousUI": "ゆったりUIを使用（要素間の余白を増やす）"
+        }
+      },
+      "common": {
+        "unknownError": "不明なエラーです。"
+      }
+    },
+    "user": {
+      "meta": {
+        "title": "{username} · ユーザープロフィール | {appName}",
+        "description": "詳しいことは分かりませんが、{username} はきっと素晴らしい人です。"
+      },
+      "header": "プレイヤー情報",
+      "tabs": {
+        "general": "一般",
+        "bestScores": "ベストパフォーマンス",
+        "recentScores": "最近のスコア",
+        "firstPlaces": "1位の記録",
+        "beatmaps": "ビートマップ",
+        "medals": "メダル"
+      },
+      "buttons": {
+        "editProfile": "プロフィールを編集",
+        "setDefaultGamemode": "プロフィールのデフォルトモードを <b>{gamemode} {flag}</b> に設定"
+      },
+      "errors": {
+        "userNotFound": "ユーザーが見つからないか、エラーが発生しました。",
+        "restricted": "このユーザーはサーバールールに違反し、制限されています。",
+        "userDeleted": "ユーザーが削除されたか、存在しない可能性があります。"
+      },
+      "components": {
+        "generalTab": {
+          "info": "情報",
+          "rankedScore": "合計Rankedスコア",
+          "hitAccuracy": "精度",
+          "playcount": "プレイ回数",
+          "totalScore": "合計スコア",
+          "maximumCombo": "最大コンボ",
+          "playtime": "プレイ時間",
+          "performance": "パフォーマンス",
+          "showByRank": "順位で表示",
+          "showByPp": "PPで表示",
+          "aboutMe": "自己紹介"
+        },
+        "scoresTab": {
+          "bestScores": "ベストパフォーマンス",
+          "recentScores": "最近のスコア",
+          "firstPlaces": "1位の記録",
+          "noScores": "このユーザーには{type}スコアがありません",
+          "showMore": "もっと見る"
+        },
+        "beatmapsTab": {
+          "mostPlayed": "よく遊ぶ譜面",
+          "noMostPlayed": "このユーザーにはよく遊ぶビートマップがありません",
+          "favouriteBeatmaps": "お気に入りビートマップ",
+          "noFavourites": "このユーザーにはお気に入りビートマップがありません",
+          "showMore": "もっと見る"
+        },
+        "medalsTab": {
+          "medals": "メダル",
+          "latest": "最新",
+          "categories": {
+            "hushHush": "Hush-Hush",
+            "beatmapHunt": "ビートマップハント",
+            "modIntroduction": "MOD紹介",
+            "skill": "スキル"
+          },
+          "achievedOn": "獲得日",
+          "notAchieved": "未獲得"
+        },
+        "generalInformation": {
+          "joined": "<b>{time}</b> に参加",
+          "followers": "フォロワー <b>{count}</b>",
+          "following": "フォロー中 <b>{count}</b>",
+          "playsWith": "プレイスタイル：<b>{playstyle}</b>"
+        },
+        "statusText": {
+          "lastSeenOn": "（最終アクセス：{date}）"
+        },
+        "ranks": {
+          "highestRank": "最高順位 <rankValue>{rank}</rankValue>（{date}）"
+        },
+        "previousUsernames": {
+          "previouslyKnownAs": "以前のユーザー名："
+        },
+        "beatmapSetOverview": {
+          "by": "{artist} 作",
+          "mappedBy": "譜面：{creator}"
+        },
+        "privilegeBadges": {
+          "badges": {
+            "Developer": "開発者",
+            "Admin": "管理者",
+            "Bat": "BAT",
+            "Bot": "ボット",
+            "Supporter": "サポーター"
+          }
+        },
+        "scoreOverview": {
+          "pp": "pp",
+          "accuracy": "acc: {accuracy}%"
+        },
+        "statsChart": {
+          "date": "日付",
+          "types": {
+            "pp": "pp",
+            "rank": "rank"
+          },
+          "tooltip": "{value} {type}"
+        }
+      }
+    }
+  }
+}

@@ -20,6 +20,7 @@ import useSelf from "@/lib/hooks/useSelf";
 import { useDownloadReplay } from "@/lib/hooks/api/score/useDownloadReplay";
 import UserHoverCard from "@/components/UserHoverCard";
 import { BeatmapResponse, ScoreResponse } from "@/lib/types/api";
+import { useT } from "@/lib/i18n/utils";
 
 export default function ScoreLeaderboardData({
   score,
@@ -30,7 +31,7 @@ export default function ScoreLeaderboardData({
 }) {
   return (
     <RoundedContent className="flex flex-col md:flex-row rounded-lg items-center place-content-between space-y-4 md:space-y-0">
-      <div>
+      <div className="max-w-72 w-full flex items-center">
         <div className="flex flex-row items-center space-x-2">
           <div className="flex flex-col mx-4">
             <p className="font-bold text-nowrap"># {score.leaderboard_rank}</p>
@@ -91,6 +92,7 @@ export default function ScoreLeaderboardData({
 }
 
 function ScoreDropdownInfo({ score }: { score: ScoreResponse }) {
+  const t = useT("pages.beatmapsets.components.leaderboard.actions");
   const { self } = useSelf();
   const { downloadReplay } = useDownloadReplay(score.id);
 
@@ -98,19 +100,19 @@ function ScoreDropdownInfo({ score }: { score: ScoreResponse }) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="h-8 w-8 p-0">
-          <span className="sr-only">Open menu</span>
+          <span className="sr-only">{t("openMenu")}</span>
           <MoreHorizontal className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem asChild>
-          <Link href={`/score/${score.id}`}>View Details</Link>
+          <Link href={`/score/${score.id}`}>{t("viewDetails")}</Link>
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={downloadReplay}
           disabled={!self || !score.has_replay}
         >
-          Download Replay
+          {t("downloadReplay")}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

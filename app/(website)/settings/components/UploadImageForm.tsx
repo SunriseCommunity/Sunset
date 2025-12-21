@@ -8,18 +8,22 @@ import { useUserUpload } from "@/lib/hooks/api/user/useUserUpload";
 import useSelf from "@/lib/hooks/useSelf";
 import { CloudUpload } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useT } from "@/lib/i18n/utils";
 
 type UploadImageFormProps = {
   type: UserFileUpload;
 };
 
 export default function UploadImageForm({ type }: UploadImageFormProps) {
+  const t = useT("pages.settings.components.uploadImage");
   const [file, setFile] = useState<File | null>(null);
   const [isFileUploading, setIsFileUploading] = useState(false);
 
   const { self } = useSelf();
 
   const { trigger: triggerUserUpload } = useUserUpload();
+
+  const localizedType = t(`types.${type}`);
 
   useEffect(() => {
     if (self === undefined || file != null) return;
@@ -47,7 +51,7 @@ export default function UploadImageForm({ type }: UploadImageFormProps) {
       {
         onSuccess(data, key, config) {
           toast({
-            title: `${type} updated successfully!`,
+            title: t("toast.success", { type: localizedType }),
             variant: "success",
             className: "capitalize",
           });
@@ -55,7 +59,7 @@ export default function UploadImageForm({ type }: UploadImageFormProps) {
         },
         onError(err, key, config) {
           toast({
-            title: err?.message ?? "An unknown error occurred",
+            title: err?.message ?? t("toast.error"),
             variant: "destructive",
           });
           setIsFileUploading(false);
@@ -79,10 +83,10 @@ export default function UploadImageForm({ type }: UploadImageFormProps) {
         variant="secondary"
       >
         <CloudUpload />
-        Upload {type}
+        {t("button", { type: localizedType })}
       </Button>
       <label className="text-xs mt-2 capitalize">
-        * Note: {type}s are limited to 5MB in size
+        {t("note", { type: localizedType })}
       </label>
     </>
   );

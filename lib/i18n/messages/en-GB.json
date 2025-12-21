@@ -1,0 +1,905 @@
+{
+  "components": {
+    "serverMaintenanceDialog": {
+      "title": "hey! OwO stop wight thewe!",
+      "discordMessage": "fow mowe infowmation view ouww discowd sewvew.",
+      "button": "Okay, I understand",
+      "message": "the sewvew is cuwwwentwy in <b>maintenance mode</b>, so some featuwwes of the website <b>may not fuwnction cowwectwy</b>."
+    },
+    "contentNotExist": {
+      "defaultText": "Content not found"
+    },
+    "workInProgress": {
+      "title": "wowk in pwogwess",
+      "description": "this content is stiww being wowked on. Pwease check back watew."
+    },
+    "beatmapSetCard": {
+      "submittedBy": "suwbmitted by",
+      "submittedOn": "suwbmitted on",
+      "view": "view"
+    },
+    "friendshipButton": {
+      "unfriend": "Unfwiend",
+      "unfollow": "Unfowwow",
+      "follow": "Fowwow"
+    },
+    "gameModeSelector": {
+      "selectedMode": "sewected mode:"
+    },
+    "header": {
+      "links": {
+        "leaderboard": "weadewboawd",
+        "topPlays": "top pways",
+        "beatmaps": "beatmaps",
+        "help": "hewp",
+        "wiki": "wiki",
+        "rules": "rules",
+        "apiDocs": "api docs",
+        "discordServer": "discowd sewvew",
+        "supportUs": "support us"
+      }
+    },
+    "headerLoginDialog": {
+      "signIn": "sign in",
+      "title": "sign in to pwoceed",
+      "description": "wewcome back.",
+      "username": {
+        "label": "Usewname",
+        "placeholder": "e.g. uwsewname"
+      },
+      "password": {
+        "label": "passwowd",
+        "placeholder": "************"
+      },
+      "login": "login",
+      "signUp": "don't have an accouwnt? UwU sign uwp",
+      "toast": {
+        "success": "Youw suwccesfuwwwy wogged in!"
+      },
+      "validation": {
+        "usernameMinLength": "Username must be at least 2 characters.",
+        "usernameMaxLength": "Username must be 32 characters or fewer.",
+        "passwordMinLength": "passwowd muwst be at weast 8 chawactews.",
+        "passwordMaxLength": "passwowd muwst be 32 chawactews ow fewew."
+      }
+    },
+    "headerLogoutAlert": {
+      "title": "Are you sure?",
+      "description": "You will need to log in again to access your account.",
+      "cancel": "Cancel",
+      "continue": "Continue",
+      "toast": {
+        "success": "You have been successfully logged out."
+      }
+    },
+    "headerSearchCommand": {
+      "placeholder": "type to seawch...",
+      "headings": {
+        "users": "Users",
+        "beatmapsets": "beatmapsets",
+        "pages": "pages"
+      },
+      "pages": {
+        "leaderboard": "leadewboawd",
+        "topPlays": "top pways",
+        "beatmapsSearch": "beatmaps seawch",
+        "wiki": "wiki",
+        "rules": "Rules",
+        "yourProfile": "Your profile",
+        "friends": "fwiends",
+        "settings": "settings"
+      }
+    },
+    "headerUserDropdown": {
+      "myProfile": "my pwofiwe",
+      "friends": "fwiends",
+      "settings": "settings",
+      "returnToMainSite": "Return to main site",
+      "adminPanel": "admin panew",
+      "logOut": "Log out"
+    },
+    "headerMobileDrawer": {
+      "navigation": {
+        "home": "home",
+        "leaderboard": "leadewboawd",
+        "topPlays": "top pways",
+        "beatmapsSearch": "beatmaps seawch",
+        "wiki": "wiki",
+        "rules": "Rules",
+        "apiDocs": "api docs",
+        "discordServer": "discowd sewvew",
+        "supportUs": "Support Us"
+      },
+      "yourProfile": "Youww pwofiwe",
+      "friends": "fwiends",
+      "settings": "settings",
+      "adminPanel": "admin panew",
+      "logOut": "Log ouwt"
+    },
+    "footer": {
+      "voteMessage": "pwease vote fow uws on osuw-sewvew-wist!",
+      "copyright": "© 2024-2025 suwnwise commuwnity",
+      "sourceCode": "Souwwce code",
+      "serverStatus": "Sewvew Statuws",
+      "disclaimer": "we awe not affiwiated with \"ppy\" and \"osuw!\" in any way. Aww wights wesewved to theiw wespective ownews."
+    },
+    "comboBox": {
+      "selectValue": "Sewwect vawue...",
+      "searchValue": "Seawch vawue...",
+      "noValuesFound": "No vawues found."
+    },
+    "beatmapsetRowElement": {
+      "mappedBy": "mapped by {cweatow}"
+    },
+    "themeModeToggle": {
+      "toggleTheme": "toggwe theme",
+      "light": "light",
+      "dark": "dawk",
+      "system": "system"
+    },
+    "imageSelect": {
+      "imageTooBig": "sewected image is too big!"
+    },
+    "notFound": {
+      "meta": {
+        "title": "not fouwnd | {appName}",
+        "description": "The page u'we wooking fow isn't hewe. Sowwy."
+      },
+      "title": "not fouwnd | 404",
+      "description": "What you're looking for isn't here. Sorry."
+    },
+    "rootLayout": {
+      "meta": {
+        "title": "{appName}",
+        "description": "{appName} is a private server for osu!, a rhythm game."
+      }
+    }
+  },
+  "pages": {
+    "mainPage": {
+      "meta": {
+        "title": "wewcome | {appName}",
+        "description": "join osuw!suwnwise, a featuwwe-wich pwivate osuw! OwO sewvew with rewax, auwtopiwot, scowev2 suwppowt, and a cuwstom pp system taiwowed fow rewax and auwtopiwot gamepway."
+      },
+      "features": {
+        "motto": "- yet anothew osuw! OwO sewvew",
+        "description": "featuwwes wich osuw! OwO sewvew with suwppowt fow rewax, auwtopiwot and scowev2 gamepway, with a cuwstom awt‑state pp cawcuwwation system taiwowed fow rewax and auwtopiwot.",
+        "buttons": {
+          "register": "Join now",
+          "wiki": "How to connect"
+        }
+      },
+      "whyUs": "why uws?",
+      "cards": {
+        "freeFeatures": {
+          "title": "Twuwwy fwee featuwwes",
+          "description": "enjoy featuwwes wike osuw!diwect and uwsewname changes withouwt any paywawws — compwetewy fwee fow aww pwayews!"
+        },
+        "ppSystem": {
+          "title": "cuwstom pp cawcuwwations",
+          "description": "we uwse the watest pewfowmance point (pp) system fow vaniwwa scowes whiwe appwying a cuwstom, weww-bawanced fowmuwwa fow rewax and auwtopiwot modes."
+        },
+        "medals": {
+          "title": "eawn cuwstom medaws",
+          "description": "eawn uwniquwe, sewvew-excwuwsive medaws as u accompwish vawiouws miwestones and achievements."
+        },
+        "updates": {
+          "title": "fwequwent updates",
+          "description": "we'we awways impwoving! OwO expect weguwwaw uwpdates, new featuwwes, and ongoing pewfowmance optimizations."
+        },
+        "ppCalc": {
+          "title": "buwiwt-in pp cawcuwwatow",
+          "description": "ouww website offews a buwiwt-in pp cawcuwwatow fow quwick and easy pewfowmance point estimates."
+        },
+        "sunriseCore": {
+          "title": "cuwstom-buwiwt bancho cowe",
+          "description": "unwike most pwivate osuw! OwO sewvews, we've devewoped ouww own cuwstom bancho cowe fow bettew stabiwity and uwniquwe featuwwe suwppowt."
+        }
+      },
+      "howToStart": {
+        "title": "how do i stawt pwaying?",
+        "description": "juwst thwee simpwe steps and u'we weady to go!",
+        "downloadTile": {
+          "title": "downwoad osuw! OwO cwinet",
+          "description": "if u do not awweady have an instawwed cwient",
+          "button": "downwoad"
+        },
+        "registerTile": {
+          "title": "registew osuw!suwnwise accouwnt",
+          "description": "accouwnt wiww awwow u to join the osuw!suwnwise commuwnity",
+          "button": "Sign up"
+        },
+        "guideTile": {
+          "title": "Follow the connection guide",
+          "description": "Which helps you set up your osu! client to connect to osu!sunrise",
+          "button": "Open guide"
+        }
+      },
+      "statuses": {
+        "totalUsers": "Totaw Usews",
+        "usersOnline": "Usews Onwine",
+        "usersRestricted": "Usews Westwicted",
+        "totalScores": "Totaw Scowes",
+        "serverStatus": "Sewvew Status",
+        "online": "Onwine",
+        "offline": "Offwine",
+        "underMaintenance": "Undew Maintenance"
+      }
+    },
+    "wiki": {
+      "meta": {
+        "title": "wiki | {appName}"
+      },
+      "header": "wiki",
+      "articles": {
+        "howToConnect": {
+          "title": "how to connect",
+          "intro": "to connect to the sewvew, u need to have a copy of the game instawwed on uw compuwtew. Youw can downwoad the game fwom the officiaw osuw! OwO website.",
+          "step1": "locate the <code>osu!.exe</code> fiwe in the game diwectowy.",
+          "step2": "cweate a showtcuwt of the fiwe.",
+          "step3": "right cwick on the showtcuwt and sewect pwopewties.",
+          "step4": "in the tawget fiewd, add <code>-devserver {serverDomain}</code> at the end of the path.",
+          "step5": "cwick appwy and then ok.",
+          "step6": "douwbwe cwick on the showtcuwt to stawt the game.",
+          "imageAlt": "osuw connect image"
+        },
+        "multipleAccounts": {
+          "title": "can i have muwwtipwe accouwnts?",
+          "answer": "no. Youw awe onwy awwowed to have one accouwnt pew pewson.",
+          "consequence": "if u awe cauwght with muwwtipwe accouwnts, u wiww be banned fwom the sewvew. >:3"
+        },
+        "cheatsHacks": {
+          "title": "can i uwse cheats ow hacks?",
+          "answer": "no. Youw wiww be banned if u awe cauwght.",
+          "policy": "we awe vewy stwict on cheating and do not towewate it at aww.<br></br>if u suwspect someone of cheating, pwease wepowt them to the staff."
+        },
+        "appealRestriction": {
+          "title": "i think i was westwicted uwnfaiwwy. How can i appeaw?",
+          "instructions": "if u bewieve u wewe westwicted uwnfaiwwy, u can appeaw uw westwiction by contacting the staff with uw case.",
+          "contactStaff": "youw can contact the staff <a>hewe</a>."
+        },
+        "contributeSuggest": {
+          "title": "can i contwibuwte/suwggest changes to the sewvew?",
+          "answer": "yes! OwO we awe awways open to suwggestions.",
+          "instructions": "if u have any suwggestions, pwease suwbmit them at ouww <a>githuwb</a> page.<br></br>longtewm contwibuwtows can awso have chance to get pewmanent suwppowtew tag."
+        },
+        "multiplayerDownload": {
+          "title": "i can't downwoad maps when i'm in muwwtipwayew, buwt i can downwoad them fwom the main menuw",
+          "solution": "disabwe <code>Automatically start osu!direct downloads</code> fwom the options and twy again."
+        }
+      }
+    },
+    "rules": {
+      "meta": {
+        "title": "Ruwwes | {appName}"
+      },
+      "header": "Ruwwes",
+      "sections": {
+        "generalRules": {
+          "title": "Genewaw wuwwes",
+          "noCheating": {
+            "title": "<b>no cheating ow hacking.</b>",
+            "description": "any fowm of cheating, incwuwding aimbots, wewax hacks, macwos, ow modified cwients that give uwnfaiw advantage is stwictwy pwohibited. Pway faiw, impwove faiw.",
+            "warning": "as u can see, i wwote this in a biggew font fow aww u \"wannabe\" cheatews who think u can migwate fwom anothew pwivate sewvew to hewe aftew being banned. Youw wiww be fouwnd and execuwted (in minecwaft) if u cheat. So pwease, don't."
+          },
+          "noMultiAccount": {
+            "title": "<b>no muwwti-accouwnting ow accouwnt shawing.</b>",
+            "description": "onwy one accouwnt pew pwayew is awwowed. If uw pwimawy accouwnt was westwicted withouwt an expwanation, pwease contact suwppowt."
+          },
+          "noImpersonation": {
+            "title": "<b>no impewsonating popuwwaw pwayews ow staff</b>",
+            "description": "do not pwetend to be a staff membew ow any weww-known pwayew. Misweading othews can wesuwwt in a uwsewname change ow pewmanent ban."
+          }
+        },
+        "chatCommunityRules": {
+          "title": "chat & commuwnity ruwwes",
+          "beRespectful": {
+            "title": "<b>be respectfuww.</b>",
+            "description": "tweat othews with kindness. Hawassment, hate speech, discwimination, ow toxic behaviouww won't be towewated."
+          },
+          "noNSFW": {
+            "title": "<b>no nsfw ow inappwopwiate content</b>",
+            "description": "keep the sewvew appwopwiate fow aww auwdiences — this appwies to aww uwsew content, incwuwding buwt not wimited to uwsewnames, bannews, avataws and pwofiwe descwiptions."
+          },
+          "noAdvertising": {
+            "title": "<b>advewtising is fowbidden.</b>",
+            "description": "don't pwomote othew sewvews, websites, ow pwoduwcts withouwt admin appwovaw."
+          }
+        },
+        "disclaimer": {
+          "title": "impowtant discwaimew",
+          "intro": "by cweating and/ow maintaining an accouwnt on ouww pwatfowm, u acknowwedge and agwee to the fowwowing tewms:",
+          "noLiability": {
+            "title": "<b>No Liability.</b>",
+            "description": "You accept full responsibility for your participation in any services provided by Sunrise and acknowledge that you cannot hold the organization accountable for any consequences that may arise from your usage."
+          },
+          "accountRestrictions": {
+            "title": "<b>Account Restrictions.</b>",
+            "description": "The administration reserves the right to restrict or suspend any account, with or without prior notice, for violations of server rules or at their discretion."
+          },
+          "ruleChanges": {
+            "title": "<b>Rule Changes.</b>",
+            "description": "The server rules are subject to change at any time. The administration may update, modify, or remove any rule with or without prior notification, and all players are expected to stay informed of any changes."
+          },
+          "agreementByParticipation": {
+            "title": "<b>Agreement by Participation.</b>",
+            "description": "By creating and/or maintaining an account on the server, you automatically agree to these terms and commit to adhering to the rules and guidelines in effect at the time."
+          }
+        }
+      }
+    },
+    "register": {
+      "meta": {
+        "title": "registew | {appName}"
+      },
+      "header": "registew",
+      "welcome": {
+        "title": "wewcome to the wegistwation page!",
+        "description": "hewwo! OwO pwease entew uw detaiws to cweate an accouwnt. If u awen't suwwe how to connect to the sewvew, ow if u have any othew quwestions, pwease visit ouww <a>wiki page</a>."
+      },
+      "form": {
+        "title": "entew uw detaiws",
+        "labels": {
+          "username": "Username",
+          "email": "emaiw",
+          "password": "passwowd",
+          "confirmPassword": "confiwm passwowd"
+        },
+        "placeholders": {
+          "username": "e.g. username",
+          "email": "e.g. uwsewname@maiw.com",
+          "password": "************"
+        },
+        "validation": {
+          "usernameMin": "Username must be at least {min} characters.",
+          "usernameMax": "Username must be {max} characters or fewer.",
+          "passwordMin": "passwowd muwst be at weast {min} chawactews.",
+          "passwordMax": "passwowd muwst be {max} chawactews ow fewew.",
+          "passwordsDoNotMatch": "passwowds do not match"
+        },
+        "error": {
+          "title": "ewwow",
+          "unknown": "Unknown error."
+        },
+        "submit": "Register",
+        "terms": "By signing up, you agree to the server <a>rules</a>"
+      },
+      "success": {
+        "dialog": {
+          "title": "youw'we aww set!",
+          "description": "youww accouwnt has been suwccessfuwwwy cweated.",
+          "message": "youw can now connect to the sewvew by fowwowing the guwide on ouww <a>wiki page</a>, ow cuwstomize uw pwofiwe by uwpdating uw avataw and bannew befowe u stawt pwaying!",
+          "buttons": {
+            "viewWiki": "view wiki guwide",
+            "goToProfile": "go to pwofiwe"
+          }
+        },
+        "toast": "accouwnt suwccessfuwwwy cweated!"
+      }
+    },
+    "support": {
+      "meta": {
+        "title": "Support Us | {appName}"
+      },
+      "header": "Support Us",
+      "section": {
+        "title": "how youw can hewp us",
+        "intro": "whiwe aww osuw!suwnwise featuwwes has awways been fwee, wuwnning and impwoving the sewvew wequwiwes wesouwwces, time, and effowt, whiwe being mainwy maintained by a <b>singwe</b> devewopew.<br></br><br></br>if u wove osuw!suwnwise and want to see it gwow even fuwwthew, hewe awe a few ways u can suwppowt uws:",
+        "donate": {
+          "title": "<b>Donate.</b>",
+          "description": "youww genewouws donations hewp uws maintain and enhance the osuw! OwO sewvews. Evewy wittwe bit couwnts! OwO with uw suwppowt, we can covew hosting costs, impwement new featuwwes, and ensuwwe a smoothew expewience fow evewyone.",
+          "buttons": {
+            "kofi": "Ko-fi",
+            "boosty": "Boosty"
+          }
+        },
+        "spreadTheWord": {
+          "title": "<b>Spread the Word.</b>",
+          "description": {
+            "text": "the mowe peopwe who know abouwt osuw!suwnwise, the mowe vibwant and exciting ouww commuwnity wiww be. Teww uw fwiends, shawe on sociaw media, and invite new pwayews to join."
+          }
+        },
+        "justPlay": {
+          "title": "<b>Just Play on the Server.</b>",
+          "description": "One of the easiest ways to support osu!sunrise is simply by playing on the server! The more players we have, the better the community and experience become. By joining in, you're helping to grow the server and keeping it active for all players."
+        }
+      }
+    },
+    "topplays": {
+      "meta": {
+        "title": "top pways | {appName}"
+      },
+      "header": "top pways",
+      "showMore": "show mowe",
+      "components": {
+        "userScoreMinimal": {
+          "pp": "pp",
+          "accuracy": "acc:"
+        }
+      }
+    },
+    "score": {
+      "meta": {
+        "title": "{username} on {beatmapTitle} [{beatmapVersion}] | {appName}",
+        "description": "usew {username} has scowed {pp}pp on {beatmapTitle} [{beatmapVersion}] in {appName}.",
+        "openGraph": {
+          "title": "{username} on {beatmapTitle} - {beatmapArtist} [{beatmapVersion}] | {appName}",
+          "description": "usew {username} has scowed {pp}pp on {beatmapTitle} - {beatmapArtist} [{beatmapVersion}] ★{starRating} {mods} in {appName}."
+        }
+      },
+      "header": "scowe pewfowmance",
+      "beatmap": {
+        "versionUnknown": "unknown",
+        "mappedBy": "mapped by",
+        "creatorUnknown": "unknown cweatow"
+      },
+      "score": {
+        "submittedOn": "Submitted on",
+        "playedBy": "pwayed by",
+        "userUnknown": "Unknown user"
+      },
+      "actions": {
+        "downloadReplay": "downwoad repway",
+        "openMenu": "Open menu"
+      },
+      "error": {
+        "notFound": "Score not found",
+        "description": "the scowe u awe wooking fow does not exist ow has been deweted."
+      }
+    },
+    "leaderboard": {
+      "meta": {
+        "title": "leadewboawd | {appName}"
+      },
+      "header": "leadewboawd",
+      "sortBy": {
+        "label": "sowt by:",
+        "performancePoints": "pewfowmance points",
+        "rankedScore": "ranked scowe",
+        "performancePointsShort": "pewf. points",
+        "scoreShort": "scowe"
+      },
+      "table": {
+        "columns": {
+          "rank": "Rank",
+          "performance": "Performance",
+          "rankedScore": "Ranked Score",
+          "accuracy": "Accuracy",
+          "playCount": "Play count"
+        },
+        "actions": {
+          "openMenu": "Open menu",
+          "viewUserProfile": "view uwsew pwofiwe"
+        },
+        "emptyState": "no wesuwwts.",
+        "pagination": {
+          "usersPerPage": "users per page",
+          "showing": "showing {start} - {end} of {total}"
+        }
+      }
+    },
+    "friends": {
+      "meta": {
+        "title": "youww fwiends | {appName}"
+      },
+      "header": "youww connections",
+      "tabs": {
+        "friends": "fwiends",
+        "followers": "fowwowews"
+      },
+      "sorting": {
+        "label": "sowt by:",
+        "username": "Username",
+        "recentlyActive": "recentwy active"
+      },
+      "showMore": "show mowe",
+      "emptyState": "no uwsews fouwnd"
+    },
+    "beatmaps": {
+      "search": {
+        "meta": {
+          "title": "beatmaps seawch | {appName}"
+        },
+        "header": "beatmaps seawch"
+      },
+      "detail": {
+        "meta": {
+          "title": "beatmap info | {appName}"
+        },
+        "header": "beatmap info",
+        "notFound": {
+          "title": "Beatmapset not found",
+          "description": "The beatmapset you are looking for does not exist or has been deleted."
+        }
+      },
+      "components": {
+        "search": {
+          "searchPlaceholder": "seawch beatmaps...",
+          "filters": "fiwtews",
+          "viewMode": {
+            "grid": "gwid",
+            "list": "list"
+          },
+          "showMore": "show mowe"
+        },
+        "filters": {
+          "mode": {
+            "label": "mode",
+            "any": "any",
+            "standard": "osuw!",
+            "taiko": "osuw!taiko",
+            "catch": "osuw!catch",
+            "mania": "osuw!mania"
+          },
+          "status": {
+            "label": "statuws"
+          },
+          "searchByCustomStatus": {
+            "label": "seawch by cuwstom statuws"
+          },
+          "applyFilters": "appwy fiwtews"
+        }
+      }
+    },
+    "beatmapsets": {
+      "meta": {
+        "title": "{artist} - {title} | {appName}",
+        "description": "beatmapset info fow {title} by {artist}",
+        "openGraph": {
+          "title": "{artist} - {title} | {appName}",
+          "description": "beatmapset info fow {title} by {artist} {difficultyInfo}"
+        }
+      },
+      "header": "beatmap info",
+      "error": {
+        "notFound": {
+          "title": "Beatmapset not found",
+          "description": "The beatmapset you are looking for does not exist or has been deleted."
+        }
+      },
+      "submission": {
+        "submittedBy": "submitted by",
+        "submittedOn": "submitted on",
+        "rankedOn": "ranked on",
+        "statusBy": "{status} by"
+      },
+      "video": {
+        "tooltip": "this beatmap contains video"
+      },
+      "description": {
+        "header": "descwiption"
+      },
+      "components": {
+        "dropdown": {
+          "openMenu": "Open menu",
+          "ppCalculator": "pp cawcuwwatow",
+          "openOnBancho": "open on bancho",
+          "openWithAdminPanel": "open with admin panew"
+        },
+        "infoAccordion": {
+          "communityHype": "Community Hype",
+          "information": "infowmation",
+          "metadata": {
+            "genre": "genwe",
+            "language": "Language",
+            "tags": "tags"
+          }
+        },
+        "downloadButtons": {
+          "download": "Download",
+          "withVideo": "with Video",
+          "withoutVideo": "without Video",
+          "osuDirect": "osu!direct"
+        },
+        "difficultyInformation": {
+          "tooltips": {
+            "totalLength": "Total Length",
+            "bpm": "BPM",
+            "starRating": "Star Rating"
+          },
+          "labels": {
+            "keyCount": "Key Count:",
+            "circleSize": "Ciwcwe Size:",
+            "hpDrain": "HP Dwain:",
+            "accuracy": "Accuwwacy:",
+            "approachRate": "Appwoach Wate:"
+          }
+        },
+        "nomination": {
+          "description": "hype this map if u enjoyed pwaying it to hewp it pwogwess to <b>ranked</b> statuws.",
+          "hypeProgress": "hype pwogwess",
+          "hypeBeatmap": "hype beatmap!",
+          "hypesRemaining": "youw have <b>{couwnt} hypes</b> wemaining fow this week",
+          "toast": {
+            "success": "Beatmap hyped successfully!",
+            "error": "ewwow occuwwed whiwe hyping beatmapset!"
+          }
+        },
+        "ppCalculator": {
+          "title": "pp cawcuwwatow",
+          "pp": "PP: <b>{value}</b>",
+          "totalLength": "Total Length",
+          "form": {
+            "accuracy": {
+              "label": "Accuracy",
+              "validation": {
+                "negative": "Accuracy can't be negative",
+                "tooHigh": "Accuracy can't be greater that 100"
+              }
+            },
+            "combo": {
+              "label": "Combo",
+              "validation": {
+                "negative": "Combo can't be negative"
+              }
+            },
+            "misses": {
+              "label": "Misses",
+              "validation": {
+                "negative": "Misses can't be negative"
+              }
+            },
+            "calculate": "Calculate",
+            "unknownError": "Unknown error"
+          }
+        },
+        "leaderboard": {
+          "columns": {
+            "rank": "Rank",
+            "score": "Scowe",
+            "accuracy": "Accuwwacy",
+            "player": "Pwayew",
+            "maxCombo": "Max Combo",
+            "perfect": "Pewfect",
+            "great": "Gweat",
+            "good": "Good",
+            "ok": "Ok",
+            "lDrp": "L DRP",
+            "meh": "Meh",
+            "sDrp": "S DRP",
+            "miss": "Miss",
+            "pp": "PP",
+            "time": "Time",
+            "mods": "Mods"
+          },
+          "actions": {
+            "openMenu": "Open menu",
+            "viewDetails": "view detaiws",
+            "downloadReplay": "downwoad repway"
+          },
+          "table": {
+            "emptyState": "no scowes fouwnd. Be the fiwst to suwbmit one!",
+            "pagination": {
+              "scoresPerPage": "scowes pew page",
+              "showing": "showing {start} - {end} of {total}"
+            }
+          }
+        }
+      }
+    },
+    "settings": {
+      "meta": {
+        "title": "settings | {appName}"
+      },
+      "header": "settings",
+      "notLoggedIn": "youw muwst be wogged in to view this page.",
+      "sections": {
+        "changeAvatar": "change avataw",
+        "changeBanner": "change bannew",
+        "changeDescription": "change descwiption",
+        "socials": "sociaws",
+        "playstyle": "pwaystywe",
+        "options": "options",
+        "changePassword": "change passwowd",
+        "changeUsername": "change uwsewname",
+        "changeCountryFlag": "Change country flag"
+      },
+      "description": {
+        "reminder": "* remindew: do not post any inappwopwiate content. Twy to keep it famiwy fwiendwy owo"
+      },
+      "components": {
+        "username": {
+          "label": "New Username",
+          "placeholder": "e.g. username",
+          "button": "Change username",
+          "validation": {
+            "minLength": "Username must be at least {min} characters.",
+            "maxLength": "Username must be {max} characters or fewer."
+          },
+          "toast": {
+            "success": "Username changed successfully!",
+            "error": "Error occured while changing username!"
+          },
+          "reminder": {
+            "text": "* remindew: pwease keep uw uwsewname famiwy fwiendwy, ow it wiww be changed fow u. Abuwsing this featuwwe wiww wesuwwt in a ban."
+          }
+        },
+        "password": {
+          "labels": {
+            "current": "Current Password",
+            "new": "new passwowd",
+            "confirm": "confiwm passwowd"
+          },
+          "placeholder": "************",
+          "button": "Change password",
+          "validation": {
+            "minLength": "passwowd muwst be at weast {min} chawactews.",
+            "maxLength": "passwowd muwst be {max} chawactews ow fewew.",
+            "mismatch": "passwowds do not match"
+          },
+          "toast": {
+            "success": "Password changed successfully!",
+            "error": "ewwow occuwwed whiwe changing passwowd!"
+          }
+        },
+        "description": {
+          "toast": {
+            "success": "Description updated successfully!",
+            "error": "an uwnknown ewwow occuwwwed"
+          }
+        },
+        "country": {
+          "label": "new couwntwy fwag",
+          "placeholder": "sewect new couwntwy fwag",
+          "button": "Change country flag",
+          "toast": {
+            "success": "couwntwy fwag changed suwccessfuwwwy!",
+            "error": "ewwow occuwwed whiwe changing couwntwy fwag!"
+          }
+        },
+        "socials": {
+          "headings": {
+            "general": "genewaw",
+            "socials": "sociaws"
+          },
+          "fields": {
+            "location": "wocation",
+            "interest": "intewest",
+            "occupation": "occupation"
+          },
+          "button": "Update socials",
+          "toast": {
+            "success": "Socials updated successfully!",
+            "error": "ewwow occuwwed whiwe uwpdating sociaws!"
+          }
+        },
+        "playstyle": {
+          "options": {
+            "Mouse": "Mouse",
+            "Keyboard": "keyboawd",
+            "Tablet": "tabwet",
+            "TouchScreen": "Touch Screen"
+          },
+          "toast": {
+            "success": "Playstyle updated successfully!",
+            "error": "ewwow occuwwed whiwe uwpdating pwaystywe!"
+          }
+        },
+        "uploadImage": {
+          "types": {
+            "avatar": "avatar",
+            "banner": "banner"
+          },
+          "button": "Upload {type}",
+          "toast": {
+            "success": "{type} updated successfully!",
+            "error": "an uwnknown ewwow occuwwwed"
+          },
+          "note": "* note: {type}s awe wimited to 5mb in size"
+        },
+        "siteOptions": {
+          "includeBanchoButton": "incwuwde \"open on bancho\" buwtton in beatmap page",
+          "useSpaciousUI": "use spaciouws ui (incwease spacing between ewements)"
+        }
+      },
+      "common": {
+        "unknownError": "Unknown error."
+      }
+    },
+    "user": {
+      "meta": {
+        "title": "{username} · User Profile | {appName}",
+        "description": "We don't know much about them, but we're sure {username} is great."
+      },
+      "header": "Player info",
+      "tabs": {
+        "general": "genewaw",
+        "bestScores": "Best scowes",
+        "recentScores": "Recent scowes",
+        "firstPlaces": "Fiwst pwaces",
+        "beatmaps": "Beatmaps",
+        "medals": "Medaws"
+      },
+      "buttons": {
+        "editProfile": "Edit pwofiwe",
+        "setDefaultGamemode": "Set <b>{gamemode} {flag}</b> as pwofiwe defauwt game mode"
+      },
+      "errors": {
+        "userNotFound": "Usew not found ow an ewwow occuwwwed.",
+        "restricted": "This means that the usew viowated the sewvew wuwes and has been westwicted. :<",
+        "userDeleted": "The usew may have been deweted ow does not exist."
+      },
+      "components": {
+        "generalTab": {
+          "info": "Info",
+          "rankedScore": "Ranked Scowe",
+          "hitAccuracy": "Hit Accuwacy",
+          "playcount": "Pway couwnt",
+          "totalScore": "Total Scowe",
+          "maximumCombo": "Maximuwm Combo",
+          "playtime": "Pwaytime",
+          "performance": "Pewfowmance",
+          "showByRank": "Show by rank",
+          "showByPp": "Show by pp",
+          "aboutMe": "Abouwt me"
+        },
+        "scoresTab": {
+          "bestScores": "Best scowes",
+          "recentScores": "Recent scowes",
+          "firstPlaces": "Fiwst pwaces",
+          "noScores": "Usew has no {type} scowes",
+          "showMore": "Show mowe"
+        },
+        "beatmapsTab": {
+          "mostPlayed": "Most pwayed",
+          "noMostPlayed": "Usew has no most pwayed beatmaps",
+          "favouriteBeatmaps": "Favouwwite Beatmaps",
+          "noFavourites": "Usew has no favouwwite beatmaps",
+          "showMore": "Show more"
+        },
+        "medalsTab": {
+          "medals": "Medals",
+          "latest": "Latest",
+          "categories": {
+            "hushHush": "Hush hush",
+            "beatmapHunt": "Beatmap hunt",
+            "modIntroduction": "Mod introduction",
+            "skill": "Skill"
+          },
+          "achievedOn": "achieved on",
+          "notAchieved": "Not achieved"
+        },
+        "generalInformation": {
+          "joined": "Joined <b>{time}</b>",
+          "followers": "<b>{count}</b> Fowwowews",
+          "following": "<b>{count}</b> Fowwowing",
+          "playsWith": "Pways wif <b>{playstyle}</b>"
+        },
+        "statusText": {
+          "lastSeenOn": ", wast seen on {date}"
+        },
+        "ranks": {
+          "highestRank": "Highest wank <rankValue>{rank}</rankValue> on {date}"
+        },
+        "previousUsernames": {
+          "previouslyKnownAs": "This usew was pweviouswy known as:"
+        },
+        "beatmapSetOverview": {
+          "by": "by {artist}",
+          "mappedBy": "mapped by {creator}"
+        },
+        "privilegeBadges": {
+          "badges": {
+            "Developer": "Devewoper",
+            "Admin": "Admin",
+            "Bat": "BAT",
+            "Bot": "Bot",
+            "Supporter": "Suppowter"
+          }
+        },
+        "scoreOverview": {
+          "pp": "pp",
+          "accuracy": "acc: {accuracy}%"
+        },
+        "statsChart": {
+          "date": "Date",
+          "types": {
+            "pp": "pp",
+            "rank": "rank"
+          },
+          "tooltip": "{value} {type}"
+        }
+      }
+    }
+  }
+}

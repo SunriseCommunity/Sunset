@@ -8,6 +8,7 @@ import DifficultyIcon from "@/components/DifficultyIcon";
 import { getBeatmapStarRating } from "@/lib/utils/getBeatmapStarRating";
 import BeatmapStatusIcon from "@/components/BeatmapStatus";
 import { BeatmapSetResponse } from "@/lib/types/api";
+import { useT } from "@/lib/i18n/utils";
 
 interface UserProfileBannerProps {
   beatmapSet: BeatmapSetResponse;
@@ -18,6 +19,7 @@ export default function BeatmapsetRowElement({
   beatmapSet,
   className,
 }: UserProfileBannerProps) {
+  const t = useT("components.beatmapsetRowElement");
   return (
     <div
       className={twMerge(
@@ -62,7 +64,7 @@ export default function BeatmapsetRowElement({
                   </div>
                 </div>
                 <p className="text-[10px] text-gray-300 truncate">
-                  mapped by {beatmapSet.creator}
+                  {t("mappedBy", { creator: beatmapSet.creator })}
                 </p>
               </div>
 

@@ -29,6 +29,7 @@ import { Separator } from "@radix-ui/react-dropdown-menu";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useT } from "@/lib/i18n/utils";
 
 const formSchema = zEditUserMetadataRequest;
 
@@ -41,6 +42,8 @@ export default function ChangePlaystyleForm({
   metadata: UserMetadataResponse;
   className?: string;
 }) {
+  const t = useT("pages.settings.components.playstyle");
+  const tCommon = useT("pages.settings.common");
   const [error, setError] = useState<string | null>(null);
 
   const [playstyle, setPlaystyle] = useState<UserPlaystyle[]>(
@@ -84,15 +87,15 @@ export default function ChangePlaystyleForm({
       {
         onSuccess: () => {
           toast({
-            title: "Playstyle updated successfully!",
+            title: t("toast.success"),
             variant: "success",
           });
         },
         onError: (err) => {
-          showError(err.message ?? "Unknown error.");
+          showError(err.message ?? tCommon("unknownError"));
           toast({
-            title: "Error occured while updating playstyle!",
-            description: err.message ?? "Unknown error.",
+            title: t("toast.error"),
+            description: err.message ?? tCommon("unknownError"),
             variant: "destructive",
           });
         },
@@ -133,7 +136,7 @@ export default function ChangePlaystyleForm({
                               htmlFor={field.name}
                               className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                             >
-                              {value}
+                              {t(`options.${value}`)}
                             </label>
                           </div>
                         </FormControl>

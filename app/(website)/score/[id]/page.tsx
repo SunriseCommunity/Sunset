@@ -33,9 +33,14 @@ import Link from "next/link";
 import ScoreStats from "@/components/ScoreStats";
 import { BeatmapStatusWeb } from "@/lib/types/api";
 import { ModIcons } from "@/components/ModIcons";
+import { tryParseNumber } from "@/lib/utils/type.util";
+import { useT } from "@/lib/i18n/utils";
 
-export default function Score(props: { params: Promise<{ id: number }> }) {
+export default function Score(props: { params: Promise<{ id: string }> }) {
   const params = use(props.params);
+  const paramsId = tryParseNumber(params.id) ?? 0;
+  const t = useT("pages.score");
+
   const { self } = useSelf();
 
   const [useSpaciousUI] = useState(() => {
@@ -43,11 +48,10 @@ export default function Score(props: { params: Promise<{ id: number }> }) {
     return localStorage.getItem("useSpaciousUI") === "true";
   });
 
-  const { isLoading: isReplayLoading, downloadReplay } = useDownloadReplay(
-    params.id
-  );
+  const { isLoading: isReplayLoading, downloadReplay } =
+    useDownloadReplay(paramsId);
 
-  const scoreQuery = useScore(params.id);
+  const scoreQuery = useScore(paramsId);
 
   const score = scoreQuery.data;
 
@@ -68,15 +72,11 @@ export default function Score(props: { params: Promise<{ id: number }> }) {
     scoreQuery.error?.message ??
     userQuery?.error?.message ??
     beatmapQuery?.error?.message ??
-    "Score not found";
+    t("error.notFound");
 
   return (
     <div className="flex flex-col space-y-4">
-      <PrettyHeader
-        text="Score Performance"
-        roundBottom
-        icon={<LucideHistory />}
-      />
+      <PrettyHeader text={t("header")} roundBottom icon={<LucideHistory />} />
       <RoundedContent className="space-y-2 rounded-lg">
         {score && user && beatmap ? (
           <>
@@ -135,10 +135,11 @@ export default function Score(props: { params: Promise<{ id: number }> }) {
                                 {beatmap &&
                                   getBeatmapStarRating(beatmap).toFixed(2)}{" "}
                               </p>
-                                <span className="ml-2">[</span>
+                              <span className="ml-2">[</span>
                               <div className="flex items-center flex-1 overflow-hidden">
                                 <span className="truncate">
-                                  {beatmap?.version || "Unknown"}
+                                  {beatmap?.version ||
+                                    t("beatmap.versionUnknown")}
                                 </span>
                               </div>
                               <span>]</span>
@@ -148,7 +149,8 @@ export default function Score(props: { params: Promise<{ id: number }> }) {
                       </div>
 
                       <p className="text-gray-300 text-right">
-                        mapped by {beatmap?.creator || "Unknown Creator"}
+                        {t("beatmap.mappedBy")}{" "}
+                        {beatmap?.creator || t("beatmap.creatorUnknown")}
                       </p>
                     </div>
 
@@ -158,7 +160,9 @@ export default function Score(props: { params: Promise<{ id: number }> }) {
                       </p>
                       <div className="text-right">
                         <div className="flex flex-row items-center justify-end text-nowrap">
-                          <p className="text-gray-200">Submitted on&nbsp;</p>
+                          <p className="text-gray-200">
+                            {t("score.submittedOn")}&nbsp;
+                          </p>
                           <PrettyDate
                             className="text-gray-200"
                             time={score.when_played}
@@ -166,7 +170,8 @@ export default function Score(props: { params: Promise<{ id: number }> }) {
                         </div>
 
                         <p className="text-gray-200">
-                          Played by {user?.username ?? "Unknown user"}
+                          {t("score.playedBy")}{" "}
+                          {user?.username ?? t("score.userUnknown")}
                         </p>
                       </div>
                     </div>
@@ -179,12 +184,14 @@ export default function Score(props: { params: Promise<{ id: number }> }) {
                         variant="secondary"
                       >
                         <Download />
-                        Download Replay
+                        {t("actions.downloadReplay")}
                       </Button>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                           <Button variant="secondary" disabled={!self || true}>
-                            <span className="sr-only">Open menu</span>
+                            <span className="sr-only">
+                              {t("actions.openMenu")}
+                            </span>
                             <MoreHorizontal className="h-4 w-4" />
                           </Button>
                         </DropdownMenuTrigger>
@@ -225,7 +232,9 @@ export default function Score(props: { params: Promise<{ id: number }> }) {
 
               {useSpaciousUI && <div className="hidden xl:grid" />}
 
-              <div className={useSpaciousUI ? "xl:col-span-2" : "xl:col-span-3"}>
+              <div
+                className={useSpaciousUI ? "xl:col-span-2" : "xl:col-span-3"}
+              >
                 <ScoreStats score={score} beatmap={beatmap} variant="score" />
               </div>
             </div>
@@ -234,10 +243,7 @@ export default function Score(props: { params: Promise<{ id: number }> }) {
           <div className="rounded-l flex flex-col md:flex-row justify-between items-center md:items-start gap-8 ">
             <div className="flex flex-col space-y-2">
               <h1 className="text-4xl">{errorMessage}</h1>
-              <p>
-                The score you are looking for does not exist or has been
-                deleted.
-              </p>
+              <p>{t("error.description")}</p>
             </div>
             <Image
               src="/images/user-not-found.png"

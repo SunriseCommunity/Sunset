@@ -28,6 +28,7 @@ import {
 import UserPrivilegeBadges from "@/app/(website)/user/[id]/components/UserPrivilegeBadges";
 import { usePathname, useRouter } from "next/navigation";
 import { isUserCanUseAdminPanel } from "@/lib/utils/userPrivileges.util";
+import { useT } from "@/lib/i18n/utils";
 
 interface Props {
   self: UserResponse | null;
@@ -44,6 +45,7 @@ export default function HeaderUserDropdown({
   sideOffset,
   align,
 }: Props) {
+  const t = useT("components.headerUserDropdown");
   const pathname = usePathname();
 
   return (
@@ -98,19 +100,19 @@ export default function HeaderUserDropdown({
             <DropdownMenuItem asChild>
               <Link href={`/user/${self.user_id}`} className="cursor-pointer">
                 <UserCircleIcon />
-                My Profile
+                {t("myProfile")}
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild className="cursor-pointer">
               <Link href={`/friends`}>
                 <Users2 />
-                Friends
+                {t("friends")}
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild className="cursor-pointer">
               <Link href={`/settings`}>
                 <Cog />
-                Settings
+                {t("settings")}
               </Link>
             </DropdownMenuItem>
           </DropdownMenuGroup>
@@ -122,12 +124,12 @@ export default function HeaderUserDropdown({
                 {pathname.includes("/admin") ? (
                   <Link href={`/`}>
                     <Home />
-                    Return to main site
+                    {t("returnToMainSite")}
                   </Link>
                 ) : (
                   <Link href={`/admin`}>
                     <MonitorCog />
-                    Admin panel
+                    {t("adminPanel")}
                   </Link>
                 )}
               </DropdownMenuItem>
@@ -142,7 +144,7 @@ export default function HeaderUserDropdown({
           >
             <HeaderLogoutAlert className="w-full text-start">
               <LogOutIcon />
-              Log out
+              {t("logOut")}
             </HeaderLogoutAlert>
           </DropdownMenuItem>
         </DropdownMenuContent>

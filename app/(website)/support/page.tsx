@@ -1,3 +1,5 @@
+"use client";
+
 import {
   BookCopy,
   HeartHandshake,
@@ -8,60 +10,52 @@ import RoundedContent from "@/components/General/RoundedContent";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useT } from "@/lib/i18n/utils";
 
 export default function SupportUs() {
+  const t = useT("pages.support");
+
   return (
     <div className="flex flex-col w-full space-y-4">
       <PrettyHeader
-        text="Support Us"
+        text={t("header")}
         icon={<HeartHandshake />}
         roundBottom={true}
       />
 
       <div>
         <PrettyHeader
-          text="How You Can Help Us"
+          text={t("section.title")}
           icon={<LucideMessageCircleQuestion />}
         />
         <RoundedContent>
           <div className="flex flex-col w-11/12 mx-auto">
             <div className="flex lg:flex-row flex-col">
               <div className="space-y-4">
-                <h2 className="text-sm">
-                  While all osu!sunrise features has always been free, running
-                  and improving the server requires resources, time, and effort,
-                  while being mainly maintained by a <b>single</b> developer.
-                  <br />
-                  <br /> If you love osu!sunrise and want to see it grow even
-                  further, here are a few ways you can support us:
-                </h2>
+                <h2 className="text-sm">{t.rich("section.intro")}</h2>
 
                 <ol className="list-decimal list-inside space-y-4">
                   {(process.env.NEXT_PUBLIC_KOFI_LINK ||
                     process.env.NEXT_PUBLIC_BOOSTY_LINK) && (
                     <div>
                       <li>
-                        <span className="font-bold">Donate.</span>
+                        {t.rich("section.donate.title")}
                         <p className="text-sm">
-                          Your generous donations help us maintain and enhance
-                          the osu! servers. Every little bit counts! With your
-                          support, we can cover hosting costs, implement new
-                          features, and ensure a smoother experience for
-                          everyone.{" "}
+                          {t("section.donate.description")}
                         </p>
                       </li>
                       <div className="space-x-4 my-2">
                         {process.env.NEXT_PUBLIC_KOFI_LINK && (
                           <Button size="lg" asChild>
                             <Link href={process.env.NEXT_PUBLIC_KOFI_LINK}>
-                              Ko-fi
+                              {t("section.donate.buttons.kofi")}
                             </Link>
                           </Button>
                         )}
                         {process.env.NEXT_PUBLIC_BOOSTY_LINK && (
                           <Button size="lg" asChild>
                             <Link href={process.env.NEXT_PUBLIC_BOOSTY_LINK}>
-                              Boosty
+                              {t("section.donate.buttons.boosty")}
                             </Link>
                           </Button>
                         )}
@@ -69,22 +63,15 @@ export default function SupportUs() {
                     </div>
                   )}
                   <li>
-                    <span className="font-bold">Spread the Word.</span>
+                    {t.rich("section.spreadTheWord.title")}
                     <p className="text-sm">
-                      The more people who know about osu!sunrise, the more
-                      vibrant and exciting our community will be. Tell your
-                      friends, share on social media, and invite new players to
-                      join.
+                      {t("section.spreadTheWord.description")}
                     </p>
                   </li>
                   <li>
-                    <span className="font-bold">Just Play on the Server.</span>
+                    {t.rich("section.justPlay.title")}
                     <p className="text-sm">
-                      One of the easiest ways to support osu!sunrise is simply
-                      by playing on the server! The more players we have, the
-                      better the community and experience become. By joining in,
-                      you’re helping to grow the server and keeping it active
-                      for all players.
+                      {t("section.justPlay.description")}
                     </p>
                   </li>
                 </ol>

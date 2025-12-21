@@ -8,6 +8,7 @@ import UserRankColor from "@/components/UserRankNumber";
 import { useBeatmap } from "@/lib/hooks/api/beatmap/useBeatmap";
 import { useUserStats } from "@/lib/hooks/api/user/useUser";
 import { ScoreResponse } from "@/lib/types/api";
+import { useT } from "@/lib/i18n/utils";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -25,6 +26,7 @@ export default function UserScoreMinimal({
   showUser = true,
   className,
 }: UserScoreMinimalProps) {
+  const t = useT("pages.topplays.components.userScoreMinimal");
   const userStatsQuery = useUserStats(score.user_id, score.game_mode_extended);
   const beatmapQuery = useBeatmap(score.beatmap_id);
 
@@ -127,10 +129,12 @@ export default function UserScoreMinimal({
                   <p className="text-2xl text-primary">
                     {beatmap && beatmap.is_ranked
                       ? score.performance_points.toFixed()
-                      : "- "}
-                    pp
+                      : "- "}{" "}
+                    {t("pp")}
                   </p>
-                  <p className="text-sm ">acc: {score.accuracy.toFixed(2)}%</p>
+                  <p className="text-sm ">
+                    {t("accuracy")} {score.accuracy.toFixed(2)}%
+                  </p>
                 </div>
               </div>
             </div>

@@ -10,6 +10,7 @@ import {
   ResponsiveContainer,
   Legend,
 } from "recharts";
+import { useT } from "@/lib/i18n/utils";
 
 interface Props {
   data: StatsSnapshotsResponse;
@@ -17,6 +18,7 @@ interface Props {
 }
 
 export default function UserStatsChart({ data, value: chartValue }: Props) {
+  const t = useT("pages.user.components.statsChart");
   if (data.snapshots.length === 0) return null;
 
   data.snapshots = data.snapshots.filter(
@@ -112,7 +114,7 @@ export default function UserStatsChart({ data, value: chartValue }: Props) {
         <CartesianGrid stroke="" />
         <XAxis
           dataKey="date"
-          label={{ value: "Date", position: "insideBottomRight", offset: 0 }}
+          label={{ value: t("date"), position: "insideBottomRight", offset: 0 }}
           tick={{ transform: "translate(0, 6)" }}
           style={{
             fontSize: "0px",
@@ -138,7 +140,10 @@ export default function UserStatsChart({ data, value: chartValue }: Props) {
 
         <Tooltip
           formatter={(value) => [
-            `${Math.round(value as number)} ${chartValue}`,
+            t("tooltip", {
+              value: Math.round(value as number),
+              type: t(`types.${chartValue}`),
+            }),
           ]}
           contentStyle={{ color: "#333" }}
         />

@@ -6,6 +6,7 @@ import { UserResponse, UserStatsResponse } from "@/lib/types/api";
 import toPrettyDate from "@/lib/utils/toPrettyDate";
 import { Globe } from "lucide-react";
 import { JSX } from "react";
+import { useT } from "@/lib/i18n/utils";
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   user: UserResponse;
@@ -53,21 +54,26 @@ function UserRank({
   variant: "primary" | "secondary";
   Icon: React.ReactNode;
 }) {
+  const t = useT("pages.user.components.ranks");
   return (
     <Tooltip
       align="end"
       content={
         bestRankDate ? (
           <div className="text-xs w-32 md:text-sm md:w-fit ">
-            Highest rank{" "}
-            <UserRankColor
-              className="inline"
-              variant={variant}
-              rank={bestRank ?? -1}
-            >
-              #{bestRank}
-            </UserRankColor>{" "}
-            on {toPrettyDate(bestRankDate)}
+            {t.rich("highestRank", {
+              rank: bestRank ?? 0,
+              date: toPrettyDate(bestRankDate),
+              rankValue: (chunks) => (
+                <UserRankColor
+                  className="inline"
+                  variant={variant}
+                  rank={bestRank ?? -1}
+                >
+                  #{chunks}
+                </UserRankColor>
+              ),
+            })}
           </div>
         ) : (
           ""

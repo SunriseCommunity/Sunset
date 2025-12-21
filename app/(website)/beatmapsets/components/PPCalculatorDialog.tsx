@@ -32,26 +32,34 @@ import numberWith from "@/lib/utils/numberWith";
 import { SecondsToString } from "@/lib/utils/secondsTo";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Clock9, Star } from "lucide-react";
-import { useState } from "react";
+import { useState, useMemo, ReactNode } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useT } from "@/lib/i18n/utils";
 
-const formSchema = z.object({
-  accuracy: z.coerce
-    .number()
-    .min(0, {
-      message: "Accuracy can't be negative",
-    })
-    .max(100, {
-      message: "Accuracy can't be greater that 100",
-    }),
-  combo: z.coerce.number().int().min(0, {
-    message: "Combo can't be negative",
-  }),
-  misses: z.coerce.number().int().min(0, {
-    message: "Misses can't be negative",
-  }),
-});
+const createFormSchema = (t: ReturnType<typeof useT>) =>
+  z.object({
+    accuracy: z.coerce
+      .number()
+      .min(0, {
+        message: t("form.accuracy.validation.negative"),
+      })
+      .max(100, {
+        message: t("form.accuracy.validation.tooHigh"),
+      }),
+    combo: z.coerce
+      .number()
+      .int()
+      .min(0, {
+        message: t("form.combo.validation.negative"),
+      }),
+    misses: z.coerce
+      .number()
+      .int()
+      .min(0, {
+        message: t("form.misses.validation.negative"),
+      }),
+  });
 
 export function PPCalculatorDialog({
   beatmap,
@@ -62,6 +70,7 @@ export function PPCalculatorDialog({
   mode: GameMode;
   children: React.ReactNode;
 }) {
+  const t = useT("pages.beatmapsets.components.ppCalculator");
   const [isOpen, setIsOpen] = useState(false);
 
   const defaultValues = {
@@ -69,6 +78,8 @@ export function PPCalculatorDialog({
     combo: beatmap.max_combo,
     misses: 0,
   };
+
+  const formSchema = useMemo(() => createFormSchema(t), [t]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -120,7 +131,7 @@ export function PPCalculatorDialog({
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>PP Calculator</DialogTitle>
+          <DialogTitle>{t("title")}</DialogTitle>
           <DialogDescription></DialogDescription>
         </DialogHeader>
 
@@ -128,13 +139,18 @@ export function PPCalculatorDialog({
           {performanceResult ? (
             <>
               <p>
-                PP:{" "}
-                <span className="text-primary font-bold">
-                  ~{numberWith(performanceResult?.pp.toFixed(2), ",")}
-                </span>
+                {t.rich("pp", {
+                  b: (chunks: ReactNode) => (
+                    <b className="font-bold text-primary">{chunks}</b>
+                  ),
+                  value: `~${numberWith(
+                    performanceResult?.pp.toFixed(2),
+                    ","
+                  )}`,
+                })}
               </p>
 
-              <Tooltip content="Total Length">
+              <Tooltip content={t("totalLength")}>
                 <p className="flex items-center text-sm">
                   <Clock9 className="h-4" />
                   <span className="text-primary font-bold">
@@ -163,7 +179,7 @@ export function PPCalculatorDialog({
                 name="accuracy"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Accuracy</FormLabel>
+                    <FormLabel>{t("form.accuracy.label")}</FormLabel>
                     <FormControl>
                       <Input step="any" type="number" {...field} />
                     </FormControl>
@@ -176,7 +192,7 @@ export function PPCalculatorDialog({
                 name="combo"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Combo</FormLabel>
+                    <FormLabel>{t("form.combo.label")}</FormLabel>
                     <FormControl>
                       <Input type="number" {...field} />
                     </FormControl>
@@ -189,7 +205,7 @@ export function PPCalculatorDialog({
                 name="misses"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Misses</FormLabel>
+                    <FormLabel>{t("form.misses.label")}</FormLabel>
                     <FormControl>
                       <Input type="number" {...field} />
                     </FormControl>
@@ -215,12 +231,12 @@ export function PPCalculatorDialog({
             <Separator className="my-2" />
             {error && (
               <p className="text-sm text-center text-destructive">
-                {error?.message ?? "Unknown error"}
+                {error?.message ?? t("form.unknownError")}
               </p>
             )}
             <DialogFooter>
               <Button className="w-full" type="submit">
-                Calculate
+                {t("form.calculate")}
               </Button>
             </DialogFooter>
           </form>

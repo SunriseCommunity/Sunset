@@ -2,21 +2,23 @@
 import { ChartColumnIncreasing, Router } from "lucide-react";
 import PrettyHeader from "@/components/General/PrettyHeader";
 import RoundedContent from "@/components/General/RoundedContent";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useMemo } from "react";
 import Spinner from "@/components/Spinner";
 import GameModeSelector from "@/components/GameModeSelector";
 import { useUsersLeaderboard } from "@/lib/hooks/api/user/useUsersLeaderboard";
 import { Button } from "@/components/ui/button";
 import { UserDataTable } from "@/app/(website)/leaderboard/components/UserDataTable";
-import { userColumns } from "@/app/(website)/leaderboard/components/UserColumns";
+import { useUserColumns } from "@/app/(website)/leaderboard/components/UserColumns";
 import { usePathname, useSearchParams } from "next/navigation";
 import { isInstance, tryParseNumber } from "@/lib/utils/type.util";
 import { Combobox } from "@/components/ComboBox";
 import { GameMode, LeaderboardSortType } from "@/lib/types/api";
+import { useT } from "@/lib/i18n/utils";
 
 export default function Leaderboard() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const t = useT("pages.leaderboard");
 
   const page = tryParseNumber(searchParams.get("page")) ?? 0;
   const size = tryParseNumber(searchParams.get("size")) ?? 10;
@@ -38,13 +40,23 @@ export default function Leaderboard() {
     pageSize: size,
   });
 
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set(name, value);
+
+      return params.toString();
+    },
+    [searchParams]
+  );
+
   useEffect(() => {
     window.history.replaceState(
       null,
       "",
       pathname + "?" + createQueryString("type", leaderboardType.toString())
     );
-  }, [leaderboardType]);
+  }, [leaderboardType, pathname, createQueryString]);
 
   useEffect(() => {
     window.history.replaceState(
@@ -52,7 +64,7 @@ export default function Leaderboard() {
       "",
       pathname + "?" + createQueryString("mode", activeMode.toString())
     );
-  }, [activeMode]);
+  }, [activeMode, pathname, createQueryString]);
 
   useEffect(() => {
     window.history.replaceState(
@@ -60,7 +72,7 @@ export default function Leaderboard() {
       "",
       pathname + "?" + createQueryString("size", pagination.pageSize.toString())
     );
-  }, [pagination.pageSize]);
+  }, [pagination.pageSize, pathname, createQueryString]);
 
   useEffect(() => {
     window.history.replaceState(
@@ -70,16 +82,20 @@ export default function Leaderboard() {
         "?" +
         createQueryString("page", pagination.pageIndex.toString())
     );
-  }, [pagination.pageIndex]);
+  }, [pagination.pageIndex, pathname, createQueryString]);
 
-  const createQueryString = useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString());
-      params.set(name, value);
-
-      return params.toString();
-    },
-    [searchParams]
+  const comboboxValues = useMemo(
+    () => [
+      {
+        label: t("sortBy.performancePointsShort"),
+        value: LeaderboardSortType.PP,
+      },
+      {
+        label: t("sortBy.scoreShort"),
+        value: LeaderboardSortType.SCORE,
+      },
+    ],
+    [t]
   );
 
   const usersLeaderboardQuery = useUsersLeaderboard(
@@ -96,12 +112,15 @@ export default function Leaderboard() {
     total_count: 0,
   };
 
+  const userColumns = useUserColumns();
+
   return (
     <div className="flex flex-col w-full space-y-4">
       <PrettyHeader
-        text="Leaderboard"
+        text={t("header")}
         icon={<ChartColumnIncreasing />}
         roundBottom={true}
+        className="text-nowrap"
       >
         <div className="place-content-end w-full gap-x-2 hidden lg:flex">
           <Button
@@ -114,7 +133,7 @@ export default function Leaderboard() {
                 : "secondary"
             }
           >
-            Performance points
+            {t("sortBy.performancePoints")}
           </Button>
           <Button
             onClick={() => setLeaderboardType(LeaderboardSortType.SCORE)}
@@ -124,27 +143,20 @@ export default function Leaderboard() {
                 : "secondary"
             }
           >
-            Ranked Score
+            {t("sortBy.rankedScore")}
           </Button>
         </div>
 
         <div className="flex lg:hidden flex-col lg:flex-row">
-          <p className="text-secondary-foreground text-sm">Sort by:</p>
+          <p className="text-secondary-foreground text-sm">
+            {t("sortBy.label")}
+          </p>
           <Combobox
             activeValue={leaderboardType.toString()}
             setActiveValue={(type: any) => {
               setLeaderboardType(type);
             }}
-            values={[
-              {
-                label: "Perf. points",
-                value: LeaderboardSortType.PP,
-              },
-              {
-                label: "Score",
-                value: LeaderboardSortType.SCORE,
-              },
-            ]}
+            values={comboboxValues}
           />
         </div>
       </PrettyHeader>

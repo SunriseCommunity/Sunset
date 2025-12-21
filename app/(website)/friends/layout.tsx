@@ -1,11 +1,15 @@
 import { Metadata } from "next";
 import Page from "./page";
+import { getT } from "@/lib/i18n/utils";
 
-export const metadata: Metadata = {
-  title: "Your Friends | osu!sunrise",
-  openGraph: {
-    title: "Your Friends | osu!sunrise",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getT("pages.friends.meta");
+  return {
+    title: t("title"),
+    openGraph: {
+      title: t("title"),
+    },
+  };
+}
 
 export default Page;

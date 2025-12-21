@@ -11,10 +11,12 @@ import { Button } from "@/components/ui/button";
 import { usePathname, useSearchParams } from "next/navigation";
 import { GameMode } from "@/lib/types/api";
 import { isInstance } from "@/lib/utils/type.util";
+import { useT } from "@/lib/i18n/utils";
 
 export default function Topplays() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const t = useT("pages.topplays");
 
   const mode = searchParams.get("mode") ?? GameMode.STANDARD;
 
@@ -27,21 +29,13 @@ export default function Topplays() {
   const isLoadingMore =
     isLoading || (size > 0 && data && typeof data[size - 1] === "undefined");
 
-  const handleShowMore = () => {
+  const handleShowMore = useCallback(() => {
     setSize(size + 1);
-  };
+  }, [setSize, size]);
 
   const scores = data?.flatMap((item) => item.scores);
   const totalCountScores =
     data?.find((item) => item.total_count !== undefined)?.total_count ?? 0;
-
-  useEffect(() => {
-    window.history.replaceState(
-      null,
-      "",
-      pathname + "?" + createQueryString("mode", activeMode.toString())
-    );
-  }, [activeMode]);
 
   const createQueryString = useCallback(
     (name: string, value: string) => {
@@ -53,10 +47,18 @@ export default function Topplays() {
     [searchParams]
   );
 
+  useEffect(() => {
+    window.history.replaceState(
+      null,
+      "",
+      pathname + "?" + createQueryString("mode", activeMode.toString())
+    );
+  }, [activeMode, pathname, createQueryString]);
+
   return (
     <div className="flex flex-col w-full space-y-4">
       <PrettyHeader
-        text="Top plays"
+        text={t("header")}
         icon={<LucideHistory />}
         roundBottom={true}
       />
@@ -94,7 +96,7 @@ export default function Topplays() {
                     variant="secondary"
                   >
                     <ChevronDown />
-                    Show more
+                    {t("showMore")}
                   </Button>
                 </div>
               )}

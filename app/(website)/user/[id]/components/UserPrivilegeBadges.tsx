@@ -11,8 +11,9 @@ import {
 
 import { Badge } from "@/components/ui/badge";
 import { twMerge } from "tailwind-merge";
-import React from "react";
+import React, { useMemo } from "react";
 import { UserBadge } from "@/lib/types/api";
+import { useT } from "@/lib/i18n/utils";
 
 interface UserPrivilegeBadgesProps {
   badges: UserBadge[];
@@ -53,6 +54,19 @@ export default function UserPrivilegeBadges({
   className,
   withToolTip = true,
 }: UserPrivilegeBadgesProps) {
+  const t = useT("pages.user.components.privilegeBadges");
+
+  const badgeNames = useMemo(
+    () => ({
+      [UserBadge.DEVELOPER]: t("badges.Developer"),
+      [UserBadge.ADMIN]: t("badges.Admin"),
+      [UserBadge.BAT]: t("badges.Bat"),
+      [UserBadge.BOT]: t("badges.Bot"),
+      [UserBadge.SUPPORTER]: t("badges.Supporter"),
+    }),
+    [t]
+  );
+
   return (
     <div className={twMerge("flex flex-wrap gap-1", className)}>
       {badges.map((badge, index) => {
@@ -68,9 +82,11 @@ export default function UserPrivilegeBadges({
             className: "w-4 h-4",
           });
 
+        const badgeName = badgeNames[badge] || badge;
+
         return (
           <Tooltip
-            content={<p className="capitalize">{badge}</p>}
+            content={<p className="capitalize">{badgeName}</p>}
             key={`user-badge-${index}`}
             disabled={!withToolTip}
           >

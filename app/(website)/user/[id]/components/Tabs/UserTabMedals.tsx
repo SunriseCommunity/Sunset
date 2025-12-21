@@ -13,22 +13,28 @@ import {
   UserMedalResponse,
   UserResponse,
 } from "@/lib/types/api";
+import { useT } from "@/lib/i18n/utils";
+import { useMemo } from "react";
 
 interface UserTabMedalsProps {
   user: UserResponse;
   gameMode: GameMode;
 }
 
-const MEDALS_NAMES: Record<string, string> = {
-  hush_hush: "Hush hush",
-  beatmap_hunt: "Beatmap hunt",
-  mod_introduction: "Mod introduction",
-  skill: "Skill",
-};
-
 export default function UserTabMedals({ user, gameMode }: UserTabMedalsProps) {
+  const t = useT("pages.user.components.medalsTab");
   const userMedalsQuery = useUserMedals(user.user_id, gameMode);
   const userMedals = userMedalsQuery.data;
+
+  const medalsNames = useMemo(
+    () => ({
+      hush_hush: t("categories.hushHush"),
+      beatmap_hunt: t("categories.beatmapHunt"),
+      mod_introduction: t("categories.modIntroduction"),
+      skill: t("categories.skill"),
+    }),
+    [t]
+  );
 
   const latestMedals = userMedals
     ? Object.values(userMedals)
@@ -43,33 +49,33 @@ export default function UserTabMedals({ user, gameMode }: UserTabMedalsProps) {
 
   return (
     <div className="flex flex-col">
-      <PrettyHeader text="Medals" icon={<LucideMedal />} />
+      <PrettyHeader text={t("medals")} icon={<LucideMedal />} />
 
       <RoundedContent className="min-h-0 h-fit max-h-none grid md:grid-cols-2 gap-4">
         {latestMedals.length > 0 && (
           <div className="md:col-span-2">
             <PrettyHeader roundBottom className="px-4 py-1">
               <div className="flex items-center">
-                <h2 className="text-lg font-semibold">Latest</h2>
+                <h2 className="text-lg font-semibold">{t("latest")}</h2>
               </div>
             </PrettyHeader>
             <RoundedContent className="">
               <div className="flex flex-row overflow-hidden h-20 flex-wrap space-x-2">
                 {latestMedals.map((medal) => (
                   <div key={medal.id} className="mb-20">
-                    {MedalElement(medal)}
+                    {MedalElement(medal, t)}
                   </div>
                 ))}
               </div>
             </RoundedContent>
           </div>
         )}
-        {Object.keys(MEDALS_NAMES).map((category) => (
+        {Object.keys(medalsNames).map((category) => (
           <div key={category}>
             <PrettyHeader roundBottom className="px-4 py-1">
               <div className="flex items-center">
                 <h2 className="text-lg font-semibold">
-                  {MEDALS_NAMES[category]}
+                  {medalsNames[category as keyof typeof medalsNames]}
                 </h2>
               </div>
             </PrettyHeader>
@@ -78,7 +84,7 @@ export default function UserTabMedals({ user, gameMode }: UserTabMedalsProps) {
               {userMedals ? (
                 userMedals[
                   category as keyof GetUserByIdMedalsResponse
-                ].medals.map((medal) => MedalElement(medal))
+                ].medals.map((medal) => MedalElement(medal, t))
               ) : (
                 <div className="mx-auto col-span-4">
                   <Spinner size="lg" />
@@ -92,7 +98,7 @@ export default function UserTabMedals({ user, gameMode }: UserTabMedalsProps) {
   );
 }
 
-function MedalElement(medal: UserMedalResponse) {
+function MedalElement(medal: UserMedalResponse, t: ReturnType<typeof useT>) {
   const isAchieved = medal.unlocked_at !== null;
 
   return (
@@ -120,11 +126,11 @@ function MedalElement(medal: UserMedalResponse) {
             >
               {isAchieved ? (
                 <div className="flex items-center">
-                  <span>achieved on&nbsp;</span>
+                  <span>{t("achievedOn")}&nbsp;</span>
                   <PrettyDate time={medal.unlocked_at!} withTime={false} />
                 </div>
               ) : (
-                `Not achieved`
+                t("notAchieved")
               )}
             </div>
           </div>
