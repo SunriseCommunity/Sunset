@@ -7,7 +7,7 @@ import RoundedContent from "@/components/General/RoundedContent";
 import { useFriends } from "@/lib/hooks/api/user/useFriends";
 import { Button } from "@/components/ui/button";
 import { UsersList } from "@/app/(website)/friends/components/UsersList";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import {
   UsersListSortingOptions,
   UsersListSortingType,
@@ -22,10 +22,12 @@ import {
   FriendsResponse,
   UserResponse,
 } from "@/lib/types/api";
+import { useT } from "@/lib/i18n/utils";
 
 type UsersType = "friends" | "followers";
 
 export default function Friends() {
+  const t = useT("pages.friends");
   const [sortBy, setSortBy] = useState<UsersListSortingType>("lastActive");
   const [viewMode, setViewMode] = useState<UsersListViewModeType>("grid");
 
@@ -48,9 +50,9 @@ export default function Friends() {
 
   const isLoadingMore =
     isLoading || (size > 0 && data && typeof data[size - 1] === "undefined");
-  const handleShowMore = () => {
+  const handleShowMore = useCallback(() => {
     setSize(size + 1);
-  };
+  }, [setSize, size]);
 
   const users =
     data?.flatMap((item) =>
@@ -63,26 +65,28 @@ export default function Friends() {
     (item) => item.total_count !== undefined
   )?.total_count;
 
-  const sortedUsers = [...users].sort((a, b) => {
-    if (sortBy === "username") {
-      return a.username.localeCompare(b.username);
-    }
+  const sortedUsers = useMemo(() => {
+    return [...users].sort((a, b) => {
+      if (sortBy === "username") {
+        return a.username.localeCompare(b.username);
+      }
 
-    const getDateSortValue = (user: UserResponse) => {
-      const time = new Date(user.last_online_time).getTime();
-      const isOffline = user.user_status === "Offline";
+      const getDateSortValue = (user: UserResponse) => {
+        const time = new Date(user.last_online_time).getTime();
+        const isOffline = user.user_status === "Offline";
 
-      // Offline users get a penalty in priority
-      return isOffline ? time - 1e12 : time;
-    };
+        // Offline users get a penalty in priority
+        return isOffline ? time - 1e12 : time;
+      };
 
-    return getDateSortValue(b) - getDateSortValue(a);
-  });
+      return getDateSortValue(b) - getDateSortValue(a);
+    });
+  }, [users, sortBy]);
 
   return (
     <div className="flex flex-col w-full space-y-4">
       <PrettyHeader
-        text="Your Connections"
+        text={t("header")}
         icon={<Users2 />}
         roundBottom={true}
       ></PrettyHeader>
@@ -96,7 +100,7 @@ export default function Friends() {
                 }}
                 variant={usersType == "friends" ? "default" : "secondary"}
               >
-                Friends
+                {t("tabs.friends")}
               </Button>
               <Button
                 onClick={() => {
@@ -104,7 +108,7 @@ export default function Friends() {
                 }}
                 variant={usersType == "followers" ? "default" : "secondary"}
               >
-                Followers
+                {t("tabs.followers")}
               </Button>
             </div>
 
@@ -139,7 +143,7 @@ export default function Friends() {
                       isLoading={isLoadingMore}
                     >
                       <ChevronDown />
-                      Show more
+                      {t("showMore")}
                     </Button>
                   </div>
                 )}

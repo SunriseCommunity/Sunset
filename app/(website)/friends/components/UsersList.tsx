@@ -1,7 +1,10 @@
+"use client";
+
 import { UsersListViewModeType } from "@/app/(website)/friends/components/UsersListViewModeOptions";
 import UserElement from "@/components/UserElement";
 import { UserListItem } from "@/components/UserListElement";
 import { UserResponse } from "@/lib/types/api";
+import { useT } from "@/lib/i18n/utils";
 
 interface UsersListProps {
   users: UserResponse[];
@@ -9,10 +12,12 @@ interface UsersListProps {
 }
 
 export function UsersList({ users, viewMode }: UsersListProps) {
+  const t = useT("pages.friends");
+
   if (users.length === 0) {
     return (
       <div className="text-center py-12 text-accent-foreground">
-        No users found
+        {t("emptyState")}
       </div>
     );
   }

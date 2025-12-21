@@ -847,6 +847,50 @@
           }
         }
       }
+    },
+    "friends": {
+      "meta": {
+        "title": {
+          "text": "Your Friends | {appName}",
+          "context": "The title for the friends page of the osu!sunrise website"
+        }
+      },
+      "header": {
+        "text": "Your Connections",
+        "context": "The main header text for the friends page"
+      },
+      "tabs": {
+        "friends": {
+          "text": "Friends",
+          "context": "Button text to show friends list"
+        },
+        "followers": {
+          "text": "Followers",
+          "context": "Button text to show followers list"
+        }
+      },
+      "sorting": {
+        "label": {
+          "text": "Sort by:",
+          "context": "Label for the sort by selector"
+        },
+        "username": {
+          "text": "Username",
+          "context": "Sorting option to sort by username"
+        },
+        "recentlyActive": {
+          "text": "Recently active",
+          "context": "Sorting option to sort by recently active users"
+        }
+      },
+      "showMore": {
+        "text": "Show more",
+        "context": "Button text to load more users"
+      },
+      "emptyState": {
+        "text": "No users found",
+        "context": "Message displayed when there are no users in the list"
+      }
     }
   }
 }

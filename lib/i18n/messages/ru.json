@@ -317,6 +317,23 @@
           "showing": "Показано {start} - {end} из {total}"
         }
       }
+    },
+    "friends": {
+      "meta": {
+        "title": "Ваши друзья | {appName}"
+      },
+      "header": "Ваши связи",
+      "tabs": {
+        "friends": "Друзья",
+        "followers": "Подписчики"
+      },
+      "sorting": {
+        "label": "Сортировать по:",
+        "username": "Имя пользователя",
+        "recentlyActive": "Недавно активные"
+      },
+      "showMore": "Показать ещё",
+      "emptyState": "Пользователи не найдены"
     }
   }
 }
