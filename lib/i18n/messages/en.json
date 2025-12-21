@@ -663,6 +663,34 @@
           }
         }
       }
+    },
+    "topplays": {
+      "meta": {
+        "title": {
+          "text": "Top Plays | {appName}",
+          "context": "The title for the top plays page of the osu!sunrise website"
+        }
+      },
+      "header": {
+        "text": "Top plays",
+        "context": "The main header text for the top plays page"
+      },
+      "showMore": {
+        "text": "Show more",
+        "context": "Button text to load more top plays"
+      },
+      "components": {
+        "userScoreMinimal": {
+          "pp": {
+            "text": "pp",
+            "context": "Abbreviation for performance points, displayed after the PP value"
+          },
+          "accuracy": {
+            "text": "acc:",
+            "context": "Abbreviation for accuracy, displayed before the accuracy percentage"
+          }
+        }
+      }
     }
   }
 }
