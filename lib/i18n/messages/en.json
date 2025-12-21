@@ -765,6 +765,88 @@
           "context": "Error description explaining that the score doesn't exist or was deleted"
         }
       }
+    },
+    "leaderboard": {
+      "meta": {
+        "title": {
+          "text": "Leaderboard | {appName}",
+          "context": "The title for the leaderboard page of the osu!sunrise website"
+        }
+      },
+      "header": {
+        "text": "Leaderboard",
+        "context": "The main header text for the leaderboard page"
+      },
+      "sortBy": {
+        "label": {
+          "text": "Sort by:",
+          "context": "Label for the sort by selector on mobile view"
+        },
+        "performancePoints": {
+          "text": "Performance points",
+          "context": "Button text for sorting by performance points"
+        },
+        "rankedScore": {
+          "text": "Ranked Score",
+          "context": "Button text for sorting by ranked score"
+        },
+        "performancePointsShort": {
+          "text": "Perf. points",
+          "context": "Short label for performance points in mobile combobox"
+        },
+        "scoreShort": {
+          "text": "Score",
+          "context": "Short label for score in mobile combobox"
+        }
+      },
+      "table": {
+        "columns": {
+          "rank": {
+            "text": "Rank",
+            "context": "Column header for user rank"
+          },
+          "performance": {
+            "text": "Performance",
+            "context": "Column header for performance points"
+          },
+          "rankedScore": {
+            "text": "Ranked Score",
+            "context": "Column header for ranked score"
+          },
+          "accuracy": {
+            "text": "Accuracy",
+            "context": "Column header for accuracy"
+          },
+          "playCount": {
+            "text": "Play count",
+            "context": "Column header for play count"
+          }
+        },
+        "actions": {
+          "openMenu": {
+            "text": "Open menu",
+            "context": "Screen reader text for the dropdown menu button"
+          },
+          "viewUserProfile": {
+            "text": "View user profile",
+            "context": "Dropdown menu item text to view user profile"
+          }
+        },
+        "emptyState": {
+          "text": "No results.",
+          "context": "Message displayed when there are no results in the table"
+        },
+        "pagination": {
+          "usersPerPage": {
+            "text": "users per page",
+            "context": "Label for the users per page selector"
+          },
+          "showing": {
+            "text": "Showing {start} - {end} of {total}",
+            "context": "Pagination text showing the range of displayed users, includes start, end, and total as parameters"
+          }
+        }
+      }
     }
   }
 }

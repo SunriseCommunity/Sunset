@@ -1,13 +1,17 @@
 import { Metadata } from "next";
 import PageLeaderboard from "./page";
 import { Suspense } from "react";
+import { getT } from "@/lib/i18n/utils";
 
-export const metadata: Metadata = {
-  title: "Leaderboard | osu!sunrise",
-  openGraph: {
-    title: "Leaderboard | osu!sunrise",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getT("pages.leaderboard.meta");
+  return {
+    title: t("title"),
+    openGraph: {
+      title: t("title"),
+    },
+  };
+}
 
 export default function Page() {
   return (

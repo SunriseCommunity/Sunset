@@ -286,6 +286,37 @@
         "notFound": "Счёт не найден",
         "description": "Счёт, который вы ищете, не существует или был удалён."
       }
+    },
+    "leaderboard": {
+      "meta": {
+        "title": "Таблица лидеров | {appName}"
+      },
+      "header": "Таблица лидеров",
+      "sortBy": {
+        "label": "Сортировать по:",
+        "performancePoints": "Очки производительности",
+        "rankedScore": "Ранговый счёт",
+        "performancePointsShort": "Очки произв.",
+        "scoreShort": "Счёт"
+      },
+      "table": {
+        "columns": {
+          "rank": "Ранг",
+          "performance": "Производительность",
+          "rankedScore": "Ранговый счёт",
+          "accuracy": "Точность",
+          "playCount": "Количество игр"
+        },
+        "actions": {
+          "openMenu": "Открыть меню",
+          "viewUserProfile": "Посмотреть профиль пользователя"
+        },
+        "emptyState": "Нет результатов.",
+        "pagination": {
+          "usersPerPage": "пользователей на странице",
+          "showing": "Показано {start} - {end} из {total}"
+        }
+      }
     }
   }
 }
