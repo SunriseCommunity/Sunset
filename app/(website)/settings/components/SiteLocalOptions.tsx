@@ -3,8 +3,10 @@
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { useEffect, useState } from "react";
+import { useT } from "@/lib/i18n/utils";
 
 export default function SiteLocalOptions() {
+  const t = useT("pages.settings.components.siteOptions");
   const [includeOpenBanchoButton, setIncludeOpenBanchoButton] = useState(() => {
     return localStorage.getItem("includeOpenBanchoButton") || "false";
   });
@@ -32,7 +34,7 @@ export default function SiteLocalOptions() {
           }
         />
         <Label htmlFor="include-bancho-button">
-          Include "Open on Bancho" button in beatmap page
+          {t("includeBanchoButton")}
         </Label>
       </div>
       <div className="flex items-center space-x-2 mt-4">
@@ -44,7 +46,7 @@ export default function SiteLocalOptions() {
           }
         />
         <Label htmlFor="use-spacious-ui">
-          Use spacious UI (Increase spacing between elements)
+          {t("useSpaciousUI")}
         </Label>
       </div>
     </div>

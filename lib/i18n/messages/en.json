@@ -1355,6 +1355,306 @@
           }
         }
       }
+    },
+    "settings": {
+      "meta": {
+        "title": {
+          "text": "Settings | {appName}",
+          "context": "The title for the settings page of the osu!sunrise website"
+        }
+      },
+      "header": {
+        "text": "Settings",
+        "context": "The main header text for the settings page"
+      },
+      "notLoggedIn": {
+        "text": "You must be logged in to view this page.",
+        "context": "Message displayed when user is not logged in"
+      },
+      "sections": {
+        "changeAvatar": {
+          "text": "Change avatar",
+          "context": "Title for the change avatar section"
+        },
+        "changeBanner": {
+          "text": "Change banner",
+          "context": "Title for the change banner section"
+        },
+        "changeDescription": {
+          "text": "Change description",
+          "context": "Title for the change description section"
+        },
+        "socials": {
+          "text": "Socials",
+          "context": "Title for the socials section"
+        },
+        "playstyle": {
+          "text": "Playstyle",
+          "context": "Title for the playstyle section"
+        },
+        "options": {
+          "text": "Options",
+          "context": "Title for the options section"
+        },
+        "changePassword": {
+          "text": "Change password",
+          "context": "Title for the change password section"
+        },
+        "changeUsername": {
+          "text": "Change username",
+          "context": "Title for the change username section"
+        },
+        "changeCountryFlag": {
+          "text": "Change country flag",
+          "context": "Title for the change country flag section"
+        }
+      },
+      "description": {
+        "reminder": {
+          "text": "* Reminder: Do not post any inappropriate content. Try to keep it family friendly :)",
+          "context": "Reminder message for description field about keeping content appropriate"
+        }
+      },
+      "components": {
+        "username": {
+          "label": {
+            "text": "New Username",
+            "context": "Form label for new username input"
+          },
+          "placeholder": {
+            "text": "e.g. username",
+            "context": "Placeholder text for username input"
+          },
+          "button": {
+            "text": "Change username",
+            "context": "Button text to change username"
+          },
+          "validation": {
+            "minLength": {
+              "text": "Username must be at least {min} characters.",
+              "context": "Validation error message for username minimum length, includes min as parameter"
+            },
+            "maxLength": {
+              "text": "Username must be {max} characters or fewer.",
+              "context": "Validation error message for username maximum length, includes max as parameter"
+            }
+          },
+          "toast": {
+            "success": {
+              "text": "Username changed successfully!",
+              "context": "Success toast message when username is changed"
+            },
+            "error": {
+              "text": "Error occured while changing username!",
+              "context": "Error toast message when username change fails"
+            }
+          },
+          "reminder": {
+            "text": "* Reminder: Please keep your username family friendly, or it will be changed for you. Abusing this feature will result in a ban.",
+            "context": "Reminder message about keeping username appropriate"
+          }
+        },
+        "password": {
+          "labels": {
+            "current": {
+              "text": "Current Password",
+              "context": "Form label for current password input"
+            },
+            "new": {
+              "text": "New Password",
+              "context": "Form label for new password input"
+            },
+            "confirm": {
+              "text": "Confirm Password",
+              "context": "Form label for confirm password input"
+            }
+          },
+          "placeholder": {
+            "text": "************",
+            "context": "Placeholder text for password inputs"
+          },
+          "button": {
+            "text": "Change password",
+            "context": "Button text to change password"
+          },
+          "validation": {
+            "minLength": {
+              "text": "Password must be at least {min} characters.",
+              "context": "Validation error message for password minimum length, includes min as parameter"
+            },
+            "maxLength": {
+              "text": "Password must be {max} characters or fewer.",
+              "context": "Validation error message for password maximum length, includes max as parameter"
+            },
+            "mismatch": {
+              "text": "Passwords do not match",
+              "context": "Validation error message when passwords don't match"
+            }
+          },
+          "toast": {
+            "success": {
+              "text": "Password changed successfully!",
+              "context": "Success toast message when password is changed"
+            },
+            "error": {
+              "text": "Error occured while changing password!",
+              "context": "Error toast message when password change fails"
+            }
+          }
+        },
+        "description": {
+          "toast": {
+            "success": {
+              "text": "Description updated successfully!",
+              "context": "Success toast message when description is updated"
+            },
+            "error": {
+              "text": "An unknown error occurred",
+              "context": "Generic error message for description update"
+            }
+          }
+        },
+        "country": {
+          "label": {
+            "text": "New Country Flag",
+            "context": "Form label for country flag selector"
+          },
+          "placeholder": {
+            "text": "Select new country flag",
+            "context": "Placeholder text for country flag selector"
+          },
+          "button": {
+            "text": "Change country flag",
+            "context": "Button text to change country flag"
+          },
+          "toast": {
+            "success": {
+              "text": "Country flag changed successfully!",
+              "context": "Success toast message when country flag is changed"
+            },
+            "error": {
+              "text": "Error occured while changing country flag!",
+              "context": "Error toast message when country flag change fails"
+            }
+          }
+        },
+        "socials": {
+          "headings": {
+            "general": {
+              "text": "General",
+              "context": "Heading for general information section in socials form"
+            },
+            "socials": {
+              "text": "Socials",
+              "context": "Heading for socials section in socials form"
+            }
+          },
+          "fields": {
+            "location": {
+              "text": "location",
+              "context": "Field label for location"
+            },
+            "interest": {
+              "text": "interest",
+              "context": "Field label for interest"
+            },
+            "occupation": {
+              "text": "occupation",
+              "context": "Field label for occupation"
+            }
+          },
+          "button": {
+            "text": "Update socials",
+            "context": "Button text to update socials"
+          },
+          "toast": {
+            "success": {
+              "text": "Socials updated successfully!",
+              "context": "Success toast message when socials are updated"
+            },
+            "error": {
+              "text": "Error occured while updating socials!",
+              "context": "Error toast message when socials update fails"
+            }
+          }
+        },
+        "playstyle": {
+          "options": {
+            "Mouse": {
+              "text": "Mouse",
+              "context": "Playstyle option for mouse input"
+            },
+            "Keyboard": {
+              "text": "Keyboard",
+              "context": "Playstyle option for keyboard input"
+            },
+            "Tablet": {
+              "text": "Tablet",
+              "context": "Playstyle option for tablet input"
+            },
+            "TouchScreen": {
+              "text": "Touch Screen",
+              "context": "Playstyle option for touch screen input"
+            }
+          },
+          "toast": {
+            "success": {
+              "text": "Playstyle updated successfully!",
+              "context": "Success toast message when playstyle is updated"
+            },
+            "error": {
+              "text": "Error occured while updating playstyle!",
+              "context": "Error toast message when playstyle update fails"
+            }
+          }
+        },
+        "uploadImage": {
+          "types": {
+            "avatar": {
+              "text": "avatar",
+              "context": "The word 'avatar' for image upload type"
+            },
+            "banner": {
+              "text": "banner",
+              "context": "The word 'banner' for image upload type"
+            }
+          },
+          "button": {
+            "text": "Upload {type}",
+            "context": "Button text to upload image, includes type (avatar/banner) as parameter"
+          },
+          "toast": {
+            "success": {
+              "text": "{type} updated successfully!",
+              "context": "Success toast message when image is uploaded, includes type (avatar/banner) as parameter"
+            },
+            "error": {
+              "text": "An unknown error occurred",
+              "context": "Generic error message for image upload"
+            }
+          },
+          "note": {
+            "text": "* Note: {type}s are limited to 5MB in size",
+            "context": "Note about file size limit, includes type (avatar/banner) as parameter"
+          }
+        },
+        "siteOptions": {
+          "includeBanchoButton": {
+            "text": "Include \"Open on Bancho\" button in beatmap page",
+            "context": "Label for toggle to include Open on Bancho button"
+          },
+          "useSpaciousUI": {
+            "text": "Use spacious UI (Increase spacing between elements)",
+            "context": "Label for toggle to use spacious UI"
+          }
+        }
+      },
+      "common": {
+        "unknownError": {
+          "text": "Unknown error.",
+          "context": "Generic error message for unknown errors"
+        }
+      }
     }
   }
 }

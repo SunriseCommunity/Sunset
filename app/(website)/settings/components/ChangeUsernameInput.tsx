@@ -14,27 +14,33 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { useUsernameChange } from "@/lib/hooks/api/user/useUsernameChange";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useT } from "@/lib/i18n/utils";
 
-const formSchema = z.object({
-  newUsername: z
-    .string()
-    .min(2, {
-      message: "Username must be at least 2 characters.",
-    })
-    .max(32, {
-      message: "Username must be 32 characters or fewer.",
-    }),
-});
+const createFormSchema = (t: ReturnType<typeof useT>) =>
+  z.object({
+    newUsername: z
+      .string()
+      .min(2, {
+        message: t("validation.minLength", { min: 2 }),
+      })
+      .max(32, {
+        message: t("validation.maxLength", { max: 32 }),
+      }),
+  });
 
 export default function ChangeUsernameInput() {
+  const t = useT("pages.settings.components.username");
+  const tCommon = useT("pages.settings.common");
   const [error, setError] = useState<string | null>(null);
 
   const { toast } = useToast();
 
   const { trigger } = useUsernameChange();
+
+  const formSchema = useMemo(() => createFormSchema(t), [t]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -61,15 +67,15 @@ export default function ChangeUsernameInput() {
           form.reset();
 
           toast({
-            title: "Username changed successfully!",
+            title: t("toast.success"),
             variant: "success",
           });
         },
         onError: (err) => {
-          showError(err.message ?? "Unknown error.");
+          showError(err.message ?? tCommon("unknownError"));
           toast({
-            title: "Error occured while changing username!",
-            description: err.message ?? "Unknown error.",
+            title: t("toast.error"),
+            description: err.message ?? tCommon("unknownError"),
             variant: "destructive",
           });
         },
@@ -86,9 +92,9 @@ export default function ChangeUsernameInput() {
             name="newUsername"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>New Username</FormLabel>
+                <FormLabel>{t("label")}</FormLabel>
                 <FormControl>
-                  <Input placeholder="e.g. username" {...field} />
+                  <Input placeholder={t("placeholder")} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -96,14 +102,11 @@ export default function ChangeUsernameInput() {
           />
           {error && <p className="text-sm text-destructive">{error}</p>}
           <DialogFooter>
-            <Button type="submit">Change username</Button>
+            <Button type="submit">{t("button")}</Button>
           </DialogFooter>
         </form>
       </Form>
-      <label className="text-xs mt-2">
-        * Reminder: Please keep your username family friendly, or it will be
-        changed for you. Abusing this feature will result in a ban.
-      </label>
+      <label className="text-xs mt-2">{t("reminder")}</label>
     </div>
   );
 }

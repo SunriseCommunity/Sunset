@@ -14,50 +14,62 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { usePasswordChange } from "@/lib/hooks/api/user/usePasswordChange";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useState, useMemo, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useT } from "@/lib/i18n/utils";
 
-let password = "";
-
-const formSchema = z.object({
-  currentPassword: z
-    .string()
-    .min(8, {
-      message: "Password must be at least 8 characters.",
-    })
-    .max(32, {
-      message: "Password must be 32 characters or fewer.",
-    }),
-  password: z
-    .string()
-    .min(8, {
-      message: "Password must be at least 8 characters.",
-    })
-    .max(32, {
-      message: "Password must be 32 characters or fewer.",
-    })
-    .refine((value) => {
-      password = value;
-      return true;
-    }),
-  confirmPassword: z
-    .string()
-    .min(8, {
-      message: "Password must be at least 8 characters.",
-    })
-    .max(32, {
-      message: "Password must be 32 characters or fewer.",
-    })
-    .refine((value) => value === password, "Passwords do not match"),
-});
+const createFormSchema = (
+  t: ReturnType<typeof useT>,
+  passwordRef: { current: string }
+) => {
+  return z.object({
+    currentPassword: z
+      .string()
+      .min(8, {
+        message: t("validation.minLength", { min: 8 }),
+      })
+      .max(32, {
+        message: t("validation.maxLength", { max: 32 }),
+      }),
+    password: z
+      .string()
+      .min(8, {
+        message: t("validation.minLength", { min: 8 }),
+      })
+      .max(32, {
+        message: t("validation.maxLength", { max: 32 }),
+      })
+      .refine((value) => {
+        passwordRef.current = value;
+        return true;
+      }),
+    confirmPassword: z
+      .string()
+      .min(8, {
+        message: t("validation.minLength", { min: 8 }),
+      })
+      .max(32, {
+        message: t("validation.maxLength", { max: 32 }),
+      })
+      .refine(
+        (value) => value === passwordRef.current,
+        t("validation.mismatch")
+      ),
+  });
+};
 
 export default function ChangePasswordInput() {
+  const t = useT("pages.settings.components.password");
+  const tCommon = useT("pages.settings.common");
   const [error, setError] = useState<string | null>(null);
+  const passwordRef = useRef<string>("");
 
   const { toast } = useToast();
 
   const { trigger } = usePasswordChange();
+
+  const formSchema = useMemo(() => createFormSchema(t, passwordRef), [t]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -87,15 +99,15 @@ export default function ChangePasswordInput() {
           form.reset();
 
           toast({
-            title: "Password changed successfully!",
+            title: t("toast.success"),
             variant: "success",
           });
         },
         onError: (err) => {
-          showError(err.message ?? "Unknown error.");
+          showError(err.message ?? tCommon("unknownError"));
           toast({
-            title: "Error occured while changing password!",
-            description: err.message ?? "Unknown error.",
+            title: t("toast.error"),
+            description: err.message ?? tCommon("unknownError"),
             variant: "destructive",
           });
         },
@@ -112,11 +124,11 @@ export default function ChangePasswordInput() {
             name="currentPassword"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Current Password</FormLabel>
+                <FormLabel>{t("labels.current")}</FormLabel>
                 <FormControl>
                   <Input
                     type="password"
-                    placeholder="************"
+                    placeholder={t("placeholder")}
                     {...field}
                   />
                 </FormControl>
@@ -129,11 +141,11 @@ export default function ChangePasswordInput() {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>New Password</FormLabel>
+                <FormLabel>{t("labels.new")}</FormLabel>
                 <FormControl>
                   <Input
                     type="password"
-                    placeholder="************"
+                    placeholder={t("placeholder")}
                     {...field}
                   />
                 </FormControl>
@@ -146,11 +158,11 @@ export default function ChangePasswordInput() {
             name="confirmPassword"
             render={({ field }) => (
               <FormItem>
-                <FormLabel> Confirm Password</FormLabel>
+                <FormLabel>{t("labels.confirm")}</FormLabel>
                 <FormControl>
                   <Input
                     type="password"
-                    placeholder="************"
+                    placeholder={t("placeholder")}
                     {...field}
                   />
                 </FormControl>
@@ -160,7 +172,7 @@ export default function ChangePasswordInput() {
           />
           {error && <p className="text-sm text-destructive">{error}</p>}
           <DialogFooter>
-            <Button type="submit">Change password</Button>
+            <Button type="submit">{t("button")}</Button>
           </DialogFooter>
         </form>
       </Form>

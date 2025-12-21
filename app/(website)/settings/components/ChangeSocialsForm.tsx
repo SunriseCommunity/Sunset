@@ -25,6 +25,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
 import { z } from "zod";
+import { useT } from "@/lib/i18n/utils";
 
 const formSchema = zEditUserMetadataRequest;
 
@@ -37,6 +38,8 @@ export default function ChangeSocialsForm({
   metadata: UserMetadataResponse;
   className?: string;
 }) {
+  const t = useT("pages.settings.components.socials");
+  const tCommon = useT("pages.settings.common");
   const [error, setError] = useState<string | null>(null);
   const self = useSelf();
 
@@ -71,15 +74,15 @@ export default function ChangeSocialsForm({
       {
         onSuccess: () => {
           toast({
-            title: "Socials updated successfully!",
+            title: t("toast.success"),
             variant: "success",
           });
         },
         onError: (err) => {
-          showError(err.message ?? "Unknown error.");
+          showError(err.message ?? tCommon("unknownError"));
           toast({
-            title: "Error occured while updating socials!",
-            description: err.message ?? "Unknown error.",
+            title: t("toast.error"),
+            description: err.message ?? tCommon("unknownError"),
             variant: "destructive",
           });
         },
@@ -91,7 +94,7 @@ export default function ChangeSocialsForm({
     <div className={twMerge("flex flex-col lg:w-1/2", className)}>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          <h3 className="text-xl font-medium">General</h3>
+          <h3 className="text-xl font-medium">{t("headings.general")}</h3>
 
           {Object.keys(formSchema.shape)
             .filter((v) => ["location", "interest", "occupation"].includes(v))
@@ -105,7 +108,7 @@ export default function ChangeSocialsForm({
                     <FormItem>
                       <FormLabel className="capitalize flex gap-2">
                         {socialIcons[v as keyof UserMetadataResponse]}
-                        <p>{v}</p>
+                        <p>{t(`fields.${v}`)}</p>
                       </FormLabel>
                       <FormControl>
                         <Input {...field} />
@@ -121,7 +124,7 @@ export default function ChangeSocialsForm({
             <hr className="my-6" />
           </div>
 
-          <h3 className="text-xl font-medium">Socials</h3>
+          <h3 className="text-xl font-medium">{t("headings.socials")}</h3>
 
           {Object.keys(formSchema.shape)
             .filter(
@@ -152,7 +155,7 @@ export default function ChangeSocialsForm({
 
           {error && <p className="text-sm text-destructive">{error}</p>}
           <DialogFooter>
-            <Button type="submit">Update socials</Button>
+            <Button type="submit">{t("button")}</Button>
           </DialogFooter>
         </form>
       </Form>
