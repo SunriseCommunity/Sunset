@@ -112,7 +112,7 @@ export default function UserTabGeneral({
 
             <div className="flex place-content-between items-end my-2">
               <p className="text-sm">{t("playtime")}</p>
-              <div className="text-base font-bald">
+              <div className="text-sm font-bald">
                 {stats ? (
                   playtimeToString(stats?.play_time ?? 0)
                 ) : (

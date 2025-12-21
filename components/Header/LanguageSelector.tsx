@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Languages, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-import { AVAILABLE_LOCALES } from "@/lib/i18n/messages";
+import { AVAILABLE_LOCALES, DISPLAY_NAMES_LOCALES } from "@/lib/i18n/messages";
 import { getCountryCodeForLocale } from "@/lib/i18n/utils";
 
 export function LanguageSelector() {
@@ -36,10 +36,13 @@ export function LanguageSelector() {
           type: "language",
         });
 
-        const name = displayNames.of(locale) || locale.toUpperCase();
+        const name =
+          DISPLAY_NAMES_LOCALES[locale] ||
+          displayNames.of(locale) ||
+          locale.toUpperCase();
         return name;
       } catch {
-        return locale.toUpperCase();
+        return DISPLAY_NAMES_LOCALES[locale] || locale.toUpperCase();
       }
     },
     [currentLocale]
@@ -70,34 +73,36 @@ export function LanguageSelector() {
         className="min-w-[200px] w-[calc(100vw-2rem)] max-w-[280px] md:min-w-[200px] md:w-auto"
         sideOffset={8}
       >
-        {languages.map((locale) => {
-          const isActive = locale.code === currentLocale;
+        {languages
+          .sort((a, b) => a.nativeName.localeCompare(b.nativeName))
+          .map((locale) => {
+            const isActive = locale.code === currentLocale;
 
-          return (
-            <DropdownMenuItem
-              key={locale.code}
-              onClick={() => changeLanguage(locale.code)}
-              className={cn(
-                "flex items-center gap-3 cursor-pointer py-2.5 px-3",
-                isActive && "bg-accent"
-              )}
-            >
-              <Image
-                src={`/images/flags/${locale.countryCode}.png`}
-                alt={`${locale.nativeName} flag`}
-                width={24}
-                height={24}
-                className="md:w-6 md:h-6 w-5 h-5 flex-shrink-0"
-              />
-              <span className="flex-1 font-medium capitalize">
-                {locale.nativeName}
-              </span>
-              {isActive && (
-                <Check className="h-4 w-4 text-primary flex-shrink-0" />
-              )}
-            </DropdownMenuItem>
-          );
-        })}
+            return (
+              <DropdownMenuItem
+                key={locale.code}
+                onClick={() => changeLanguage(locale.code)}
+                className={cn(
+                  "flex items-center gap-3 cursor-pointer py-2.5 px-3",
+                  isActive && "bg-accent"
+                )}
+              >
+                <Image
+                  src={`/images/flags/${locale.countryCode}.png`}
+                  alt={`${locale.nativeName} flag`}
+                  width={24}
+                  height={24}
+                  className="md:w-6 md:h-6 w-5 h-5 flex-shrink-0"
+                />
+                <span className="flex-1 font-medium capitalize">
+                  {locale.nativeName}
+                </span>
+                {isActive && (
+                  <Check className="h-4 w-4 text-primary flex-shrink-0" />
+                )}
+              </DropdownMenuItem>
+            );
+          })}
       </DropdownMenuContent>
     </DropdownMenu>
   );
