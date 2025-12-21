@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Poppins } from "next/font/google";
+import { Noto_Sans, Poppins } from "next/font/google";
 import "./globals.css";
 import ScrollUpButton from "@/components/ScrollUpButton";
 import Providers from "@/components/Providers";
@@ -9,7 +9,13 @@ import { getT } from "@/lib/i18n/utils";
 
 const font = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-  subsets: ["latin"],
+  subsets: ["latin", "devanagari", "latin-ext"],
+  fallback: ["Noto Sans"],
+});
+
+const _fallbackFont = Noto_Sans({
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  subsets: ["latin", "cyrillic"],
 });
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -44,7 +50,11 @@ export default async function RootLayout({
   const [locale, messages] = await Promise.all([getLocale(), getMessages()]);
 
   return (
-    <html lang="en" className={font.className} suppressHydrationWarning>
+    <html
+      lang={locale}
+      className={`${font.className}`}
+      suppressHydrationWarning
+    >
       <body className="bg-background text-current min-h-screen flex flex-col font-medium">
         <Providers locale={locale} messages={messages}>
           {children}
