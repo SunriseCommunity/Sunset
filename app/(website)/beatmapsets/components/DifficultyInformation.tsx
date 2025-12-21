@@ -10,6 +10,7 @@ import { twMerge } from "tailwind-merge";
 import { Button } from "@/components/ui/button";
 import { gameModeToVanilla } from "@/lib/utils/gameMode.util";
 import { BeatmapResponse, GameMode } from "@/lib/types/api";
+import { useT } from "@/lib/i18n/utils";
 
 interface DifficultyInformationProps {
   beatmap: BeatmapResponse;
@@ -20,6 +21,7 @@ export default function DifficultyInformation({
   beatmap,
   activeMode,
 }: DifficultyInformationProps) {
+  const t = useT("pages.beatmapsets.components.difficultyInformation");
   const { player, currentTimestamp, isPlaying, isPlayingThis, pause, play } =
     useAudioPlayer();
 
@@ -51,7 +53,7 @@ export default function DifficultyInformation({
         }}
         size="sm"
         variant="accent"
-        className=" relative text-xs min-h-8 bg-opacity-80 px-6 py-1 min-w-full rounded-lg overflow-hidden max-w-64"
+        className="relative text-xs min-h-8 bg-opacity-80 px-6 py-1 min-w-64 rounded-lg overflow-hidden w-full"
       >
         {isPlayingCurrent ? (
           <Pause className="h-5" />
@@ -73,19 +75,19 @@ export default function DifficultyInformation({
       </Button>
 
       <RoundedContent className="flex bg-opacity-80 flex-row items-center rounded-lg px-3 py-1 space-x-3 min-w-full justify-center  min-h-8">
-        <Tooltip content="Total Length">
+        <Tooltip content={t("tooltips.totalLength")}>
           <p className="flex items-center text-sm">
             <Clock9 className="h-4" />
             {SecondsToString(beatmap.total_length)}
           </p>
         </Tooltip>
-        <Tooltip content="BPM">
+        <Tooltip content={t("tooltips.bpm")}>
           <p className="flex items-center text-sm">
             <Music className="h-4" />
             {beatmap.bpm}
           </p>
         </Tooltip>
-        <Tooltip content="Star Rating">
+        <Tooltip content={t("tooltips.starRating")}>
           <p className="flex items-center text-sm">
             <Star className="h-4" />{" "}
             {getBeatmapStarRating(beatmap, activeMode).toFixed(2)}
@@ -94,24 +96,30 @@ export default function DifficultyInformation({
       </RoundedContent>
 
       <RoundedContent className="flex bg-opacity-80 flex-col items-center rounded-lg min-w-full px-3 py-1">
-        <div className="flex flex-col items-start min-w-full justify-between">
+        <div className="flex flex-col items-start min-w-full justify-between w-fit">
           {possibleKeysValue && isCurrentGamemode(GameMode.MANIA) && (
             <ValueWithProgressBar
-              title="Key Count:"
+              title={t("labels.keyCount")}
               value={parseInt(possibleKeysValue || "4")}
             />
           )}
           {isCurrentGamemode([GameMode.STANDARD, GameMode.CATCH_THE_BEAT]) && (
-            <ValueWithProgressBar title="Circle Size:" value={beatmap.cs} />
+            <ValueWithProgressBar
+              title={t("labels.circleSize")}
+              value={beatmap.cs}
+            />
           )}
-          <ValueWithProgressBar title="HP Drain:" value={beatmap.drain ?? 0} />
           <ValueWithProgressBar
-            title="Accuracy:"
+            title={t("labels.hpDrain")}
+            value={beatmap.drain ?? 0}
+          />
+          <ValueWithProgressBar
+            title={t("labels.accuracy")}
             value={beatmap.accuracy ?? 0}
           />
           {isCurrentGamemode([GameMode.STANDARD, GameMode.CATCH_THE_BEAT]) && (
             <ValueWithProgressBar
-              title="Approach Rate:"
+              title={t("labels.approachRate")}
               value={beatmap.ar ?? 0}
             />
           )}
@@ -130,7 +138,7 @@ function ValueWithProgressBar({
 }) {
   return (
     <div className="flex flex-row items-center space-x-2 min-w-full">
-      <p className="text-xs text-nowrap min-w-24">{title}</p>
+      <p className="text-xs text-nowrap min-w-24 flex-shrink-0">{title}</p>
       <ProgressBar maxValue={10} value={value} className="lg:max-w-24" />
       <p>{value.toFixed(1)}</p>
     </div>

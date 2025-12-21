@@ -380,6 +380,142 @@
           "applyFilters": "Применить фильтры"
         }
       }
+    },
+    "beatmapsets": {
+      "meta": {
+        "title": "{artist} - {title} | {appName}",
+        "description": "Информация о наборе карт {title} от {artist}",
+        "openGraph": {
+          "title": "{artist} - {title} | {appName}",
+          "description": "Информация о наборе карт {title} от {artist} {difficultyInfo}"
+        }
+      },
+      "header": "Информация о карте",
+      "error": {
+        "notFound": {
+          "title": "Набор карт не найден",
+          "description": "Набор карт, который вы ищете, не существует или был удалён."
+        }
+      },
+      "submission": {
+        "submittedBy": "автор",
+        "submittedOn": "опубликована",
+        "rankedOn": "стала рейтинговой",
+        "statusBy": "{status} от"
+      },
+      "video": {
+        "tooltip": "Эта карта содержит видео"
+      },
+      "description": {
+        "header": "Описание"
+      },
+      "components": {
+        "dropdown": {
+          "openMenu": "Открыть меню",
+          "ppCalculator": "Калькулятор PP",
+          "openOnBancho": "Открыть на Bancho",
+          "openWithAdminPanel": "Открыть в панели администратора"
+        },
+        "infoAccordion": {
+          "communityHype": "Хайп сообщества",
+          "information": "Информация",
+          "metadata": {
+            "genre": "Жанр",
+            "language": "Язык",
+            "tags": "Теги"
+          }
+        },
+        "downloadButtons": {
+          "download": "Скачать",
+          "withVideo": "с видео",
+          "withoutVideo": "без видео",
+          "osuDirect": "osu!direct"
+        },
+        "difficultyInformation": {
+          "tooltips": {
+            "totalLength": "Общая длина",
+            "bpm": "BPM",
+            "starRating": "Звёздный рейтинг"
+          },
+          "labels": {
+            "keyCount": "Количество клавиш:",
+            "circleSize": "Размер нот:",
+            "hpDrain": "Скорость потери HP:",
+            "accuracy": "Точность:",
+            "approachRate": "Скорость появления нот:"
+          }
+        },
+        "nomination": {
+          "description": "Хайпните эту карту, если вам понравилось играть на ней, чтобы помочь ей перейти в статус <b>Рейтинговая</b>.",
+          "hypeProgress": "Прогресс хайпа",
+          "hypeBeatmap": "Хайпнуть карту!",
+          "hypesRemaining": "У вас осталось <b>{count} хайпов</b> на эту неделю",
+          "toast": {
+            "success": "Карта успешно хайпнута!",
+            "error": "Произошла ошибка при хайпе набора карт!"
+          }
+        },
+        "ppCalculator": {
+          "title": "Калькулятор PP",
+          "pp": "PP: <b>{value}</b>",
+          "totalLength": "Общая длина",
+          "form": {
+            "accuracy": {
+              "label": "Точность",
+              "validation": {
+                "negative": "Точность не может быть отрицательной",
+                "tooHigh": "Точность не может быть больше 100"
+              }
+            },
+            "combo": {
+              "label": "Комбо",
+              "validation": {
+                "negative": "Комбо не может быть отрицательным"
+              }
+            },
+            "misses": {
+              "label": "Промахи",
+              "validation": {
+                "negative": "Промахи не могут быть отрицательными"
+              }
+            },
+            "calculate": "Рассчитать",
+            "unknownError": "Неизвестная ошибка"
+          }
+        },
+        "leaderboard": {
+          "columns": {
+            "rank": "Ранг",
+            "score": "Счёт",
+            "accuracy": "Точность",
+            "player": "Игрок",
+            "maxCombo": "Макс. комбо",
+            "perfect": "Идеально",
+            "great": "Отлично",
+            "good": "Хорошо",
+            "ok": "Ок",
+            "lDrp": "Б капля",
+            "meh": "Плохо",
+            "sDrp": "М капля",
+            "miss": "Промах",
+            "pp": "PP",
+            "time": "Время",
+            "mods": "Моды"
+          },
+          "actions": {
+            "openMenu": "Открыть меню",
+            "viewDetails": "Посмотреть детали",
+            "downloadReplay": "Скачать реплей"
+          },
+          "table": {
+            "emptyState": "Результаты не найдены. Станьте первым, кто отправит результат!",
+            "pagination": {
+              "scoresPerPage": "результатов на странице",
+              "showing": "Показано {start} - {end} из {total}"
+            }
+          }
+        }
+      }
     }
   }
 }

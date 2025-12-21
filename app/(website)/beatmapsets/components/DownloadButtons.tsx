@@ -3,6 +3,8 @@ import { BeatmapSetResponse } from "@/lib/types/api";
 import { Download } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useT } from "@/lib/i18n/utils";
+import useSelf from "@/lib/hooks/useSelf";
 
 interface DownloadButtonsProps {
   beatmapSet: BeatmapSetResponse;
@@ -22,6 +24,8 @@ export default function DownloadButtons({
   vairant = "secondary",
   size = "xl",
 }: DownloadButtonsProps) {
+  const t = useT("pages.beatmapsets.components.downloadButtons");
+  const { self } = useSelf();
   const router = useRouter();
 
   return (
@@ -32,9 +36,9 @@ export default function DownloadButtons({
         >
           <Download />
           <div className="text-start">
-            Download
+            {t("download")}
             {beatmapSet.video ? (
-              <p className="text-xs font-light">with Video</p>
+              <p className="text-xs font-light">{t("withVideo")}</p>
             ) : undefined}
           </div>
         </Link>
@@ -47,8 +51,8 @@ export default function DownloadButtons({
           >
             <Download />
             <div className="text-start">
-              Download
-              <p className="text-xs font-light">without Video</p>
+              {t("download")}
+              <p className="text-xs font-light">{t("withoutVideo")}</p>
             </div>
           </Link>
         </Button>
@@ -57,7 +61,7 @@ export default function DownloadButtons({
       <Button variant={vairant} size={size} disabled={!self} asChild>
         <Link href={`osu://dl/${beatmapSet.id}`}>
           <Download />
-          osu!direct
+          {t("osuDirect")}
         </Link>
       </Button>
     </>

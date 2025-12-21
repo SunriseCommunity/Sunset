@@ -997,6 +997,364 @@
           }
         }
       }
+    },
+    "beatmapsets": {
+      "meta": {
+        "title": {
+          "text": "{artist} - {title} | {appName}",
+          "context": "The title for the beatmapset detail page, includes artist and title as parameters"
+        },
+        "description": {
+          "text": "Beatmapset info for {title} by {artist}",
+          "context": "The meta description for the beatmapset detail page, includes title and artist as parameters"
+        },
+        "openGraph": {
+          "title": {
+            "text": "{artist} - {title} | {appName}",
+            "context": "The OpenGraph title for the beatmapset detail page, includes artist and title as parameters"
+          },
+          "description": {
+            "text": "Beatmapset info for {title} by {artist} {difficultyInfo}",
+            "context": "The OpenGraph description for the beatmapset detail page, includes title, artist, and optional difficulty info as parameters"
+          }
+        }
+      },
+      "header": {
+        "text": "Beatmap info",
+        "context": "The main header text for the beatmapset detail page"
+      },
+      "error": {
+        "notFound": {
+          "title": {
+            "text": "Beatmapset not found",
+            "context": "Title displayed when a beatmapset is not found"
+          },
+          "description": {
+            "text": "The beatmapset you are looking for does not exist or has been deleted.",
+            "context": "Description message when a beatmapset is not found or has been deleted"
+          }
+        }
+      },
+      "submission": {
+        "submittedBy": {
+          "text": "submitted by",
+          "context": "Text label indicating who submitted the beatmapset"
+        },
+        "submittedOn": {
+          "text": "submitted on",
+          "context": "Text label indicating when the beatmapset was submitted"
+        },
+        "rankedOn": {
+          "text": "ranked on",
+          "context": "Text label indicating when the beatmapset was ranked"
+        },
+        "statusBy": {
+          "text": "{status} by",
+          "context": "Text indicating the beatmap status and who set it, includes status as parameter"
+        }
+      },
+      "video": {
+        "tooltip": {
+          "text": "This beatmap contains video",
+          "context": "Tooltip text for the video icon indicating the beatmap has a video"
+        }
+      },
+      "description": {
+        "header": {
+          "text": "Description",
+          "context": "Header text for the beatmapset description section"
+        }
+      },
+      "components": {
+        "dropdown": {
+          "openMenu": {
+            "text": "Open menu",
+            "context": "Screen reader text for the dropdown menu button"
+          },
+          "ppCalculator": {
+            "text": "PP Calculator",
+            "context": "Dropdown menu item text to open PP calculator"
+          },
+          "openOnBancho": {
+            "text": "Open on Bancho",
+            "context": "Dropdown menu item text to open beatmap on official osu! website"
+          },
+          "openWithAdminPanel": {
+            "text": "Open with Admin Panel",
+            "context": "Dropdown menu item text to open beatmap in admin panel (for BAT users)"
+          }
+        },
+        "infoAccordion": {
+          "communityHype": {
+            "text": "Community Hype",
+            "context": "Header text for the community hype section"
+          },
+          "information": {
+            "text": "Information",
+            "context": "Header text for the beatmap information section"
+          },
+          "metadata": {
+            "genre": {
+              "text": "Genre",
+              "context": "Label for the beatmap genre"
+            },
+            "language": {
+              "text": "Language",
+              "context": "Label for the beatmap language"
+            },
+            "tags": {
+              "text": "Tags",
+              "context": "Label for the beatmap tags"
+            }
+          }
+        },
+        "downloadButtons": {
+          "download": {
+            "text": "Download",
+            "context": "Button text to download the beatmapset"
+          },
+          "withVideo": {
+            "text": "with Video",
+            "context": "Text indicating the download includes video"
+          },
+          "withoutVideo": {
+            "text": "without Video",
+            "context": "Text indicating the download excludes video"
+          },
+          "osuDirect": {
+            "text": "osu!direct",
+            "context": "Button text for osu!direct download"
+          }
+        },
+        "difficultyInformation": {
+          "tooltips": {
+            "totalLength": {
+              "text": "Total Length",
+              "context": "Tooltip text for the total length of the beatmap"
+            },
+            "bpm": {
+              "text": "BPM",
+              "context": "Tooltip text for beats per minute"
+            },
+            "starRating": {
+              "text": "Star Rating",
+              "context": "Tooltip text for the star rating"
+            }
+          },
+          "labels": {
+            "keyCount": {
+              "text": "Key Count:",
+              "context": "Label for the key count (mania mode)"
+            },
+            "circleSize": {
+              "text": "Circle Size:",
+              "context": "Label for circle size (standard/catch mode)"
+            },
+            "hpDrain": {
+              "text": "HP Drain:",
+              "context": "Label for HP drain"
+            },
+            "accuracy": {
+              "text": "Accuracy:",
+              "context": "Label for accuracy difficulty"
+            },
+            "approachRate": {
+              "text": "Approach Rate:",
+              "context": "Label for approach rate (standard/catch mode)"
+            }
+          }
+        },
+        "nomination": {
+          "description": {
+            "text": "Hype this map if you enjoyed playing it to help it progress to <b>Ranked</b> status.",
+            "context": "Description text explaining the hype feature, includes bold tag for Ranked"
+          },
+          "hypeProgress": {
+            "text": "Hype progress",
+            "context": "Label for the hype progress indicator"
+          },
+          "hypeBeatmap": {
+            "text": "Hype beatmap!",
+            "context": "Button text to hype a beatmap"
+          },
+          "hypesRemaining": {
+            "text": "You have <b>{count} hypes</b> remaining for this week",
+            "context": "Text showing remaining hypes for the week, includes count as parameter and bold tag"
+          },
+          "toast": {
+            "success": {
+              "text": "Beatmap hyped successfully!",
+              "context": "Success toast message when a beatmap is hyped"
+            },
+            "error": {
+              "text": "Error occured while hyping beatmapset!",
+              "context": "Error toast message when hyping fails"
+            }
+          }
+        },
+        "ppCalculator": {
+          "title": {
+            "text": "PP Calculator",
+            "context": "Title of the PP calculator dialog"
+          },
+          "pp": {
+            "text": "PP: <b>{value}</b>",
+            "context": "Label for performance points"
+          },
+          "totalLength": {
+            "text": "Total Length",
+            "context": "Tooltip text for total length in PP calculator"
+          },
+          "form": {
+            "accuracy": {
+              "label": {
+                "text": "Accuracy",
+                "context": "Form label for accuracy input"
+              },
+              "validation": {
+                "negative": {
+                  "text": "Accuracy can't be negative",
+                  "context": "Validation error message for negative accuracy"
+                },
+                "tooHigh": {
+                  "text": "Accuracy can't be greater that 100",
+                  "context": "Validation error message for accuracy over 100"
+                }
+              }
+            },
+            "combo": {
+              "label": {
+                "text": "Combo",
+                "context": "Form label for combo input"
+              },
+              "validation": {
+                "negative": {
+                  "text": "Combo can't be negative",
+                  "context": "Validation error message for negative combo"
+                }
+              }
+            },
+            "misses": {
+              "label": {
+                "text": "Misses",
+                "context": "Form label for misses input"
+              },
+              "validation": {
+                "negative": {
+                  "text": "Misses can't be negative",
+                  "context": "Validation error message for negative misses"
+                }
+              }
+            },
+            "calculate": {
+              "text": "Calculate",
+              "context": "Button text to calculate PP"
+            },
+            "unknownError": {
+              "text": "Unknown error",
+              "context": "Generic error message for unknown errors"
+            }
+          }
+        },
+        "leaderboard": {
+          "columns": {
+            "rank": {
+              "text": "Rank",
+              "context": "Column header for rank"
+            },
+            "score": {
+              "text": "Score",
+              "context": "Column header for score"
+            },
+            "accuracy": {
+              "text": "Accuracy",
+              "context": "Column header for accuracy"
+            },
+            "player": {
+              "text": "Player",
+              "context": "Column header for player"
+            },
+            "maxCombo": {
+              "text": "Max Combo",
+              "context": "Column header for max combo"
+            },
+            "perfect": {
+              "text": "Perfect",
+              "context": "Column header for perfect hits (geki)"
+            },
+            "great": {
+              "text": "Great",
+              "context": "Column header for great hits (300)"
+            },
+            "good": {
+              "text": "Good",
+              "context": "Column header for good hits (katu)"
+            },
+            "ok": {
+              "text": "Ok",
+              "context": "Column header for ok hits (100)"
+            },
+            "lDrp": {
+              "text": "L DRP",
+              "context": "Column header for large droplets (catch mode, 100)"
+            },
+            "meh": {
+              "text": "Meh",
+              "context": "Column header for meh hits (50)"
+            },
+            "sDrp": {
+              "text": "S DRP",
+              "context": "Column header for small droplets (catch mode, 50)"
+            },
+            "miss": {
+              "text": "Miss",
+              "context": "Column header for misses"
+            },
+            "pp": {
+              "text": "PP",
+              "context": "Column header for performance points"
+            },
+            "time": {
+              "text": "Time",
+              "context": "Column header for time played"
+            },
+            "mods": {
+              "text": "Mods",
+              "context": "Column header for mods"
+            }
+          },
+          "actions": {
+            "openMenu": {
+              "text": "Open menu",
+              "context": "Screen reader text for the dropdown menu button"
+            },
+            "viewDetails": {
+              "text": "View Details",
+              "context": "Dropdown menu item text to view score details"
+            },
+            "downloadReplay": {
+              "text": "Download Replay",
+              "context": "Dropdown menu item text to download replay"
+            }
+          },
+          "table": {
+            "emptyState": {
+              "text": "No scores found. Be the first to submit one!",
+              "context": "Message displayed when there are no scores in the leaderboard"
+            },
+            "pagination": {
+              "scoresPerPage": {
+                "text": "scores per page",
+                "context": "Label for the scores per page selector"
+              },
+              "showing": {
+                "text": "Showing {start} - {end} of {total}",
+                "context": "Pagination text showing the range of displayed scores, includes start, end, and total as parameters"
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

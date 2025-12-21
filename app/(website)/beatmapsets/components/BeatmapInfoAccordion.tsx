@@ -10,6 +10,7 @@ import {
 import { BeatmapResponse, BeatmapSetResponse } from "@/lib/types/api";
 import { Info, Rocket } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useT } from "@/lib/i18n/utils";
 
 export function BeatmapInfoAccordion({
   beatmapSet,
@@ -18,6 +19,7 @@ export function BeatmapInfoAccordion({
   beatmapSet: BeatmapSetResponse;
   beatmap: BeatmapResponse;
 }) {
+  const t = useT("pages.beatmapsets.components.infoAccordion");
   const [isScreenSmall, setAccordionType] = useState<boolean>(false);
 
   useEffect(() => {
@@ -42,7 +44,7 @@ export function BeatmapInfoAccordion({
           <PrettyHeader>
             <div className="flex space-x-2 items-center">
               <Rocket />
-              <p className="text-sm">Community Hype</p>
+              <p className="text-sm">{t("communityHype")}</p>
             </div>
           </PrettyHeader>
           <RoundedContent className="space-y-4 flex-1 min-h-0 overflow-y-auto">
@@ -54,7 +56,7 @@ export function BeatmapInfoAccordion({
         <PrettyHeader>
           <div className="flex space-x-2 items-center">
             <Info />
-            <p className="text-sm">Information</p>
+            <p className="text-sm">{t("information")}</p>
           </div>
         </PrettyHeader>
         <RoundedContent className="space-y-4 flex-1 min-h-0 lg:h-64 overflow-y-auto">
@@ -69,7 +71,7 @@ export function BeatmapInfoAccordion({
           <AccordionTrigger className="bg-card border rounded-t-lg p-4 flex shadow [&[data-state=closed]]:rounded-lg">
             <div className="flex space-x-2 items-center">
               <Rocket />
-              <p>Community Hype</p>
+              <p>{t("communityHype")}</p>
             </div>
           </AccordionTrigger>
           <AccordionContent className="max-h-52 flex flex-col pb-0">
@@ -83,7 +85,7 @@ export function BeatmapInfoAccordion({
         <AccordionTrigger className="bg-card border rounded-t-lg p-4 flex shadow [&[data-state=closed]]:rounded-lg">
           <div className="flex space-x-2 items-center">
             <Info />
-            <p>Information</p>
+            <p>{t("information")}</p>
           </div>
         </AccordionTrigger>
         <AccordionContent className="max-h-52 flex flex-col ">
@@ -97,20 +99,21 @@ export function BeatmapInfoAccordion({
 }
 
 function BeatmapMetadata({ beatmapSet }: { beatmapSet: BeatmapSetResponse }) {
+  const t = useT("pages.beatmapsets.components.infoAccordion.metadata");
   return (
     <>
       <div className="">
         <div className="flex place-content-between items-end">
-          <p className="text-xs">Genre</p>
+          <p className="text-xs">{t("genre")}</p>
           <p className="text-sm font-bald">{beatmapSet.genre}</p>
         </div>
         <div className="flex place-content-between items-end">
-          <p className="text-xs">Language</p>
+          <p className="text-xs">{t("language")}</p>
           <p className="text-sm font-bald">{beatmapSet.language}</p>
         </div>
       </div>
       <div className="flex flex-col">
-        <p className="text-xs">Tags</p>
+        <p className="text-xs">{t("tags")}</p>
         <p className="text-sm font-light ">
           {beatmapSet.tags.map((tag) => `${tag}`).join(", ")}
         </p>

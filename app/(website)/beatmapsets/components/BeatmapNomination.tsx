@@ -9,8 +9,11 @@ import {
 import useSelf from "@/lib/hooks/useSelf";
 import { BeatmapResponse } from "@/lib/types/api";
 import { Megaphone } from "lucide-react";
+import { useT } from "@/lib/i18n/utils";
+import { ReactNode } from "react";
 
 export function BeatmapNomination({ beatmap }: { beatmap: BeatmapResponse }) {
+  const t = useT("pages.beatmapsets.components.nomination");
   const { self } = useSelf();
 
   const { trigger } = useBeatmapSetAddHype(beatmap.beatmapset_id);
@@ -27,14 +30,14 @@ export function BeatmapNomination({ beatmap }: { beatmap: BeatmapResponse }) {
       trigger(null, {
         onSuccess: () => {
           toast({
-            title: "Beatmap hyped successfully!",
+            title: t("toast.success"),
             variant: "success",
           });
         },
         onError: (err) => {
           toast({
-            title: "Error occured while hyping beatmapset!",
-            description: err.message ?? "Unknown error.",
+            title: t("toast.error"),
+            description: err.message ?? t("toast.error"),
             variant: "destructive",
           });
         },
@@ -53,15 +56,12 @@ export function BeatmapNomination({ beatmap }: { beatmap: BeatmapResponse }) {
   return (
     <div className="flex flex-col lg:col-span-2 h-full">
       <div className="flex flex-col gap-2">
-        <p className="text-xs font-light">
-          Hype this map if you enjoyed playing it to help it progress to{" "}
-          <b className="font-bold">Ranked</b> status.
-        </p>
+        <p className="text-xs font-light">{t.rich("description")}</p>
 
         <div className="flex flex-col gap-2">
           <div className="flex justify-between items-center">
             <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
-              Hype progress
+              {t("hypeProgress")}
             </span>
             <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
               {current_hypes}/{required_hypes}
@@ -92,18 +92,18 @@ export function BeatmapNomination({ beatmap }: { beatmap: BeatmapResponse }) {
               variant="secondary"
             >
               <Megaphone className="h-5 w-5" />
-              Hype beatmap!
+              {t("hypeBeatmap")}
             </Button>
 
             {self && (
               <div className="text-right text-xs font-light">
                 <p className="text-secondary-foreground">
-                  You have
-                  <span className="text-primary font-bold">
-                    {" "}
-                    {userHypesLeft} hypes{" "}
-                  </span>
-                  remaining for this week
+                  {t.rich("hypesRemaining", {
+                    b: (chunks: ReactNode) => (
+                      <b className="font-bold text-primary">{chunks}</b>
+                    ),
+                    count: userHypesLeft,
+                  })}
                 </p>
               </div>
             )}

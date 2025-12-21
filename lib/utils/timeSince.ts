@@ -1,4 +1,7 @@
+"use client";
+
 import { toLocalTime } from "@/lib/utils/toLocalTime";
+import Cookies from "js-cookie";
 
 export function timeSince(
   input: string | Date,
@@ -7,7 +10,13 @@ export function timeSince(
 ) {
   const date = toLocalTime(input);
 
-  const formatter = new Intl.RelativeTimeFormat("en");
+  const locale = Cookies.get("locale") || "en";
+
+  const formatter = new Intl.RelativeTimeFormat(locale);
+  const formatterDays = new Intl.RelativeTimeFormat(locale, {
+    numeric: "auto",
+  });
+
   const ranges: { [key: string]: number } = {
     years: 3600 * 24 * 365,
     months: 3600 * 24 * 30,
@@ -22,7 +31,7 @@ export function timeSince(
 
   if (forceDays) {
     const delta = Math.round(secondsElapsed / ranges["days"]);
-    return delta === 0 ? "Today" : formatter.format(delta, "days");
+    return formatterDays.format(delta, "day");
   }
   for (let key in ranges) {
     if (ranges[key] <= Math.abs(secondsElapsed)) {
@@ -44,5 +53,5 @@ export function timeSince(
     }
   }
 
-  return "Now";
+  return formatterDays.format(0, "seconds");
 }

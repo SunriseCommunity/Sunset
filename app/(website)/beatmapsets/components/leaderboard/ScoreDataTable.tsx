@@ -34,6 +34,7 @@ import {
 } from "@/components/ui/select";
 import { gameModeToVanilla } from "@/lib/utils/gameMode.util";
 import { BeatmapResponse, GameMode } from "@/lib/types/api";
+import { useT } from "@/lib/i18n/utils";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -62,6 +63,7 @@ export function ScoreDataTable<TData, TValue>({
   pagination,
   setPagination,
 }: DataTableProps<TData, TValue>) {
+  const t = useT("pages.beatmapsets.components.leaderboard.table");
   const [sorting, setSorting] = useState<SortingState>([]);
 
   const [columnVisibility, setColumnVisibility] =
@@ -168,7 +170,7 @@ export function ScoreDataTable<TData, TValue>({
                     colSpan={columns.length}
                     className="h-24 text-center"
                   >
-                    No scores found. Be the first to submit one!
+                    {t("emptyState")}
                   </TableCell>
                 </TableRow>
               )}
@@ -194,22 +196,22 @@ export function ScoreDataTable<TData, TValue>({
               <SelectItem value="100">100</SelectItem>
             </SelectContent>
           </Select>
-          <p>scores per page</p>
+          <p>{t("pagination.scoresPerPage")}</p>
         </div>
 
         <div className="flex items-center ">
           <p>
-            Showing{" "}
-            {Math.min(
-              pagination.pageIndex * pagination.pageSize + 1,
-              totalCount
-            )}{" "}
-            -{" "}
-            {Math.min(
-              (pagination.pageIndex + 1) * pagination.pageSize,
-              totalCount
-            )}{" "}
-            of {totalCount}
+            {t("pagination.showing", {
+              start: Math.min(
+                pagination.pageIndex * pagination.pageSize + 1,
+                totalCount
+              ),
+              end: Math.min(
+                (pagination.pageIndex + 1) * pagination.pageSize,
+                totalCount
+              ),
+              total: totalCount,
+            })}
           </p>
         </div>
       </div>
