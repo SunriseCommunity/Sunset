@@ -5,8 +5,10 @@ import {
   UsersRoundIcon,
   VoteIcon,
 } from "lucide-react";
+import { getT } from "@/lib/i18n/utils";
 
 export default async function Footer() {
+  const t = await getT("components.footer");
   return (
     <footer className="border-t-2 text-current p-4 text-sm text-center space-y-6 bg-background/50">
       {process.env.NEXT_PUBLIC_OSU_SERVER_LIST_LINK && (
@@ -16,20 +18,20 @@ export default async function Footer() {
         >
           <VoteIcon className="mr-1" />
           <p className="from-stone-400 via-orange-300 to-amber-600 bg-gradient-to-r text-transparent bg-clip-text bg-size-300 animate-gradient ">
-            Please vote for us on osu-server-list!
+            {t("voteMessage")}
           </p>
         </a>
       )}
 
       <div className="md:flex grid justify-center space-x-4">
-        <p>© 2024-2025 Sunrise Community</p>
+        <p>{t("copyright")}</p>
         <p>•</p>
         <a
           href="https://github.com/SunriseCommunity"
           className="flex items-center justify-center space-x-1 hover:text-primary smooth-transition cursor-pointer"
         >
           <Github className="mr-1" />
-          Source Code
+          {t("sourceCode")}
         </a>
         <p>•</p>
         <a
@@ -37,13 +39,10 @@ export default async function Footer() {
           className="flex items-center justify-center space-x-1 hover:text-primary smooth-transition cursor-pointer"
         >
           <ServerCrash className="mr-1" />
-          Server Status
+          {t("serverStatus")}
         </a>
       </div>
-      <p>
-        We are not affiliated with "ppy" and "osu!" in any way. All rights
-        reserved to their respective owners.
-      </p>
+      <p>{t("disclaimer")}</p>
     </footer>
   );
 }

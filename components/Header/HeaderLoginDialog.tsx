@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useMemo } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -34,27 +34,10 @@ import { useToast } from "@/hooks/use-toast";
 import { Separator } from "@/components/ui/separator";
 import { useRouter } from "next/navigation";
 import { MobileDrawerContext } from "@/components/Header/HeaderMobileDrawer";
-
-const formSchema = z.object({
-  username: z
-    .string()
-    .min(2, {
-      message: "Username must be at least 2 characters.",
-    })
-    .max(32, {
-      message: "Username must be 32 characters or fewer.",
-    }),
-  password: z
-    .string()
-    .min(8, {
-      message: "Password must be at least 8 characters.",
-    })
-    .max(32, {
-      message: "Password must be 32 characters or fewer.",
-    }),
-});
+import { useT } from "@/lib/i18n/utils";
 
 export default function HeaderLoginDialog() {
+  const t = useT("components.headerLoginDialog");
   const [error, setError] = useState("");
 
   const router = useRouter();
@@ -66,6 +49,29 @@ export default function HeaderLoginDialog() {
   const { trigger: triggerAuthorize } = useAuthorize();
 
   const setMobileDrawerOpen = useContext(MobileDrawerContext);
+
+  const formSchema = useMemo(
+    () =>
+      z.object({
+        username: z
+          .string()
+          .min(2, {
+            message: t("validation.usernameMinLength"),
+          })
+          .max(32, {
+            message: t("validation.usernameMaxLength"),
+          }),
+        password: z
+          .string()
+          .min(8, {
+            message: t("validation.passwordMinLength"),
+          })
+          .max(32, {
+            message: t("validation.passwordMaxLength"),
+          }),
+      }),
+    [t]
+  );
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -96,7 +102,7 @@ export default function HeaderLoginDialog() {
           revalidate();
 
           toast({
-            title: "You succesfully logged in!",
+            title: t("toast.success"),
             variant: "success",
           });
         },
@@ -117,12 +123,12 @@ export default function HeaderLoginDialog() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">sign in</Button>
+        <Button variant="outline">{t("signIn")}</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Sign In To Proceed</DialogTitle>
-          <DialogDescription>Welcome back.</DialogDescription>
+          <DialogTitle>{t("title")}</DialogTitle>
+          <DialogDescription>{t("description")}</DialogDescription>
         </DialogHeader>
 
         <Form {...form}>
@@ -132,9 +138,9 @@ export default function HeaderLoginDialog() {
               name="username"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Username</FormLabel>
+                  <FormLabel>{t("username.label")}</FormLabel>
                   <FormControl>
-                    <Input placeholder="e.g. username" {...field} />
+                    <Input placeholder={t("username.placeholder")} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -145,11 +151,11 @@ export default function HeaderLoginDialog() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel>{t("password.label")}</FormLabel>
                   <FormControl>
                     <Input
                       type="password"
-                      placeholder="************"
+                      placeholder={t("password.placeholder")}
                       {...field}
                     />
                   </FormControl>
@@ -167,7 +173,7 @@ export default function HeaderLoginDialog() {
                 }}
                 type="submit"
               >
-                Login
+                {t("login")}
               </Button>
             </DialogFooter>
           </form>
@@ -185,7 +191,7 @@ export default function HeaderLoginDialog() {
               }}
               className="w-full"
             >
-              Don't have an account? Sign up
+              {t("signUp")}
             </Button>
           </DialogClose>
         </div>

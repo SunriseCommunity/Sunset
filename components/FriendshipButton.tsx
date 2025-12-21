@@ -10,6 +10,7 @@ import useSelf from "@/lib/hooks/useSelf";
 import { UpdateFriendshipStatusAction } from "@/lib/types/api";
 import { UserMinus, UserPlus } from "lucide-react";
 import { twMerge } from "tailwind-merge";
+import { useT } from "@/lib/i18n/utils";
 
 export function FriendshipButton({
   userId,
@@ -20,6 +21,7 @@ export function FriendshipButton({
   includeText?: boolean;
   className?: string;
 }) {
+  const t = useT("components.friendshipButton");
   const { self } = useSelf();
 
   const { trigger } = useUpdateUserFriendshipStatus(userId);
@@ -75,7 +77,11 @@ export function FriendshipButton({
       {is_followed_by_you ? <UserMinus /> : <UserPlus />}
       {includeText && (
         <span className="hidden md:inline">
-          {isMutual ? "Unfriend" : is_followed_by_you ? "Unfollow" : "Follow"}
+          {isMutual
+            ? t("unfriend")
+            : is_followed_by_you
+            ? t("unfollow")
+            : t("follow")}
         </span>
       )}
     </Button>

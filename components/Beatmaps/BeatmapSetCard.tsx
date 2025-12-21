@@ -16,12 +16,14 @@ import { BanchoSmallUserElement } from "@/components/SmallUserElement";
 import BeatmapStatusIcon from "@/components/BeatmapStatus";
 import PrettyDate from "@/components/General/PrettyDate";
 import { usePathname } from "next/navigation";
+import { useT } from "@/lib/i18n/utils";
 
 interface BeatmapSetCardProps {
   beatmapSet: BeatmapSetResponse;
 }
 
 export function BeatmapSetCard({ beatmapSet }: BeatmapSetCardProps) {
+  const t = useT("components.beatmapSetCard");
   const pathname = usePathname();
 
   const { player, isPlaying, isPlayingThis, currentTimestamp } =
@@ -99,8 +101,8 @@ export function BeatmapSetCard({ beatmapSet }: BeatmapSetCardProps) {
         <br />
         <div className="flex items-center gap-1 text-xs justify-between">
           <div>
-            <p className="font-light">submitted by </p>
-            <p className=" font-light">submitted on </p>
+            <p className="font-light">{t("submittedBy")} </p>
+            <p className=" font-light">{t("submittedOn")} </p>
           </div>
 
           <div>
@@ -122,7 +124,7 @@ export function BeatmapSetCard({ beatmapSet }: BeatmapSetCardProps) {
             }
           >
             <ExternalLink className="mr-1 h-3 w-3" />
-            View
+            {t("view")}
           </Link>
         </Button>
       </CardFooter>

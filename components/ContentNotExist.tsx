@@ -1,10 +1,12 @@
 import Image from "next/image";
+import { useT } from "@/lib/i18n/utils";
 
 interface ContentNotExistProps {
   text?: string;
 }
 
 export function ContentNotExist({ text }: ContentNotExistProps) {
+  const t = useT("components.contentNotExist");
   return (
     <div className="text-current p-4 rounded-lg flex flex-col md:flex-row text-center items-center justify-center space-x-4">
       <Image
@@ -14,9 +16,7 @@ export function ContentNotExist({ text }: ContentNotExistProps) {
         height={200}
       />
       <div>
-        <h1 className="text-2xl font-semibold">
-          {text ?? "Content not found"}
-        </h1>
+        <h1 className="text-2xl font-semibold">{text ?? t("defaultText")}</h1>
       </div>
     </div>
   );

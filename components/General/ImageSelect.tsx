@@ -2,6 +2,7 @@ import Spinner from "@/components/Spinner";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
+import { useT } from "@/lib/i18n/utils";
 
 type Props = {
   setFile: React.Dispatch<React.SetStateAction<File | null>>;
@@ -16,6 +17,7 @@ export default function ImageSelect({
   isWide,
   maxFileSizeBytes,
 }: Props) {
+  const t = useT("components.imageSelect");
   const uniqueId = Math.random().toString(36).substring(7);
 
   const { toast } = useToast();
@@ -41,7 +43,7 @@ export default function ImageSelect({
                 if (!file) return;
                 if (maxFileSizeBytes && file.size > maxFileSizeBytes) {
                   toast({
-                    title: "Selected image is too big!",
+                    title: t("imageTooBig"),
                     variant: "destructive",
                   });
                   return;

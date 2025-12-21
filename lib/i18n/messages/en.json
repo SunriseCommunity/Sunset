@@ -23,9 +23,439 @@
   },
   "components": {
     "serverMaintenanceDialog": {
+      "title": {
+        "text": "Hey! Stop right there!",
+        "context": "Title of the server maintenance dialog"
+      },
+      "discordMessage": {
+        "text": "For more information view our Discord server.",
+        "context": "Message directing users to Discord for more information about server maintenance"
+      },
+      "button": {
+        "text": "Okay, I understand",
+        "context": "Button text to acknowledge the maintenance message"
+      },
       "message": {
         "text": "The server is currently in <b>maintenance mode</b>, so some features of the website <b>may not function correctly</b>.",
         "context": "This message is shown to users when the server is under maintenance."
+      }
+    },
+    "contentNotExist": {
+      "defaultText": {
+        "text": "Content not found",
+        "context": "Default message when content does not exist"
+      }
+    },
+    "workInProgress": {
+      "title": {
+        "text": "Work in progress",
+        "context": "Title for work in progress message"
+      },
+      "description": {
+        "text": "This content is still being worked on. Please check back later.",
+        "context": "Description message for work in progress content"
+      }
+    },
+    "beatmapSetCard": {
+      "submittedBy": {
+        "text": "submitted by",
+        "context": "Label showing who submitted the beatmap"
+      },
+      "submittedOn": {
+        "text": "submitted on",
+        "context": "Label showing when the beatmap was submitted"
+      },
+      "view": {
+        "text": "View",
+        "context": "Button text to view the beatmap"
+      }
+    },
+    "friendshipButton": {
+      "unfriend": {
+        "text": "Unfriend",
+        "context": "Button text to unfriend a user (mutual friendship)"
+      },
+      "unfollow": {
+        "text": "Unfollow",
+        "context": "Button text to unfollow a user"
+      },
+      "follow": {
+        "text": "Follow",
+        "context": "Button text to follow a user"
+      }
+    },
+    "gameModeSelector": {
+      "selectedMode": {
+        "text": "Selected mode:",
+        "context": "Label for selected game mode in mobile combobox view"
+      }
+    },
+    "header": {
+      "links": {
+        "leaderboard": {
+          "text": "leaderboard",
+          "context": "Header navigation link text for leaderboard"
+        },
+        "topPlays": {
+          "text": "top plays",
+          "context": "Header navigation link text for top plays"
+        },
+        "beatmaps": {
+          "text": "beatmaps",
+          "context": "Header navigation link text for beatmaps"
+        },
+        "help": {
+          "text": "help",
+          "context": "Header navigation link text for help dropdown"
+        },
+        "wiki": {
+          "text": "wiki",
+          "context": "Help dropdown menu item for wiki"
+        },
+        "rules": {
+          "text": "rules",
+          "context": "Help dropdown menu item for rules"
+        },
+        "apiDocs": {
+          "text": "api docs",
+          "context": "Help dropdown menu item for API documentation"
+        },
+        "discordServer": {
+          "text": "discord server",
+          "context": "Help dropdown menu item for Discord server"
+        },
+        "supportUs": {
+          "text": "support us",
+          "context": "Help dropdown menu item for support page"
+        }
+      }
+    },
+    "headerLoginDialog": {
+      "signIn": {
+        "text": "sign in",
+        "context": "Button text to open sign in dialog"
+      },
+      "title": {
+        "text": "Sign In To Proceed",
+        "context": "Title of the login dialog"
+      },
+      "description": {
+        "text": "Welcome back.",
+        "context": "Description text in the login dialog"
+      },
+      "username": {
+        "label": {
+          "text": "Username",
+          "context": "Form label for username input"
+        },
+        "placeholder": {
+          "text": "e.g. username",
+          "context": "Placeholder text for username input"
+        }
+      },
+      "password": {
+        "label": {
+          "text": "Password",
+          "context": "Form label for password input"
+        },
+        "placeholder": {
+          "text": "************",
+          "context": "Placeholder text for password input (masked)"
+        }
+      },
+      "login": {
+        "text": "Login",
+        "context": "Button text to submit login form"
+      },
+      "signUp": {
+        "text": "Don't have an account? Sign up",
+        "context": "Link text to navigate to registration page"
+      },
+      "toast": {
+        "success": {
+          "text": "You succesfully logged in!",
+          "context": "Success toast message after successful login"
+        }
+      },
+      "validation": {
+        "usernameMinLength": {
+          "text": "Username must be at least 2 characters.",
+          "context": "Validation error message for username minimum length"
+        },
+        "usernameMaxLength": {
+          "text": "Username must be 32 characters or fewer.",
+          "context": "Validation error message for username maximum length"
+        },
+        "passwordMinLength": {
+          "text": "Password must be at least 8 characters.",
+          "context": "Validation error message for password minimum length"
+        },
+        "passwordMaxLength": {
+          "text": "Password must be 32 characters or fewer.",
+          "context": "Validation error message for password maximum length"
+        }
+      }
+    },
+    "headerLogoutAlert": {
+      "title": {
+        "text": "Are you sure?",
+        "context": "Title of the logout confirmation dialog"
+      },
+      "description": {
+        "text": "You will need to log in again to access your account.",
+        "context": "Description text explaining the consequences of logging out"
+      },
+      "cancel": {
+        "text": "Cancel",
+        "context": "Button text to cancel logout"
+      },
+      "continue": {
+        "text": "Continue",
+        "context": "Button text to confirm logout"
+      },
+      "toast": {
+        "success": {
+          "text": "You have been successfully logged out.",
+          "context": "Success toast message after successful logout"
+        }
+      }
+    },
+    "headerSearchCommand": {
+      "placeholder": {
+        "text": "Type to search...",
+        "context": "Placeholder text for the search command input"
+      },
+      "headings": {
+        "users": {
+          "text": "Users",
+          "context": "Heading for users section in search results"
+        },
+        "beatmapsets": {
+          "text": "Beatmapsets",
+          "context": "Heading for beatmapsets section in search results"
+        },
+        "pages": {
+          "text": "Pages",
+          "context": "Heading for pages section in search results"
+        }
+      },
+      "pages": {
+        "leaderboard": {
+          "text": "Leaderboard",
+          "context": "Search result item for leaderboard page"
+        },
+        "topPlays": {
+          "text": "Top plays",
+          "context": "Search result item for top plays page"
+        },
+        "beatmapsSearch": {
+          "text": "Beatmaps search",
+          "context": "Search result item for beatmaps search page"
+        },
+        "wiki": {
+          "text": "Wiki",
+          "context": "Search result item for wiki page"
+        },
+        "rules": {
+          "text": "Rules",
+          "context": "Search result item for rules page"
+        },
+        "yourProfile": {
+          "text": "Your profile",
+          "context": "Search result item for user's own profile"
+        },
+        "friends": {
+          "text": "Friends",
+          "context": "Search result item for friends page"
+        },
+        "settings": {
+          "text": "Settings",
+          "context": "Search result item for settings page"
+        }
+      }
+    },
+    "headerUserDropdown": {
+      "myProfile": {
+        "text": "My Profile",
+        "context": "Dropdown menu item for user's profile"
+      },
+      "friends": {
+        "text": "Friends",
+        "context": "Dropdown menu item for friends page"
+      },
+      "settings": {
+        "text": "Settings",
+        "context": "Dropdown menu item for settings page"
+      },
+      "returnToMainSite": {
+        "text": "Return to main site",
+        "context": "Dropdown menu item to return from admin panel to main site"
+      },
+      "adminPanel": {
+        "text": "Admin panel",
+        "context": "Dropdown menu item to access admin panel"
+      },
+      "logOut": {
+        "text": "Log out",
+        "context": "Dropdown menu item to log out"
+      }
+    },
+    "headerMobileDrawer": {
+      "navigation": {
+        "home": {
+          "text": "Home",
+          "context": "Mobile drawer navigation item for home page"
+        },
+        "leaderboard": {
+          "text": "Leaderboard",
+          "context": "Mobile drawer navigation item for leaderboard"
+        },
+        "topPlays": {
+          "text": "Top plays",
+          "context": "Mobile drawer navigation item for top plays"
+        },
+        "beatmapsSearch": {
+          "text": "Beatmaps search",
+          "context": "Mobile drawer navigation item for beatmaps search"
+        },
+        "wiki": {
+          "text": "Wiki",
+          "context": "Mobile drawer navigation item for wiki"
+        },
+        "rules": {
+          "text": "Rules",
+          "context": "Mobile drawer navigation item for rules"
+        },
+        "apiDocs": {
+          "text": "API Docs",
+          "context": "Mobile drawer navigation item for API documentation"
+        },
+        "discordServer": {
+          "text": "Discord Server",
+          "context": "Mobile drawer navigation item for Discord server"
+        },
+        "supportUs": {
+          "text": "Support Us",
+          "context": "Mobile drawer navigation item for support page"
+        }
+      },
+      "yourProfile": {
+        "text": "Your profile",
+        "context": "Mobile drawer menu item for user's profile"
+      },
+      "friends": {
+        "text": "Friends",
+        "context": "Mobile drawer menu item for friends"
+      },
+      "settings": {
+        "text": "Settings",
+        "context": "Mobile drawer menu item for settings"
+      },
+      "adminPanel": {
+        "text": "Admin panel",
+        "context": "Mobile drawer menu item for admin panel"
+      },
+      "logOut": {
+        "text": "Log out",
+        "context": "Mobile drawer menu item to log out"
+      }
+    },
+    "footer": {
+      "voteMessage": {
+        "text": "Please vote for us on osu-server-list!",
+        "context": "Message encouraging users to vote on osu-server-list"
+      },
+      "copyright": {
+        "text": "© 2024-2025 Sunrise Community",
+        "context": "Copyright text in footer"
+      },
+      "sourceCode": {
+        "text": "Source Code",
+        "context": "Link text for source code repository"
+      },
+      "serverStatus": {
+        "text": "Server Status",
+        "context": "Link text for server status page"
+      },
+      "disclaimer": {
+        "text": "We are not affiliated with \"ppy\" and \"osu!\" in any way. All rights reserved to their respective owners.",
+        "context": "Disclaimer text about not being affiliated with ppy/osu!"
+      }
+    },
+    "comboBox": {
+      "selectValue": {
+        "text": "Select value...",
+        "context": "Placeholder text when no value is selected in combobox"
+      },
+      "searchValue": {
+        "text": "Search value...",
+        "context": "Placeholder text for search input in combobox"
+      },
+      "noValuesFound": {
+        "text": "No values found.",
+        "context": "Message shown when no search results are found in combobox"
+      }
+    },
+    "beatmapsetRowElement": {
+      "mappedBy": {
+        "text": "mapped by {creator}",
+        "context": "Text showing who mapped the beatmap, includes creator name as parameter"
+      }
+    },
+    "themeModeToggle": {
+      "toggleTheme": {
+        "text": "Toggle theme",
+        "context": "Screen reader text for theme toggle button"
+      },
+      "light": {
+        "text": "Light",
+        "context": "Theme option for light mode"
+      },
+      "dark": {
+        "text": "Dark",
+        "context": "Theme option for dark mode"
+      },
+      "system": {
+        "text": "System",
+        "context": "Theme option for system default mode"
+      }
+    },
+    "imageSelect": {
+      "imageTooBig": {
+        "text": "Selected image is too big!",
+        "context": "Error message when selected image exceeds maximum file size"
+      }
+    },
+    "notFound": {
+      "meta": {
+        "title": {
+          "text": "Not Found | {appName}",
+          "context": "Page title for 404 not found page"
+        },
+        "description": {
+          "text": "The page you're looking for isn't here. Sorry.",
+          "context": "Meta description for 404 not found page"
+        }
+      },
+      "title": {
+        "text": "Not Found | 404",
+        "context": "Main heading for 404 not found page"
+      },
+      "description": {
+        "text": "What you're looking for isn't here. Sorry.",
+        "context": "Description text explaining the page was not found"
+      }
+    },
+    "rootLayout": {
+      "meta": {
+        "title": {
+          "text": "{appName}",
+          "context": "Root layout page title"
+        },
+        "description": {
+          "text": "{appName} is a private server for osu!, a rhythm game.",
+          "context": "Root layout meta description"
+        }
       }
     }
   },

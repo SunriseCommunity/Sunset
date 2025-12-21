@@ -1,4 +1,160 @@
 {
+  "components": {
+    "serverMaintenanceDialog": {
+      "title": "Эй! Стоп!",
+      "discordMessage": "Для получения дополнительной информации посетите наш Discord сервер.",
+      "button": "Хорошо, понял",
+      "message": "Сервер находится в режиме <b>технического обслуживания</b>, поэтому некоторые функции сайта <b>могут работать некорректно</b>."
+    },
+    "contentNotExist": {
+      "defaultText": "Контент не найден"
+    },
+    "workInProgress": {
+      "title": "В разработке",
+      "description": "Этот контент всё ещё разрабатывается. Пожалуйста, зайдите позже."
+    },
+    "beatmapSetCard": {
+      "submittedBy": "отправлено",
+      "submittedOn": "отправлено",
+      "view": "Просмотр"
+    },
+    "friendshipButton": {
+      "unfriend": "Удалить из друзей",
+      "unfollow": "Отписаться",
+      "follow": "Подписаться"
+    },
+    "gameModeSelector": {
+      "selectedMode": "Выбранный режим:"
+    },
+    "header": {
+      "links": {
+        "leaderboard": "таблица лидеров",
+        "topPlays": "топ игры",
+        "beatmaps": "карты",
+        "help": "помощь",
+        "wiki": "вики",
+        "rules": "правила",
+        "apiDocs": "документация API",
+        "discordServer": "Discord сервер",
+        "supportUs": "поддержать нас"
+      }
+    },
+    "headerLoginDialog": {
+      "signIn": "войти",
+      "title": "Войдите, чтобы продолжить",
+      "description": "С возвращением.",
+      "username": {
+        "label": "Имя пользователя",
+        "placeholder": "например, username"
+      },
+      "password": {
+        "label": "Пароль",
+        "placeholder": "************"
+      },
+      "login": "Войти",
+      "signUp": "Нет аккаунта? Зарегистрироваться",
+      "toast": {
+        "success": "Вы успешно вошли!"
+      },
+      "validation": {
+        "usernameMinLength": "Имя пользователя должно содержать не менее 2 символов.",
+        "usernameMaxLength": "Имя пользователя должно содержать не более 32 символов.",
+        "passwordMinLength": "Пароль должен содержать не менее 8 символов.",
+        "passwordMaxLength": "Пароль должен содержать не более 32 символов."
+      }
+    },
+    "headerLogoutAlert": {
+      "title": "Вы уверены?",
+      "description": "Вам нужно будет войти снова, чтобы получить доступ к аккаунту.",
+      "cancel": "Отмена",
+      "continue": "Продолжить",
+      "toast": {
+        "success": "Вы успешно вышли из системы."
+      }
+    },
+    "headerSearchCommand": {
+      "placeholder": "Введите для поиска...",
+      "headings": {
+        "users": "Пользователи",
+        "beatmapsets": "Наборы карт",
+        "pages": "Страницы"
+      },
+      "pages": {
+        "leaderboard": "Таблица лидеров",
+        "topPlays": "Топ игры",
+        "beatmapsSearch": "Поиск карт",
+        "wiki": "Вики",
+        "rules": "Правила",
+        "yourProfile": "Ваш профиль",
+        "friends": "Друзья",
+        "settings": "Настройки"
+      }
+    },
+    "headerUserDropdown": {
+      "myProfile": "Мой профиль",
+      "friends": "Друзья",
+      "settings": "Настройки",
+      "returnToMainSite": "Вернуться на главный сайт",
+      "adminPanel": "Панель администратора",
+      "logOut": "Выйти"
+    },
+    "headerMobileDrawer": {
+      "navigation": {
+        "home": "Главная",
+        "leaderboard": "Таблица лидеров",
+        "topPlays": "Топ игры",
+        "beatmapsSearch": "Поиск карт",
+        "wiki": "Вики",
+        "rules": "Правила",
+        "apiDocs": "Документация API",
+        "discordServer": "Discord сервер",
+        "supportUs": "Поддержать нас"
+      },
+      "yourProfile": "Ваш профиль",
+      "friends": "Друзья",
+      "settings": "Настройки",
+      "adminPanel": "Панель администратора",
+      "logOut": "Выйти"
+    },
+    "footer": {
+      "voteMessage": "Пожалуйста, проголосуйте за нас на osu-server-list!",
+      "copyright": "© 2024-2025 Sunrise Community",
+      "sourceCode": "Исходный код",
+      "serverStatus": "Статус сервера",
+      "disclaimer": "Мы не связаны с \"ppy\" и \"osu!\" каким-либо образом. Все права принадлежат их владельцам."
+    },
+    "comboBox": {
+      "selectValue": "Выберите значение...",
+      "searchValue": "Поиск значения...",
+      "noValuesFound": "Значения не найдены."
+    },
+    "beatmapsetRowElement": {
+      "mappedBy": "создана {creator}"
+    },
+    "themeModeToggle": {
+      "toggleTheme": "Переключить тему",
+      "light": "Светлая",
+      "dark": "Тёмная",
+      "system": "Системная"
+    },
+    "imageSelect": {
+      "imageTooBig": "Выбранное изображение слишком большое!"
+    },
+    "notFound": {
+      "meta": {
+        "title": "Не найдено | {appName}",
+        "description": "Страница, которую вы ищете, здесь нет. Извините."
+      },
+      "title": "Не найдено | 404",
+      "description": "То, что вы ищете, здесь нет. Извините."
+    },
+    "rootLayout": {
+      "meta": {
+        "title": "{appName}",
+        "description": "{appName} — это приватный сервер для osu!, ритм-игры."
+      }
+    }
+  },
   "pages": {
     "mainPage": {
       "TODO": "UPDATE TRANSLATION, AI FOR NOW",

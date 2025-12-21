@@ -12,12 +12,14 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { useUserSelf } from "@/lib/hooks/api/user/useUser";
 import { clearAuthCookies } from "@/lib/utils/clearAuthCookies";
+import { useT } from "@/lib/i18n/utils";
 
 interface Props extends React.HTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
 }
 
 export function HeaderLogoutAlert({ children, ...props }: Props) {
+  const t = useT("components.headerLogoutAlert");
   const { mutate } = useUserSelf();
   const { toast } = useToast();
 
@@ -26,24 +28,22 @@ export function HeaderLogoutAlert({ children, ...props }: Props) {
       <AlertDialogTrigger {...props}>{children}</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-          <AlertDialogDescription>
-            You will need to log in again to access your account.
-          </AlertDialogDescription>
+          <AlertDialogTitle>{t("title")}</AlertDialogTitle>
+          <AlertDialogDescription>{t("description")}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
           <AlertDialogAction
             onClick={() => {
               clearAuthCookies();
               mutate(undefined);
               toast({
-                title: "You have been successfully logged out.",
+                title: t("toast.success"),
                 variant: "success",
               });
             }}
           >
-            Continue
+            {t("continue")}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

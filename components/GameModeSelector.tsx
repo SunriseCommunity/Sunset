@@ -13,6 +13,7 @@ import {
 } from "@/lib/utils/gameMode.util";
 import { Star } from "lucide-react";
 import { twMerge } from "tailwind-merge";
+import { useT } from "@/lib/i18n/utils";
 
 const GameModesIcons = {
   0: GameMode.STANDARD,
@@ -76,6 +77,7 @@ export default function GameModeSelector({
   userDefaultGameMode,
   ...props
 }: GameModeSelectorProps) {
+  const t = useT("components.gameModeSelector");
   if (enabledModes) enrichEnabledModesWithGameModes(enabledModes);
 
   var defaultGameModeVanilla =
@@ -204,7 +206,7 @@ export default function GameModeSelector({
       {mobileVariant === "combobox" && (
         <div className="flex lg:hidden flex-col">
           <p className="text-secondary-foreground text-sm lg:hidden flex">
-            Selected mode:
+            {t("selectedMode")}
           </p>
           <Combobox
             activeValue={activeMode.toString()}

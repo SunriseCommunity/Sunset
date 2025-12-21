@@ -9,7 +9,7 @@ import {
   UserIcon,
   Users2,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import UserRowElement from "../UserRowElement";
 import useDebounce from "@/lib/hooks/useDebounce";
 import { useUserSearch } from "@/lib/hooks/api/user/useUserSearch";
@@ -29,14 +29,73 @@ import { Button } from "@/components/ui/button";
 import { useBeatmapsetSearch } from "@/lib/hooks/api/beatmap/useBeatmapsetSearch";
 import BeatmapsetRowElement from "@/components/BeatmapsetRowElement";
 import { BeatmapStatusWeb } from "@/lib/types/api";
+import { useT } from "@/lib/i18n/utils";
 
 export default function HeaderSearchCommand() {
+  const t = useT("components.headerSearchCommand");
   const router = useRouter();
   const { self } = useSelf();
 
   const [open, setOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const searchValue = useDebounce<string>(searchQuery, 450);
+
+  const pagesList = useMemo(
+    () => [
+      {
+        icon: <ChartColumnIncreasing />,
+        title: t("pages.leaderboard"),
+        url: "/leaderboard",
+        filter: "Leaderboard",
+      },
+      {
+        icon: <LucideHistory />,
+        title: t("pages.topPlays"),
+        url: "/topplays",
+        filter: "Top plays",
+      },
+      {
+        icon: <Search />,
+        title: t("pages.beatmapsSearch"),
+        url: "/beatmaps/search",
+        filter: "Beatmaps search",
+      },
+      {
+        icon: <BookCopy />,
+        title: t("pages.wiki"),
+        url: "/wiki",
+        filter: "Wiki",
+      },
+      {
+        icon: <BookCopy />,
+        title: t("pages.rules"),
+        url: "/rules",
+        filter: "Rules",
+      },
+      {
+        icon: <UserIcon />,
+        title: t("pages.yourProfile"),
+        url: self != undefined ? `/user/${self.user_id}` : "",
+        filter: "Your profile",
+        disabled: !self,
+      },
+      {
+        icon: <Users2 />,
+        title: t("pages.friends"),
+        url: "/friends",
+        filter: "Friends",
+        disabled: !self,
+      },
+      {
+        icon: <Cog />,
+        title: t("pages.settings"),
+        url: "/settings",
+        filter: "Settings",
+        disabled: !self,
+      },
+    ],
+    [t, self]
+  );
 
   const userSearchQuery = useUserSearch(searchValue, 1, 5, {
     keepPreviousData: true,
@@ -99,11 +158,11 @@ export default function HeaderSearchCommand() {
         <CommandInput
           value={searchQuery}
           onValueChange={setSearchQuery}
-          placeholder="Type to search..."
+          placeholder={t("placeholder")}
         />
         <DialogTitle />
         <CommandList>
-          <CommandGroup heading="Users">
+          <CommandGroup heading={t("headings.users")}>
             {userSearchQuery.isLoading && !userSearch ? (
               <div className="flex justify-center h-12 w-full">
                 <EosIconsThreeDotsLoading className="text-4xl" />
@@ -121,7 +180,7 @@ export default function HeaderSearchCommand() {
             )}
           </CommandGroup>
           <CommandSeparator />
-          <CommandGroup heading="Beatmapsets">
+          <CommandGroup heading={t("headings.beatmapsets")}>
             {beatmapsetSearchQuery.isLoading && !beatmapsetSearch ? (
               <div className="flex justify-center h-12 w-full">
                 <EosIconsThreeDotsLoading className="text-4xl" />
@@ -140,73 +199,18 @@ export default function HeaderSearchCommand() {
             )}
           </CommandGroup>
           <CommandSeparator />
-          <CommandGroup heading="Pages">
-            <CommandItem
-              onSelect={() => openPage("/leaderboard")}
-              className={filterElement("Leaderboard") ? "hidden" : ""}
-            >
-              <ChartColumnIncreasing />
-              <span>Leaderboard</span>
-            </CommandItem>
-
-            <CommandItem
-              onSelect={() => openPage("/topplays")}
-              className={filterElement("Top plays") ? "hidden" : ""}
-            >
-              <LucideHistory />
-              <span>Top plays</span>
-            </CommandItem>
-
-            <CommandItem
-              onSelect={() => openPage("/beatmaps/search")}
-              className={filterElement("Beatmaps search") ? "hidden" : ""}
-            >
-              <Search />
-              <span>Beatmaps search</span>
-            </CommandItem>
-
-            <CommandItem
-              onSelect={() => openPage("/wiki")}
-              className={filterElement("Wiki") ? "hidden" : ""}
-            >
-              <BookCopy />
-              <span>Wiki</span>
-            </CommandItem>
-
-            <CommandItem
-              onSelect={() => openPage("/rules")}
-              className={filterElement("Rules") ? "hidden" : ""}
-            >
-              <BookCopy />
-              <span>Rules</span>
-            </CommandItem>
-
-            <CommandItem
-              onSelect={() =>
-                openPage(self != undefined ? `/user/${self.user_id}` : "")
-              }
-              disabled={!self}
-              className={filterElement("Your profile") ? "hidden" : ""}
-            >
-              <UserIcon />
-              <span>Your profile</span>
-            </CommandItem>
-            <CommandItem
-              onSelect={() => openPage("/friends")}
-              disabled={!self}
-              className={filterElement("Friends") ? "hidden" : ""}
-            >
-              <Users2 />
-              <span>Friends</span>
-            </CommandItem>
-            <CommandItem
-              onSelect={() => openPage("/settings")}
-              disabled={!self}
-              className={filterElement("Settings") ? "hidden" : ""}
-            >
-              <Cog />
-              <span>Settings</span>
-            </CommandItem>
+          <CommandGroup heading={t("headings.pages")}>
+            {pagesList.map((page) => (
+              <CommandItem
+                key={page.url}
+                onSelect={() => openPage(page.url)}
+                disabled={page.disabled}
+                className={filterElement(page.filter) ? "hidden" : ""}
+              >
+                {page.icon}
+                <span>{page.title}</span>
+              </CommandItem>
+            ))}
           </CommandGroup>
         </CommandList>
       </CommandDialog>

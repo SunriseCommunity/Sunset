@@ -24,7 +24,7 @@ export default function ServerMaintenanceDialog({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Hey! Stop right there!</DialogTitle>
+          <DialogTitle>{t("title")}</DialogTitle>
           <DialogDescription>
             <div className="flex flex-col ">
               <p>
@@ -33,7 +33,7 @@ export default function ServerMaintenanceDialog({
                   <span>
                     <br />
                     <br />
-                    For more information view our Discord server.
+                    {t("discordMessage")}
                   </span>
                 )}
               </p>
@@ -53,7 +53,7 @@ export default function ServerMaintenanceDialog({
             variant="destructive"
             onClick={() => setOpen(false)}
           >
-            Okay, I understand
+            {t("button")}
           </Button>
         </DialogFooter>
       </DialogContent>
