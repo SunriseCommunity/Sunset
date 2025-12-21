@@ -15,6 +15,7 @@ import { GameMode, UserResponse, UserStatsResponse } from "@/lib/types/api";
 
 import BBCodeTextField from "@/components/BBCode/BBCodeTextField";
 import { UserLevelProgress } from "@/app/(website)/user/[id]/components/UserLevelProgress";
+import { useT } from "@/lib/i18n/utils";
 
 interface UserTabGeneralProps {
   user: UserResponse;
@@ -27,6 +28,7 @@ export default function UserTabGeneral({
   stats,
   gameMode,
 }: UserTabGeneralProps) {
+  const t = useT("pages.user.components.generalTab");
   const [chartValue, setChartValue] = useState<"pp" | "rank">("pp");
 
   const userGradesQuery = useUserGrades(user.user_id, gameMode);
@@ -40,7 +42,7 @@ export default function UserTabGeneral({
       <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-4 gap-4">
         <div className="flex flex-col col-span-2 sm:col-span-1">
           <PrettyHeader
-            text="Info"
+            text={t("info")}
             icon={<FolderKanbanIcon className="mr-2" />}
           />
 
@@ -54,7 +56,7 @@ export default function UserTabGeneral({
             </div>
 
             <div className="flex place-content-between items-end">
-              <p className="text-xs">Ranked Score</p>
+              <p className="text-xs">{t("rankedScore")}</p>
               <div className="text-sm font-bald">
                 {stats ? (
                   NumberWith(stats.ranked_score ?? 0, ",")
@@ -65,7 +67,7 @@ export default function UserTabGeneral({
             </div>
 
             <div className="flex place-content-between items-end">
-              <p className="text-xs">Hit Accuracy</p>
+              <p className="text-xs">{t("hitAccuracy")}</p>
               <div className="text-sm font-bald">
                 {stats ? (
                   `${stats?.accuracy.toFixed(2)} %`
@@ -76,7 +78,7 @@ export default function UserTabGeneral({
             </div>
 
             <div className="flex place-content-between items-end">
-              <p className="text-xs">Playcount</p>
+              <p className="text-xs">{t("playcount")}</p>
               <div className="text-sm font-bald">
                 {stats ? (
                   NumberWith(stats?.play_count ?? 0, ",")
@@ -87,7 +89,7 @@ export default function UserTabGeneral({
             </div>
 
             <div className="flex place-content-between items-end">
-              <p className="text-xs">Total Score</p>
+              <p className="text-xs">{t("totalScore")}</p>
               <div className="text-sm font-bald">
                 {stats ? (
                   NumberWith(stats?.total_score ?? 0, ",")
@@ -98,7 +100,7 @@ export default function UserTabGeneral({
             </div>
 
             <div className="flex place-content-between items-end">
-              <p className="text-xs">Maximum Combo</p>
+              <p className="text-xs">{t("maximumCombo")}</p>
               <div className="text-sm font-bald">
                 {stats ? (
                   NumberWith(stats?.max_combo ?? 0, ",")
@@ -109,7 +111,7 @@ export default function UserTabGeneral({
             </div>
 
             <div className="flex place-content-between items-end my-2">
-              <p className="text-sm">Playtime</p>
+              <p className="text-sm">{t("playtime")}</p>
               <div className="text-base font-bald">
                 {stats ? (
                   playtimeToString(stats?.play_time ?? 0)
@@ -133,12 +135,12 @@ export default function UserTabGeneral({
 
         <div className="flex flex-col col-span-2">
           <PrettyHeader
-            text="Performance"
+            text={t("performance")}
             icon={<Trophy className="mr-2" />}
-            className="px-4 py-1"
+            className="px-4 py-1 flex-wrap"
           >
             <div className="flex flex-col place-content-between items-end">
-              <p className="text-sm">Performance</p>
+              <p className="text-sm">{t("performance")}</p>
               <p className="text-2xl font-bald text-primary">
                 {NumberWith(Math.round(stats?.pp ?? 0) ?? 0, ",")}
               </p>
@@ -153,13 +155,13 @@ export default function UserTabGeneral({
                     onClick={() => setChartValue("rank")}
                     variant={chartValue == "rank" ? "default" : "secondary"}
                   >
-                    Show by rank
+                    {t("showByRank")}
                   </Button>
                   <Button
                     onClick={() => setChartValue("pp")}
                     variant={chartValue == "pp" ? "default" : "secondary"}
                   >
-                    Show by pp
+                    {t("showByPp")}
                   </Button>
                 </div>
               </>
@@ -169,7 +171,7 @@ export default function UserTabGeneral({
 
         {user.description && user.description.length > 0 && (
           <div className="lg:col-span-3  md:col-span-2 ">
-            <PrettyHeader text="About me" icon={<User2 />} />
+            <PrettyHeader text={t("aboutMe")} icon={<User2 />} />
             <RoundedContent className="min-h-0 h-fit">
               <div className="max-h-96 overflow-y-auto">
                 <BBCodeTextField text={user.description} />

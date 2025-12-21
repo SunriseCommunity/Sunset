@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { useUserScores } from "@/lib/hooks/api/user/useUserScores";
 import { GameMode, ScoreTableType } from "@/lib/types/api";
 import { ChartColumnIncreasing, ChevronDown } from "lucide-react";
+import { useT } from "@/lib/i18n/utils";
 
 interface UserTabScoresProps {
   userId: number;
@@ -20,6 +21,7 @@ export default function UserTabScores({
   gameMode,
   type,
 }: UserTabScoresProps) {
+  const t = useT("pages.user.components.scoresTab");
   const { data, setSize, size, isLoading } = useUserScores(
     userId,
     gameMode,
@@ -43,10 +45,25 @@ export default function UserTabScores({
     total_count = Math.min(100, total_count);
   }
 
+  const getHeaderText = () => {
+    if (type === ScoreTableType.BEST) return t("bestScores");
+    if (type === ScoreTableType.RECENT) return t("recentScores");
+    if (type === ScoreTableType.TOP) return t("firstPlaces");
+    return `${type} scores`;
+  };
+
+  const getNoScoresText = () => {
+    if (type === ScoreTableType.BEST) return t("noScores", { type: "best" });
+    if (type === ScoreTableType.RECENT)
+      return t("noScores", { type: "recent" });
+    if (type === ScoreTableType.TOP)
+      return t("noScores", { type: "first places" });
+  };
+
   return (
     <div className="flex flex-col">
       <PrettyHeader
-        text={`${type} scores`}
+        text={getHeaderText()}
         icon={<ChartColumnIncreasing />}
         counter={total_count && total_count > 0 ? total_count : undefined}
       />
@@ -59,9 +76,7 @@ export default function UserTabScores({
 
         {data && scores && total_count != undefined && (
           <div>
-            {scores.length <= 0 && (
-              <ContentNotExist text={`User has no ${type.toString().toLowerCase()} scores`} />
-            )}
+            {scores.length <= 0 && <ContentNotExist text={getNoScoresText()} />}
             {scores.map((score) => (
               <div key={`score-${score.id}`} className="mb-2">
                 <UserScoreOverview score={score} />
@@ -76,7 +91,7 @@ export default function UserTabScores({
                   variant="secondary"
                 >
                   <ChevronDown />
-                  Show more
+                  {t("showMore")}
                 </Button>
               </div>
             )}

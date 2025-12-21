@@ -2,6 +2,7 @@ import { dateToPrettyString } from "@/components/General/PrettyDate";
 import { Tooltip } from "@/components/Tooltip";
 import { UserResponse } from "@/lib/types/api";
 import { twMerge } from "tailwind-merge";
+import { useT } from "@/lib/i18n/utils";
 
 export const statusColor = (status: string) =>
   status.trim() === "Offline"
@@ -22,14 +23,16 @@ export default function UserStatusText({
   disabled,
   ...props
 }: Props) {
+  const t = useT("pages.user.components.statusText");
   const userStatus = (isTooltip: boolean) => (
     <p className={isTooltip ? "break-all" : "truncate"}>
-      {user.user_status}
-      {user.user_status === "Offline" && (
-        <span className="">
-          , last seen on&nbsp;
-          {dateToPrettyString(user.last_online_time)}
-        </span>
+      {user.user_status === "Offline" ? (
+        <>
+          {user.user_status}
+          {t("lastSeenOn", { date: dateToPrettyString(user.last_online_time) })}
+        </>
+      ) : (
+        user.user_status
       )}
     </p>
   );

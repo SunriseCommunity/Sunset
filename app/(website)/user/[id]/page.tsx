@@ -1,7 +1,7 @@
 "use client";
 
 import Spinner from "@/components/Spinner";
-import { useState, use, useCallback, useEffect } from "react";
+import { useState, use, useCallback, useEffect, useMemo } from "react";
 import Image from "next/image";
 import { Edit3Icon, LucideSettings, User as UserIcon } from "lucide-react";
 import UserPrivilegeBadges from "@/app/(website)/user/[id]/components/UserPrivilegeBadges";
@@ -42,81 +42,12 @@ import { useUserMetadata } from "@/lib/hooks/api/user/useUserMetadata";
 import UserSocials from "@/app/(website)/user/[id]/components/UserSocials";
 import UserPreviousUsernamesTooltip from "@/app/(website)/user/[id]/components/UserPreviousUsernamesTooltip";
 import { isUserHasAdminPrivilege } from "@/lib/utils/userPrivileges.util";
-
-const contentTabs = [
-  "General",
-  "Best scores",
-  "Recent scores",
-  "First places",
-  "Beatmaps",
-  "Medals",
-];
-
-const renderTabContent = (
-  userStats: UserStatsResponse | undefined,
-  activeTab: string,
-  activeMode: GameMode,
-  user: UserResponse
-) => {
-  switch (activeTab) {
-    case "General":
-      return (
-        <UserTabGeneral
-          key={`general-${activeMode}`}
-          user={user}
-          stats={userStats}
-          gameMode={activeMode}
-        />
-      );
-    case "Best scores":
-      return (
-        <UserTabScores
-          key={`best-${activeMode}`}
-          gameMode={activeMode}
-          userId={user.user_id}
-          type={ScoreTableType.BEST}
-        />
-      );
-    case "Recent scores":
-      return (
-        <UserTabScores
-          key={`recent-${activeMode}`}
-          gameMode={activeMode}
-          userId={user.user_id}
-          type={ScoreTableType.RECENT}
-        />
-      );
-    case "First places":
-      return (
-        <UserTabScores
-          key={`first-${activeMode}`}
-          gameMode={activeMode}
-          userId={user.user_id}
-          type={ScoreTableType.TOP}
-        />
-      );
-    case "Beatmaps":
-      return (
-        <UserTabBeatmaps
-          key={`beatmaps-${activeMode}`}
-          userId={user.user_id}
-          gameMode={activeMode}
-        />
-      );
-    case "Medals":
-      return (
-        <UserTabMedals
-          key={`medals-${activeMode}`}
-          user={user}
-          gameMode={activeMode}
-        />
-      );
-  }
-};
+import { useT } from "@/lib/i18n/utils";
 
 export default function UserPage(props: { params: Promise<{ id: string }> }) {
   const params = use(props.params);
   const userId = tryParseNumber(params.id) ?? 0;
+  const t = useT("pages.user");
 
   const router = useRouter();
   const pathname = usePathname();
@@ -124,7 +55,16 @@ export default function UserPage(props: { params: Promise<{ id: string }> }) {
 
   const mode = searchParams.get("mode") ?? "";
 
-  const [activeTab, setActiveTab] = useState("General");
+  const contentTabs = [
+    "tabs.general",
+    "tabs.bestScores",
+    "tabs.recentScores",
+    "tabs.firstPlaces",
+    "tabs.beatmaps",
+    "tabs.medals",
+  ];
+
+  const [activeTab, setActiveTab] = useState("tabs.general");
   const [activeMode, setActiveMode] = useState<GameMode | null>(
     isInstance(mode, GameMode) ? (mode as GameMode) : null
   );
@@ -134,6 +74,76 @@ export default function UserPage(props: { params: Promise<{ id: string }> }) {
   const userQuery = userId === self?.user_id ? useUserSelf() : useUser(userId);
   const userStatsQuery = useUserStats(userId, activeMode);
   const userMetadataQuery = useUserMetadata(userId);
+
+  const renderTabContent = useCallback(
+    (
+      userStats: UserStatsResponse | undefined,
+      activeTab: string,
+      activeMode: GameMode,
+      user: UserResponse
+    ) => {
+      if (activeTab === "tabs.general") {
+        return (
+          <UserTabGeneral
+            key={`general-${activeMode}`}
+            user={user}
+            stats={userStats}
+            gameMode={activeMode}
+          />
+        );
+      }
+      if (activeTab === "tabs.bestScores") {
+        return (
+          <UserTabScores
+            key={`best-${activeMode}`}
+            gameMode={activeMode}
+            userId={user.user_id}
+            type={ScoreTableType.BEST}
+          />
+        );
+      }
+      if (activeTab === "tabs.recentScores") {
+        return (
+          <UserTabScores
+            key={`recent-${activeMode}`}
+            gameMode={activeMode}
+            userId={user.user_id}
+            type={ScoreTableType.RECENT}
+          />
+        );
+      }
+      if (activeTab === "tabs.firstPlaces") {
+        return (
+          <UserTabScores
+            key={`first-${activeMode}`}
+            gameMode={activeMode}
+            userId={user.user_id}
+            type={ScoreTableType.TOP}
+          />
+        );
+      }
+      if (activeTab === "tabs.beatmaps") {
+        return (
+          <UserTabBeatmaps
+            key={`beatmaps-${activeMode}`}
+            userId={user.user_id}
+            gameMode={activeMode}
+          />
+        );
+      }
+      if (activeTab === "tabs.medals") {
+        return (
+          <UserTabMedals
+            key={`medals-${activeMode}`}
+            user={user}
+            gameMode={activeMode}
+          />
+        );
+      }
+      return null;
+    },
+    [t]
+  );
 
   useEffect(() => {
     if (!activeMode) return;
@@ -149,7 +159,7 @@ export default function UserPage(props: { params: Promise<{ id: string }> }) {
     if (activeMode || !userQuery.data) return;
 
     setActiveMode(userQuery.data.default_gamemode);
-  }, [userQuery]);
+  }, [userQuery, activeMode]);
 
   const createQueryString = useCallback(
     (name: string, value: string) => {
@@ -169,8 +179,7 @@ export default function UserPage(props: { params: Promise<{ id: string }> }) {
     );
   }
 
-  const errorMessage =
-    userQuery.error?.message ?? "User not found or an error occurred.";
+  const errorMessage = userQuery.error?.message ?? t("errors.userNotFound");
 
   const user = userQuery.data;
   const userStats = userStatsQuery.data?.stats;
@@ -178,7 +187,7 @@ export default function UserPage(props: { params: Promise<{ id: string }> }) {
 
   return (
     <div className="flex flex-col space-y-4">
-      <PrettyHeader icon={<UserIcon />} text="Player info" roundBottom={true}>
+      <PrettyHeader icon={<UserIcon />} text={t("header")} roundBottom={true}>
         {user && activeMode && (
           <SetDefaultGamemodeButton gamemode={activeMode} user={user} />
         )}
@@ -277,7 +286,9 @@ export default function UserPage(props: { params: Promise<{ id: string }> }) {
                         className="w-9 md:w-auto"
                       >
                         <Edit3Icon />
-                        <span className="hidden md:inline">Edit profile</span>
+                        <span className="hidden md:inline">
+                          {t("buttons.editProfile")}
+                        </span>
                       </Button>
                     ) : (
                       <>
@@ -314,7 +325,7 @@ export default function UserPage(props: { params: Promise<{ id: string }> }) {
                         }`}
                         onClick={() => setActiveTab(tab)}
                       >
-                        {tab}
+                        {t(tab)}
                       </button>
                     ))}
                   </div>
@@ -328,12 +339,9 @@ export default function UserPage(props: { params: Promise<{ id: string }> }) {
               <div className="flex flex-col space-y-2">
                 <h1 className="text-4xl">{errorMessage}</h1>
                 {errorMessage.includes("restrict") ? (
-                  <p>
-                    This means that the user violated the server rules and has
-                    been restricted.
-                  </p>
+                  <p>{t("errors.restricted")}</p>
                 ) : (
-                  <p>The user may have been deleted or does not exist.</p>
+                  <p>{t("errors.userDeleted")}</p>
                 )}
               </div>
               <Image

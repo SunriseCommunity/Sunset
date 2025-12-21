@@ -12,10 +12,14 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useLayoutEffect, useRef } from "react";
 import { createRoot } from "react-dom/client";
+import { NextIntlClientProvider } from "next-intl";
+import { useLocale, useMessages } from "next-intl";
 
 export const BBCodeReactParser = React.memo(
   ({ textHtml }: { textHtml: string }) => {
     const containerRef = useRef<HTMLDivElement>(null);
+    const locale = useLocale();
+    const messages = useMessages();
 
     useLayoutEffect(() => {
       const container = containerRef.current;
@@ -39,7 +43,7 @@ export const BBCodeReactParser = React.memo(
       parseWell(container);
       parseBreaks(container);
       parseImageMapLink(container);
-      parseProfileLink(container);
+      parseProfileLink(container, locale, messages);
     };
 
     return (
@@ -212,7 +216,11 @@ function parseImageMapLink(container: HTMLDivElement) {
   });
 }
 
-function parseProfileLink(container: HTMLDivElement) {
+function parseProfileLink(
+  container: HTMLDivElement,
+  locale: string,
+  messages: Record<string, any>
+) {
   const profileLinks = container.querySelectorAll(".js-usercard");
 
   profileLinks.forEach((link) => {
@@ -252,11 +260,13 @@ function parseProfileLink(container: HTMLDivElement) {
       if (!user) return null;
 
       return (
-        <UserHoverCard user={user} includeFriendshipButton={false} asChild>
-          <Link href={`/user/${userId}`} className="hover:underline">
-            {link.innerHTML}
-          </Link>
-        </UserHoverCard>
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          <UserHoverCard user={user} includeFriendshipButton={false} asChild>
+            <Link href={`/user/${userId}`} className="hover:underline">
+              {link.innerHTML}
+            </Link>
+          </UserHoverCard>
+        </NextIntlClientProvider>
       );
     }
 

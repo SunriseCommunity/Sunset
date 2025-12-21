@@ -8,6 +8,7 @@ import {
 import { useUpdateUserDefaultGamemode } from "@/lib/hooks/api/user/useUserDefaultGamemode";
 import useSelf from "@/lib/hooks/useSelf";
 import { GameMode, UserResponse } from "@/lib/types/api";
+import { useT } from "@/lib/i18n/utils";
 
 export function SetDefaultGamemodeButton({
   user,
@@ -16,6 +17,7 @@ export function SetDefaultGamemodeButton({
   user: UserResponse;
   gamemode: GameMode;
 }) {
+  const t = useT("pages.user");
   const { self } = useSelf();
 
   const { trigger } = useUpdateUserDefaultGamemode();
@@ -42,11 +44,11 @@ export function SetDefaultGamemodeButton({
       variant={"secondary"}
     >
       <span>
-        Set
-        <b>
-          {` ${GameModeToGameRuleMap[gamemode]} ${GameModeToFlagMap[gamemode]} `}
-        </b>
-        as profile default game mode
+        {t.rich("buttons.setDefaultGamemode", {
+          gamemode: GameModeToGameRuleMap[gamemode] || "Unknown",
+          flag: GameModeToFlagMap[gamemode] || "Unknown",
+          b: (chunks) => <b>{chunks}</b>,
+        })}
       </span>
     </Button>
   );

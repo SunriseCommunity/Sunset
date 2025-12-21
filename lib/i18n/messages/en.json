@@ -1655,6 +1655,300 @@
           "context": "Generic error message for unknown errors"
         }
       }
+    },
+    "user": {
+      "meta": {
+        "title": {
+          "text": "{username} · User Profile | {appName}",
+          "context": "Page title for user profile page, includes username and app name as parameters"
+        },
+        "description": {
+          "text": "We don't know much about them, but we're sure {username} is great.",
+          "context": "Meta description for user profile page, includes username as parameter"
+        }
+      },
+      "header": {
+        "text": "Player info",
+        "context": "Header text for the user profile page"
+      },
+      "tabs": {
+        "general": {
+          "text": "General",
+          "context": "Tab name for general information"
+        },
+        "bestScores": {
+          "text": "Best scores",
+          "context": "Tab name for best scores"
+        },
+        "recentScores": {
+          "text": "Recent scores",
+          "context": "Tab name for recent scores"
+        },
+        "firstPlaces": {
+          "text": "First places",
+          "context": "Tab name for first place scores"
+        },
+        "beatmaps": {
+          "text": "Beatmaps",
+          "context": "Tab name for beatmaps"
+        },
+        "medals": {
+          "text": "Medals",
+          "context": "Tab name for medals"
+        }
+      },
+      "buttons": {
+        "editProfile": {
+          "text": "Edit profile",
+          "context": "Button text to edit user profile"
+        },
+        "setDefaultGamemode": {
+          "text": "Set <b>{gamemode} {flag}</b> as profile default game mode",
+          "context": "Button text to set default gamemode, includes gamemode name and flag emoji as parameters"
+        }
+      },
+      "errors": {
+        "userNotFound": {
+          "text": "User not found or an error occurred.",
+          "context": "Error message when user is not found or an error occurs"
+        },
+        "restricted": {
+          "text": "This means that the user violated the server rules and has been restricted.",
+          "context": "Explanation message when user has been restricted"
+        },
+        "userDeleted": {
+          "text": "The user may have been deleted or does not exist.",
+          "context": "Error message when user may have been deleted or doesn't exist"
+        }
+      },
+      "components": {
+        "generalTab": {
+          "info": {
+            "text": "Info",
+            "context": "Section header for user information"
+          },
+          "rankedScore": {
+            "text": "Ranked Score",
+            "context": "Label for ranked score statistic"
+          },
+          "hitAccuracy": {
+            "text": "Hit Accuracy",
+            "context": "Label for hit accuracy statistic"
+          },
+          "playcount": {
+            "text": "Playcount",
+            "context": "Label for playcount statistic"
+          },
+          "totalScore": {
+            "text": "Total Score",
+            "context": "Label for total score statistic"
+          },
+          "maximumCombo": {
+            "text": "Maximum Combo",
+            "context": "Label for maximum combo statistic"
+          },
+          "playtime": {
+            "text": "Playtime",
+            "context": "Label for playtime statistic"
+          },
+          "performance": {
+            "text": "Performance",
+            "context": "Section header for performance information"
+          },
+          "showByRank": {
+            "text": "Show by rank",
+            "context": "Button text to show chart by rank"
+          },
+          "showByPp": {
+            "text": "Show by pp",
+            "context": "Button text to show chart by performance points"
+          },
+          "aboutMe": {
+            "text": "About me",
+            "context": "Section header for user description/about section"
+          }
+        },
+        "scoresTab": {
+          "bestScores": {
+            "text": "Best scores",
+            "context": "Header for best scores section"
+          },
+          "recentScores": {
+            "text": "Recent scores",
+            "context": "Header for recent scores section"
+          },
+          "firstPlaces": {
+            "text": "First places",
+            "context": "Header for first places section"
+          },
+          "noScores": {
+            "text": "User has no {type} scores",
+            "context": "Message when user has no scores of the specified type, includes type as parameter"
+          },
+          "showMore": {
+            "text": "Show more",
+            "context": "Button text to load more scores"
+          }
+        },
+        "beatmapsTab": {
+          "mostPlayed": {
+            "text": "Most played",
+            "context": "Header for most played beatmaps section"
+          },
+          "noMostPlayed": {
+            "text": "User has no most played beatmaps",
+            "context": "Message when user has no most played beatmaps"
+          },
+          "favouriteBeatmaps": {
+            "text": "Favourite Beatmaps",
+            "context": "Header for favourite beatmaps section"
+          },
+          "noFavourites": {
+            "text": "User has no favourite beatmaps",
+            "context": "Message when user has no favourite beatmaps"
+          },
+          "showMore": {
+            "text": "Show more",
+            "context": "Button text to load more beatmaps"
+          }
+        },
+        "medalsTab": {
+          "medals": {
+            "text": "Medals",
+            "context": "Header for medals section"
+          },
+          "latest": {
+            "text": "Latest",
+            "context": "Header for latest medals section"
+          },
+          "categories": {
+            "hushHush": {
+              "text": "Hush hush",
+              "context": "Medal category name"
+            },
+            "beatmapHunt": {
+              "text": "Beatmap hunt",
+              "context": "Medal category name"
+            },
+            "modIntroduction": {
+              "text": "Mod introduction",
+              "context": "Medal category name"
+            },
+            "skill": {
+              "text": "Skill",
+              "context": "Medal category name"
+            }
+          },
+          "achievedOn": {
+            "text": "achieved on",
+            "context": "Text shown before the date when a medal was achieved"
+          },
+          "notAchieved": {
+            "text": "Not achieved",
+            "context": "Text shown when a medal has not been achieved"
+          }
+        },
+        "generalInformation": {
+          "joined": {
+            "text": "Joined <b>{time}</b>",
+            "context": "Text showing when user joined, includes time as parameter"
+          },
+          "followers": {
+            "text": "<b>{count}</b> Followers",
+            "context": "Text showing followers count, includes count as parameter"
+          },
+          "following": {
+            "text": "<b>{count}</b> Following",
+            "context": "Text showing following count, includes count as parameter"
+          },
+          "playsWith": {
+            "text": "Plays with <b>{playstyle}</b>",
+            "context": "Text showing playstyle, includes playstyle as parameter with formatting"
+          }
+        },
+        "statusText": {
+          "lastSeenOn": {
+            "text": ", last seen on {date}",
+            "context": "Text shown before the last seen date when user is offline, includes date as parameter"
+          }
+        },
+        "ranks": {
+          "highestRank": {
+            "text": "Highest rank <rankValue>{rank}</rankValue> on {date}",
+            "context": "Tooltip text for highest rank achieved, includes rank number and date as parameters, rank is formatted"
+          }
+        },
+        "previousUsernames": {
+          "previouslyKnownAs": {
+            "text": "This user was previously known as:",
+            "context": "Tooltip text explaining that the user had previous usernames"
+          }
+        },
+        "beatmapSetOverview": {
+          "by": {
+            "text": "by {artist}",
+            "context": "Text showing beatmap artist, includes artist name as parameter"
+          },
+          "mappedBy": {
+            "text": "mapped by {creator}",
+            "context": "Text showing beatmap creator/mapper, includes creator name as parameter"
+          }
+        },
+        "privilegeBadges": {
+          "badges": {
+            "Developer": {
+              "text": "Developer",
+              "context": "Name of the Developer badge"
+            },
+            "Admin": {
+              "text": "Admin",
+              "context": "Name of the Admin badge"
+            },
+            "Bat": {
+              "text": "BAT",
+              "context": "Name of the BAT (Beatmap Appreciation Team) badge"
+            },
+            "Bot": {
+              "text": "Bot",
+              "context": "Name of the Bot badge"
+            },
+            "Supporter": {
+              "text": "Supporter",
+              "context": "Name of the Supporter badge"
+            }
+          }
+        },
+        "scoreOverview": {
+          "pp": {
+            "text": "pp",
+            "context": "Abbreviation for performance points"
+          },
+          "accuracy": {
+            "text": "acc: {accuracy}%",
+            "context": "Text showing score accuracy, includes accuracy percentage as parameter"
+          }
+        },
+        "statsChart": {
+          "date": {
+            "text": "Date",
+            "context": "Label for the date axis on the stats chart"
+          },
+          "types": {
+            "pp": {
+              "text": "pp",
+              "context": "Abbreviation for performance points in chart tooltip"
+            },
+            "rank": {
+              "text": "rank",
+              "context": "Word for rank in chart tooltip"
+            }
+          },
+          "tooltip": {
+            "text": "{value} {type}",
+            "context": "Tooltip text showing chart value and type (pp/rank), includes value and type as parameters"
+          }
+        }
+      }
     }
   }
 }

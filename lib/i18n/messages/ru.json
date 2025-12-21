@@ -633,6 +633,111 @@
       "common": {
         "unknownError": "Неизвестная ошибка."
       }
+    },
+    "user": {
+      "meta": {
+        "title": "{username} · Профиль пользователя | {appName}",
+        "description": "Мы мало о них знаем, но уверены, что {username} замечательный."
+      },
+      "header": "Информация об игроке",
+      "tabs": {
+        "general": "Общее",
+        "bestScores": "Лучшие результаты",
+        "recentScores": "Недавние результаты",
+        "firstPlaces": "Первые места",
+        "beatmaps": "Карты",
+        "medals": "Медали"
+      },
+      "buttons": {
+        "editProfile": "Редактировать профиль",
+        "setDefaultGamemode": "Установить <b>{gamemode} {flag}</b> режимом профиля по умолчанию"
+      },
+      "errors": {
+        "userNotFound": "Пользователь не найден или произошла ошибка.",
+        "restricted": "Это означает, что пользователь нарушил правила сервера и был ограничен.",
+        "userDeleted": "Пользователь мог быть удалён или не существует."
+      },
+      "components": {
+        "generalTab": {
+          "info": "Информация",
+          "rankedScore": "Ранговый счёт",
+          "hitAccuracy": "Точность попаданий",
+          "playcount": "Количество игр",
+          "totalScore": "Общий счёт",
+          "maximumCombo": "Максимальное комбо",
+          "playtime": "Время игры",
+          "performance": "Производительность",
+          "showByRank": "Показать по рангу",
+          "showByPp": "Показать по пп",
+          "aboutMe": "Обо мне"
+        },
+        "scoresTab": {
+          "bestScores": "Лучшие результаты",
+          "recentScores": "Недавние результаты",
+          "firstPlaces": "Первые места",
+          "noScores": "У пользователя нет {type} результатов",
+          "showMore": "Показать ещё"
+        },
+        "beatmapsTab": {
+          "mostPlayed": "Наиболее играемые",
+          "noMostPlayed": "У пользователя нет наиболее играемых карт",
+          "favouriteBeatmaps": "Любимые карты",
+          "noFavourites": "У пользователя нет любимых карт",
+          "showMore": "Показать ещё"
+        },
+        "medalsTab": {
+          "medals": "Медали",
+          "latest": "Последние",
+          "categories": {
+            "hushHush": "Тихий-тихий",
+            "beatmapHunt": "Охота за картами",
+            "modIntroduction": "Знакомство с модами",
+            "skill": "Навык"
+          },
+          "achievedOn": "получена",
+          "notAchieved": "Не получена"
+        },
+        "generalInformation": {
+          "joined": "Присоединился <b>{time}</b>",
+          "followers": "<b>{count}</b> Подписчиков",
+          "following": "<b>{count}</b> Подписок",
+          "playsWith": "Играет с <b>{playstyle}</b>"
+        },
+        "statusText": {
+          "lastSeenOn": ", последний раз в сети {date}"
+        },
+        "ranks": {
+          "highestRank": "Высший ранг <rankValue>{rank}</rankValue> {date}"
+        },
+        "previousUsernames": {
+          "previouslyKnownAs": "Этот пользователь ранее был известен как:"
+        },
+        "beatmapSetOverview": {
+          "by": "от {artist}",
+          "mappedBy": "создано {creator}"
+        },
+        "privilegeBadges": {
+          "badges": {
+            "Developer": "Разработчик",
+            "Admin": "Администратор",
+            "Bat": "BAT",
+            "Bot": "Бот",
+            "Supporter": "Поддерживающий"
+          }
+        },
+        "scoreOverview": {
+          "pp": "пп",
+          "accuracy": "точность: {accuracy}%"
+        },
+        "statsChart": {
+          "date": "Дата",
+          "types": {
+            "pp": "пп",
+            "rank": "ранг"
+          },
+          "tooltip": "{value} {type}"
+        }
+      }
     }
   }
 }

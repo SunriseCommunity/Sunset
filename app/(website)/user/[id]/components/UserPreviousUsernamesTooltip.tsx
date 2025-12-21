@@ -5,6 +5,7 @@ import { twMerge } from "tailwind-merge";
 import React from "react";
 import { UserResponse } from "@/lib/types/api";
 import { useUserPreviousUsernames } from "@/lib/hooks/api/user/useUserPreviousUsernames";
+import { useT } from "@/lib/i18n/utils";
 
 interface UserPreviousUsernamesTooltipProps {
   user: UserResponse;
@@ -15,6 +16,7 @@ export default function UserPreviousUsernamesTooltip({
   user,
   className,
 }: UserPreviousUsernamesTooltipProps) {
+  const t = useT("pages.user.components.previousUsernames");
   const userPreviousUsernamesResult = useUserPreviousUsernames(user.user_id);
 
   if (
@@ -29,7 +31,7 @@ export default function UserPreviousUsernamesTooltip({
       <Tooltip
         content={
           <div>
-            <p>This user was previously known as:</p>
+            <p>{t("previouslyKnownAs")}</p>
             {
               <ul className="list-disc pl-5">
                 {userPreviousUsernamesResult.data.usernames.map(

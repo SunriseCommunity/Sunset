@@ -16,6 +16,7 @@ import { BeatmapSetResponse } from "@/lib/types/api";
 import { CircularProgress } from "@/components/ui/circular-progress";
 import { CollapsibleBadgeList } from "@/components/CollapsibleBadgeList";
 import BeatmapDifficultyBadge from "@/components/BeatmapDifficultyBadge";
+import { useT } from "@/lib/i18n/utils";
 interface BeatmapSetOverviewProps {
   beatmapSet: BeatmapSetResponse;
 }
@@ -23,6 +24,7 @@ interface BeatmapSetOverviewProps {
 export default function BeatmapSetOverview({
   beatmapSet,
 }: BeatmapSetOverviewProps) {
+  const t = useT("pages.user.components.beatmapSetOverview");
   const [isHovered, setIsHovered] = useState(false);
 
   const { player, isPlaying, currentTimestamp } = useAudioPlayer();
@@ -111,10 +113,10 @@ export default function BeatmapSetOverview({
                 </h3>
               </div>
               <p className="text-xs text-gray-200 truncate">
-                by {beatmapSet.artist}
+                {t("by", { artist: beatmapSet.artist })}
               </p>
               <p className="text-[10px] text-gray-300 truncate">
-                mapped by {beatmapSet.creator}
+                {t("mappedBy", { creator: beatmapSet.creator })}
               </p>
             </div>
           </Link>

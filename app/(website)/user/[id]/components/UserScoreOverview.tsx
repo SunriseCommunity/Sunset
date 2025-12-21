@@ -10,6 +10,7 @@ import { getGradeColor } from "@/lib/utils/getGradeColor";
 import { timeSince } from "@/lib/utils/timeSince";
 import Link from "next/link";
 import { twMerge } from "tailwind-merge";
+import { useT } from "@/lib/i18n/utils";
 
 interface UserScoreOverviewProps {
   score: ScoreResponse;
@@ -20,6 +21,7 @@ export default function UserScoreOverview({
   score,
   className,
 }: UserScoreOverviewProps) {
+  const t = useT("pages.user.components.scoreOverview");
   const beatmapQuery = useBeatmap(score.beatmap_id);
   const beatmap = beatmapQuery.data;
 
@@ -70,10 +72,12 @@ export default function UserScoreOverview({
                 <p className="text-xl text-primary">
                   {beatmap && beatmap.is_ranked
                     ? score.performance_points.toFixed()
-                    : "- "}
-                  pp
+                    : "- "}{" "}
+                  {t("pp")}
                 </p>
-                <p className="text-sm">acc: {score.accuracy.toFixed(2)}%</p>
+                <p className="text-sm">
+                  {t("accuracy", { accuracy: score.accuracy.toFixed(2) })}
+                </p>
               </div>
               <div
                 className={`relative px-1 text-4xl text-${getGradeColor(
@@ -107,12 +111,12 @@ export default function UserScoreOverview({
             <p className="text-xl text-primary">
               {beatmap && beatmap.is_ranked
                 ? score.performance_points.toFixed()
-                : "- "}
-              pp
+                : "- "}{" "}
+              {t("pp")}
             </p>
 
             <p className="text-sm text-muted-foreground">
-              acc: {score.accuracy.toFixed(2)}%
+              {t("accuracy", { accuracy: score.accuracy.toFixed(2) })}
             </p>
           </div>
         </div>
