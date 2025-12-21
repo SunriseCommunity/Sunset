@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import HeaderLink from "@/components/Header/HeaderLink";
 
 import { twMerge } from "tailwind-merge";
@@ -7,7 +7,6 @@ import { ThemeModeToggle } from "@/components/Header/ThemeModeToggle";
 import HeaderSearchCommand from "@/components/Header/HeaderSearchCommand";
 import HeaderMobileDrawer from "@/components/Header/HeaderMobileDrawer";
 import HeaderAvatar from "@/components/Header/HeaderAvatar";
-import Cookies from "js-cookie";
 import Link from "next/link";
 import {
   DropdownMenu,
@@ -17,15 +16,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Brand } from "@/components/Brand";
-import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
 import { useT } from "@/lib/i18n/utils";
+import { LanguageSelector } from "@/components/Header/LanguageSelector";
 
 export default function Header() {
   const t = useT("components.header");
   const [scrolled, setScrolled] = useState(false);
-
-  const router = useRouter();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -41,11 +37,6 @@ export default function Header() {
   const className = `bg-gradient-to-t from-secondary to-current/50 bg-pos-0 bg-size-1000 ${
     scrolled ? `bg-pos-100 bg-size-200` : `hover:bg-pos-100 hover:bg-size-200`
   }`;
-
-  const changeLanguage = useCallback((locale: string) => {
-    Cookies.set("locale", locale);
-    router.refresh();
-  }, []);
 
   return (
     <header className="sticky top-0 z-50 bg-transparent backdrop-blur-xl">
@@ -107,15 +98,10 @@ export default function Header() {
           </div>
         </div>
 
-        <div>
-          {/* TODO: temp position */}
-          <Button onClick={() => changeLanguage("en")}>EN</Button>
-          <Button onClick={() => changeLanguage("ru")}>RU</Button>
-        </div>
-
         <div className="hidden md:flex items-center space-x-6">
           <HeaderSearchCommand />
           <ThemeModeToggle />
+          <LanguageSelector />
           <HeaderAvatar />
         </div>
 

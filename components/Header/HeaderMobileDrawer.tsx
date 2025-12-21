@@ -42,6 +42,7 @@ import { HeaderLogoutAlert } from "@/components/Header/HeaderLogoutAlert";
 import HeaderLoginDialog from "@/components/Header/HeaderLoginDialog";
 import { isUserCanUseAdminPanel } from "@/lib/utils/userPrivileges.util";
 import { useT } from "@/lib/i18n/utils";
+import { LanguageSelector } from "@/components/Header/LanguageSelector";
 
 export const MobileDrawerContext = createContext<Dispatch<
   SetStateAction<boolean>
@@ -100,7 +101,10 @@ export default function HeaderMobileDrawer() {
       });
     }
 
-    if (process.env.NEXT_PUBLIC_KOFI_LINK || process.env.NEXT_PUBLIC_BOOSTY_LINK) {
+    if (
+      process.env.NEXT_PUBLIC_KOFI_LINK ||
+      process.env.NEXT_PUBLIC_BOOSTY_LINK
+    ) {
       list.push({
         icon: <Heart />,
         title: t("navigation.supportUs"),
@@ -148,6 +152,7 @@ export default function HeaderMobileDrawer() {
               <div className="flex-shrink-0 scale-125 ">
                 <HeaderSearchCommand />
                 <ThemeModeToggle />
+                <LanguageSelector />
               </div>
             </div>
           </DrawerHeader>

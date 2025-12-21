@@ -5,6 +5,7 @@ import {
 } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import { ReactNode } from "react";
+import { LOCALE_TO_COUNTRY } from "./messages";
 
 export type TranslationKey = string;
 
@@ -46,3 +47,11 @@ export async function getT(namespace?: string) {
 
   return plainT;
 }
+
+export const getCountryCodeForLocale = (locale: string) => {
+  return LOCALE_TO_COUNTRY[locale] || locale.toUpperCase();
+};
+
+export const getLanguageName = (locale: string) => {
+  return locale.toUpperCase();
+};
