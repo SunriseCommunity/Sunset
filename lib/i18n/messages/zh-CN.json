@@ -1,0 +1,911 @@
+{
+  "general": {
+    "appName": "osu!sunrise",
+    "serverTitle": {
+      "full": "sunrise",
+      "split": {
+        "part1": "sun",
+        "part2": "rise"
+      }
+    }
+  },
+  "components": {
+    "serverMaintenanceDialog": {
+      "title": "嘿！请到此为止！",
+      "discordMessage": "更多信息请查看我们的 Discord 服务器。",
+      "button": "好的，我明白了",
+      "message": "服务器目前处于<b>维护模式</b>，因此网站的某些功能<b>可能无法正常工作</b>。"
+    },
+    "contentNotExist": {
+      "defaultText": "内容未找到"
+    },
+    "workInProgress": {
+      "title": "正在开发",
+      "description": "该内容仍在制作中。请稍后再来查看。"
+    },
+    "beatmapSetCard": {
+      "submittedBy": "提交者",
+      "submittedOn": "提交于",
+      "view": "查看"
+    },
+    "friendshipButton": {
+      "unfriend": "删除好友",
+      "unfollow": "取消关注",
+      "follow": "关注"
+    },
+    "gameModeSelector": {
+      "selectedMode": "当前模式："
+    },
+    "header": {
+      "links": {
+        "leaderboard": "排名",
+        "topPlays": "最好成绩",
+        "beatmaps": "谱面",
+        "help": "帮助",
+        "wiki": "百科",
+        "rules": "规章制度",
+        "apiDocs": "API 文档",
+        "discordServer": "Discord 服务器",
+        "supportUs": "支持我们"
+      }
+    },
+    "headerLoginDialog": {
+      "signIn": "登录",
+      "title": "登录以继续",
+      "description": "欢迎回来。",
+      "username": {
+        "label": "用户名",
+        "placeholder": "例如：username"
+      },
+      "password": {
+        "label": "密码",
+        "placeholder": "************"
+      },
+      "login": "登录",
+      "signUp": "没有账号？注册",
+      "toast": {
+        "success": "登录成功！"
+      },
+      "validation": {
+        "usernameMinLength": "用户名至少需要 2 个字符。",
+        "usernameMaxLength": "用户名长度不能超过 32 个字符。",
+        "passwordMinLength": "密码至少需要 8 个字符。",
+        "passwordMaxLength": "密码长度不能超过 32 个字符。"
+      }
+    },
+    "headerLogoutAlert": {
+      "title": "确定要退出吗？",
+      "description": "退出后，你需要重新登录才能访问你的账号。",
+      "cancel": "取消",
+      "continue": "继续",
+      "toast": {
+        "success": "你已成功退出登录。"
+      }
+    },
+    "headerSearchCommand": {
+      "placeholder": "输入以搜索...",
+      "headings": {
+        "users": "用户",
+        "beatmapsets": "谱面集",
+        "pages": "页面"
+      },
+      "pages": {
+        "leaderboard": "排名",
+        "topPlays": "最好成绩",
+        "beatmapsSearch": "谱面搜索",
+        "wiki": "百科",
+        "rules": "规章制度",
+        "yourProfile": "你的资料",
+        "friends": "好友",
+        "settings": "设置"
+      }
+    },
+    "headerUserDropdown": {
+      "myProfile": "我的资料",
+      "friends": "好友",
+      "settings": "设置",
+      "returnToMainSite": "返回主站",
+      "adminPanel": "管理面板",
+      "logOut": "退出登录"
+    },
+    "headerMobileDrawer": {
+      "navigation": {
+        "home": "首页",
+        "leaderboard": "排名",
+        "topPlays": "最好成绩",
+        "beatmapsSearch": "谱面搜索",
+        "wiki": "百科",
+        "rules": "规章制度",
+        "apiDocs": "API 文档",
+        "discordServer": "Discord 服务器",
+        "supportUs": "支持我们"
+      },
+      "yourProfile": "你的资料",
+      "friends": "好友",
+      "settings": "设置",
+      "adminPanel": "管理面板",
+      "logOut": "退出登录"
+    },
+    "footer": {
+      "voteMessage": "请在 osu-server-list 上为我们投票！",
+      "copyright": "© 2024-2025 Sunrise Community",
+      "sourceCode": "源代码",
+      "serverStatus": "服务器状态",
+      "disclaimer": "我们与“ppy”和“osu!”没有任何关联。所有权利归各自所有者所有。"
+    },
+    "comboBox": {
+      "selectValue": "选择一个值...",
+      "searchValue": "搜索...",
+      "noValuesFound": "未找到任何结果。"
+    },
+    "beatmapsetRowElement": {
+      "mappedBy": "谱师：{creator}"
+    },
+    "themeModeToggle": {
+      "toggleTheme": "切换主题",
+      "light": "浅色",
+      "dark": "深色",
+      "system": "跟随系统"
+    },
+    "imageSelect": {
+      "imageTooBig": "所选图片太大！"
+    },
+    "notFound": {
+      "meta": {
+        "title": "无法找到网页 | {appName}",
+        "description": "抱歉，您正在尝试访问的页面不存在！"
+      },
+      "title": "无法找到网页 | 404",
+      "description": "抱歉，您正在尝试访问的页面不存在！"
+    },
+    "rootLayout": {
+      "meta": {
+        "title": "{appName}",
+        "description": "{appName} 是一款节奏游戏 osu! 的私人服务器。"
+      }
+    }
+  },
+  "pages": {
+    "mainPage": {
+      "meta": {
+        "title": "欢迎 | {appName}",
+        "description": "加入 osu!sunrise —— 功能丰富的私人 osu! 服务器，支持 Relax、Autopilot、ScoreV2，并为 Relax 与 Autopilot 玩法定制了专属 PP 系统。"
+      },
+      "features": {
+        "motto": "- 又一个 osu! 服务器",
+        "description": "功能丰富的 osu! 服务器，支持 Relax、Autopilot 与 ScoreV2 玩法，并为 Relax 与 Autopilot 量身打造了自定义 PP 计算系统。",
+        "buttons": {
+          "register": "立即加入",
+          "wiki": "如何连接"
+        }
+      },
+      "whyUs": "为什么选择我们？",
+      "cards": {
+        "freeFeatures": {
+          "title": "真正免费的功能",
+          "description": "尽情享受 osu!direct、改名等功能，无任何付费墙——对所有玩家完全免费！"
+        },
+        "ppSystem": {
+          "title": "自定义 PP 计算",
+          "description": "我们对原版成绩使用最新 PP 系统，同时对 Relax 与 Autopilot 模式采用自定义且平衡的公式。"
+        },
+        "medals": {
+          "title": "获得自定义奖牌",
+          "description": "达成各种里程碑与成就，赢取服务器独占的独特奖牌。"
+        },
+        "updates": {
+          "title": "频繁更新",
+          "description": "我们一直在改进！期待定期更新、新功能与持续的性能优化。"
+        },
+        "ppCalc": {
+          "title": "内置 PP 计算器",
+          "description": "我们的网站提供内置 PP 计算器，快速估算成绩 PP。"
+        },
+        "sunriseCore": {
+          "title": "自研 Bancho 核心",
+          "description": "不同于大多数私人 osu! 服务器，我们开发了自定义 Bancho 核心，以获得更好的稳定性并支持独特功能。"
+        }
+      },
+      "howToStart": {
+        "title": "如何开始游玩？",
+        "description": "只需三个简单步骤即可开始！",
+        "downloadTile": {
+          "title": "下载 osu! 客户端",
+          "description": "如果你还没有安装客户端",
+          "button": "下载"
+        },
+        "registerTile": {
+          "title": "注册 osu!sunrise 账号",
+          "description": "账号可让你加入 osu!sunrise 社区",
+          "button": "注册"
+        },
+        "guideTile": {
+          "title": "按照连接指南操作",
+          "description": "它会帮助你设置 osu! 客户端以连接到 osu!sunrise",
+          "button": "打开指南"
+        }
+      },
+      "statuses": {
+        "totalUsers": "总用户数",
+        "usersOnline": "在线用户",
+        "usersRestricted": "受限用户",
+        "totalScores": "总成绩数",
+        "serverStatus": "服务器状态",
+        "online": "在线",
+        "offline": "离线",
+        "underMaintenance": "维护中"
+      }
+    },
+    "wiki": {
+      "meta": {
+        "title": "百科 | {appName}"
+      },
+      "header": "百科",
+      "articles": {
+        "howToConnect": {
+          "title": "如何连接",
+          "intro": "要连接服务器，你需要在电脑上安装游戏。你可以从 osu! 官方网站下载游戏。",
+          "step1": "在游戏目录中找到 <code>osu!.exe</code> 文件。",
+          "step2": "为该文件创建一个快捷方式。",
+          "step3": "右键点击快捷方式并选择“属性”。",
+          "step4": "在“目标”栏末尾添加 <code>-devserver {serverDomain}</code>。",
+          "step5": "点击“应用”，然后点击“确定”。",
+          "step6": "双击快捷方式启动游戏。",
+          "imageAlt": "osu 连接示意图"
+        },
+        "multipleAccounts": {
+          "title": "可以拥有多个账号吗？",
+          "answer": "不可以。每人仅允许拥有一个账号。",
+          "consequence": "如果被发现拥有多个账号，你将被服务器封禁。"
+        },
+        "cheatsHacks": {
+          "title": "可以使用作弊或外挂吗？",
+          "answer": "不可以。一旦被抓到将被封禁。",
+          "policy": "我们对作弊非常严格，绝不容忍。<br></br>如果你怀疑有人作弊，请向工作人员举报。"
+        },
+        "appealRestriction": {
+          "title": "我认为自己被不公平地限制了。如何申诉？",
+          "instructions": "如果你认为限制不公平，可以联系工作人员并说明情况以进行申诉。",
+          "contactStaff": "你可以在<a>这里</a>联系工作人员。"
+        },
+        "contributeSuggest": {
+          "title": "我可以为服务器贡献/提出建议吗？",
+          "answer": "当然可以！我们一直欢迎建议。",
+          "instructions": "如果你有任何建议，请在我们的 <a>GitHub</a> 页面提交。<br></br>长期贡献者也有机会获得永久 Supporter 标签。"
+        },
+        "multiplayerDownload": {
+          "title": "我在多人游戏中无法下载谱面，但在主菜单可以",
+          "solution": "在设置中关闭 <code>Automatically start osu!direct downloads</code>，然后再试一次。"
+        }
+      }
+    },
+    "rules": {
+      "meta": {
+        "title": "规章制度 | {appName}"
+      },
+      "header": "规章制度",
+      "sections": {
+        "generalRules": {
+          "title": "一般规则",
+          "noCheating": {
+            "title": "<b>禁止作弊或外挂。</b>",
+            "description": "任何形式的作弊（包括自瞄、relax 挂、宏、修改客户端等）都被严格禁止。公平游戏，公平进步。",
+            "warning": "如你所见，我用更大的字体写给那些“wannabe”作弊者：别以为在别的私服被封后就能来这里。你会被找到并执行（在 Minecraft 里）。所以请别作弊。"
+          },
+          "noMultiAccount": {
+            "title": "<b>禁止多账号或共享账号。</b>",
+            "description": "每位玩家只允许一个账号。如果你的主账号在没有说明的情况下被限制，请联系支持。"
+          },
+          "noImpersonation": {
+            "title": "<b>禁止冒充知名玩家或工作人员</b>",
+            "description": "不要假装自己是工作人员或知名玩家。误导他人可能导致改名或永久封禁。"
+          }
+        },
+        "chatCommunityRules": {
+          "title": "聊天与社区规则",
+          "beRespectful": {
+            "title": "<b>保持尊重。</b>",
+            "description": "友善对待他人。骚扰、仇恨言论、歧视或有毒行为都不被容忍。"
+          },
+          "noNSFW": {
+            "title": "<b>禁止 NSFW 或不适当内容</b>",
+            "description": "保持服务器适合所有年龄段 —— 这适用于所有用户内容，包括但不限于用户名、横幅、头像与个人简介。"
+          },
+          "noAdvertising": {
+            "title": "<b>禁止广告宣传。</b>",
+            "description": "未经管理员批准，请勿推广其他服务器、网站或产品。"
+          }
+        },
+        "disclaimer": {
+          "title": "重要免责声明",
+          "intro": "创建和/或维护账号即表示你已知悉并同意以下条款：",
+          "noLiability": {
+            "title": "<b>免责。</b>",
+            "description": "你对参与 Sunrise 提供的任何服务负全部责任，并承认无法让组织对使用过程中可能产生的任何后果承担责任。"
+          },
+          "accountRestrictions": {
+            "title": "<b>账号限制。</b>",
+            "description": "管理团队保留在不提前通知的情况下，因违反规则或基于自身判断限制或封停任何账号的权利。"
+          },
+          "ruleChanges": {
+            "title": "<b>规则变更。</b>",
+            "description": "服务器规则可能随时变更。管理团队可在不提前通知的情况下更新、修改或删除任何规则，玩家应主动了解相关变化。"
+          },
+          "agreementByParticipation": {
+            "title": "<b>参与即同意。</b>",
+            "description": "创建和/或维护账号即表示你自动同意这些条款，并承诺遵守当时有效的规则与指南。"
+          }
+        }
+      }
+    },
+    "register": {
+      "meta": {
+        "title": "注册 | {appName}"
+      },
+      "header": "注册",
+      "welcome": {
+        "title": "欢迎来到注册页面！",
+        "description": "你好！请输入你的信息来创建账号。如果你不确定如何连接服务器，或有其他问题，请访问我们的 <a>Wiki 页面</a>。"
+      },
+      "form": {
+        "title": "请输入你的信息",
+        "labels": {
+          "username": "用户名",
+          "email": "邮箱",
+          "password": "密码",
+          "confirmPassword": "确认密码"
+        },
+        "placeholders": {
+          "username": "例如：username",
+          "email": "例如：username@mail.com",
+          "password": "************"
+        },
+        "validation": {
+          "usernameMin": "用户名至少需要 {min} 个字符。",
+          "usernameMax": "用户名长度不能超过 {max} 个字符。",
+          "passwordMin": "密码至少需要 {min} 个字符。",
+          "passwordMax": "密码长度不能超过 {max} 个字符。",
+          "passwordsDoNotMatch": "两次输入的密码不一致"
+        },
+        "error": {
+          "title": "错误",
+          "unknown": "未知错误。"
+        },
+        "submit": "注册",
+        "terms": "注册即表示你同意服务器<a>规则</a>"
+      },
+      "success": {
+        "dialog": {
+          "title": "设置完成！",
+          "description": "你的账号已成功创建。",
+          "message": "你现在可以按照 <a>Wiki 页面</a> 的指南连接服务器，或在开始游戏前更新头像与横幅来自定义个人资料！",
+          "buttons": {
+            "viewWiki": "查看 Wiki 指南",
+            "goToProfile": "前往个人资料"
+          }
+        },
+        "toast": "账号创建成功！"
+      }
+    },
+    "support": {
+      "meta": {
+        "title": "支持我们 | {appName}"
+      },
+      "header": "支持我们",
+      "section": {
+        "title": "你可以如何帮助我们",
+        "intro": "尽管 osu!sunrise 的所有功能一直免费，但服务器的运行与改进需要资源、时间与精力，并且主要由<b>一位</b>开发者维护。<br></br><br></br>如果你喜欢 osu!sunrise 并希望它继续成长，以下是一些支持方式：",
+        "donate": {
+          "title": "<b>捐助。</b>",
+          "description": "你的捐助将帮助我们维护与提升 osu! 服务器。每一份支持都很重要！有了你的帮助，我们可以覆盖主机费用、实现新功能，并为所有人提供更顺畅的体验。",
+          "buttons": {
+            "kofi": "Ko-fi",
+            "boosty": "Boosty"
+          }
+        },
+        "spreadTheWord": {
+          "title": "<b>传播。</b>",
+          "description": "了解 osu!sunrise 的人越多，我们的社区就会越活跃、有趣。告诉朋友、在社交媒体分享，并邀请新玩家加入吧。"
+        },
+        "justPlay": {
+          "title": "<b>在服务器上游玩。</b>",
+          "description": "支持 osu!sunrise 最简单的方式之一就是在服务器上游玩！玩家越多，社区与体验就越好。你的参与能帮助服务器成长并保持活跃。"
+        }
+      }
+    },
+    "topplays": {
+      "meta": {
+        "title": "最好成绩 | {appName}"
+      },
+      "header": "最好成绩",
+      "showMore": "显示更多",
+      "components": {
+        "userScoreMinimal": {
+          "pp": "pp",
+          "accuracy": "acc:"
+        }
+      }
+    },
+    "score": {
+      "meta": {
+        "title": "{username} 在 {beatmapTitle} [{beatmapVersion}] | {appName}",
+        "description": "用户 {username} 在 {appName} 中于 {beatmapTitle} [{beatmapVersion}] 取得了 {pp}pp。",
+        "openGraph": {
+          "title": "{username} 在 {beatmapTitle} - {beatmapArtist} [{beatmapVersion}] | {appName}",
+          "description": "用户 {username} 在 {appName} 中于 {beatmapTitle} - {beatmapArtist} [{beatmapVersion}] ★{starRating} {mods} 取得了 {pp}pp。"
+        }
+      },
+      "header": "成绩详情",
+      "beatmap": {
+        "versionUnknown": "未知",
+        "mappedBy": "谱师",
+        "creatorUnknown": "未知谱师"
+      },
+      "score": {
+        "submittedOn": "提交于",
+        "playedBy": "玩家",
+        "userUnknown": "未知用户"
+      },
+      "actions": {
+        "downloadReplay": "下载回放",
+        "openMenu": "打开菜单"
+      },
+      "error": {
+        "notFound": "未找到成绩",
+        "description": "你要找的成绩不存在或已被删除。"
+      }
+    },
+    "leaderboard": {
+      "meta": {
+        "title": "排名 | {appName}"
+      },
+      "header": "排名",
+      "sortBy": {
+        "label": "排序：",
+        "performancePoints": "PP",
+        "rankedScore": "计分成绩总分",
+        "performancePointsShort": "PP",
+        "scoreShort": "分数"
+      },
+      "table": {
+        "columns": {
+          "rank": "排名",
+          "performance": "PP",
+          "rankedScore": "计分成绩总分",
+          "accuracy": "准确率",
+          "playCount": "游玩次数"
+        },
+        "actions": {
+          "openMenu": "打开菜单",
+          "viewUserProfile": "查看用户资料"
+        },
+        "emptyState": "暂无结果。",
+        "pagination": {
+          "usersPerPage": "每页用户数",
+          "showing": "显示 {start} - {end} / 共 {total}"
+        }
+      }
+    },
+    "friends": {
+      "meta": {
+        "title": "你的好友 | {appName}"
+      },
+      "header": "你的连接",
+      "tabs": {
+        "friends": "好友",
+        "followers": "粉丝"
+      },
+      "sorting": {
+        "label": "排序：",
+        "username": "用户名",
+        "recentlyActive": "最近活跃"
+      },
+      "showMore": "显示更多",
+      "emptyState": "未找到用户"
+    },
+    "beatmaps": {
+      "search": {
+        "meta": {
+          "title": "谱面搜索 | {appName}"
+        },
+        "header": "谱面搜索"
+      },
+      "detail": {
+        "meta": {
+          "title": "谱面信息 | {appName}"
+        },
+        "header": "谱面信息",
+        "notFound": {
+          "title": "未找到谱面集",
+          "description": "你要找的谱面集不存在或已被删除。"
+        }
+      },
+      "components": {
+        "search": {
+          "searchPlaceholder": "搜索谱面...",
+          "filters": "筛选",
+          "viewMode": {
+            "grid": "网格",
+            "list": "列表"
+          },
+          "showMore": "显示更多"
+        },
+        "filters": {
+          "mode": {
+            "label": "模式",
+            "any": "不限",
+            "standard": "osu!",
+            "taiko": "osu!taiko",
+            "catch": "osu!catch",
+            "mania": "osu!mania"
+          },
+          "status": {
+            "label": "状态"
+          },
+          "searchByCustomStatus": {
+            "label": "按自定义状态搜索"
+          },
+          "applyFilters": "应用筛选"
+        }
+      }
+    },
+    "beatmapsets": {
+      "meta": {
+        "title": "{artist} - {title} | {appName}",
+        "description": "{artist} 的 {title} 谱面集信息",
+        "openGraph": {
+          "title": "{artist} - {title} | {appName}",
+          "description": "{artist} 的 {title} 谱面集信息 {difficultyInfo}"
+        }
+      },
+      "header": "谱面信息",
+      "error": {
+        "notFound": {
+          "title": "未找到谱面集",
+          "description": "你要找的谱面集不存在或已被删除。"
+        }
+      },
+      "submission": {
+        "submittedBy": "提交者",
+        "submittedOn": "提交于",
+        "rankedOn": "上架于",
+        "statusBy": "{status}："
+      },
+      "video": {
+        "tooltip": "此谱面包含视频"
+      },
+      "description": {
+        "header": "简介"
+      },
+      "components": {
+        "dropdown": {
+          "openMenu": "打开菜单",
+          "ppCalculator": "PP 计算器",
+          "openOnBancho": "在 Bancho 打开",
+          "openWithAdminPanel": "用管理面板打开"
+        },
+        "infoAccordion": {
+          "communityHype": "社区 Hype",
+          "information": "信息",
+          "metadata": {
+            "genre": "曲风",
+            "language": "语言",
+            "tags": "标签"
+          }
+        },
+        "downloadButtons": {
+          "download": "下载",
+          "withVideo": "含视频",
+          "withoutVideo": "不含视频",
+          "osuDirect": "osu!direct"
+        },
+        "difficultyInformation": {
+          "tooltips": {
+            "totalLength": "总时长",
+            "bpm": "BPM",
+            "starRating": "星级"
+          },
+          "labels": {
+            "keyCount": "键数：",
+            "circleSize": "圆圈大小：",
+            "hpDrain": "掉血：",
+            "accuracy": "总体难度：",
+            "approachRate": "接近率："
+          }
+        },
+        "nomination": {
+          "description": "如果你喜欢这张谱面，请给它 Hype，帮助它向 <b>Ranked</b> 状态推进。",
+          "hypeProgress": "Hype 进度",
+          "hypeBeatmap": "Hype 这张谱面！",
+          "hypesRemaining": "你本周还剩 <b>{count} 次 Hype</b> 可用于该谱面",
+          "toast": {
+            "success": "Hype 成功！",
+            "error": "Hype 谱面集时发生错误！"
+          }
+        },
+        "ppCalculator": {
+          "title": "PP 计算器",
+          "pp": "PP: <b>{value}</b>",
+          "totalLength": "总时长",
+          "form": {
+            "accuracy": {
+              "label": "准确率",
+              "validation": {
+                "negative": "准确率不能为负数",
+                "tooHigh": "准确率不能大于 100"
+              }
+            },
+            "combo": {
+              "label": "连击",
+              "validation": {
+                "negative": "连击不能为负数"
+              }
+            },
+            "misses": {
+              "label": "Miss 数",
+              "validation": {
+                "negative": "Miss 数不能为负数"
+              }
+            },
+            "calculate": "计算",
+            "unknownError": "未知错误"
+          }
+        },
+        "leaderboard": {
+          "columns": {
+            "rank": "排名",
+            "score": "分数",
+            "accuracy": "准确率",
+            "player": "玩家",
+            "maxCombo": "最大连击",
+            "perfect": "Perfect",
+            "great": "Great",
+            "good": "Good",
+            "ok": "Ok",
+            "lDrp": "L DRP",
+            "meh": "Meh",
+            "sDrp": "S DRP",
+            "miss": "Miss",
+            "pp": "PP",
+            "time": "时间",
+            "mods": "Mods"
+          },
+          "actions": {
+            "openMenu": "打开菜单",
+            "viewDetails": "查看详情",
+            "downloadReplay": "下载回放"
+          },
+          "table": {
+            "emptyState": "没有找到任何成绩。快来提交第一条吧！",
+            "pagination": {
+              "scoresPerPage": "每页成绩数",
+              "showing": "显示 {start} - {end} / 共 {total}"
+            }
+          }
+        }
+      }
+    },
+    "settings": {
+      "meta": {
+        "title": "设置 | {appName}"
+      },
+      "header": "设置",
+      "notLoggedIn": "你必须登录后才能查看此页面。",
+      "sections": {
+        "changeAvatar": "更换头像",
+        "changeBanner": "更换横幅",
+        "changeDescription": "更改简介",
+        "socials": "社交",
+        "playstyle": "操作方式",
+        "options": "选项",
+        "changePassword": "修改密码",
+        "changeUsername": "修改用户名",
+        "changeCountryFlag": "更改国家/地区旗帜"
+      },
+      "description": {
+        "reminder": "* 提醒：请勿发布任何不适当内容。尽量保持适合所有年龄 :)"
+      },
+      "components": {
+        "username": {
+          "label": "新用户名",
+          "placeholder": "例如：username",
+          "button": "修改用户名",
+          "validation": {
+            "minLength": "用户名至少需要 {min} 个字符。",
+            "maxLength": "用户名长度不能超过 {max} 个字符。"
+          },
+          "toast": {
+            "success": "用户名修改成功！",
+            "error": "修改用户名时发生错误！"
+          },
+          "reminder": "* 提醒：请保持用户名适合所有年龄，否则将被强制修改。滥用此功能将导致封禁。"
+        },
+        "password": {
+          "labels": {
+            "current": "当前密码",
+            "new": "新密码",
+            "confirm": "确认密码"
+          },
+          "placeholder": "************",
+          "button": "修改密码",
+          "validation": {
+            "minLength": "密码至少需要 {min} 个字符。",
+            "maxLength": "密码长度不能超过 {max} 个字符。",
+            "mismatch": "两次输入的密码不一致"
+          },
+          "toast": {
+            "success": "密码修改成功！",
+            "error": "修改密码时发生错误！"
+          }
+        },
+        "description": {
+          "toast": {
+            "success": "简介更新成功！",
+            "error": "发生未知错误"
+          }
+        },
+        "country": {
+          "label": "新国家/地区旗帜",
+          "placeholder": "选择新旗帜",
+          "button": "更改旗帜",
+          "toast": {
+            "success": "旗帜更改成功！",
+            "error": "更改旗帜时发生错误！"
+          }
+        },
+        "socials": {
+          "headings": {
+            "general": "一般",
+            "socials": "社交"
+          },
+          "fields": {
+            "location": "所在地",
+            "interest": "兴趣",
+            "occupation": "职业"
+          },
+          "button": "更新社交信息",
+          "toast": {
+            "success": "社交信息更新成功！",
+            "error": "更新社交信息时发生错误！"
+          }
+        },
+        "playstyle": {
+          "options": {
+            "Mouse": "鼠标",
+            "Keyboard": "键盘",
+            "Tablet": "数位板",
+            "TouchScreen": "触屏"
+          },
+          "toast": {
+            "success": "操作方式更新成功！",
+            "error": "更新操作方式时发生错误！"
+          }
+        },
+        "uploadImage": {
+          "types": {
+            "avatar": "头像",
+            "banner": "横幅"
+          },
+          "button": "上传{type}",
+          "toast": {
+            "success": "{type}更新成功！",
+            "error": "发生未知错误"
+          },
+          "note": "* 注意：{type} 最大为 5MB"
+        },
+        "siteOptions": {
+          "includeBanchoButton": "在谱面页面显示“Open on Bancho”按钮",
+          "useSpaciousUI": "使用更宽松的界面（增大元素间距）"
+        }
+      },
+      "common": {
+        "unknownError": "未知错误。"
+      }
+    },
+    "user": {
+      "meta": {
+        "title": "{username} · 用户资料 | {appName}",
+        "description": "我们并不了解 Ta 很多，但我们相信 {username} 一定很棒。"
+      },
+      "header": "玩家信息",
+      "tabs": {
+        "general": "概览",
+        "bestScores": "最好成绩",
+        "recentScores": "最近成绩",
+        "firstPlaces": "第一名",
+        "beatmaps": "谱面",
+        "medals": "奖牌"
+      },
+      "buttons": {
+        "editProfile": "编辑资料",
+        "setDefaultGamemode": "将 <b>{gamemode} {flag}</b> 设为个人资料默认模式"
+      },
+      "errors": {
+        "userNotFound": "未找到用户或发生错误。",
+        "restricted": "这意味着该用户违反了服务器规则并已被限制。",
+        "userDeleted": "该用户可能已被删除或不存在。"
+      },
+      "components": {
+        "generalTab": {
+          "info": "信息",
+          "rankedScore": "计分成绩总分",
+          "hitAccuracy": "准确率",
+          "playcount": "游玩次数",
+          "totalScore": "总分",
+          "maximumCombo": "最大连击",
+          "playtime": "游玩时长",
+          "performance": "表现",
+          "showByRank": "按排名显示",
+          "showByPp": "按 PP 显示",
+          "aboutMe": "关于我"
+        },
+        "scoresTab": {
+          "bestScores": "最好成绩",
+          "recentScores": "最近成绩",
+          "firstPlaces": "第一名",
+          "noScores": "该用户没有 {type} 成绩",
+          "showMore": "显示更多"
+        },
+        "beatmapsTab": {
+          "mostPlayed": "最常游玩",
+          "noMostPlayed": "该用户没有最常游玩的谱面",
+          "favouriteBeatmaps": "收藏谱面",
+          "noFavourites": "该用户没有收藏谱面",
+          "showMore": "显示更多"
+        },
+        "medalsTab": {
+          "medals": "奖牌",
+          "latest": "最新",
+          "categories": {
+            "hushHush": "Hush-Hush",
+            "beatmapHunt": "谱面狩猎",
+            "modIntroduction": "模组介绍",
+            "skill": "技巧"
+          },
+          "achievedOn": "获得于",
+          "notAchieved": "未获得"
+        },
+        "generalInformation": {
+          "joined": "加入于 <b>{time}</b>",
+          "followers": "<b>{count}</b> 粉丝",
+          "following": "关注 <b>{count}</b>",
+          "playsWith": "使用 <b>{playstyle}</b> 游玩"
+        },
+        "statusText": {
+          "lastSeenOn": "，最后在线：{date}"
+        },
+        "ranks": {
+          "highestRank": "最高排名 <rankValue>{rank}</rankValue> 于 {date}"
+        },
+        "previousUsernames": {
+          "previouslyKnownAs": "该用户曾用名："
+        },
+        "beatmapSetOverview": {
+          "by": "作者 {artist}",
+          "mappedBy": "谱师 {creator}"
+        },
+        "privilegeBadges": {
+          "badges": {
+            "Developer": "开发者",
+            "Admin": "管理员",
+            "Bat": "BAT",
+            "Bot": "机器人",
+            "Supporter": "支持者"
+          }
+        },
+        "scoreOverview": {
+          "pp": "pp",
+          "accuracy": "acc: {accuracy}%"
+        },
+        "statsChart": {
+          "date": "日期",
+          "types": {
+            "pp": "pp",
+            "rank": "rank"
+          },
+          "tooltip": "{value} {type}"
+        }
+      }
+    }
+  }
+}

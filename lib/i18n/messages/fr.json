@@ -1,0 +1,911 @@
+{
+  "general": {
+    "appName": "osu!sunrise",
+    "serverTitle": {
+      "full": "sunrise",
+      "split": {
+        "part1": "sun",
+        "part2": "rise"
+      }
+    }
+  },
+  "components": {
+    "serverMaintenanceDialog": {
+      "title": "Hey ! Stop là !",
+      "discordMessage": "Pour plus d'informations, consulte notre serveur Discord.",
+      "button": "OK, j'ai compris",
+      "message": "Le serveur est actuellement en <b>mode maintenance</b>, certaines fonctionnalités du site <b>peuvent ne pas fonctionner correctement</b>."
+    },
+    "contentNotExist": {
+      "defaultText": "Contenu introuvable"
+    },
+    "workInProgress": {
+      "title": "En cours",
+      "description": "Ce contenu est encore en cours de réalisation. Revenez plus tard."
+    },
+    "beatmapSetCard": {
+      "submittedBy": "soumis par",
+      "submittedOn": "soumis le",
+      "view": "Voir"
+    },
+    "friendshipButton": {
+      "unfriend": "Retirer des amis",
+      "unfollow": "Se désabonner",
+      "follow": "Suivre"
+    },
+    "gameModeSelector": {
+      "selectedMode": "Mode sélectionné :"
+    },
+    "header": {
+      "links": {
+        "leaderboard": "classements",
+        "topPlays": "meilleures performances",
+        "beatmaps": "beatmaps",
+        "help": "aide",
+        "wiki": "wiki",
+        "rules": "règles",
+        "apiDocs": "documentation de l'API",
+        "discordServer": "serveur Discord",
+        "supportUs": "nous soutenir"
+      }
+    },
+    "headerLoginDialog": {
+      "signIn": "se connecter",
+      "title": "Se connecter pour continuer",
+      "description": "Bon retour.",
+      "username": {
+        "label": "Nom d'utilisateur",
+        "placeholder": "ex. username"
+      },
+      "password": {
+        "label": "Mot de passe",
+        "placeholder": "************"
+      },
+      "login": "Se connecter",
+      "signUp": "Vous n'avez pas de compte ? S'inscrire",
+      "toast": {
+        "success": "Connexion réussie !"
+      },
+      "validation": {
+        "usernameMinLength": "Le nom d'utilisateur doit contenir au moins 2 caractères.",
+        "usernameMaxLength": "Le nom d'utilisateur doit contenir au maximum 32 caractères.",
+        "passwordMinLength": "Le mot de passe doit contenir au moins 8 caractères.",
+        "passwordMaxLength": "Le mot de passe doit contenir au maximum 32 caractères."
+      }
+    },
+    "headerLogoutAlert": {
+      "title": "Êtes-vous sûr ?",
+      "description": "Vous devrez vous reconnecter pour accéder à votre compte.",
+      "cancel": "Annuler",
+      "continue": "Continuer",
+      "toast": {
+        "success": "Vous avez été déconnecté avec succès."
+      }
+    },
+    "headerSearchCommand": {
+      "placeholder": "Tapez pour rechercher...",
+      "headings": {
+        "users": "Utilisateurs",
+        "beatmapsets": "Beatmapsets",
+        "pages": "Pages"
+      },
+      "pages": {
+        "leaderboard": "Classements",
+        "topPlays": "Meilleures performances",
+        "beatmapsSearch": "Recherche de beatmaps",
+        "wiki": "Wiki",
+        "rules": "Règles",
+        "yourProfile": "Votre profil",
+        "friends": "Amis",
+        "settings": "Paramètres"
+      }
+    },
+    "headerUserDropdown": {
+      "myProfile": "Mon profil",
+      "friends": "Amis",
+      "settings": "Paramètres",
+      "returnToMainSite": "Retourner au site principal",
+      "adminPanel": "Panneau d'administration",
+      "logOut": "Se déconnecter"
+    },
+    "headerMobileDrawer": {
+      "navigation": {
+        "home": "Accueil",
+        "leaderboard": "Classements",
+        "topPlays": "Meilleures performances",
+        "beatmapsSearch": "Recherche de beatmaps",
+        "wiki": "Wiki",
+        "rules": "Règles",
+        "apiDocs": "Documentation de l'API",
+        "discordServer": "Serveur Discord",
+        "supportUs": "Nous soutenir"
+      },
+      "yourProfile": "Votre profil",
+      "friends": "Amis",
+      "settings": "Paramètres",
+      "adminPanel": "Panneau d'administration",
+      "logOut": "Se déconnecter"
+    },
+    "footer": {
+      "voteMessage": "Veuillez voter pour nous sur osu-server-list !",
+      "copyright": "© 2024-2025 Sunrise Community",
+      "sourceCode": "Code source",
+      "serverStatus": "Statut du serveur",
+      "disclaimer": "Nous ne sommes affiliés à \"ppy\" ni à \"osu!\" d'aucune manière. Tous les droits appartiennent à leurs propriétaires respectifs."
+    },
+    "comboBox": {
+      "selectValue": "Sélectionner une valeur...",
+      "searchValue": "Rechercher...",
+      "noValuesFound": "Aucune valeur trouvée."
+    },
+    "beatmapsetRowElement": {
+      "mappedBy": "mappé par {creator}"
+    },
+    "themeModeToggle": {
+      "toggleTheme": "Changer le thème",
+      "light": "Clair",
+      "dark": "Sombre",
+      "system": "Système"
+    },
+    "imageSelect": {
+      "imageTooBig": "L'image sélectionnée est trop grande !"
+    },
+    "notFound": {
+      "meta": {
+        "title": "Page manquante | {appName}",
+        "description": "Désolé, mais la page demandée n'est pas ici !"
+      },
+      "title": "Page manquante | 404",
+      "description": "Désolé, mais la page demandée n'est pas ici !"
+    },
+    "rootLayout": {
+      "meta": {
+        "title": "{appName}",
+        "description": "{appName} est un serveur privé pour osu!, un jeu de rythme."
+      }
+    }
+  },
+  "pages": {
+    "mainPage": {
+      "meta": {
+        "title": "Bienvenue | {appName}",
+        "description": "Rejoignez osu!sunrise, un serveur privé osu! riche en fonctionnalités avec Relax, Autopilot, ScoreV2, et un système de PP personnalisé adapté à Relax et Autopilot."
+      },
+      "features": {
+        "motto": "- encore un serveur osu!",
+        "description": "Serveur osu! riche en fonctionnalités avec support Relax, Autopilot et ScoreV2, et un système de calcul de PP personnalisé adapté à Relax et Autopilot.",
+        "buttons": {
+          "register": "Rejoindre maintenant",
+          "wiki": "Comment se connecter"
+        }
+      },
+      "whyUs": "Pourquoi nous ?",
+      "cards": {
+        "freeFeatures": {
+          "title": "Fonctionnalités vraiment gratuites",
+          "description": "Profitez de fonctionnalités comme osu!direct et le changement de pseudo sans paywall — totalement gratuit pour tous les joueurs !"
+        },
+        "ppSystem": {
+          "title": "Calculs de PP personnalisés",
+          "description": "Nous utilisons le dernier système de PP pour les scores vanilla, tout en appliquant une formule personnalisée et équilibrée pour les modes Relax et Autopilot."
+        },
+        "medals": {
+          "title": "Gagnez des médailles personnalisées",
+          "description": "Gagnez des médailles uniques, exclusives au serveur, en accomplissant divers jalons et objectifs."
+        },
+        "updates": {
+          "title": "Mises à jour fréquentes",
+          "description": "Nous nous améliorons en permanence ! Attendez-vous à des mises à jour régulières, de nouvelles fonctionnalités et des optimisations continues."
+        },
+        "ppCalc": {
+          "title": "Calculateur de PP intégré",
+          "description": "Notre site propose un calculateur de PP intégré pour des estimations rapides et faciles."
+        },
+        "sunriseCore": {
+          "title": "Bancho Core sur mesure",
+          "description": "Contrairement à la plupart des serveurs privés osu!, nous avons développé notre propre Bancho Core pour plus de stabilité et un support de fonctionnalités uniques."
+        }
+      },
+      "howToStart": {
+        "title": "Comment commencer à jouer ?",
+        "description": "Trois étapes simples et vous êtes prêt !",
+        "downloadTile": {
+          "title": "Télécharger le client osu!",
+          "description": "Si vous n'avez pas encore de client installé",
+          "button": "Télécharger"
+        },
+        "registerTile": {
+          "title": "Créer un compte osu!sunrise",
+          "description": "Un compte vous permet de rejoindre la communauté osu!sunrise",
+          "button": "S'inscrire"
+        },
+        "guideTile": {
+          "title": "Suivre le guide de connexion",
+          "description": "Il vous aide à configurer votre client osu! pour vous connecter à osu!sunrise",
+          "button": "Ouvrir le guide"
+        }
+      },
+      "statuses": {
+        "totalUsers": "Utilisateurs totaux",
+        "usersOnline": "Utilisateurs en ligne",
+        "usersRestricted": "Utilisateurs restreints",
+        "totalScores": "Scores totaux",
+        "serverStatus": "Statut du serveur",
+        "online": "En ligne",
+        "offline": "Hors ligne",
+        "underMaintenance": "En maintenance"
+      }
+    },
+    "wiki": {
+      "meta": {
+        "title": "Wiki | {appName}"
+      },
+      "header": "Wiki",
+      "articles": {
+        "howToConnect": {
+          "title": "Comment se connecter",
+          "intro": "Pour vous connecter au serveur, vous devez avoir une copie du jeu installée sur votre ordinateur. Vous pouvez télécharger le jeu depuis le site officiel d'osu!.",
+          "step1": "Localisez le fichier <code>osu!.exe</code> dans le dossier du jeu.",
+          "step2": "Créez un raccourci du fichier.",
+          "step3": "Cliquez droit sur le raccourci et sélectionnez Propriétés.",
+          "step4": "Dans le champ cible, ajoutez <code>-devserver {serverDomain}</code> à la fin du chemin.",
+          "step5": "Cliquez sur Appliquer puis sur OK.",
+          "step6": "Double-cliquez sur le raccourci pour lancer le jeu.",
+          "imageAlt": "image de connexion osu"
+        },
+        "multipleAccounts": {
+          "title": "Puis-je avoir plusieurs comptes ?",
+          "answer": "Non. Un seul compte par personne est autorisé.",
+          "consequence": "Si vous êtes pris avec plusieurs comptes, vous serez banni du serveur."
+        },
+        "cheatsHacks": {
+          "title": "Puis-je utiliser des cheats ou des hacks ?",
+          "answer": "Non. Vous serez banni si vous êtes pris.",
+          "policy": "Nous sommes très stricts sur la triche et ne la tolérons pas.<br></br>Si vous suspectez quelqu'un de tricher, merci de le signaler au staff."
+        },
+        "appealRestriction": {
+          "title": "Je pense avoir été restreint injustement. Comment faire appel ?",
+          "instructions": "Si vous pensez avoir été restreint injustement, vous pouvez faire appel en contactant le staff avec votre cas.",
+          "contactStaff": "Vous pouvez contacter le staff <a>ici</a>."
+        },
+        "contributeSuggest": {
+          "title": "Puis-je contribuer/proposer des changements au serveur ?",
+          "answer": "Oui ! Nous sommes toujours ouverts aux suggestions.",
+          "instructions": "Si vous avez des suggestions, merci de les soumettre sur notre page <a>GitHub</a>.<br></br>Les contributeurs long terme peuvent aussi avoir une chance d'obtenir un tag supporter permanent."
+        },
+        "multiplayerDownload": {
+          "title": "Je ne peux pas télécharger de maps en multijoueur, mais je peux depuis le menu principal",
+          "solution": "Désactivez <code>Automatically start osu!direct downloads</code> dans les options et réessayez."
+        }
+      }
+    },
+    "rules": {
+      "meta": {
+        "title": "Règles | {appName}"
+      },
+      "header": "Règles",
+      "sections": {
+        "generalRules": {
+          "title": "Règles générales",
+          "noCheating": {
+            "title": "<b>Pas de triche ni de hack.</b>",
+            "description": "Toute forme de triche, y compris aimbots, relax hacks, macros ou clients modifiés donnant un avantage injuste, est strictement interdite. Jouez fair-play, progressez fair-play.",
+            "warning": "Comme vous pouvez le voir, j'ai écrit ça en plus gros pour tous les tricheurs \"wannabe\" qui pensent pouvoir migrer ici après avoir été bannis d'un autre serveur privé. Vous serez retrouvés et exécutés (dans Minecraft) si vous trichez. Alors s'il vous plaît, ne le faites pas."
+          },
+          "noMultiAccount": {
+            "title": "<b>Pas de multi-comptes ni de partage de compte.</b>",
+            "description": "Un seul compte par joueur est autorisé. Si votre compte principal a été restreint sans explication, contactez le support."
+          },
+          "noImpersonation": {
+            "title": "<b>Pas d'usurpation de joueurs connus ou du staff</b>",
+            "description": "Ne prétendez pas être un membre du staff ou un joueur connu. Tromper les autres peut entraîner un changement de pseudo ou un bannissement permanent."
+          }
+        },
+        "chatCommunityRules": {
+          "title": "Règles du chat & de la communauté",
+          "beRespectful": {
+            "title": "<b>Soyez respectueux.</b>",
+            "description": "Traitez les autres avec bienveillance. Harcèlement, haine, discrimination ou comportement toxique ne seront pas tolérés."
+          },
+          "noNSFW": {
+            "title": "<b>Pas de NSFW ni de contenu inapproprié</b>",
+            "description": "Gardez le serveur approprié pour tous — cela s'applique à tout le contenu utilisateur, y compris noms, bannières, avatars et descriptions de profil."
+          },
+          "noAdvertising": {
+            "title": "<b>La publicité est interdite.</b>",
+            "description": "Ne faites pas la promotion d'autres serveurs, sites web ou produits sans l'approbation d'un admin."
+          }
+        },
+        "disclaimer": {
+          "title": "Avertissement important",
+          "intro": "En créant et/ou en maintenant un compte sur notre plateforme, vous reconnaissez et acceptez les conditions suivantes :",
+          "noLiability": {
+            "title": "<b>Aucune responsabilité.</b>",
+            "description": "Vous acceptez l'entière responsabilité de votre participation à tout service fourni par Sunrise et reconnaissez ne pas pouvoir tenir l'organisation responsable des conséquences pouvant découler de votre utilisation."
+          },
+          "accountRestrictions": {
+            "title": "<b>Restrictions de compte.</b>",
+            "description": "L'administration se réserve le droit de restreindre ou suspendre tout compte, avec ou sans préavis, en cas de violation des règles du serveur ou à sa discrétion."
+          },
+          "ruleChanges": {
+            "title": "<b>Changements de règles.</b>",
+            "description": "Les règles du serveur peuvent changer à tout moment. L'administration peut mettre à jour, modifier ou supprimer une règle avec ou sans notification préalable, et les joueurs sont censés rester informés."
+          },
+          "agreementByParticipation": {
+            "title": "<b>Accord par participation.</b>",
+            "description": "En créant et/ou en maintenant un compte sur le serveur, vous acceptez automatiquement ces conditions et vous engagez à respecter les règles et directives en vigueur à ce moment-là."
+          }
+        }
+      }
+    },
+    "register": {
+      "meta": {
+        "title": "Inscription | {appName}"
+      },
+      "header": "Inscription",
+      "welcome": {
+        "title": "Bienvenue sur la page d'inscription !",
+        "description": "Bonjour ! Veuillez saisir vos informations pour créer un compte. Si vous ne savez pas comment vous connecter au serveur ou si vous avez des questions, consultez notre <a>page Wiki</a>."
+      },
+      "form": {
+        "title": "Saisissez vos informations",
+        "labels": {
+          "username": "Nom d'utilisateur",
+          "email": "Email",
+          "password": "Mot de passe",
+          "confirmPassword": "Confirmer le mot de passe"
+        },
+        "placeholders": {
+          "username": "ex. username",
+          "email": "ex. username@mail.com",
+          "password": "************"
+        },
+        "validation": {
+          "usernameMin": "Le nom d'utilisateur doit contenir au moins {min} caractères.",
+          "usernameMax": "Le nom d'utilisateur doit contenir {max} caractères ou moins.",
+          "passwordMin": "Le mot de passe doit contenir au moins {min} caractères.",
+          "passwordMax": "Le mot de passe doit contenir {max} caractères ou moins.",
+          "passwordsDoNotMatch": "Les mots de passe ne correspondent pas"
+        },
+        "error": {
+          "title": "Erreur",
+          "unknown": "Erreur inconnue."
+        },
+        "submit": "S'inscrire",
+        "terms": "En vous inscrivant, vous acceptez les <a>règles</a> du serveur"
+      },
+      "success": {
+        "dialog": {
+          "title": "C'est bon !",
+          "description": "Votre compte a été créé avec succès.",
+          "message": "Vous pouvez maintenant vous connecter au serveur en suivant le guide sur notre <a>page Wiki</a>, ou personnaliser votre profil en mettant à jour votre avatar et bannière avant de commencer à jouer !",
+          "buttons": {
+            "viewWiki": "Voir le guide Wiki",
+            "goToProfile": "Aller au profil"
+          }
+        },
+        "toast": "Compte créé avec succès !"
+      }
+    },
+    "support": {
+      "meta": {
+        "title": "Nous soutenir | {appName}"
+      },
+      "header": "Nous soutenir",
+      "section": {
+        "title": "Comment vous pouvez nous aider",
+        "intro": "Même si toutes les fonctionnalités d'osu!sunrise ont toujours été gratuites, faire tourner et améliorer le serveur demande des ressources, du temps et des efforts, et il est principalement maintenu par un <b>seul</b> développeur.<br></br><br></br>Si vous aimez osu!sunrise et souhaitez le voir grandir, voici quelques façons de nous soutenir :",
+        "donate": {
+          "title": "<b>Faire un don.</b>",
+          "description": "Vos dons nous aident à maintenir et améliorer les serveurs osu!. Chaque contribution compte ! Avec votre soutien, nous pouvons couvrir les coûts d'hébergement, implémenter de nouvelles fonctionnalités et offrir une expérience plus fluide pour tous.",
+          "buttons": {
+            "kofi": "Ko-fi",
+            "boosty": "Boosty"
+          }
+        },
+        "spreadTheWord": {
+          "title": "<b>Faire connaître.</b>",
+          "description": "Plus les gens connaissent osu!sunrise, plus notre communauté sera vivante et passionnante. Parlez-en à vos amis, partagez sur les réseaux sociaux et invitez de nouveaux joueurs."
+        },
+        "justPlay": {
+          "title": "<b>Jouer sur le serveur.</b>",
+          "description": "L'une des façons les plus simples de soutenir osu!sunrise est simplement d'y jouer ! Plus nous avons de joueurs, meilleure sera la communauté et l'expérience. En rejoignant, vous aidez le serveur à grandir et à rester actif."
+        }
+      }
+    },
+    "topplays": {
+      "meta": {
+        "title": "Meilleures performances | {appName}"
+      },
+      "header": "Meilleures performances",
+      "showMore": "Afficher plus",
+      "components": {
+        "userScoreMinimal": {
+          "pp": "pp",
+          "accuracy": "acc:"
+        }
+      }
+    },
+    "score": {
+      "meta": {
+        "title": "{username} sur {beatmapTitle} [{beatmapVersion}] | {appName}",
+        "description": "L'utilisateur {username} a obtenu {pp}pp sur {beatmapTitle} [{beatmapVersion}] dans {appName}.",
+        "openGraph": {
+          "title": "{username} sur {beatmapTitle} - {beatmapArtist} [{beatmapVersion}] | {appName}",
+          "description": "L'utilisateur {username} a obtenu {pp}pp sur {beatmapTitle} - {beatmapArtist} [{beatmapVersion}] ★{starRating} {mods} dans {appName}."
+        }
+      },
+      "header": "Performance du score",
+      "beatmap": {
+        "versionUnknown": "Inconnu",
+        "mappedBy": "mappé par",
+        "creatorUnknown": "Créateur inconnu"
+      },
+      "score": {
+        "submittedOn": "Soumis le",
+        "playedBy": "Joué par",
+        "userUnknown": "Utilisateur inconnu"
+      },
+      "actions": {
+        "downloadReplay": "Télécharger le replay",
+        "openMenu": "Ouvrir le menu"
+      },
+      "error": {
+        "notFound": "Score introuvable",
+        "description": "Le score que vous recherchez n'existe pas ou a été supprimé."
+      }
+    },
+    "leaderboard": {
+      "meta": {
+        "title": "Classements | {appName}"
+      },
+      "header": "Classements",
+      "sortBy": {
+        "label": "Trier par :",
+        "performancePoints": "Points de performance",
+        "rankedScore": "Ranked Score",
+        "performancePointsShort": "Perf.",
+        "scoreShort": "Score"
+      },
+      "table": {
+        "columns": {
+          "rank": "Rang",
+          "performance": "Performance",
+          "rankedScore": "Ranked Score",
+          "accuracy": "Précision",
+          "playCount": "Nombre de parties"
+        },
+        "actions": {
+          "openMenu": "Ouvrir le menu",
+          "viewUserProfile": "Voir le profil"
+        },
+        "emptyState": "Aucun résultat.",
+        "pagination": {
+          "usersPerPage": "utilisateurs par page",
+          "showing": "Affichage {start} - {end} sur {total}"
+        }
+      }
+    },
+    "friends": {
+      "meta": {
+        "title": "Vos amis | {appName}"
+      },
+      "header": "Vos connexions",
+      "tabs": {
+        "friends": "Amis",
+        "followers": "Abonnés"
+      },
+      "sorting": {
+        "label": "Trier par :",
+        "username": "Nom d'utilisateur",
+        "recentlyActive": "Récemment actif"
+      },
+      "showMore": "Afficher plus",
+      "emptyState": "Aucun utilisateur trouvé"
+    },
+    "beatmaps": {
+      "search": {
+        "meta": {
+          "title": "Recherche de beatmaps | {appName}"
+        },
+        "header": "Recherche de beatmaps"
+      },
+      "detail": {
+        "meta": {
+          "title": "Infos beatmap | {appName}"
+        },
+        "header": "Infos beatmap",
+        "notFound": {
+          "title": "Beatmapset introuvable",
+          "description": "Le beatmapset que vous recherchez n'existe pas ou a été supprimé."
+        }
+      },
+      "components": {
+        "search": {
+          "searchPlaceholder": "Rechercher des beatmaps...",
+          "filters": "Filtres",
+          "viewMode": {
+            "grid": "Grille",
+            "list": "Liste"
+          },
+          "showMore": "Afficher plus"
+        },
+        "filters": {
+          "mode": {
+            "label": "Mode",
+            "any": "Tous",
+            "standard": "osu!",
+            "taiko": "osu!taiko",
+            "catch": "osu!catch",
+            "mania": "osu!mania"
+          },
+          "status": {
+            "label": "Statut"
+          },
+          "searchByCustomStatus": {
+            "label": "Rechercher par statut personnalisé"
+          },
+          "applyFilters": "Appliquer les filtres"
+        }
+      }
+    },
+    "beatmapsets": {
+      "meta": {
+        "title": "{artist} - {title} | {appName}",
+        "description": "Infos du beatmapset {title} par {artist}",
+        "openGraph": {
+          "title": "{artist} - {title} | {appName}",
+          "description": "Infos du beatmapset {title} par {artist} {difficultyInfo}"
+        }
+      },
+      "header": "Infos beatmap",
+      "error": {
+        "notFound": {
+          "title": "Beatmapset introuvable",
+          "description": "Le beatmapset que vous recherchez n'existe pas ou a été supprimé."
+        }
+      },
+      "submission": {
+        "submittedBy": "soumis par",
+        "submittedOn": "soumis le",
+        "rankedOn": "ranked le",
+        "statusBy": "{status} par"
+      },
+      "video": {
+        "tooltip": "Cette beatmap contient une vidéo"
+      },
+      "description": {
+        "header": "Description"
+      },
+      "components": {
+        "dropdown": {
+          "openMenu": "Ouvrir le menu",
+          "ppCalculator": "Calculateur de PP",
+          "openOnBancho": "Ouvrir sur Bancho",
+          "openWithAdminPanel": "Ouvrir avec le panneau admin"
+        },
+        "infoAccordion": {
+          "communityHype": "Hype communauté",
+          "information": "Informations",
+          "metadata": {
+            "genre": "Genre",
+            "language": "Langue",
+            "tags": "Tags"
+          }
+        },
+        "downloadButtons": {
+          "download": "Télécharger",
+          "withVideo": "avec vidéo",
+          "withoutVideo": "sans vidéo",
+          "osuDirect": "osu!direct"
+        },
+        "difficultyInformation": {
+          "tooltips": {
+            "totalLength": "Durée totale",
+            "bpm": "BPM",
+            "starRating": "Étoiles"
+          },
+          "labels": {
+            "keyCount": "Nombre de touches :",
+            "circleSize": "Taille des cercles :",
+            "hpDrain": "Drain HP :",
+            "accuracy": "Précision :",
+            "approachRate": "Approach Rate :"
+          }
+        },
+        "nomination": {
+          "description": "Hypez cette map si vous avez aimé y jouer pour l'aider à progresser vers le statut <b>Ranked</b>.",
+          "hypeProgress": "Progression du hype",
+          "hypeBeatmap": "Hype !",
+          "hypesRemaining": "Il vous reste <b>{count} hypes</b> pour cette semaine",
+          "toast": {
+            "success": "Beatmap hypée avec succès !",
+            "error": "Erreur lors du hype du beatmapset !"
+          }
+        },
+        "ppCalculator": {
+          "title": "Calculateur de PP",
+          "pp": "PP : <b>{value}</b>",
+          "totalLength": "Durée totale",
+          "form": {
+            "accuracy": {
+              "label": "Précision",
+              "validation": {
+                "negative": "La précision ne peut pas être négative",
+                "tooHigh": "La précision ne peut pas dépasser 100"
+              }
+            },
+            "combo": {
+              "label": "Combo",
+              "validation": {
+                "negative": "Le combo ne peut pas être négatif"
+              }
+            },
+            "misses": {
+              "label": "Miss",
+              "validation": {
+                "negative": "Le nombre de miss ne peut pas être négatif"
+              }
+            },
+            "calculate": "Calculer",
+            "unknownError": "Erreur inconnue"
+          }
+        },
+        "leaderboard": {
+          "columns": {
+            "rank": "Rang",
+            "score": "Score",
+            "accuracy": "Précision",
+            "player": "Joueur",
+            "maxCombo": "Combo max",
+            "perfect": "Perfect",
+            "great": "Great",
+            "good": "Good",
+            "ok": "Ok",
+            "lDrp": "L DRP",
+            "meh": "Meh",
+            "sDrp": "S DRP",
+            "miss": "Miss",
+            "pp": "PP",
+            "time": "Temps",
+            "mods": "Mods"
+          },
+          "actions": {
+            "openMenu": "Ouvrir le menu",
+            "viewDetails": "Voir les détails",
+            "downloadReplay": "Télécharger le replay"
+          },
+          "table": {
+            "emptyState": "Aucun score trouvé. Soyez le premier à en soumettre un !",
+            "pagination": {
+              "scoresPerPage": "scores par page",
+              "showing": "Affichage {start} - {end} sur {total}"
+            }
+          }
+        }
+      }
+    },
+    "settings": {
+      "meta": {
+        "title": "Paramètres | {appName}"
+      },
+      "header": "Paramètres",
+      "notLoggedIn": "Vous devez être connecté pour voir cette page.",
+      "sections": {
+        "changeAvatar": "Changer d'avatar",
+        "changeBanner": "Changer de bannière",
+        "changeDescription": "Changer la description",
+        "socials": "Réseaux",
+        "playstyle": "Style de jeu",
+        "options": "Options",
+        "changePassword": "Changer le mot de passe",
+        "changeUsername": "Changer le pseudo",
+        "changeCountryFlag": "Changer le drapeau du pays"
+      },
+      "description": {
+        "reminder": "* Rappel : ne publiez pas de contenu inapproprié. Essayez de rester family friendly :)"
+      },
+      "components": {
+        "username": {
+          "label": "Nouveau pseudo",
+          "placeholder": "ex. username",
+          "button": "Changer le pseudo",
+          "validation": {
+            "minLength": "Le pseudo doit contenir au moins {min} caractères.",
+            "maxLength": "Le pseudo doit contenir {max} caractères ou moins."
+          },
+          "toast": {
+            "success": "Pseudo changé avec succès !",
+            "error": "Erreur lors du changement de pseudo !"
+          },
+          "reminder": "* Rappel : gardez un pseudo approprié, sinon il sera changé. Abuser de cette fonctionnalité entraînera un bannissement."
+        },
+        "password": {
+          "labels": {
+            "current": "Mot de passe actuel",
+            "new": "Nouveau mot de passe",
+            "confirm": "Confirmer le mot de passe"
+          },
+          "placeholder": "************",
+          "button": "Changer le mot de passe",
+          "validation": {
+            "minLength": "Le mot de passe doit contenir au moins {min} caractères.",
+            "maxLength": "Le mot de passe doit contenir {max} caractères ou moins.",
+            "mismatch": "Les mots de passe ne correspondent pas"
+          },
+          "toast": {
+            "success": "Mot de passe changé avec succès !",
+            "error": "Erreur lors du changement de mot de passe !"
+          }
+        },
+        "description": {
+          "toast": {
+            "success": "Description mise à jour avec succès !",
+            "error": "Une erreur inconnue est survenue"
+          }
+        },
+        "country": {
+          "label": "Nouveau drapeau",
+          "placeholder": "Sélectionner un nouveau drapeau",
+          "button": "Changer le drapeau",
+          "toast": {
+            "success": "Drapeau changé avec succès !",
+            "error": "Erreur lors du changement de drapeau !"
+          }
+        },
+        "socials": {
+          "headings": {
+            "general": "Général",
+            "socials": "Réseaux"
+          },
+          "fields": {
+            "location": "lieu",
+            "interest": "intérêt",
+            "occupation": "profession"
+          },
+          "button": "Mettre à jour",
+          "toast": {
+            "success": "Réseaux mis à jour avec succès !",
+            "error": "Erreur lors de la mise à jour !"
+          }
+        },
+        "playstyle": {
+          "options": {
+            "Mouse": "Souris",
+            "Keyboard": "Clavier",
+            "Tablet": "Tablette",
+            "TouchScreen": "Écran tactile"
+          },
+          "toast": {
+            "success": "Style de jeu mis à jour avec succès !",
+            "error": "Erreur lors de la mise à jour du style de jeu !"
+          }
+        },
+        "uploadImage": {
+          "types": {
+            "avatar": "avatar",
+            "banner": "bannière"
+          },
+          "button": "Uploader {type}",
+          "toast": {
+            "success": "{type} mis à jour avec succès !",
+            "error": "Une erreur inconnue est survenue"
+          },
+          "note": "* Note : les {type}s sont limités à 5 Mo"
+        },
+        "siteOptions": {
+          "includeBanchoButton": "Afficher le bouton « Open on Bancho » sur la page beatmap",
+          "useSpaciousUI": "Utiliser une interface espacée (augmenter les espacements)"
+        }
+      },
+      "common": {
+        "unknownError": "Erreur inconnue."
+      }
+    },
+    "user": {
+      "meta": {
+        "title": "{username} · Profil utilisateur | {appName}",
+        "description": "On ne sait pas grand-chose sur lui/elle, mais on est sûrs que {username} est génial."
+      },
+      "header": "Infos joueur",
+      "tabs": {
+        "general": "Général",
+        "bestScores": "Meilleures performances",
+        "recentScores": "Scores récents",
+        "firstPlaces": "Premières places",
+        "beatmaps": "Beatmaps",
+        "medals": "Médailles"
+      },
+      "buttons": {
+        "editProfile": "Modifier le profil",
+        "setDefaultGamemode": "Définir <b>{gamemode} {flag}</b> comme mode par défaut du profil"
+      },
+      "errors": {
+        "userNotFound": "Utilisateur introuvable ou une erreur est survenue.",
+        "restricted": "Cela signifie que l'utilisateur a enfreint les règles du serveur et a été restreint.",
+        "userDeleted": "L'utilisateur a peut-être été supprimé ou n'existe pas."
+      },
+      "components": {
+        "generalTab": {
+          "info": "Info",
+          "rankedScore": "Ranked Score",
+          "hitAccuracy": "Précision",
+          "playcount": "Nombre de parties",
+          "totalScore": "Score total",
+          "maximumCombo": "Combo maximum",
+          "playtime": "Temps de jeu",
+          "performance": "Performance",
+          "showByRank": "Afficher par rang",
+          "showByPp": "Afficher par pp",
+          "aboutMe": "À propos de moi"
+        },
+        "scoresTab": {
+          "bestScores": "Meilleures performances",
+          "recentScores": "Scores récents",
+          "firstPlaces": "Premières places",
+          "noScores": "L'utilisateur n'a pas de scores {type}",
+          "showMore": "Afficher plus"
+        },
+        "beatmapsTab": {
+          "mostPlayed": "Les plus jouées",
+          "noMostPlayed": "L'utilisateur n'a pas de beatmaps les plus jouées",
+          "favouriteBeatmaps": "Beatmaps préférées",
+          "noFavourites": "L'utilisateur n'a pas de beatmaps préférées",
+          "showMore": "Afficher plus"
+        },
+        "medalsTab": {
+          "medals": "Médailles",
+          "latest": "Dernières",
+          "categories": {
+            "hushHush": "Hush hush",
+            "beatmapHunt": "Beatmap hunt",
+            "modIntroduction": "Mod introduction",
+            "skill": "Skill"
+          },
+          "achievedOn": "obtenue le",
+          "notAchieved": "Non obtenue"
+        },
+        "generalInformation": {
+          "joined": "Inscrit <b>{time}</b>",
+          "followers": "<b>{count}</b> Abonnés",
+          "following": "<b>{count}</b> Abonnements",
+          "playsWith": "Joue avec <b>{playstyle}</b>"
+        },
+        "statusText": {
+          "lastSeenOn": ", vu pour la dernière fois le {date}"
+        },
+        "ranks": {
+          "highestRank": "Meilleur rang <rankValue>{rank}</rankValue> le {date}"
+        },
+        "previousUsernames": {
+          "previouslyKnownAs": "Cet utilisateur était auparavant connu sous le nom :"
+        },
+        "beatmapSetOverview": {
+          "by": "par {artist}",
+          "mappedBy": "mappé par {creator}"
+        },
+        "privilegeBadges": {
+          "badges": {
+            "Developer": "Développeur",
+            "Admin": "Admin",
+            "Bat": "BAT",
+            "Bot": "Bot",
+            "Supporter": "Supporter"
+          }
+        },
+        "scoreOverview": {
+          "pp": "pp",
+          "accuracy": "acc: {accuracy}%"
+        },
+        "statsChart": {
+          "date": "Date",
+          "types": {
+            "pp": "pp",
+            "rank": "rank"
+          },
+          "tooltip": "{value} {type}"
+        }
+      }
+    }
+  }
+}

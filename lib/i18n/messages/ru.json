@@ -2,7 +2,7 @@
   "components": {
     "serverMaintenanceDialog": {
       "title": "Эй! Стоп!",
-      "discordMessage": "Для получения дополнительной информации посетите наш Discord сервер.",
+      "discordMessage": "Для получения дополнительной информации посетите наш Discord-сервер.",
       "button": "Хорошо, понял",
       "message": "Сервер находится в режиме <b>технического обслуживания</b>, поэтому некоторые функции сайта <b>могут работать некорректно</b>."
     },
@@ -29,18 +29,18 @@
     "header": {
       "links": {
         "leaderboard": "таблица лидеров",
-        "topPlays": "топ игры",
+        "topPlays": "лучшие скоры",
         "beatmaps": "карты",
         "help": "помощь",
         "wiki": "вики",
         "rules": "правила",
         "apiDocs": "документация API",
-        "discordServer": "Discord сервер",
+        "discordServer": "discord сервер",
         "supportUs": "поддержать нас"
       }
     },
     "headerLoginDialog": {
-      "signIn": "войти",
+      "signIn": "Войти",
       "title": "Войдите, чтобы продолжить",
       "description": "С возвращением.",
       "username": {
@@ -81,7 +81,7 @@
       },
       "pages": {
         "leaderboard": "Таблица лидеров",
-        "topPlays": "Топ игры",
+        "topPlays": "Лучшие скоры",
         "beatmapsSearch": "Поиск карт",
         "wiki": "Вики",
         "rules": "Правила",
@@ -102,12 +102,12 @@
       "navigation": {
         "home": "Главная",
         "leaderboard": "Таблица лидеров",
-        "topPlays": "Топ игры",
+        "topPlays": "Лучшие скоры",
         "beatmapsSearch": "Поиск карт",
         "wiki": "Вики",
         "rules": "Правила",
         "apiDocs": "Документация API",
-        "discordServer": "Discord сервер",
+        "discordServer": "Discord-сервер",
         "supportUs": "Поддержать нас"
       },
       "yourProfile": "Ваш профиль",
@@ -142,11 +142,11 @@
     },
     "notFound": {
       "meta": {
-        "title": "Не найдено | {appName}",
-        "description": "Страница, которую вы ищете, здесь нет. Извините."
+        "title": "Страница не найдена | {appName}",
+        "description": "Извините, но запрашиваемая вами страница не найдена."
       },
-      "title": "Не найдено | 404",
-      "description": "То, что вы ищете, здесь нет. Извините."
+      "title": "Страница не найдена | 404",
+      "description": "Извините, но запрашиваемая вами страница не найдена."
     },
     "rootLayout": {
       "meta": {
@@ -157,7 +157,6 @@
   },
   "pages": {
     "mainPage": {
-      "TODO": "UPDATE TRANSLATION, AI FOR NOW",
       "meta": {
         "title": "Добро пожаловать! | {appName}",
         "description": "Присоединяйтесь к osu!sunrise, функциональному приватному серверу osu!, поддерживающему Relax, Autopilot и ScoreV2, а также собственной системой расчёта PP, адаптированной под Relax и Autopilot."
@@ -403,9 +402,9 @@
     },
     "topplays": {
       "meta": {
-        "title": "Топ игры | {appName}"
+        "title": "Лучшие скоры | {appName}"
       },
-      "header": "Топ игры",
+      "header": "Лучшие скоры",
       "showMore": "Показать ещё",
       "components": {
         "userScoreMinimal": {
