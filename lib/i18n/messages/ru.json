@@ -257,6 +257,35 @@
           "accuracy": "точность:"
         }
       }
+    },
+    "score": {
+      "meta": {
+        "title": "{username} на {beatmapTitle} [{beatmapVersion}] | {appName}",
+        "description": "Пользователь {username} набрал {pp}pp на {beatmapTitle} [{beatmapVersion}] в {appName}.",
+        "openGraph": {
+          "title": "{username} на {beatmapTitle} - {beatmapArtist} [{beatmapVersion}] | {appName}",
+          "description": "Пользователь {username} набрал {pp}pp на {beatmapTitle} - {beatmapArtist} [{beatmapVersion}] ★{starRating} {mods} в {appName}."
+        }
+      },
+      "header": "Производительность счёта",
+      "beatmap": {
+        "versionUnknown": "Неизвестно",
+        "mappedBy": "создана",
+        "creatorUnknown": "Неизвестный создатель"
+      },
+      "score": {
+        "submittedOn": "Отправлено",
+        "playedBy": "Сыграно",
+        "userUnknown": "Неизвестный пользователь"
+      },
+      "actions": {
+        "downloadReplay": "Скачать реплей",
+        "openMenu": "Открыть меню"
+      },
+      "error": {
+        "notFound": "Счёт не найден",
+        "description": "Счёт, который вы ищете, не существует или был удалён."
+      }
     }
   }
 }

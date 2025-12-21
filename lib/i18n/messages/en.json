@@ -691,6 +691,80 @@
           }
         }
       }
+    },
+    "score": {
+      "meta": {
+        "title": {
+          "text": "{username} on {beatmapTitle} [{beatmapVersion}] | {appName}",
+          "context": "The title for the score page, includes username, beatmap title, version, and app name as parameters"
+        },
+        "description": {
+          "text": "User {username} has scored {pp}pp on {beatmapTitle} [{beatmapVersion}] in {appName}.",
+          "context": "The meta description for the score page, includes username, PP value, beatmap title, version, and app name as parameters"
+        },
+        "openGraph": {
+          "title": {
+            "text": "{username} on {beatmapTitle} - {beatmapArtist} [{beatmapVersion}] | {appName}",
+            "context": "The OpenGraph title for the score page, includes username, beatmap title, artist, version, and app name as parameters"
+          },
+          "description": {
+            "text": "User {username} has scored {pp}pp on {beatmapTitle} - {beatmapArtist} [{beatmapVersion}] ★{starRating} {mods} in {appName}.",
+            "context": "The OpenGraph description for the score page, includes username, PP value, beatmap title, artist, version, star rating, mods, and app name as parameters"
+          }
+        }
+      },
+      "header": {
+        "text": "Score Performance",
+        "context": "The main header text for the score page"
+      },
+      "beatmap": {
+        "versionUnknown": {
+          "text": "Unknown",
+          "context": "Fallback text when beatmap version is not available"
+        },
+        "mappedBy": {
+          "text": "mapped by",
+          "context": "Text displayed before the beatmap creator name"
+        },
+        "creatorUnknown": {
+          "text": "Unknown Creator",
+          "context": "Fallback text when beatmap creator is not available"
+        }
+      },
+      "score": {
+        "submittedOn": {
+          "text": "Submitted on",
+          "context": "Text displayed before the score submission date"
+        },
+        "playedBy": {
+          "text": "Played by",
+          "context": "Text displayed before the player username"
+        },
+        "userUnknown": {
+          "text": "Unknown user",
+          "context": "Fallback text when user is not available"
+        }
+      },
+      "actions": {
+        "downloadReplay": {
+          "text": "Download Replay",
+          "context": "Button text to download the replay file"
+        },
+        "openMenu": {
+          "text": "Open menu",
+          "context": "Screen reader text for the dropdown menu button"
+        }
+      },
+      "error": {
+        "notFound": {
+          "text": "Score not found",
+          "context": "Error message when score cannot be found"
+        },
+        "description": {
+          "text": "The score you are looking for does not exist or has been deleted.",
+          "context": "Error description explaining that the score doesn't exist or was deleted"
+        }
+      }
     }
   }
 }
