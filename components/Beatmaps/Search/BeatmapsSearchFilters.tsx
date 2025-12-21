@@ -12,7 +12,8 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { BeatmapStatusWeb, GameMode } from "@/lib/types/api";
-import { useState } from "react";
+import { useState, useCallback, useMemo } from "react";
+import { useT } from "@/lib/i18n/utils";
 
 const beatmapSearchStatusList = Object.values(BeatmapStatusWeb)
   .filter((v) => v != BeatmapStatusWeb.UNKNOWN)
@@ -41,45 +42,50 @@ export function BeatmapsSearchFilters({
   defaultMode,
   defaultStatus,
 }: BeatmapFiltersProps) {
+  const t = useT("pages.beatmaps.components.filters");
   const [mode, setMode] = useState<GameMode | null>(defaultMode);
   const [status, setStatus] = useState<BeatmapStatusWeb[] | null>(
     defaultStatus
   );
   const [searchByCustomStatus, setSearchByCustomStatus] = useState(false);
 
-  const handleApplyFilters = () => {
+  const handleApplyFilters = useCallback(() => {
     onApplyFilters({
       mode,
       status: (status?.length ?? 0) > 0 ? status : null,
       searchByCustomStatus,
     });
-  };
+  }, [onApplyFilters, mode, status, searchByCustomStatus]);
 
   return (
     <Card>
       <CardContent className="grid grid-cols-1 gap-4 p-4 md:grid-cols-2">
         <div className="space-y-2">
-          <label className="text-sm font-medium">Mode</label>
+          <label className="text-sm font-medium">{t("mode.label")}</label>
           <Select
             value={mode ?? "any"}
             disabled={searchByCustomStatus}
             onValueChange={(v) => setMode(v != "any" ? (v as GameMode) : null)}
           >
             <SelectTrigger>
-              <SelectValue placeholder="Any" />
+              <SelectValue placeholder={t("mode.any")} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value={"any"}>Any</SelectItem>
-              <SelectItem value={GameMode.STANDARD}>osu!</SelectItem>
-              <SelectItem value={GameMode.TAIKO}>osu!taiko</SelectItem>
-              <SelectItem value={GameMode.CATCH_THE_BEAT}>osu!catch</SelectItem>
-              <SelectItem value={GameMode.MANIA}>osu!mania</SelectItem>
+              <SelectItem value={"any"}>{t("mode.any")}</SelectItem>
+              <SelectItem value={GameMode.STANDARD}>
+                {t("mode.standard")}
+              </SelectItem>
+              <SelectItem value={GameMode.TAIKO}>{t("mode.taiko")}</SelectItem>
+              <SelectItem value={GameMode.CATCH_THE_BEAT}>
+                {t("mode.catch")}
+              </SelectItem>
+              <SelectItem value={GameMode.MANIA}>{t("mode.mania")}</SelectItem>
             </SelectContent>
           </Select>
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-medium">Status</label>
+          <label className="text-sm font-medium">{t("status.label")}</label>
           <MultiSelect
             options={beatmapSearchStatusList}
             defaultValue={status ?? []}
@@ -90,7 +96,9 @@ export function BeatmapsSearchFilters({
         </div>
 
         <div className="space-x-2 flex items-center">
-          <label className="text-sm font-medium">Search by Custom Status</label>
+          <label className="text-sm font-medium">
+            {t("searchByCustomStatus.label")}
+          </label>
           <Switch
             checked={searchByCustomStatus}
             onCheckedChange={() =>
@@ -105,7 +113,7 @@ export function BeatmapsSearchFilters({
             className="flex-1"
             isLoading={isLoading}
           >
-            Apply Filters
+            {t("applyFilters")}
           </Button>
         </div>
       </CardContent>

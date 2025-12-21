@@ -2,7 +2,7 @@
 
 import type React from "react";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search, Filter, ChevronDown } from "lucide-react";
@@ -16,12 +16,14 @@ import { twMerge } from "tailwind-merge";
 import BeatmapSetOverview from "@/app/(website)/user/[id]/components/BeatmapSetOverview";
 import useDebounce from "@/lib/hooks/useDebounce";
 import { Card, CardContent } from "@/components/ui/card";
+import { useT } from "@/lib/i18n/utils";
 
 export default function BeatmapsSearch({
   forceThreeGridCols = false,
 }: {
   forceThreeGridCols?: boolean;
 }) {
+  const t = useT("pages.beatmaps.components.search");
   const [modeFilter, setModeFilter] = useState<GameMode | null>(null);
   const [statusFilter, setStatusFilter] = useState<BeatmapStatusWeb[] | null>([
     BeatmapStatusWeb.RANKED,
@@ -54,21 +56,24 @@ export default function BeatmapsSearch({
   const isLoadingMore =
     isLoading || (size > 0 && data && typeof data[size - 1] === "undefined");
 
-  const handleShowMore = () => {
+  const handleShowMore = useCallback(() => {
     setSize(size + 1);
-  };
+  }, [setSize, size]);
 
-  const applyFilters = (filters: {
-    mode: GameMode | null;
-    status: BeatmapStatusWeb[] | null;
-    searchByCustomStatus: boolean;
-  }) => {
-    let { mode, status, searchByCustomStatus } = filters;
+  const applyFilters = useCallback(
+    (filters: {
+      mode: GameMode | null;
+      status: BeatmapStatusWeb[] | null;
+      searchByCustomStatus: boolean;
+    }) => {
+      let { mode, status, searchByCustomStatus } = filters;
 
-    setModeFilter(mode);
-    setStatusFilter(status ?? null);
-    setSearchByCustomStatus(searchByCustomStatus);
-  };
+      setModeFilter(mode);
+      setStatusFilter(status ?? null);
+      setSearchByCustomStatus(searchByCustomStatus);
+    },
+    []
+  );
 
   return (
     <div className="space-y-2">
@@ -79,7 +84,7 @@ export default function BeatmapsSearch({
             <Input
               disabled={searchByCustomStatus}
               type="search"
-              placeholder="Search beatmaps..."
+              placeholder={t("searchPlaceholder")}
               className="pl-8"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -92,7 +97,7 @@ export default function BeatmapsSearch({
             onClick={() => setShowFilters(!showFilters)}
           >
             <Filter className="mr-2 h-4 w-4" />
-            Filters
+            {t("filters")}
             {(statusFilter != null || modeFilter != null) && (
               <div className="absolute bg-primary sm:-top-2 text-primary-foreground -top-2.5 sm:-left-2 -left-2.5 rounded-full w-6 h-6 flex items-center justify-center text-sm">
                 {[statusFilter, modeFilter].filter((v) => v != null).length}
@@ -108,9 +113,9 @@ export default function BeatmapsSearch({
             onValueChange={setViewMode}
             className="h-9 "
           >
-            <TabsList className="grid bg-card h-9 w-[120px] shadow grid-cols-2">
-              <TabsTrigger value="grid">Grid</TabsTrigger>
-              <TabsTrigger value="list">List</TabsTrigger>
+            <TabsList className="grid bg-card h-9 min-w-[120px] shadow grid-cols-2">
+              <TabsTrigger value="grid">{t("viewMode.grid")}</TabsTrigger>
+              <TabsTrigger value="list">{t("viewMode.list")}</TabsTrigger>
             </TabsList>
           </Tabs>
         </div>
@@ -171,7 +176,7 @@ export default function BeatmapsSearch({
                 variant="secondary"
               >
                 <ChevronDown />
-                Show more
+                {t("showMore")}
               </Button>
             </div>
           )}

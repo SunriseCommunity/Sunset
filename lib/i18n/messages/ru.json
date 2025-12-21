@@ -334,6 +334,52 @@
       },
       "showMore": "Показать ещё",
       "emptyState": "Пользователи не найдены"
+    },
+    "beatmaps": {
+      "search": {
+        "meta": {
+          "title": "Поиск карт | {appName}"
+        },
+        "header": "Поиск карт"
+      },
+      "detail": {
+        "meta": {
+          "title": "Информация о карте | {appName}"
+        },
+        "header": "Информация о карте",
+        "notFound": {
+          "title": "Набор карт не найден",
+          "description": "Набор карт, который вы ищете, не существует или был удалён."
+        }
+      },
+      "components": {
+        "search": {
+          "searchPlaceholder": "Поиск карт...",
+          "filters": "Фильтры",
+          "viewMode": {
+            "grid": "Сетка",
+            "list": "Список"
+          },
+          "showMore": "Показать ещё"
+        },
+        "filters": {
+          "mode": {
+            "label": "Режим",
+            "any": "Любой",
+            "standard": "osu!",
+            "taiko": "osu!taiko",
+            "catch": "osu!catch",
+            "mania": "osu!mania"
+          },
+          "status": {
+            "label": "Статус"
+          },
+          "searchByCustomStatus": {
+            "label": "Поиск по пользовательскому статусу"
+          },
+          "applyFilters": "Применить фильтры"
+        }
+      }
     }
   }
 }

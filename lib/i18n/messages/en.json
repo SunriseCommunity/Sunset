@@ -891,6 +891,112 @@
         "text": "No users found",
         "context": "Message displayed when there are no users in the list"
       }
+    },
+    "beatmaps": {
+      "search": {
+        "meta": {
+          "title": {
+            "text": "Beatmaps search | {appName}",
+            "context": "The title for the beatmaps search page of the osu!sunrise website"
+          }
+        },
+        "header": {
+          "text": "Beatmaps search",
+          "context": "The main header text for the beatmaps search page"
+        }
+      },
+      "detail": {
+        "meta": {
+          "title": {
+            "text": "Beatmap info | {appName}",
+            "context": "The title for the beatmap detail page of the osu!sunrise website"
+          }
+        },
+        "header": {
+          "text": "Beatmap info",
+          "context": "The header text for the beatmap detail page"
+        },
+        "notFound": {
+          "title": {
+            "text": "Beatmapset not found",
+            "context": "Title displayed when a beatmapset is not found"
+          },
+          "description": {
+            "text": "The beatmapset you are looking for does not exist or has been deleted.",
+            "context": "Description message when a beatmapset is not found or has been deleted"
+          }
+        }
+      },
+      "components": {
+        "search": {
+          "searchPlaceholder": {
+            "text": "Search beatmaps...",
+            "context": "Placeholder text for the beatmaps search input field"
+          },
+          "filters": {
+            "text": "Filters",
+            "context": "Button text to toggle filters panel"
+          },
+          "viewMode": {
+            "grid": {
+              "text": "Grid",
+              "context": "Button text for grid view mode"
+            },
+            "list": {
+              "text": "List",
+              "context": "Button text for list view mode"
+            }
+          },
+          "showMore": {
+            "text": "Show more",
+            "context": "Button text to load more beatmapsets"
+          }
+        },
+        "filters": {
+          "mode": {
+            "label": {
+              "text": "Mode",
+              "context": "Label for the game mode filter selector"
+            },
+            "any": {
+              "text": "Any",
+              "context": "Option to select any game mode (no filter)"
+            },
+            "standard": {
+              "text": "osu!",
+              "context": "Game mode option for osu!standard"
+            },
+            "taiko": {
+              "text": "osu!taiko",
+              "context": "Game mode option for osu!taiko"
+            },
+            "catch": {
+              "text": "osu!catch",
+              "context": "Game mode option for osu!catch"
+            },
+            "mania": {
+              "text": "osu!mania",
+              "context": "Game mode option for osu!mania"
+            }
+          },
+          "status": {
+            "label": {
+              "text": "Status",
+              "context": "Label for the beatmap status filter selector"
+            }
+          },
+          "searchByCustomStatus": {
+            "label": {
+              "text": "Search by Custom Status",
+              "context": "Label for the search by custom status toggle switch"
+            }
+          },
+          "applyFilters": {
+            "text": "Apply Filters",
+            "context": "Button text to apply the selected filters"
+          }
+        }
+      }
     }
   }
 }

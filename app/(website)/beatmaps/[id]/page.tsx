@@ -8,12 +8,14 @@ import RoundedContent from "@/components/General/RoundedContent";
 import Image from "next/image";
 import { Music2 } from "lucide-react";
 import { tryParseNumber } from "@/lib/utils/type.util";
+import { useT } from "@/lib/i18n/utils";
 
 interface BeatmapsProps {
   params: Promise<{ id: string }>;
 }
 
 export default function BeatmapsRedirect(props: BeatmapsProps) {
+  const t = useT("pages.beatmaps.detail");
   const params = use(props.params);
   const beatmapQuery = useBeatmap(tryParseNumber(params.id) ?? 0);
   const beatmap = beatmapQuery.data;
@@ -27,17 +29,14 @@ export default function BeatmapsRedirect(props: BeatmapsProps) {
       <main className="container mx-auto my-8">
         <PrettyHeader
           icon={<Music2 />}
-          text="Beatmap info"
+          text={t("header")}
           className="bg-terracotta-700 mb-4"
           roundBottom={true}
         />
         <RoundedContent className="bg-terracotta-700 rounded-l flex flex-col md:flex-row justify-between items-center md:items-start gap-8 ">
           <div className="flex flex-col space-y-2">
-            <h1 className="text-4xl">Beatmapset not found</h1>
-            <p className="text-muted-foreground">
-              The beatmapset you are looking for does not exist or has been
-              deleted.
-            </p>
+            <h1 className="text-4xl">{t("notFound.title")}</h1>
+            <p className="text-muted-foreground">{t("notFound.description")}</p>
           </div>
           <Image
             src="/images/user-not-found.png"
