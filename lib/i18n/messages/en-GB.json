@@ -420,11 +420,11 @@
     },
     "score": {
       "meta": {
-        "title": "{uwsewname} on {beatmaptitwe} [{beatmapvewsion}] | {appName}",
-        "description": "usew {uwsewname} has scowed {pp}pp on {beatmaptitwe} [{beatmapvewsion}] in {appName}.",
+        "title": "{username} on {beatmapTitle} [{beatmapVersion}] | {appName}",
+        "description": "usew {username} has scowed {pp}pp on {beatmapTitle} [{beatmapVersion}] in {appName}.",
         "openGraph": {
-          "title": "{uwsewname} on {beatmaptitwe} - {beatmapawtist} [{beatmapvewsion}] | {appName}",
-          "description": "usew {uwsewname} has scowed {pp}pp on {beatmaptitwe} - {beatmapawtist} [{beatmapvewsion}] ★{stawrating} {mods} in {appName}."
+          "title": "{username} on {beatmapTitle} - {beatmapArtist} [{beatmapVersion}] | {appName}",
+          "description": "usew {username} has scowed {pp}pp on {beatmapTitle} - {beatmapArtist} [{beatmapVersion}] ★{starRating} {mods} in {appName}."
         }
       },
       "header": "scowe pewfowmance",
@@ -474,7 +474,7 @@
         "emptyState": "no wesuwwts.",
         "pagination": {
           "usersPerPage": "users per page",
-          "showing": "showing {stawt} - {end} of {totaw}"
+          "showing": "showing {start} - {end} of {total}"
         }
       }
     },
@@ -543,11 +543,11 @@
     },
     "beatmapsets": {
       "meta": {
-        "title": "{awtist} - {titwe} | {appName}",
-        "description": "beatmapset info fow {titwe} by {awtist}",
+        "title": "{artist} - {title} | {appName}",
+        "description": "beatmapset info fow {title} by {artist}",
         "openGraph": {
-          "title": "{awtist} - {titwe} | {appName}",
-          "description": "beatmapset info fow {titwe} by {awtist} {difficuwwtyinfo}"
+          "title": "{artist} - {title} | {appName}",
+          "description": "beatmapset info fow {title} by {artist} {difficultyInfo}"
         }
       },
       "header": "beatmap info",
@@ -671,7 +671,7 @@
             "emptyState": "no scowes fouwnd. Be the fiwst to suwbmit one!",
             "pagination": {
               "scoresPerPage": "scowes pew page",
-              "showing": "showing {stawt} - {end} of {totaw}"
+              "showing": "showing {start} - {end} of {total}"
             }
           }
         }

@@ -31,7 +31,7 @@ export default function ScoreLeaderboardData({
 }) {
   return (
     <RoundedContent className="flex flex-col md:flex-row rounded-lg items-center place-content-between space-y-4 md:space-y-0">
-      <div className="max-w-72 w-full flex items-center flex-shrink-1">
+      <div className="max-w-72 w-full flex items-center">
         <div className="flex flex-row items-center space-x-2">
           <div className="flex flex-col mx-4">
             <p className="font-bold text-nowrap"># {score.leaderboard_rank}</p>
