@@ -27,7 +27,7 @@ export default function Providers({ children, locale, messages }: { children: Re
         <SelfProvider>
           <RestrictionProvider>
             <AudioProvider>
-              <NextIntlClientProvider locale={locale} messages={messages}>
+              <NextIntlClientProvider locale={locale} messages={messages} timeZone={"UTC"}>
                 {children}
                 <Toaster />
               </NextIntlClientProvider>
