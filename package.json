@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbo",
     "build": "next build",
-    "start": "next start",
+    "dev": "next dev --turbo",
+    "generate:openapi": "dotenv -e .env.local -- openapi-ts",
     "lint": "next lint",
-    "generate:openapi": "dotenv -e .env.local -- openapi-ts"
+    "start": "next start"
   },
   "dependencies": {
     "@bbob/html": "^4.2.0",
@@ -60,6 +60,7 @@
   },
   "devDependencies": {
     "@hey-api/openapi-ts": "^0.66.7",
+    "@richardscull/eslint-config": "^1.0.0",
     "@svgr/webpack": "^8.1.0",
     "@types/js-cookie": "^3.0.6",
     "@types/lodash": "^4.17.21",
@@ -67,9 +68,12 @@
     "@types/react": "19.1.1",
     "@types/react-dom": "19.1.2",
     "dotenv-cli": "^8.0.0",
-    "eslint": "^8",
+    "eslint": "^9.39.2",
     "eslint-config-next": "^15.5.9",
+    "jiti": "^2.6.1",
+    "lint-staged": "^16.2.7",
     "postcss": "^8",
+    "simple-git-hooks": "^2.13.1",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   },
