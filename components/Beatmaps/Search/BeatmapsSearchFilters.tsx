@@ -1,5 +1,7 @@
 "use client";
 
+import { useCallback, useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { MultiSelect } from "@/components/ui/multi-select";
@@ -11,12 +13,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import { BeatmapStatusWeb, GameMode } from "@/lib/types/api";
-import { useState, useCallback, useMemo } from "react";
 import { useT } from "@/lib/i18n/utils";
+import { BeatmapStatusWeb, GameMode } from "@/lib/types/api";
 
 const beatmapSearchStatusList = Object.values(BeatmapStatusWeb)
-  .filter((v) => v != BeatmapStatusWeb.UNKNOWN)
+  .filter(v => v !== BeatmapStatusWeb.UNKNOWN)
   .map((v) => {
     return {
       value: v,
@@ -45,7 +46,7 @@ export function BeatmapsSearchFilters({
   const t = useT("pages.beatmaps.components.filters");
   const [mode, setMode] = useState<GameMode | null>(defaultMode);
   const [status, setStatus] = useState<BeatmapStatusWeb[] | null>(
-    defaultStatus
+    defaultStatus,
   );
   const [searchByCustomStatus, setSearchByCustomStatus] = useState(false);
 
@@ -65,13 +66,13 @@ export function BeatmapsSearchFilters({
           <Select
             value={mode ?? "any"}
             disabled={searchByCustomStatus}
-            onValueChange={(v) => setMode(v != "any" ? (v as GameMode) : null)}
+            onValueChange={v => setMode(v !== "any" ? (v as GameMode) : null)}
           >
             <SelectTrigger>
               <SelectValue placeholder={t("mode.any")} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value={"any"}>{t("mode.any")}</SelectItem>
+              <SelectItem value="any">{t("mode.any")}</SelectItem>
               <SelectItem value={GameMode.STANDARD}>
                 {t("mode.standard")}
               </SelectItem>
@@ -89,21 +90,19 @@ export function BeatmapsSearchFilters({
           <MultiSelect
             options={beatmapSearchStatusList}
             defaultValue={status ?? []}
-            onValueChange={(v) =>
-              setStatus(!v.includes("") ? (v as BeatmapStatusWeb[]) : null)
-            }
+            onValueChange={v =>
+              setStatus(!v.includes("") ? (v as BeatmapStatusWeb[]) : null)}
           />
         </div>
 
-        <div className="space-x-2 flex items-center">
+        <div className="flex items-center space-x-2">
           <label className="text-sm font-medium">
             {t("searchByCustomStatus.label")}
           </label>
           <Switch
             checked={searchByCustomStatus}
             onCheckedChange={() =>
-              setSearchByCustomStatus(!searchByCustomStatus)
-            }
+              setSearchByCustomStatus(!searchByCustomStatus)}
           />
         </div>
 

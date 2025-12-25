@@ -1,5 +1,6 @@
-import { RestrictionContext } from "@/lib/providers/RestrictionProvider";
 import { useContext } from "react";
+
+import { RestrictionContext } from "@/lib/providers/RestrictionProvider";
 
 export default function useRestriction() {
   const context = useContext(RestrictionContext);

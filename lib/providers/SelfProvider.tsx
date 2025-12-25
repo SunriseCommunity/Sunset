@@ -1,8 +1,10 @@
 "use client";
 
+import type { ReactNode } from "react";
+import { createContext } from "react";
+
 import { useUserSelf } from "@/lib/hooks/api/user/useUser";
-import { UserResponse } from "@/lib/types/api";
-import { createContext, ReactNode } from "react";
+import type { UserResponse } from "@/lib/types/api";
 
 interface SelfContextType {
   self: UserResponse | undefined;
@@ -11,7 +13,7 @@ interface SelfContextType {
 }
 
 export const SelfContext = createContext<SelfContextType | undefined>(
-  undefined
+  undefined,
 );
 
 interface SelfProviderProps {
@@ -24,10 +26,10 @@ export const SelfProvider: React.FC<SelfProviderProps> = ({ children }) => {
   const { data, isLoading } = selfUserQuery;
 
   return (
-    <SelfContext.Provider
+    <SelfContext
       value={{ self: data, isLoading, revalidate: selfUserQuery.mutate }}
     >
       {children}
-    </SelfContext.Provider>
+    </SelfContext>
   );
 };

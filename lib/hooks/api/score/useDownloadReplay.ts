@@ -1,18 +1,20 @@
+import type { KyResponse } from "ky";
+import useSWR from "swr";
+
 import { useUserSelf } from "@/lib/hooks/api/user/useUser";
 import fetcher from "@/lib/services/fetcher";
-import { KyResponse } from "ky";
-import useSWR from "swr";
 
 export function useDownloadReplay(scoreId: number) {
   const { data: userSelf } = useUserSelf();
 
   const { data, error, isLoading, mutate } = useSWR(
     userSelf ? `score/${scoreId}/replay` : null,
-    (url) => fetchReplay(url)
+    url => fetchReplay(url),
   );
 
   const downloadReplay = () => {
-    if (!data) return;
+    if (!data)
+      return;
 
     const { blob, filename } = data;
     const url = window.URL.createObjectURL(blob);
@@ -32,7 +34,7 @@ export function useDownloadReplay(scoreId: number) {
   };
 }
 
-const fetchReplay = async (url: string) => {
+async function fetchReplay(url: string) {
   const response = await fetcher<KyResponse<null>>(url).catch(() => null);
 
   if (!response) {
@@ -52,4 +54,4 @@ const fetchReplay = async (url: string) => {
   }
 
   return { blob, filename };
-};
+}

@@ -1,5 +1,6 @@
-import { SelfContext } from "@/lib/providers/SelfProvider";
 import { useContext } from "react";
+
+import { SelfContext } from "@/lib/providers/SelfProvider";
 
 export default function useSelf() {
   const context = useContext(SelfContext);

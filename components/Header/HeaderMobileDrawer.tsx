@@ -1,14 +1,4 @@
 import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer";
-import useSelf from "@/lib/hooks/useSelf";
-import {
   BookCopy,
   ChartColumnIncreasing,
   Cog,
@@ -23,26 +13,39 @@ import {
   Users2,
   UsersRoundIcon,
 } from "lucide-react";
-import HeaderSearchCommand from "@/components/Header/HeaderSearchCommand";
-import { ThemeModeToggle } from "@/components/Header/ThemeModeToggle";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
+import Image from "next/image";
 import Link from "next/link";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import {
-  createContext,
+import type {
   Dispatch,
   SetStateAction,
-  Suspense,
-  useState,
-  useMemo,
 } from "react";
-import Image from "next/image";
-import { HeaderLogoutAlert } from "@/components/Header/HeaderLogoutAlert";
+import {
+  createContext,
+  Suspense,
+  useMemo,
+  useState,
+} from "react";
+
 import HeaderLoginDialog from "@/components/Header/HeaderLoginDialog";
-import { isUserCanUseAdminPanel } from "@/lib/utils/userPrivileges.util";
-import { useT } from "@/lib/i18n/utils";
+import { HeaderLogoutAlert } from "@/components/Header/HeaderLogoutAlert";
+import HeaderSearchCommand from "@/components/Header/HeaderSearchCommand";
 import { LanguageSelector } from "@/components/Header/LanguageSelector";
+import { ThemeModeToggle } from "@/components/Header/ThemeModeToggle";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
+import useSelf from "@/lib/hooks/useSelf";
+import { useT } from "@/lib/i18n/utils";
+import { isUserCanUseAdminPanel } from "@/lib/utils/userPrivileges.util";
 
 export const MobileDrawerContext = createContext<Dispatch<
   SetStateAction<boolean>
@@ -102,8 +105,8 @@ export default function HeaderMobileDrawer() {
     }
 
     if (
-      process.env.NEXT_PUBLIC_KOFI_LINK ||
-      process.env.NEXT_PUBLIC_BOOSTY_LINK
+      process.env.NEXT_PUBLIC_KOFI_LINK
+      || process.env.NEXT_PUBLIC_BOOSTY_LINK
     ) {
       list.push({
         icon: <Heart />,
@@ -116,22 +119,22 @@ export default function HeaderMobileDrawer() {
   }, [t]);
 
   return (
-    <MobileDrawerContext.Provider value={setOpen}>
+    <MobileDrawerContext value={setOpen}>
       <Drawer open={open} onOpenChange={setOpen}>
         <DrawerTrigger>
           <Menu />
         </DrawerTrigger>
         <DrawerContent className="p-4">
           <DrawerHeader>
-            <DrawerTitle></DrawerTitle>
-            <div className="flex w-full items-center place-content-between">
+            <DrawerTitle />
+            <div className="flex w-full place-content-between items-center">
               {self ? (
                 <DrawerClose asChild>
                   <Link
-                    className="flex items-center flex-grow min-w-0"
+                    className="flex min-w-0 flex-grow items-center"
                     href={`/user/${self.user_id}`}
                   >
-                    <Avatar className="cursor-pointer smooth-transition">
+                    <Avatar className="smooth-transition cursor-pointer">
                       <Suspense fallback={<AvatarFallback>UA</AvatarFallback>}>
                         <Image
                           src={self.avatar_url}
@@ -141,7 +144,7 @@ export default function HeaderMobileDrawer() {
                         />
                       </Suspense>
                     </Avatar>
-                    <p className="block truncate mx-2 font-medium">
+                    <p className="mx-2 block truncate font-medium">
                       {self.username}
                     </p>
                   </Link>
@@ -159,7 +162,7 @@ export default function HeaderMobileDrawer() {
 
           <DrawerFooter>
             <ScrollArea className="h-72 rounded-md bg-transparent">
-              <div className="space-y-3 mb-8">
+              <div className="mb-8 space-y-3">
                 {self && (
                   <>
                     <DrawerClose asChild>
@@ -173,14 +176,14 @@ export default function HeaderMobileDrawer() {
                     </DrawerClose>
                     <Separator className="my-2" />
                     <DrawerClose asChild>
-                      <Link href={`/friends`} className="flex space-x-2">
+                      <Link href="/friends" className="flex space-x-2">
                         <Users2 />
                         <p>{t("friends")}</p>
                       </Link>
                     </DrawerClose>
                     <Separator className="my-2" />
                     <DrawerClose asChild>
-                      <Link href={`/settings`} className="flex space-x-2">
+                      <Link href="/settings" className="flex space-x-2">
                         <Cog />
                         <p>{t("settings")}</p>
                       </Link>
@@ -190,7 +193,7 @@ export default function HeaderMobileDrawer() {
                         <Separator className="my-2" />
 
                         <DrawerClose asChild>
-                          <Link href={`/admin`} className="flex space-x-2">
+                          <Link href="/admin" className="flex space-x-2">
                             <MonitorCog />
                             <p>{t("adminPanel")}</p>
                           </Link>
@@ -210,7 +213,7 @@ export default function HeaderMobileDrawer() {
               </div>
 
               <div className="space-y-3">
-                {navigationList.map((tag) => (
+                {navigationList.map(tag => (
                   <div key={tag.title}>
                     <DrawerClose asChild>
                       <Link href={tag.url} className="flex space-x-2">
@@ -226,6 +229,6 @@ export default function HeaderMobileDrawer() {
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
-    </MobileDrawerContext.Provider>
+    </MobileDrawerContext>
   );
 }

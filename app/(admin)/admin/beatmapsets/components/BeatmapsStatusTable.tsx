@@ -1,7 +1,20 @@
 "use client";
 
+import { Calculator, Undo2 } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 
+import { BeatmapPerformanceTooltip } from "@/app/(admin)/admin/beatmapsets/components/BeatmapPerformanceTooltip";
+import { BeatmapStatusSelect } from "@/app/(admin)/admin/beatmapsets/components/BeatmapStatusSelect";
+import { BeatmapSuggestedSubmissionStatusesTooltip } from "@/app/(admin)/admin/beatmapsets/components/BeatmapSuggestedSubmissionStatusesTooltip";
+import { BeatmapNominatorUser } from "@/app/(website)/beatmapsets/components/BeatmapNominatorUser";
+import { PPCalculatorDialog } from "@/app/(website)/beatmapsets/components/PPCalculatorDialog";
+import DifficultyIcon from "@/components/DifficultyIcon";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -10,30 +23,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { Checkbox } from "@/components/ui/checkbox";
-import {
+import { useUpdateBeatmapCustomStatus } from "@/lib/hooks/api/beatmap/useUpdateBeatmapCustomStatus";
+import type {
   BeatmapSetResponse,
+} from "@/lib/types/api";
+import {
   BeatmapStatusWeb,
   GameMode,
 } from "@/lib/types/api";
 import { getBeatmapStarRating } from "@/lib/utils/getBeatmapStarRating";
-import { BeatmapStatusSelect } from "@/app/(admin)/admin/beatmapsets/components/BeatmapStatusSelect";
-import { Calculator, Undo2 } from "lucide-react";
-import { PPCalculatorDialog } from "@/app/(website)/beatmapsets/components/PPCalculatorDialog";
-import { BeatmapNominatorUser } from "@/app/(website)/beatmapsets/components/BeatmapNominatorUser";
-
-import { SecondsToString } from "@/lib/utils/secondsTo";
-import DifficultyIcon from "@/components/DifficultyIcon";
-import Image from "next/image";
-import Link from "next/link";
-import { useUpdateBeatmapCustomStatus } from "@/lib/hooks/api/beatmap/useUpdateBeatmapCustomStatus";
 import { getStarRatingColor } from "@/lib/utils/getStarRatingColor";
-import { Tooltip } from "@/components/Tooltip";
-import { BeatmapPerformanceTooltip } from "@/app/(admin)/admin/beatmapsets/components/BeatmapPerformanceTooltip";
-import { BeatmapSuggestedSubmissionStatusesTooltip } from "@/app/(admin)/admin/beatmapsets/components/BeatmapSuggestedSubmissionStatusesTooltip";
+import { SecondsToString } from "@/lib/utils/secondsTo";
 
 export function BeatmapsStatusTable({
   beatmapSet,
@@ -41,7 +41,7 @@ export function BeatmapsStatusTable({
   beatmapSet: BeatmapSetResponse;
 }) {
   const [bulkStatus, setBulkStatus] = useState<BeatmapStatusWeb>(
-    BeatmapStatusWeb.RANKED
+    BeatmapStatusWeb.RANKED,
   );
 
   const [selectedBeatmaps, setSelectedBeatmaps] = useState<string[]>([]);
@@ -49,16 +49,16 @@ export function BeatmapsStatusTable({
   const { trigger } = useUpdateBeatmapCustomStatus(beatmapSet.id);
 
   const handleSelectBeatmap = (beatmapId: string) => {
-    setSelectedBeatmaps((prev) =>
+    setSelectedBeatmaps(prev =>
       prev.includes(beatmapId)
-        ? prev.filter((id) => id !== beatmapId)
-        : [...prev, beatmapId]
+        ? prev.filter(id => id !== beatmapId)
+        : [...prev, beatmapId],
     );
   };
 
   const handleUpdateBeatmapStatus = (
     beatmapId: number,
-    status?: BeatmapStatusWeb
+    status?: BeatmapStatusWeb,
   ) => {
     trigger({
       ids: [beatmapId],
@@ -67,39 +67,39 @@ export function BeatmapsStatusTable({
   };
 
   const handleSelectAll = () => {
-    const allBeatmapIds = beatmapSet.beatmaps.map((b) => b.id.toString());
-    const isAllSelected = allBeatmapIds.every((id) =>
-      selectedBeatmaps.includes(id)
+    const allBeatmapIds = beatmapSet.beatmaps.map(b => b.id.toString());
+    const isAllSelected = allBeatmapIds.every(id =>
+      selectedBeatmaps.includes(id),
     );
 
-    setSelectedBeatmaps((prev) =>
+    setSelectedBeatmaps(prev =>
       isAllSelected
-        ? prev.filter((id) => !allBeatmapIds.includes(id))
-        : [...new Set([...prev, ...allBeatmapIds])]
+        ? prev.filter(id => !allBeatmapIds.includes(id))
+        : [...new Set([...prev, ...allBeatmapIds])],
     );
   };
 
   const handleBulkStatusChange = (status?: BeatmapStatusWeb) => {
     trigger({
-      ids: selectedBeatmaps.map((id) => Number(id)),
+      ids: selectedBeatmaps.map(Number),
       status: status ?? BeatmapStatusWeb.UNKNOWN,
     });
 
     setSelectedBeatmaps([]);
   };
 
-  const shouldIncludeCircleSize = beatmapSet.beatmaps.some((b) =>
-    [GameMode.STANDARD, GameMode.CATCH_THE_BEAT].includes(b.mode)
+  const shouldIncludeCircleSize = beatmapSet.beatmaps.some(b =>
+    [GameMode.STANDARD, GameMode.CATCH_THE_BEAT].includes(b.mode),
   );
 
-  const shouldIncludeApproachRate = beatmapSet.beatmaps.some((b) =>
-    [GameMode.STANDARD, GameMode.CATCH_THE_BEAT].includes(b.mode)
+  const shouldIncludeApproachRate = beatmapSet.beatmaps.some(b =>
+    [GameMode.STANDARD, GameMode.CATCH_THE_BEAT].includes(b.mode),
   );
   return (
     <div className="space-y-4">
       <>
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2 flex-wrap">
+          <div className="flex flex-wrap items-center gap-2">
             <Input placeholder="Search beatmaps..." className="w-[250px]" />
             <Button variant="outline">Search</Button>
           </div>
@@ -130,8 +130,8 @@ export function BeatmapsStatusTable({
             <TableRow>
               <TableHead className="w-12">
                 <Checkbox
-                  checked={beatmapSet.beatmaps.every((beatmap) =>
-                    selectedBeatmaps.includes(beatmap.id.toString())
+                  checked={beatmapSet.beatmaps.every(beatmap =>
+                    selectedBeatmaps.includes(beatmap.id.toString()),
                   )}
                   onCheckedChange={handleSelectAll}
                   aria-label="Select all"
@@ -159,8 +159,8 @@ export function BeatmapsStatusTable({
             {beatmapSet.beatmaps
               .sort(
                 (a, b) =>
-                  getBeatmapStarRating(b, b.mode) -
-                  getBeatmapStarRating(a, a.mode)
+                  getBeatmapStarRating(b, b.mode)
+                  - getBeatmapStarRating(a, a.mode),
               )
               .sort((a, b) => a.mode_int - b.mode_int)
               .map((beatmap) => {
@@ -179,23 +179,22 @@ export function BeatmapsStatusTable({
                     <TableCell>
                       <Checkbox
                         checked={selectedBeatmaps.includes(
-                          beatmap.id.toString()
+                          beatmap.id.toString(),
                         )}
                         onCheckedChange={() =>
-                          handleSelectBeatmap(beatmap.id.toString())
-                        }
+                          handleSelectBeatmap(beatmap.id.toString())}
                       />
                     </TableCell>
                     <TableCell className="font-mono">{beatmap.id}</TableCell>
                     <TableCell className="font-mono">
-                      <span className="bg-accent px-1 rounded">
+                      <span className="rounded bg-accent px-1">
                         {beatmap.hash.slice(0, 7)}
                       </span>
                     </TableCell>
                     <TableCell>
                       <Link href={`https://osu.ppy.sh/u/${beatmap.creator_id}`}>
-                        <div className="flex gap-1 items-center ">
-                          <div className="relative w-4 h-4 overflow-hidden rounded">
+                        <div className="flex items-center gap-1 ">
+                          <div className="relative size-4 overflow-hidden rounded">
                             <Image
                               src={`https://a.ppy.sh/${beatmap.creator_id}`}
                               alt={`${beatmap.creator}'s avatar`}
@@ -218,7 +217,7 @@ export function BeatmapsStatusTable({
                         className="text-shadow px-0.5"
                         style={{
                           color: `${getStarRatingColor(
-                            getBeatmapStarRating(beatmap)
+                            getBeatmapStarRating(beatmap),
                           )}`,
                         }}
                       >
@@ -254,17 +253,15 @@ export function BeatmapsStatusTable({
                       <div className="flex gap-1">
                         <BeatmapStatusSelect
                           value={beatmap.status}
-                          onValueChange={(s) =>
-                            handleUpdateBeatmapStatus(beatmap.id, s)
-                          }
+                          onValueChange={s =>
+                            handleUpdateBeatmapStatus(beatmap.id, s)}
                         />
                         {beatmap.beatmap_nominator_user && (
                           <Button
                             size="icon"
                             variant="secondary"
                             onClick={() =>
-                              handleUpdateBeatmapStatus(beatmap.id)
-                            }
+                              handleUpdateBeatmapStatus(beatmap.id)}
                           >
                             <Undo2 />
                           </Button>

@@ -1,20 +1,21 @@
-import PrettyHeader from "@/components/General/PrettyHeader";
-import RoundedContent from "@/components/General/RoundedContent";
 import { LucideMedal } from "lucide-react";
 import Image from "next/image";
-import PrettyDate from "@/components/General/PrettyDate";
-import Spinner from "@/components/Spinner";
-import { useUserMedals } from "@/lib/hooks/api/user/useUserMedals";
-import { Tooltip } from "@/components/Tooltip";
+import { useMemo } from "react";
 import { twMerge } from "tailwind-merge";
-import {
+
+import PrettyDate from "@/components/General/PrettyDate";
+import PrettyHeader from "@/components/General/PrettyHeader";
+import RoundedContent from "@/components/General/RoundedContent";
+import Spinner from "@/components/Spinner";
+import { Tooltip } from "@/components/Tooltip";
+import { useUserMedals } from "@/lib/hooks/api/user/useUserMedals";
+import { useT } from "@/lib/i18n/utils";
+import type {
   GameMode,
   GetUserByIdMedalsResponse,
   UserMedalResponse,
   UserResponse,
 } from "@/lib/types/api";
-import { useT } from "@/lib/i18n/utils";
-import { useMemo } from "react";
 
 interface UserTabMedalsProps {
   user: UserResponse;
@@ -33,17 +34,17 @@ export default function UserTabMedals({ user, gameMode }: UserTabMedalsProps) {
       mod_introduction: t("categories.modIntroduction"),
       skill: t("categories.skill"),
     }),
-    [t]
+    [t],
   );
 
   const latestMedals = userMedals
     ? Object.values(userMedals)
-        .flatMap((group) => group.medals as UserMedalResponse[])
-        .filter((m) => m.unlocked_at)
+        .flatMap(group => group.medals as UserMedalResponse[])
+        .filter(m => m.unlocked_at)
         .sort(
           (a, b) =>
-            new Date(b.unlocked_at!).getTime() -
-            new Date(a.unlocked_at!).getTime()
+            new Date(b.unlocked_at!).getTime()
+              - new Date(a.unlocked_at!).getTime(),
         )
     : [];
 
@@ -51,7 +52,7 @@ export default function UserTabMedals({ user, gameMode }: UserTabMedalsProps) {
     <div className="flex flex-col">
       <PrettyHeader text={t("medals")} icon={<LucideMedal />} />
 
-      <RoundedContent className="min-h-0 h-fit max-h-none grid md:grid-cols-2 gap-4">
+      <RoundedContent className="grid h-fit max-h-none min-h-0 gap-4 md:grid-cols-2">
         {latestMedals.length > 0 && (
           <div className="md:col-span-2">
             <PrettyHeader roundBottom className="px-4 py-1">
@@ -60,8 +61,8 @@ export default function UserTabMedals({ user, gameMode }: UserTabMedalsProps) {
               </div>
             </PrettyHeader>
             <RoundedContent className="">
-              <div className="flex flex-row overflow-hidden h-20 flex-wrap space-x-2">
-                {latestMedals.map((medal) => (
+              <div className="flex h-20 flex-row flex-wrap space-x-2 overflow-hidden">
+                {latestMedals.map(medal => (
                   <div key={medal.id} className="mb-20">
                     {MedalElement(medal, t)}
                   </div>
@@ -70,7 +71,7 @@ export default function UserTabMedals({ user, gameMode }: UserTabMedalsProps) {
             </RoundedContent>
           </div>
         )}
-        {Object.keys(medalsNames).map((category) => (
+        {Object.keys(medalsNames).map(category => (
           <div key={category}>
             <PrettyHeader roundBottom className="px-4 py-1">
               <div className="flex items-center">
@@ -80,13 +81,13 @@ export default function UserTabMedals({ user, gameMode }: UserTabMedalsProps) {
               </div>
             </PrettyHeader>
 
-            <div className="p-4 rounded-b-lg grid grid-cols-4 gap-4 justify-center items-center">
+            <div className="grid grid-cols-4 items-center justify-center gap-4 rounded-b-lg p-4">
               {userMedals ? (
                 userMedals[
                   category as keyof GetUserByIdMedalsResponse
-                ].medals.map((medal) => MedalElement(medal, t))
+                ].medals.map(medal => MedalElement(medal, t))
               ) : (
-                <div className="mx-auto col-span-4">
+                <div className="col-span-4 mx-auto">
                   <Spinner size="lg" />
                 </div>
               )}
@@ -108,20 +109,20 @@ function MedalElement(medal: UserMedalResponse, t: ReturnType<typeof useT>) {
     >
       <Tooltip
         key={medal.id}
-        content={
-          <div className="flex flex-col items-center text-center min-w-52">
-            <h2 className="text-xl font-semibold mx-auto text-wrap mb-2 text-primary">
+        content={(
+          <div className="flex min-w-52 flex-col items-center text-center">
+            <h2 className="mx-auto mb-2 text-wrap text-xl font-semibold text-primary">
               {medal.name}
             </h2>
 
-            <div className="text-sm text-center max-w-52 mx-auto mb-2 break-normal text-current">
+            <div className="mx-auto mb-2 max-w-52 break-normal text-center text-sm text-current">
               {medal.description}
             </div>
 
             <div
               className={twMerge(
                 "text-xs",
-                isAchieved ? "text-current" : "text-gray-500"
+                isAchieved ? "text-current" : "text-gray-500",
               )}
             >
               {isAchieved ? (
@@ -134,7 +135,7 @@ function MedalElement(medal: UserMedalResponse, t: ReturnType<typeof useT>) {
               )}
             </div>
           </div>
-        }
+        )}
       >
         <Image
           src={`https://a.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/medals/client/${medal.id}@2x.png`}
@@ -142,7 +143,7 @@ function MedalElement(medal: UserMedalResponse, t: ReturnType<typeof useT>) {
           width={75}
           height={75}
           className={`rounded-full ${
-            isAchieved ? "filter-none" : "filter grayscale opacity-50"
+            isAchieved ? "filter-none" : "opacity-50 grayscale filter"
           } center`}
         />
       </Tooltip>

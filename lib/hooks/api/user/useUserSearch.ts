@@ -1,14 +1,16 @@
 "use client";
 
+import type { SWRConfiguration } from "swr";
+import useSWR from "swr";
+
 import fetcher from "@/lib/services/fetcher";
-import { GetUserSearchResponse } from "@/lib/types/api";
-import useSWR, { SWRConfiguration } from "swr";
+import type { GetUserSearchResponse } from "@/lib/types/api";
 
 export function useUserSearch(
   query: string | null,
   page?: number,
   limit?: number,
-  options?: SWRConfiguration
+  options?: SWRConfiguration,
 ) {
   return useSWR<GetUserSearchResponse>(
     query
@@ -19,6 +21,6 @@ export function useUserSearch(
     fetcher,
     {
       ...options,
-    }
+    },
   );
 }

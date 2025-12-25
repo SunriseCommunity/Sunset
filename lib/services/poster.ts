@@ -1,9 +1,9 @@
-import { getUserToken } from "@/lib/actions/getUserToken";
-import { PossibleErrorResult } from "@/lib/hooks/api/types";
-import { kyInstance } from "@/lib/services/fetcher";
-import { Options } from "ky";
+import type { Options } from "ky";
 
-const poster = async <T>(url: string, options?: Options) => {
+import { getUserToken } from "@/lib/actions/getUserToken";
+import { kyInstance } from "@/lib/services/fetcher";
+
+async function poster<T>(url: string, options?: Options) {
   const token = await getUserToken();
 
   const result = await kyInstance
@@ -16,17 +16,16 @@ const poster = async <T>(url: string, options?: Options) => {
     .then(async (res) => {
       const contentType = res?.headers?.get("content-type");
 
-      if (
-        contentType != null &&
-        contentType?.indexOf("application/json") !== -1
-      ) {
-        try {
-          return await res.json();
-        } catch {
-          return null;
-        }
-      } else {
+      if (!(contentType != null
+        && contentType?.indexOf("application/json") !== -1)) {
         return res;
+      }
+
+      try {
+        return await res.json();
+      }
+      catch {
+        return null;
       }
     });
 
@@ -35,6 +34,6 @@ const poster = async <T>(url: string, options?: Options) => {
   }
 
   return result as T;
-};
+}
 
 export default poster;

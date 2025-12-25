@@ -1,4 +1,4 @@
-import { SVGProps } from "react";
+import type { SVGProps } from "react";
 
 export function EosIconsThreeDotsLoading(props: SVGProps<SVGSVGElement>) {
   return (
@@ -19,7 +19,7 @@ export function EosIconsThreeDotsLoading(props: SVGProps<SVGSVGElement>) {
           keySplines="0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8"
           repeatCount="indefinite"
           values="0;2;0;0"
-        ></animate>
+        />
       </circle>
       <circle cx="12" cy="12" r="0" fill="currentColor">
         <animate
@@ -30,7 +30,7 @@ export function EosIconsThreeDotsLoading(props: SVGProps<SVGSVGElement>) {
           keySplines="0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8"
           repeatCount="indefinite"
           values="0;2;0;0"
-        ></animate>
+        />
       </circle>
       <circle cx="6" cy="12" r="0" fill="currentColor">
         <animate
@@ -41,7 +41,7 @@ export function EosIconsThreeDotsLoading(props: SVGProps<SVGSVGElement>) {
           keySplines="0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8"
           repeatCount="indefinite"
           values="0;2;0;0"
-        ></animate>
+        />
       </circle>
     </svg>
   );

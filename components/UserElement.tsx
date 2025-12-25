@@ -1,16 +1,16 @@
+import Image from "next/image";
+import Link from "next/link";
 import { twMerge } from "tailwind-merge";
 
-import Image from "next/image";
-import ImageWithFallback from "./ImageWithFallback";
-import { FriendshipButton } from "@/components/FriendshipButton";
-import { useRouter } from "next/navigation";
+import UserPrivilegeBadges from "@/app/(website)/user/[id]/components/UserPrivilegeBadges";
 import UserStatusText, {
   statusColor,
 } from "@/app/(website)/user/[id]/components/UserStatusText";
-import Link from "next/link";
+import { FriendshipButton } from "@/components/FriendshipButton";
 import { MaterialSymbolsCircleOutline } from "@/components/ui/icons/circle-outline";
-import UserPrivilegeBadges from "@/app/(website)/user/[id]/components/UserPrivilegeBadges";
-import { UserResponse } from "@/lib/types/api";
+import type { UserResponse } from "@/lib/types/api";
+
+import ImageWithFallback from "./ImageWithFallback";
 
 interface UserProfileBannerProps {
   user: UserResponse;
@@ -23,34 +23,32 @@ export default function UserElement({
   includeFriendshipButton = false,
   className,
 }: UserProfileBannerProps) {
-  const router = useRouter();
-
   return (
     <div
       className={twMerge(
         "relative w-full overflow-hidden rounded-lg group h-36",
-        className
+        className,
       )}
     >
-      <div className="relative h-full place-content-between flex-col flex group-hover:cursor-pointer ">
+      <div className="relative flex h-full flex-col place-content-between group-hover:cursor-pointer ">
         <ImageWithFallback
           src={`${user?.banner_url}&default=false`}
           alt=""
           fill={true}
           objectFit="cover"
-          className="bg-stone-700 rounded-t-lg"
+          className="rounded-t-lg bg-stone-700"
           fallBackSrc="/images/placeholder.png"
         />
 
-        <div className="absolute inset-0 bg-black bg-opacity-50 smooth-transition group-hover:bg-opacity-35" />
+        <div className="smooth-transition absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-35" />
 
         <Link
           href={`/user/${user.user_id}`}
-          className="relative flex place-content-between h-24 p-4"
+          className="relative flex h-24 place-content-between p-4"
         >
           <div className="relative flex items-start overflow-hidden">
             {/* Profile Picture */}
-            <div className="rounded-full flex-none overflow-hidden border-2 border-white mr-4">
+            <div className="mr-4 flex-none overflow-hidden rounded-full border-2 border-white">
               <Image
                 src={user?.avatar_url}
                 alt={`${user.username}'s profile`}
@@ -62,8 +60,8 @@ export default function UserElement({
 
             {/* Username, Flag, and Status */}
             <div className="line-clamp-1">
-              <div className="flex items-center mb-1 line-clamp-1">
-                <h2 className="text-white md:text-lg lg:text-xl font-bold mr-2 truncate">
+              <div className="mb-1 line-clamp-1 flex items-center">
+                <h2 className="mr-2 truncate font-bold text-white md:text-lg lg:text-xl">
                   {user.username}
                 </h2>
               </div>
@@ -71,7 +69,7 @@ export default function UserElement({
                 <img
                   src={`/images/flags/${user.country_code}.png`}
                   alt="User Flag"
-                  className="w-8 h-8 mr-4"
+                  className="mr-4 size-8"
                 />
                 <div className="flex flex-wrap gap-2">
                   <div
@@ -91,20 +89,20 @@ export default function UserElement({
           {includeFriendshipButton && (
             <FriendshipButton
               userId={user.user_id}
-              className="w-10 h-10"
+              className="size-10"
               includeText={false}
             />
           )}
         </Link>
 
-        <div className="relative py-2 px-4 bg-black bg-opacity-50 rounded-b-lg flex flex-row w-full">
-          <div className="flex space-x-2 items-center text-sm w-full">
+        <div className="relative flex w-full flex-row rounded-b-lg bg-black bg-opacity-50 px-4 py-2">
+          <div className="flex w-full items-center space-x-2 text-sm">
             <MaterialSymbolsCircleOutline
-              className={`text-base text-${statusColor(
-                user.user_status
+              className={`text- text-base${statusColor(
+                user.user_status,
               )} flex-shrink-0`}
             />
-            <div className="flex flex-grow line-clamp-1 w-8/12">
+            <div className="line-clamp-1 flex w-8/12 flex-grow">
               <UserStatusText user={user} />
             </div>
           </div>

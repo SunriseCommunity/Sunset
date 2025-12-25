@@ -21,10 +21,10 @@ export function BeatmapStatusSelect({
       </SelectTrigger>
       <SelectContent>
         {Object.values(BeatmapStatusWeb)
-          .filter((v) => v != BeatmapStatusWeb.UNKNOWN)
-          .map((v, i) => {
+          .filter(v => v !== BeatmapStatusWeb.UNKNOWN)
+          .map((v) => {
             return (
-              <SelectItem key={i} value={v}>
+              <SelectItem key={`beatmap-status-select-${v}`} value={v}>
                 {v}
               </SelectItem>
             );

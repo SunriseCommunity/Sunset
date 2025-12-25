@@ -1,21 +1,25 @@
-import { Metadata } from "next";
-import Page, { BeatmapsetProps } from "./page";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getBeatmapStarRating } from "@/lib/utils/getBeatmapStarRating";
-import fetcher from "@/lib/services/fetcher";
-import { BeatmapSetResponse } from "@/lib/types/api";
+
 import { getT } from "@/lib/i18n/utils";
+import fetcher from "@/lib/services/fetcher";
+import type { BeatmapSetResponse } from "@/lib/types/api";
+import { getBeatmapStarRating } from "@/lib/utils/getBeatmapStarRating";
+
+import type { BeatmapsetProps } from "./page";
+import Page from "./page";
 
 export async function generateMetadata(
-  props: BeatmapsetProps
+  props: BeatmapsetProps,
 ): Promise<Metadata> {
   const params = await props.params;
   const [beatmapSetId, beatmapId] = params.ids;
 
-  if (!beatmapSetId || isNaN(beatmapSetId as any)) return notFound();
+  if (!beatmapSetId || Number.isNaN(beatmapSetId as any))
+    return notFound();
 
   const beatmapSet = await fetcher<BeatmapSetResponse>(
-    `beatmapset/${beatmapSetId}`
+    `beatmapset/${beatmapSetId}`,
   );
 
   if (!beatmapSet) {
@@ -24,7 +28,7 @@ export async function generateMetadata(
 
   const beatmap = beatmapId
     ? beatmapSet.beatmaps.find(
-        (beatmap) => beatmap.id === parseInt(beatmapId as any)
+        beatmap => beatmap.id === Number.parseInt(beatmapId, 10),
       )
     : null;
 
@@ -52,7 +56,7 @@ export async function generateMetadata(
       description: t("openGraph.description", {
         title: beatmapSet.title,
         artist: beatmapSet.artist,
-        difficultyInfo: difficultyInfo,
+        difficultyInfo,
       }),
       images: [
         `https://assets.ppy.sh/beatmaps/${beatmapSetId}/covers/list@2x.jpg`,

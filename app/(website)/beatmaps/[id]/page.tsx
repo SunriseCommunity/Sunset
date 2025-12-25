@@ -1,14 +1,14 @@
 "use client";
+import { Music2 } from "lucide-react";
+import Image from "next/image";
 import { use } from "react";
-import Spinner from "@/components/Spinner";
-import { useBeatmap } from "@/lib/hooks/api/beatmap/useBeatmap";
-import NotFound from "@/app/not-found";
+
 import PrettyHeader from "@/components/General/PrettyHeader";
 import RoundedContent from "@/components/General/RoundedContent";
-import Image from "next/image";
-import { Music2 } from "lucide-react";
-import { tryParseNumber } from "@/lib/utils/type.util";
+import Spinner from "@/components/Spinner";
+import { useBeatmap } from "@/lib/hooks/api/beatmap/useBeatmap";
 import { useT } from "@/lib/i18n/utils";
+import { tryParseNumber } from "@/lib/utils/type.util";
 
 interface BeatmapsProps {
   params: Promise<{ id: string }>;
@@ -30,10 +30,10 @@ export default function BeatmapsRedirect(props: BeatmapsProps) {
         <PrettyHeader
           icon={<Music2 />}
           text={t("header")}
-          className="bg-terracotta-700 mb-4"
+          className="mb-4 bg-terracotta-700"
           roundBottom={true}
         />
-        <RoundedContent className="bg-terracotta-700 rounded-l flex flex-col md:flex-row justify-between items-center md:items-start gap-8 ">
+        <RoundedContent className="flex flex-col items-center justify-between gap-8 rounded-l bg-terracotta-700 md:flex-row md:items-start ">
           <div className="flex flex-col space-y-2">
             <h1 className="text-4xl">{t("notFound.title")}</h1>
             <p className="text-muted-foreground">{t("notFound.description")}</p>
@@ -51,7 +51,7 @@ export default function BeatmapsRedirect(props: BeatmapsProps) {
   }
 
   return (
-    <div className="flex justify-center items-center h-full min-h-96">
+    <div className="flex h-full min-h-96 items-center justify-center">
       <Spinner size="lg" />
     </div>
   );

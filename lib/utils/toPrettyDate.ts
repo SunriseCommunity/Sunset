@@ -1,5 +1,6 @@
-import { toLocalTime } from "@/lib/utils/toLocalTime";
 import Cookies from "js-cookie";
+
+import { toLocalTime } from "@/lib/utils/toLocalTime";
 
 export default function toPrettyDate(input: string | Date, withTime?: boolean) {
   const options: Intl.DateTimeFormatOptions = {

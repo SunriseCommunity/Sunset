@@ -1,9 +1,10 @@
 import bbobHTML from "@bbob/html";
-import { BBCodeReactParser } from "@/components/BBCode/BBCodeReactParser";
+
 import {
   allowedTags,
   customBBCodePreset,
 } from "@/components/BBCode/BBCodePreset";
+import { BBCodeReactParser } from "@/components/BBCode/BBCodeReactParser";
 
 export default function BBCodeTextField({ text }: { text: string }) {
   const textWithCustomBreaks = text
@@ -12,7 +13,7 @@ export default function BBCodeTextField({ text }: { text: string }) {
 
   const htmlString = bbobHTML(textWithCustomBreaks, customBBCodePreset(), {
     onlyAllowTags: allowedTags,
-  }).replace(/className/g, "class");
+  }).replaceAll("className", "class");
 
   return <BBCodeReactParser textHtml={htmlString} />;
 }

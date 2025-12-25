@@ -1,10 +1,11 @@
 import Image from "next/image";
+
 import { useT } from "@/lib/i18n/utils";
 
 export function WorkInProgress() {
   const t = useT("components.workInProgress");
   return (
-    <div className="text-current p-4 rounded-lg items-center justify-center space-x-4 flex flex-col">
+    <div className="flex flex-col items-center justify-center space-x-4 rounded-lg p-4 text-current">
       <Image
         src="/images/wip.png"
         alt="wip"

@@ -1,10 +1,10 @@
-import { Button } from "@/components/ui/button";
-import { BeatmapSetResponse } from "@/lib/types/api";
 import { Download } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useT } from "@/lib/i18n/utils";
+
+import { Button } from "@/components/ui/button";
 import useSelf from "@/lib/hooks/useSelf";
+import { useT } from "@/lib/i18n/utils";
+import type { BeatmapSetResponse } from "@/lib/types/api";
 
 interface DownloadButtonsProps {
   beatmapSet: BeatmapSetResponse;
@@ -26,7 +26,6 @@ export default function DownloadButtons({
 }: DownloadButtonsProps) {
   const t = useT("pages.beatmapsets.components.downloadButtons");
   const { self } = useSelf();
-  const router = useRouter();
 
   return (
     <>

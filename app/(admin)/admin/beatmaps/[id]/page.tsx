@@ -1,11 +1,12 @@
 "use client";
+import { Music2 } from "lucide-react";
+import Image from "next/image";
 import { use } from "react";
+
+import PrettyHeader from "@/components/General/PrettyHeader";
+import RoundedContent from "@/components/General/RoundedContent";
 import Spinner from "@/components/Spinner";
 import { useBeatmap } from "@/lib/hooks/api/beatmap/useBeatmap";
-import RoundedContent from "@/components/General/RoundedContent";
-import Image from "next/image";
-import PrettyHeader from "@/components/General/PrettyHeader";
-import { Music2 } from "lucide-react";
 import { tryParseNumber } from "@/lib/utils/type.util";
 
 interface BeatmapsProps {
@@ -25,9 +26,9 @@ export default function BeatmapsRedirect(props: BeatmapsProps) {
     const errorMessage = beatmapQuery.error?.message ?? "Beatmapset not found";
 
     return (
-      <div className="flex flex-col w-full space-y-4">
+      <div className="flex w-full flex-col space-y-4">
         <PrettyHeader text="Beatmaps ranking" roundBottom icon={<Music2 />} />
-        <RoundedContent className="rounded-l flex flex-col md:flex-row justify-between items-center md:items-start gap-8 ">
+        <RoundedContent className="flex flex-col items-center justify-between gap-8 rounded-l md:flex-row md:items-start ">
           <div className="flex flex-col space-y-2">
             <h1 className="text-4xl">{errorMessage}</h1>
             <p className="text-muted-foreground">
@@ -48,9 +49,9 @@ export default function BeatmapsRedirect(props: BeatmapsProps) {
   }
 
   return (
-    <div className="flex flex-col w-full space-y-4">
+    <div className="flex w-full flex-col space-y-4">
       <PrettyHeader text="Beatmaps ranking" roundBottom icon={<Music2 />} />
-      <div className="flex justify-center items-center h-full min-h-96">
+      <div className="flex h-full min-h-96 items-center justify-center">
         <Spinner size="lg" />
       </div>
     </div>

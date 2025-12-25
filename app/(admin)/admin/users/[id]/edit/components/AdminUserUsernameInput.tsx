@@ -1,3 +1,6 @@
+import { Edit } from "lucide-react";
+import { useState } from "react";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -13,9 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { useAdminUsernameChange } from "@/lib/hooks/api/user/useAdminUserEdit";
-import { UserSensitiveResponse } from "@/lib/types/api";
-import { Edit } from "lucide-react";
-import { useState } from "react";
+import type { UserSensitiveResponse } from "@/lib/types/api";
 
 export default function AdminUserUsernameInput({
   user,
@@ -25,20 +26,20 @@ export default function AdminUserUsernameInput({
   const [username, setUsername] = useState(user.username);
 
   const { isMutating: isChangingUsername } = useAdminUsernameChange(
-    user.user_id
+    user.user_id,
   );
 
-  const canEdit =
-    username.trim().length > 0 &&
-    username !== user.username &&
-    !isChangingUsername;
+  const canEdit
+    = username.trim().length > 0
+      && username !== user.username
+      && !isChangingUsername;
 
   return (
     <div className="flex items-center gap-2">
       <Input
         id="username"
         value={username}
-        onChange={(e) => setUsername(e.target.value)}
+        onChange={e => setUsername(e.target.value)}
         placeholder="Enter username"
         className="flex-1"
         disabled={isChangingUsername}
@@ -49,7 +50,7 @@ export default function AdminUserUsernameInput({
           size="icon"
           disabled={!canEdit}
         >
-          <Edit className="h-4 w-4" />
+          <Edit className="size-4" />
         </Button>
       </AlertDialogConfirmation>
     </div>
@@ -65,8 +66,8 @@ function AlertDialogConfirmation({
   user: UserSensitiveResponse;
   username: string;
 }) {
-  const { trigger: changeUsername, isMutating: isChangingUsername } =
-    useAdminUsernameChange(user.user_id);
+  const { trigger: changeUsername, isMutating: isChangingUsername }
+    = useAdminUsernameChange(user.user_id);
 
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
 
@@ -80,7 +81,8 @@ function AlertDialogConfirmation({
         variant: "success",
       });
       setShowConfirmDialog(false);
-    } catch (error: any) {
+    }
+    catch (error: any) {
       toast({
         title: "Failed to change username",
         description: error?.message || "An error occurred",
@@ -96,15 +98,19 @@ function AlertDialogConfirmation({
         <AlertDialogHeader>
           <AlertDialogTitle>Confirm Username Change</AlertDialogTitle>
           <AlertDialogDescription>
-            Are you sure you want to change the username for{" "}
+            Are you sure you want to change the username for
+            {" "}
             <span className="font-semibold text-foreground">
               {user.username}
-            </span>{" "}
-            to <span className="font-semibold text-foreground">{username}</span>
+            </span>
+            {" "}
+            to
+            {" "}
+            <span className="font-semibold text-foreground">{username}</span>
             ?
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <div className="py-4 space-y-2">
+        <div className="space-y-2 py-4">
           <div className="flex justify-between text-sm">
             <span className="text-muted-foreground">Current username:</span>
             <span className="font-medium">{user.username}</span>

@@ -1,19 +1,20 @@
 "use client";
-import { ChartColumnIncreasing, Router } from "lucide-react";
+import { ChartColumnIncreasing } from "lucide-react";
+import { usePathname, useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useMemo, useState } from "react";
+
+import { useUserColumns } from "@/app/(website)/leaderboard/components/UserColumns";
+import { UserDataTable } from "@/app/(website)/leaderboard/components/UserDataTable";
+import { Combobox } from "@/components/ComboBox";
+import GameModeSelector from "@/components/GameModeSelector";
 import PrettyHeader from "@/components/General/PrettyHeader";
 import RoundedContent from "@/components/General/RoundedContent";
-import { useCallback, useEffect, useState, useMemo } from "react";
 import Spinner from "@/components/Spinner";
-import GameModeSelector from "@/components/GameModeSelector";
-import { useUsersLeaderboard } from "@/lib/hooks/api/user/useUsersLeaderboard";
 import { Button } from "@/components/ui/button";
-import { UserDataTable } from "@/app/(website)/leaderboard/components/UserDataTable";
-import { useUserColumns } from "@/app/(website)/leaderboard/components/UserColumns";
-import { usePathname, useSearchParams } from "next/navigation";
-import { isInstance, tryParseNumber } from "@/lib/utils/type.util";
-import { Combobox } from "@/components/ComboBox";
-import { GameMode, LeaderboardSortType } from "@/lib/types/api";
+import { useUsersLeaderboard } from "@/lib/hooks/api/user/useUsersLeaderboard";
 import { useT } from "@/lib/i18n/utils";
+import { GameMode, LeaderboardSortType } from "@/lib/types/api";
+import { isInstance, tryParseNumber } from "@/lib/utils/type.util";
 
 export default function Leaderboard() {
   const pathname = usePathname();
@@ -26,13 +27,13 @@ export default function Leaderboard() {
   const type = searchParams.get("type") ?? LeaderboardSortType.PP;
 
   const [activeMode, setActiveMode] = useState(
-    isInstance(mode, GameMode) ? (mode as GameMode) : GameMode.STANDARD
+    () => (isInstance(mode, GameMode) ? (mode as GameMode) : GameMode.STANDARD),
   );
 
   const [leaderboardType, setLeaderboardType] = useState(
-    isInstance(type, LeaderboardSortType)
+    () => (isInstance(type, LeaderboardSortType)
       ? (type as LeaderboardSortType)
-      : LeaderboardSortType.PP
+      : LeaderboardSortType.PP),
   );
 
   const [pagination, setPagination] = useState({
@@ -47,14 +48,14 @@ export default function Leaderboard() {
 
       return params.toString();
     },
-    [searchParams]
+    [searchParams],
   );
 
   useEffect(() => {
     window.history.replaceState(
       null,
       "",
-      pathname + "?" + createQueryString("type", leaderboardType.toString())
+      `${pathname}?${createQueryString("type", leaderboardType.toString())}`,
     );
   }, [leaderboardType, pathname, createQueryString]);
 
@@ -62,7 +63,7 @@ export default function Leaderboard() {
     window.history.replaceState(
       null,
       "",
-      pathname + "?" + createQueryString("mode", activeMode.toString())
+      `${pathname}?${createQueryString("mode", activeMode.toString())}`,
     );
   }, [activeMode, pathname, createQueryString]);
 
@@ -70,7 +71,7 @@ export default function Leaderboard() {
     window.history.replaceState(
       null,
       "",
-      pathname + "?" + createQueryString("size", pagination.pageSize.toString())
+      `${pathname}?${createQueryString("size", pagination.pageSize.toString())}`,
     );
   }, [pagination.pageSize, pathname, createQueryString]);
 
@@ -78,9 +79,9 @@ export default function Leaderboard() {
     window.history.replaceState(
       null,
       "",
-      pathname +
-        "?" +
-        createQueryString("page", pagination.pageIndex.toString())
+      `${pathname
+        }?${
+        createQueryString("page", pagination.pageIndex.toString())}`,
     );
   }, [pagination.pageIndex, pathname, createQueryString]);
 
@@ -95,14 +96,14 @@ export default function Leaderboard() {
         value: LeaderboardSortType.SCORE,
       },
     ],
-    [t]
+    [t],
   );
 
   const usersLeaderboardQuery = useUsersLeaderboard(
     activeMode,
     leaderboardType,
     pagination.pageIndex + 1,
-    pagination.pageSize
+    pagination.pageSize,
   );
 
   const usersLeaderboard = usersLeaderboardQuery.data;
@@ -115,20 +116,20 @@ export default function Leaderboard() {
   const userColumns = useUserColumns();
 
   return (
-    <div className="flex flex-col w-full space-y-4">
+    <div className="flex w-full flex-col space-y-4">
       <PrettyHeader
         text={t("header")}
         icon={<ChartColumnIncreasing />}
         roundBottom={true}
         className="text-nowrap"
       >
-        <div className="place-content-end w-full gap-x-2 hidden lg:flex">
+        <div className="hidden w-full place-content-end gap-x-2 lg:flex">
           <Button
             onClick={() => {
               setLeaderboardType(LeaderboardSortType.PP);
             }}
             variant={
-              leaderboardType == LeaderboardSortType.PP
+              leaderboardType === LeaderboardSortType.PP
                 ? "default"
                 : "secondary"
             }
@@ -138,7 +139,7 @@ export default function Leaderboard() {
           <Button
             onClick={() => setLeaderboardType(LeaderboardSortType.SCORE)}
             variant={
-              leaderboardType == LeaderboardSortType.SCORE
+              leaderboardType === LeaderboardSortType.SCORE
                 ? "default"
                 : "secondary"
             }
@@ -147,8 +148,8 @@ export default function Leaderboard() {
           </Button>
         </div>
 
-        <div className="flex lg:hidden flex-col lg:flex-row">
-          <p className="text-secondary-foreground text-sm">
+        <div className="flex flex-col lg:hidden lg:flex-row">
+          <p className="text-sm text-secondary-foreground">
             {t("sortBy.label")}
           </p>
           <Combobox
@@ -169,10 +170,10 @@ export default function Leaderboard() {
           />
         </PrettyHeader>
 
-        <div className="rounded-b-3xl bg-card mb-4 border border-t-0 shadow">
+        <div className="mb-4 rounded-b-3xl border border-t-0 bg-card shadow">
           <RoundedContent className="rounded-t-xl border-none shadow-none">
             {usersLeaderboardQuery.isLoading && users.length === 0 ? (
-              <div className="flex justify-center items-center min-h-36">
+              <div className="flex min-h-36 items-center justify-center">
                 <Spinner />
               </div>
             ) : (

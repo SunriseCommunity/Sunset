@@ -1,5 +1,6 @@
 "use client";
-import { createContext, ReactNode, useEffect, useRef, useState } from "react";
+import type { ReactNode } from "react";
+import { createContext, useEffect, useRef, useState } from "react";
 
 interface AudioContextType {
   player: React.RefObject<HTMLAudioElement | null>;
@@ -11,7 +12,7 @@ interface AudioContextType {
 }
 
 export const AudioContext = createContext<AudioContextType | undefined>(
-  undefined
+  undefined,
 );
 
 interface AudioProviderProps {
@@ -20,12 +21,13 @@ interface AudioProviderProps {
 
 export const AudioProvider: React.FC<AudioProviderProps> = ({ children }) => {
   const [currentTimestamp, setCurrentTimestamp] = useState<number>(0);
-  const [volume, setVolume] = useState<number>(0.4);
+  const [volume, _setVolume] = useState<number>(0.4);
   const [isPlaying, setIsPlaying] = useState(false);
   const player = useRef<HTMLAudioElement>(null);
 
   const play = (url?: string) => {
-    if (!player.current) return;
+    if (!player.current)
+      return;
 
     if (!url || url === player.current.src) {
       player.current.play();
@@ -38,7 +40,8 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({ children }) => {
     pause();
 
     player.current.oncanplay = () => {
-      if (!player.current) return;
+      if (!player.current)
+        return;
 
       player.current.volume = volume;
 
@@ -48,7 +51,8 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({ children }) => {
   };
 
   const pause = () => {
-    if (!player.current) return;
+    if (!player.current)
+      return;
     player.current.pause();
     setIsPlaying(false);
   };
@@ -60,7 +64,8 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({ children }) => {
   };
 
   useEffect(() => {
-    if (!player.current) return;
+    if (!player.current)
+      return;
 
     player.current.onplay = () => setIsPlaying(true);
     player.current.onpause = () => setIsPlaying(false);
@@ -70,16 +75,19 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({ children }) => {
     };
 
     return () => {
-      if (!player.current) return;
+      if (!player.current)
+        return;
 
       player.current.onplay = null;
       player.current.onpause = null;
+      // eslint-disable-next-line react-hooks/exhaustive-deps -- I would prefer to leave it as is
       player.current.ontimeupdate = null;
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- I would prefer to leave it as is
   }, [player.current]);
 
   return (
-    <AudioContext.Provider
+    <AudioContext
       value={{
         player,
         isPlayingThis,
@@ -91,6 +99,6 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({ children }) => {
     >
       {children}
       <audio ref={player} onEnded={() => setIsPlaying(false)} />
-    </AudioContext.Provider>
+    </AudioContext>
   );
 };

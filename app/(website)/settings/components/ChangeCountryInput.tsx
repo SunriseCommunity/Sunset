@@ -1,5 +1,12 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import Cookies from "js-cookie";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { twMerge } from "tailwind-merge";
+import type { z } from "zod";
+
 import { Button } from "@/components/ui/button";
 import { DialogFooter } from "@/components/ui/dialog";
 import {
@@ -10,7 +17,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -21,22 +27,16 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { useAdminCountryChange } from "@/lib/hooks/api/user/useAdminUserEdit";
 import { useCountryChange } from "@/lib/hooks/api/user/useCountryChange";
-import { useUsernameChange } from "@/lib/hooks/api/user/useUsernameChange";
 import useSelf from "@/lib/hooks/useSelf";
-import {
-  CountryCode,
-  GameMode,
-  UserBadge,
+import { useT } from "@/lib/i18n/utils";
+import type {
   UserResponse,
 } from "@/lib/types/api";
+import {
+  CountryCode,
+  UserBadge,
+} from "@/lib/types/api";
 import { zCountryChangeRequest } from "@/lib/types/api/zod.gen";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { twMerge } from "tailwind-merge";
-import { z } from "zod";
-import { useT } from "@/lib/i18n/utils";
-import Cookies from "js-cookie";
 
 const formSchema = zCountryChangeRequest;
 
@@ -55,16 +55,16 @@ export default function ChangeCountryInput({
 
   const shouldUseAdminPrivileges = self?.self?.badges.includes(UserBadge.ADMIN);
 
-  const isSelf =
-    user.user_id === self?.self?.user_id && !shouldUseAdminPrivileges;
+  const isSelf
+    = user.user_id === self?.self?.user_id && !shouldUseAdminPrivileges;
 
   const { toast } = useToast();
 
-  const { trigger: triggerSelfChange, isMutating: isChangingSelf } =
-    useCountryChange();
+  const { trigger: triggerSelfChange, isMutating: isChangingSelf }
+    = useCountryChange();
 
-  const { trigger: triggerUserChange, isMutating: isChangingUser } =
-    useAdminCountryChange(user.user_id);
+  const { trigger: triggerUserChange, isMutating: isChangingUser }
+    = useAdminCountryChange(user.user_id);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -107,7 +107,8 @@ export default function ChangeCountryInput({
 
     if (isSelf) {
       triggerSelfChange(payload, options);
-    } else {
+    }
+    else {
       triggerUserChange(payload, options);
     }
   }
@@ -138,14 +139,14 @@ export default function ChangeCountryInput({
                     </FormControl>
                     <SelectContent>
                       {Object.values(CountryCode)
-                        .filter((v) => v != CountryCode.XX)
-                        .map((v) => (
+                        .filter(v => v !== CountryCode.XX)
+                        .map(v => (
                           <SelectItem value={v} key={v}>
                             <div className="flex flex-row items-center">
                               <img
                                 src={`/images/flags/${v}.png`}
                                 alt="Country Flag"
-                                className="md:w-6 md:h-6 w-5 h-5 mr-2"
+                                className="mr-2 size-5 md:size-6"
                               />
                               {regionNames.of(v)}
                             </div>

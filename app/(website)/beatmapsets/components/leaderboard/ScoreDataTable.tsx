@@ -1,18 +1,29 @@
 "use client";
 
-import {
+import type {
   ColumnDef,
+  OnChangeFn,
+  PaginationState,
+  SortingState,
+  VisibilityState,
+} from "@tanstack/react-table";
+import {
   flexRender,
   getCoreRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  OnChangeFn,
-  PaginationState,
-  SortingState,
   useReactTable,
-  VisibilityState,
 } from "@tanstack/react-table";
+import * as React from "react";
+import { createContext, useEffect, useState } from "react";
 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -21,23 +32,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
-import { createContext, useEffect, useState } from "react";
-
-import React from "react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { gameModeToVanilla } from "@/lib/utils/gameMode.util";
-import { BeatmapResponse, GameMode } from "@/lib/types/api";
 import { useT } from "@/lib/i18n/utils";
+import type { BeatmapResponse } from "@/lib/types/api";
+import { GameMode } from "@/lib/types/api";
+import { gameModeToVanilla } from "@/lib/utils/gameMode.util";
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
+  columns: Array<ColumnDef<TData, TValue>>;
   data: TData[];
   beatmap: BeatmapResponse;
   gameMode: GameMode;
@@ -66,8 +67,8 @@ export function ScoreDataTable<TData, TValue>({
   const t = useT("pages.beatmapsets.components.leaderboard.table");
   const [sorting, setSorting] = useState<SortingState>([]);
 
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
+  const [columnVisibility, setColumnVisibility]
+    = React.useState<VisibilityState>({});
 
   const [preferedNumberOfScores, setPreferedNumberOfScores] = useState(() => {
     return localStorage.getItem("preferedNumberOfScoresPerLeaderboard") || "50";
@@ -76,7 +77,7 @@ export function ScoreDataTable<TData, TValue>({
   useEffect(() => {
     localStorage.setItem(
       "preferedNumberOfScoresPerLeaderboard",
-      preferedNumberOfScores
+      preferedNumberOfScores,
     );
   }, [preferedNumberOfScores]);
 
@@ -86,7 +87,7 @@ export function ScoreDataTable<TData, TValue>({
     data,
     columns,
     manualPagination: true,
-    pageCount: pageCount,
+    pageCount,
     onPaginationChange: setPagination,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -122,15 +123,15 @@ export function ScoreDataTable<TData, TValue>({
     visibility.forEach((element) => {
       table.getColumn(element.id)?.toggleVisibility(element.shouldShow);
     });
-  }, [beatmap, gameMode]);
+  }, [beatmap, gameMode, table]);
 
   return (
     <div>
       <div className="rounded-md border">
-        <ScoreTableContext.Provider value={{ beatmap, gamemode: gameMode }}>
+        <ScoreTableContext value={{ beatmap, gamemode: gameMode }}>
           <Table>
             <TableHeader>
-              {table.getHeaderGroups().map((headerGroup) => (
+              {table.getHeaderGroups().map(headerGroup => (
                 <TableRow key={headerGroup.id}>
                   {headerGroup.headers.map((header) => {
                     return (
@@ -139,7 +140,7 @@ export function ScoreDataTable<TData, TValue>({
                           ? null
                           : flexRender(
                               header.column.columnDef.header,
-                              header.getContext()
+                              header.getContext(),
                             )}
                       </TableHead>
                     );
@@ -149,16 +150,16 @@ export function ScoreDataTable<TData, TValue>({
             </TableHeader>
             <TableBody>
               {table.getRowModel().rows?.length ? (
-                table.getRowModel().rows.map((row) => (
+                table.getRowModel().rows.map(row => (
                   <TableRow
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
                   >
-                    {row.getVisibleCells().map((cell) => (
+                    {row.getVisibleCells().map(cell => (
                       <TableCell className="px-1" key={cell.id}>
                         {flexRender(
                           cell.column.columnDef.cell,
-                          cell.getContext()
+                          cell.getContext(),
                         )}
                       </TableCell>
                     ))}
@@ -176,9 +177,9 @@ export function ScoreDataTable<TData, TValue>({
               )}
             </TableBody>
           </Table>
-        </ScoreTableContext.Provider>
+        </ScoreTableContext>
       </div>
-      <div className="grid md:place-content-between py-4 md:space-y-0 space-y-4 md:flex">
+      <div className="grid space-y-4 py-4 md:flex md:place-content-between md:space-y-0">
         <div className="flex items-center space-x-2">
           <Select
             onValueChange={(v) => {
@@ -204,11 +205,11 @@ export function ScoreDataTable<TData, TValue>({
             {t("pagination.showing", {
               start: Math.min(
                 pagination.pageIndex * pagination.pageSize + 1,
-                totalCount
+                totalCount,
               ),
               end: Math.min(
                 (pagination.pageIndex + 1) * pagination.pageSize,
-                totalCount
+                totalCount,
               ),
               total: totalCount,
             })}

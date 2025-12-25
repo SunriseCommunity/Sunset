@@ -17,16 +17,16 @@ export default function UserRankColor({
   switch (variant) {
     case "primary":
       colourPalette = {
-        "1": "from-purple-600 via-pink-500 to-red-400",
-        "2": "from-blue-400 via-cyan-400 to-teal-400",
-        "3": "from-amber-700 via-amber-600 to-amber-500",
+        1: "from-purple-600 via-pink-500 to-red-400",
+        2: "from-blue-400 via-cyan-400 to-teal-400",
+        3: "from-amber-700 via-amber-600 to-amber-500",
       };
       break;
     case "secondary": {
       colourPalette = {
-        "1": "from-stone-400 via-stone-200 to-amber-200",
-        "2": "from-gray-300 via-gray-100 to-blue-200",
-        "3": "from-stone-500 via-stone-400 to-rose-200",
+        1: "from-stone-400 via-stone-200 to-amber-200",
+        2: "from-gray-300 via-gray-100 to-blue-200",
+        3: "from-stone-500 via-stone-400 to-rose-200",
       };
       break;
     }
@@ -43,10 +43,10 @@ export default function UserRankColor({
         colourPalette[rank]
           ? twMerge(
               colourPalette[rank],
-              "bg-gradient-to-r text-transparent bg-clip-text bg-size-300 animate-gradient"
+              "bg-gradient-to-r text-transparent bg-clip-text bg-size-300 animate-gradient",
             )
           : "",
-        props.className
+        props.className,
       )}
     >
       {children}

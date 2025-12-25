@@ -1,7 +1,7 @@
 import DifficultyIcon from "@/components/DifficultyIcon";
 import { Tooltip } from "@/components/Tooltip";
 import { Badge } from "@/components/ui/badge";
-import { BeatmapResponse } from "@/lib/types/api";
+import type { BeatmapResponse } from "@/lib/types/api";
 import { getBeatmapStarRating } from "@/lib/utils/getBeatmapStarRating";
 
 interface BeatmapDifficultyBadgeProps {
@@ -16,31 +16,32 @@ export default function BeatmapDifficultyBadge({
   return (
     <Badge
       variant="outline"
-      className={iconPreview ? "border-0 p-0.5 rounded-full m-0" : undefined}
+      className={iconPreview ? "m-0 rounded-full border-0 p-0.5" : undefined}
     >
       <Tooltip
-        content={
-          <div className="items-center flex gap-1">
+        content={(
+          <div className="flex items-center gap-1">
             <>
               <DifficultyIcon
                 difficulty={beatmap}
                 gameMode={beatmap.mode}
                 className="text-sm"
               />
-              ★{getBeatmapStarRating(beatmap)}
+              ★
+              {getBeatmapStarRating(beatmap)}
             </>
-            <p className="font-normal line-clamp-1">{beatmap.version}</p>
+            <p className="line-clamp-1 font-normal">{beatmap.version}</p>
           </div>
-        }
+        )}
       >
-        <div className="text-xs gap-1 flex items-center">
+        <div className="flex items-center gap-1 text-xs">
           <DifficultyIcon
             difficulty={beatmap}
             gameMode={beatmap.mode}
             className="text-sm"
           />
           {!iconPreview && (
-            <p className="font-normal line-clamp-1">{beatmap.version}</p>
+            <p className="line-clamp-1 font-normal">{beatmap.version}</p>
           )}
         </div>
       </Tooltip>

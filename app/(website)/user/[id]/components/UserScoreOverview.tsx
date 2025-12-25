@@ -1,16 +1,18 @@
 "use client";
 
+import Link from "next/link";
+import { twMerge } from "tailwind-merge";
+
 import BeatmapStatusIcon from "@/components/BeatmapStatus";
 import RoundedContent from "@/components/General/RoundedContent";
 import ImageWithFallback from "@/components/ImageWithFallback";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useBeatmap } from "@/lib/hooks/api/beatmap/useBeatmap";
-import { BeatmapStatusWeb, ScoreResponse } from "@/lib/types/api";
+import { useT } from "@/lib/i18n/utils";
+import type { ScoreResponse } from "@/lib/types/api";
+import { BeatmapStatusWeb } from "@/lib/types/api";
 import { getGradeColor } from "@/lib/utils/getGradeColor";
 import { timeSince } from "@/lib/utils/timeSince";
-import Link from "next/link";
-import { twMerge } from "tailwind-merge";
-import { useT } from "@/lib/i18n/utils";
 
 interface UserScoreOverviewProps {
   score: ScoreResponse;
@@ -29,14 +31,14 @@ export default function UserScoreOverview({
     <div
       className={twMerge(
         "text-gray-100 rounded-lg hover:scale-105 smooth-transition shadow",
-        className
+        className,
       )}
     >
-      <div className="z-20 h-20 relative ">
+      <div className="relative z-20 h-20 ">
         <Link href={`/score/${score.id}`}>
-          <div className="bg-black hover:bg-opacity-50 bg-opacity-60 p-4 rounded-t-lg md:rounded-lg place-content-between flex items-center h-full cursor-pointer">
-            <div className="flex-row overflow-hidden flex-wrap">
-              <div className="flex font-bold text-sm md:text-xl drop-shadow-md items-center ">
+          <div className="flex h-full cursor-pointer place-content-between items-center rounded-t-lg bg-black bg-opacity-60 p-4 hover:bg-opacity-50 md:rounded-lg">
+            <div className="flex-row flex-wrap overflow-hidden">
+              <div className="flex items-center text-sm font-bold drop-shadow-md md:text-xl ">
                 <span className="pr-1">
                   <BeatmapStatusIcon
                     status={beatmap?.status ?? BeatmapStatusWeb.GRAVEYARD}
@@ -44,35 +46,36 @@ export default function UserScoreOverview({
                 </span>
                 {beatmap?.artist && beatmap?.title ? (
                   <span className="line-clamp-2">
-                    {beatmap.artist + " - " + beatmap?.title}
+                    {`${beatmap.artist} - ${beatmap?.title}`}
                   </span>
                 ) : (
                   <div className="flex items-center">
-                    <Skeleton className="w-28 h-3" />
+                    <Skeleton className="h-3 w-28" />
                     &nbsp;-&nbsp;
-                    <Skeleton className="w-20 h-3" />
+                    <Skeleton className="h-3 w-20" />
                   </div>
                 )}
               </div>
               <div className="flex items-center space-x-3">
-                <div className="text-base drop-shadow-md text-gray-100 line-clamp-1">
-                  {beatmap?.version ?? <Skeleton className="w-24 h-4" />}
+                <div className="line-clamp-1 text-base text-gray-100 drop-shadow-md">
+                  {beatmap?.version ?? <Skeleton className="h-4 w-24" />}
                 </div>
-                <div className="text-sm drop-shadow-md text-gray-300 italic line-clamp-1">
+                <div className="line-clamp-1 text-sm italic text-gray-300 drop-shadow-md">
                   {timeSince(score.when_played) ?? (
-                    <Skeleton className="w-24 h-4" />
+                    <Skeleton className="h-4 w-24" />
                   )}
                 </div>
               </div>
             </div>
 
             <div className="z-20 hidden items-center space-x-4 md:flex">
-              <div className="text-end text-nowrap">
+              <div className="text-nowrap text-end">
                 <p className="text-sm opacity-70">{score.mods}</p>
                 <p className="text-xl text-primary">
                   {beatmap && beatmap.is_ranked
-                    ? score.performance_points.toFixed()
-                    : "- "}{" "}
+                    ? score.performance_points.toFixed(0)
+                    : "- "}
+                  {" "}
                   {t("pp")}
                 </p>
                 <p className="text-sm">
@@ -80,8 +83,8 @@ export default function UserScoreOverview({
                 </p>
               </div>
               <div
-                className={`relative px-1 text-4xl text-${getGradeColor(
-                  score.grade
+                className={`text- relative px-1 text-4xl${getGradeColor(
+                  score.grade,
                 )}`}
               >
                 {score.grade}
@@ -89,7 +92,7 @@ export default function UserScoreOverview({
             </div>
           </div>
 
-          <div className="-z-10 absolute inset-0 overflow-hidden rounded-t-lg md:rounded-lg">
+          <div className="absolute inset-0 -z-10 overflow-hidden rounded-t-lg md:rounded-lg">
             <ImageWithFallback
               src={`https://assets.ppy.sh/beatmaps/${beatmap?.beatmapset_id}/covers/cover.jpg`}
               alt="beatmap image"
@@ -102,16 +105,17 @@ export default function UserScoreOverview({
         </Link>
       </div>
 
-      <RoundedContent className="bg-card h-20 flex place-content-between mx-auto md:hidden ">
-        <div className="items-center space-x-4 flex">
-          <div className="text-start text-nowrap">
-            <p className="text-sm opacity-70 text-muted-foreground">
+      <RoundedContent className="mx-auto flex h-20 place-content-between bg-card md:hidden ">
+        <div className="flex items-center space-x-4">
+          <div className="text-nowrap text-start">
+            <p className="text-sm text-muted-foreground opacity-70">
               {score.mods}
             </p>
             <p className="text-xl text-primary">
               {beatmap && beatmap.is_ranked
-                ? score.performance_points.toFixed()
-                : "- "}{" "}
+                ? score.performance_points.toFixed(0)
+                : "- "}
+              {" "}
               {t("pp")}
             </p>
 
@@ -120,7 +124,7 @@ export default function UserScoreOverview({
             </p>
           </div>
         </div>
-        <div className={`relative text-5xl text-${getGradeColor(score.grade)}`}>
+        <div className={`text- relative text-5xl${getGradeColor(score.grade)}`}>
           {score.grade}
         </div>
       </RoundedContent>

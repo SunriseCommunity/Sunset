@@ -1,9 +1,10 @@
+import Image from "next/image";
+import Link from "next/link";
 import { twMerge } from "tailwind-merge";
 
-import Image from "next/image";
+import type { UserResponse } from "@/lib/types/api";
+
 import ImageWithFallback from "./ImageWithFallback";
-import Link from "next/link";
-import { UserResponse } from "@/lib/types/api";
 
 interface UserProfileBannerProps {
   user: UserResponse;
@@ -18,31 +19,31 @@ export default function UserRowElement({
     <div
       className={twMerge(
         "relative w-full overflow-hidden rounded-lg group h-12",
-        className
+        className,
       )}
     >
       <Link href={`/user/${user.user_id}`}>
-        <div className="relative h-full place-content-between flex-col flex group-hover:cursor-pointer smooth-transition">
+        <div className="smooth-transition relative flex h-full flex-col place-content-between group-hover:cursor-pointer">
           <ImageWithFallback
             src={`https://a.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/banner/${user.user_id}?default=false`}
             alt=""
             fill={true}
             objectFit="cover"
-            className="bg-stone-700 rounded-t-lg"
+            className="rounded-t-lg bg-stone-700"
             fallBackSrc="/images/placeholder.png"
           />
 
-          <div className="absolute inset-0 bg-black bg-opacity-70 group-hover:bg-opacity-50 smooth-transition" />
+          <div className="smooth-transition absolute inset-0 bg-black bg-opacity-70 group-hover:bg-opacity-50" />
 
           <div className="relative flex items-center">
             {/* Profile Picture */}
-            <div className="w-12 h-12 rounded-lg overflow-hidden mr-4">
+            <div className="mr-4 size-12 overflow-hidden rounded-lg">
               <Image
                 src={user.avatar_url}
                 alt=""
                 width={48}
                 height={48}
-                className="w-full h-12 object-cover"
+                className="h-12 w-full object-cover"
               />
             </div>
 
@@ -51,9 +52,9 @@ export default function UserRowElement({
               <img
                 src={`/images/flags/${user.country_code}.png`}
                 alt="Russian Flag"
-                className="w-5 h-5 mr-2"
+                className="mr-2 size-5"
               />
-              <h2 className="text-white text-lg font-bold mr-2">
+              <h2 className="mr-2 text-lg font-bold text-white">
                 {user.username}
               </h2>
             </div>

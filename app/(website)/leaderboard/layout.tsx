@@ -1,7 +1,9 @@
-import { Metadata } from "next";
-import PageLeaderboard from "./page";
+import type { Metadata } from "next";
 import { Suspense } from "react";
+
 import { getT } from "@/lib/i18n/utils";
+
+import PageLeaderboard from "./page";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getT("pages.leaderboard.meta");

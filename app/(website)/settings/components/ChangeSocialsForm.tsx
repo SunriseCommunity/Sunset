@@ -1,5 +1,11 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { twMerge } from "tailwind-merge";
+import type { z } from "zod";
+
 import { socialIcons } from "@/app/(website)/user/[id]/components/UserSocials";
 import { Button } from "@/components/ui/button";
 import { DialogFooter } from "@/components/ui/dialog";
@@ -15,17 +21,10 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { useAdminEditUserMetadata } from "@/lib/hooks/api/user/useAdminUserEdit";
 import { useEditUserMetadata } from "@/lib/hooks/api/user/useUserMetadata";
-import { useUsernameChange } from "@/lib/hooks/api/user/useUsernameChange";
 import useSelf from "@/lib/hooks/useSelf";
-import { UserMetadataResponse, UserResponse } from "@/lib/types/api";
-import { zEditUserMetadataRequest } from "@/lib/types/api/zod.gen";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Separator } from "@radix-ui/react-dropdown-menu";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { twMerge } from "tailwind-merge";
-import { z } from "zod";
 import { useT } from "@/lib/i18n/utils";
+import type { UserMetadataResponse, UserResponse } from "@/lib/types/api";
+import { zEditUserMetadataRequest } from "@/lib/types/api/zod.gen";
 
 const formSchema = zEditUserMetadataRequest;
 
@@ -86,7 +85,7 @@ export default function ChangeSocialsForm({
             variant: "destructive",
           });
         },
-      }
+      },
     );
   }
 
@@ -97,7 +96,7 @@ export default function ChangeSocialsForm({
           <h3 className="text-xl font-medium">{t("headings.general")}</h3>
 
           {Object.keys(formSchema.shape)
-            .filter((v) => ["location", "interest", "occupation"].includes(v))
+            .filter(v => ["location", "interest", "occupation"].includes(v))
             .map((v) => {
               return (
                 <FormField
@@ -106,7 +105,7 @@ export default function ChangeSocialsForm({
                   key={v}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="capitalize flex gap-2">
+                      <FormLabel className="flex gap-2 capitalize">
                         {socialIcons[v as keyof UserMetadataResponse]}
                         <p>{t(`fields.${v}`)}</p>
                       </FormLabel>
@@ -128,8 +127,8 @@ export default function ChangeSocialsForm({
 
           {Object.keys(formSchema.shape)
             .filter(
-              (v) =>
-                !["location", "interest", "occupation", "playstyle"].includes(v)
+              v =>
+                !["location", "interest", "occupation", "playstyle"].includes(v),
             )
             .map((v) => {
               return (
@@ -139,7 +138,7 @@ export default function ChangeSocialsForm({
                   key={v}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="capitalize flex gap-2">
+                      <FormLabel className="flex gap-2 capitalize">
                         {socialIcons[v as keyof UserMetadataResponse]}
                         <p>{v}</p>
                       </FormLabel>

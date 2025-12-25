@@ -1,13 +1,14 @@
 "use client";
 
+import { CloudUpload } from "lucide-react";
+import { useEffect, useState } from "react";
+
 import ImageSelect from "@/components/General/ImageSelect";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { UserFileUpload } from "@/lib/hooks/api/user/types";
+import type { UserFileUpload } from "@/lib/hooks/api/user/types";
 import { useUserUpload } from "@/lib/hooks/api/user/useUserUpload";
 import useSelf from "@/lib/hooks/useSelf";
-import { CloudUpload } from "lucide-react";
-import { useEffect, useState } from "react";
 import { useT } from "@/lib/i18n/utils";
 
 type UploadImageFormProps = {
@@ -26,30 +27,32 @@ export default function UploadImageForm({ type }: UploadImageFormProps) {
   const localizedType = t(`types.${type}`);
 
   useEffect(() => {
-    if (self === undefined || file != null) return;
+    if (self === undefined || file != null)
+      return;
 
-    var urlToFetch = type === "avatar" ? self.avatar_url : self.banner_url;
+    const urlToFetch = type === "avatar" ? self.avatar_url : self.banner_url;
 
     fetch(urlToFetch).then(async (res) => {
       const file = await res.blob();
       setFile(new File([file], "file.png"));
     });
-  }, [self]);
+  }, [file, self, type]);
 
   const { toast } = useToast();
 
   const uploadFile = async () => {
-    if (file === null) return;
+    if (file === null)
+      return;
 
     setIsFileUploading(true);
 
     triggerUserUpload(
       {
-        file: file,
-        type: type,
+        file,
+        type,
       },
       {
-        onSuccess(data, key, config) {
+        onSuccess(_data, _key, _config) {
           toast({
             title: t("toast.success", { type: localizedType }),
             variant: "success",
@@ -57,14 +60,14 @@ export default function UploadImageForm({ type }: UploadImageFormProps) {
           });
           setIsFileUploading(false);
         },
-        onError(err, key, config) {
+        onError(err, _key, _config) {
           toast({
             title: err?.message ?? t("toast.error"),
             variant: "destructive",
           });
           setIsFileUploading(false);
         },
-      }
+      },
     );
   };
 
@@ -85,7 +88,7 @@ export default function UploadImageForm({ type }: UploadImageFormProps) {
         <CloudUpload />
         {t("button", { type: localizedType })}
       </Button>
-      <label className="text-xs mt-2 capitalize">
+      <label className="mt-2 text-xs capitalize">
         {t("note", { type: localizedType })}
       </label>
     </>

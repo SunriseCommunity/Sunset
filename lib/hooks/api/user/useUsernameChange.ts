@@ -1,18 +1,16 @@
-import poster from "@/lib/services/poster";
-import { PostUserUsernameChangeData } from "@/lib/types/api";
 import useSWRMutation from "swr/mutation";
+
+import poster from "@/lib/services/poster";
+import type { PostUserUsernameChangeData } from "@/lib/types/api";
 
 export function useUsernameChange() {
   return useSWRMutation(`user/self`, usernameChange);
 }
 
-const usernameChange = async (
-  url: string,
-  { arg }: { arg: PostUserUsernameChangeData["body"] }
-) => {
+async function usernameChange(url: string, { arg }: { arg: PostUserUsernameChangeData["body"] }) {
   return await poster(`user/username/change`, {
     json: {
       ...arg,
     },
   });
-};
+}

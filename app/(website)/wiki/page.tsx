@@ -1,20 +1,21 @@
 "use client";
 
 import { BookCopy, LucideMessageCircleQuestion } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
+
 import PrettyHeader from "@/components/General/PrettyHeader";
 import RoundedContent from "@/components/General/RoundedContent";
-import Image from "next/image";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { usePathname } from "next/navigation";
-import { useEffect, useState, useMemo } from "react";
-import { tryParseNumber } from "@/lib/utils/type.util";
 import { useT } from "@/lib/i18n/utils";
-import Link from "next/link";
+import { tryParseNumber } from "@/lib/utils/type.util";
 
 export default function Wiki() {
   const pathname = usePathname();
@@ -30,9 +31,9 @@ export default function Wiki() {
         title: t("howToConnect.title"),
         content: (
           <RoundedContent>
-            <div className="flex flex-col w-11/12 mx-auto">
+            <div className="mx-auto flex w-11/12 flex-col">
               <h1 className="text-xl">{t("howToConnect.intro")}</h1>
-              <ol className="list-decimal list-inside mt-2">
+              <ol className="mt-2 list-inside list-decimal">
                 <li>{t.rich("howToConnect.step1")}</li>
                 <li>{t("howToConnect.step2")}</li>
                 <li>{t("howToConnect.step3")}</li>
@@ -49,7 +50,7 @@ export default function Wiki() {
                 alt={t("howToConnect.imageAlt")}
                 width={800}
                 height={200}
-                className="rounded-lg mt-4"
+                className="mt-4 rounded-lg"
               />
             </div>
           </RoundedContent>
@@ -60,7 +61,7 @@ export default function Wiki() {
         title: t("multipleAccounts.title"),
         content: (
           <RoundedContent>
-            <div className="flex flex-col w-11/12 mx-auto">
+            <div className="mx-auto flex w-11/12 flex-col">
               <h1 className="text-xl">{t("multipleAccounts.answer")}</h1>
               <p className="mt-2">{t("multipleAccounts.consequence")}</p>
             </div>
@@ -72,7 +73,7 @@ export default function Wiki() {
         title: t("cheatsHacks.title"),
         content: (
           <RoundedContent>
-            <div className="flex flex-col w-11/12 mx-auto">
+            <div className="mx-auto flex w-11/12 flex-col">
               <h1 className="text-xl">{t("cheatsHacks.answer")}</h1>
               <p className="mt-2">{t.rich("cheatsHacks.policy")}</p>
             </div>
@@ -84,17 +85,17 @@ export default function Wiki() {
         title: t("appealRestriction.title"),
         content: (
           <RoundedContent>
-            <div className="flex flex-col w-11/12 mx-auto">
+            <div className="mx-auto flex w-11/12 flex-col">
               <p>
                 {t("appealRestriction.instructions")}
                 {process.env.NEXT_PUBLIC_DISCORD_LINK && (
                   <span>
                     {" "}
                     {t.rich("appealRestriction.contactStaff", {
-                      a: (chunks) => (
+                      a: chunks => (
                         <Link
                           href={process.env.NEXT_PUBLIC_DISCORD_LINK ?? ""}
-                          className="text-primary underline hover:opacity-80 transition-opacity"
+                          className="text-primary underline transition-opacity hover:opacity-80"
                         >
                           {chunks}
                         </Link>
@@ -113,14 +114,14 @@ export default function Wiki() {
         title: t("contributeSuggest.title"),
         content: (
           <RoundedContent>
-            <div className="flex flex-col w-11/12 mx-auto">
+            <div className="mx-auto flex w-11/12 flex-col">
               <h1 className="text-xl">{t("contributeSuggest.answer")}</h1>
               <p className="mt-2">
                 {t.rich("contributeSuggest.instructions", {
-                  a: (chunks) => (
+                  a: chunks => (
                     <Link
                       href="https://github.com/SunriseCommunity"
-                      className="text-primary underline hover:opacity-80 transition-opacity"
+                      className="text-primary underline transition-opacity hover:opacity-80"
                     >
                       {chunks}
                     </Link>
@@ -136,7 +137,7 @@ export default function Wiki() {
         title: t("multiplayerDownload.title"),
         content: (
           <RoundedContent>
-            <div className="flex flex-col w-11/12 mx-auto">
+            <div className="mx-auto flex w-11/12 flex-col">
               <h1 className="text-xl">
                 {t.rich("multiplayerDownload.solution")}
               </h1>
@@ -145,7 +146,7 @@ export default function Wiki() {
         ),
       },
     ],
-    [t]
+    [t],
   );
 
   useEffect(() => {
@@ -161,7 +162,7 @@ export default function Wiki() {
         target?.scrollIntoView({ behavior: "smooth" });
       }
     }
-  }, [pathname]);
+  }, [pathname, wikiContent]);
 
   useEffect(() => {
     const element = wikiContent[tryParseNumber(value) ?? -1];
@@ -169,12 +170,12 @@ export default function Wiki() {
     window.history.replaceState(
       null,
       "",
-      pathname + (element ? "#" + encodeURIComponent(element.tag) : "")
+      pathname + (element ? `#${encodeURIComponent(element.tag)}` : ""),
     );
   }, [value, pathname, wikiContent]);
 
   return (
-    <div className="flex flex-col w-full space-y-4">
+    <div className="flex w-full flex-col space-y-4">
       <PrettyHeader
         text={tHeader("header")}
         icon={<BookCopy />}
@@ -191,12 +192,13 @@ export default function Wiki() {
         {wikiContent.map(({ title, content }, index) => (
           <AccordionItem
             id={`accordion-item-${index}`}
-            key={index}
+            // eslint-disable-next-line @eslint-react/no-array-index-key -- static list
+            key={`wiki-accordion-item-${index}`}
             value={index.toString()}
             className="border-b-0"
           >
-            <AccordionTrigger className="bg-card rounded-t-lg p-4 flex shadow [&[data-state=closed]]:rounded-lg">
-              <div className="flex space-x-2 items-center">
+            <AccordionTrigger className="flex rounded-t-lg bg-card p-4 shadow [&[data-state=closed]]:rounded-lg">
+              <div className="flex items-center space-x-2">
                 <LucideMessageCircleQuestion className="flex-shrink-0" />
                 <p>{title}</p>
               </div>

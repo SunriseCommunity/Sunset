@@ -1,22 +1,22 @@
 "use client";
 
 import {
-  BookCopy,
   HeartHandshake,
   LucideMessageCircleQuestion,
 } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+
 import PrettyHeader from "@/components/General/PrettyHeader";
 import RoundedContent from "@/components/General/RoundedContent";
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { useT } from "@/lib/i18n/utils";
 
 export default function SupportUs() {
   const t = useT("pages.support");
 
   return (
-    <div className="flex flex-col w-full space-y-4">
+    <div className="flex w-full flex-col space-y-4">
       <PrettyHeader
         text={t("header")}
         icon={<HeartHandshake />}
@@ -29,14 +29,14 @@ export default function SupportUs() {
           icon={<LucideMessageCircleQuestion />}
         />
         <RoundedContent>
-          <div className="flex flex-col w-11/12 mx-auto">
-            <div className="flex lg:flex-row flex-col">
+          <div className="mx-auto flex w-11/12 flex-col">
+            <div className="flex flex-col lg:flex-row">
               <div className="space-y-4">
                 <h2 className="text-sm">{t.rich("section.intro")}</h2>
 
-                <ol className="list-decimal list-inside space-y-4">
-                  {(process.env.NEXT_PUBLIC_KOFI_LINK ||
-                    process.env.NEXT_PUBLIC_BOOSTY_LINK) && (
+                <ol className="list-inside list-decimal space-y-4">
+                  {(process.env.NEXT_PUBLIC_KOFI_LINK
+                    || process.env.NEXT_PUBLIC_BOOSTY_LINK) && (
                     <div>
                       <li>
                         {t.rich("section.donate.title")}
@@ -44,7 +44,7 @@ export default function SupportUs() {
                           {t("section.donate.description")}
                         </p>
                       </li>
-                      <div className="space-x-4 my-2">
+                      <div className="my-2 space-x-4">
                         {process.env.NEXT_PUBLIC_KOFI_LINK && (
                           <Button size="lg" asChild>
                             <Link href={process.env.NEXT_PUBLIC_KOFI_LINK}>
@@ -81,7 +81,7 @@ export default function SupportUs() {
                 alt="frontpage image"
                 width={1150}
                 height={1150}
-                className="rounded-lg w-full h-full md:min-h-96 md:min-w-96"
+                className="size-full rounded-lg md:min-h-96 md:min-w-96"
               />
             </div>
           </div>

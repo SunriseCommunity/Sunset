@@ -1,4 +1,5 @@
 import Image from "next/image";
+
 import { useT } from "@/lib/i18n/utils";
 
 interface ContentNotExistProps {
@@ -8,7 +9,7 @@ interface ContentNotExistProps {
 export function ContentNotExist({ text }: ContentNotExistProps) {
   const t = useT("components.contentNotExist");
   return (
-    <div className="text-current p-4 rounded-lg flex flex-col md:flex-row text-center items-center justify-center space-x-4">
+    <div className="flex flex-col items-center justify-center space-x-4 rounded-lg p-4 text-center text-current md:flex-row">
       <Image
         src="/images/content-not-found.png"
         alt="content-not-found"

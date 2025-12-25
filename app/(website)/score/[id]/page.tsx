@@ -1,40 +1,36 @@
 "use client";
-import Spinner from "@/components/Spinner";
 import { Download, LucideHistory, MoreHorizontal } from "lucide-react";
-import { useState, use } from "react";
-import PrettyHeader from "@/components/General/PrettyHeader";
 import Image from "next/image";
-import RoundedContent from "@/components/General/RoundedContent";
-import PrettyDate from "@/components/General/PrettyDate";
-import { getGradeColor } from "@/lib/utils/getGradeColor";
-import UserElement from "@/components/UserElement";
+import Link from "next/link";
+import { use, useState } from "react";
 
-import useSelf from "@/lib/hooks/useSelf";
-
-import { twMerge } from "tailwind-merge";
-import { getBeatmapStarRating } from "@/lib/utils/getBeatmapStarRating";
-import DifficultyIcon from "@/components/DifficultyIcon";
 import BeatmapStatusIcon from "@/components/BeatmapStatus";
-import { Tooltip } from "@/components/Tooltip";
+import DifficultyIcon from "@/components/DifficultyIcon";
+import PrettyDate from "@/components/General/PrettyDate";
+import PrettyHeader from "@/components/General/PrettyHeader";
+import RoundedContent from "@/components/General/RoundedContent";
 import ImageWithFallback from "@/components/ImageWithFallback";
-import { useUser } from "@/lib/hooks/api/user/useUser";
-import { useScore } from "@/lib/hooks/api/score/useScore";
-import { useBeatmap } from "@/lib/hooks/api/beatmap/useBeatmap";
-import { useDownloadReplay } from "@/lib/hooks/api/score/useDownloadReplay";
+import { ModIcons } from "@/components/ModIcons";
+import ScoreStats from "@/components/ScoreStats";
+import Spinner from "@/components/Spinner";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
-import Link from "next/link";
-import ScoreStats from "@/components/ScoreStats";
-import { BeatmapStatusWeb } from "@/lib/types/api";
-import { ModIcons } from "@/components/ModIcons";
-import { tryParseNumber } from "@/lib/utils/type.util";
+import UserElement from "@/components/UserElement";
+import { useBeatmap } from "@/lib/hooks/api/beatmap/useBeatmap";
+import { useDownloadReplay } from "@/lib/hooks/api/score/useDownloadReplay";
+import { useScore } from "@/lib/hooks/api/score/useScore";
+import { useUser } from "@/lib/hooks/api/user/useUser";
+import useSelf from "@/lib/hooks/useSelf";
 import { useT } from "@/lib/i18n/utils";
+import { BeatmapStatusWeb } from "@/lib/types/api";
+import { getBeatmapStarRating } from "@/lib/utils/getBeatmapStarRating";
+import { getGradeColor } from "@/lib/utils/getGradeColor";
+import { tryParseNumber } from "@/lib/utils/type.util";
 
 export default function Score(props: { params: Promise<{ id: string }> }) {
   const params = use(props.params);
@@ -44,12 +40,13 @@ export default function Score(props: { params: Promise<{ id: string }> }) {
   const { self } = useSelf();
 
   const [useSpaciousUI] = useState(() => {
-    if (typeof window === "undefined") return false;
+    if (typeof window === "undefined")
+      return false;
     return localStorage.getItem("useSpaciousUI") === "true";
   });
 
-  const { isLoading: isReplayLoading, downloadReplay } =
-    useDownloadReplay(paramsId);
+  const { isLoading: isReplayLoading, downloadReplay }
+    = useDownloadReplay(paramsId);
 
   const scoreQuery = useScore(paramsId);
 
@@ -61,18 +58,19 @@ export default function Score(props: { params: Promise<{ id: string }> }) {
   const user = userQuery?.data;
   const beatmap = beatmapQuery?.data;
 
-  if (scoreQuery?.isLoading || userQuery?.isLoading || beatmapQuery?.isLoading)
+  if (scoreQuery?.isLoading || userQuery?.isLoading || beatmapQuery?.isLoading) {
     return (
-      <div className="flex justify-center items-center h-96">
+      <div className="flex h-96 items-center justify-center">
         <Spinner size="xl" />
       </div>
     );
+  }
 
-  const errorMessage =
-    scoreQuery.error?.message ??
-    userQuery?.error?.message ??
-    beatmapQuery?.error?.message ??
-    t("error.notFound");
+  const errorMessage
+    = scoreQuery.error?.message
+      ?? userQuery?.error?.message
+      ?? beatmapQuery?.error?.message
+      ?? t("error.notFound");
 
   return (
     <div className="flex flex-col space-y-4">
@@ -81,18 +79,16 @@ export default function Score(props: { params: Promise<{ id: string }> }) {
         {score && user && beatmap ? (
           <>
             <div>
-              <div className="z-20 md:h-68 relative">
-                <div className="bg-black/60 p-4 place-content-between flex md:flex-row flex-col h-full  rounded-lg">
-                  <div className="w-full h-full flex flex-col overflow-hidden">
+              <div className="relative z-20 md:h-64">
+                <div className="flex h-full flex-col place-content-between rounded-lg bg-black/60 p-4  md:flex-row">
+                  <div className="flex size-full flex-col overflow-hidden">
                     <Link
                       href={`/beatmapsets/${beatmap?.beatmapset_id}/${beatmap?.id}`}
                     >
-                      <div className="flex font-bold text-xl drop-shadow-md items-center ">
+                      <div className="flex items-center text-xl font-bold drop-shadow-md ">
                         <span className="pr-1">
                           <BeatmapStatusIcon
-                            status={
-                              beatmap.status ?? BeatmapStatusWeb.GRAVEYARD
-                            }
+                            status={beatmap.status ?? BeatmapStatusWeb.GRAVEYARD}
                           />
                         </span>
                         <span className="line-clamp-3 text-white">
@@ -100,46 +96,48 @@ export default function Score(props: { params: Promise<{ id: string }> }) {
                         </span>
                       </div>
                       <div className="flex items-center space-x-3">
-                        <div className="text-base drop-shadow-md text-gray-100 line-clamp-2">
+                        <div className="line-clamp-2 text-base text-gray-100 drop-shadow-md">
                           {beatmap.artist}
                         </div>
                       </div>
                     </Link>
                     <div
                       className={`text-${getGradeColor(
-                        score.grade
-                      )} mx-auto my-auto mt-8 md:mt-0 md:mx-0 md:my-0 text-9xl font-bold`}
+                        score.grade,
+                      )} m-auto mt-8 text-9xl font-bold md:m-0`}
                     >
                       {score.grade}
                     </div>
-                    <span className="line-clamp-3 text-xl font-bold my-auto md:pt-0 mb-0">
+                    <span className="my-auto mb-0 line-clamp-3 text-xl font-bold md:pt-0">
                       <ModIcons modsBitset={score.mods_int ?? 0} />
                     </span>
                   </div>
 
-                  <Separator className="my-4 h-0 block md:hidden" />
+                  <Separator className="my-4 block h-0 md:hidden" />
 
-                  <div className="items-center md:flex flex-col place-content-between space-y-4 w-full md:w-1/2">
-                    <div className="flex flex-col w-full">
-                      <div className="flex justify-end flex-row">
-                        <div className="flex justify-end w-full">
-                          <div className="text-yellow-400 text-base line-clamp-2 flex flex-col items-end max-w-full">
-                            <div className="flex flex-row items-center w-full">
+                  <div className="w-full flex-col place-content-between items-center space-y-4 md:flex md:w-1/2">
+                    <div className="flex w-full flex-col">
+                      <div className="flex flex-row justify-end">
+                        <div className="flex w-full justify-end">
+                          <div className="line-clamp-2 flex max-w-full flex-col items-end text-base text-yellow-400">
+                            <div className="flex w-full flex-row items-center">
                               <DifficultyIcon
                                 iconColor="#facc15"
                                 gameMode={score.game_mode}
-                                className="text-base mx-1 flex-shrink-0"
+                                className="mx-1 flex-shrink-0 text-base"
                               />
                               <p className="whitespace-nowrap">
-                                ★{" "}
-                                {beatmap &&
-                                  getBeatmapStarRating(beatmap).toFixed(2)}{" "}
+                                ★
+                                {" "}
+                                {beatmap
+                                  && getBeatmapStarRating(beatmap).toFixed(2)}
+                                {" "}
                               </p>
                               <span className="ml-2">[</span>
-                              <div className="flex items-center flex-1 overflow-hidden">
+                              <div className="flex flex-1 items-center overflow-hidden">
                                 <span className="truncate">
-                                  {beatmap?.version ||
-                                    t("beatmap.versionUnknown")}
+                                  {beatmap?.version
+                                    || t("beatmap.versionUnknown")}
                                 </span>
                               </div>
                               <span>]</span>
@@ -148,14 +146,15 @@ export default function Score(props: { params: Promise<{ id: string }> }) {
                         </div>
                       </div>
 
-                      <p className="text-gray-300 text-right">
-                        {t("beatmap.mappedBy")}{" "}
+                      <p className="text-right text-gray-300">
+                        {t("beatmap.mappedBy")}
+                        {" "}
                         {beatmap?.creator || t("beatmap.creatorUnknown")}
                       </p>
                     </div>
 
                     <div className="w-full">
-                      <p className="text-5xl font-bold text-right text-white">
+                      <p className="text-right text-5xl font-bold text-white">
                         {score.total_score.toLocaleString()}
                       </p>
                       <div className="text-right">
@@ -170,13 +169,14 @@ export default function Score(props: { params: Promise<{ id: string }> }) {
                         </div>
 
                         <p className="text-gray-200">
-                          {t("score.playedBy")}{" "}
+                          {t("score.playedBy")}
+                          {" "}
                           {user?.username ?? t("score.userUnknown")}
                         </p>
                       </div>
                     </div>
 
-                    <div className="space-x-2 flex justify-end w-full">
+                    <div className="flex w-full justify-end space-x-2">
                       <Button
                         onClick={downloadReplay}
                         disabled={!self || !score.has_replay}
@@ -192,27 +192,27 @@ export default function Score(props: { params: Promise<{ id: string }> }) {
                             <span className="sr-only">
                               {t("actions.openMenu")}
                             </span>
-                            <MoreHorizontal className="h-4 w-4" />
+                            <MoreHorizontal className="size-4" />
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          {/* 
-                      TODO: Implement 
+                          {/*
+                      TODO: Implement
                       <DropdownMenuItem onClick={() => console.log("todo")}>
-                        Report score 
+                        Report score
                       </DropdownMenuItem>
 
-                      TODO: Implement 
+                      TODO: Implement
                       <DropdownMenuItem onClick={() => console.log("todo")}>
-                        Pin score 
-                      </DropdownMenuItem>*/}
+                        Pin score
+                      </DropdownMenuItem> */}
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </div>
                   </div>
                 </div>
 
-                <div className="-z-10 absolute inset-0 overflow-hidden rounded-lg">
+                <div className="absolute inset-0 -z-10 overflow-hidden rounded-lg">
                   <ImageWithFallback
                     src={`https://assets.ppy.sh/beatmaps/${beatmap?.beatmapset_id}/covers/cover@2x.jpg`}
                     alt="beatmap image"
@@ -225,7 +225,7 @@ export default function Score(props: { params: Promise<{ id: string }> }) {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-5 gap-4">
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-5">
               <div className="xl:col-span-2">
                 <UserElement user={user} />
               </div>
@@ -240,7 +240,7 @@ export default function Score(props: { params: Promise<{ id: string }> }) {
             </div>
           </>
         ) : (
-          <div className="rounded-l flex flex-col md:flex-row justify-between items-center md:items-start gap-8 ">
+          <div className="flex flex-col items-center justify-between gap-8 rounded-l md:flex-row md:items-start ">
             <div className="flex flex-col space-y-2">
               <h1 className="text-4xl">{errorMessage}</h1>
               <p>{t("error.description")}</p>

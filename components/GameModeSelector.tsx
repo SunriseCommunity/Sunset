@@ -1,3 +1,6 @@
+import { Star } from "lucide-react";
+import { twMerge } from "tailwind-merge";
+
 import { Combobox } from "@/components/ComboBox";
 import DifficultyIcon from "@/components/DifficultyIcon";
 import { Button } from "@/components/ui/button";
@@ -6,14 +9,12 @@ import {
   GameRuleFlagsShort,
   GameRulesGameModes,
 } from "@/lib/hooks/api/types";
+import { useT } from "@/lib/i18n/utils";
 import { GameMode } from "@/lib/types/api";
 import {
   gameModeToGamerule,
   gameModeToVanilla,
 } from "@/lib/utils/gameMode.util";
-import { Star } from "lucide-react";
-import { twMerge } from "tailwind-merge";
-import { useT } from "@/lib/i18n/utils";
 
 const GameModesIcons = {
   0: GameMode.STANDARD,
@@ -78,10 +79,11 @@ export default function GameModeSelector({
   ...props
 }: GameModeSelectorProps) {
   const t = useT("components.gameModeSelector");
-  if (enabledModes) enrichEnabledModesWithGameModes(enabledModes);
+  if (enabledModes)
+    enrichEnabledModesWithGameModes(enabledModes);
 
-  var defaultGameModeVanilla =
-    userDefaultGameMode && gameModeToVanilla(userDefaultGameMode);
+  const defaultGameModeVanilla
+    = userDefaultGameMode && gameModeToVanilla(userDefaultGameMode);
 
   return (
     <div
@@ -92,28 +94,26 @@ export default function GameModeSelector({
         mobileVariant === "combobox"
           ? "place-content-end"
           : "place-content-between",
-        props.className
+        props.className,
       )}
     >
       {includeGameRules && (
         <>
           <div className="hidden space-x-2 lg:flex">
             {Object.entries(
-              GameRuleFlags[gameModeToVanilla(activeMode)] ?? {}
+              GameRuleFlags[gameModeToVanilla(activeMode)] ?? {},
             ).map(([mode, key]) => (
               <Button
                 key={mode}
                 className="relative px-3 py-1"
                 onClick={() => key != null && setActiveMode(key)}
                 variant={
-                  key != null &&
-                  gameModeToGamerule(activeMode) === gameModeToGamerule(key)
+                  key != null
+                  && gameModeToGamerule(activeMode) === gameModeToGamerule(key)
                     ? "default"
                     : "secondary"
                 }
-                disabled={
-                  key === null || (enabledModes && !enabledModes.includes(key))
-                }
+                disabled={key === null || (enabledModes && !enabledModes.includes(key))}
               >
                 {mode}
                 {key === userDefaultGameMode && <DefaultGameModeStar />}
@@ -123,7 +123,7 @@ export default function GameModeSelector({
           {mobileVariant === "icons" && (
             <div className="flex space-x-2 lg:hidden">
               {Object.entries(
-                GameRuleFlagsShort[gameModeToVanilla(activeMode)] ?? {}
+                GameRuleFlagsShort[gameModeToVanilla(activeMode)] ?? {},
               ).map(([mode, key]) => (
                 <Button
                   key={mode}
@@ -131,15 +131,13 @@ export default function GameModeSelector({
                   className="relative"
                   size="icon"
                   variant={
-                    key != null &&
-                    gameModeToGamerule(activeMode) === gameModeToGamerule(key)
+                    key != null
+                    && gameModeToGamerule(activeMode) === gameModeToGamerule(key)
                       ? "default"
                       : "secondary"
                   }
-                  disabled={
-                    key === null ||
-                    (enabledModes && !enabledModes.includes(key))
-                  }
+                  disabled={key === null
+                    || (enabledModes && !enabledModes.includes(key))}
                 >
                   {mode}
                   {key === userDefaultGameMode && <DefaultGameModeStar />}
@@ -154,16 +152,14 @@ export default function GameModeSelector({
         <>
           <div className="hidden space-x-2 lg:flex">
             {Object.entries(
-              GameRulesGameModes[gameModeToGamerule(activeMode)] ?? {}
+              GameRulesGameModes[gameModeToGamerule(activeMode)] ?? {},
             ).map(([mode, key]) => (
               <Button
                 key={mode}
                 className="relative px-3 py-1"
                 onClick={() => key != null && setActiveMode(key)}
                 variant={activeMode === key ? "default" : "secondary"}
-                disabled={
-                  key === null || (enabledModes && !enabledModes.includes(key))
-                }
+                disabled={key === null || (enabledModes && !enabledModes.includes(key))}
               >
                 {mode}
                 {key && gameModeToVanilla(key) === defaultGameModeVanilla && (
@@ -175,7 +171,7 @@ export default function GameModeSelector({
           {mobileVariant === "icons" && (
             <div className="flex space-x-2 lg:hidden">
               {Object.entries(
-                GameRulesGameModes[gameModeToGamerule(activeMode)] ?? {}
+                GameRulesGameModes[gameModeToGamerule(activeMode)] ?? {},
               ).map(([mode, key], index) => (
                 <Button
                   key={mode}
@@ -183,15 +179,11 @@ export default function GameModeSelector({
                   className="relative"
                   onClick={() => key != null && setActiveMode(key)}
                   variant={activeMode === key ? "default" : "secondary"}
-                  disabled={
-                    key === null ||
-                    (enabledModes && !enabledModes.includes(key))
-                  }
+                  disabled={key === null
+                    || (enabledModes && !enabledModes.includes(key))}
                 >
                   <DifficultyIcon
-                    gameMode={
-                      GameModesIcons[index as keyof typeof GameModesIcons]
-                    }
+                    gameMode={GameModesIcons[index as keyof typeof GameModesIcons]}
                   />
                   {key && gameModeToVanilla(key) === defaultGameModeVanilla && (
                     <DefaultGameModeStar />
@@ -204,8 +196,8 @@ export default function GameModeSelector({
       )}
 
       {mobileVariant === "combobox" && (
-        <div className="flex lg:hidden flex-col">
-          <p className="text-secondary-foreground text-sm lg:hidden flex">
+        <div className="flex flex-col lg:hidden">
+          <p className="flex text-sm text-secondary-foreground lg:hidden">
             {t("selectedMode")}
           </p>
           <Combobox
@@ -214,8 +206,8 @@ export default function GameModeSelector({
               setActiveMode(mode);
             }}
             values={Object.entries(GameMode)
-              .filter(([key]) => isNaN(Number(key)))
-              .map(([mode, key]) => {
+              .filter(([key]) => Number.isNaN(Number(key)))
+              .map(([, key]) => {
                 return {
                   label: `${key === userDefaultGameMode ? "★ " : ""}${key}`,
                   value: key.toString(),
@@ -230,8 +222,8 @@ export default function GameModeSelector({
 
 export function DefaultGameModeStar() {
   return (
-    <div className="absolute sm:-top-2 -top-2.5 sm:-right-2 -right-2.5 bg-card rounded-full p-0.5">
-      <Star className="h-2 w-2 fill-yellow-400 stroke-yellow-400" />
+    <div className="absolute -right-2.5 -top-2.5 rounded-full bg-card p-0.5 sm:-right-2 sm:-top-2">
+      <Star className="size-2 fill-yellow-400 stroke-yellow-400" />
     </div>
   );
 }

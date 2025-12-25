@@ -1,14 +1,15 @@
+import { ChartColumnIncreasing, ChevronDown } from "lucide-react";
+
 import UserScoreOverview from "@/app/(website)/user/[id]/components/UserScoreOverview";
 import { ContentNotExist } from "@/components/ContentNotExist";
-
 import PrettyHeader from "@/components/General/PrettyHeader";
 import RoundedContent from "@/components/General/RoundedContent";
 import Spinner from "@/components/Spinner";
 import { Button } from "@/components/ui/button";
 import { useUserScores } from "@/lib/hooks/api/user/useUserScores";
-import { GameMode, ScoreTableType } from "@/lib/types/api";
-import { ChartColumnIncreasing, ChevronDown } from "lucide-react";
 import { useT } from "@/lib/i18n/utils";
+import type { GameMode } from "@/lib/types/api";
+import { ScoreTableType } from "@/lib/types/api";
 
 interface UserTabScoresProps {
   userId: number;
@@ -26,19 +27,19 @@ export default function UserTabScores({
     userId,
     gameMode,
     type,
-    5
+    5,
   );
 
-  const isLoadingMore =
-    isLoading || (size > 0 && data && typeof data[size - 1] === "undefined");
+  const isLoadingMore
+    = isLoading || (size > 0 && data && data[size - 1] === undefined);
 
   const handleShowMore = () => {
     setSize(size + 1);
   };
 
-  const scores = data?.flatMap((item) => item.scores);
+  const scores = data?.flatMap(item => item.scores);
   let total_count = data?.find(
-    (item) => item.total_count !== undefined
+    item => item.total_count !== undefined,
   )?.total_count;
 
   if (total_count && type === ScoreTableType.BEST) {
@@ -46,14 +47,18 @@ export default function UserTabScores({
   }
 
   const getHeaderText = () => {
-    if (type === ScoreTableType.BEST) return t("bestScores");
-    if (type === ScoreTableType.RECENT) return t("recentScores");
-    if (type === ScoreTableType.TOP) return t("firstPlaces");
+    if (type === ScoreTableType.BEST)
+      return t("bestScores");
+    if (type === ScoreTableType.RECENT)
+      return t("recentScores");
+    if (type === ScoreTableType.TOP)
+      return t("firstPlaces");
     return `${type} scores`;
   };
 
   const getNoScoresText = () => {
-    if (type === ScoreTableType.BEST) return t("noScores", { type: "best" });
+    if (type === ScoreTableType.BEST)
+      return t("noScores", { type: "best" });
     if (type === ScoreTableType.RECENT)
       return t("noScores", { type: "recent" });
     if (type === ScoreTableType.TOP)
@@ -67,26 +72,26 @@ export default function UserTabScores({
         icon={<ChartColumnIncreasing />}
         counter={total_count && total_count > 0 ? total_count : undefined}
       />
-      <RoundedContent className="min-h-60 h-fit max-h-none">
+      <RoundedContent className="h-fit max-h-none min-h-60">
         {!data && (
-          <div className="flex justify-center items-center h-32">
+          <div className="flex h-32 items-center justify-center">
             <Spinner />
           </div>
         )}
 
-        {data && scores && total_count != undefined && (
+        {data && scores && total_count !== undefined && (
           <div>
             {scores.length <= 0 && <ContentNotExist text={getNoScoresText()} />}
-            {scores.map((score) => (
+            {scores.map(score => (
               <div key={`score-${score.id}`} className="mb-2">
                 <UserScoreOverview score={score} />
               </div>
             ))}
             {scores.length < total_count && (
-              <div className="flex justify-center mt-4">
+              <div className="mt-4 flex justify-center">
                 <Button
                   onClick={handleShowMore}
-                  className="w-full md:w-1/2 flex items-center justify-center"
+                  className="flex w-full items-center justify-center md:w-1/2"
                   isLoading={isLoadingMore}
                   variant="secondary"
                 >

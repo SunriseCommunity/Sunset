@@ -1,27 +1,28 @@
 "use client";
 import { ArrowLeft, ExternalLink, Music2 } from "lucide-react";
-import RoundedContent from "@/components/General/RoundedContent";
-import { use } from "react";
-import ImageWithFallback from "@/components/ImageWithFallback";
-import PrettyDate from "@/components/General/PrettyDate";
-import DownloadButtons from "@/app/(website)/beatmapsets/components/DownloadButtons";
-import Spinner from "@/components/Spinner";
 import Image from "next/image";
-import { useBeatmapSet } from "@/lib/hooks/api/beatmap/useBeatmapSet";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { BeatmapStatusWeb } from "@/lib/types/api";
+import { use } from "react";
+
+import { BeatmapSetEvents } from "@/app/(admin)/admin/beatmapsets/components/BeatmapSetEvents";
+import { BeatmapsStatusTable } from "@/app/(admin)/admin/beatmapsets/components/BeatmapsStatusTable";
+import DownloadButtons from "@/app/(website)/beatmapsets/components/DownloadButtons";
+import PrettyDate from "@/components/General/PrettyDate";
+import PrettyHeader from "@/components/General/PrettyHeader";
+import RoundedContent from "@/components/General/RoundedContent";
+import ImageWithFallback from "@/components/ImageWithFallback";
+import Spinner from "@/components/Spinner";
 import { Button } from "@/components/ui/button";
 import {
   Card,
+  CardContent,
+  CardDescription,
   CardHeader,
   CardTitle,
-  CardDescription,
-  CardContent,
 } from "@/components/ui/card";
-import { BeatmapsStatusTable } from "@/app/(admin)/admin/beatmapsets/components/BeatmapsStatusTable";
-import { BeatmapSetEvents } from "@/app/(admin)/admin/beatmapsets/components/BeatmapSetEvents";
-import PrettyHeader from "@/components/General/PrettyHeader";
-import Link from "next/link";
+import { useBeatmapSet } from "@/lib/hooks/api/beatmap/useBeatmapSet";
+import { BeatmapStatusWeb } from "@/lib/types/api";
 import { tryParseNumber } from "@/lib/utils/type.util";
 
 export interface BeatmapsetProps {
@@ -37,38 +38,39 @@ export default function AdminBeatmapset(props: BeatmapsetProps) {
   const beatmapsetQuery = useBeatmapSet(beatmapSetId);
   const beatmapSet = beatmapsetQuery.data;
 
-  if (beatmapsetQuery.isLoading)
+  if (beatmapsetQuery.isLoading) {
     return (
-      <div className="flex flex-col w-full space-y-4">
+      <div className="flex w-full flex-col space-y-4">
         <PrettyHeader text="Beatmaps ranking" roundBottom icon={<Music2 />} />
-        <div className="flex flex-col justify-center items-center h-96">
+        <div className="flex h-96 flex-col items-center justify-center">
           <Spinner size="xl" />
         </div>
       </div>
     );
+  }
 
-  const errorMessage =
-    beatmapsetQuery?.error?.message ?? "Beatmapset not found";
+  const errorMessage
+    = beatmapsetQuery?.error?.message ?? "Beatmapset not found";
 
   return (
-    <div className="flex flex-col w-full space-y-4">
+    <div className="flex w-full flex-col space-y-4">
       <PrettyHeader text="Beatmaps ranking" roundBottom icon={<Music2 />} />
-      <div className="flex flex-col space-y-4  h-full  w-full">
+      <div className="flex size-full flex-col  space-y-4">
         <Button variant="outline" onClick={router.back} className="w-fit">
-          <ArrowLeft className="mr-2 h-4 w-4" />
+          <ArrowLeft className="mr-2 size-4" />
           Back to Beatmap List
         </Button>
 
         {beatmapSet ? (
           <>
-            <div className="z-2 lg:h-64 relative rounded-lg p-0 border">
-              <div className="bg-black/60 lg:px-6 md:p-4 p-2 rounded-lg h-full">
-                <div className="flex flex-col justify-between h-full">
+            <div className="z-2 relative rounded-lg border p-0 lg:h-64">
+              <div className="h-full rounded-lg bg-black/60 p-2 md:p-4 lg:px-6">
+                <div className="flex h-full flex-col justify-between">
                   <div>
                     <h3 className="text-3xl font-bold text-white">
                       {beatmapSet.title}
                     </h3>
-                    <p className="text-gray-200 text-lg">{beatmapSet.artist}</p>
+                    <p className="text-lg text-gray-200">{beatmapSet.artist}</p>
                   </div>
 
                   <div className="flex flex-col space-y-2 text-white">
@@ -78,10 +80,10 @@ export default function AdminBeatmapset(props: BeatmapsetProps) {
                         alt=""
                         width={48}
                         height={48}
-                        className="rounded-lg object-contain bg-stone-800 max-h-12 max-w-12"
+                        className="max-h-12 max-w-12 rounded-lg bg-stone-800 object-contain"
                         fallBackSrc="/images/placeholder.png"
                       />
-                      <div className="flex flex-col ml-2 text-xs font-light">
+                      <div className="ml-2 flex flex-col text-xs font-light">
                         <div className="flex items-center">
                           submitted by&nbsp;
                           <p className="font-bold">
@@ -95,20 +97,20 @@ export default function AdminBeatmapset(props: BeatmapsetProps) {
                             className="font-bold"
                           />
                         </div>
-                        {beatmapSet.ranked_date &&
-                          beatmapSet.status === BeatmapStatusWeb.RANKED && (
-                            <div className="flex items-center">
-                              ranked on&nbsp;
-                              <PrettyDate
-                                time={beatmapSet.ranked_date}
-                                className="font-bold"
-                              />
-                            </div>
-                          )}
+                        {beatmapSet.ranked_date
+                          && beatmapSet.status === BeatmapStatusWeb.RANKED && (
+                          <div className="flex items-center">
+                            ranked on&nbsp;
+                            <PrettyDate
+                              time={beatmapSet.ranked_date}
+                              className="font-bold"
+                            />
+                          </div>
+                        )}
                       </div>
                     </div>
 
-                    <div className="flex flex-wrap flex-row items-center gap-2">
+                    <div className="flex flex-row flex-wrap items-center gap-2">
                       <DownloadButtons beatmapSet={beatmapSet} />
 
                       <Button variant="secondary" size="xl" asChild>
@@ -121,7 +123,7 @@ export default function AdminBeatmapset(props: BeatmapsetProps) {
                       <Button variant="secondary" size="xl" asChild>
                         <Link
                           href={`https://osu.ppy.sh/beatmapsets/${beatmapSet.id}`}
-                          
+
                         >
                           <ExternalLink />
                           Open on Bancho
@@ -132,7 +134,7 @@ export default function AdminBeatmapset(props: BeatmapsetProps) {
                 </div>
               </div>
 
-              <div className="-z-10 absolute inset-0 overflow-hidden rounded-lg">
+              <div className="absolute inset-0 -z-10 overflow-hidden rounded-lg">
                 <ImageWithFallback
                   src={`https://assets.ppy.sh/beatmaps/${beatmapSet.id}/covers/cover@2x.jpg`}
                   alt="beatmap image"
@@ -145,7 +147,7 @@ export default function AdminBeatmapset(props: BeatmapsetProps) {
             </div>
 
             {/* Cards */}
-            <div className="grid gap-4 grid-cols-3">
+            <div className="grid grid-cols-3 gap-4">
               <Card className="col-span-3">
                 <CardHeader>
                   <CardTitle>Beatmap Status</CardTitle>
@@ -169,24 +171,26 @@ export default function AdminBeatmapset(props: BeatmapsetProps) {
               </Card>
             </div>
           </>
-        ) : beatmapsetQuery?.error ? (
-          <RoundedContent className="rounded-l flex flex-col md:flex-row justify-between items-center md:items-start gap-8 ">
-            <div className="flex flex-col space-y-2">
-              <h1 className="text-4xl">{errorMessage}</h1>
-              <p className="text-muted-foreground">
-                The beatmapset you are looking for does not exist or has been
-                deleted.
-              </p>
-            </div>
-            <Image
-              src="/images/user-not-found.png"
-              alt="404"
-              width={200}
-              height={400}
-              className="max-w-fit"
-            />
-          </RoundedContent>
-        ) : null}
+        ) : beatmapsetQuery?.error
+          ? (
+              <RoundedContent className="flex flex-col items-center justify-between gap-8 rounded-l md:flex-row md:items-start ">
+                <div className="flex flex-col space-y-2">
+                  <h1 className="text-4xl">{errorMessage}</h1>
+                  <p className="text-muted-foreground">
+                    The beatmapset you are looking for does not exist or has been
+                    deleted.
+                  </p>
+                </div>
+                <Image
+                  src="/images/user-not-found.png"
+                  alt="404"
+                  width={200}
+                  height={400}
+                  className="max-w-fit"
+                />
+              </RoundedContent>
+            )
+          : null}
       </div>
     </div>
   );

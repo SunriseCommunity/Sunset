@@ -1,12 +1,14 @@
 "use client";
 
-import BeatmapStatusIcon from "@/components/BeatmapStatus";
-import ImageWithFallback from "@/components/ImageWithFallback";
-import { Skeleton } from "@/components/ui/skeleton";
-import { BeatmapResponse, BeatmapStatusWeb } from "@/lib/types/api";
 import { PlayIcon } from "lucide-react";
 import Link from "next/link";
 import { twMerge } from "tailwind-merge";
+
+import BeatmapStatusIcon from "@/components/BeatmapStatus";
+import ImageWithFallback from "@/components/ImageWithFallback";
+import { Skeleton } from "@/components/ui/skeleton";
+import type { BeatmapResponse } from "@/lib/types/api";
+import { BeatmapStatusWeb } from "@/lib/types/api";
 
 interface BeatmapPlayedOverviewProps {
   beatmap: BeatmapResponse;
@@ -23,10 +25,10 @@ export default function BeatmapPlayedOverview({
     <div
       className={twMerge(
         "bg-card rounded-lg overflow-hidden text-white hover:scale-105 smooth-transition shadow",
-        className
+        className,
       )}
     >
-      <div className="h-20 relative ">
+      <div className="relative h-20 ">
         <Link href={`/beatmapsets/${beatmap.beatmapset_id}/${beatmap.id}`}>
           {beatmap?.beatmapset_id ? (
             <ImageWithFallback
@@ -40,10 +42,10 @@ export default function BeatmapPlayedOverview({
             <Skeleton className="" />
           )}
 
-          <div className="absolute inset-0 bg-black hover:bg-opacity-50 bg-opacity-60 flex items-center cursor-pointer">
-            <div className="p-6 flex place-content-between  w-full smooth-transition items-center">
-              <div className="flex-row overflow-hidden flex-wrap">
-                <div className="flex font-bold text-sm md:text-xl drop-shadow-md items-center ">
+          <div className="absolute inset-0 flex cursor-pointer items-center bg-black bg-opacity-60 hover:bg-opacity-50">
+            <div className="smooth-transition flex w-full  place-content-between items-center p-6">
+              <div className="flex-row flex-wrap overflow-hidden">
+                <div className="flex items-center text-sm font-bold drop-shadow-md md:text-xl ">
                   <span className="pr-1">
                     <BeatmapStatusIcon
                       status={beatmap?.status ?? BeatmapStatusWeb.GRAVEYARD}
@@ -51,26 +53,26 @@ export default function BeatmapPlayedOverview({
                   </span>
                   {beatmap?.artist && beatmap?.title ? (
                     <span className="line-clamp-2">
-                      {beatmap.artist + " - " + beatmap?.title}
+                      {`${beatmap.artist} - ${beatmap?.title}`}
                     </span>
                   ) : (
                     <div className="flex items-center">
-                      <Skeleton className="w-28 h-3" />
+                      <Skeleton className="h-3 w-28" />
                       &nbsp;-&nbsp;
-                      <Skeleton className="w-20 h-3" />
+                      <Skeleton className="h-3 w-20" />
                     </div>
                   )}
                 </div>
                 <div className="flex items-end space-x-3">
-                  <div className="text-base drop-shadow-md text-gray-100 line-clamp-1">
-                    {beatmap?.version ?? <Skeleton className="w-24 h-4" />}
+                  <div className="line-clamp-1 text-base text-gray-100 drop-shadow-md">
+                    {beatmap?.version ?? <Skeleton className="h-4 w-24" />}
                   </div>
                 </div>
               </div>
 
-              <div className="flex items-center space-x-4 min-w-12">
-                <div className="text-start text-nowrap flex items-center space-x-2">
-                  <PlayIcon size={24} className="text-white fill-white" />
+              <div className="flex min-w-12 items-center space-x-4">
+                <div className="flex items-center space-x-2 text-nowrap text-start">
+                  <PlayIcon size={24} className="fill-white text-white" />
                   <p className="text-2xl text-white">{playcount}</p>
                 </div>
               </div>

@@ -13,6 +13,6 @@ export default defineConfig({
     "react-google-translate/no-conditional-text-nodes-with-siblings": "off", // TODO: Will be fixed with migration to useT (i18n)
 
     "unicorn/prefer-bigint-literals": "off",
-    "tailwindcss/no-custom-classname": "off",
+    "tailwindcss/no-custom-classname": "off", // Disabled due to false positives with dynamic class names
   },
 });

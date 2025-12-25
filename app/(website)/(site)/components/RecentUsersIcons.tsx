@@ -1,14 +1,15 @@
-import { UserResponse } from "@/lib/types/api";
 import Image from "next/image";
 import Link from "next/link";
 
+import type { UserResponse } from "@/lib/types/api";
+
 export default function RecentUsersIcons({ users }: { users: UserResponse[] }) {
   return (
-    <div className="flex -space-x-2 mr-2">
+    <div className="mr-2 flex -space-x-2">
       {users.map((u, i) => (
         <div
-          key={i}
-          className={`w-8 h-8 rounded-full border-2 hover:scale-110 overflow-hidden relative z-${
+          key={`recent-user-icon-${u.user_id}`}
+          className={`z- relative size-8 overflow-hidden rounded-full border-2 hover:scale-110${
             users.length - i
           }0`}
         >
@@ -18,7 +19,7 @@ export default function RecentUsersIcons({ users }: { users: UserResponse[] }) {
               alt="user avatar"
               width={40}
               height={40}
-              className="object-cover w-full h-full"
+              className="size-full object-cover"
             />
           </Link>
         </div>

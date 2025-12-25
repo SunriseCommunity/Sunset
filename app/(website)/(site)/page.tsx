@@ -1,4 +1,10 @@
 "use client";
+import { BookOpenCheck, DoorOpen, Download } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useState } from "react";
+import { twMerge } from "tailwind-merge";
+
 import BackgroundVideo from "@/app/(website)/(site)/components/BackgroundVideo";
 import RecentUsersIcons from "@/app/(website)/(site)/components/RecentUsersIcons";
 import ServerStatus from "@/app/(website)/(site)/components/ServerStatus";
@@ -15,13 +21,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { useServerStatus } from "@/lib/hooks/api/useServerStatus";
-import { BookOpenCheck, DoorOpen, Download } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { useState } from "react";
-import { twMerge } from "tailwind-merge";
 import { useT } from "@/lib/i18n/utils";
-import { useTranslations } from "next-intl";
 
 const cards = [
   {
@@ -65,7 +65,7 @@ const cards = [
 ];
 
 export default function Home() {
-  const videoUrls = [0, 1, 2, 3].map((n) => `/api/getVideo?id=${n}`);
+  const videoUrls = [0, 1, 2, 3].map(n => `/api/getVideo?id=${n}`);
   const [isMaintenanceDialogOpen, setMaintenanceDialogOpen] = useState<
     boolean | null
   >(null);
@@ -82,32 +82,32 @@ export default function Home() {
 
   return (
     <div className="w-full space-y-8">
-      <div className="w-full flex items-center justify-center">
-        <div className="relative z-20 flex place-content-between w-full md:mt-40 mt-24">
+      <div className="flex w-full items-center justify-center">
+        <div className="relative z-20 mt-24 flex w-full place-content-between md:mt-40">
           <RoundedContent
             className={twMerge(
               "bg-transparent md:bg-gradient-to-r bg-gradient-to-t from-background via-background to-transparent",
-              "w-full py-0 px-4 rounded-lg place-content-between space-x-4 flex md:flex-row flex-col-reverse"
+              "w-full py-0 px-4 rounded-lg place-content-between space-x-4 flex md:flex-row flex-col-reverse",
             )}
           >
-            <div className="flex flex-col justify-center space-y-4 my-4 md:w-5/12 ">
+            <div className="my-4 flex flex-col justify-center space-y-4 md:w-5/12 ">
               <div className="">
                 <h1 className="text-6xl">
-                  <span className="text-primary dark">
+                  <span className="dark text-primary">
                     {tGeneral("serverTitle.split.part1")}
                   </span>
                   <span className="text-current">
                     {tGeneral("serverTitle.split.part2")}
                   </span>
                 </h1>
-                <p className="text-muted-foreground italic text-sm">
+                <p className="text-sm italic text-muted-foreground">
                   {t("features.motto")}
                 </p>
               </div>
               <p>{t("features.description")}</p>
               <div className="flex items-end space-x-4">
                 <Button
-                  className="from-red-400 via-orange-400 to-yellow-400 bg-gradient-to-r bg-size-300 animate-gradient hover:scale-105 smooth-transition"
+                  className="smooth-transition animate-gradient bg-gradient-to-r from-red-400 via-orange-400 to-yellow-400 bg-size-300 hover:scale-105"
                   size="lg"
                   asChild
                 >
@@ -128,22 +128,22 @@ export default function Home() {
                   alt="frontpage image"
                   width={1150}
                   height={1150}
-                  className="rounded-lg w-full h-full md:min-h-96 md:min-w-96"
+                  className="size-full rounded-lg md:min-h-96 md:min-w-96"
                 />
               </div>
             </div>
           </RoundedContent>
 
-          <div className="-z-10 absolute inset-0 overflow-hidden rounded-lg">
+          <div className="absolute inset-0 -z-10 overflow-hidden rounded-lg">
             <BackgroundVideo
               urls={videoUrls}
-              className="relative h-full w-full object-cover md:translate-x-1/4"
+              className="relative size-full object-cover md:translate-x-1/4"
             />
           </div>
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-2 justify-center">
+      <div className="flex flex-wrap justify-center gap-2">
         <ServerStatus
           type="server_status"
           data={
@@ -166,35 +166,39 @@ export default function Home() {
             <RecentUsersIcons users={serverStatus.current_users_online!} />
           )}
         </ServerStatus>
-        <ServerStatus
-          type="users_restricted"
-          data={serverStatus?.total_restrictions!}
-        />
-        <ServerStatus type="total_scores" data={serverStatus?.total_scores!} />
+        {serverStatus && (
+          <ServerStatus
+            type="users_restricted"
+            data={serverStatus.total_restrictions!}
+          />
+        )}
+        {serverStatus && (
+          <ServerStatus type="total_scores" data={serverStatus.total_scores!} />
+        )}
       </div>
 
-      <div className="w-full pb-12 items-center">
-        <h2 className="text-4xl font-bold text-center py-8">{t("whyUs")}</h2>
+      <div className="w-full items-center pb-12">
+        <h2 className="py-8 text-center text-4xl font-bold">{t("whyUs")}</h2>
 
         <Carousel className="w-full">
           <CarouselContent className="-ml-1">
-            {cards.map((card, index) => (
+            {cards.map(card => (
               <CarouselItem
-                key={index}
-                className="md:basis-1/2 pl-0 lg:basis-1/3"
+                key={`card-${card.titleKey}`}
+                className="pl-0 md:basis-1/2 lg:basis-1/3"
               >
                 <div className="p-1">
-                  <Card className="overflow-y-auto  aspect-square transition-transform duration-300 scale-95 hover:scale-100 h-full">
+                  <Card className="aspect-square  h-full scale-95 overflow-y-auto transition-transform duration-300 hover:scale-100">
                     <div className="relative h-1/2 w-full">
                       <Image
                         src={card.imageUrl || "/placeholder.svg"}
                         alt={card.titleKey}
                         fill
-                        className="object-cover rounded-t-lg "
+                        className="rounded-t-lg object-cover "
                       />
                     </div>
                     <CardContent className="p-4">
-                      <h3 className="text-lg font-bold mb-2">
+                      <h3 className="mb-2 text-lg font-bold">
                         {t(card.titleKey)}
                       </h3>
                       <p className="text-sm text-muted-foreground">
@@ -206,13 +210,13 @@ export default function Home() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="md:-left-12 left-6" />
-          <CarouselNext className="md:-right-12 right-6" />
+          <CarouselPrevious className="left-6 md:-left-12" />
+          <CarouselNext className="right-6 md:-right-12" />
         </Carousel>
       </div>
 
       <div className="w-full p-4">
-        <div className="py-8 space-y-4">
+        <div className="space-y-4 py-8">
           <h2 className="text-4xl font-bold text-current">
             {t("howToStart.title")}
           </h2>
@@ -222,29 +226,29 @@ export default function Home() {
 
         <div className="space-y-2">
           <PrettyHeader icon={<Download />} className="rounded-lg">
-            <div className="flex flex-col md:flex-row space-y-2 w-full">
-              <div className="w-full flex flex-col mx-2">
+            <div className="flex w-full flex-col space-y-2 md:flex-row">
+              <div className="mx-2 flex w-full flex-col">
                 <p className="text-lg">{t("howToStart.downloadTile.title")}</p>
-                <p className="text-muted-foreground text-sm">
+                <p className="text-sm text-muted-foreground">
                   {t("howToStart.downloadTile.description")}
                 </p>
               </div>
-              <Button className="md:w-1/3 md:m-0 w-full m-2" asChild>
-                <Link href={"https://osu.ppy.sh/home/download"}>
+              <Button className="m-2 w-full md:m-0 md:w-1/3" asChild>
+                <Link href="https://osu.ppy.sh/home/download">
                   {t("howToStart.downloadTile.button")}
                 </Link>
               </Button>
             </div>
           </PrettyHeader>
           <PrettyHeader icon={<DoorOpen />} className="rounded-lg">
-            <div className="flex flex-col md:flex-row space-y-2 w-full">
-              <div className="w-full flex flex-col mx-2">
+            <div className="flex w-full flex-col space-y-2 md:flex-row">
+              <div className="mx-2 flex w-full flex-col">
                 <p className="text-lg">{t("howToStart.registerTile.title")}</p>
-                <p className="text-muted-foreground text-sm">
+                <p className="text-sm text-muted-foreground">
                   {t("howToStart.registerTile.description")}
                 </p>
               </div>
-              <Button className="md:w-1/3 md:m-0 w-full m-2" asChild>
+              <Button className="m-2 w-full md:m-0 md:w-1/3" asChild>
                 <Link href="/register">
                   {t("howToStart.registerTile.button")}
                 </Link>
@@ -252,14 +256,14 @@ export default function Home() {
             </div>
           </PrettyHeader>
           <PrettyHeader icon={<BookOpenCheck />} className="rounded-lg">
-            <div className="flex flex-col md:flex-row space-y-2 w-full">
-              <div className="w-full flex flex-col mx-2">
+            <div className="flex w-full flex-col space-y-2 md:flex-row">
+              <div className="mx-2 flex w-full flex-col">
                 <p className="text-lg">{t("howToStart.guideTile.title")}</p>
-                <p className="text-muted-foreground text-sm">
+                <p className="text-sm text-muted-foreground">
                   {t("howToStart.guideTile.description")}
                 </p>
               </div>
-              <Button className="md:w-1/3 md:m-0 w-full m-2" asChild>
+              <Button className="m-2 w-full md:m-0 md:w-1/3" asChild>
                 <Link href="/wiki#How%20to%20connect">
                   {t("howToStart.guideTile.button")}
                 </Link>

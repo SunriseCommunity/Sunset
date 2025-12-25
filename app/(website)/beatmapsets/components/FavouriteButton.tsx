@@ -1,12 +1,13 @@
 import { Heart } from "lucide-react";
+import { twMerge } from "tailwind-merge";
+
+import { Button } from "@/components/ui/button";
 import {
   useBeatmapSetFavouriteStatus,
   useUpdateBeatmapSetFavouriteStatus,
 } from "@/lib/hooks/api/beatmap/useBeatmapSetFavouriteStatus";
-import { Button } from "@/components/ui/button";
-import { twMerge } from "tailwind-merge";
 import useSelf from "@/lib/hooks/useSelf";
-import { BeatmapSetResponse } from "@/lib/types/api";
+import type { BeatmapSetResponse } from "@/lib/types/api";
 
 interface FavouriteButtonProps {
   beatmapSet: BeatmapSetResponse;
@@ -16,7 +17,7 @@ export default function FavouriteButton({ beatmapSet }: FavouriteButtonProps) {
   const { self } = useSelf();
 
   const beatmapSetFavouritedStatusQuery = useBeatmapSetFavouriteStatus(
-    beatmapSet.id
+    beatmapSet.id,
   );
   const beatmapSetFavouritedStatus = beatmapSetFavouritedStatusQuery.data;
 
@@ -31,7 +32,7 @@ export default function FavouriteButton({ beatmapSet }: FavouriteButtonProps) {
         optimisticData: {
           favourited: !favourited,
         },
-      }
+      },
     );
   };
 
@@ -45,7 +46,7 @@ export default function FavouriteButton({ beatmapSet }: FavouriteButtonProps) {
       <Heart
         className={twMerge(
           `text-secondary-foreground`,
-          favourited ? `fill-secondary-foreground` : ""
+          favourited ? `fill-secondary-foreground` : "",
         )}
       />
     </Button>

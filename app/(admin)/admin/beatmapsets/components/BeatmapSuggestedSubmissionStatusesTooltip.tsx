@@ -1,13 +1,15 @@
+import { Binoculars } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
+
 import { Tooltip } from "@/components/Tooltip";
 import { Badge } from "@/components/ui/badge";
 import { EosIconsThreeDotsLoading } from "@/components/ui/icons/three-dots-loading";
-import fetcher from "@/lib/services/fetcher";
-import { BeatmapResponse, BeatmapStatusWeb, Mods } from "@/lib/types/api";
 import { getUserToken } from "@/lib/actions/getUserToken";
-import { Binoculars } from "lucide-react";
-import { useEffect, useState } from "react";
+import fetcher from "@/lib/services/fetcher";
+import type { BeatmapResponse } from "@/lib/types/api";
+import { BeatmapStatusWeb, Mods } from "@/lib/types/api";
 
-const statusMap: { [key: number]: BeatmapStatusWeb } = {
+const statusMap: Record<number, BeatmapStatusWeb> = {
   0: BeatmapStatusWeb.GRAVEYARD,
   1: BeatmapStatusWeb.PENDING,
   2: BeatmapStatusWeb.RANKED,
@@ -21,13 +23,14 @@ export function BeatmapSuggestedSubmissionStatusesTooltip({
 }: {
   beatmap: BeatmapResponse;
 }) {
-  const [currentGamerule, setCurrentGamerule] = useState(Mods.NONE);
+  const [currentGamerule] = useState(Mods.NONE);
   const [suggestions, setSuggestions] = useState<
-    { serverName: string; suggestedStatus?: BeatmapStatusWeb }[]
+    Array<{ serverName: string; suggestedStatus?: BeatmapStatusWeb }>
   >([]);
 
-  const fetchData = async (force?: boolean) => {
-    if (suggestions.length > 0 && !force) return;
+  const fetchData = useCallback(async (force?: boolean) => {
+    if (suggestions.length > 0 && !force)
+      return;
 
     const token = await getUserToken();
 
@@ -37,7 +40,7 @@ export function BeatmapSuggestedSubmissionStatusesTooltip({
           serverName: "Akatsuki",
           suggestedStatus: (async () => {
             if (!token) {
-              return undefined;
+              return;
             }
             try {
               const response = await fetch(
@@ -46,16 +49,17 @@ export function BeatmapSuggestedSubmissionStatusesTooltip({
                   headers: {
                     Authorization: `Bearer ${token}`,
                   },
-                }
+                },
               );
               if (!response.ok) {
-                return undefined;
+                return;
               }
-              const data: { suggestedStatus?: BeatmapStatusWeb } =
-                await response.json();
+              const data: { suggestedStatus?: BeatmapStatusWeb }
+                = await response.json();
               return data.suggestedStatus;
-            } catch {
-              return undefined;
+            }
+            catch {
+              // Ignore errors
             }
           })(),
         },
@@ -66,7 +70,7 @@ export function BeatmapSuggestedSubmissionStatusesTooltip({
             {
               prefixUrl: `https://api.gatari.pw/`,
               credentials: "omit",
-            }
+            },
           ).then((res) => {
             return statusMap[res?.data?.[0]?.ranked];
           }),
@@ -77,30 +81,31 @@ export function BeatmapSuggestedSubmissionStatusesTooltip({
           serverName: item.serverName,
           suggestedStatus,
         };
-      })
+      }),
     );
 
     setSuggestions(results);
-  };
+  }, [beatmap.id, suggestions.length]);
 
   useEffect(() => {
-    if (suggestions.length == 0) return;
+    if (suggestions.length === 0)
+      return;
     fetchData(true);
-  }, [currentGamerule]);
+  }, [currentGamerule, fetchData, suggestions.length]);
 
   return (
     <Tooltip
       onOpenChange={fetchData}
-      content={
-        <div className="flex gap-2 flex-col">
-          <div className="flex gap-1 flex-col">
+      content={(
+        <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-1">
             {suggestions.length > 0 ? (
-              suggestions.map((data, i) => {
+              suggestions.map((data) => {
                 return (
                   <Badge
                     variant="outline"
                     className="place-content-between gap-1"
-                    key={i}
+                    key={`suggestion-status-${data.serverName}`}
                   >
                     <span>{data.serverName}</span>
                     <span> - </span>
@@ -109,17 +114,17 @@ export function BeatmapSuggestedSubmissionStatusesTooltip({
                 );
               })
             ) : (
-              <EosIconsThreeDotsLoading className="h-6 w-6 mx-auto" />
+              <EosIconsThreeDotsLoading className="mx-auto size-6" />
             )}
           </div>
         </div>
-      }
+      )}
     >
       <Badge
         variant="outline"
-        className="rounded-full w-8 h-8 flex items-center justify-center p-0"
+        className="flex size-8 items-center justify-center rounded-full p-0"
       >
-        <Binoculars className="w-4 h-4" />
+        <Binoculars className="size-4" />
       </Badge>
     </Tooltip>
   );

@@ -1,13 +1,15 @@
 "use client";
-import { useBeatmapLeaderboard } from "@/lib/hooks/api/beatmap/useBeatmapLeaderboard";
-import { ScoreDataTable } from "@/app/(website)/beatmapsets/components/leaderboard/ScoreDataTable";
 import { useState } from "react";
-import { tryParseNumber } from "@/lib/utils/type.util";
-import { useScoreColumns } from "@/app/(website)/beatmapsets/components/leaderboard/ScoreColumns";
-import ScoreLeaderboardData from "@/app/(website)/beatmapsets/components/ScoreLeaderboardData";
-import useSelf from "@/lib/hooks/useSelf";
+
 import { ModsSelector } from "@/app/(website)/beatmapsets/components/leaderboard/ModsSelector";
-import { BeatmapResponse, GameMode, Mods } from "@/lib/types/api";
+import { useScoreColumns } from "@/app/(website)/beatmapsets/components/leaderboard/ScoreColumns";
+import { ScoreDataTable } from "@/app/(website)/beatmapsets/components/leaderboard/ScoreDataTable";
+import ScoreLeaderboardData from "@/app/(website)/beatmapsets/components/ScoreLeaderboardData";
+import { useBeatmapLeaderboard } from "@/lib/hooks/api/beatmap/useBeatmapLeaderboard";
+import useSelf from "@/lib/hooks/useSelf";
+import type { BeatmapResponse, GameMode } from "@/lib/types/api";
+import { Mods } from "@/lib/types/api";
+import { tryParseNumber } from "@/lib/utils/type.util";
 
 interface BeatmapLeaderboardProps {
   beatmap: BeatmapResponse;
@@ -37,13 +39,13 @@ export default function BeatmapLeaderboard({
   const beatmapLeaderboardQuery = useBeatmapLeaderboard(
     beatmap.id,
     {
-      mode: mode,
-      mods: mods,
+      mode,
+      mods,
       limit: pagination.pageSize,
     },
     {
       keepPreviousData: true,
-    }
+    },
   );
 
   const beatmapLeaderboard = beatmapLeaderboardQuery.data;
@@ -53,7 +55,7 @@ export default function BeatmapLeaderboard({
     total_count: 0,
   };
 
-  const userScore = scores.find((s) => self && self.user_id === s.user_id); // TODO: Bad! Should call request to the backend, but there is no current route to get users PB, implement!
+  const userScore = scores.find(s => self && self.user_id === s.user_id); // TODO: Bad! Should call request to the backend, but there is no current route to get users PB, implement!
 
   return (
     <>
@@ -63,7 +65,7 @@ export default function BeatmapLeaderboard({
         setMods={setMods}
         ignoreMods={[Mods.RELAX, Mods.RELAX2, Mods.SCORE_V2]}
       />
-      {scores.length > 0 && userScore?.leaderboard_rank != 1 && (
+      {scores.length > 0 && userScore?.leaderboard_rank !== 1 && (
         <ScoreLeaderboardData score={scores[0]} beatmap={beatmap} />
       )}
       {self && userScore && (

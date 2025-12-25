@@ -1,16 +1,17 @@
-import { StatsSnapshotResponse, StatsSnapshotsResponse } from "@/lib/types/api";
-import { timeSince } from "@/lib/utils/timeSince";
 import {
+  Area,
   AreaChart,
   CartesianGrid,
+  Legend,
+  ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
-  Area,
-  ResponsiveContainer,
-  Legend,
 } from "recharts";
+
 import { useT } from "@/lib/i18n/utils";
+import type { StatsSnapshotResponse, StatsSnapshotsResponse } from "@/lib/types/api";
+import { timeSince } from "@/lib/utils/timeSince";
 
 interface Props {
   data: StatsSnapshotsResponse;
@@ -19,26 +20,28 @@ interface Props {
 
 export default function UserStatsChart({ data, value: chartValue }: Props) {
   const t = useT("pages.user.components.statsChart");
-  if (data.snapshots.length === 0) return null;
+  if (data.snapshots.length === 0)
+    return null;
 
   data.snapshots = data.snapshots.filter(
-    (s) => s.country_rank > 0 && s.global_rank > 0
+    s => s.country_rank > 0 && s.global_rank > 0,
   );
 
   const snapshots = [...data.snapshots];
 
-  var currentSnapshot = snapshots.pop();
-  if (!currentSnapshot) return null;
+  const currentSnapshot = snapshots.pop();
+  if (!currentSnapshot)
+    return null;
 
-  var result: StatsSnapshotResponse[] = [];
+  let result: StatsSnapshotResponse[] = [];
 
   if (snapshots.length > 0) {
     snapshots.sort(
-      (a, b) => new Date(a.saved_at).getTime() - new Date(b.saved_at).getTime()
+      (a, b) => new Date(a.saved_at).getTime() - new Date(b.saved_at).getTime(),
     );
 
     let lastValidSnapshot: StatsSnapshotResponse | null = null;
-    let currentDate = new Date(snapshots[0].saved_at);
+    const currentDate = new Date(snapshots[0].saved_at);
     const endDate = new Date();
 
     let snapshotIndex = 0;
@@ -48,42 +51,43 @@ export default function UserStatsChart({ data, value: chartValue }: Props) {
         break;
       }
 
-      let formattedDate = currentDate.toDateString();
+      const formattedDate = currentDate.toDateString();
 
       const formattedCurrentDate = new Date(
-        snapshots[snapshotIndex].saved_at
+        snapshots[snapshotIndex].saved_at,
       ).toDateString();
 
       if (
-        snapshotIndex <= snapshots.length &&
-        formattedDate === formattedCurrentDate
+        snapshotIndex <= snapshots.length
+        && formattedDate === formattedCurrentDate
       ) {
         lastValidSnapshot = { ...snapshots[snapshotIndex] };
         result.push(lastValidSnapshot);
-      } else if (lastValidSnapshot) {
+      }
+      else if (lastValidSnapshot) {
         result.push({ ...lastValidSnapshot, saved_at: formattedDate });
       }
 
       if (
-        new Date(formattedCurrentDate).getTime() >=
-        new Date(formattedDate).getTime()
+        new Date(formattedCurrentDate).getTime()
+          >= new Date(formattedDate).getTime()
       ) {
         currentDate.setDate(currentDate.getDate() + 1);
       }
 
       if (
-        new Date(formattedCurrentDate).getTime() <=
-        new Date(formattedDate).getTime()
+        new Date(formattedCurrentDate).getTime()
+          <= new Date(formattedDate).getTime()
       ) {
         snapshotIndex++;
       }
     }
 
-    var isCurrentDay = (n: number) =>
+    const isCurrentDay = (n: number) =>
       Math.round((n - Date.now()) / 1000 / (3600 * 24)) === 0;
 
-    var isResultHasCurrentDay = result.some((s) =>
-      isCurrentDay(new Date(s.saved_at).getTime())
+    const isResultHasCurrentDay = result.some(s =>
+      isCurrentDay(new Date(s.saved_at).getTime()),
     );
 
     if (isResultHasCurrentDay) {
@@ -102,13 +106,13 @@ export default function UserStatsChart({ data, value: chartValue }: Props) {
     };
   });
 
-  const isChartReversed = chartValue == "rank";
+  const isChartReversed = chartValue === "rank";
 
   return (
     <ResponsiveContainer
       width="100%"
       height="100%"
-      className="min-h-52 h-52 max-h-52"
+      className="h-52 max-h-52 min-h-52"
     >
       <AreaChart data={chartData}>
         <CartesianGrid stroke="" />
@@ -122,8 +126,8 @@ export default function UserStatsChart({ data, value: chartValue }: Props) {
         />
         <YAxis
           type="number"
-          tickFormatter={(value: number, index: number) => {
-            return Math.round(value).toFixed();
+          tickFormatter={(value: number) => {
+            return Math.round(value).toFixed(0);
           }}
           reversed={isChartReversed}
         />
@@ -139,7 +143,7 @@ export default function UserStatsChart({ data, value: chartValue }: Props) {
         <Legend />
 
         <Tooltip
-          formatter={(value) => [
+          formatter={value => [
             t("tooltip", {
               value: Math.round(value as number),
               type: t(`types.${chartValue}`),

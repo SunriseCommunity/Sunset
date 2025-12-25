@@ -1,24 +1,25 @@
 "use client";
 
-import React, { useContext, useState, useMemo } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
+import * as React from "react";
+import { useContext, useMemo, useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
+import { MobileDrawerContext } from "@/components/Header/HeaderMobileDrawer";
 import { Button } from "@/components/ui/button";
 import {
-  DialogHeader,
-  DialogFooter,
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
+  DialogFooter,
+  DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogClose,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import useSelf from "@/lib/hooks/useSelf";
-import useRestriction from "@/lib/hooks/useRestriction";
-import { useAuthorize } from "@/lib/hooks/api/auth/useAuthorize";
-
-import Cookies from "js-cookie";
 import {
   Form,
   FormControl,
@@ -27,13 +28,12 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useToast } from "@/hooks/use-toast";
+import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { useRouter } from "next/navigation";
-import { MobileDrawerContext } from "@/components/Header/HeaderMobileDrawer";
+import { useToast } from "@/hooks/use-toast";
+import { useAuthorize } from "@/lib/hooks/api/auth/useAuthorize";
+import useRestriction from "@/lib/hooks/useRestriction";
+import useSelf from "@/lib/hooks/useSelf";
 import { useT } from "@/lib/i18n/utils";
 
 export default function HeaderLoginDialog() {
@@ -70,7 +70,7 @@ export default function HeaderLoginDialog() {
             message: t("validation.passwordMaxLength"),
           }),
       }),
-    [t]
+    [t],
   );
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -116,7 +116,7 @@ export default function HeaderLoginDialog() {
 
           setError(errorMessage || "Unknown error");
         },
-      }
+      },
     );
   }
 
@@ -169,6 +169,7 @@ export default function HeaderLoginDialog() {
             <DialogFooter>
               <Button
                 onClick={() => {
+                  // eslint-disable-next-line @typescript-eslint/no-unused-expressions -- TODO: I assume this was a typo?
                   MobileDrawerContext.Provider;
                 }}
                 type="submit"

@@ -1,6 +1,7 @@
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import type { Metadata } from "next";
+
 import { AppSidebar } from "@/app/(admin)/components/AppSidebar";
-import { Metadata } from "next";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
 export const metadata: Metadata = {
   title: "Admin Panel | osu!sunrise",
@@ -22,7 +23,7 @@ export default function AdminLayout({
           <SidebarTrigger />
         </div>
 
-        <div className="py-4 px-4 w-full max-w-7xl mx-auto">{children}</div>
+        <div className="mx-auto w-full max-w-7xl p-4">{children}</div>
       </main>
     </SidebarProvider>
   );

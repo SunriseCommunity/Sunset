@@ -1,18 +1,19 @@
 "use client";
 
+import { useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { MultiSelect } from "@/components/ui/multi-select";
 import { UserEventType } from "@/lib/types/api";
-import { useState } from "react";
 
 const userEventTypeList = Object.values(UserEventType).map((v) => {
   return {
     value: v,
     label: v
-      .replace(/([A-Z])/g, " $1")
+      .replaceAll(/([A-Z])/g, " $1")
       .trim()
-      .replace(/^./, (str) => str.toUpperCase()),
+      .replace(/^./, str => str.toUpperCase()),
   };
 });
 
@@ -30,7 +31,7 @@ export function AdminUserEventsFilters({
   defaultEventTypes,
 }: AdminUserEventsFiltersProps) {
   const [eventTypes, setEventTypes] = useState<UserEventType[] | null>(
-    defaultEventTypes
+    defaultEventTypes,
   );
 
   const handleApplyFilters = () => {
@@ -47,11 +48,10 @@ export function AdminUserEventsFilters({
           <MultiSelect
             options={userEventTypeList}
             defaultValue={eventTypes ?? []}
-            onValueChange={(v) =>
+            onValueChange={v =>
               setEventTypes(
-                !v.includes("") ? (v as UserEventType[]) : null
-              )
-            }
+                !v.includes("") ? (v as UserEventType[]) : null,
+              )}
             placeholder="Select event types..."
           />
         </div>
@@ -69,4 +69,3 @@ export function AdminUserEventsFilters({
     </Card>
   );
 }
-

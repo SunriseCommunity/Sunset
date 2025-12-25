@@ -1,48 +1,43 @@
 "use client";
 
-import type React from "react";
-
+import { ChevronDown, ChevronsUp } from "lucide-react";
+import type * as React from "react";
 import { useState } from "react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Search, Filter, ChevronDown, Rocket, ChevronsUp } from "lucide-react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import { BeatmapsSearchFilters } from "@/components/Beatmaps/Search/BeatmapsSearchFilters";
-import { BeatmapSetCard } from "@/components/Beatmaps/BeatmapSetCard";
-import { twMerge } from "tailwind-merge";
 import BeatmapSetOverview from "@/app/(website)/user/[id]/components/BeatmapSetOverview";
-import useDebounce from "@/lib/hooks/useDebounce";
-import { Card, CardContent } from "@/components/ui/card";
-import { useBeatmapSetGetHypedSets } from "@/lib/hooks/api/beatmap/useBeatmapSetHypedSets";
+import { BeatmapSetCard } from "@/components/Beatmaps/BeatmapSetCard";
 import PrettyHeader from "@/components/General/PrettyHeader";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useBeatmapSetGetHypedSets } from "@/lib/hooks/api/beatmap/useBeatmapSetHypedSets";
 
 export default function Page() {
   const [viewMode, setViewMode] = useState("grid");
 
   const { data, setSize, size, isLoading } = useBeatmapSetGetHypedSets();
 
-  const beatmapsets = data?.flatMap((item) => item.sets);
-  const totalCount =
-    data?.find((item) => item.total_count !== undefined)?.total_count ?? 0;
+  const beatmapsets = data?.flatMap(item => item.sets);
+  const totalCount
+    = data?.find(item => item.total_count !== undefined)?.total_count ?? 0;
 
-  const isLoadingMore =
-    isLoading || (size > 0 && data && typeof data[size - 1] === "undefined");
+  const isLoadingMore
+    = isLoading || (size > 0 && data && data[size - 1] === undefined);
 
   const handleShowMore = () => {
     setSize(size + 1);
   };
 
   return (
-    <div className="flex flex-col w-full space-y-4">
+    <div className="flex w-full flex-col space-y-4">
       <PrettyHeader
         icon={<ChevronsUp />}
         text="Beatmap requests"
         roundBottom={true}
       />
       <div className="space-y-2">
-        <div className="flex place-content-between items-centerflex-row">
-          <div className="px-3 py-1 font-medium items-center flex bg-card shadow rounded-lg text-sm">
+        <div className="items-centerflex-row flex place-content-between">
+          <div className="flex items-center rounded-lg bg-card px-3 py-1 text-sm font-medium shadow">
             Total requests: {totalCount}
           </div>
           <div className="flex items-center space-x-2">
@@ -52,7 +47,7 @@ export default function Page() {
               onValueChange={setViewMode}
               className="h-9 "
             >
-              <TabsList className="grid bg-card h-9 w-[120px] shadow grid-cols-2">
+              <TabsList className="grid h-9 w-[120px] grid-cols-2 bg-card shadow">
                 <TabsTrigger value="grid">Grid</TabsTrigger>
                 <TabsTrigger value="list">List</TabsTrigger>
               </TabsList>
@@ -64,26 +59,26 @@ export default function Page() {
           <Tabs value={viewMode}>
             <TabsContent value="grid" className="m-0">
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                {beatmapsets?.map((beatmapSet, i) => (
-                  <BeatmapSetCard key={i} beatmapSet={beatmapSet} />
+                {beatmapsets?.map(beatmapSet => (
+                  <BeatmapSetCard key={`beatmap-set-card-${beatmapSet.id}`} beatmapSet={beatmapSet} />
                 ))}
               </div>
             </TabsContent>
             <TabsContent value="list" className="m-0">
               <Card className="p-4">
-                <CardContent className="grid grid-cols-1 gap-4 sm:grid-cols-2 p-0">
-                  {beatmapsets?.map((beatmapSet, i) => (
-                    <BeatmapSetOverview key={i} beatmapSet={beatmapSet} />
+                <CardContent className="grid grid-cols-1 gap-4 p-0 sm:grid-cols-2">
+                  {beatmapsets?.map(beatmapSet => (
+                    <BeatmapSetOverview key={`beatmap-set-overview-${beatmapSet.id}`} beatmapSet={beatmapSet} />
                   ))}
                 </CardContent>
               </Card>
             </TabsContent>
           </Tabs>
           {beatmapsets && beatmapsets?.length < totalCount && (
-            <div className="flex justify-center mt-4">
+            <div className="mt-4 flex justify-center">
               <Button
                 onClick={handleShowMore}
-                className="w-full md:w-1/2 flex items-center justify-center"
+                className="flex w-full items-center justify-center md:w-1/2"
                 isLoading={isLoadingMore}
                 variant="secondary"
               >

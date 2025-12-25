@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
-import { UserBadge, UserResponse, BeatmapStatusWeb } from "@/lib/types/api";
+
+import type { UserResponse } from "@/lib/types/api";
+import { BeatmapStatusWeb, UserBadge } from "@/lib/types/api";
 import { tryParseNumber } from "@/lib/utils/type.util";
 
-const statusMap: { [key: number]: BeatmapStatusWeb } = {
+const statusMap: Record<number, BeatmapStatusWeb> = {
   0: BeatmapStatusWeb.GRAVEYARD,
   1: BeatmapStatusWeb.PENDING,
   2: BeatmapStatusWeb.RANKED,
@@ -17,11 +19,11 @@ export async function GET(request: Request) {
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return NextResponse.json(
         { error: "Unauthorized: Missing or invalid authorization header" },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
-    const token = authHeader.substring(7);
+    const token = authHeader.slice(7);
 
     const apiBaseUrl = `https://api.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}`;
     const userResponse = await fetch(`${apiBaseUrl}/user/self`, {
@@ -33,7 +35,7 @@ export async function GET(request: Request) {
     if (!userResponse.ok) {
       return NextResponse.json(
         { error: "Unauthorized: Invalid token" },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
@@ -42,7 +44,7 @@ export async function GET(request: Request) {
     if (!user.badges.includes(UserBadge.BAT)) {
       return NextResponse.json(
         { error: "Forbidden: BAT role required" },
-        { status: 403 }
+        { status: 403 },
       );
     }
 
@@ -52,7 +54,7 @@ export async function GET(request: Request) {
     if (!beatmapId) {
       return NextResponse.json(
         { error: "Missing beatmapId parameter" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -60,7 +62,7 @@ export async function GET(request: Request) {
     if (!parsedBeatmapId) {
       return NextResponse.json(
         { error: "Invalid beatmapId parameter" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -68,13 +70,13 @@ export async function GET(request: Request) {
       `https://akatsuki.gg/api/v1/beatmaps?b=${parsedBeatmapId}`,
       {
         credentials: "omit",
-      }
+      },
     );
 
     if (!akatsukiResponse.ok) {
       return NextResponse.json(
         { error: "Failed to fetch from Akatsuki" },
-        { status: akatsukiResponse.status }
+        { status: akatsukiResponse.status },
       );
     }
 
@@ -85,10 +87,11 @@ export async function GET(request: Request) {
       ranked: akatsukiData?.ranked,
       suggestedStatus: suggestedStatus || null,
     });
-  } catch (error: any) {
+  }
+  catch (error: any) {
     return NextResponse.json(
       { error: error.message || "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

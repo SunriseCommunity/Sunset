@@ -1,6 +1,7 @@
+import Cookies from "js-cookie";
+
 import { kyInstance } from "@/lib/services/fetcher";
 import { clearAuthCookies } from "@/lib/utils/clearAuthCookies";
-import Cookies from "js-cookie";
 
 export async function getUserToken(): Promise<string | null> {
   const token = Cookies.get("session_token");
@@ -29,13 +30,14 @@ export async function getUserToken(): Promise<string | null> {
     });
 
     return data.token;
-  } catch (error) {
+  }
+  catch {
     clearAuthCookies();
     return null;
   }
 }
 
-const refreshToken = async ({ arg }: { arg: { refresh_token: string } }) => {
+async function refreshToken({ arg }: { arg: { refresh_token: string } }) {
   return await kyInstance
     .post<{
       token: string;
@@ -45,6 +47,6 @@ const refreshToken = async ({ arg }: { arg: { refresh_token: string } }) => {
         ...arg,
       },
     })
-    .then((res) => res.json())
+    .then(res => res.json())
     .catch(() => null);
-};
+}

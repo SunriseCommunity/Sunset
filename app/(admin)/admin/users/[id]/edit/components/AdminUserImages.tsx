@@ -1,17 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { UserSensitiveResponse } from "@/lib/types/api";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Image as ImageIcon, Upload } from "lucide-react";
+import { useEffect, useState } from "react";
+
 import ImageSelect from "@/components/General/ImageSelect";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useToast } from "@/hooks/use-toast";
 import {
   useAdminUploadAvatar,
   useAdminUploadBanner,
 } from "@/lib/hooks/api/user/useAdminUserEdit";
-import { useToast } from "@/hooks/use-toast";
+import type { UserSensitiveResponse } from "@/lib/types/api";
 
 export default function AdminUserImages({
   user,
@@ -23,14 +24,14 @@ export default function AdminUserImages({
 
   const [activeTab, setActiveTab] = useState("avatar");
 
-  const { trigger: uploadAvatar, isMutating: isUploadingAvatar } =
-    useAdminUploadAvatar(user.user_id);
-  const { trigger: uploadBanner, isMutating: isUploadingBanner } =
-    useAdminUploadBanner(user.user_id);
+  const { trigger: uploadAvatar, isMutating: isUploadingAvatar }
+    = useAdminUploadAvatar(user.user_id);
+  const { trigger: uploadBanner, isMutating: isUploadingBanner }
+    = useAdminUploadBanner(user.user_id);
   const { toast } = useToast();
 
   useEffect(() => {
-    const fetches: Promise<void>[] = [];
+    const fetches: Array<Promise<void>> = [];
     let isCancelled = false;
 
     if (avatarFile == null) {
@@ -39,7 +40,8 @@ export default function AdminUserImages({
       fetches.push(
         fetch(avatarUrl)
           .then(async (res) => {
-            if (isCancelled) return;
+            if (isCancelled)
+              return;
             const file = await res.blob();
             if (!isCancelled) {
               setAvatarFile(new File([file], "file.png"));
@@ -49,7 +51,7 @@ export default function AdminUserImages({
             if (!isCancelled) {
               console.error("Failed to fetch avatar:", error);
             }
-          })
+          }),
       );
     }
 
@@ -59,7 +61,8 @@ export default function AdminUserImages({
       fetches.push(
         fetch(bannerUrl)
           .then(async (res) => {
-            if (isCancelled) return;
+            if (isCancelled)
+              return;
             const file = await res.blob();
             if (!isCancelled) {
               setBannerFile(new File([file], "file.png"));
@@ -69,7 +72,7 @@ export default function AdminUserImages({
             if (!isCancelled) {
               console.error("Failed to fetch banner:", error);
             }
-          })
+          }),
       );
     }
 
@@ -82,7 +85,8 @@ export default function AdminUserImages({
 
   const handleUpload = async (type: "avatar" | "banner") => {
     const file = type === "avatar" ? avatarFile : bannerFile;
-    if (!file) return;
+    if (!file)
+      return;
 
     try {
       if (type === "avatar") {
@@ -91,14 +95,16 @@ export default function AdminUserImages({
           title: "Avatar uploaded successfully!",
           variant: "success",
         });
-      } else {
+      }
+      else {
         await uploadBanner(file);
         toast({
           title: "Banner uploaded successfully!",
           variant: "success",
         });
       }
-    } catch (error: any) {
+    }
+    catch (error: any) {
       toast({
         title: `Failed to upload ${type}`,
         description: error?.message || "An error occurred",
@@ -111,7 +117,7 @@ export default function AdminUserImages({
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <ImageIcon className="w-5 h-5" />
+          <ImageIcon className="size-5" />
           Images
         </CardTitle>
       </CardHeader>
@@ -122,7 +128,7 @@ export default function AdminUserImages({
             <TabsTrigger value="banner">Banner</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="avatar" className="space-y-4 mt-4">
+          <TabsContent value="avatar" className="mt-4 space-y-4">
             <ImageSelect
               setFile={setAvatarFile}
               file={avatarFile}
@@ -135,7 +141,7 @@ export default function AdminUserImages({
               isLoading={isUploadingAvatar}
               className="w-full"
             >
-              <Upload className="w-4 h-4 mr-2" />
+              <Upload className="mr-2 size-4" />
               Upload Avatar
             </Button>
             <p className="text-xs text-muted-foreground">
@@ -143,7 +149,7 @@ export default function AdminUserImages({
             </p>
           </TabsContent>
 
-          <TabsContent value="banner" className="space-y-4 mt-4">
+          <TabsContent value="banner" className="mt-4 space-y-4">
             <ImageSelect
               setFile={setBannerFile}
               file={bannerFile}
@@ -156,7 +162,7 @@ export default function AdminUserImages({
               isLoading={isUploadingBanner}
               className="w-full"
             >
-              <Upload className="w-4 h-4 mr-2" />
+              <Upload className="mr-2 size-4" />
               Upload Banner
             </Button>
             <p className="text-xs text-muted-foreground">

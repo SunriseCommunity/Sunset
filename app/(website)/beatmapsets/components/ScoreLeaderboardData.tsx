@@ -1,26 +1,27 @@
-import RoundedContent from "@/components/General/RoundedContent";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Suspense } from "react";
+import { MoreHorizontal } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { Tooltip } from "@/components/Tooltip";
-import { timeSince } from "@/lib/utils/timeSince";
-import toPrettyDate from "@/lib/utils/toPrettyDate";
-import { getGradeColor } from "@/lib/utils/getGradeColor";
+import { Suspense } from "react";
+
+import RoundedContent from "@/components/General/RoundedContent";
 import ScoreStats from "@/components/ScoreStats";
+import { Tooltip } from "@/components/Tooltip";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
-import { MoreHorizontal } from "lucide-react";
-import useSelf from "@/lib/hooks/useSelf";
-import { useDownloadReplay } from "@/lib/hooks/api/score/useDownloadReplay";
 import UserHoverCard from "@/components/UserHoverCard";
-import { BeatmapResponse, ScoreResponse } from "@/lib/types/api";
+import { useDownloadReplay } from "@/lib/hooks/api/score/useDownloadReplay";
+import useSelf from "@/lib/hooks/useSelf";
 import { useT } from "@/lib/i18n/utils";
+import type { BeatmapResponse, ScoreResponse } from "@/lib/types/api";
+import { getGradeColor } from "@/lib/utils/getGradeColor";
+import { timeSince } from "@/lib/utils/timeSince";
+import toPrettyDate from "@/lib/utils/toPrettyDate";
 
 export default function ScoreLeaderboardData({
   score,
@@ -30,20 +31,20 @@ export default function ScoreLeaderboardData({
   beatmap: BeatmapResponse;
 }) {
   return (
-    <RoundedContent className="flex flex-col md:flex-row rounded-lg items-center place-content-between space-y-4 md:space-y-0">
-      <div className="max-w-72 w-full flex items-center">
+    <RoundedContent className="flex flex-col place-content-between items-center space-y-4 rounded-lg md:flex-row md:space-y-0">
+      <div className="flex w-full max-w-72 items-center">
         <div className="flex flex-row items-center space-x-2">
-          <div className="flex flex-col mx-4">
-            <p className="font-bold text-nowrap"># {score.leaderboard_rank}</p>
+          <div className="mx-4 flex flex-col">
+            <p className="text-nowrap font-bold"># {score.leaderboard_rank}</p>
             <p
               className={`text-${getGradeColor(
-                score.grade
-              )} font-bold text-4xl text-shadow`}
+                score.grade,
+              )} text-shadow text-4xl font-bold`}
             >
               {score.grade}
             </p>
           </div>
-          <Avatar className="border-2 border-white h-16 w-16">
+          <Avatar className="size-16 border-2 border-white">
             <Suspense fallback={<AvatarFallback>UA</AvatarFallback>}>
               <Image
                 src={score.user.avatar_url}
@@ -56,14 +57,14 @@ export default function ScoreLeaderboardData({
           <div className="flex flex-col items-start">
             <UserHoverCard user={score.user} asChild>
               <Link
-                className="cursor-pointer font-bold hover:text-primary smooth-transition"
+                className="smooth-transition cursor-pointer font-bold hover:text-primary"
                 href={`/user/${score.user.user_id}`}
               >
                 {score.user.username}
               </Link>
             </UserHoverCard>
             <Tooltip content={toPrettyDate(score.when_played, true)}>
-              <p className="text-muted-foreground text-xs">
+              <p className="text-xs text-muted-foreground">
                 {timeSince(score.when_played, undefined)}
               </p>
             </Tooltip>
@@ -75,7 +76,7 @@ export default function ScoreLeaderboardData({
               height={18}
             />
           </div>
-          <div className="lg:hidden block">
+          <div className="block lg:hidden">
             <ScoreDropdownInfo score={score} />
           </div>
         </div>
@@ -99,9 +100,9 @@ function ScoreDropdownInfo({ score }: { score: ScoreResponse }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="h-8 w-8 p-0">
+        <Button variant="ghost" className="size-8 p-0">
           <span className="sr-only">{t("openMenu")}</span>
-          <MoreHorizontal className="h-4 w-4" />
+          <MoreHorizontal className="size-4" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">

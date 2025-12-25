@@ -1,7 +1,8 @@
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Activity, AlertCircle, BarChart3, Users } from "lucide-react";
+
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useServerStatus } from "@/lib/hooks/api/useServerStatus";
-import { Users, Activity, AlertCircle, BarChart3 } from "lucide-react";
 
 export function ServerStatusCards() {
   const serverStatusQuery = useServerStatus();
@@ -12,7 +13,7 @@ export function ServerStatusCards() {
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Total Users</CardTitle>
-          <Users className="h-4 w-4 text-muted-foreground" />
+          <Users className="size-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
           {serverStatus ? (
@@ -27,7 +28,7 @@ export function ServerStatusCards() {
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Users Online</CardTitle>
-          <Activity className="h-4 w-4 text-muted-foreground" />
+          <Activity className="size-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
           {serverStatus ? (
@@ -37,8 +38,8 @@ export function ServerStatusCards() {
               </div>
               <p className="text-xs text-muted-foreground">
                 {(
-                  (serverStatus.users_online / serverStatus.total_users) *
-                  100
+                  (serverStatus.users_online / serverStatus.total_users)
+                  * 100
                 ).toFixed(2)}
                 % of total users
               </p>
@@ -51,7 +52,7 @@ export function ServerStatusCards() {
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Restrictions</CardTitle>
-          <AlertCircle className="h-4 w-4 text-muted-foreground" />
+          <AlertCircle className="size-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
           {serverStatus ? (
@@ -61,9 +62,9 @@ export function ServerStatusCards() {
               </div>
               <p className="text-xs text-muted-foreground">
                 {(
-                  ((serverStatus.total_restrictions || 0) /
-                    serverStatus.total_users) *
-                  100
+                  ((serverStatus.total_restrictions || 0)
+                    / serverStatus.total_users)
+                  * 100
                 ).toFixed(2)}
                 % of users
               </p>
@@ -76,7 +77,7 @@ export function ServerStatusCards() {
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Total Scores</CardTitle>
-          <BarChart3 className="h-4 w-4 text-muted-foreground" />
+          <BarChart3 className="size-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
           {serverStatus ? (

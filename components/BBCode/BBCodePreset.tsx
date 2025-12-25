@@ -34,25 +34,25 @@ export const allowedTags = [
   "td",
 ];
 
-export const customBBCodePreset = htmlPreset.extend((tags) => ({
+export const customBBCodePreset = htmlPreset.extend(tags => ({
   ...tags,
   br: () => ({ tag: "br" }),
   hr: () => ({ tag: "hr" }),
-  code: (node) => ({
+  code: node => ({
     tag: "pre",
     attrs: {
       className: "p-2 bg-card rounded",
     },
     content: node.content,
   }),
-  c: (node) => ({
+  c: node => ({
     tag: "code",
     attrs: {
       className: "p-1 bg-card rounded",
     },
     content: node.content,
   }),
-  spoiler: (node) => ({
+  spoiler: node => ({
     tag: "span",
     attrs: {
       className: "bg-black text-black",
@@ -74,12 +74,12 @@ export const customBBCodePreset = htmlPreset.extend((tags) => ({
     };
   },
   imagemap: (node, { render }) => {
-    const lines =
-      !!node.content && Object.keys(node.content).length > 0
+    const lines
+      = !!node.content && Object.keys(node.content).length > 0
         ? Object.values(node.content)
             .join(" ")
             .split("[break]")
-            .filter((line) => line.trim() !== "")
+            .filter(line => line.trim() !== "")
         : [];
 
     const imageUrl = lines[0].trim();
@@ -98,7 +98,7 @@ export const customBBCodePreset = htmlPreset.extend((tags) => ({
           style: `position:absolute;display:block;left:${x}%;top:${y}%;width:${width}%;height:${height}%;`,
           ...(title
             ? {
-                title: title,
+                title,
               }
             : {}),
         },
@@ -128,7 +128,7 @@ export const customBBCodePreset = htmlPreset.extend((tags) => ({
       ],
     };
   },
-  centre: (node) => ({
+  centre: node => ({
     tag: "center",
     content: node.content,
   }),
@@ -136,7 +136,8 @@ export const customBBCodePreset = htmlPreset.extend((tags) => ({
     const isOrdered = !!node.attrs && Object.keys(node.attrs).length > 0;
 
     const normalizeContent = (content: any | any[] | undefined): any[] => {
-      if (content === undefined || content === null) return [];
+      if (content === undefined || content === null)
+        return [];
       return Array.isArray(content) ? content : [content];
     };
 
@@ -154,7 +155,8 @@ export const customBBCodePreset = htmlPreset.extend((tags) => ({
             result.push(current);
             current = [];
           }
-        } else if (current != null) {
+        }
+        else if (current != null) {
           current.push(item);
         }
       }
@@ -169,7 +171,7 @@ export const customBBCodePreset = htmlPreset.extend((tags) => ({
     const contentArray = normalizeContent(node.content);
     const splitItems = splitContentByMarker(contentArray);
 
-    const items = splitItems.map((itemContent) => ({
+    const items = splitItems.map(itemContent => ({
       tag: "li",
       content: itemContent,
     }));
@@ -181,14 +183,14 @@ export const customBBCodePreset = htmlPreset.extend((tags) => ({
       content: items,
     };
   },
-  notice: (node) => ({
+  notice: node => ({
     tag: "div",
     attrs: {
       class: "well",
     },
     content: node.content,
   }),
-  quote: (node) => ({
+  quote: node => ({
     tag: "blockquote",
     content: [
       {
@@ -196,7 +198,7 @@ export const customBBCodePreset = htmlPreset.extend((tags) => ({
         attrs: { className: "text-base font-bold" },
         content:
           !!node.attrs && Object.keys(node.attrs).length > 0
-            ? Object.keys(node.attrs).join(" ") + " wrote"
+            ? `${Object.keys(node.attrs).join(" ")} wrote`
             : "",
       },
       {
@@ -205,7 +207,7 @@ export const customBBCodePreset = htmlPreset.extend((tags) => ({
       },
     ],
   }),
-  heading: (node) => ({
+  heading: node => ({
     tag: "h2",
     attrs: { className: "text-2xl font-bold" },
     content: node.content,
@@ -218,13 +220,13 @@ export const customBBCodePreset = htmlPreset.extend((tags) => ({
       node,
       !!node.attrs && Object.keys(node.attrs).length > 0
         ? Object.keys(node.attrs).join(" ")
-        : ""
+        : "",
     );
   },
-  profile: (node) => ({
+  profile: node => ({
     tag: "div",
     attrs: {
-      class: "user-name js-usercard",
+      "class": "user-name js-usercard",
       "data-user-id":
         !!node.attrs && Object.keys(node.attrs).length > 0
           ? Object.keys(node.attrs).join(" ")
@@ -232,7 +234,7 @@ export const customBBCodePreset = htmlPreset.extend((tags) => ({
     },
     content: node.content,
   }),
-  youtube: (node) => ({
+  youtube: node => ({
     tag: "iframe",
     attrs: {
       width: "560",
@@ -246,11 +248,11 @@ export const customBBCodePreset = htmlPreset.extend((tags) => ({
     },
   }),
   size: (node) => {
-    let sizeValue = parseInt(
+    let sizeValue = Number.parseInt(
       !!node.attrs && Object.keys(node.attrs).length > 0
         ? Object.keys(node.attrs).join(" ")
         : "",
-      10
+      10,
     );
 
     const minSize = 30;
@@ -292,7 +294,7 @@ export const customBBCodePreset = htmlPreset.extend((tags) => ({
   },
 }));
 
-const createSpoilerBox = (node: any, label: string) => {
+function createSpoilerBox(node: any, label: string) {
   return {
     tag: "div",
     attrs: {
@@ -327,4 +329,4 @@ const createSpoilerBox = (node: any, label: string) => {
       },
     ],
   };
-};
+}

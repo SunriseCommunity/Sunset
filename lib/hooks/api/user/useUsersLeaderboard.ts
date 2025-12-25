@@ -1,18 +1,19 @@
 "use client";
 
+import useSWR from "swr";
+
 import fetcher from "@/lib/services/fetcher";
-import {
+import type {
   GameMode,
   GetUserLeaderboardResponse,
   LeaderboardSortType,
 } from "@/lib/types/api";
-import useSWR from "swr";
 
 export function useUsersLeaderboard(
   mode: GameMode,
   type: LeaderboardSortType,
   page?: number,
-  limit?: number
+  limit?: number,
 ) {
   return useSWR<GetUserLeaderboardResponse>(
     `user/leaderboard?mode=${mode}&type=${type}${page ? `&page=${page}` : ""}${
@@ -21,6 +22,6 @@ export function useUsersLeaderboard(
     fetcher,
     {
       keepPreviousData: true,
-    }
+    },
   );
 }

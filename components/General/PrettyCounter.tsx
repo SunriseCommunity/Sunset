@@ -6,20 +6,18 @@ interface Props {
   duration?: number;
 }
 
-export default function PrettyCounter({ value, duration }: Props) {
+export default function PrettyCounter({ value, duration = 1300 }: Props) {
   const [count, setCount] = useState(0);
-
-  if (duration === undefined) {
-    duration = 1300;
-  }
 
   useEffect(() => {
     let startTime = null as null | number;
 
-    const easeOut: (t: number) => number = (t) => --t * t * t + 1;
+    // eslint-disable-next-line no-param-reassign -- intentional
+    const easeOut: (t: number) => number = t => --t * t * t + 1;
 
     const step = (timestamp: number) => {
-      if (!startTime) startTime = timestamp;
+      if (!startTime)
+        startTime = timestamp;
       const progress = timestamp - startTime;
 
       const percentage = Math.min(progress / duration!, 1);

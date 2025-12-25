@@ -3,8 +3,8 @@
 import {
   BoldIcon,
   Box,
+  CloudUpload,
   Heading,
-  Heading6,
   ImagePlus,
   Italic,
   Link as LinkIcon,
@@ -13,11 +13,11 @@ import {
   Map,
   Strikethrough,
 } from "lucide-react";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { CloudUpload } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
 import BBCodeTextField from "@/components/BBCode/BBCodeTextField";
+import { Button } from "@/components/ui/button";
 import {
   HoverCard,
   HoverCardContent,
@@ -30,7 +30,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import Link from "next/link";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 interface BBCodeInputProps {
@@ -134,13 +133,15 @@ export default function BBCodeInput({
   const isMobile = useIsMobile();
 
   useEffect(() => {
-    if (text) return;
+    if (text)
+      return;
 
     setText(defaultText ?? "");
-  }, [defaultText]);
+  }, [defaultText, text]);
 
   const addToText = (beforeText = "", afterText = "") => {
-    if (!textAreaRef.current) return;
+    if (!textAreaRef.current)
+      return;
 
     const textArea = textAreaRef.current;
     const currentText = textArea.value;
@@ -159,18 +160,18 @@ export default function BBCodeInput({
 
     const word = currentText.slice(wordStart, wordEnd);
 
-    const newText =
-      currentText.slice(0, wordStart) +
-      beforeText +
-      word +
-      afterText +
-      currentText.slice(wordEnd);
+    const newText
+      = currentText.slice(0, wordStart)
+        + beforeText
+        + word
+        + afterText
+        + currentText.slice(wordEnd);
 
     setText(newText);
 
     setTimeout(() => {
-      const newCursorPosition =
-        wordStart + beforeText.length + word.length + afterText.length;
+      const newCursorPosition
+        = wordStart + beforeText.length + word.length + afterText.length;
       textArea.selectionStart = newCursorPosition;
       textArea.selectionEnd = newCursorPosition;
       textArea.focus();
@@ -179,13 +180,13 @@ export default function BBCodeInput({
 
   const formattors = (
     <>
-      {formatorsArray.map(({ icon, text, format }, i) => {
+      {formatorsArray.map(({ icon, text, format }) => {
         const { start, end } = format;
         return (
-          <HoverCard openDelay={150} closeDelay={150} key={i}>
+          <HoverCard openDelay={150} closeDelay={150} key={`bbcode-formatter-${text}`}>
             <HoverCardTrigger>
               <Button
-                className="w-8 h-8 rounded-lg"
+                className="size-8 rounded-lg"
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
@@ -201,7 +202,7 @@ export default function BBCodeInput({
         );
       })}
       <Select
-        onValueChange={(v) => addToText(`[size=${v}]`, "[/size]")}
+        onValueChange={v => addToText(`[size=${v}]`, "[/size]")}
         value=""
       >
         <SelectTrigger className="w-[110px] bg-secondary shadow-sm hover:bg-secondary/80 data-[placeholder]:text-secondary-foreground">
@@ -230,16 +231,16 @@ export default function BBCodeInput({
       </div>
 
       <textarea
-        className="bg-card p-2 rounded-lg h-32 text-sm text-current max-h-96 "
+        className="h-32 max-h-96 rounded-lg bg-card p-2 text-sm text-current "
         maxLength={2000}
         value={text ?? ""}
-        onChange={(e) => setText(e.target.value)}
+        onChange={e => setText(e.target.value)}
         ref={textAreaRef}
-      ></textarea>
+      />
 
-      <div className="flex md:flex-row flex-col gap-2 items-center mt-2 flex-wrap justify-end">
+      <div className="mt-2 flex flex-col flex-wrap items-center justify-end gap-2 md:flex-row">
         <Button
-          className="md:w-32 w-full text-sm mr-auto"
+          className="mr-auto w-full text-sm md:w-32"
           isLoading={isSaving}
           onClick={() => onSave(text ?? "")}
           variant="secondary"
@@ -248,7 +249,7 @@ export default function BBCodeInput({
           Save
         </Button>
         {isMobile ? (
-          <div className="flex gap-2 flex-wrap items-center">{formattors}</div>
+          <div className="flex flex-wrap items-center gap-2">{formattors}</div>
         ) : (
           formattors
         )}

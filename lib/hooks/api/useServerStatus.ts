@@ -1,10 +1,11 @@
 "use client";
 
-import { GetStatusResponse } from "@/lib/types/api";
 import useSWR from "swr";
+
+import type { GetStatusResponse } from "@/lib/types/api";
 
 export function useServerStatus() {
   return useSWR<GetStatusResponse>(
-    "status?detailed=true&includeRecentUsers=true"
+    "status?detailed=true&includeRecentUsers=true",
   );
 }

@@ -1,10 +1,12 @@
+import "./globals.css";
+
 import type { Metadata } from "next";
 import { Noto_Sans, Poppins } from "next/font/google";
-import "./globals.css";
-import ScrollUpButton from "@/components/ScrollUpButton";
+import { getLocale, getMessages } from "next-intl/server";
+
 import Providers from "@/components/Providers";
 import ScrollUp from "@/components/ScrollUp";
-import { getLocale, getMessages } from "next-intl/server";
+import ScrollUpButton from "@/components/ScrollUpButton";
 import { getT } from "@/lib/i18n/utils";
 
 const font = Poppins({
@@ -55,7 +57,7 @@ export default async function RootLayout({
       className={`${font.className}`}
       suppressHydrationWarning
     >
-      <body className="bg-background text-current min-h-screen flex flex-col font-medium">
+      <body className="flex min-h-screen flex-col bg-background font-medium text-current">
         <Providers locale={locale} messages={messages}>
           {children}
           <ScrollUp />

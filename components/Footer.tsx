@@ -1,34 +1,33 @@
 import {
-  BookCopy,
   Github,
   ServerCrash,
-  UsersRoundIcon,
   VoteIcon,
 } from "lucide-react";
+
 import { getT } from "@/lib/i18n/utils";
 
 export default async function Footer() {
   const t = await getT("components.footer");
   return (
-    <footer className="border-t-2 text-current p-4 text-sm text-center space-y-6 bg-background/50">
+    <footer className="space-y-6 border-t-2 bg-background/50 p-4 text-center text-sm text-current">
       {process.env.NEXT_PUBLIC_OSU_SERVER_LIST_LINK && (
         <a
           href={process.env.NEXT_PUBLIC_OSU_SERVER_LIST_LINK}
-          className="flex items-center justify-center space-x-1 font-bold hover:scale-105  smooth-transition cursor-pointer "
+          className="smooth-transition flex cursor-pointer items-center justify-center space-x-1  font-bold hover:scale-105 "
         >
           <VoteIcon className="mr-1" />
-          <p className="from-stone-400 via-orange-300 to-amber-600 bg-gradient-to-r text-transparent bg-clip-text bg-size-300 animate-gradient ">
+          <p className="animate-gradient bg-gradient-to-r from-stone-400 via-orange-300 to-amber-600 bg-size-300 bg-clip-text text-transparent ">
             {t("voteMessage")}
           </p>
         </a>
       )}
 
-      <div className="md:flex grid justify-center space-x-4">
+      <div className="grid justify-center space-x-4 md:flex">
         <p>{t("copyright")}</p>
         <p>•</p>
         <a
           href="https://github.com/SunriseCommunity"
-          className="flex items-center justify-center space-x-1 hover:text-primary smooth-transition cursor-pointer"
+          className="smooth-transition flex cursor-pointer items-center justify-center space-x-1 hover:text-primary"
         >
           <Github className="mr-1" />
           {t("sourceCode")}
@@ -36,7 +35,7 @@ export default async function Footer() {
         <p>•</p>
         <a
           href={`https://uptime.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/`}
-          className="flex items-center justify-center space-x-1 hover:text-primary smooth-transition cursor-pointer"
+          className="smooth-transition flex cursor-pointer items-center justify-center space-x-1 hover:text-primary"
         >
           <ServerCrash className="mr-1" />
           {t("serverStatus")}

@@ -5,8 +5,8 @@ import { useToast } from "@/hooks/use-toast";
 import { useAdminEditDescription } from "@/lib/hooks/api/user/useAdminUserEdit";
 import { useEditDescription } from "@/lib/hooks/api/user/useEditDescription";
 import useSelf from "@/lib/hooks/useSelf";
-import { UserResponse } from "@/lib/types/api";
 import { useT } from "@/lib/i18n/utils";
+import type { UserResponse } from "@/lib/types/api";
 
 export default function ChangeDescriptionInput({
   user,
@@ -14,13 +14,12 @@ export default function ChangeDescriptionInput({
   user: UserResponse;
 }) {
   const t = useT("pages.settings.components.description");
-  const tCommon = useT("pages.settings.common");
   const self = useSelf();
 
-  const { trigger: triggerSelf, isMutating: isUpdatingSelfDescription } =
-    useEditDescription();
-  const { trigger: triggerUser, isMutating: isUpdatingUserDescription } =
-    useAdminEditDescription(user.user_id);
+  const { trigger: triggerSelf, isMutating: isUpdatingSelfDescription }
+    = useEditDescription();
+  const { trigger: triggerUser, isMutating: isUpdatingUserDescription }
+    = useAdminEditDescription(user.user_id);
 
   const { toast } = useToast();
 
@@ -44,7 +43,7 @@ export default function ChangeDescriptionInput({
             variant: "destructive",
           });
         },
-      }
+      },
     );
   };
 

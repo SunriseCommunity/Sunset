@@ -1,7 +1,8 @@
 "use client";
 
-import { GameMode, UserResponse, UserWithStats } from "@/lib/types/api";
 import useSWR from "swr";
+
+import type { GameMode, UserResponse, UserWithStats } from "@/lib/types/api";
 
 export function useUserSelf() {
   return useSWR<UserResponse>("user/self");

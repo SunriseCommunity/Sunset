@@ -1,6 +1,6 @@
 import Cookies from "js-cookie";
 
-export const playtimeToString = (playtime: number) => {
+export function playtimeToString(playtime: number) {
   const locale = Cookies.get("locale") || "en";
 
   const hours = Math.floor(playtime / 1000 / 3600);
@@ -42,4 +42,4 @@ export const playtimeToString = (playtime: number) => {
   });
 
   return listFormatter.format(parts);
-};
+}

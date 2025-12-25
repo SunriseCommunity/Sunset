@@ -1,18 +1,37 @@
 "use client";
 
-import {
+import type {
   ColumnDef,
+  OnChangeFn,
+  PaginationState,
+  SortingState,
+  VisibilityState,
+} from "@tanstack/react-table";
+import {
   flexRender,
   getCoreRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  OnChangeFn,
-  PaginationState,
-  SortingState,
   useReactTable,
-  VisibilityState,
 } from "@tanstack/react-table";
+import {
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
+} from "lucide-react";
+import * as React from "react";
+import { createContext, useEffect, useState } from "react";
 
+import ImageWithFallback from "@/components/ImageWithFallback";
+import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -21,28 +40,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  ChevronLeft,
-  ChevronRight,
-  ChevronsLeft,
-  ChevronsRight,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { createContext, useEffect, useState } from "react";
-import ImageWithFallback from "@/components/ImageWithFallback";
-import React from "react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { LeaderboardSortType, UserResponse } from "@/lib/types/api";
 import { useT } from "@/lib/i18n/utils";
+import type { UserResponse } from "@/lib/types/api";
+import { LeaderboardSortType } from "@/lib/types/api";
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
+  columns: Array<ColumnDef<TData, TValue>>;
   data: TData[];
   totalCount: number;
   leaderboardType: LeaderboardSortType;
@@ -66,8 +69,8 @@ export function UserDataTable<TData, TValue>({
   const t = useT("pages.leaderboard.table");
   const [sorting, setSorting] = useState<SortingState>([]);
 
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
+  const [columnVisibility, setColumnVisibility]
+    = React.useState<VisibilityState>({});
 
   const pageCount = Math.ceil(totalCount / pagination.pageSize);
 
@@ -75,7 +78,7 @@ export function UserDataTable<TData, TValue>({
     data,
     columns,
     manualPagination: true,
-    pageCount: pageCount,
+    pageCount,
     onPaginationChange: setPagination,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -86,22 +89,23 @@ export function UserDataTable<TData, TValue>({
   });
 
   useEffect(() => {
-    if (leaderboardType == LeaderboardSortType.PP) {
+    if (leaderboardType === LeaderboardSortType.PP) {
       table.getColumn("ranked_score")?.toggleVisibility(false);
       table.getColumn("pp")?.toggleVisibility(true);
-    } else if (leaderboardType == LeaderboardSortType.SCORE) {
+    }
+    else if (leaderboardType === LeaderboardSortType.SCORE) {
       table.getColumn("ranked_score")?.toggleVisibility(true);
       table.getColumn("pp")?.toggleVisibility(false);
     }
-  }, [leaderboardType]);
+  }, [leaderboardType, table]);
 
   return (
     <div>
       <div className="rounded-md border">
-        <UserTableContext.Provider value={table}>
+        <UserTableContext value={table}>
           <Table>
             <TableHeader>
-              {table.getHeaderGroups().map((headerGroup) => (
+              {table.getHeaderGroups().map(headerGroup => (
                 <TableRow key={headerGroup.id}>
                   {headerGroup.headers.map((header) => {
                     return (
@@ -110,7 +114,7 @@ export function UserDataTable<TData, TValue>({
                           ? null
                           : flexRender(
                               header.column.columnDef.header,
-                              header.getContext()
+                              header.getContext(),
                             )}
                       </TableHead>
                     );
@@ -120,17 +124,17 @@ export function UserDataTable<TData, TValue>({
             </TableHeader>
             <TableBody>
               {table.getRowModel().rows?.length ? (
-                table.getRowModel().rows.map((row) => (
+                table.getRowModel().rows.map(row => (
                   <TableRow
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
-                    className="relative overflow-hidden isolate group smooth-transition hover:translate-x-2"
+                    className="smooth-transition group relative isolate overflow-hidden hover:translate-x-2"
                   >
-                    {row.getVisibleCells().map((cell) => (
+                    {row.getVisibleCells().map(cell => (
                       <TableCell key={cell.id}>
                         {flexRender(
                           cell.column.columnDef.cell,
-                          cell.getContext()
+                          cell.getContext(),
                         )}
                       </TableCell>
                     ))}
@@ -138,10 +142,7 @@ export function UserDataTable<TData, TValue>({
                     <>
                       <div className="absolute inset-0 -z-10 overflow-hidden">
                         <ImageWithFallback
-                          src={
-                            (row.original as { user: UserResponse }).user
-                              .banner_url + "&default=false"
-                          }
+                          src={`${(row.original as { user: UserResponse }).user.banner_url}&default=false`}
                           alt="user bg"
                           fill={true}
                           objectFit="cover"
@@ -150,7 +151,7 @@ export function UserDataTable<TData, TValue>({
                           fallBackClassName="opacity-0 group-hover:opacity-30"
                         />
                       </div>
-                      <div className="absolute inset-0 bg-gradient-to-l from-accent to-accent/75 via-accent group-hover:to-accent/50 -z-10 -mx-1 smooth-transition" />
+                      <div className="smooth-transition absolute inset-0 -z-10 -mx-1 bg-gradient-to-l from-accent via-accent to-accent/75 group-hover:to-accent/50" />
                     </>
                   </TableRow>
                 ))
@@ -166,14 +167,13 @@ export function UserDataTable<TData, TValue>({
               )}
             </TableBody>
           </Table>
-        </UserTableContext.Provider>
+        </UserTableContext>
       </div>
-      <div className="grid md:place-content-between py-4 md:space-y-0 space-y-4 md:flex">
+      <div className="grid space-y-4 py-4 md:flex md:place-content-between md:space-y-0">
         <div className="flex items-center space-x-2">
           <Select
-            onValueChange={(v) =>
-              setPagination({ pageIndex: 0, pageSize: Number(v) })
-            }
+            onValueChange={v =>
+              setPagination({ pageIndex: 0, pageSize: Number(v) })}
             defaultValue={pagination.pageSize.toString()}
           >
             <SelectTrigger className="w-[80px]">
@@ -193,11 +193,11 @@ export function UserDataTable<TData, TValue>({
             {t("pagination.showing", {
               start: Math.min(
                 pagination.pageIndex * pagination.pageSize + 1,
-                totalCount
+                totalCount,
               ),
               end: Math.min(
                 (pagination.pageIndex + 1) * pagination.pageSize,
-                totalCount
+                totalCount,
               ),
               total: totalCount,
             })}

@@ -1,25 +1,30 @@
+import { ShieldAlert, ShieldCheck } from "lucide-react";
+import Image from "next/image";
+import type { ReactNode } from "react";
+import { useState } from "react";
+
 import {
-  AlertDialogHeader,
-  AlertDialogFooter,
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {
-  DialogHeader,
-  DialogFooter,
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
+  DialogFooter,
+  DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogClose,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import {
@@ -31,10 +36,7 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { useAdminEditRestriction } from "@/lib/hooks/api/user/useAdminUserEdit";
-import { UserSensitiveResponse } from "@/lib/types/api";
-import { ShieldCheck, ShieldAlert } from "lucide-react";
-import Image from "next/image";
-import { ReactNode, useState } from "react";
+import type { UserSensitiveResponse } from "@/lib/types/api";
 
 const RESTRICTION_REASONS = [
   "Cheating/Hacking",
@@ -50,7 +52,7 @@ export default function AdminUserRestrictButton({
   user: UserSensitiveResponse;
 }) {
   const { isMutating: isChangingRestriction } = useAdminEditRestriction(
-    user.user_id
+    user.user_id,
   );
 
   return (
@@ -61,7 +63,7 @@ export default function AdminUserRestrictButton({
             className="w-full bg-green-500 hover:bg-green-600"
             disabled={isChangingRestriction}
           >
-            <ShieldCheck className="w-4 h-4 mr-2" />
+            <ShieldCheck className="mr-2 size-4" />
             Unrestrict User
           </Button>
         </DialogConfirmActionReason>
@@ -72,7 +74,7 @@ export default function AdminUserRestrictButton({
             className="w-full"
             disabled={isChangingRestriction}
           >
-            <ShieldAlert className="w-4 h-4 mr-2" />
+            <ShieldAlert className="mr-2 size-4" />
             Restrict User
           </Button>
         </DialogSelectRestrictionReason>
@@ -100,14 +102,15 @@ function DialogSelectRestrictionReason({
       onOpenChange={setShowRestrictionDialog}
     >
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent onPointerDownOutside={(e) => e.preventDefault()}>
+      <DialogContent onPointerDownOutside={e => e.preventDefault()}>
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <ShieldAlert className="w-5 h-5 text-destructive" />
+            <ShieldAlert className="size-5 text-destructive" />
             Restrict User
           </DialogTitle>
           <DialogDescription>
-            Select a reason for restricting{" "}
+            Select a reason for restricting
+            {" "}
             <span className="font-semibold text-foreground">
               {user.username}
             </span>
@@ -125,7 +128,7 @@ function DialogSelectRestrictionReason({
                 <SelectValue placeholder="Select a reason" />
               </SelectTrigger>
               <SelectContent>
-                {[...RESTRICTION_REASONS, "Other"].map((reason) => (
+                {[...RESTRICTION_REASONS, "Other"].map(reason => (
                   <SelectItem key={reason} value={reason}>
                     {reason}
                   </SelectItem>
@@ -138,12 +141,11 @@ function DialogSelectRestrictionReason({
             <div className="space-y-2">
               <Label>Custom Reason:</Label>
               <textarea
-                className="bg-card p-2 rounded-lg h-32 text-sm text-current max-h-96 w-full"
+                className="h-32 max-h-96 w-full rounded-lg bg-card p-2 text-sm text-current"
                 value={restrictionReasonCustom}
                 maxLength={256}
                 onChange={(e: any) =>
-                  setRestrictionReasonCustom(e.target.value)
-                }
+                  setRestrictionReasonCustom(e.target.value)}
                 placeholder="Enter the specific reason..."
                 rows={4}
               />
@@ -166,12 +168,10 @@ function DialogSelectRestrictionReason({
             >
               <Button
                 variant="destructive"
-                onSelect={(e) => e.preventDefault()}
-                disabled={
-                  restrictionReasonType === "" ||
-                  (restrictionReasonType === "Other" &&
-                    restrictionReasonCustom.trim() === "")
-                }
+                onSelect={e => e.preventDefault()}
+                disabled={restrictionReasonType === ""
+                  || (restrictionReasonType === "Other"
+                    && restrictionReasonCustom.trim() === "")}
               >
                 Proceed
               </Button>
@@ -198,8 +198,8 @@ function DialogConfirmActionReason({
 
   const { toast } = useToast();
 
-  const { trigger: editRestriction, isMutating: isChangingRestriction } =
-    useAdminEditRestriction(user.user_id);
+  const { trigger: editRestriction, isMutating: isChangingRestriction }
+    = useAdminEditRestriction(user.user_id);
 
   const handleConfirmRestriction = async () => {
     try {
@@ -221,7 +221,8 @@ function DialogConfirmActionReason({
           : "The user can now access the platform normally.",
         variant: "success",
       });
-    } catch (error: any) {
+    }
+    catch (error: any) {
       toast({
         title: `Failed to ${actionType} user`,
         description: error?.message || "An error occurred",
@@ -240,19 +241,21 @@ function DialogConfirmActionReason({
         <AlertDialogHeader>
           <AlertDialogTitle className="flex items-center gap-2">
             <ShieldAlert
-              className={`w-5 h-5  ${
+              className={`size-5  ${
                 actionType === "restrict"
                   ? "text-destructive"
                   : "text-green-500"
               }`}
             />
-            Confirm{" "}
+            Confirm
+            {" "}
             {actionType === "restrict" ? "Restriction" : "Unrestriction"}
           </AlertDialogTitle>
           <AlertDialogDescription>
             {actionType === "restrict" ? (
               <>
-                Are you sure you want to restrict{" "}
+                Are you sure you want to restrict
+                {" "}
                 <span className="font-semibold text-foreground">
                   {user.username}
                 </span>
@@ -260,7 +263,8 @@ function DialogConfirmActionReason({
               </>
             ) : (
               <>
-                Are you sure you want to unrestrict{" "}
+                Are you sure you want to unrestrict
+                {" "}
                 <span className="font-semibold text-foreground">
                   {user.username}
                 </span>
@@ -271,8 +275,8 @@ function DialogConfirmActionReason({
         </AlertDialogHeader>
 
         <Card>
-          <CardContent className="px-4 pt-2 whitespace-pre-wrap flex items-center gap-3 p-3 rounded-lg">
-            <div className="relative w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
+          <CardContent className="flex items-center gap-3 whitespace-pre-wrap rounded-lg p-3 px-4 pt-2">
+            <div className="relative size-12 flex-shrink-0 overflow-hidden rounded-full">
               <Image
                 src={user.avatar_url}
                 alt={user.username}
@@ -280,10 +284,10 @@ function DialogConfirmActionReason({
                 className="object-cover"
               />
             </div>
-            <div className="flex-1 min-w-0">
-              <div className="flex justify-between items-start gap-2">
+            <div className="min-w-0 flex-1">
+              <div className="flex items-start justify-between gap-2">
                 <div className="min-w-0">
-                  <p className="font-semibold truncate">{user.username}</p>
+                  <p className="truncate font-semibold">{user.username}</p>
                   <p className="text-sm text-muted-foreground">
                     ID: {user.user_id}
                   </p>
@@ -296,7 +300,7 @@ function DialogConfirmActionReason({
         {actionType === "restrict" && (
           <Card>
             <CardHeader className="p-4 pb-2">Restriction Reason</CardHeader>
-            <CardContent className="px-4 pt-2 text-muted-foreground whitespace-pre-wrap">
+            <CardContent className="whitespace-pre-wrap px-4 pt-2 text-muted-foreground">
               {restrictionReason}
             </CardContent>
           </Card>
@@ -310,7 +314,8 @@ function DialogConfirmActionReason({
             onClick={handleConfirmRestriction}
             disabled={isChangingRestriction}
           >
-            Confirm{" "}
+            Confirm
+            {" "}
             {actionType === "restrict" ? "Restriction" : "Unrestriction"}
           </AlertDialogAction>
         </AlertDialogFooter>

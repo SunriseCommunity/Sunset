@@ -1,6 +1,7 @@
 "use client";
-import { Tooltip } from "@/components/Tooltip";
 import Cookies from "js-cookie";
+
+import { Tooltip } from "@/components/Tooltip";
 
 interface PrettyDateProps {
   time: string | Date;
@@ -23,15 +24,17 @@ export default function PrettyDate({
 
   const locale = Cookies.get("locale") || "en";
 
-  return withTime ? (
-    <Tooltip content={date.toLocaleTimeString()}>
-      <div className={className}>
-        {date.toLocaleDateString(locale, options)}
-      </div>
-    </Tooltip>
-  ) : (
-    <div className={className}>{date.toLocaleDateString(locale, options)}</div>
-  );
+  return withTime
+    ? (
+        <Tooltip content={date.toLocaleTimeString()}>
+          <div className={className}>
+            {date.toLocaleDateString(locale, options)}
+          </div>
+        </Tooltip>
+      )
+    : (
+        <div className={className}>{date.toLocaleDateString(locale, options)}</div>
+      );
 }
 
 export function dateToPrettyString(time: string | Date) {

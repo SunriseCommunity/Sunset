@@ -1,28 +1,17 @@
 "use client";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Cookies from "js-cookie";
 import { AlertCircle, DoorOpen } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useCallback, useMemo, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
 import PrettyHeader from "@/components/General/PrettyHeader";
 import RoundedContent from "@/components/General/RoundedContent";
-import Image from "next/image";
-import { useState, useMemo, useCallback, useRef } from "react";
-import { useRegister } from "@/lib/hooks/api/auth/useRegister";
-import Cookies from "js-cookie";
-import useSelf from "@/lib/hooks/useSelf";
-import { useToast } from "@/hooks/use-toast";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import Link from "next/link";
-import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import {
   Dialog,
   DialogContent,
@@ -31,6 +20,18 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/hooks/use-toast";
+import { useRegister } from "@/lib/hooks/api/auth/useRegister";
+import useSelf from "@/lib/hooks/useSelf";
 import { useT } from "@/lib/i18n/utils";
 
 export default function Register() {
@@ -76,11 +77,11 @@ export default function Register() {
             message: t("form.validation.passwordMax", { max: 32 }),
           })
           .refine(
-            (value) => value === passwordRef.current,
-            t("form.validation.passwordsDoNotMatch")
+            value => value === passwordRef.current,
+            t("form.validation.passwordsDoNotMatch"),
           ),
       }),
-    [t]
+    [t],
   );
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -126,40 +127,40 @@ export default function Register() {
           onError(err) {
             setError(err.message ?? t("form.error.unknown"));
           },
-        }
+        },
       );
     },
-    [trigger, form, revalidate, toast, t]
+    [trigger, form, revalidate, toast, t],
   );
 
   const welcomeDescription = useMemo(
     () =>
       t.rich("welcome.description", {
-        a: (chunks) => (
+        a: chunks => (
           <Link href="/wiki" className="text-primary hover:underline">
             {chunks}
           </Link>
         ),
       }),
-    [t]
+    [t],
   );
 
   const termsText = useMemo(
     () =>
       t.rich("form.terms", {
-        a: (chunks) => (
+        a: chunks => (
           <Link href="/rules" className="text-primary hover:underline">
             {chunks}
           </Link>
         ),
       }),
-    [t]
+    [t],
   );
 
   const successMessage = useMemo(
     () =>
       t.rich("success.dialog.message", {
-        a: (chunks) => (
+        a: chunks => (
           <Link
             href="/wiki#How%20to%20connect"
             className="text-primary hover:underline"
@@ -168,15 +169,15 @@ export default function Register() {
           </Link>
         ),
       }),
-    [t]
+    [t],
   );
 
   return (
     <div className="flex flex-col space-y-4">
       <PrettyHeader text={t("header")} icon={<DoorOpen />} roundBottom={true} />
-      <RoundedContent className="bg-card mb-4 rounded-lg">
-        <div className="flex w-11/12 mx-auto">
-          <div className="flex flex-col w-11/12 mx-auto space-y-6">
+      <RoundedContent className="mb-4 rounded-lg bg-card">
+        <div className="mx-auto flex w-11/12">
+          <div className="mx-auto flex w-11/12 flex-col space-y-6">
             <h1 className="text-xl">{t("welcome.title")}</h1>
             <p>{welcomeDescription}</p>
 
@@ -263,7 +264,7 @@ export default function Register() {
 
                   {error && (
                     <Alert variant="destructive">
-                      <AlertCircle className="h-4 w-4" />
+                      <AlertCircle className="size-4" />
                       <AlertTitle>{t("form.error.title")}</AlertTitle>
                       <AlertDescription>{error}</AlertDescription>
                     </Alert>
@@ -285,7 +286,7 @@ export default function Register() {
             alt="register image"
             width={400}
             height={800}
-            className="rounded-lg mt-4 hidden lg:block"
+            className="mt-4 hidden rounded-lg lg:block"
           />
         </div>
       </RoundedContent>
@@ -306,7 +307,7 @@ export default function Register() {
 
           <DialogFooter>
             <Button asChild variant="secondary" className="my-2 md:my-0">
-              <Link href={`/wiki#How%20to%20connect`}>
+              <Link href="/wiki#How%20to%20connect">
                 {t("success.dialog.buttons.viewWiki")}
               </Link>
             </Button>

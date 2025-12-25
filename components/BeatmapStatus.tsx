@@ -1,4 +1,3 @@
-import { BeatmapStatusWeb } from "@/lib/types/api";
 import {
   Check,
   ChevronsUp,
@@ -9,11 +8,13 @@ import {
 } from "lucide-react";
 import { twMerge } from "tailwind-merge";
 
+import { BeatmapStatusWeb } from "@/lib/types/api";
+
 interface BeatmapStatusIconProps {
   status: BeatmapStatusWeb;
 }
 
-export const getBeatmapStatusStatusColor = (status: BeatmapStatusWeb) => {
+export function getBeatmapStatusStatusColor(status: BeatmapStatusWeb) {
   switch (status) {
     case BeatmapStatusWeb.LOVED:
       return "pink-500";
@@ -33,7 +34,7 @@ export const getBeatmapStatusStatusColor = (status: BeatmapStatusWeb) => {
     default:
       return "";
   }
-};
+}
 
 export default function BeatmapStatusIcon({ status }: BeatmapStatusIconProps) {
   const color = `text-${getBeatmapStatusStatusColor(status)}`;

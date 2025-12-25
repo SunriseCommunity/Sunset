@@ -1,17 +1,34 @@
 "use client";
 
-import {
+import type {
   ColumnDef,
+  OnChangeFn,
+  PaginationState,
+  SortingState,
+} from "@tanstack/react-table";
+import {
   flexRender,
   getCoreRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  OnChangeFn,
-  PaginationState,
-  SortingState,
   useReactTable,
 } from "@tanstack/react-table";
+import {
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
+} from "lucide-react";
+import { useState } from "react";
 
+import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -20,24 +37,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  ChevronLeft,
-  ChevronRight,
-  ChevronsLeft,
-  ChevronsRight,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { useState } from "react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
+  columns: Array<ColumnDef<TData, TValue>>;
   data: TData[];
   totalCount: number;
   pagination: {
@@ -62,7 +64,7 @@ export function AdminUserDataTable<TData, TValue>({
     data,
     columns,
     manualPagination: true,
-    pageCount: pageCount,
+    pageCount,
     onPaginationChange: setPagination,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -76,7 +78,7 @@ export function AdminUserDataTable<TData, TValue>({
       <div className="rounded-md border">
         <Table className="w-full min-w-max">
           <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
+            {table.getHeaderGroups().map(headerGroup => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
@@ -85,7 +87,7 @@ export function AdminUserDataTable<TData, TValue>({
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext()
+                            header.getContext(),
                           )}
                     </TableHead>
                   );
@@ -95,17 +97,17 @@ export function AdminUserDataTable<TData, TValue>({
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
+              table.getRowModel().rows.map(row => (
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  className="hover:bg-muted/50 transition-colors"
+                  className="transition-colors hover:bg-muted/50"
                 >
-                  {row.getVisibleCells().map((cell) => (
+                  {row.getVisibleCells().map(cell => (
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}
@@ -124,12 +126,11 @@ export function AdminUserDataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <div className="grid md:place-content-between py-4 md:space-y-0 space-y-4 md:flex">
+      <div className="grid space-y-4 py-4 md:flex md:place-content-between md:space-y-0">
         <div className="flex items-center space-x-2">
           <Select
-            onValueChange={(v) =>
-              setPagination({ pageIndex: 0, pageSize: Number(v) })
-            }
+            onValueChange={v =>
+              setPagination({ pageIndex: 0, pageSize: Number(v) })}
             defaultValue={pagination.pageSize.toString()}
           >
             <SelectTrigger className="w-[80px]">
@@ -146,17 +147,23 @@ export function AdminUserDataTable<TData, TValue>({
 
         <div className="flex items-center ">
           <p>
-            Showing{" "}
+            Showing
+            {" "}
             {Math.min(
               pagination.pageIndex * pagination.pageSize + 1,
-              totalCount
-            )}{" "}
-            -{" "}
+              totalCount,
+            )}
+            {" "}
+            -
+            {" "}
             {Math.min(
               (pagination.pageIndex + 1) * pagination.pageSize,
-              totalCount
-            )}{" "}
-            of {totalCount}
+              totalCount,
+            )}
+            {" "}
+            of
+            {" "}
+            {totalCount}
           </p>
         </div>
 

@@ -1,6 +1,22 @@
 "use client";
 
+import {
+  Cog,
+  Home,
+  LogOutIcon,
+  MonitorCog,
+  UserCircleIcon,
+  Users2,
+} from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Suspense } from "react";
+
+import UserPrivilegeBadges from "@/app/(website)/user/[id]/components/UserPrivilegeBadges";
+import { HeaderLogoutAlert } from "@/components/Header/HeaderLogoutAlert";
+import ImageWithFallback from "@/components/ImageWithFallback";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,25 +26,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
-import Image from "next/image";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import ImageWithFallback from "@/components/ImageWithFallback";
-import { HeaderLogoutAlert } from "@/components/Header/HeaderLogoutAlert";
-import Link from "next/link";
-import { UserBadge, UserResponse } from "@/lib/types/api";
-import {
-  Cog,
-  Home,
-  LogOutIcon,
-  MonitorCog,
-  UserCircleIcon,
-  Users2,
-} from "lucide-react";
-import UserPrivilegeBadges from "@/app/(website)/user/[id]/components/UserPrivilegeBadges";
-import { usePathname, useRouter } from "next/navigation";
-import { isUserCanUseAdminPanel } from "@/lib/utils/userPrivileges.util";
 import { useT } from "@/lib/i18n/utils";
+import type { UserResponse } from "@/lib/types/api";
+import { isUserCanUseAdminPanel } from "@/lib/utils/userPrivileges.util";
 
 interface Props {
   self: UserResponse | null;
@@ -58,22 +58,22 @@ export default function HeaderUserDropdown({
           sideOffset={sideOffset}
           align={align}
         >
-          <DropdownMenuLabel className="relative flex items-center gap-x-3 my-1">
+          <DropdownMenuLabel className="relative my-1 flex items-center gap-x-3">
             <>
               <div className="absolute inset-0 z-10 overflow-hidden rounded-md ">
                 <ImageWithFallback
-                  src={self.banner_url + "&default=false"}
+                  src={`${self.banner_url}&default=false`}
                   alt="user bg"
                   fill={true}
                   objectFit="cover"
-                  className="relative blur-sm opacity-60"
+                  className="relative opacity-60 blur-sm"
                   fallBackSrc="/images/placeholder.png"
                 />
               </div>
-              <div className="absolute inset-0 bg-gradient-to-r from-popover to-popover/30 z-10" />
+              <div className="absolute inset-0 z-10 bg-gradient-to-r from-popover to-popover/30" />
             </>
 
-            <Avatar className="scale-105 z-20">
+            <Avatar className="z-20 scale-105">
               <Suspense fallback={<AvatarFallback>UA</AvatarFallback>}>
                 <Image
                   src={self.avatar_url}
@@ -83,15 +83,15 @@ export default function HeaderUserDropdown({
                 />
               </Suspense>
             </Avatar>
-            <div className="flex flex-col z-20">
-              <div className="truncate font-medium text-sm">
+            <div className="z-20 flex flex-col">
+              <div className="truncate text-sm font-medium">
                 {self.username}
               </div>
 
               <UserPrivilegeBadges
                 badges={self.badges}
                 small
-                className="scale-75 w-full origin-left"
+                className="w-full origin-left scale-75"
               />
             </div>
           </DropdownMenuLabel>
@@ -104,13 +104,13 @@ export default function HeaderUserDropdown({
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild className="cursor-pointer">
-              <Link href={`/friends`}>
+              <Link href="/friends">
                 <Users2 />
                 {t("friends")}
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild className="cursor-pointer">
-              <Link href={`/settings`}>
+              <Link href="/settings">
                 <Cog />
                 {t("settings")}
               </Link>
@@ -122,12 +122,12 @@ export default function HeaderUserDropdown({
 
               <DropdownMenuItem asChild className="cursor-pointer">
                 {pathname.includes("/admin") ? (
-                  <Link href={`/`}>
+                  <Link href="/">
                     <Home />
                     {t("returnToMainSite")}
                   </Link>
                 ) : (
-                  <Link href={`/admin`}>
+                  <Link href="/admin">
                     <MonitorCog />
                     {t("adminPanel")}
                   </Link>
@@ -138,7 +138,7 @@ export default function HeaderUserDropdown({
 
           <DropdownMenuSeparator />
           <DropdownMenuItem
-            onSelect={(e) => e.preventDefault()}
+            onSelect={e => e.preventDefault()}
             asChild
             className="cursor-pointer"
           >

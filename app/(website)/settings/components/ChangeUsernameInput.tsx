@@ -1,5 +1,10 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMemo, useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
 import { Button } from "@/components/ui/button";
 import { DialogFooter } from "@/components/ui/dialog";
 import {
@@ -13,14 +18,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { useUsernameChange } from "@/lib/hooks/api/user/useUsernameChange";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState, useMemo } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { useT } from "@/lib/i18n/utils";
 
-const createFormSchema = (t: ReturnType<typeof useT>) =>
-  z.object({
+function createFormSchema(t: ReturnType<typeof useT>) {
+  return z.object({
     newUsername: z
       .string()
       .min(2, {
@@ -30,6 +31,7 @@ const createFormSchema = (t: ReturnType<typeof useT>) =>
         message: t("validation.maxLength", { max: 32 }),
       }),
   });
+}
 
 export default function ChangeUsernameInput() {
   const t = useT("pages.settings.components.username");
@@ -79,7 +81,7 @@ export default function ChangeUsernameInput() {
             variant: "destructive",
           });
         },
-      }
+      },
     );
   }
 
@@ -106,7 +108,7 @@ export default function ChangeUsernameInput() {
           </DialogFooter>
         </form>
       </Form>
-      <label className="text-xs mt-2">{t("reminder")}</label>
+      <label className="mt-2 text-xs">{t("reminder")}</label>
     </div>
   );
 }

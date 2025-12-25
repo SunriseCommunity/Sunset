@@ -13,9 +13,9 @@ export default function ProgressBar({
 }: ProgressBarProps) {
   return (
     <div className={twMerge(`w-full`, className)}>
-      <div className="h-1.5 bg-card rounded-sm">
+      <div className="h-1.5 rounded-sm bg-card">
         <div
-          className="h-full bg-primary rounded-sm smooth-transition"
+          className="smooth-transition h-full rounded-sm bg-primary"
           style={{ width: `${(value / maxValue) * 100}%` }}
         />
       </div>
