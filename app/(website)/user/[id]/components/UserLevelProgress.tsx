@@ -1,5 +1,4 @@
 import { Progress } from "@/components/ui/progress";
-import { tailwindColors } from "@/lib/types/TailwindTypes";
 import { getLevelWithProgress } from "@/lib/utils/userLevel";
 
 const levelTiersColors = {
@@ -44,7 +43,7 @@ function getTierColors(level: number) {
 
   const applicableTier = tiers.reduce(
     (prev, curr) => (curr <= level ? curr : prev),
-    0
+    0,
   );
   return levelTiersColors[applicableTier as keyof typeof levelTiersColors];
 }
@@ -57,19 +56,19 @@ export function UserLevelProgress({ totalScore }: { totalScore: number }) {
 
   return (
     <div className={`flex items-center gap-2 `}>
-      <div className={`space-y-1 w-full`}>
+      <div className="w-full space-y-1">
         <div className="flex items-center">
-          <h3 className="text-sm flex-grow ">Level</h3>
-          <span className={`text-xs text-current font-medium`}>
+          <h3 className="flex-grow text-sm ">Level</h3>
+          <span className="text-xs font-medium text-current">
             {Math.floor(currentLevelProgress)}%
           </span>
         </div>
 
-        <Progress value={currentLevelProgress} className={`h-3 bg-card`} />
+        <Progress value={currentLevelProgress} className="h-3 bg-card" />
       </div>
 
-      <div className="flex items-center justify-center w-10 h-10 bg-transparent relative ">
-        <svg viewBox="0 0 100 100" className="w-12 h-12">
+      <div className="relative flex size-10 items-center justify-center bg-transparent ">
+        <svg viewBox="0 0 100 100" className="size-12">
           <defs>
             <linearGradient
               id="gradientStroke"

@@ -1,6 +1,8 @@
+import fs from "node:fs";
+import path from "node:path";
+
 import { NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
+
 import { tryParseNumber } from "@/lib/utils/type.util";
 
 const CHUNK_SIZE = 1_000_000;
@@ -10,7 +12,8 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id") || "0";
     return await getVideoStream(request, tryParseNumber(id) ?? 0);
-  } catch (error: any) {
+  }
+  catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 400 });
   }
 }
@@ -27,7 +30,7 @@ async function getVideoStream(request: Request, videoId: number) {
   const stat = fs.statSync(videoPath);
   const fileSize = stat.size;
 
-  const chunkStart = Number(range.replace(/\D/g, "")) || 0;
+  const chunkStart = Number(range.replaceAll(/\D/g, "")) || 0;
   const chunkEnd = Math.min(chunkStart + CHUNK_SIZE, fileSize - 1);
 
   const contentLength = chunkEnd - chunkStart + 1;
@@ -46,9 +49,9 @@ async function getVideoStream(request: Request, videoId: number) {
 
   const stream = new ReadableStream({
     start(controller) {
-      videoStream.on("data", (chunk) => controller.enqueue(chunk));
+      videoStream.on("data", chunk => controller.enqueue(chunk));
       videoStream.on("end", () => controller.close());
-      videoStream.on("error", (err) => controller.error(err));
+      videoStream.on("error", err => controller.error(err));
     },
   });
 

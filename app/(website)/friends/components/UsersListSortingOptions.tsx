@@ -1,8 +1,9 @@
 "use client";
 
+import { useMemo } from "react";
+
 import { Combobox } from "@/components/ComboBox";
 import { useT } from "@/lib/i18n/utils";
-import { useMemo } from "react";
 
 export type UsersListSortingType = "username" | "lastActive";
 
@@ -28,13 +29,13 @@ export function UsersListSortingOptions({
         value: "lastActive" as const,
       },
     ],
-    [t]
+    [t],
   );
 
   return (
     <Combobox
       activeValue={sortBy}
-      buttonPreLabel={t("label") + " "}
+      buttonPreLabel={`${t("label")} `}
       setActiveValue={(v: any) => {
         onSortChange(v);
       }}

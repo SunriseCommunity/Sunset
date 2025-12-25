@@ -1,3 +1,6 @@
+import { Megaphone } from "lucide-react";
+import type { ReactNode } from "react";
+
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
@@ -7,10 +10,8 @@ import {
   useGetUserHypes,
 } from "@/lib/hooks/api/beatmap/useBeatmapHype";
 import useSelf from "@/lib/hooks/useSelf";
-import { BeatmapResponse } from "@/lib/types/api";
-import { Megaphone } from "lucide-react";
 import { useT } from "@/lib/i18n/utils";
-import { ReactNode } from "react";
+import type { BeatmapResponse } from "@/lib/types/api";
 
 export function BeatmapNomination({ beatmap }: { beatmap: BeatmapResponse }) {
   const t = useT("pages.beatmapsets.components.nomination");
@@ -54,12 +55,12 @@ export function BeatmapNomination({ beatmap }: { beatmap: BeatmapResponse }) {
   };
 
   return (
-    <div className="flex flex-col lg:col-span-2 h-full">
+    <div className="flex h-full flex-col lg:col-span-2">
       <div className="flex flex-col gap-2">
         <p className="text-xs font-light">{t.rich("description")}</p>
 
         <div className="flex flex-col gap-2">
-          <div className="flex justify-between items-center">
+          <div className="flex items-center justify-between">
             <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
               {t("hypeProgress")}
             </span>
@@ -76,7 +77,8 @@ export function BeatmapNomination({ beatmap }: { beatmap: BeatmapResponse }) {
 
             {Array.from({ length: required_hypes }).map((_, i) => (
               <div
-                key={i}
+                // eslint-disable-next-line @eslint-react/no-array-index-key -- expected
+                key={`hype-divider-${i}`}
                 className={`absolute top-0 h-3 w-0.5 bg-accent ${
                   i === 0 ? "hidden" : ""
                 }`}
@@ -91,7 +93,7 @@ export function BeatmapNomination({ beatmap }: { beatmap: BeatmapResponse }) {
               disabled={!self || userHypesLeft <= 0}
               variant="secondary"
             >
-              <Megaphone className="h-5 w-5" />
+              <Megaphone className="size-5" />
               {t("hypeBeatmap")}
             </Button>
 

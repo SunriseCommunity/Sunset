@@ -14,8 +14,8 @@ export function SmallUserElement({
 }: SmallUserElementProps) {
   return (
     <Link href={profileUrl}>
-      <div className="flex gap-1 items-center ">
-        <div className="relative w-4 h-4 overflow-hidden rounded">
+      <div className="flex items-center gap-1 ">
+        <div className="relative size-4 overflow-hidden rounded">
           <Image
             src={avatarUrl}
             alt={`${username}'s avatar`}

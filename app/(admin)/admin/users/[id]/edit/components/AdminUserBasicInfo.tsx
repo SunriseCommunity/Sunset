@@ -1,18 +1,17 @@
 "use client";
 
-import { UserSensitiveResponse } from "@/lib/types/api";
+import { Mail, User } from "lucide-react";
+
+import AdminUserEmailInput from "@/app/(admin)/admin/users/[id]/edit/components/AdminUserEmailInput";
+import AdminUserPrivilegeInput from "@/app/(admin)/admin/users/[id]/edit/components/AdminUserPrivilegeInput";
+import AdminUserResetPassword from "@/app/(admin)/admin/users/[id]/edit/components/AdminUserResetPassword";
+import AdminUserRestrictButton from "@/app/(admin)/admin/users/[id]/edit/components/AdminUserRestrictButton";
+import AdminUserUsernameInput from "@/app/(admin)/admin/users/[id]/edit/components/AdminUserUsernameInput";
+import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { Mail, User, KeyRound } from "lucide-react";
-
 import { useUserPreviousUsernames } from "@/lib/hooks/api/user/useUserPreviousUsernames";
-import { Badge } from "@/components/ui/badge";
-
-import AdminUserRestrictButton from "@/app/(admin)/admin/users/[id]/edit/components/AdminUserRestrictButton";
-import AdminUserEmailInput from "@/app/(admin)/admin/users/[id]/edit/components/AdminUserEmailInput";
-import AdminUserUsernameInput from "@/app/(admin)/admin/users/[id]/edit/components/AdminUserUsernameInput";
-import AdminUserResetPassword from "@/app/(admin)/admin/users/[id]/edit/components/AdminUserResetPassword";
-import AdminUserPrivilegeInput from "@/app/(admin)/admin/users/[id]/edit/components/AdminUserPrivilegeInput";
+import type { UserSensitiveResponse } from "@/lib/types/api";
 
 export default function AdminUserBasicInfo({
   user,
@@ -25,14 +24,14 @@ export default function AdminUserBasicInfo({
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <User className="w-5 h-5" />
+          <User className="size-5" />
           Basic Information
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="space-y-2">
           <Label htmlFor="username" className="flex items-center gap-2">
-            <User className="w-4 h-4" />
+            <User className="size-4" />
             Username
           </Label>
           <AdminUserUsernameInput user={user} />
@@ -40,7 +39,7 @@ export default function AdminUserBasicInfo({
 
         <div className="space-y-2">
           <Label className="flex items-center gap-2">
-            <Mail className="w-4 h-4" />
+            <Mail className="size-4" />
             Email
           </Label>
           <AdminUserEmailInput user={user} />
@@ -55,7 +54,8 @@ export default function AdminUserBasicInfo({
             <Label className="text-xs">Previous Usernames</Label>
             <div className="flex flex-wrap gap-2">
               {previousUsernames.usernames.map((username, index) => (
-                <Badge key={index} variant="secondary" className="text-xs">
+                // eslint-disable-next-line @eslint-react/no-array-index-key -- would actually prefer to use index here
+                <Badge key={`previous-username-${username}-${index}`} variant="secondary" className="text-xs">
                   {username}
                 </Badge>
               ))}

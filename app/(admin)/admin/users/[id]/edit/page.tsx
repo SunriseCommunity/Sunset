@@ -1,16 +1,13 @@
 "use client";
 
-import { use, useCallback, useEffect, useRef, useState } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import PrettyHeader from "@/components/General/PrettyHeader";
-import { User, Activity, FileText } from "lucide-react";
-import { useAdminUserSensitive } from "@/lib/hooks/api/user/useAdminUserEdit";
-import Spinner from "@/components/Spinner";
-import { Card, CardContent } from "@/components/ui/card";
-import AdminUserEditGeneral from "@/app/(admin)/admin/users/[id]/edit/components/Tabs/AdminUserEditGeneral";
-import { WorkInProgress } from "@/components/WorkInProgress";
-import AdminUserEditEvent from "@/app/(admin)/admin/users/[id]/edit/components/Tabs/AdminUserEditEvents";
+import { Activity, FileText, User } from "lucide-react";
 import { usePathname, useSearchParams } from "next/navigation";
+import { use, useCallback, useEffect, useRef, useState } from "react";
+
+import AdminUserEditEvent from "@/app/(admin)/admin/users/[id]/edit/components/Tabs/AdminUserEditEvents";
+import AdminUserEditGeneral from "@/app/(admin)/admin/users/[id]/edit/components/Tabs/AdminUserEditGeneral";
+import PrettyHeader from "@/components/General/PrettyHeader";
+import Spinner from "@/components/Spinner";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -21,17 +18,21 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { Card, CardContent } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { WorkInProgress } from "@/components/WorkInProgress";
+import { useAdminUserSensitive } from "@/lib/hooks/api/user/useAdminUserEdit";
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
-  const userId = parseInt(id);
+  const userId = Number.parseInt(id, 10);
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
   const tab = searchParams.get("tab") ?? "general";
   const [activeTab, setActiveTab] = useState(tab);
-  const [hasAcceptedEventsWarning, setHasAcceptedEventsWarning] =
-    useState(false);
+  const [hasAcceptedEventsWarning, setHasAcceptedEventsWarning]
+    = useState(false);
   const [showEventsWarning, setShowEventsWarning] = useState(false);
   const [pendingTab, setPendingTab] = useState<string | null>(null);
   const hasCheckedInitialTab = useRef(false);
@@ -43,29 +44,30 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       const params = new URLSearchParams(searchParams.toString());
       if (value) {
         params.set(name, value);
-      } else {
+      }
+      else {
         params.delete(name);
       }
       return params.toString();
     },
-    [searchParams]
+    [searchParams],
   );
 
   useEffect(() => {
     window.history.replaceState(
       null,
       "",
-      pathname + "?" + createQueryString("tab", activeTab)
+      `${pathname}?${createQueryString("tab", activeTab)}`,
     );
   }, [activeTab, pathname, createQueryString]);
 
   useEffect(() => {
     if (
-      !hasCheckedInitialTab.current &&
-      tab === "events" &&
-      !hasAcceptedEventsWarning &&
-      !isLoading &&
-      user
+      !hasCheckedInitialTab.current
+      && tab === "events"
+      && !hasAcceptedEventsWarning
+      && !isLoading
+      && user
     ) {
       hasCheckedInitialTab.current = true;
       setActiveTab("general");
@@ -78,7 +80,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     if (value === "events" && !hasAcceptedEventsWarning) {
       setPendingTab(value);
       setShowEventsWarning(true);
-    } else {
+    }
+    else {
       setActiveTab(value);
     }
   };
@@ -99,14 +102,14 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
   if (isLoading || !user) {
     return (
-      <div className="flex items-center justify-center min-h-[60vh]">
+      <div className="flex min-h-[60vh] items-center justify-center">
         <Spinner />
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col w-full space-y-4">
+    <div className="flex w-full flex-col space-y-4">
       <PrettyHeader
         text={`Edit User: ${user.username} (ID: ${user.user_id})`}
         roundBottom
@@ -145,17 +148,17 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         onValueChange={handleTabChange}
         className="w-full"
       >
-        <TabsList className="bg-card grid w-full grid-cols-3 ">
+        <TabsList className="grid w-full grid-cols-3 bg-card ">
           <TabsTrigger value="general">
-            <User className="w-4 h-4 mr-2" />
+            <User className="mr-2 size-4" />
             General
           </TabsTrigger>
           <TabsTrigger value="activity">
-            <Activity className="w-4 h-4 mr-2" />
+            <Activity className="mr-2 size-4" />
             Activity
           </TabsTrigger>
           <TabsTrigger value="events">
-            <FileText className="w-4 h-4 mr-2" />
+            <FileText className="mr-2 size-4" />
             Events
           </TabsTrigger>
         </TabsList>

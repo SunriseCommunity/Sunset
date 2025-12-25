@@ -1,22 +1,21 @@
-import { ContentNotExist } from "@/components/ContentNotExist";
-
-import PrettyHeader from "@/components/General/PrettyHeader";
-import RoundedContent from "@/components/General/RoundedContent";
-import Spinner from "@/components/Spinner";
 import {
   ChartBarDecreasing,
   ChevronDown,
   Heart,
-  History,
-  Loader2,
 } from "lucide-react";
-import BeatmapPlayedOverview from "../BeatmapPlayedOverview";
+
 import BeatmapSetOverview from "@/app/(website)/user/[id]/components/BeatmapSetOverview";
-import { useUserMostPlayed } from "@/lib/hooks/api/user/useUserMostPlayed";
-import { useUserFavourites } from "@/lib/hooks/api/user/useUserFavourites";
+import { ContentNotExist } from "@/components/ContentNotExist";
+import PrettyHeader from "@/components/General/PrettyHeader";
+import RoundedContent from "@/components/General/RoundedContent";
+import Spinner from "@/components/Spinner";
 import { Button } from "@/components/ui/button";
-import { GameMode } from "@/lib/types/api";
+import { useUserFavourites } from "@/lib/hooks/api/user/useUserFavourites";
+import { useUserMostPlayed } from "@/lib/hooks/api/user/useUserMostPlayed";
 import { useT } from "@/lib/i18n/utils";
+import type { GameMode } from "@/lib/types/api";
+
+import BeatmapPlayedOverview from "../BeatmapPlayedOverview";
 
 interface UserTabBeatmapsProps {
   userId: number;
@@ -37,15 +36,15 @@ export default function UserTabBeatmaps({
     isLoading: isLoadingMostPlayed,
   } = useUserMostPlayed(userId, gameMode, pageLimitMostPlayed);
 
-  const isLoadingMoreMostPlayed =
-    isLoadingMostPlayed ||
-    (mostPlayedSize > 0 &&
-      mostPlayedData &&
-      typeof mostPlayedData[mostPlayedSize - 1] === "undefined");
+  const isLoadingMoreMostPlayed
+    = isLoadingMostPlayed
+      || (mostPlayedSize > 0
+        && mostPlayedData
+        && mostPlayedData[mostPlayedSize - 1] === undefined);
 
-  const mostPlayed = mostPlayedData?.flatMap((item) => item.most_played);
+  const mostPlayed = mostPlayedData?.flatMap(item => item.most_played);
   const totalCountMostPlayed = mostPlayedData?.find(
-    (item) => item.total_count !== undefined
+    item => item.total_count !== undefined,
   )?.total_count;
 
   const handleShowMoreMostPlayed = () => {
@@ -59,15 +58,15 @@ export default function UserTabBeatmaps({
     isLoading: isLoadingFavourites,
   } = useUserFavourites(userId, gameMode, pageLimitFavourites);
 
-  const isLoadingMoreFavourites =
-    isLoadingFavourites ||
-    (favouritesSize > 0 &&
-      favouritesData &&
-      typeof favouritesData[favouritesSize - 1] === "undefined");
+  const isLoadingMoreFavourites
+    = isLoadingFavourites
+      || (favouritesSize > 0
+        && favouritesData
+        && favouritesData[favouritesSize - 1] === undefined);
 
-  const favourites = favouritesData?.flatMap((item) => item.sets);
+  const favourites = favouritesData?.flatMap(item => item.sets);
   const totalCountFavourites = favouritesData?.find(
-    (item) => item.total_count !== undefined
+    item => item.total_count !== undefined,
   )?.total_count;
 
   const handleShowMoreFavourites = () => {
@@ -85,9 +84,9 @@ export default function UserTabBeatmaps({
           totalCountMostPlayed ?? 0 > 0 ? totalCountMostPlayed : undefined
         }
       />
-      <RoundedContent className="min-h-60 h-fit max-h-none mb-6">
+      <RoundedContent className="mb-6 h-fit max-h-none min-h-60">
         {!mostPlayed && isLoadingMoreMostPlayed && (
-          <div className="flex justify-center items-center h-32">
+          <div className="flex h-32 items-center justify-center">
             <Spinner />
           </div>
         )}
@@ -96,9 +95,9 @@ export default function UserTabBeatmaps({
           <ContentNotExist text={t("noMostPlayed")} />
         )}
 
-        {totalCountMostPlayed != undefined && mostPlayed != undefined && (
+        {typeof totalCountMostPlayed === "number" && mostPlayed !== undefined && (
           <>
-            {mostPlayed.map((beatmap) => (
+            {mostPlayed.map(beatmap => (
               <div key={`beatmap-most-played-${beatmap.id}`} className="mb-2">
                 <BeatmapPlayedOverview
                   beatmap={beatmap}
@@ -107,10 +106,10 @@ export default function UserTabBeatmaps({
               </div>
             ))}
             {mostPlayed.length < totalCountMostPlayed && (
-              <div className="flex justify-center mt-4">
+              <div className="mt-4 flex justify-center">
                 <Button
                   onClick={handleShowMoreMostPlayed}
-                  className="w-full md:w-1/2 flex items-center justify-center"
+                  className="flex w-full items-center justify-center md:w-1/2"
                   variant="secondary"
                   isLoading={isLoadingMoreMostPlayed}
                 >
@@ -131,9 +130,9 @@ export default function UserTabBeatmaps({
             : undefined
         }
       />
-      <RoundedContent className="min-h-60 h-fit max-h-none">
+      <RoundedContent className="h-fit max-h-none min-h-60">
         {!favourites && isLoadingMoreFavourites && (
-          <div className="flex justify-center items-center h-32">
+          <div className="flex h-32 items-center justify-center">
             <Spinner />
           </div>
         )}
@@ -142,10 +141,10 @@ export default function UserTabBeatmaps({
           <ContentNotExist text={t("noFavourites")} />
         )}
 
-        {totalCountFavourites != undefined && favourites != undefined && (
+        {typeof totalCountFavourites === "number" && favourites !== undefined && (
           <>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-              {favourites.map((beatmapSet) => (
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+              {favourites.map(beatmapSet => (
                 <div
                   key={`beatmap-set-favourited-${beatmapSet.id}`}
                   className="mb-2"
@@ -155,10 +154,10 @@ export default function UserTabBeatmaps({
               ))}
             </div>
             {favourites.length < totalCountFavourites && (
-              <div className="flex justify-center mt-4">
+              <div className="mt-4 flex justify-center">
                 <Button
                   onClick={handleShowMoreFavourites}
-                  className="w-full md:w-1/2 flex items-center justify-center"
+                  className="flex w-full items-center justify-center md:w-1/2"
                   isLoading={isLoadingMoreFavourites}
                   variant="secondary"
                 >

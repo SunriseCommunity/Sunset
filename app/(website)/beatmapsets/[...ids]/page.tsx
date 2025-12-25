@@ -1,33 +1,35 @@
 "use client";
-import { Book, Clapperboard, Info, Music2 } from "lucide-react";
-import PrettyHeader from "@/components/General/PrettyHeader";
-import RoundedContent from "@/components/General/RoundedContent";
-import { useEffect, useState, use, useCallback } from "react";
-import ImageWithFallback from "@/components/ImageWithFallback";
-import PrettyDate from "@/components/General/PrettyDate";
-import BeatmapStatusIcon from "@/components/BeatmapStatus";
-import { Tooltip } from "@/components/Tooltip";
+import { Book, Clapperboard, Music2 } from "lucide-react";
+import Image from "next/image";
+import { usePathname, useSearchParams } from "next/navigation";
+import { use, useCallback, useEffect, useState } from "react";
+
+import { BeatmapDropdown } from "@/app/(website)/beatmapsets/components/BeatmapDropdown";
+import { BeatmapInfoAccordion } from "@/app/(website)/beatmapsets/components/BeatmapInfoAccordion";
+import BeatmapLeaderboard from "@/app/(website)/beatmapsets/components/BeatmapLeaderboard";
+import { BeatmapNominatorUser } from "@/app/(website)/beatmapsets/components/BeatmapNominatorUser";
+import DifficultyInformation from "@/app/(website)/beatmapsets/components/DifficultyInformation";
 import DifficultySelector from "@/app/(website)/beatmapsets/components/DifficultySelector";
 import DownloadButtons from "@/app/(website)/beatmapsets/components/DownloadButtons";
-import DifficultyInformation from "@/app/(website)/beatmapsets/components/DifficultyInformation";
 import FavouriteButton from "@/app/(website)/beatmapsets/components/FavouriteButton";
-import Spinner from "@/components/Spinner";
-import BeatmapLeaderboard from "@/app/(website)/beatmapsets/components/BeatmapLeaderboard";
-import { gameModeToVanilla } from "@/lib/utils/gameMode.util";
-import Image from "next/image";
-import { useBeatmapSet } from "@/lib/hooks/api/beatmap/useBeatmapSet";
-import GameModeSelector from "@/components/GameModeSelector";
-import { BeatmapDropdown } from "@/app/(website)/beatmapsets/components/BeatmapDropdown";
-import { usePathname, useSearchParams } from "next/navigation";
-import { isInstance, tryParseNumber } from "@/lib/utils/type.util";
-import { BeatmapResponse, BeatmapStatusWeb, GameMode } from "@/lib/types/api";
 import { BBCodeReactParser } from "@/components/BBCode/BBCodeReactParser";
-import { BeatmapInfoAccordion } from "@/app/(website)/beatmapsets/components/BeatmapInfoAccordion";
-import { BeatmapNominatorUser } from "@/app/(website)/beatmapsets/components/BeatmapNominatorUser";
+import BeatmapStatusIcon from "@/components/BeatmapStatus";
+import GameModeSelector from "@/components/GameModeSelector";
+import PrettyDate from "@/components/General/PrettyDate";
+import PrettyHeader from "@/components/General/PrettyHeader";
+import RoundedContent from "@/components/General/RoundedContent";
+import ImageWithFallback from "@/components/ImageWithFallback";
+import Spinner from "@/components/Spinner";
+import { Tooltip } from "@/components/Tooltip";
+import { useBeatmapSet } from "@/lib/hooks/api/beatmap/useBeatmapSet";
 import { useT } from "@/lib/i18n/utils";
+import type { BeatmapResponse } from "@/lib/types/api";
+import { BeatmapStatusWeb, GameMode } from "@/lib/types/api";
+import { gameModeToVanilla } from "@/lib/utils/gameMode.util";
+import { isInstance, tryParseNumber } from "@/lib/utils/type.util";
 
 export interface BeatmapsetProps {
-  params: Promise<{ ids: (string | undefined)[] }>;
+  params: Promise<{ ids: Array<string | undefined> }>;
 }
 
 export default function Beatmapset(props: BeatmapsetProps) {
@@ -42,72 +44,17 @@ export default function Beatmapset(props: BeatmapsetProps) {
   const [beatmapSetId, beatmapId] = params.ids;
 
   const [activeMode, setActiveMode] = useState<GameMode | null>(
-    isInstance(mode, GameMode) ? (mode as GameMode) : null
+    () => (isInstance(mode, GameMode) ? (mode as GameMode) : null),
   );
 
   const [activeBeatmap, setActiveBeatmap] = useState<BeatmapResponse | null>(
-    null
+    null,
   );
 
   const beatmapsetQuery = useBeatmapSet(
-    tryParseNumber(beatmapSetId ?? "") ?? null
+    tryParseNumber(beatmapSetId ?? "") ?? null,
   );
   const beatmapSet = beatmapsetQuery.data;
-
-  useEffect(() => {
-    if (!beatmapSet) return;
-
-    const beatmap = beatmapSet.beatmaps.find(
-      (beatmap) => beatmap.id === Number(beatmapId)
-    );
-
-    const activeBeatmap = beatmap ?? beatmapSet.beatmaps[0];
-
-    setActiveBeatmap(activeBeatmap);
-    if (!activeMode) setActiveMode(activeBeatmap.mode);
-  }, [beatmapSet]);
-
-  useEffect(() => {
-    if (
-      !beatmapSet ||
-      [activeMode && gameModeToVanilla(activeMode), GameMode.STANDARD].includes(
-        activeBeatmap?.mode ?? GameMode.STANDARD
-      )
-    )
-      return;
-
-    const beatmap = beatmapSet.beatmaps.find(
-      (beatmap) => beatmap.mode === activeMode
-    );
-
-    const activeBeatmapNew = beatmap ?? beatmapSet.beatmaps[0];
-
-    setActiveBeatmap(activeBeatmapNew);
-    setActiveMode(activeBeatmapNew.mode);
-  }, [activeMode]);
-
-  useEffect(() => {
-    if (!activeMode) return;
-
-    window.history.replaceState(
-      null,
-      "",
-      pathname + "?" + createQueryString("mode", activeMode.toString())
-    );
-  }, [activeMode]);
-
-  useEffect(() => {
-    if (!activeBeatmap) return;
-
-    if (activeBeatmap.id.toString() !== beatmapId) {
-      window.history.replaceState(
-        null,
-        "",
-        `/beatmapsets/${beatmapSetId}/${activeBeatmap.id}?` +
-          searchParams.toString()
-      );
-    }
-  }, [activeBeatmap]);
 
   const createQueryString = useCallback(
     (name: string, value: string) => {
@@ -116,18 +63,79 @@ export default function Beatmapset(props: BeatmapsetProps) {
 
       return params.toString();
     },
-    [searchParams]
+    [searchParams],
   );
 
-  if (beatmapsetQuery.isLoading || !activeMode)
+  useEffect(() => {
+    if (!beatmapSet)
+      return;
+
+    const beatmap = beatmapSet.beatmaps.find(
+      beatmap => beatmap.id === Number(beatmapId),
+    );
+
+    const activeBeatmap = beatmap ?? beatmapSet.beatmaps[0];
+
+    setActiveBeatmap(activeBeatmap);
+    if (!activeMode)
+      setActiveMode(activeBeatmap.mode);
+  }, [activeMode, beatmapId, beatmapSet]);
+
+  useEffect(() => {
+    if (
+      !beatmapSet
+      || [activeMode && gameModeToVanilla(activeMode), GameMode.STANDARD].includes(
+        activeBeatmap?.mode ?? GameMode.STANDARD,
+      )
+    ) {
+      return;
+    }
+
+    const beatmap = beatmapSet.beatmaps.find(
+      beatmap => beatmap.mode === activeMode,
+    );
+
+    const activeBeatmapNew = beatmap ?? beatmapSet.beatmaps[0];
+
+    setActiveBeatmap(activeBeatmapNew);
+    setActiveMode(activeBeatmapNew.mode);
+  }, [activeBeatmap?.mode, activeMode, beatmapSet]);
+
+  useEffect(() => {
+    if (!activeMode)
+      return;
+
+    window.history.replaceState(
+      null,
+      "",
+      `${pathname}?${createQueryString("mode", activeMode.toString())}`,
+    );
+  }, [activeMode, createQueryString, pathname]);
+
+  useEffect(() => {
+    if (!activeBeatmap)
+      return;
+
+    if (activeBeatmap.id.toString() !== beatmapId) {
+      window.history.replaceState(
+        null,
+        "",
+        `/beatmapsets/${beatmapSetId}/${activeBeatmap.id}?${
+          searchParams.toString()}`,
+      );
+    }
+  }, [activeBeatmap, beatmapId, beatmapSetId, searchParams]);
+
+  if (beatmapsetQuery.isLoading || !activeMode) {
     return (
-      <div className="flex flex-col justify-center items-center h-96">
+      <div className="flex h-96 flex-col items-center justify-center">
         <Spinner size="xl" />
       </div>
     );
+  }
 
-  const errorMessage =
-    beatmapsetQuery?.error?.message ?? t("error.notFound.title");
+  const errorMessage
+    = beatmapsetQuery?.error?.message ?? t("error.notFound.title");
 
   return (
     <div className="flex flex-col space-y-4">
@@ -137,34 +145,34 @@ export default function Beatmapset(props: BeatmapsetProps) {
           setActiveMode={setActiveMode}
           includeGameRules={false}
           enabledModes={
-            beatmapSet &&
-            beatmapSet.beatmaps.some(
-              (beatmap) => beatmap.mode === GameMode.STANDARD
+            beatmapSet
+            && beatmapSet.beatmaps.some(
+              beatmap => beatmap.mode === GameMode.STANDARD,
             )
               ? undefined
-              : [...(beatmapSet?.beatmaps.map((beatmap) => beatmap.mode) ?? [])]
+              : [...(beatmapSet?.beatmaps.map(beatmap => beatmap.mode) ?? [])]
           }
         />
       </PrettyHeader>
 
-      <RoundedContent className="rounded-lg p-0 h-full">
+      <RoundedContent className="h-full rounded-lg p-0">
         {beatmapSet && activeBeatmap ? (
           <>
             <div>
-              <div className="z-20 lg:min-h-80 h-full flex relative">
-                <div className="bg-black/60 lg:px-6 md:p-4 p-2 rounded-t-lg flex-grow flex">
-                  <div className="flex lg:flex-row flex-grow space-y-4 lg:space-y-0 flex-col justify-between lg:mb-4">
-                    <div className="flex flex-col space-y-6 lg:space-y-0 justify-between">
+              <div className="relative z-20 flex h-full lg:min-h-80">
+                <div className="flex flex-grow rounded-t-lg bg-black/60 p-2 md:p-4 lg:px-6">
+                  <div className="flex flex-grow flex-col justify-between space-y-4 lg:mb-4 lg:flex-row lg:space-y-0">
+                    <div className="flex flex-col justify-between space-y-6 lg:space-y-0">
                       <DifficultySelector
                         beatmapset={beatmapSet}
                         activeDifficulty={activeBeatmap}
                         setDifficulty={setActiveBeatmap}
                         activeGameMode={gameModeToVanilla(activeMode)}
-                        difficulties={beatmapSet.beatmaps.filter((beatmap) =>
+                        difficulties={beatmapSet.beatmaps.filter(beatmap =>
                           [
                             gameModeToVanilla(activeMode),
                             GameMode.STANDARD,
-                          ].includes(beatmap.mode)
+                          ].includes(beatmap.mode),
                         )}
                       />
 
@@ -172,7 +180,7 @@ export default function Beatmapset(props: BeatmapsetProps) {
                         <h3 className="text-3xl font-bold text-white">
                           {beatmapSet.title}
                         </h3>
-                        <p className="text-gray-200 text-lg">
+                        <p className="text-lg text-gray-200">
                           {beatmapSet.artist}
                         </p>
                       </div>
@@ -184,39 +192,43 @@ export default function Beatmapset(props: BeatmapsetProps) {
                             alt=""
                             width={48}
                             height={48}
-                            className="rounded-lg object-contain bg-stone-800 max-h-12 max-w-12"
+                            className="max-h-12 max-w-12 rounded-lg bg-stone-800 object-contain"
                             fallBackSrc="/images/placeholder.png"
                           />
-                          <div className="flex flex-col ml-2 text-xs font-light">
+                          <div className="ml-2 flex flex-col text-xs font-light">
                             <div className="flex items-center">
-                              {t("submission.submittedBy")}&nbsp;
+                              {t("submission.submittedBy")}
+&nbsp;
                               <p className="font-bold">
                                 {beatmapSet.creator || "Unknown"}
                               </p>
                             </div>
                             <div className="flex items-center">
-                              {t("submission.submittedOn")}&nbsp;
+                              {t("submission.submittedOn")}
+&nbsp;
                               <PrettyDate
                                 time={beatmapSet.submitted_date}
                                 className="font-bold"
                               />
                             </div>
-                            {beatmapSet.ranked_date &&
-                              beatmapSet.status === BeatmapStatusWeb.RANKED && (
-                                <div className="flex items-center">
-                                  {t("submission.rankedOn")}&nbsp;
-                                  <PrettyDate
-                                    time={beatmapSet.ranked_date}
-                                    className="font-bold"
-                                  />
-                                </div>
-                              )}
+                            {beatmapSet.ranked_date
+                              && beatmapSet.status === BeatmapStatusWeb.RANKED && (
+                              <div className="flex items-center">
+                                {t("submission.rankedOn")}
+&nbsp;
+                                <PrettyDate
+                                  time={beatmapSet.ranked_date}
+                                  className="font-bold"
+                                />
+                              </div>
+                            )}
                             {activeBeatmap.beatmap_nominator_user && (
                               <div className="flex w-full items-center gap-1">
-                                <div className="text-current lowercase">
+                                <div className="lowercase text-current">
                                   {t("submission.statusBy", {
                                     status: activeBeatmap.status,
-                                  })}{" "}
+                                  })}
+                                  {" "}
                                 </div>
                                 <BeatmapNominatorUser
                                   user={activeBeatmap.beatmap_nominator_user}
@@ -225,7 +237,7 @@ export default function Beatmapset(props: BeatmapsetProps) {
                             )}
                           </div>
                         </div>
-                        <div className="flex flex-wrap flex-row items-center gap-2">
+                        <div className="flex flex-row flex-wrap items-center gap-2">
                           <FavouriteButton beatmapSet={beatmapSet} />
                           <DownloadButtons beatmapSet={beatmapSet} />
                           <BeatmapDropdown
@@ -237,17 +249,17 @@ export default function Beatmapset(props: BeatmapsetProps) {
                       </div>
                     </div>
 
-                    <div className="flex flex-col justify-between min-w-64 space-y-4 lg:space-y-0">
+                    <div className="flex min-w-64 flex-col justify-between space-y-4 lg:space-y-0">
                       <div className="flex flex-row space-x-1">
                         {beatmapSet.video && (
-                          <div className="bg-accent bg-opacity-80 p-2 rounded-lg flex items-center">
+                          <div className="flex items-center rounded-lg bg-accent bg-opacity-80 p-2">
                             <Tooltip content={t("video.tooltip")}>
                               <Clapperboard className="h-5" />
                             </Tooltip>
                           </div>
                         )}
-                        <div className="bg-accent bg-opacity-80 py-2 px-8 rounded-lg flex flex-row w-full">
-                          <div className="flex mx-auto space-x-1">
+                        <div className="flex w-full flex-row rounded-lg bg-accent bg-opacity-80 px-8 py-2">
+                          <div className="mx-auto flex space-x-1">
                             <BeatmapStatusIcon status={activeBeatmap.status} />
                             <p className="capitalize">{activeBeatmap.status}</p>
                           </div>
@@ -261,7 +273,7 @@ export default function Beatmapset(props: BeatmapsetProps) {
                   </div>
                 </div>
 
-                <div className="-z-10 absolute inset-0 overflow-hidden rounded-t-lg">
+                <div className="absolute inset-0 -z-10 overflow-hidden rounded-t-lg">
                   <ImageWithFallback
                     src={`https://assets.ppy.sh/beatmaps/${beatmapSet.id}/covers/cover@2x.jpg`}
                     alt="beatmap image"
@@ -274,15 +286,15 @@ export default function Beatmapset(props: BeatmapsetProps) {
               </div>
             </div>
 
-            <div className="p-4 bg-card">
-              <div className="grid grid-cols-1 lg:grid-cols-6 gap-4">
+            <div className="bg-card p-4">
+              <div className="grid grid-cols-1 gap-4 lg:grid-cols-6">
                 <div className="flex flex-col lg:col-span-3 lg:h-80">
                   <PrettyHeader
                     icon={<Book />}
                     text={t("description.header")}
-                    className="font-normal py-2 px-4"
+                    className="px-4 py-2 font-normal"
                   />
-                  <RoundedContent className="min-h-0 h-full overflow-y-auto">
+                  <RoundedContent className="h-full min-h-0 overflow-y-auto">
                     <BBCodeReactParser textHtml={beatmapSet.description} />
                   </RoundedContent>
                 </div>
@@ -298,8 +310,8 @@ export default function Beatmapset(props: BeatmapsetProps) {
               </div>
 
               {activeBeatmap.is_scoreable && (
-                <div className="flex flex-col w-full space-y-4">
-                  <PrettyHeader className="rounded-md mt-4">
+                <div className="flex w-full flex-col space-y-4">
+                  <PrettyHeader className="mt-4 rounded-md">
                     <GameModeSelector
                       activeMode={activeMode}
                       setActiveMode={setActiveMode}
@@ -315,23 +327,25 @@ export default function Beatmapset(props: BeatmapsetProps) {
               )}
             </div>
           </>
-        ) : beatmapsetQuery?.error ? (
-          <RoundedContent className="rounded-l flex flex-col md:flex-row justify-between items-center md:items-start gap-8 ">
-            <div className="flex flex-col space-y-2">
-              <h1 className="text-4xl">{errorMessage}</h1>
-              <p className="text-muted-foreground">
-                {t("error.notFound.description")}
-              </p>
-            </div>
-            <Image
-              src="/images/user-not-found.png"
-              alt="404"
-              width={200}
-              height={400}
-              className="max-w-fit"
-            />
-          </RoundedContent>
-        ) : null}
+        ) : beatmapsetQuery?.error
+          ? (
+              <RoundedContent className="flex flex-col items-center justify-between gap-8 rounded-l md:flex-row md:items-start ">
+                <div className="flex flex-col space-y-2">
+                  <h1 className="text-4xl">{errorMessage}</h1>
+                  <p className="text-muted-foreground">
+                    {t("error.notFound.description")}
+                  </p>
+                </div>
+                <Image
+                  src="/images/user-not-found.png"
+                  alt="404"
+                  width={200}
+                  height={400}
+                  className="max-w-fit"
+                />
+              </RoundedContent>
+            )
+          : null}
       </RoundedContent>
     </div>
   );

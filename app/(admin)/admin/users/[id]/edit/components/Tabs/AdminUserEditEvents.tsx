@@ -1,20 +1,22 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Search, Filter } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
-import useDebounce from "@/lib/hooks/useDebounce";
-import { UserSensitiveResponse, UserEventType } from "@/lib/types/api";
-import { useUserEvents } from "@/lib/hooks/api/user/useAdminUserEdit";
-import { AdminUserEventsDataTable } from "../../../../components/AdminUserEventsDataTable";
-import { adminUserEventsColumns } from "../../../../components/AdminUserEventsColumns";
-import { AdminUserEventsFilters } from "../../../../components/AdminUserEventsFilters";
-import Spinner from "@/components/Spinner";
-import { PaginationState } from "@tanstack/react-table";
+import type { PaginationState } from "@tanstack/react-table";
+import { Filter, Search } from "lucide-react";
 import { usePathname, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+
+import Spinner from "@/components/Spinner";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { useUserEvents } from "@/lib/hooks/api/user/useAdminUserEdit";
+import useDebounce from "@/lib/hooks/useDebounce";
+import type { UserEventType, UserSensitiveResponse } from "@/lib/types/api";
 import { tryParseNumber } from "@/lib/utils/type.util";
+
+import { adminUserEventsColumns } from "../../../../components/AdminUserEventsColumns";
+import { AdminUserEventsDataTable } from "../../../../components/AdminUserEventsDataTable";
+import { AdminUserEventsFilters } from "../../../../components/AdminUserEventsFilters";
 
 export default function AdminUserEditEvents({
   user,
@@ -42,22 +44,9 @@ export default function AdminUserEditEvents({
   >(
     eventsTypes
       ? (eventsTypes.split(",").filter(Boolean) as UserEventType[])
-      : null
+      : null,
   );
   const [showFilters, setShowFilters] = useState(false);
-
-  const createQueryString = useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString());
-      if (value) {
-        params.set(name, value);
-      } else {
-        params.delete(name);
-      }
-      return params.toString();
-    },
-    [searchParams]
-  );
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -67,7 +56,7 @@ export default function AdminUserEditEvents({
     params.set("events_size", pagination.pageSize.toString());
     params.set(
       "events_types",
-      eventTypesFilter ? eventTypesFilter.join(",") : ""
+      eventTypesFilter ? eventTypesFilter.join(",") : "",
     );
 
     window.history.replaceState(null, "", `${pathname}?${params.toString()}`);
@@ -88,7 +77,7 @@ export default function AdminUserEditEvents({
       refreshInterval: 0,
       revalidateOnFocus: false,
       keepPreviousData: true,
-    }
+    },
   );
 
   const events = data?.events || [];
@@ -109,13 +98,13 @@ export default function AdminUserEditEvents({
       <div className="flex flex-col gap-6 md:flex-row">
         <div className="flex flex-1 items-center space-x-6">
           <div className="relative flex-1">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Search className="absolute left-2.5 top-2.5 size-4 text-muted-foreground" />
             <Input
               type="search"
               placeholder="Search events..."
               className="pl-8"
               value={searchQuery}
-              onChange={(e) => handleSearch(e.target.value)}
+              onChange={e => handleSearch(e.target.value)}
             />
           </div>
           <Button
@@ -124,11 +113,11 @@ export default function AdminUserEditEvents({
             className="relative"
             onClick={() => setShowFilters(!showFilters)}
           >
-            <Filter className="mr-2 h-4 w-4" />
+            <Filter className="mr-2 size-4" />
             Filters
             {eventTypesFilter != null && (
-              <div className="absolute bg-primary sm:-top-2 text-primary-foreground -top-2.5 sm:-left-2 -left-2.5 rounded-full w-6 h-6 flex items-center justify-center text-sm">
-                {[eventTypesFilter].filter((v) => v != null).length}
+              <div className="absolute -left-2.5 -top-2.5 flex size-6 items-center justify-center rounded-full bg-primary text-sm text-primary-foreground sm:-left-2 sm:-top-2">
+                {[eventTypesFilter].filter(v => v != null).length}
               </div>
             )}
           </Button>
@@ -142,8 +131,8 @@ export default function AdminUserEditEvents({
         <div
           className={
             showFilters
-              ? "opacity-100 scale-100 transition duration-500"
-              : "opacity-0 scale-95 transition duration-300"
+              ? "scale-100 opacity-100 transition duration-500"
+              : "scale-95 opacity-0 transition duration-300"
           }
         >
           <AdminUserEventsFilters
@@ -161,33 +150,37 @@ export default function AdminUserEditEvents({
               <Spinner />
             </CardContent>
           </Card>
-        ) : events.length > 0 ? (
-          <AdminUserEventsDataTable
-            columns={adminUserEventsColumns}
-            data={events}
-            pagination={pagination}
-            totalCount={totalCount}
-            setPagination={setPagination}
-          />
-        ) : searchValue || eventTypesFilter ? (
-          <Card className="p-8">
-            <CardContent className="flex flex-col items-center justify-center p-0 text-muted-foreground">
-              <Search className="h-12 w-12 mb-4 opacity-50" />
-              <p>
-                No events found
-                {searchValue && ` matching "${searchValue}"`}
-                {eventTypesFilter && " with selected filters"}
-              </p>
-            </CardContent>
-          </Card>
-        ) : (
-          <Card className="p-8">
-            <CardContent className="flex flex-col items-center justify-center p-0 text-muted-foreground">
-              <Search className="h-12 w-12 mb-4 opacity-50" />
-              <p>No events found</p>
-            </CardContent>
-          </Card>
-        )}
+        ) : events.length > 0
+          ? (
+              <AdminUserEventsDataTable
+                columns={adminUserEventsColumns}
+                data={events}
+                pagination={pagination}
+                totalCount={totalCount}
+                setPagination={setPagination}
+              />
+            )
+          : searchValue || eventTypesFilter
+            ? (
+                <Card className="p-8">
+                  <CardContent className="flex flex-col items-center justify-center p-0 text-muted-foreground">
+                    <Search className="mb-4 size-12 opacity-50" />
+                    <p>
+                      No events found
+                      {searchValue && ` matching "${searchValue}"`}
+                      {eventTypesFilter && " with selected filters"}
+                    </p>
+                  </CardContent>
+                </Card>
+              )
+            : (
+                <Card className="p-8">
+                  <CardContent className="flex flex-col items-center justify-center p-0 text-muted-foreground">
+                    <Search className="mb-4 size-12 opacity-50" />
+                    <p>No events found</p>
+                  </CardContent>
+                </Card>
+              )}
       </div>
     </div>
   );

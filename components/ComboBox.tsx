@@ -1,3 +1,6 @@
+import { Check, ChevronsUpDown } from "lucide-react";
+import { useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -12,16 +15,13 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
-
-import { ChevronsUpDown, Check } from "lucide-react";
-import { useState } from "react";
 import { useT } from "@/lib/i18n/utils";
+import { cn } from "@/lib/utils";
 
 interface Props {
   activeValue: string;
   setActiveValue: (value: string) => void;
-  values: { value: string; label: string }[];
+  values: Array<{ value: string; label: string }>;
   includeInput?: boolean;
   buttonPreLabel?: string;
 }
@@ -46,10 +46,10 @@ export function Combobox({
           className="w-auto justify-between capitalize"
         >
           {activeValue
-            ? (buttonPreLabel ? buttonPreLabel : "") +
-              values.find((data) => data.value === activeValue)?.label
+            ? (buttonPreLabel ?? "")
+            + values.find(data => data.value === activeValue)?.label
             : t("selectValue")}
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          <ChevronsUpDown className="ml-2 size-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
@@ -58,10 +58,10 @@ export function Combobox({
           <CommandList>
             <CommandEmpty>{t("noValuesFound")}</CommandEmpty>
             <CommandGroup>
-              {values.map((data, index) => (
+              {values.map(data => (
                 <CommandItem
                   className="capitalize"
-                  key={index}
+                  key={`combo-box-item-${data.value}`}
                   value={data.value}
                   onSelect={(currentValue) => {
                     setActiveValue(currentValue);
@@ -70,8 +70,8 @@ export function Combobox({
                 >
                   <Check
                     className={cn(
-                      "mr-2 h-4 w-4",
-                      activeValue === data.value ? "opacity-100" : "opacity-0"
+                      "mr-2 size-4",
+                      activeValue === data.value ? "opacity-100" : "opacity-0",
                     )}
                   />
                   {data.label}

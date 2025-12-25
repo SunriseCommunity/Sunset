@@ -1,10 +1,13 @@
-import {
+import type {
   RichTranslationValues,
   TranslationValues,
+} from "next-intl";
+import {
   useTranslations,
 } from "next-intl";
 import { getTranslations } from "next-intl/server";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
+
 import { LOCALE_TO_COUNTRY } from "./messages";
 
 export type TranslationKey = string;
@@ -35,7 +38,7 @@ export function useT(namespace?: string) {
 export async function getT(namespace?: string) {
   const t = await getTranslations(namespace);
 
-  const appName = await getTranslations("general").then((t) => t("appName"));
+  const appName = await getTranslations("general").then(t => t("appName"));
 
   const plainT = (key: TranslationKey, values?: TranslationValues) =>
     t(key, { appName, ...values });
@@ -48,10 +51,10 @@ export async function getT(namespace?: string) {
   return plainT;
 }
 
-export const getCountryCodeForLocale = (locale: string) => {
+export function getCountryCodeForLocale(locale: string) {
   return LOCALE_TO_COUNTRY[locale] || locale.toUpperCase();
-};
+}
 
-export const getLanguageName = (locale: string) => {
+export function getLanguageName(locale: string) {
   return locale.toUpperCase();
-};
+}

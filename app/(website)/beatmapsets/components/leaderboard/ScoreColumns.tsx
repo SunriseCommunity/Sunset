@@ -1,5 +1,11 @@
 "use client";
 
+import type { Column, ColumnDef } from "@tanstack/react-table";
+import { MoreHorizontal, SortAsc, SortDesc } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { Suspense, useContext, useMemo } from "react";
+
 import { ScoreTableContext } from "@/app/(website)/beatmapsets/components/leaderboard/ScoreDataTable";
 import { Tooltip } from "@/components/Tooltip";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -13,20 +19,16 @@ import {
 import UserHoverCard from "@/components/UserHoverCard";
 import { useDownloadReplay } from "@/lib/hooks/api/score/useDownloadReplay";
 import useSelf from "@/lib/hooks/useSelf";
-import { GameMode, ScoreResponse } from "@/lib/types/api";
+import { useT } from "@/lib/i18n/utils";
+import type { ScoreResponse } from "@/lib/types/api";
+import { GameMode } from "@/lib/types/api";
 import { gameModeToVanilla } from "@/lib/utils/gameMode.util";
 import { getGradeColor } from "@/lib/utils/getGradeColor";
 import numberWith from "@/lib/utils/numberWith";
 import { timeSince } from "@/lib/utils/timeSince";
 import toPrettyDate from "@/lib/utils/toPrettyDate";
-import { Column, ColumnDef, HeaderContext } from "@tanstack/react-table";
-import { MoreHorizontal, SortAsc, SortDesc } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { Suspense, useContext, useMemo } from "react";
-import { useT } from "@/lib/i18n/utils";
 
-export const useScoreColumns = (): ColumnDef<ScoreResponse>[] => {
+export function useScoreColumns(): Array<ColumnDef<ScoreResponse>> {
   const t = useT("pages.beatmapsets.components.leaderboard");
 
   return useMemo(
@@ -41,7 +43,7 @@ export const useScoreColumns = (): ColumnDef<ScoreResponse>[] => {
         cell: ({ row }) => {
           const value = row.index + 1;
 
-          return <div className="text-center whitespace-nowrap"># {value}</div>;
+          return <div className="whitespace-nowrap text-center"># {value}</div>;
         },
       },
       {
@@ -50,7 +52,7 @@ export const useScoreColumns = (): ColumnDef<ScoreResponse>[] => {
         cell: ({ row }) => {
           const { grade } = row.original;
           return (
-            <p className={`text-${getGradeColor(grade)} text-lg text-shadow`}>
+            <p className={`text-${getGradeColor(grade)} text-shadow text-lg`}>
               {grade}
             </p>
           );
@@ -104,11 +106,11 @@ export const useScoreColumns = (): ColumnDef<ScoreResponse>[] => {
           sortableHeader({ column, title: t("columns.player") }),
         cell: ({ row }) => {
           const userId = row.original.user.user_id;
-          const username = row.original.user.username;
+          const { username } = row.original.user;
 
           return (
             <div className="flex flex-row items-center space-x-2">
-              <Avatar className="border-2 border-white h-8 w-8">
+              <Avatar className="size-8 border-2 border-white">
                 <Suspense fallback={<AvatarFallback>UA</AvatarFallback>}>
                   <Image
                     src={row.original.user.avatar_url}
@@ -133,8 +135,9 @@ export const useScoreColumns = (): ColumnDef<ScoreResponse>[] => {
         header: ({ column }) =>
           sortableHeader({ column, title: t("columns.maxCombo") }),
         cell: ({ row }) => {
-          const maxPossibleCombo =
-            useContext(ScoreTableContext)?.beatmap.max_combo;
+          const maxPossibleCombo
+          // eslint-disable-next-line react-hooks/rules-of-hooks -- table context
+            = useContext(ScoreTableContext)?.beatmap.max_combo;
           const { max_combo } = row.original;
 
           return (
@@ -195,7 +198,8 @@ export const useScoreColumns = (): ColumnDef<ScoreResponse>[] => {
             column,
             title:
               gameModeToVanilla(
-                useContext(ScoreTableContext)?.gamemode ?? GameMode.STANDARD
+                // eslint-disable-next-line react-hooks/rules-of-hooks -- table context
+                useContext(ScoreTableContext)?.gamemode ?? GameMode.STANDARD,
               ) === GameMode.CATCH_THE_BEAT
                 ? t("columns.lDrp")
                 : t("columns.ok"),
@@ -217,7 +221,8 @@ export const useScoreColumns = (): ColumnDef<ScoreResponse>[] => {
             column,
             title:
               gameModeToVanilla(
-                useContext(ScoreTableContext)?.gamemode ?? GameMode.STANDARD
+                // eslint-disable-next-line react-hooks/rules-of-hooks -- table context
+                useContext(ScoreTableContext)?.gamemode ?? GameMode.STANDARD,
               ) === GameMode.CATCH_THE_BEAT
                 ? t("columns.sDrp")
                 : t("columns.meh"),
@@ -288,15 +293,17 @@ export const useScoreColumns = (): ColumnDef<ScoreResponse>[] => {
         cell: ({ row }) => {
           const score = row.original;
 
+          // eslint-disable-next-line react-hooks/rules-of-hooks -- table context
           const { self } = useSelf();
+          // eslint-disable-next-line react-hooks/rules-of-hooks -- table context
           const { downloadReplay } = useDownloadReplay(score.id);
 
           return (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="h-8 w-8 p-0">
+                <Button variant="ghost" className="size-8 p-0">
                   <span className="sr-only">{t("actions.openMenu")}</span>
-                  <MoreHorizontal className="h-4 w-4" />
+                  <MoreHorizontal className="size-4" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
@@ -318,17 +325,17 @@ export const useScoreColumns = (): ColumnDef<ScoreResponse>[] => {
         },
       },
     ],
-    [t]
+    [t],
   );
-};
+}
 
-const sortableHeader = ({
+function sortableHeader({
   column,
   title,
 }: {
   column: Column<ScoreResponse, unknown>;
   title: string;
-}) => {
+}) {
   return (
     <Button
       variant="ghost"
@@ -341,9 +348,11 @@ const sortableHeader = ({
       {title}
       {column.getIsSorted() === "asc" ? (
         <SortAsc />
-      ) : column.getIsSorted() === "desc" ? (
-        <SortDesc />
-      ) : null}
+      ) : column.getIsSorted() === "desc"
+        ? (
+            <SortDesc />
+          )
+        : null}
     </Button>
   );
-};
+}

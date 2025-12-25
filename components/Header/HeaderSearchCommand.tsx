@@ -9,10 +9,11 @@ import {
   UserIcon,
   Users2,
 } from "lucide-react";
-import { useEffect, useState, useMemo } from "react";
-import UserRowElement from "../UserRowElement";
-import useDebounce from "@/lib/hooks/useDebounce";
-import { useUserSearch } from "@/lib/hooks/api/user/useUserSearch";
+import { useRouter } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
+
+import BeatmapsetRowElement from "@/components/BeatmapsetRowElement";
+import { Button } from "@/components/ui/button";
 import {
   CommandDialog,
   CommandGroup,
@@ -21,15 +22,16 @@ import {
   CommandList,
   CommandSeparator,
 } from "@/components/ui/command";
-import { useRouter } from "next/navigation";
 import { DialogTitle } from "@/components/ui/dialog";
-import useSelf from "@/lib/hooks/useSelf";
 import { EosIconsThreeDotsLoading } from "@/components/ui/icons/three-dots-loading";
-import { Button } from "@/components/ui/button";
 import { useBeatmapsetSearch } from "@/lib/hooks/api/beatmap/useBeatmapsetSearch";
-import BeatmapsetRowElement from "@/components/BeatmapsetRowElement";
-import { BeatmapStatusWeb } from "@/lib/types/api";
+import { useUserSearch } from "@/lib/hooks/api/user/useUserSearch";
+import useDebounce from "@/lib/hooks/useDebounce";
+import useSelf from "@/lib/hooks/useSelf";
 import { useT } from "@/lib/i18n/utils";
+import { BeatmapStatusWeb } from "@/lib/types/api";
+
+import UserRowElement from "../UserRowElement";
 
 export default function HeaderSearchCommand() {
   const t = useT("components.headerSearchCommand");
@@ -75,7 +77,7 @@ export default function HeaderSearchCommand() {
       {
         icon: <UserIcon />,
         title: t("pages.yourProfile"),
-        url: self != undefined ? `/user/${self.user_id}` : "",
+        url: self !== undefined ? `/user/${self.user_id}` : "",
         filter: "Your profile",
         disabled: !self,
       },
@@ -94,7 +96,7 @@ export default function HeaderSearchCommand() {
         disabled: !self,
       },
     ],
-    [t, self]
+    [t, self],
   );
 
   const userSearchQuery = useUserSearch(searchValue, 1, 5, {
@@ -114,17 +116,17 @@ export default function HeaderSearchCommand() {
     false,
     {
       refreshInterval: 0,
-    }
+    },
   );
 
   const userSearch = userSearchQuery.data;
-  const beatmapsetSearch = beatmapsetSearchQuery.data?.flatMap((d) => d.sets);
+  const beatmapsetSearch = beatmapsetSearchQuery.data?.flatMap(d => d.sets);
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
       if (e.key === "j" && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
-        setOpen((open) => !open);
+        setOpen(open => !open);
       }
     };
 
@@ -140,7 +142,8 @@ export default function HeaderSearchCommand() {
   };
 
   const filterElement = (value: string) => {
-    if (value.toLowerCase().includes(searchQuery.toLowerCase())) return false;
+    if (value.toLowerCase().includes(searchQuery.toLowerCase()))
+      return false;
     return true;
   };
 
@@ -149,8 +152,8 @@ export default function HeaderSearchCommand() {
       <Button
         variant="ghost"
         size="icon"
-        onClick={() => setOpen((open) => !open)}
-        className="hover:bg-neutral-600 hover:bg-opacity-25 p-1 h-7 w-7 rounded-md cursor-pointer smooth-transition opacity-40 group-hover:opacity-100"
+        onClick={() => setOpen(open => !open)}
+        className="smooth-transition size-7 cursor-pointer rounded-md p-1 opacity-40 hover:bg-neutral-600 hover:bg-opacity-25 group-hover:opacity-100"
       >
         <Search />
       </Button>
@@ -164,14 +167,14 @@ export default function HeaderSearchCommand() {
         <CommandList>
           <CommandGroup heading={t("headings.users")}>
             {userSearchQuery.isLoading && !userSearch ? (
-              <div className="flex justify-center h-12 w-full">
+              <div className="flex h-12 w-full justify-center">
                 <EosIconsThreeDotsLoading className="text-4xl" />
               </div>
             ) : (
-              searchQuery != "" &&
-              userSearch?.map((result, index) => (
+              searchQuery !== ""
+              && userSearch?.map(result => (
                 <CommandItem
-                  key={index}
+                  key={`user-${result.user_id}}`}
                   onSelect={() => openPage(`/user/${result.user_id}`)}
                 >
                   <UserRowElement user={result} />
@@ -182,14 +185,14 @@ export default function HeaderSearchCommand() {
           <CommandSeparator />
           <CommandGroup heading={t("headings.beatmapsets")}>
             {beatmapsetSearchQuery.isLoading && !beatmapsetSearch ? (
-              <div className="flex justify-center h-12 w-full">
+              <div className="flex h-12 w-full justify-center">
                 <EosIconsThreeDotsLoading className="text-4xl" />
               </div>
             ) : (
-              searchQuery != "" &&
-              beatmapsetSearch?.map((result, index) => (
+              searchQuery !== ""
+              && beatmapsetSearch?.map(result => (
                 <CommandItem
-                  key={index}
+                  key={`beatmapset-${result.id}`}
                   className="p-0"
                   onSelect={() => openPage(`/beatmapsets/${result.id}`)}
                 >
@@ -200,7 +203,7 @@ export default function HeaderSearchCommand() {
           </CommandGroup>
           <CommandSeparator />
           <CommandGroup heading={t("headings.pages")}>
-            {pagesList.map((page) => (
+            {pagesList.map(page => (
               <CommandItem
                 key={page.url}
                 onSelect={() => openPage(page.url)}

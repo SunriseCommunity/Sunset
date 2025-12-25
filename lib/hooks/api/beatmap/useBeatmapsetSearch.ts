@@ -1,13 +1,13 @@
 "use client";
 
-import fetcher from "@/lib/services/fetcher";
-import {
+import type { SWRConfiguration } from "swr";
+import useSWRInfinite from "swr/infinite";
+
+import type {
   BeatmapStatusWeb,
   GameMode,
   GetBeatmapsetSearchResponse,
 } from "@/lib/types/api";
-import useSWR, { SWRConfiguration } from "swr";
-import useSWRInfinite from "swr/infinite";
 
 export function useBeatmapsetSearch(
   query: string,
@@ -15,14 +15,16 @@ export function useBeatmapsetSearch(
   status?: BeatmapStatusWeb[],
   mode?: GameMode,
   searchByCustomStatus?: boolean,
-  options?: SWRConfiguration
+  options?: SWRConfiguration,
 ) {
   const getKey = (
     pageIndex: number,
-    previousPageData?: GetBeatmapsetSearchResponse
+    previousPageData?: GetBeatmapsetSearchResponse,
   ) => {
-    if (previousPageData && previousPageData.sets.length === 0) return null;
-    if (limit === 0) return null;
+    if (previousPageData && previousPageData.sets.length === 0)
+      return null;
+    if (limit === 0)
+      return null;
 
     const queryParams = new URLSearchParams({
       page: (pageIndex + 1).toString(),
@@ -30,7 +32,8 @@ export function useBeatmapsetSearch(
 
     if (query && !searchByCustomStatus)
       queryParams.append("query", query.toString());
-    if (limit) queryParams.append("limit", limit.toString());
+    if (limit)
+      queryParams.append("limit", limit.toString());
     if (mode && !searchByCustomStatus)
       queryParams.append("mode", mode.toString());
     if (searchByCustomStatus) {
@@ -38,7 +41,7 @@ export function useBeatmapsetSearch(
     }
 
     if (status && status.length > 0) {
-      status.forEach((s) => queryParams.append("status", s));
+      status.forEach(s => queryParams.append("status", s));
     }
 
     return `beatmapset/search?${queryParams.toString()}`;

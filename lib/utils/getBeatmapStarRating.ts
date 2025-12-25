@@ -1,8 +1,9 @@
-import { BeatmapResponse, GameMode } from "@/lib/types/api";
+import type { BeatmapResponse } from "@/lib/types/api";
+import { GameMode } from "@/lib/types/api";
 
 export function getBeatmapStarRating(
   beatmap: BeatmapResponse,
-  mode?: GameMode
+  mode?: GameMode,
 ) {
   switch (mode ?? beatmap.mode) {
     case GameMode.STANDARD:

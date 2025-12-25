@@ -1,27 +1,11 @@
+import { twMerge } from "tailwind-merge";
+
 import RoundedContent from "@/components/General/RoundedContent";
 import { ModElement } from "@/components/ModIcons";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { ShortenedMods } from "@/lib/hooks/api/score/types";
 import { GameMode, Mods } from "@/lib/types/api";
 import { gameModeToVanilla } from "@/lib/utils/gameMode.util";
-import {
-  Ban,
-  Candy,
-  Cloudy,
-  Flashlight,
-  HandMetal,
-  Headphones,
-  Hourglass,
-  Keyboard,
-  LifeBuoy,
-  LoaderPinwheel,
-  Rocket,
-  SkipForwardIcon,
-  Skull,
-  Star,
-  ThumbsUp,
-} from "lucide-react";
-import { twMerge } from "tailwind-merge";
 
 const modElements = [
   Mods.NONE,
@@ -38,7 +22,7 @@ const modElements = [
   Mods.SPUN_OUT,
   Mods.RELAX2,
   Mods.RELAX,
-  Mods.SCORE_V2
+  Mods.SCORE_V2,
 ];
 
 export function ModsSelector({
@@ -57,6 +41,7 @@ export function ModsSelector({
   className?: string;
 }) {
   if (mode) {
+    // eslint-disable-next-line no-param-reassign -- expected
     ignoreMods = [
       ...([GameMode.STANDARD].includes(gameModeToVanilla(mode))
         ? []
@@ -81,14 +66,14 @@ export function ModsSelector({
         }}
       >
         {modElements
-          .filter((mod) => !ignoreMods?.includes(mod))
-          .map((mod) => (
+          .filter(mod => !ignoreMods?.includes(mod))
+          .map(mod => (
             <ToggleGroupItem
               key={mod}
               size={variant === "small" ? "lg" : "xl"}
               value={mod.toString()}
               variant={variant === "small" ? "default" : "outline"}
-              className="capitalize p-0 h-auto"
+              className="h-auto p-0 capitalize"
             >
               <ModElement key={mod} modAcronym={ShortenedMods[mod]} variant="leaderboard" />
             </ToggleGroupItem>

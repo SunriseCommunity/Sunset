@@ -1,8 +1,11 @@
 "use client";
 
+import { ChevronsUp, Home, Moon, Music2, Sun, Users } from "lucide-react";
+import Link from "next/link";
+import type { SWRInfiniteResponse } from "swr/infinite";
+
 import { SidebarUser } from "@/app/(admin)/components/SidebarUser";
 import HeaderLoginDialog from "@/components/Header/HeaderLoginDialog";
-
 import { ThemeModeToggle } from "@/components/Header/ThemeModeToggle";
 import {
   Sidebar,
@@ -20,10 +23,8 @@ import {
 } from "@/components/ui/sidebar";
 import { useBeatmapSetGetHypedSets } from "@/lib/hooks/api/beatmap/useBeatmapSetHypedSets";
 import useSelf from "@/lib/hooks/useSelf";
-import { HypedBeatmapSetsResponse, UserBadge } from "@/lib/types/api";
-import { Home, ChevronsUp, Music2, Moon, Sun, Users } from "lucide-react";
-import Link from "next/link";
-import { SWRInfiniteResponse } from "swr/infinite";
+import type { HypedBeatmapSetsResponse } from "@/lib/types/api";
+import { UserBadge } from "@/lib/types/api";
 
 const infoTabs = [
   {
@@ -52,12 +53,12 @@ const actionTabs = [
     icon: ChevronsUp,
     requires: UserBadge.BAT,
     beatmapsRequestBadge: (
-      requestsQuery: SWRInfiniteResponse<HypedBeatmapSetsResponse, any>
+      requestsQuery: SWRInfiniteResponse<HypedBeatmapSetsResponse, any>,
     ) => {
       const { data } = requestsQuery;
 
       return (
-        data?.find((item) => item.total_count !== undefined)?.total_count ?? 0
+        data?.find(item => item.total_count !== undefined)?.total_count ?? 0
       );
     },
   },
@@ -68,16 +69,18 @@ export function AppSidebar() {
   const requestsQuery = useBeatmapSetGetHypedSets();
 
   const infoTabsWithAccess = infoTabs.filter((item) => {
-    if (!self) return false;
+    if (!self)
+      return false;
 
-    var requirements = item.requires && !self.badges.includes(item.requires);
+    const requirements = item.requires && !self.badges.includes(item.requires);
     return !requirements;
   });
 
   const actionTabsWithAccess = actionTabs.filter((item) => {
-    if (!self) return false;
+    if (!self)
+      return false;
 
-    var requirements = item.requires && !self.badges.includes(item.requires);
+    const requirements = item.requires && !self.badges.includes(item.requires);
     return !requirements;
   });
 
@@ -91,7 +94,7 @@ export function AppSidebar() {
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {infoTabsWithAccess.map((item) => (
+              {infoTabsWithAccess.map(item => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <Link href={item.url}>
@@ -108,7 +111,7 @@ export function AppSidebar() {
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {actionTabsWithAccess.map((item) => (
+              {actionTabsWithAccess.map(item => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <Link href={item.url}>

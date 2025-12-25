@@ -1,5 +1,12 @@
 "use client";
 
+import type { ColumnDef } from "@tanstack/react-table";
+import { MoreHorizontal, SortAsc, SortDesc } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { Suspense, useContext, useMemo } from "react";
+import { twMerge } from "tailwind-merge";
+
 import { UserTableContext } from "@/app/(website)/leaderboard/components/UserDataTable";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -11,15 +18,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import UserHoverCard from "@/components/UserHoverCard";
 import UserRankColor from "@/components/UserRankNumber";
-import { UserResponse, UserStatsResponse } from "@/lib/types/api";
-import numberWith from "@/lib/utils/numberWith";
-import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal, SortAsc, SortDesc } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { Suspense, useContext, useMemo } from "react";
-import { twMerge } from "tailwind-merge";
 import { useT } from "@/lib/i18n/utils";
+import type { UserResponse, UserStatsResponse } from "@/lib/types/api";
+import numberWith from "@/lib/utils/numberWith";
 
 export function useUserColumns() {
   const t = useT("pages.leaderboard.table");
@@ -37,33 +38,35 @@ export function useUserColumns() {
               <Button
                 variant="ghost"
                 onClick={() =>
-                  column.toggleSorting(column.getIsSorted() === "asc")
-                }
-                className="justify-end text-sm w-full px-0"
+                  column.toggleSorting(column.getIsSorted() === "asc")}
+                className="w-full justify-end px-0 text-sm"
               >
                 {t("columns.rank")}
                 {column.getIsSorted() === "asc" ? (
                   <SortAsc />
-                ) : column.getIsSorted() === "desc" ? (
-                  <SortDesc />
-                ) : null}
+                ) : column.getIsSorted() === "desc"
+                  ? (
+                      <SortDesc />
+                    )
+                  : null}
               </Button>
             );
           },
           cell: ({ row }) => {
+            // eslint-disable-next-line react-hooks/rules-of-hooks -- table context
             const table = useContext(UserTableContext);
-            const pageIndex = table.getState().pagination.pageIndex;
-            const pageSize = table.getState().pagination.pageSize;
+            const { pageIndex } = table.getState().pagination;
+            const { pageSize } = table.getState().pagination;
             const value = row.index + pageIndex * pageSize + 1;
 
-            const textSize =
-              value === 1
+            const textSize
+              = value === 1
                 ? "text-2xl"
                 : value === 2
-                ? "text-lg"
-                : value === 3
-                ? "text-base"
-                : "text-ms";
+                  ? "text-lg"
+                  : value === 3
+                    ? "text-base"
+                    : "text-ms";
 
             return (
               <UserRankColor
@@ -71,7 +74,7 @@ export function useUserColumns() {
                 variant="primary"
                 className={twMerge(
                   "text-center font-bold whitespace-nowrap ",
-                  textSize
+                  textSize,
                 )}
               >
                 # {value}
@@ -102,13 +105,14 @@ export function useUserColumns() {
             const userId = row.original.user.user_id;
             const { username, avatar_url } = row.original.user;
 
+            // eslint-disable-next-line react-hooks/rules-of-hooks -- table context
             const table = useContext(UserTableContext);
-            const pageIndex = table.getState().pagination.pageIndex;
-            const pageSize = table.getState().pagination.pageSize;
+            const { pageIndex } = table.getState().pagination;
+            const { pageSize } = table.getState().pagination;
             const userRank = row.index + pageIndex * pageSize + 1;
 
             return (
-              <div className="p-3 relative flex flex-row items-center space-x-2">
+              <div className="relative flex flex-row items-center space-x-2 p-3">
                 <Avatar className="border-2 border-white">
                   <Suspense fallback={<AvatarFallback>UA</AvatarFallback>}>
                     <Image src={avatar_url} alt="logo" width={50} height={50} />
@@ -120,7 +124,7 @@ export function useUserColumns() {
                     <UserRankColor
                       rank={userRank}
                       variant="primary"
-                      className="cursor-pointer smooth-transition text-lg font-bold "
+                      className="smooth-transition cursor-pointer text-lg font-bold "
                     >
                       {username}
                     </UserRankColor>
@@ -158,7 +162,7 @@ export function useUserColumns() {
           cell: ({ row }) => {
             const formatted = numberWith(row.original.stats.ranked_score, ",");
             return (
-              <div className="text-right font-bold text-foreground -mr-2">
+              <div className="-mr-2 text-right font-bold text-foreground">
                 {formatted}
               </div>
             );
@@ -171,16 +175,17 @@ export function useUserColumns() {
               <Button
                 variant="ghost"
                 onClick={() =>
-                  column.toggleSorting(column.getIsSorted() === "asc")
-                }
-                className="justify-end text-sm w-full px-0"
+                  column.toggleSorting(column.getIsSorted() === "asc")}
+                className="w-full justify-end px-0 text-sm"
               >
                 {t("columns.accuracy")}
                 {column.getIsSorted() === "asc" ? (
                   <SortAsc />
-                ) : column.getIsSorted() === "desc" ? (
-                  <SortDesc />
-                ) : null}
+                ) : column.getIsSorted() === "desc"
+                  ? (
+                      <SortDesc />
+                    )
+                  : null}
               </Button>
             );
           },
@@ -200,16 +205,17 @@ export function useUserColumns() {
               <Button
                 variant="ghost"
                 onClick={() =>
-                  column.toggleSorting(column.getIsSorted() === "asc")
-                }
-                className="justify-end text-sm w-full px-0"
+                  column.toggleSorting(column.getIsSorted() === "asc")}
+                className="w-full justify-end px-0 text-sm"
               >
                 {t("columns.playCount")}
                 {column.getIsSorted() === "asc" ? (
                   <SortAsc />
-                ) : column.getIsSorted() === "desc" ? (
-                  <SortDesc />
-                ) : null}
+                ) : column.getIsSorted() === "desc"
+                  ? (
+                      <SortDesc />
+                    )
+                  : null}
               </Button>
             );
           },
@@ -230,9 +236,9 @@ export function useUserColumns() {
             return (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="h-8 w-8 p-0">
+                  <Button variant="ghost" className="size-8 p-0">
                     <span className="sr-only">{t("actions.openMenu")}</span>
-                    <MoreHorizontal className="h-4 w-4" />
+                    <MoreHorizontal className="size-4" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
@@ -247,10 +253,10 @@ export function useUserColumns() {
             );
           },
         },
-      ] as ColumnDef<{
+      ] as Array<ColumnDef<{
         user: UserResponse;
         stats: UserStatsResponse;
-      }>[],
-    [t]
+      }>>,
+    [t],
   );
 }

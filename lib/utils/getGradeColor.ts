@@ -1,4 +1,4 @@
-const gradeColors: { [key: string]: string } = {
+const gradeColors: Record<string, string> = {
   XH: "sky-200",
   X: "yellow-300",
   SH: "sky-200",

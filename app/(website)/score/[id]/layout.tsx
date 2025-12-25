@@ -1,10 +1,12 @@
-import { Metadata } from "next";
-import Page from "./page";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getBeatmapStarRating } from "@/lib/utils/getBeatmapStarRating";
-import fetcher from "@/lib/services/fetcher";
-import { BeatmapResponse, ScoreResponse, UserResponse } from "@/lib/types/api";
+
 import { getT } from "@/lib/i18n/utils";
+import fetcher from "@/lib/services/fetcher";
+import type { BeatmapResponse, ScoreResponse, UserResponse } from "@/lib/types/api";
+import { getBeatmapStarRating } from "@/lib/utils/getBeatmapStarRating";
+
+import Page from "./page";
 
 export const revalidate = 60;
 

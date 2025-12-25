@@ -11,15 +11,15 @@ export const AVAILABLE_LOCALES = [
 ] as const;
 
 export const LOCALE_TO_COUNTRY: Record<string, string> = {
-  en: "GB",
-  ru: "RU",
+  "en": "GB",
+  "ru": "RU",
   "en-GB": "OWO",
-  de: "DE",
-  ja: "JP",
+  "de": "DE",
+  "ja": "JP",
   "zh-CN": "CN",
-  es: "ES",
-  fr: "FR",
-  uk: "UA",
+  "es": "ES",
+  "fr": "FR",
+  "uk": "UA",
 };
 
 export const DISPLAY_NAMES_LOCALES: Record<string, string> = {

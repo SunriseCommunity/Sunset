@@ -4,10 +4,10 @@ import { BeatmapSetsEvents } from "@/app/(admin)/admin/beatmapsets/components/Be
 import { ServerStatusCards } from "@/app/(admin)/admin/dashboard/components/serverStatusCards";
 import {
   Card,
-  CardHeader,
-  CardTitle,
   CardContent,
   CardDescription,
+  CardHeader,
+  CardTitle,
 } from "@/components/ui/card";
 import { UserListItem } from "@/components/UserListElement";
 import { WorkInProgress } from "@/components/WorkInProgress";
@@ -28,11 +28,11 @@ export default function Page() {
             <CardDescription>Latest registered users</CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
-            {serverStatus?.recent_users &&
-              serverStatus.recent_users.map((user, i) => (
+            {serverStatus?.recent_users
+              && serverStatus.recent_users.map(user => (
                 <UserListItem
                   user={user}
-                  key={i}
+                  key={`recent-user-${user.user_id}`}
                   includeFriendshipButton={false}
                 />
               ))}
@@ -47,7 +47,7 @@ export default function Page() {
             <WorkInProgress />
           </CardContent>
         </Card>
-        <Card className="lg:col-span-6 md:col-span-2">
+        <Card className="md:col-span-2 lg:col-span-6">
           <CardHeader>
             <CardTitle>Recent Beatmap Status Events</CardTitle>
             <CardDescription>Latests changes with beatmaps</CardDescription>

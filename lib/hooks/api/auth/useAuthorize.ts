@@ -1,18 +1,16 @@
-import poster from "@/lib/services/poster";
-import { PostAuthTokenData, PostAuthTokenResponse } from "@/lib/types/api";
 import useSWRMutation from "swr/mutation";
+
+import poster from "@/lib/services/poster";
+import type { PostAuthTokenData, PostAuthTokenResponse } from "@/lib/types/api";
 
 export function useAuthorize() {
   return useSWRMutation(`user/self`, authorize);
 }
 
-const authorize = async (
-  url: string,
-  { arg }: { arg: PostAuthTokenData['body'] }
-) => {
+async function authorize(url: string, { arg }: { arg: PostAuthTokenData["body"] }) {
   return await poster<PostAuthTokenResponse>(`auth/token`, {
     json: {
       ...arg,
     },
   });
-};
+}

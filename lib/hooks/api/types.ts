@@ -2,9 +2,7 @@ import { GameMode } from "@/lib/types/api";
 
 export const GameModesArray = ["osu!", "osu!taiko", "osu!catch", "osu!mania"];
 
-export const GameRuleFlags: {
-  [K in GameMode]?: { [key: string]: GameMode | null };
-} = {
+export const GameRuleFlags: Partial<Record<GameMode, Record<string, GameMode | null>>> = {
   [GameMode.STANDARD]: {
     Standard: GameMode.STANDARD,
     Relax: GameMode.RELAX_STANDARD,
@@ -31,11 +29,12 @@ export const GameRuleFlags: {
   },
 };
 
-export const GameModeToFlagMap: { [key in GameMode]?: string } = {};
+export const GameModeToFlagMap: Partial<Record<GameMode, string>> = {};
 
 for (const baseMode in GameRuleFlags) {
   const flags = GameRuleFlags[baseMode as GameMode];
-  if (!flags) continue;
+  if (!flags)
+    continue;
 
   for (const [flag, mode] of Object.entries(flags)) {
     if (mode !== null) {
@@ -44,9 +43,7 @@ for (const baseMode in GameRuleFlags) {
   }
 }
 
-export const GameRuleFlagsShort: {
-  [K in GameMode]?: { [key: string]: GameMode | null };
-} = {
+export const GameRuleFlagsShort: Partial<Record<GameMode, Record<string, GameMode | null>>> = {
   [GameMode.STANDARD]: {
     STD: GameMode.STANDARD,
     RX: GameMode.RELAX_STANDARD,
@@ -73,9 +70,7 @@ export const GameRuleFlagsShort: {
   },
 };
 
-export const GameRulesGameModes: {
-  [K in GameMode]?: { [key: string]: GameMode | null };
-} = {
+export const GameRulesGameModes: Partial<Record<GameMode, Record<string, GameMode | null>>> = {
   [GameMode.STANDARD]: {
     "osu!": GameMode.STANDARD,
     "osu!taiko": GameMode.TAIKO,
@@ -102,11 +97,12 @@ export const GameRulesGameModes: {
   },
 };
 
-export const GameModeToGameRuleMap: { [key in GameMode]?: string } = {};
+export const GameModeToGameRuleMap: Partial<Record<GameMode, string>> = {};
 
 for (const parentMode in GameRulesGameModes) {
   const modeMappings = GameRulesGameModes[parentMode as GameMode];
-  if (!modeMappings) continue;
+  if (!modeMappings)
+    continue;
 
   for (const [key, value] of Object.entries(modeMappings)) {
     if (value !== null) {
@@ -116,6 +112,6 @@ for (const parentMode in GameRulesGameModes) {
 }
 
 export interface PossibleErrorResult<T> {
-  data: any;
+  data: T | null;
   error?: string;
 }

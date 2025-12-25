@@ -1,8 +1,9 @@
 "use client";
 
+import { Search } from "lucide-react";
+
 import BeatmapsSearch from "@/components/Beatmaps/Search/BeatmapsSearch";
 import PrettyHeader from "@/components/General/PrettyHeader";
-import { Search } from "lucide-react";
 import { useT } from "@/lib/i18n/utils";
 
 export default function Page() {

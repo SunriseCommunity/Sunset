@@ -1,21 +1,20 @@
 "use client";
 
 import { MoreVerticalIcon } from "lucide-react";
+import Image from "next/image";
+import { Suspense } from "react";
 
+import UserPrivilegeBadges from "@/app/(website)/user/[id]/components/UserPrivilegeBadges";
+import HeaderLoginDialog from "@/components/Header/HeaderLoginDialog";
+import HeaderUserDropdown from "@/components/Header/HeaderUserDropdown";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { UserResponse } from "@/lib/types/api";
-import HeaderUserDropdown from "@/components/Header/HeaderUserDropdown";
-import UserPrivilegeBadges from "@/app/(website)/user/[id]/components/UserPrivilegeBadges";
-import HeaderLoginDialog from "@/components/Header/HeaderLoginDialog";
-import { Suspense } from "react";
-import Image from "next/image";
+import type { UserResponse } from "@/lib/types/api";
 
 export function SidebarUser({ self }: { self: UserResponse }) {
   const { isMobile } = useSidebar();
@@ -34,7 +33,7 @@ export function SidebarUser({ self }: { self: UserResponse }) {
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <Avatar className="h-8 w-8 rounded-lg">
+              <Avatar className="size-8 rounded-lg">
                 <Suspense fallback={<AvatarFallback>UA</AvatarFallback>}>
                   <Image
                     src={self.avatar_url}
@@ -45,14 +44,14 @@ export function SidebarUser({ self }: { self: UserResponse }) {
                 </Suspense>
               </Avatar>
               <div className="flex flex-col">
-                <div className="truncate font-medium text-sm">
+                <div className="truncate text-sm font-medium">
                   {self.username}
                 </div>
 
                 <UserPrivilegeBadges
                   badges={self.badges}
                   small
-                  className="scale-75 w-full origin-left"
+                  className="w-full origin-left scale-75"
                   withToolTip={false}
                 />
               </div>

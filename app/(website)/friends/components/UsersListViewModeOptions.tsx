@@ -1,7 +1,8 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { Grid3x3, List } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
 
 export type UsersListViewModeType = "grid" | "list";
 
@@ -26,7 +27,7 @@ export function UsersListViewModeOptions({
             : "bg-secondary text-secondary-foreground"
         }`}
       >
-        <List className="h-4 w-4" />
+        <List className="size-4" />
       </Button>
       <Button
         variant="ghost"
@@ -38,7 +39,7 @@ export function UsersListViewModeOptions({
             : "bg-secondary text-secondary-foreground"
         }`}
       >
-        <Grid3x3 className="h-4 w-4" />
+        <Grid3x3 className="size-4" />
       </Button>
     </div>
   );

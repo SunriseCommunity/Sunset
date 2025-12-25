@@ -1,24 +1,25 @@
 "use client";
 
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { UserSensitiveResponse } from "@/lib/types/api";
-import { timeSince } from "@/lib/utils/timeSince";
-import { isUserHasAdminPrivilege } from "@/lib/utils/userPrivileges.util";
-import { ColumnDef } from "@tanstack/react-table";
-import { Edit, SortAsc, SortDesc, Eye, EyeOff } from "lucide-react";
+import type { ColumnDef } from "@tanstack/react-table";
+import { Edit, Eye, EyeOff, SortAsc, SortDesc } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import UserPrivilegeBadges from "@/app/(website)/user/[id]/components/UserPrivilegeBadges";
-import useSelf from "@/lib/hooks/useSelf";
-import { Tooltip } from "@/components/Tooltip";
-import { useState, useContext } from "react";
+import { useContext, useState } from "react";
+
 import { PersonalInfoVisibilityContext } from "@/app/(admin)/admin/users/components/UsersSearch";
-import UserStatusText, {
+import UserPrivilegeBadges from "@/app/(website)/user/[id]/components/UserPrivilegeBadges";
+import {
   statusColor,
 } from "@/app/(website)/user/[id]/components/UserStatusText";
+import { Tooltip } from "@/components/Tooltip";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import useSelf from "@/lib/hooks/useSelf";
+import type { UserSensitiveResponse } from "@/lib/types/api";
+import { timeSince } from "@/lib/utils/timeSince";
+import { isUserHasAdminPrivilege } from "@/lib/utils/userPrivileges.util";
 
-export const adminUserColumns: ColumnDef<UserSensitiveResponse>[] = [
+export const adminUserColumns: Array<ColumnDef<UserSensitiveResponse>> = [
   {
     accessorKey: "user_id",
 
@@ -27,20 +28,22 @@ export const adminUserColumns: ColumnDef<UserSensitiveResponse>[] = [
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="justify-start text-sm w-full px-2"
+          className="w-full justify-start px-2 text-sm"
         >
           ID
           {column.getIsSorted() === "asc" ? (
-            <SortAsc className="ml-2 h-4 w-4" />
-          ) : column.getIsSorted() === "desc" ? (
-            <SortDesc className="ml-2 h-4 w-4" />
-          ) : null}
+            <SortAsc className="ml-2 size-4" />
+          ) : column.getIsSorted() === "desc"
+            ? (
+                <SortDesc className="ml-2 size-4" />
+              )
+            : null}
         </Button>
       );
     },
     cell: ({ row }) => {
       return (
-        <div className="text-left font-mono text-sm text-muted-foreground px-2">
+        <div className="px-2 text-left font-mono text-sm text-muted-foreground">
           {row.original.user_id}
         </div>
       );
@@ -72,14 +75,16 @@ export const adminUserColumns: ColumnDef<UserSensitiveResponse>[] = [
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="justify-start text-sm w-full px-2 flex items-center whitespace-nowrap"
+          className="flex w-full items-center justify-start whitespace-nowrap px-2 text-sm"
         >
           Username
           {column.getIsSorted() === "asc" ? (
-            <SortAsc className="ml-2 h-4 w-4" />
-          ) : column.getIsSorted() === "desc" ? (
-            <SortDesc className="ml-2 h-4 w-4" />
-          ) : null}
+            <SortAsc className="ml-2 size-4" />
+          ) : column.getIsSorted() === "desc"
+            ? (
+                <SortDesc className="ml-2 size-4" />
+              )
+            : null}
         </Button>
       );
     },
@@ -88,7 +93,7 @@ export const adminUserColumns: ColumnDef<UserSensitiveResponse>[] = [
       return (
         <Link
           href={`/admin/users/${user_id}/edit`}
-          className="flex items-center space-x-3 hover:underline px-2"
+          className="flex items-center space-x-3 px-2 hover:underline"
         >
           <Image
             src={avatar_url}
@@ -106,7 +111,7 @@ export const adminUserColumns: ColumnDef<UserSensitiveResponse>[] = [
     accessorKey: "badges",
     header: "Privileges",
     cell: ({ row }) => {
-      const badges = row.original.badges;
+      const { badges } = row.original;
       return (
         <div className="flex items-center ">
           {badges.length > 0 ? (
@@ -116,7 +121,7 @@ export const adminUserColumns: ColumnDef<UserSensitiveResponse>[] = [
               className="flex-shrink-0"
             />
           ) : (
-            <span className="text-muted-foreground text-sm">None</span>
+            <span className="text-sm text-muted-foreground">None</span>
           )}
         </div>
       );
@@ -129,14 +134,16 @@ export const adminUserColumns: ColumnDef<UserSensitiveResponse>[] = [
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="justify-start text-sm w-full px-2"
+          className="w-full justify-start px-2 text-sm"
         >
           Restricted
           {column.getIsSorted() === "asc" ? (
-            <SortAsc className="ml-2 h-4 w-4" />
-          ) : column.getIsSorted() === "desc" ? (
-            <SortDesc className="ml-2 h-4 w-4" />
-          ) : null}
+            <SortAsc className="ml-2 size-4" />
+          ) : column.getIsSorted() === "desc"
+            ? (
+                <SortDesc className="ml-2 size-4" />
+              )
+            : null}
         </Button>
       );
     },
@@ -161,21 +168,23 @@ export const adminUserColumns: ColumnDef<UserSensitiveResponse>[] = [
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="justify-start text-sm w-full px-2"
+          className="w-full justify-start px-2 text-sm"
         >
           Joined
           {column.getIsSorted() === "asc" ? (
-            <SortAsc className="ml-2 h-4 w-4" />
-          ) : column.getIsSorted() === "desc" ? (
-            <SortDesc className="ml-2 h-4 w-4" />
-          ) : null}
+            <SortAsc className="ml-2 size-4" />
+          ) : column.getIsSorted() === "desc"
+            ? (
+                <SortDesc className="ml-2 size-4" />
+              )
+            : null}
         </Button>
       );
     },
     cell: ({ row }) => {
       const registerDate = row.original.register_date;
       return (
-        <div className="text-sm text-muted-foreground px-2 text-nowrap">
+        <div className="text-nowrap px-2 text-sm text-muted-foreground">
           <Tooltip content={new Date(registerDate).toLocaleString()}>
             <span>{timeSince(registerDate)}</span>
           </Tooltip>
@@ -190,14 +199,16 @@ export const adminUserColumns: ColumnDef<UserSensitiveResponse>[] = [
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="justify-start text-sm w-full px-2"
+          className="w-full justify-start px-2 text-sm"
         >
           Last Online
           {column.getIsSorted() === "asc" ? (
-            <SortAsc className="ml-2 h-4 w-4" />
-          ) : column.getIsSorted() === "desc" ? (
-            <SortDesc className="ml-2 h-4 w-4" />
-          ) : null}
+            <SortAsc className="ml-2 size-4" />
+          ) : column.getIsSorted() === "desc"
+            ? (
+                <SortDesc className="ml-2 size-4" />
+              )
+            : null}
         </Button>
       );
     },
@@ -207,10 +218,10 @@ export const adminUserColumns: ColumnDef<UserSensitiveResponse>[] = [
       const isOffline = userStatus === "Offline";
 
       return (
-        <div className="text-sm text-muted-foreground px-2 text-nowrap">
+        <div className="text-nowrap px-2 text-sm text-muted-foreground">
           <div className="flex items-center gap-2">
             <div
-              className={`w-2 h-2 rounded-full ${
+              className={`size-2 rounded-full ${
                 !isOffline
                   ? `bg-${statusColor(userStatus)} animate-pulse`
                   : "bg-gray-500"
@@ -237,20 +248,24 @@ export const adminUserColumns: ColumnDef<UserSensitiveResponse>[] = [
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="justify-start text-sm w-full px-2"
+          className="w-full justify-start px-2 text-sm"
         >
           Email
           {column.getIsSorted() === "asc" ? (
-            <SortAsc className="ml-2 h-4 w-4" />
-          ) : column.getIsSorted() === "desc" ? (
-            <SortDesc className="ml-2 h-4 w-4" />
-          ) : null}
+            <SortAsc className="ml-2 size-4" />
+          ) : column.getIsSorted() === "desc"
+            ? (
+                <SortDesc className="ml-2 size-4" />
+              )
+            : null}
         </Button>
       );
     },
     cell: ({ row }) => {
-      const email = row.original.email;
+      const { email } = row.original;
+      // eslint-disable-next-line react-hooks/rules-of-hooks -- table context
       const showByDefault = useContext(PersonalInfoVisibilityContext);
+      // eslint-disable-next-line react-hooks/rules-of-hooks -- table context
       const [isVisible, setIsVisible] = useState(false);
 
       const shouldShow = showByDefault || isVisible;
@@ -258,7 +273,7 @@ export const adminUserColumns: ColumnDef<UserSensitiveResponse>[] = [
       return (
         <div className="flex items-center gap-2 px-2">
           <span
-            className={`text-sm font-mono transition-all duration-200 ${
+            className={`font-mono text-sm transition-all duration-200 ${
               shouldShow ? "" : "select-none"
             }`}
           >
@@ -269,12 +284,12 @@ export const adminUserColumns: ColumnDef<UserSensitiveResponse>[] = [
               variant="ghost"
               size="sm"
               onClick={() => setIsVisible(!isVisible)}
-              className="h-6 w-6 p-0 flex-shrink-0"
+              className="size-6 flex-shrink-0 p-0"
             >
               {isVisible ? (
-                <EyeOff className="h-4 w-4" />
+                <EyeOff className="size-4" />
               ) : (
-                <Eye className="h-4 w-4" />
+                <Eye className="size-4" />
               )}
             </Button>
           )}
@@ -287,6 +302,7 @@ export const adminUserColumns: ColumnDef<UserSensitiveResponse>[] = [
     header: "Actions",
     cell: ({ row }) => {
       const userId = row.original.user_id;
+      // eslint-disable-next-line react-hooks/rules-of-hooks -- table context
       const { self } = useSelf();
 
       const canEdit = self && isUserHasAdminPrivilege(self);
@@ -295,7 +311,7 @@ export const adminUserColumns: ColumnDef<UserSensitiveResponse>[] = [
         <div className="px-2">
           <Button variant="outline" size="sm" disabled={!canEdit} asChild>
             <Link href={`/admin/users/${userId}/edit`}>
-              <Edit className="h-4 w-4 mr-2" />
+              <Edit className="mr-2 size-4" />
               Edit
             </Link>
           </Button>

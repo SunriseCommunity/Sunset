@@ -5,7 +5,8 @@ export function SecondsToString(s: number): string {
   const seconds = date.getUTCSeconds().toString().padStart(2, "0");
   if (hours === "00") {
     hours = "";
-  } else {
+  }
+  else {
     hours += ":";
   }
   return `${hours}${minutes}:${seconds}`;

@@ -1,16 +1,26 @@
+import { useCallback, useEffect, useState } from "react";
+
 import { Tooltip } from "@/components/Tooltip";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { EosIconsThreeDotsLoading } from "@/components/ui/icons/three-dots-loading";
 import { ShortenedMods } from "@/lib/hooks/api/score/types";
 import fetcher from "@/lib/services/fetcher";
-import {
+import type {
   BeatmapResponse,
-  GameMode,
-  Mods,
   PerformanceAttributes,
 } from "@/lib/types/api";
-import { useEffect, useState } from "react";
+import {
+  GameMode,
+  Mods,
+} from "@/lib/types/api";
+
+const performance = [
+  Mods.NONE,
+  Mods.HIDDEN,
+  Mods.HARD_ROCK,
+  Mods.DOUBLE_TIME,
+];
 
 export function BeatmapPerformanceTooltip({
   beatmap,
@@ -19,59 +29,55 @@ export function BeatmapPerformanceTooltip({
 }) {
   const gamerule = [Mods.NONE];
 
-  if (beatmap.mode != GameMode.MANIA && !gamerule.includes(Mods.RELAX)) {
+  if (beatmap.mode !== GameMode.MANIA && !gamerule.includes(Mods.RELAX)) {
     gamerule.push(Mods.RELAX);
   }
 
-  if (beatmap.mode == GameMode.STANDARD && !gamerule.includes(Mods.RELAX2)) {
+  if (beatmap.mode === GameMode.STANDARD && !gamerule.includes(Mods.RELAX2)) {
     gamerule.push(Mods.RELAX2);
   }
-
-  const performance = [
-    Mods.NONE,
-    Mods.HIDDEN,
-    Mods.HARD_ROCK,
-    Mods.DOUBLE_TIME,
-  ];
 
   const [currentGamerule, setCurrentGamerule] = useState(Mods.NONE);
   const [beatmapPerformances, setBeatmapPerformances] = useState<
     PerformanceAttributes[]
   >([]);
 
-  const fetchData = async (force?: boolean) => {
-    if (beatmapPerformances.length > 0 && !force) return;
+  const fetchData = useCallback(async (force?: boolean) => {
+    if (beatmapPerformances.length > 0 && !force)
+      return;
 
     const results = await Promise.all(
       performance.map((acc) => {
         return fetcher<PerformanceAttributes>(
-          `beatmap/${beatmap.id}/pp?mods=${acc}&mods=${currentGamerule}`
+          `beatmap/${beatmap.id}/pp?mods=${acc}&mods=${currentGamerule}`,
         );
-      })
+      }),
     );
 
     setBeatmapPerformances(results);
-  };
+  }, [beatmap.id, beatmapPerformances.length, currentGamerule]);
 
   useEffect(() => {
-    if (beatmapPerformances.length == 0) return;
+    if (beatmapPerformances.length === 0)
+      return;
 
     fetchData(true);
-  }, [currentGamerule]);
+  }, [beatmapPerformances.length, currentGamerule, fetchData]);
 
   return (
     <Tooltip
       onOpenChange={fetchData}
-      content={
-        <div className="flex gap-2 flex-col">
-          <div className="flex gap-1 flex-col">
+      content={(
+        <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-1">
             {beatmapPerformances.length > 0 ? (
               beatmapPerformances.map((pp, i) => {
                 return (
                   <Badge
                     variant="outline"
                     className="place-content-between gap-1"
-                    key={i}
+                    // eslint-disable-next-line @eslint-react/no-array-index-key -- pp is not sufficiently unique
+                    key={`beatmap-performance-tooltip-${pp}-${i}`}
                   >
                     <span>
                       {ShortenedMods[performance[i]]} {100}%
@@ -82,27 +88,27 @@ export function BeatmapPerformanceTooltip({
                 );
               })
             ) : (
-              <EosIconsThreeDotsLoading className="h-6 w-6 mx-auto" />
+              <EosIconsThreeDotsLoading className="mx-auto size-6" />
             )}
           </div>
           <div className="flex place-content-between gap-2">
-            {gamerule.map((rule, i) => (
+            {gamerule.map(rule => (
               <Button
                 variant={currentGamerule === rule ? "secondary" : "outline"}
                 onClick={() => setCurrentGamerule(rule)}
                 size="sm"
-                key={i}
+                key={`beatmap-performance-tooltip-gamerule-${rule}`}
               >
                 {ShortenedMods[rule]}
               </Button>
             ))}
           </div>
         </div>
-      }
+      )}
     >
       <Badge
         variant="outline"
-        className="rounded-full w-8 h-8 flex items-center justify-center text-sm"
+        className="flex size-8 items-center justify-center rounded-full text-sm"
       >
         PP
       </Badge>

@@ -1,20 +1,24 @@
-import { Metadata } from "next";
-import Page, { BeatmapsetProps } from "./page";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getBeatmapStarRating } from "@/lib/utils/getBeatmapStarRating";
+
 import fetcher from "@/lib/services/fetcher";
-import { BeatmapSetResponse } from "@/lib/types/api";
+import type { BeatmapSetResponse } from "@/lib/types/api";
+import { getBeatmapStarRating } from "@/lib/utils/getBeatmapStarRating";
+
+import type { BeatmapsetProps } from "./page";
+import Page from "./page";
 
 export async function generateMetadata(
-  props: BeatmapsetProps
+  props: BeatmapsetProps,
 ): Promise<Metadata> {
   const params = await props.params;
   const beatmapSetId = params.id;
 
-  if (!beatmapSetId || isNaN(beatmapSetId as any)) return notFound();
+  if (!beatmapSetId || Number.isNaN(beatmapSetId as any))
+    return notFound();
 
   const beatmapSet = await fetcher<BeatmapSetResponse>(
-    `beatmapset/${beatmapSetId}`
+    `beatmapset/${beatmapSetId}`,
   );
 
   if (!beatmapSet) {

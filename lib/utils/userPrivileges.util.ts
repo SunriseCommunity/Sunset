@@ -1,7 +1,8 @@
-import { UserBadge, UserResponse } from "@/lib/types/api";
+import type { UserResponse } from "@/lib/types/api";
+import { UserBadge } from "@/lib/types/api";
 
 export function isUserCanUseAdminPanel(user: UserResponse) {
-  return user.badges.some((b) => [UserBadge.BAT, UserBadge.ADMIN].includes(b));
+  return user.badges.some(b => [UserBadge.BAT, UserBadge.ADMIN].includes(b));
 }
 
 export function isUserHasAdminPrivilege(user: UserResponse) {

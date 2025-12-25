@@ -1,23 +1,25 @@
-import { getUserToken } from "@/lib/actions/getUserToken";
-import { PossibleErrorResult } from "@/lib/hooks/api/types";
-import { ProblemDetailsResponseType } from "@/lib/types/api";
-import ky, { HTTPError, Options } from "ky";
+import type { HTTPError, Options } from "ky";
+import ky from "ky";
 
-const errorInterceptor = async (error: HTTPError) => {
+import { getUserToken } from "@/lib/actions/getUserToken";
+import type { ProblemDetailsResponseType } from "@/lib/types/api";
+
+async function errorInterceptor(error: HTTPError) {
   const { response } = error;
   const contentType = response?.headers?.get("content-type");
 
   if (
-    contentType != null &&
-    contentType?.indexOf("application/problem+json") !== -1
+    contentType != null
+    && contentType?.indexOf("application/problem+json") !== -1
   ) {
     const data = (await response.json()) as ProblemDetailsResponseType;
     error.message = data.detail ?? data.title ?? "Unknown error";
-  } else {
+  }
+  else {
     error.message = await response.text();
   }
   return error;
-};
+}
 
 export const kyInstance = ky.create({
   prefixUrl: `https://api.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}`,
@@ -26,7 +28,7 @@ export const kyInstance = ky.create({
   },
 });
 
-const fetcher = async <T>(url: string, options?: Options) => {
+async function fetcher<T>(url: string, options?: Options) {
   const token = await getUserToken();
 
   if (!token && url.includes("user/self")) {
@@ -43,17 +45,16 @@ const fetcher = async <T>(url: string, options?: Options) => {
     .then(async (res) => {
       const contentType = res?.headers?.get("content-type");
 
-      if (
-        contentType != null &&
-        contentType?.indexOf("application/json") !== -1
-      ) {
-        try {
-          return await res.json();
-        } catch {
-          return null;
-        }
-      } else {
+      if (!(contentType != null
+        && contentType?.indexOf("application/json") !== -1)) {
         return res;
+      }
+
+      try {
+        return await res.json();
+      }
+      catch {
+        return null;
       }
     });
 
@@ -62,6 +63,6 @@ const fetcher = async <T>(url: string, options?: Options) => {
   }
 
   return result as T;
-};
+}
 
 export default fetcher;

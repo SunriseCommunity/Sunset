@@ -1,7 +1,8 @@
 "use client";
 
-import { BeatmapResponse } from "@/lib/types/api";
 import useSWR from "swr";
+
+import type { BeatmapResponse } from "@/lib/types/api";
 
 export function useBeatmap(beatmapId: number | null) {
   return useSWR<BeatmapResponse>(beatmapId ? `beatmap/${beatmapId}` : null, {

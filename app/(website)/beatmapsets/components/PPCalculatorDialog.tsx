@@ -1,12 +1,16 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Clock9, Star } from "lucide-react";
+import type { ReactNode } from "react";
+import { useMemo, useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
 import { ModsSelector } from "@/app/(website)/beatmapsets/components/leaderboard/ModsSelector";
-import PrettyHeader from "@/components/General/PrettyHeader";
 import RoundedContent from "@/components/General/RoundedContent";
-import Spinner from "@/components/Spinner";
 import { Tooltip } from "@/components/Tooltip";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -26,19 +30,15 @@ import { EosIconsThreeDotsLoading } from "@/components/ui/icons/three-dots-loadi
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { useBeatmapPp } from "@/lib/hooks/api/beatmap/useBeatmapPp";
-import { BeatmapResponse, GameMode, Mods } from "@/lib/types/api";
+import { useT } from "@/lib/i18n/utils";
+import type { BeatmapResponse, GameMode } from "@/lib/types/api";
+import { Mods } from "@/lib/types/api";
 import { gameModeToVanilla } from "@/lib/utils/gameMode.util";
 import numberWith from "@/lib/utils/numberWith";
 import { SecondsToString } from "@/lib/utils/secondsTo";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Clock9, Star } from "lucide-react";
-import { useState, useMemo, ReactNode } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { useT } from "@/lib/i18n/utils";
 
-const createFormSchema = (t: ReturnType<typeof useT>) =>
-  z.object({
+function createFormSchema(t: ReturnType<typeof useT>) {
+  return z.object({
     accuracy: z.coerce
       .number()
       .min(0, {
@@ -60,6 +60,7 @@ const createFormSchema = (t: ReturnType<typeof useT>) =>
         message: t("form.misses.validation.negative"),
       }),
   });
+}
 
 export function PPCalculatorDialog({
   beatmap,
@@ -74,7 +75,7 @@ export function PPCalculatorDialog({
   const [isOpen, setIsOpen] = useState(false);
 
   const defaultValues = {
-    accuracy: 100.0,
+    accuracy: 100,
     combo: beatmap.max_combo,
     misses: 0,
   };
@@ -104,7 +105,7 @@ export function PPCalculatorDialog({
       misses: scoreAttributes.misses,
       accuracy: scoreAttributes.accuracy,
     },
-    { keepPreviousData: true }
+    { keepPreviousData: true },
   );
 
   const performanceResult = data;
@@ -112,8 +113,8 @@ export function PPCalculatorDialog({
   const beatmapLength = mods.includes(Mods.DOUBLE_TIME)
     ? Math.floor(beatmap.total_length / 1.5)
     : mods.includes(Mods.HALF_TIME)
-    ? Math.floor(beatmap.total_length * 1.33)
-    : beatmap.total_length;
+      ? Math.floor(beatmap.total_length * 1.33)
+      : beatmap.total_length;
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     const { accuracy, combo, misses } = values;
@@ -122,7 +123,7 @@ export function PPCalculatorDialog({
       accuracy,
       combo,
       misses,
-      mods: mods,
+      mods,
     });
   }
 
@@ -132,10 +133,10 @@ export function PPCalculatorDialog({
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>{t("title")}</DialogTitle>
-          <DialogDescription></DialogDescription>
+          <DialogDescription />
         </DialogHeader>
 
-        <RoundedContent className="rounded-lg flex place-content-between ">
+        <RoundedContent className="flex place-content-between rounded-lg ">
           {performanceResult ? (
             <>
               <p>
@@ -145,7 +146,7 @@ export function PPCalculatorDialog({
                   ),
                   value: `~${numberWith(
                     performanceResult?.pp.toFixed(2),
-                    ","
+                    ",",
                   )}`,
                 })}
               </p>
@@ -153,7 +154,7 @@ export function PPCalculatorDialog({
               <Tooltip content={t("totalLength")}>
                 <p className="flex items-center text-sm">
                   <Clock9 className="h-4" />
-                  <span className="text-primary font-bold">
+                  <span className="font-bold text-primary">
                     {SecondsToString(beatmapLength)}
                   </span>
                 </p>
@@ -161,13 +162,13 @@ export function PPCalculatorDialog({
 
               <p className="flex items-center text-sm">
                 <Star className="h-4" />
-                <span className="text-primary font-bold">
+                <span className="font-bold text-primary">
                   {performanceResult?.difficulty.stars.toFixed(2)}
                 </span>
               </p>
             </>
           ) : (
-            <EosIconsThreeDotsLoading className="h-6 w-6 mx-auto" />
+            <EosIconsThreeDotsLoading className="mx-auto size-6" />
           )}
         </RoundedContent>
 
@@ -219,7 +220,7 @@ export function PPCalculatorDialog({
               mods={mods}
               setMods={setMods}
               variant="big"
-              className="bg-transparent border-none shadow-none p-0"
+              className="border-none bg-transparent p-0 shadow-none"
               ignoreMods={[
                 Mods.NONE,
                 Mods.SUDDEN_DEATH,
@@ -230,7 +231,7 @@ export function PPCalculatorDialog({
 
             <Separator className="my-2" />
             {error && (
-              <p className="text-sm text-center text-destructive">
+              <p className="text-center text-sm text-destructive">
                 {error?.message ?? t("form.unknownError")}
               </p>
             )}

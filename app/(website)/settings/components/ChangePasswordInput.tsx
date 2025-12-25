@@ -1,28 +1,26 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMemo, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
 import { Button } from "@/components/ui/button";
 import { DialogFooter } from "@/components/ui/dialog";
 import {
+  Form,
+  FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormControl,
   FormMessage,
-  Form,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { usePasswordChange } from "@/lib/hooks/api/user/usePasswordChange";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState, useMemo, useRef } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { useT } from "@/lib/i18n/utils";
 
-const createFormSchema = (
-  t: ReturnType<typeof useT>,
-  passwordRef: { current: string }
-) => {
+function createFormSchema(t: ReturnType<typeof useT>, passwordRef: { current: string }) {
   return z.object({
     currentPassword: z
       .string()
@@ -53,11 +51,11 @@ const createFormSchema = (
         message: t("validation.maxLength", { max: 32 }),
       })
       .refine(
-        (value) => value === passwordRef.current,
-        t("validation.mismatch")
+        value => value === passwordRef.current,
+        t("validation.mismatch"),
       ),
   });
-};
+}
 
 export default function ChangePasswordInput() {
   const t = useT("pages.settings.components.password");
@@ -111,7 +109,7 @@ export default function ChangePasswordInput() {
             variant: "destructive",
           });
         },
-      }
+      },
     );
   }
 

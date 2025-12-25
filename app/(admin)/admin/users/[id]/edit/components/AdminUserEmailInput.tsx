@@ -1,10 +1,9 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { UserSensitiveResponse } from "@/lib/types/api";
-import { Mail, EyeOff, Eye } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 
-import { Label } from "recharts";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import type { UserSensitiveResponse } from "@/lib/types/api";
 
 export default function AdminUserEmailInput({
   user,
@@ -30,9 +29,9 @@ export default function AdminUserEmailInput({
         onClick={() => setShowEmail(!showEmail)}
       >
         {showEmail ? (
-          <EyeOff className="h-4 w-4" />
+          <EyeOff className="size-4" />
         ) : (
-          <Eye className="h-4 w-4" />
+          <Eye className="size-4" />
         )}
       </Button>
     </div>

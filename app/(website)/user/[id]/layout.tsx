@@ -1,9 +1,11 @@
-import { Metadata } from "next";
-import Page from "./page";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import fetcher from "@/lib/services/fetcher";
-import { UserResponse } from "@/lib/types/api";
+
 import { getT } from "@/lib/i18n/utils";
+import fetcher from "@/lib/services/fetcher";
+import type { UserResponse } from "@/lib/types/api";
+
+import Page from "./page";
 
 export const revalidate = 60;
 

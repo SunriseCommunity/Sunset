@@ -1,37 +1,40 @@
 "use client";
 
+import type { ColumnDef } from "@tanstack/react-table";
+import { SortAsc, SortDesc } from "lucide-react";
+
+import { Tooltip } from "@/components/Tooltip";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { EventUserResponse, UserEventType } from "@/lib/types/api";
+import type { EventUserResponse, UserEventType } from "@/lib/types/api";
 import { timeSince } from "@/lib/utils/timeSince";
-import { ColumnDef } from "@tanstack/react-table";
-import { SortAsc, SortDesc } from "lucide-react";
-import { Tooltip } from "@/components/Tooltip";
 
 function hashStringToHue(str: string): number {
   let hash = 0;
   for (let i = 0; i < str.length; i++) {
+    // eslint-disable-next-line unicorn/prefer-code-point -- intentional
     hash = str.charCodeAt(i) + ((hash << 5) - hash);
   }
   return Math.abs(hash % 360);
 }
 
-const formatEventType = (eventType: UserEventType): string => {
+function formatEventType(eventType: UserEventType): string {
   return eventType
-    .replace(/([A-Z])/g, " $1")
+    .replaceAll(/([A-Z])/g, " $1")
     .trim()
-    .replace(/^./, (str) => str.toUpperCase());
-};
+    .replace(/^./, str => str.toUpperCase());
+}
 
-const parseJsonData = (jsonData: string): Record<string, any> | null => {
+function parseJsonData(jsonData: string): Record<string, any> | null {
   try {
     return JSON.parse(jsonData);
-  } catch {
+  }
+  catch {
     return null;
   }
-};
+}
 
-export const adminUserEventsColumns: ColumnDef<EventUserResponse>[] = [
+export const adminUserEventsColumns: Array<ColumnDef<EventUserResponse>> = [
   {
     accessorKey: "id",
     header: ({ column }) => {
@@ -39,20 +42,22 @@ export const adminUserEventsColumns: ColumnDef<EventUserResponse>[] = [
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="justify-start text-sm w-full px-2"
+          className="w-full justify-start px-2 text-sm"
         >
           ID
           {column.getIsSorted() === "asc" ? (
-            <SortAsc className="ml-2 h-4 w-4" />
-          ) : column.getIsSorted() === "desc" ? (
-            <SortDesc className="ml-2 h-4 w-4" />
-          ) : null}
+            <SortAsc className="ml-2 size-4" />
+          ) : column.getIsSorted() === "desc"
+            ? (
+                <SortDesc className="ml-2 size-4" />
+              )
+            : null}
         </Button>
       );
     },
     cell: ({ row }) => {
       return (
-        <div className="text-left font-mono text-sm text-muted-foreground px-2">
+        <div className="px-2 text-left font-mono text-sm text-muted-foreground">
           {row.original.id}
         </div>
       );
@@ -65,14 +70,16 @@ export const adminUserEventsColumns: ColumnDef<EventUserResponse>[] = [
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="justify-start text-sm w-full px-2"
+          className="w-full justify-start px-2 text-sm"
         >
           Event Type
           {column.getIsSorted() === "asc" ? (
-            <SortAsc className="ml-2 h-4 w-4" />
-          ) : column.getIsSorted() === "desc" ? (
-            <SortDesc className="ml-2 h-4 w-4" />
-          ) : null}
+            <SortAsc className="ml-2 size-4" />
+          ) : column.getIsSorted() === "desc"
+            ? (
+                <SortDesc className="ml-2 size-4" />
+              )
+            : null}
         </Button>
       );
     },
@@ -102,20 +109,22 @@ export const adminUserEventsColumns: ColumnDef<EventUserResponse>[] = [
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="justify-start text-sm w-full px-2"
+          className="w-full justify-start px-2 text-sm"
         >
           IP Address
           {column.getIsSorted() === "asc" ? (
-            <SortAsc className="ml-2 h-4 w-4" />
-          ) : column.getIsSorted() === "desc" ? (
-            <SortDesc className="ml-2 h-4 w-4" />
-          ) : null}
+            <SortAsc className="ml-2 size-4" />
+          ) : column.getIsSorted() === "desc"
+            ? (
+                <SortDesc className="ml-2 size-4" />
+              )
+            : null}
         </Button>
       );
     },
     cell: ({ row }) => {
       return (
-        <div className="text-left font-mono text-sm px-2">
+        <div className="px-2 text-left font-mono text-sm">
           {row.original.ip}
         </div>
       );
@@ -128,21 +137,23 @@ export const adminUserEventsColumns: ColumnDef<EventUserResponse>[] = [
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="justify-start text-sm w-full px-2"
+          className="w-full justify-start px-2 text-sm"
         >
           Created At
           {column.getIsSorted() === "asc" ? (
-            <SortAsc className="ml-2 h-4 w-4" />
-          ) : column.getIsSorted() === "desc" ? (
-            <SortDesc className="ml-2 h-4 w-4" />
-          ) : null}
+            <SortAsc className="ml-2 size-4" />
+          ) : column.getIsSorted() === "desc"
+            ? (
+                <SortDesc className="ml-2 size-4" />
+              )
+            : null}
         </Button>
       );
     },
     cell: ({ row }) => {
       const createdAt = row.original.created_at;
       return (
-        <div className="text-sm text-muted-foreground px-2 text-nowrap">
+        <div className="text-nowrap px-2 text-sm text-muted-foreground">
           <Tooltip content={new Date(createdAt).toLocaleString()}>
             <span>{timeSince(createdAt)}</span>
           </Tooltip>
@@ -158,9 +169,9 @@ export const adminUserEventsColumns: ColumnDef<EventUserResponse>[] = [
       const parsed = parseJsonData(jsonData);
 
       return (
-        <div className="px-2 max-w-2xl">
+        <div className="max-w-2xl px-2">
           {parsed ? (
-            <pre className="text-xs font-mono bg-muted p-2 rounded-md overflow-auto whitespace-pre-wrap break-words">
+            <pre className="overflow-auto whitespace-pre-wrap break-words rounded-md bg-muted p-2 font-mono text-xs">
               {JSON.stringify(parsed, null, 2)}
             </pre>
           ) : (

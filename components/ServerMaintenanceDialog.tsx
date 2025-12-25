@@ -1,7 +1,8 @@
+import Image from "next/image";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -9,7 +10,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useT } from "@/lib/i18n/utils";
-import Image from "next/image";
 
 export default function ServerMaintenanceDialog({
   open,

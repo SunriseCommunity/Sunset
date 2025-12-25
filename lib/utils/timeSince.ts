@@ -1,12 +1,13 @@
 "use client";
 
-import { toLocalTime } from "@/lib/utils/toLocalTime";
 import Cookies from "js-cookie";
+
+import { toLocalTime } from "@/lib/utils/toLocalTime";
 
 export function timeSince(
   input: string | Date,
   forceDays = false,
-  short: boolean = false
+  short = false,
 ) {
   const date = toLocalTime(input);
 
@@ -17,7 +18,7 @@ export function timeSince(
     numeric: "auto",
   });
 
-  const ranges: { [key: string]: number } = {
+  const ranges: Record<string, number> = {
     years: 3600 * 24 * 365,
     months: 3600 * 24 * 30,
     weeks: 3600 * 24 * 7,
@@ -33,15 +34,16 @@ export function timeSince(
     const delta = Math.round(secondsElapsed / ranges["days"]);
     return formatterDays.format(delta, "day");
   }
-  for (let key in ranges) {
+  for (const key in ranges) {
     if (ranges[key] <= Math.abs(secondsElapsed)) {
       const delta = Math.round(secondsElapsed / ranges[key]);
       const formatted = formatter.format(
         delta,
-        key as Intl.RelativeTimeFormatUnit
+        key as Intl.RelativeTimeFormatUnit,
       );
 
       if (short) {
+        // eslint-disable-next-line regexp/no-misleading-capturing-group -- intentional
         const parts = formatted.match(/(-?\d+)\s*(\w+)/);
         if (parts) {
           const [, number, unit] = parts;

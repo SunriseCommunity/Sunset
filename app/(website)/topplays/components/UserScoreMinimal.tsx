@@ -1,5 +1,10 @@
 "use client";
 
+import Image from "next/image";
+import Link from "next/link";
+import { Suspense } from "react";
+import { twMerge } from "tailwind-merge";
+
 import ImageWithFallback from "@/components/ImageWithFallback";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -7,13 +12,8 @@ import UserHoverCard from "@/components/UserHoverCard";
 import UserRankColor from "@/components/UserRankNumber";
 import { useBeatmap } from "@/lib/hooks/api/beatmap/useBeatmap";
 import { useUserStats } from "@/lib/hooks/api/user/useUser";
-import { ScoreResponse } from "@/lib/types/api";
 import { useT } from "@/lib/i18n/utils";
-
-import Image from "next/image";
-import Link from "next/link";
-import { Suspense } from "react";
-import { twMerge } from "tailwind-merge";
+import type { ScoreResponse } from "@/lib/types/api";
 
 interface UserScoreMinimalProps {
   score: ScoreResponse;
@@ -38,10 +38,10 @@ export default function UserScoreMinimal({
     <div
       className={twMerge(
         "bg-card rounded-lg overflow-hidden text-white shadow",
-        className
+        className,
       )}
     >
-      <div className="h-28 relative">
+      <div className="relative h-28">
         {beatmap?.beatmapset_id ? (
           <ImageWithFallback
             src={`https://assets.ppy.sh/beatmaps/${beatmap?.beatmapset_id}/covers/cover.jpg`}
@@ -54,44 +54,44 @@ export default function UserScoreMinimal({
           <Skeleton className="" />
         )}
         <Link href={`/score/${score.id}`}>
-          <div className="absolute inset-0 bg-black hover:bg-opacity-50 bg-opacity-60 smooth-transition flex items-center cursor-pointer">
-            <div className="py-2 px-4 flex place-content-between w-full h-full">
-              <div className="flex-col h-full flex justify-between overflow-hidden ">
+          <div className="smooth-transition absolute inset-0 flex cursor-pointer items-center bg-black bg-opacity-60 hover:bg-opacity-50">
+            <div className="flex size-full place-content-between px-4 py-2">
+              <div className="flex h-full flex-col justify-between overflow-hidden ">
                 <div className="flex-col">
-                  <div className="font-bold text-sm drop-shadow-md items-center line-clamp-2">
+                  <div className="line-clamp-2 items-center text-sm font-bold drop-shadow-md">
                     {beatmap?.artist && beatmap?.title ? (
-                      beatmap.artist + " - " + beatmap?.title
+                      `${beatmap.artist} - ${beatmap?.title}`
                     ) : (
                       <div className="flex items-center">
-                        <Skeleton className="w-28 h-3" />
+                        <Skeleton className="h-3 w-28" />
                         &nbsp;-&nbsp;
-                        <Skeleton className="w-20 h-3" />
+                        <Skeleton className="h-3 w-20" />
                       </div>
                     )}
                   </div>
                   <div className="flex items-center space-x-2">
                     {beatmap?.version ? (
                       <div className="line-clamp-1">
-                        <p className="text-xs drop-shadow-md text-gray-100 truncate">
+                        <p className="truncate text-xs text-gray-100 drop-shadow-md">
                           {beatmap?.version}
                         </p>
                       </div>
                     ) : (
-                      <Skeleton className="w-16 h-3" />
+                      <Skeleton className="h-3 w-16" />
                     )}
                   </div>
                 </div>
 
                 {showUser && (
                   <div className="flex">
-                    <div className="flex items-center flex-grow min-w-0">
-                      <Avatar className="h-8 w-8 border-2">
+                    <div className="flex min-w-0 flex-grow items-center">
+                      <Avatar className="size-8 border-2">
                         <Suspense
-                          fallback={
+                          fallback={(
                             <AvatarFallback>
-                              <Skeleton className="w-4 h-4" />
+                              <Skeleton className="size-4" />
                             </AvatarFallback>
-                          }
+                          )}
                         >
                           {user && (
                             <Image
@@ -104,7 +104,7 @@ export default function UserScoreMinimal({
                         </Suspense>
                       </Avatar>
 
-                      <div className="line-clamp-1 mx-1">
+                      <div className="mx-1 line-clamp-1">
                         {user ? (
                           <UserHoverCard user={user} asChild>
                             <UserRankColor
@@ -116,20 +116,21 @@ export default function UserScoreMinimal({
                             </UserRankColor>
                           </UserHoverCard>
                         ) : (
-                          <Skeleton className="w-20 h-3" />
+                          <Skeleton className="h-3 w-20" />
                         )}
                       </div>
                     </div>
                   </div>
                 )}
               </div>
-              <div className="flex items-center space-x-4 mx-2">
-                <div className="text-end text-nowrap">
+              <div className="mx-2 flex items-center space-x-4">
+                <div className="text-nowrap text-end">
                   <p className="text-md opacity-70">{score.mods}</p>
                   <p className="text-2xl text-primary">
                     {beatmap && beatmap.is_ranked
-                      ? score.performance_points.toFixed()
-                      : "- "}{" "}
+                      ? score.performance_points.toFixed(0)
+                      : "- "}
+                    {" "}
                     {t("pp")}
                   </p>
                   <p className="text-sm ">

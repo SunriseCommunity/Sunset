@@ -1,10 +1,6 @@
 "use client";
-import ImageSelect from "@/components/General/ImageSelect";
-import Spinner from "@/components/Spinner";
-import useSelf from "@/lib/hooks/useSelf";
 import {
   CheckSquare,
-  CloudUpload,
   Cog,
   FlagIcon,
   Image,
@@ -13,28 +9,26 @@ import {
   User2Icon,
 } from "lucide-react";
 import { useMemo } from "react";
-import PrettyHeader from "@/components/General/PrettyHeader";
-import BBCodeInput from "../../../components/BBCode/BBCodeInput";
+
+import ChangeCountryInput from "@/app/(website)/settings/components/ChangeCountryInput";
+import ChangeDescriptionInput from "@/app/(website)/settings/components/ChangeDescriptionInput";
 import ChangePasswordInput from "@/app/(website)/settings/components/ChangePasswordInput";
-import SiteLocalOptions from "@/app/(website)/settings/components/SiteLocalOptions";
-import ChangeUsernameInput from "@/app/(website)/settings/components/ChangeUsernameInput";
-import { useEditDescription } from "@/lib/hooks/api/user/useEditDescription";
-import { useUserUpload } from "@/lib/hooks/api/user/useUserUpload";
-import RoundedContent from "@/components/General/RoundedContent";
-import { Button } from "@/components/ui/button";
-import { useToast } from "@/hooks/use-toast";
-import ChangeSocialsForm from "@/app/(website)/settings/components/ChangeSocialsForm";
-import { useUserMetadata } from "@/lib/hooks/api/user/useUserMetadata";
 import ChangePlaystyleForm from "@/app/(website)/settings/components/ChangePlaystyleForm";
+import ChangeSocialsForm from "@/app/(website)/settings/components/ChangeSocialsForm";
+import ChangeUsernameInput from "@/app/(website)/settings/components/ChangeUsernameInput";
+import SiteLocalOptions from "@/app/(website)/settings/components/SiteLocalOptions";
+import UploadImageForm from "@/app/(website)/settings/components/UploadImageForm";
+import PrettyHeader from "@/components/General/PrettyHeader";
+import RoundedContent from "@/components/General/RoundedContent";
+import Spinner from "@/components/Spinner";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import UploadImageForm from "@/app/(website)/settings/components/UploadImageForm";
-import ChangeCountryInput from "@/app/(website)/settings/components/ChangeCountryInput";
-import ChangeDescriptionInput from "@/app/(website)/settings/components/ChangeDescriptionInput";
+import { useUserMetadata } from "@/lib/hooks/api/user/useUserMetadata";
+import useSelf from "@/lib/hooks/useSelf";
 import { useT } from "@/lib/i18n/utils";
 
 export default function Settings() {
@@ -50,7 +44,7 @@ export default function Settings() {
         title: t("sections.changeAvatar"),
         content: (
           <RoundedContent>
-            <div className="flex flex-col w-11/12 mx-auto">
+            <div className="mx-auto flex w-11/12 flex-col">
               <UploadImageForm type="avatar" />
             </div>
           </RoundedContent>
@@ -62,7 +56,7 @@ export default function Settings() {
         title: t("sections.changeBanner"),
         content: (
           <RoundedContent>
-            <div className="flex flex-col w-11/12 mx-auto">
+            <div className="mx-auto flex w-11/12 flex-col">
               <UploadImageForm type="banner" />
             </div>
           </RoundedContent>
@@ -73,11 +67,12 @@ export default function Settings() {
         title: t("sections.changeDescription"),
         content: (
           <RoundedContent>
-            <div className="flex flex-col w-11/12 mx-auto">
+            <div className="mx-auto flex w-11/12 flex-col">
               {self ? (
                 <>
-                  <ChangeDescriptionInput user={self} />{" "}
-                  <label className="text-xs mt-2">
+                  <ChangeDescriptionInput user={self} />
+                  {" "}
+                  <label className="mt-2 text-xs">
                     {t("description.reminder")}
                   </label>
                 </>
@@ -93,7 +88,7 @@ export default function Settings() {
         title: t("sections.socials"),
         content: (
           <RoundedContent>
-            <div className="flex flex-col w-11/12 mx-auto">
+            <div className="mx-auto flex w-11/12 flex-col">
               {userMetadata && self ? (
                 <ChangeSocialsForm metadata={userMetadata} user={self} />
               ) : (
@@ -108,7 +103,7 @@ export default function Settings() {
         title: t("sections.playstyle"),
         content: (
           <RoundedContent>
-            <div className="flex flex-col w-11/12 mx-auto">
+            <div className="mx-auto flex w-11/12 flex-col">
               <div className="flex flex-col lg:w-1/2">
                 {userMetadata && self ? (
                   <ChangePlaystyleForm metadata={userMetadata} user={self} />
@@ -125,7 +120,7 @@ export default function Settings() {
         title: t("sections.options"),
         content: (
           <RoundedContent>
-            <div className="flex flex-col w-11/12 mx-auto">
+            <div className="mx-auto flex w-11/12 flex-col">
               <SiteLocalOptions />
             </div>
           </RoundedContent>
@@ -136,7 +131,7 @@ export default function Settings() {
         title: t("sections.changePassword"),
         content: (
           <RoundedContent>
-            <div className="flex flex-col w-11/12 mx-auto">
+            <div className="mx-auto flex w-11/12 flex-col">
               <ChangePasswordInput />
             </div>
           </RoundedContent>
@@ -147,7 +142,7 @@ export default function Settings() {
         title: t("sections.changeUsername"),
         content: (
           <RoundedContent>
-            <div className="flex flex-col w-11/12 mx-auto">
+            <div className="mx-auto flex w-11/12 flex-col">
               <ChangeUsernameInput />
             </div>
           </RoundedContent>
@@ -158,33 +153,34 @@ export default function Settings() {
         title: t("sections.changeCountryFlag"),
         content: (
           <RoundedContent>
-            <div className="flex flex-col w-11/12 mx-auto">
+            <div className="mx-auto flex w-11/12 flex-col">
               {self ? <ChangeCountryInput user={self} /> : ""}
             </div>
           </RoundedContent>
         ),
       },
     ],
-    [t, self, userMetadata]
+    [t, self, userMetadata],
   );
 
   const defaultOpenValues = useMemo(
     () =>
       settingsContent
-        .filter((v) => v.openByDefault)
+        .filter(v => v.openByDefault)
         .map((_, i) => i.toString()),
-    [settingsContent]
+    [settingsContent],
   );
 
-  if (isLoading)
+  if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-96">
+      <div className="flex h-96 items-center justify-center">
         <Spinner size="xl" />
       </div>
     );
+  }
 
   return (
-    <div className="flex flex-col w-full space-y-4">
+    <div className="flex w-full flex-col space-y-4">
       <PrettyHeader
         text={t("header")}
         icon={<Cog className="mr-2" />}
@@ -201,12 +197,12 @@ export default function Settings() {
             {settingsContent.map(({ icon, title, content }, index) => (
               <AccordionItem
                 id={`accordion-item-${index}`}
-                key={index}
+                key={`accordion-item-${title}`}
                 value={index.toString()}
                 className="border-b-0"
               >
-                <AccordionTrigger className="bg-card rounded-t-lg p-4 flex shadow  [&[data-state=closed]]:rounded-lg">
-                  <div className="flex space-x-2 items-center">
+                <AccordionTrigger className="flex rounded-t-lg bg-card p-4 shadow  [&[data-state=closed]]:rounded-lg">
+                  <div className="flex items-center space-x-2">
                     {icon}
                     <p>{title}</p>
                   </div>

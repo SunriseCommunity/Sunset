@@ -20,7 +20,7 @@ export function CopyElement({
   };
 
   return (
-    <div className="relative group inline-flex items-center space-x-1">
+    <div className="group relative inline-flex items-center space-x-1">
       <button
         onClick={handleCopy}
         className="flex"
@@ -29,9 +29,9 @@ export function CopyElement({
         {children}
         <div className="ml-1">
           {copied ? (
-            <Check className="w-3 h-3 text-green-500" />
+            <Check className="size-3 text-green-500" />
           ) : (
-            <Copy className="w-3 h-3 text-muted-foreground hover:text-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+            <Copy className="size-3 text-muted-foreground opacity-0 transition-opacity duration-200 hover:text-foreground group-hover:opacity-100" />
           )}
         </div>
       </button>

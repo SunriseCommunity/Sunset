@@ -1,5 +1,6 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import { Suspense } from "react";
+
 import AdminUsersSearchPage from "./page";
 
 export const metadata: Metadata = {

@@ -1,3 +1,10 @@
+import { ChevronRight } from "lucide-react";
+import Link from "next/link";
+import { NextIntlClientProvider, useLocale, useMessages } from "next-intl";
+import * as React from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { createRoot } from "react-dom/client";
+
 import {
   Popover,
   PopoverContent,
@@ -5,15 +12,8 @@ import {
 } from "@/components/ui/popover";
 import UserHoverCard from "@/components/UserHoverCard";
 import fetcher from "@/lib/services/fetcher";
-import { UserResponse } from "@/lib/types/api";
+import type { UserResponse } from "@/lib/types/api";
 import { tryParseNumber } from "@/lib/utils/type.util";
-import { ChevronRight } from "lucide-react";
-import Link from "next/link";
-import React, { useEffect, useState } from "react";
-import { useLayoutEffect, useRef } from "react";
-import { createRoot } from "react-dom/client";
-import { NextIntlClientProvider } from "next-intl";
-import { useLocale, useMessages } from "next-intl";
 
 export const BBCodeReactParser = React.memo(
   ({ textHtml }: { textHtml: string }) => {
@@ -21,9 +21,20 @@ export const BBCodeReactParser = React.memo(
     const locale = useLocale();
     const messages = useMessages();
 
+    const parseHtml = React.useCallback((container: HTMLDivElement) => {
+      parseSpoilerBoxes(container);
+      parseBlockquote(container);
+      parseLinks(container);
+      parseWell(container);
+      parseBreaks(container);
+      parseImageMapLink(container);
+      parseProfileLink(container, locale, messages);
+    }, [locale, messages]);
+
     useLayoutEffect(() => {
       const container = containerRef.current;
-      if (!container) return;
+      if (!container)
+        return;
 
       const observer = new MutationObserver(() => {
         parseHtml(container);
@@ -34,28 +45,18 @@ export const BBCodeReactParser = React.memo(
       parseHtml(container);
 
       return () => observer.disconnect();
-    }, []);
-
-    const parseHtml = (container: HTMLDivElement) => {
-      parseSpoilerBoxes(container);
-      parseBlockquote(container);
-      parseLinks(container);
-      parseWell(container);
-      parseBreaks(container);
-      parseImageMapLink(container);
-      parseProfileLink(container, locale, messages);
-    };
+    }, [parseHtml]);
 
     return (
       <div
-        className="font-normal text-sm w-full"
+        className="w-full text-sm font-normal"
         dangerouslySetInnerHTML={{
           __html: textHtml,
         }}
         ref={containerRef}
       />
     );
-  }
+  },
 );
 
 function parseLinks(container: HTMLDivElement) {
@@ -67,40 +68,42 @@ function parseLinks(container: HTMLDivElement) {
 
   function walk(node: Node) {
     if (
-      node.nodeType === Node.ELEMENT_NODE &&
-      (node as Element).tagName.toLowerCase() === "a"
+      node.nodeType === Node.ELEMENT_NODE
+      && (node as Element).tagName.toLowerCase() === "a"
     ) {
       return;
     }
 
     if (node.nodeType === Node.TEXT_NODE) {
       const text = node.textContent;
-      if (!text || !urlRegex.test(text)) return;
+      if (!text || !urlRegex.test(text))
+        return;
 
       const frag = document.createDocumentFragment();
       let lastIndex = 0;
 
-      text.replace(urlRegex, (match, _url, offset) => {
-        frag.appendChild(
-          document.createTextNode(text.slice(lastIndex, offset))
+      text.replaceAll(urlRegex, (match, _url, offset) => {
+        frag.append(
+          document.createTextNode(text.slice(lastIndex, offset)),
         );
 
         const a = document.createElement("a");
         a.href = match;
         a.className = "text-primary hover:underline";
         a.textContent = match;
-        frag.appendChild(a);
+        frag.append(a);
 
         lastIndex = offset + match.length;
         return match;
       });
 
       if (lastIndex < text.length) {
-        frag.appendChild(document.createTextNode(text.slice(lastIndex)));
+        frag.append(document.createTextNode(text.slice(lastIndex)));
       }
 
       node.parentNode?.replaceChild(frag, node);
-    } else if (node.nodeType === Node.ELEMENT_NODE) {
+    }
+    else if (node.nodeType === Node.ELEMENT_NODE) {
       Array.from(node.childNodes).forEach(walk);
     }
   }
@@ -119,16 +122,16 @@ function parseBreaks(container: HTMLDivElement) {
 function parseBlockquote(container: HTMLDivElement) {
   const quotes = container.querySelectorAll("blockquote");
   quotes.forEach((quote) => {
-    quote.className =
-      "px-4 my-2 border-l-4 border-gray-300 dark:border-gray-500";
+    quote.className
+      = "px-4 my-2 border-l-4 border-gray-300 dark:border-gray-500";
   });
 }
 
 function parseWell(container: HTMLDivElement) {
   const quotes = container.querySelectorAll(".well");
   quotes.forEach((quote) => {
-    quote.className =
-      "p-4 bg-card border-2 rounded border-gray-300 dark:border-gray-500";
+    quote.className
+      = "p-4 bg-card border-2 rounded border-gray-300 dark:border-gray-500";
   });
 }
 
@@ -137,23 +140,24 @@ function parseSpoilerBoxes(container: HTMLDivElement) {
 
   spoilerboxes.forEach((box) => {
     const body = box.querySelector(
-      ".js-spoilerbox__body"
+      ".js-spoilerbox__body",
     ) as HTMLElement | null;
     const link = box.querySelector(
-      ".js-spoilerbox__link"
+      ".js-spoilerbox__link",
     ) as HTMLElement | null;
     const icon = link?.querySelector(
-      ".bbcode-spoilerbox__link-icon"
+      ".bbcode-spoilerbox__link-icon",
     ) as HTMLElement | null;
 
-    if (!body || !link || !icon) return;
+    if (!body || !link || !icon)
+      return;
 
     const mountPoint = document.createElement("span");
     mountPoint.className = "inline-block transition-transform";
     icon.insertBefore(mountPoint, icon.firstChild);
 
     createRoot(mountPoint).render(
-      <ChevronRight className="text-current inline-block mr-1" size={16} />
+      <ChevronRight className="mr-1 inline-block text-current" size={16} />,
     );
 
     body.style.paddingLeft = "20px";
@@ -164,8 +168,8 @@ function parseSpoilerBoxes(container: HTMLDivElement) {
       e.preventDefault();
       const isOpen = body.style.display === "block";
       body.style.display = isOpen ? "none" : "block";
-      mountPoint.style.transform =
-        body.style.display === "block" ? "rotate(90deg)" : "rotate(0deg)";
+      mountPoint.style.transform
+        = body.style.display === "block" ? "rotate(90deg)" : "rotate(0deg)";
     };
 
     link.addEventListener("click", handleClick);
@@ -180,7 +184,8 @@ function parseImageMapLink(container: HTMLDivElement) {
   const imageMapLinks = container.querySelectorAll(".imagemap__link");
 
   imageMapLinks.forEach((link) => {
-    if (!link) return;
+    if (!link)
+      return;
 
     link.className = "";
 
@@ -195,7 +200,7 @@ function parseImageMapLink(container: HTMLDivElement) {
           triggerRef.current.innerHTML = "";
           triggerRef.current.setAttribute(
             "style",
-            link.getAttribute("style") || ""
+            link.getAttribute("style") || "",
           );
         }
       }, []);
@@ -219,12 +224,13 @@ function parseImageMapLink(container: HTMLDivElement) {
 function parseProfileLink(
   container: HTMLDivElement,
   locale: string,
-  messages: Record<string, any>
+  messages: Record<string, any>,
 ) {
   const profileLinks = container.querySelectorAll(".js-usercard");
 
   profileLinks.forEach((link) => {
-    if (!link) return;
+    if (!link)
+      return;
 
     link.className = "";
 
@@ -237,7 +243,9 @@ function parseProfileLink(
 
       const [user, setUser] = useState<UserResponse | null>(null);
 
+      // eslint-disable-next-line unicorn/prefer-dom-node-dataset -- intentional
       const userId = tryParseNumber(link.getAttribute("data-user-id"))
+        // eslint-disable-next-line unicorn/prefer-dom-node-dataset -- intentional
         ? Number(link.getAttribute("data-user-id"))
         : null;
 
@@ -252,12 +260,13 @@ function parseProfileLink(
           triggerRef.current.innerHTML = "";
           triggerRef.current.setAttribute(
             "style",
-            link.getAttribute("style") || ""
+            link.getAttribute("style") || "",
           );
         }
-      }, []);
+      }, [userId]);
 
-      if (!user) return null;
+      if (!user)
+        return null;
 
       return (
         <NextIntlClientProvider locale={locale} messages={messages}>

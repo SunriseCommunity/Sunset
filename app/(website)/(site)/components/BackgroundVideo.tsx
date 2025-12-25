@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export default function BackgroundVideo({
   urls,
@@ -12,16 +12,16 @@ export default function BackgroundVideo({
 
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  function getRandomVideo(exclude: string | null): string {
-    const filteredArray = urls.filter((v) => exclude != v);
+  const getRandomVideo = useCallback((exclude: string | null): string => {
+    const filteredArray = urls.filter(v => exclude !== v);
 
     return filteredArray[Math.floor(Math.random() * filteredArray.length)];
-  }
+  }, [urls]);
 
   useEffect(() => {
     const handleEnded = () => {
       setIsLoading(true);
-      setCurrentVideo((prev) => getRandomVideo(prev));
+      setCurrentVideo(prev => getRandomVideo(prev));
     };
 
     if (currentVideo == null) {
@@ -40,7 +40,7 @@ export default function BackgroundVideo({
         videoEl.removeEventListener("ended", handleEnded);
       }
     };
-  }, [currentVideo, urls]);
+  }, [currentVideo, getRandomVideo, urls]);
 
   const handleVideoLoad = () => {
     setIsLoading(false);
@@ -48,7 +48,7 @@ export default function BackgroundVideo({
 
   return (
     <>
-      {isLoading && <div className="bg-black w-full h-full" />}
+      {isLoading && <div className="size-full bg-black" />}
       {currentVideo && (
         <video
           onLoadedData={handleVideoLoad}

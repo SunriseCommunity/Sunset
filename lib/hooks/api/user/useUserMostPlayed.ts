@@ -1,16 +1,17 @@
 "use client";
 
-import { GameMode, GetUserByIdMostplayedResponse } from "@/lib/types/api";
 import useSWRInfinite from "swr/infinite";
+
+import type { GameMode, GetUserByIdMostplayedResponse } from "@/lib/types/api";
 
 export function useUserMostPlayed(
   userId: number,
   mode: GameMode,
-  limit?: number
+  limit?: number,
 ) {
   const getKey = (
     pageIndex: number,
-    previousPageData?: GetUserByIdMostplayedResponse
+    previousPageData?: GetUserByIdMostplayedResponse,
   ) => {
     if (previousPageData && previousPageData.most_played.length === 0)
       return null;
@@ -20,7 +21,8 @@ export function useUserMostPlayed(
       page: (pageIndex + 1).toString(),
     });
 
-    if (limit) queryParams.append("limit", limit.toString());
+    if (limit)
+      queryParams.append("limit", limit.toString());
 
     return `user/${userId}/mostplayed?${queryParams.toString()}`;
   };

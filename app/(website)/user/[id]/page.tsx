@@ -1,48 +1,52 @@
 "use client";
 
-import Spinner from "@/components/Spinner";
-import { useState, use, useCallback, useEffect, useMemo } from "react";
-import Image from "next/image";
 import { Edit3Icon, LucideSettings, User as UserIcon } from "lucide-react";
-import UserPrivilegeBadges from "@/app/(website)/user/[id]/components/UserPrivilegeBadges";
-import PrettyHeader from "@/components/General/PrettyHeader";
-import UserTabGeneral from "@/app/(website)/user/[id]/components/Tabs/UserTabGeneral";
+import Image from "next/image";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { use, useCallback, useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
-import UserTabMedals from "./components/Tabs/UserTabMedals";
-import ImageWithFallback from "@/components/ImageWithFallback";
-import UserTabBeatmaps from "./components/Tabs/UserTabBeatmaps";
+
+import { SetDefaultGamemodeButton } from "@/app/(website)/user/[id]/components/SetDefaultGamemodeButton";
+import UserTabGeneral from "@/app/(website)/user/[id]/components/Tabs/UserTabGeneral";
+import UserTabScores from "@/app/(website)/user/[id]/components/Tabs/UserTabScores";
+import UserGeneralInformation from "@/app/(website)/user/[id]/components/UserGeneralInformation";
+import UserPreviousUsernamesTooltip from "@/app/(website)/user/[id]/components/UserPreviousUsernamesTooltip";
+import UserPrivilegeBadges from "@/app/(website)/user/[id]/components/UserPrivilegeBadges";
+import UserRanks from "@/app/(website)/user/[id]/components/UserRanks";
+import UserSocials from "@/app/(website)/user/[id]/components/UserSocials";
+import UserStatusText, {
+  statusColor,
+} from "@/app/(website)/user/[id]/components/UserStatusText";
+import { FriendshipButton } from "@/components/FriendshipButton";
 import GameModeSelector from "@/components/GameModeSelector";
+import PrettyHeader from "@/components/General/PrettyHeader";
 import RoundedContent from "@/components/General/RoundedContent";
+import ImageWithFallback from "@/components/ImageWithFallback";
+import Spinner from "@/components/Spinner";
+import { Tooltip } from "@/components/Tooltip";
+import { Button } from "@/components/ui/button";
+import UserRankColor from "@/components/UserRankNumber";
 import {
   useUser,
   useUserSelf,
   useUserStats,
 } from "@/lib/hooks/api/user/useUser";
-import UserTabScores from "@/app/(website)/user/[id]/components/Tabs/UserTabScores";
-import { FriendshipButton } from "@/components/FriendshipButton";
-import { Button } from "@/components/ui/button";
-import UserRankColor from "@/components/UserRankNumber";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import UserStatusText, {
-  statusColor,
-} from "@/app/(website)/user/[id]/components/UserStatusText";
-import UserRanks from "@/app/(website)/user/[id]/components/UserRanks";
-import { Tooltip } from "@/components/Tooltip";
-import {
-  GameMode,
-  ScoreTableType,
+import { useUserMetadata } from "@/lib/hooks/api/user/useUserMetadata";
+import useSelf from "@/lib/hooks/useSelf";
+import { useT } from "@/lib/i18n/utils";
+import type {
   UserResponse,
   UserStatsResponse,
 } from "@/lib/types/api";
+import {
+  GameMode,
+  ScoreTableType,
+} from "@/lib/types/api";
 import { isInstance, tryParseNumber } from "@/lib/utils/type.util";
-import { SetDefaultGamemodeButton } from "@/app/(website)/user/[id]/components/SetDefaultGamemodeButton";
-import useSelf from "@/lib/hooks/useSelf";
-import UserGeneralInformation from "@/app/(website)/user/[id]/components/UserGeneralInformation";
-import { useUserMetadata } from "@/lib/hooks/api/user/useUserMetadata";
-import UserSocials from "@/app/(website)/user/[id]/components/UserSocials";
-import UserPreviousUsernamesTooltip from "@/app/(website)/user/[id]/components/UserPreviousUsernamesTooltip";
 import { isUserHasAdminPrivilege } from "@/lib/utils/userPrivileges.util";
-import { useT } from "@/lib/i18n/utils";
+
+import UserTabBeatmaps from "./components/Tabs/UserTabBeatmaps";
+import UserTabMedals from "./components/Tabs/UserTabMedals";
 
 export default function UserPage(props: { params: Promise<{ id: string }> }) {
   const params = use(props.params);
@@ -66,21 +70,32 @@ export default function UserPage(props: { params: Promise<{ id: string }> }) {
 
   const [activeTab, setActiveTab] = useState("tabs.general");
   const [activeMode, setActiveMode] = useState<GameMode | null>(
-    isInstance(mode, GameMode) ? (mode as GameMode) : null
+    () => (isInstance(mode, GameMode) ? (mode as GameMode) : null),
   );
 
   const { self } = useSelf();
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks -- works fine
   const userQuery = userId === self?.user_id ? useUserSelf() : useUser(userId);
   const userStatsQuery = useUserStats(userId, activeMode);
   const userMetadataQuery = useUserMetadata(userId);
+
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set(name, value);
+
+      return params.toString();
+    },
+    [searchParams],
+  );
 
   const renderTabContent = useCallback(
     (
       userStats: UserStatsResponse | undefined,
       activeTab: string,
       activeMode: GameMode,
-      user: UserResponse
+      user: UserResponse,
     ) => {
       if (activeTab === "tabs.general") {
         return (
@@ -142,38 +157,30 @@ export default function UserPage(props: { params: Promise<{ id: string }> }) {
       }
       return null;
     },
-    [t]
+    [],
   );
 
   useEffect(() => {
-    if (!activeMode) return;
+    if (!activeMode)
+      return;
 
     window.history.replaceState(
       null,
       "",
-      pathname + "?" + createQueryString("mode", activeMode.toString())
+      `${pathname}?${createQueryString("mode", activeMode.toString())}`,
     );
-  }, [activeMode]);
+  }, [activeMode, createQueryString, pathname]);
 
   useEffect(() => {
-    if (activeMode || !userQuery.data) return;
+    if (activeMode || !userQuery.data)
+      return;
 
     setActiveMode(userQuery.data.default_gamemode);
   }, [userQuery, activeMode]);
 
-  const createQueryString = useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString());
-      params.set(name, value);
-
-      return params.toString();
-    },
-    [searchParams]
-  );
-
   if (userQuery.isLoading) {
     return (
-      <div className="flex justify-center items-center h-96">
+      <div className="flex h-96 items-center justify-center">
         <Spinner size="xl" />
       </div>
     );
@@ -204,45 +211,45 @@ export default function UserPage(props: { params: Promise<{ id: string }> }) {
           )}
         </PrettyHeader>
 
-        <RoundedContent className="rounded-lg-b p-0 border-t-0 bg-card">
+        <RoundedContent className="rounded-lg-b border-t-0 bg-card p-0">
           {!userStatsQuery.error && user && activeMode ? (
             <>
-              <div className="lg:h-64 md:h-44 h-32 relative">
+              <div className="relative h-32 md:h-44 lg:h-64">
                 <ImageWithFallback
                   src={`${user?.banner_url}&default=false`}
                   alt=""
                   fill={true}
                   objectFit="cover"
-                  className="bg-black rounded-t-lg"
+                  className="rounded-t-lg bg-black"
                   fallBackSrc="/images/placeholder.png"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-card via-card/20  to-transparent flex w-full">
-                  <div className="relative overflow-hidden px-4 py-2 md:p-6 flex items-end place-content-between flex-grow">
-                    <div className="flex items-end space-x-4 w-3/4 ">
-                      <div className="relative w-16 h-16 md:w-32 md:h-32 flex-none">
+                <div className="absolute inset-0 flex w-full bg-gradient-to-t  from-card via-card/20 to-transparent">
+                  <div className="relative flex flex-grow place-content-between items-end overflow-hidden px-4 py-2 md:p-6">
+                    <div className="flex w-3/4 items-end space-x-4 ">
+                      <div className="relative size-16 flex-none md:size-32">
                         <Image
                           src={user.avatar_url}
                           alt="User avatar"
                           fill={true}
                           objectFit="cover"
-                          className={`rounded-full md:w-32 md:h-32 border-2 md:border-4 border-secondary`}
+                          className="rounded-full border-2 border-secondary md:size-32 md:border-4"
                         />
                         <div
                           className={twMerge(
                             "absolute bottom-1 right-1 w-5 h-5 md:w-10 md:h-10 rounded-full border-2 md:border-4 border-secondary",
-                            `bg-${statusColor(user.user_status)}`
+                            `bg-${statusColor(user.user_status)}`,
                           )}
                         />
                       </div>
-                      <div className="flex flex-col flex-grow min-w-0">
+                      <div className="flex min-w-0 flex-grow flex-col">
                         <div className="flex flex-row flex-wrap gap-x-2">
                           <Tooltip
-                            className="flex flex-row min-w-0 space-x-2"
+                            className="flex min-w-0 flex-row space-x-2"
                             content={user.username}
                             align="start"
                           >
                             <UserRankColor
-                              className="md:text-3xl ml-full text-lg font-bold truncate mt-0.5"
+                              className="ml-full mt-0.5 truncate text-lg font-bold md:text-3xl"
                               variant="primary"
                               rank={userStats?.rank ?? -1}
                             >
@@ -252,7 +259,7 @@ export default function UserPage(props: { params: Promise<{ id: string }> }) {
 
                           <UserPreviousUsernamesTooltip
                             user={user}
-                            className="place-self-start -ml-1"
+                            className="-ml-1 place-self-start"
                           />
 
                           <div className="gap-y-2">
@@ -264,7 +271,7 @@ export default function UserPage(props: { params: Promise<{ id: string }> }) {
                         </div>
 
                         <UserStatusText
-                          className="text-xs grid md:flex md:text-base"
+                          className="grid text-xs md:flex md:text-base"
                           user={user}
                         />
                       </div>
@@ -274,8 +281,8 @@ export default function UserPage(props: { params: Promise<{ id: string }> }) {
                 </div>
               </div>
 
-              <div className="px-6 py-4 bg-card">
-                <div className="flex justify-between items-start">
+              <div className="bg-card px-6 py-4">
+                <div className="flex items-start justify-between">
                   <div className="flex flex-wrap gap-2">
                     <UserGeneralInformation user={user} metadata={userMetada} />
                   </div>
@@ -299,7 +306,7 @@ export default function UserPage(props: { params: Promise<{ id: string }> }) {
                     {self && isUserHasAdminPrivilege(self) && (
                       <Button
                         variant="outline"
-                        className="border-0 w-9"
+                        className="w-9 border-0"
                         onClick={() => {
                           router.push(`/admin/users/${user.user_id}/edit`);
                         }}
@@ -312,16 +319,16 @@ export default function UserPage(props: { params: Promise<{ id: string }> }) {
 
                 {userMetada && <UserSocials metadata={userMetada} />}
 
-                <hr className="my-2"></hr>
+                <hr className="my-2" />
                 <div className="my-2">
-                  <div className="flex border-b border-gray overflow-x-auto">
-                    {contentTabs.map((tab) => (
+                  <div className="border-gray flex overflow-x-auto border-b">
+                    {contentTabs.map(tab => (
                       <button
                         key={tab}
-                        className={`text-xs md:text-base py-2 px-4 text-nowrap border-primary/85 ${
+                        className={`text-nowrap border-primary/85 px-4 py-2 text-xs md:text-base ${
                           activeTab === tab
-                            ? "text-primary/85 border-b-2"
-                            : "text-current hover:text-primary/85 hover:border-b-2"
+                            ? "border-b-2 text-primary/85"
+                            : "text-current hover:border-b-2 hover:text-primary/85"
                         }`}
                         onClick={() => setActiveTab(tab)}
                       >
@@ -335,7 +342,7 @@ export default function UserPage(props: { params: Promise<{ id: string }> }) {
               </div>
             </>
           ) : (
-            <RoundedContent className="rounded-l flex flex-col md:flex-row justify-between items-center md:items-start gap-8 ">
+            <RoundedContent className="flex flex-col items-center justify-between gap-8 rounded-l md:flex-row md:items-start ">
               <div className="flex flex-col space-y-2">
                 <h1 className="text-4xl">{errorMessage}</h1>
                 {errorMessage.includes("restrict") ? (

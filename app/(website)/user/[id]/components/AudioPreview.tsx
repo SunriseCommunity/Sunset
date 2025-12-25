@@ -1,10 +1,10 @@
-import useAudioPlayer from "@/lib/hooks/useAudioPlayer";
-
 import { Pause, Play } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { BeatmapSetResponse } from "@/lib/types/api";
 import { twMerge } from "tailwind-merge";
+
+import { Button } from "@/components/ui/button";
+import useAudioPlayer from "@/lib/hooks/useAudioPlayer";
+import type { BeatmapSetResponse } from "@/lib/types/api";
 
 interface AudioPreviewProps {
   beatmapSet: BeatmapSetResponse;
@@ -20,9 +20,10 @@ export default function AudioPreview({
   const [isPlayingCurrent, setIsPlayingCurrent] = useState(false);
 
   useEffect(() => {
-    if (!player.current) return;
+    if (!player.current)
+      return;
     setIsPlayingCurrent(isPlayingThis(`${beatmapSet.id}.mp3`));
-  }, [isPlaying]);
+  }, [beatmapSet.id, isPlaying, isPlayingThis, player]);
 
   return (
     <Button
@@ -38,7 +39,7 @@ export default function AudioPreview({
       }}
       className={twMerge(
         "text-white relative text-xs min-h-8 hover:bg-opacity-0 bg-opacity-0 px-6 py-1 min-w-full rounded-lg overflow-hidden max-w-64",
-        className
+        className,
       )}
     >
       {isPlayingCurrent ? (

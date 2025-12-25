@@ -1,5 +1,5 @@
-import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer";
+import Header from "@/components/Header/Header";
 import ScrollUp from "@/components/ScrollUp";
 
 export default function WebsiteLayout({
@@ -11,7 +11,7 @@ export default function WebsiteLayout({
     <>
       <Header />
       <div className="row-padding-max-w-2xl py-8">{children}</div>
-      <main className="flex-grow bg-background -z-30" />
+      <main className="-z-30 flex-grow bg-background" />
       <Footer />
       <ScrollUp />
     </>

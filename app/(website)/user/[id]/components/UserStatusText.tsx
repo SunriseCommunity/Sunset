@@ -1,15 +1,17 @@
+import { twMerge } from "tailwind-merge";
+
 import { dateToPrettyString } from "@/components/General/PrettyDate";
 import { Tooltip } from "@/components/Tooltip";
-import { UserResponse } from "@/lib/types/api";
-import { twMerge } from "tailwind-merge";
 import { useT } from "@/lib/i18n/utils";
+import type { UserResponse } from "@/lib/types/api";
 
-export const statusColor = (status: string) =>
-  status.trim() === "Offline"
+export function statusColor(status: string) {
+  return status.trim() === "Offline"
     ? "stone-500"
     : status.trim() === "Idle" || status.trim() === "Afk"
-    ? "orange-600"
-    : "green-600";
+      ? "orange-600"
+      : "green-600";
+}
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   user: UserResponse;
@@ -39,7 +41,7 @@ export default function UserStatusText({
 
   return (
     <Tooltip
-      className="flex flex-row flex-grow min-w-0"
+      className="flex min-w-0 flex-grow flex-row"
       content={userStatus(true)}
       align="start"
       asChild={asChild}
@@ -50,7 +52,7 @@ export default function UserStatusText({
         className={twMerge(
           "flex flex-grow justify-start min-w-0 mr-2",
           `text-${statusColor(user.user_status)}`,
-          props.className
+          props.className,
         )}
       >
         {userStatus(false)}

@@ -7,8 +7,8 @@ import {
 } from "@/lib/hooks/api/types";
 import { useUpdateUserDefaultGamemode } from "@/lib/hooks/api/user/useUserDefaultGamemode";
 import useSelf from "@/lib/hooks/useSelf";
-import { GameMode, UserResponse } from "@/lib/types/api";
 import { useT } from "@/lib/i18n/utils";
+import type { GameMode, UserResponse } from "@/lib/types/api";
 
 export function SetDefaultGamemodeButton({
   user,
@@ -23,13 +23,14 @@ export function SetDefaultGamemodeButton({
   const { trigger } = useUpdateUserDefaultGamemode();
 
   const updateDefaultGamemode = (default_gamemode: GameMode) => {
-    trigger({ default_gamemode, user: user });
+    trigger({ default_gamemode, user });
   };
 
   const isCurrentUserSelf = user.user_id === self?.user_id;
   const isGamemodeAlreadyDefault = user.default_gamemode === gamemode;
 
-  if (!self || !isCurrentUserSelf || isGamemodeAlreadyDefault) return;
+  if (!self || !isCurrentUserSelf || isGamemodeAlreadyDefault)
+    return;
 
   return (
     <Button
@@ -41,13 +42,13 @@ export function SetDefaultGamemodeButton({
       }}
       className="hidden md:inline"
       size="sm"
-      variant={"secondary"}
+      variant="secondary"
     >
       <span>
         {t.rich("buttons.setDefaultGamemode", {
           gamemode: GameModeToGameRuleMap[gamemode] || "Unknown",
           flag: GameModeToFlagMap[gamemode] || "Unknown",
-          b: (chunks) => <b>{chunks}</b>,
+          b: chunks => <b>{chunks}</b>,
         })}
       </span>
     </Button>

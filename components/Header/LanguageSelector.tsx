@@ -1,21 +1,22 @@
 "use client";
 
-import { useCallback, useMemo } from "react";
-import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
+import { Check, Languages } from "lucide-react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useLocale } from "next-intl";
+import { useCallback, useMemo } from "react";
+
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
-import { Languages, Check } from "lucide-react";
-import { cn } from "@/lib/utils";
-import Image from "next/image";
 import { AVAILABLE_LOCALES, DISPLAY_NAMES_LOCALES } from "@/lib/i18n/messages";
 import { getCountryCodeForLocale } from "@/lib/i18n/utils";
+import { cn } from "@/lib/utils";
 
 export function LanguageSelector() {
   const router = useRouter();
@@ -26,7 +27,7 @@ export function LanguageSelector() {
       Cookies.set("locale", locale);
       router.refresh();
     },
-    [router]
+    [router],
   );
 
   const getLanguageName = useCallback(
@@ -36,20 +37,21 @@ export function LanguageSelector() {
           type: "language",
         });
 
-        const name =
-          DISPLAY_NAMES_LOCALES[locale] ||
-          displayNames.of(locale) ||
-          locale.toUpperCase();
+        const name
+          = DISPLAY_NAMES_LOCALES[locale]
+            || displayNames.of(locale)
+            || locale.toUpperCase();
         return name;
-      } catch {
+      }
+      catch {
         return DISPLAY_NAMES_LOCALES[locale] || locale.toUpperCase();
       }
     },
-    [currentLocale]
+    [currentLocale],
   );
 
   const languages = useMemo(() => {
-    return AVAILABLE_LOCALES.map((localeCode) => ({
+    return AVAILABLE_LOCALES.map(localeCode => ({
       code: localeCode,
       countryCode: getCountryCodeForLocale(localeCode),
       nativeName: getLanguageName(localeCode, localeCode),
@@ -62,15 +64,15 @@ export function LanguageSelector() {
         <Button
           variant="ghost"
           size="icon"
-          className="hover:bg-neutral-600 hover:bg-opacity-25 p-1 h-7 w-7 rounded-md cursor-pointer smooth-transition opacity-40 group-hover:opacity-100 md:h-8 md:w-8"
+          className="smooth-transition size-7 cursor-pointer rounded-md p-1 opacity-40 hover:bg-neutral-600 hover:bg-opacity-25 group-hover:opacity-100 md:size-8"
           aria-label="Select language"
         >
-          <Languages className="h-[1.2rem] w-[1.2rem] md:h-5 md:w-5" />
+          <Languages className="h-[1.2rem] w-[1.2rem] md:size-5" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="end"
-        className="min-w-[200px] w-[calc(100vw-2rem)] max-w-[280px] md:min-w-[200px] md:w-auto"
+        className="w-[calc(100vw-2rem)] min-w-[200px] max-w-[280px] md:w-auto md:min-w-[200px]"
         sideOffset={8}
       >
         {languages
@@ -83,8 +85,8 @@ export function LanguageSelector() {
                 key={locale.code}
                 onClick={() => changeLanguage(locale.code)}
                 className={cn(
-                  "flex items-center gap-3 cursor-pointer py-2.5 px-3",
-                  isActive && "bg-accent"
+                  "flex cursor-pointer items-center gap-3 px-3 py-2.5",
+                  isActive && "bg-accent",
                 )}
               >
                 <Image
@@ -92,13 +94,13 @@ export function LanguageSelector() {
                   alt={`${locale.nativeName} flag`}
                   width={24}
                   height={24}
-                  className="md:w-6 md:h-6 w-5 h-5 flex-shrink-0"
+                  className="size-5 flex-shrink-0 md:size-6"
                 />
                 <span className="flex-1 font-medium capitalize">
                   {locale.nativeName}
                 </span>
                 {isActive && (
-                  <Check className="h-4 w-4 text-primary flex-shrink-0" />
+                  <Check className="size-4 flex-shrink-0 text-primary" />
                 )}
               </DropdownMenuItem>
             );

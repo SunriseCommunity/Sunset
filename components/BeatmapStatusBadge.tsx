@@ -1,8 +1,8 @@
+import { twMerge } from "tailwind-merge";
+
 import { getBeatmapStatusStatusColor } from "@/components/BeatmapStatus";
 import { Badge } from "@/components/ui/badge";
-import { BeatmapStatusWeb } from "@/lib/types/api";
-
-import { twMerge } from "tailwind-merge";
+import type { BeatmapStatusWeb } from "@/lib/types/api";
 
 interface BeatmapStatusBadgeProps {
   status: BeatmapStatusWeb;
@@ -18,7 +18,7 @@ export default function BeatmapStatusBadge({
       variant="outline"
       className={twMerge(
         "font-normal",
-        `bg-${color}/20 text-${color} hover:bg-${color}/20 hover:text-${color}`
+        `bg-${color}/20 text-${color} hover:bg-${color}/20 hover:text-${color}`,
       )}
     >
       {status}

@@ -1,22 +1,22 @@
 "use client";
 
-import type React from "react";
-
-import { useState, useCallback } from "react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Search, Filter, ChevronDown } from "lucide-react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BeatmapStatusWeb, GameMode } from "@/lib/types/api";
-
-import { BeatmapsSearchFilters } from "@/components/Beatmaps/Search/BeatmapsSearchFilters";
-import { useBeatmapsetSearch } from "@/lib/hooks/api/beatmap/useBeatmapsetSearch";
-import { BeatmapSetCard } from "@/components/Beatmaps/BeatmapSetCard";
+import { ChevronDown, Filter, Search } from "lucide-react";
+import type * as React from "react";
+import { useCallback, useState } from "react";
 import { twMerge } from "tailwind-merge";
+
 import BeatmapSetOverview from "@/app/(website)/user/[id]/components/BeatmapSetOverview";
-import useDebounce from "@/lib/hooks/useDebounce";
+import { BeatmapSetCard } from "@/components/Beatmaps/BeatmapSetCard";
+import { BeatmapsSearchFilters } from "@/components/Beatmaps/Search/BeatmapsSearchFilters";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useBeatmapsetSearch } from "@/lib/hooks/api/beatmap/useBeatmapsetSearch";
+import useDebounce from "@/lib/hooks/useDebounce";
 import { useT } from "@/lib/i18n/utils";
+import type { GameMode } from "@/lib/types/api";
+import { BeatmapStatusWeb } from "@/lib/types/api";
 
 export default function BeatmapsSearch({
   forceThreeGridCols = false,
@@ -48,13 +48,13 @@ export default function BeatmapsSearch({
       refreshInterval: 0,
       revalidateOnFocus: false,
       keepPreviousData: true,
-    }
+    },
   );
 
-  const beatmapsets = data?.flatMap((item) => item.sets);
+  const beatmapsets = data?.flatMap(item => item.sets);
 
-  const isLoadingMore =
-    isLoading || (size > 0 && data && typeof data[size - 1] === "undefined");
+  const isLoadingMore
+    = isLoading || (size > 0 && data && data[size - 1] === undefined);
 
   const handleShowMore = useCallback(() => {
     setSize(size + 1);
@@ -66,13 +66,13 @@ export default function BeatmapsSearch({
       status: BeatmapStatusWeb[] | null;
       searchByCustomStatus: boolean;
     }) => {
-      let { mode, status, searchByCustomStatus } = filters;
+      const { mode, status, searchByCustomStatus } = filters;
 
       setModeFilter(mode);
       setStatusFilter(status ?? null);
       setSearchByCustomStatus(searchByCustomStatus);
     },
-    []
+    [],
   );
 
   return (
@@ -80,14 +80,14 @@ export default function BeatmapsSearch({
       <div className="flex flex-col gap-6 md:flex-row">
         <div className="flex flex-1 items-center space-x-6">
           <div className="relative flex-1">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Search className="absolute left-2.5 top-2.5 size-4 text-muted-foreground" />
             <Input
               disabled={searchByCustomStatus}
               type="search"
               placeholder={t("searchPlaceholder")}
               className="pl-8"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={e => setSearchQuery(e.target.value)}
             />
           </div>
           <Button
@@ -96,11 +96,11 @@ export default function BeatmapsSearch({
             className="relative"
             onClick={() => setShowFilters(!showFilters)}
           >
-            <Filter className="mr-2 h-4 w-4" />
+            <Filter className="mr-2 size-4" />
             {t("filters")}
             {(statusFilter != null || modeFilter != null) && (
-              <div className="absolute bg-primary sm:-top-2 text-primary-foreground -top-2.5 sm:-left-2 -left-2.5 rounded-full w-6 h-6 flex items-center justify-center text-sm">
-                {[statusFilter, modeFilter].filter((v) => v != null).length}
+              <div className="absolute -left-2.5 -top-2.5 flex size-6 items-center justify-center rounded-full bg-primary text-sm text-primary-foreground sm:-left-2 sm:-top-2">
+                {[statusFilter, modeFilter].filter(v => v != null).length}
               </div>
             )}
           </Button>
@@ -113,7 +113,7 @@ export default function BeatmapsSearch({
             onValueChange={setViewMode}
             className="h-9 "
           >
-            <TabsList className="grid bg-card h-9 min-w-[120px] shadow grid-cols-2">
+            <TabsList className="grid h-9 min-w-[120px] grid-cols-2 bg-card shadow">
               <TabsTrigger value="grid">{t("viewMode.grid")}</TabsTrigger>
               <TabsTrigger value="list">{t("viewMode.list")}</TabsTrigger>
             </TabsList>
@@ -128,8 +128,8 @@ export default function BeatmapsSearch({
         <div
           className={
             showFilters
-              ? "opacity-100 scale-100 transition duration-500"
-              : "opacity-0 scale-95 transition duration-300"
+              ? "scale-100 opacity-100 transition duration-500"
+              : "scale-95 opacity-0 transition duration-300"
           }
         >
           <BeatmapsSearchFilters
@@ -148,38 +148,38 @@ export default function BeatmapsSearch({
             <div
               className={twMerge(
                 `grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 `,
-                forceThreeGridCols ? "" : "xl:grid-cols-4"
+                forceThreeGridCols ? "" : "xl:grid-cols-4",
               )}
             >
-              {beatmapsets?.map((beatmapSet, i) => (
-                <BeatmapSetCard key={i} beatmapSet={beatmapSet} />
+              {beatmapsets?.map(beatmapSet => (
+                <BeatmapSetCard key={`beatmap-set-card-${beatmapSet.id}`} beatmapSet={beatmapSet} />
               ))}
             </div>
           </TabsContent>
           <TabsContent value="list" className="m-0">
             <Card className="p-4">
-              <CardContent className="grid grid-cols-1 gap-4 sm:grid-cols-2 p-0">
-                {beatmapsets?.map((beatmapSet, i) => (
-                  <BeatmapSetOverview key={i} beatmapSet={beatmapSet} />
+              <CardContent className="grid grid-cols-1 gap-4 p-0 sm:grid-cols-2">
+                {beatmapsets?.map(beatmapSet => (
+                  <BeatmapSetOverview key={`beatmap-set-overview-${beatmapSet.id}`} beatmapSet={beatmapSet} />
                 ))}
               </CardContent>
             </Card>
           </TabsContent>
         </Tabs>
-        {beatmapsets &&
-          beatmapsets?.length >= (searchByCustomStatus ? 12 : 24) && (
-            <div className="flex justify-center mt-4">
-              <Button
-                onClick={handleShowMore}
-                className="w-full md:w-1/2 flex items-center justify-center"
-                isLoading={isLoadingMore}
-                variant="secondary"
-              >
-                <ChevronDown />
-                {t("showMore")}
-              </Button>
-            </div>
-          )}
+        {beatmapsets
+          && beatmapsets?.length >= (searchByCustomStatus ? 12 : 24) && (
+          <div className="mt-4 flex justify-center">
+            <Button
+              onClick={handleShowMore}
+              className="flex w-full items-center justify-center md:w-1/2"
+              isLoading={isLoadingMore}
+              variant="secondary"
+            >
+              <ChevronDown />
+              {t("showMore")}
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );

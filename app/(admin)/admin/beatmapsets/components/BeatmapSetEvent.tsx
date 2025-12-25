@@ -1,8 +1,10 @@
+import { Clock } from "lucide-react";
+
 import { BeatmapNominatorUser } from "@/app/(website)/beatmapsets/components/BeatmapNominatorUser";
 import PrettyDate from "@/components/General/PrettyDate";
 import { SmallBeatmapElement } from "@/components/SmallBeatmapElement";
-import { BeatmapEventResponse, BeatmapEventType } from "@/lib/types/api";
-import { Clock } from "lucide-react";
+import type { BeatmapEventResponse } from "@/lib/types/api";
+import { BeatmapEventType } from "@/lib/types/api";
 
 export function BeatmapSetEvent({ event }: { event: BeatmapEventResponse }) {
   const {
@@ -29,33 +31,34 @@ export function BeatmapSetEvent({ event }: { event: BeatmapEventResponse }) {
       eventMessage = (
         <>
           reset beatmapset
-          <SmallBeatmapElement beatmapSet={beatmapset} /> hypes
+          <SmallBeatmapElement beatmapSet={beatmapset} />
+          {" "}
+          hypes
         </>
       );
       break;
     case BeatmapEventType.BEATMAP_STATUS_CHANGED:
-      const beatmap = beatmapset.beatmaps.find((b) => b.hash === beatmap_hash);
       eventMessage = (
         <>
           changed beatmap
-          <SmallBeatmapElement beatmapSet={beatmapset} beatmap={beatmap} />
+          <SmallBeatmapElement beatmapSet={beatmapset} beatmap={beatmapset.beatmaps.find(b => b.hash === beatmap_hash)} />
           status to
-          <span className="text-primary font-semibold ml-1">
+          <span className="ml-1 font-semibold text-primary">
             {new_status ?? "their default status"}
           </span>
         </>
       );
       break;
     default:
-      eventMessage =
-        "created unhandled event. Please report it to the developer";
+      eventMessage
+        = "created unhandled event. Please report it to the developer";
       break;
   }
 
   return (
-    <div className="flex p-2 bg-accent rounded-lg">
-      <div className="flex flex-wrap gap-5 w-full items-center place-content-between text-sm font-normal">
-        <div className="flex gap-5 w-3/4">
+    <div className="flex rounded-lg bg-accent p-2">
+      <div className="flex w-full flex-wrap place-content-between items-center gap-5 text-sm font-normal">
+        <div className="flex w-3/4 gap-5">
           <p className="text-nowrap">ID: {event_id}</p>
           <p>
             <span>User </span>
@@ -63,8 +66,8 @@ export function BeatmapSetEvent({ event }: { event: BeatmapEventResponse }) {
             <span>{eventMessage}.</span>
           </p>
         </div>
-        <div className="flex gap-1 items-center">
-          <Clock className="w-4 h-4" />
+        <div className="flex items-center gap-1">
+          <Clock className="size-4" />
           <PrettyDate time={created_at} />
         </div>
       </div>

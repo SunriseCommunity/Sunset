@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign -- intentional */
 export function getStarRatingColor(rating: number): string {
   const ratingRange = [0.1, 1.25, 2, 2.5, 3.3, 4.2, 4.9, 5.8, 6.7, 7.7, 9];
   const colorRange = [
@@ -34,21 +35,23 @@ export function getStarRatingColor(rating: number): string {
     const r = exponential(start[0], end[0], gamma);
     const g = exponential(start[1], end[1], gamma);
     const b = exponential(start[2], end[2], gamma);
-    return (t) =>
-      "#" +
-      hex(Math.round(r(t))) +
-      hex(Math.round(g(t))) +
-      hex(Math.round(b(t)));
+    return t =>
+      `#${
+      hex(Math.round(r(t)))
+      }${hex(Math.round(g(t)))
+      }${hex(Math.round(b(t)))}`;
   }
 
-  if (rating < 0.1) return "#AAAAAA";
-  if (rating >= 9) return "#000000";
+  if (rating < 0.1)
+    return "#AAAAAA";
+  if (rating >= 9)
+    return "#000000";
 
   for (let i = 0; i < ratingRange.length; i++) {
     if (rating < ratingRange[i]) {
       return interpolate(
         colorRange[i - 1],
-        colorRange[i]
+        colorRange[i],
       )((rating - ratingRange[i - 1]) / (ratingRange[i] - ratingRange[i - 1]));
     }
   }

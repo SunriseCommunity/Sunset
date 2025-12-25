@@ -1,7 +1,7 @@
-import createNextIntlPlugin from "next-intl/plugin";
-
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+
+import createNextIntlPlugin from "next-intl/plugin";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -19,7 +19,7 @@ const nextConfig = {
 
     config.resolve.alias["next/link"] = path.resolve(
       __dirname,
-      "lib/overrides/next/link"
+      "lib/overrides/next/link",
     );
 
     return config;

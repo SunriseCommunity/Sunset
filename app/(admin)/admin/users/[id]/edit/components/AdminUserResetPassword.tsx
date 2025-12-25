@@ -1,14 +1,12 @@
 "use client";
 
-import { useState } from "react";
-import { UserSensitiveResponse } from "@/lib/types/api";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { KeyRound } from "lucide-react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
-import { useAdminPasswordChange } from "@/lib/hooks/api/user/useAdminUserEdit";
-import { useToast } from "@/hooks/use-toast";
-
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -19,16 +17,17 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import {
+  Form,
+  FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormControl,
   FormMessage,
-  Form,
 } from "@/components/ui/form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/hooks/use-toast";
+import { useAdminPasswordChange } from "@/lib/hooks/api/user/useAdminUserEdit";
+import type { UserSensitiveResponse } from "@/lib/types/api";
 
 const formSchema = z
   .object({
@@ -49,7 +48,7 @@ const formSchema = z
         message: "Password must be 32 characters or fewer.",
       }),
   })
-  .refine((data) => data.password === data.confirmPassword, {
+  .refine(data => data.password === data.confirmPassword, {
     message: "Passwords do not match",
     path: ["confirmPassword"],
   });
@@ -62,8 +61,8 @@ export default function AdminUserResetPassword({
   const [showPasswordDialog, setShowPasswordDialog] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const { trigger: changePassword, isMutating: isChangingPassword } =
-    useAdminPasswordChange(user.user_id);
+  const { trigger: changePassword, isMutating: isChangingPassword }
+    = useAdminPasswordChange(user.user_id);
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -104,7 +103,7 @@ export default function AdminUserResetPassword({
             variant: "destructive",
           });
         },
-      }
+      },
     );
   }
 
@@ -112,7 +111,7 @@ export default function AdminUserResetPassword({
     <Dialog open={showPasswordDialog} onOpenChange={setShowPasswordDialog}>
       <DialogTrigger asChild>
         <Button variant="accent" className="w-full">
-          <KeyRound className="w-4 h-4 mr-2" />
+          <KeyRound className="mr-2 size-4" />
           Reset Password
         </Button>
       </DialogTrigger>
@@ -120,7 +119,8 @@ export default function AdminUserResetPassword({
         <DialogHeader>
           <DialogTitle>Reset Password</DialogTitle>
           <DialogDescription>
-            Set a new password for{" "}
+            Set a new password for
+            {" "}
             <span className="font-semibold text-foreground">
               {user.username}
             </span>
@@ -137,7 +137,7 @@ export default function AdminUserResetPassword({
                   <FormLabel>New Password</FormLabel>
                   <FormControl>
                     <Input
-                      type={"password"}
+                      type="password"
                       placeholder="Enter new password"
                       disabled={isChangingPassword}
                       className="flex-1"
@@ -156,7 +156,7 @@ export default function AdminUserResetPassword({
                   <FormLabel>Confirm Password</FormLabel>
                   <FormControl>
                     <Input
-                      type={"password"}
+                      type="password"
                       placeholder="Confirm new password"
                       disabled={isChangingPassword}
                       className="flex-1"

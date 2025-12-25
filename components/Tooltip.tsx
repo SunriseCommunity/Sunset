@@ -1,9 +1,10 @@
+import { twMerge } from "tailwind-merge";
+
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { twMerge } from "tailwind-merge";
 
 interface TooltipProps {
   content: React.ReactNode;
@@ -30,7 +31,8 @@ export function Tooltip({
   onOpenChange,
   asChild,
 }: TooltipProps) {
-  if (disabled) return <>{children}</>;
+  if (disabled)
+    return <>{children}</>;
 
   return (
     <Popover onOpenChange={onOpenChange}>
@@ -45,7 +47,7 @@ export function Tooltip({
         alignOffset={alignOffset}
         side={side}
         sideOffset={sideOffset}
-        className="p-2 text-sm max-w-80 w-fit break-normal whitespace-normal flex"
+        className="flex w-fit max-w-80 whitespace-normal break-normal p-2 text-sm"
       >
         {content}
       </PopoverContent>

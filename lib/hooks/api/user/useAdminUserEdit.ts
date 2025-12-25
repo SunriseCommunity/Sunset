@@ -1,23 +1,23 @@
-import poster from "@/lib/services/poster";
-import {
-  EditUserMetadataRequest,
-  UsernameChangeRequest,
-  CountryChangeRequest,
-  ChangePasswordRequest,
-  EditDescriptionRequest,
-  UserSensitiveResponse,
-  GetUserByIdFriendsResponse,
-  GetUserByIdFollowersResponse,
-  EditUserRestrictionRequest,
-  EditUserPrivilegeRequest,
-  ResetPasswordRequest,
-  GetUserByIdEventsResponse,
-  UserEventType,
-} from "@/lib/types/api";
+import type { SWRConfiguration } from "swr";
+import useSWR, { mutate } from "swr";
 import useSWRMutation from "swr/mutation";
-import { mutate, SWRConfiguration } from "swr";
-import useSWR from "swr";
+
 import fetcher from "@/lib/services/fetcher";
+import poster from "@/lib/services/poster";
+import type {
+  CountryChangeRequest,
+  EditDescriptionRequest,
+  EditUserMetadataRequest,
+  EditUserPrivilegeRequest,
+  EditUserRestrictionRequest,
+  GetUserByIdEventsResponse,
+  GetUserByIdFollowersResponse,
+  GetUserByIdFriendsResponse,
+  ResetPasswordRequest,
+  UserEventType,
+  UsernameChangeRequest,
+  UserSensitiveResponse,
+} from "@/lib/types/api";
 
 export function useAdminEditUserMetadata(userId: number) {
   return useSWRMutation(
@@ -31,7 +31,7 @@ export function useAdminEditUserMetadata(userId: number) {
       mutate(`user/${userId}/sensitive`);
       mutate(`user/${userId}/metadata`);
       return result;
-    }
+    },
   );
 }
 
@@ -46,7 +46,7 @@ export function useAdminUsernameChange(userId: number) {
       mutate(`user/${userId}`);
       mutate(`user/${userId}/sensitive`);
       return result;
-    }
+    },
   );
 }
 
@@ -61,7 +61,7 @@ export function useAdminCountryChange(userId: number) {
       mutate(`user/${userId}`);
       mutate(`user/${userId}/sensitive`);
       return result;
-    }
+    },
   );
 }
 
@@ -72,7 +72,7 @@ export function useAdminPasswordChange(userId: number) {
       return await poster(`user/${userId}/password/change`, {
         json: arg,
       });
-    }
+    },
   );
 }
 
@@ -90,7 +90,7 @@ export function useAdminUploadAvatar(userId: number) {
       mutate(`user/${userId}`);
       mutate(`user/${userId}/sensitive`);
       return result;
-    }
+    },
   );
 }
 
@@ -108,7 +108,7 @@ export function useAdminUploadBanner(userId: number) {
       mutate(`user/${userId}`);
       mutate(`user/${userId}/sensitive`);
       return result;
-    }
+    },
   );
 }
 
@@ -123,18 +123,20 @@ export function useAdminEditDescription(userId: number) {
       mutate(`user/${userId}`);
       mutate(`user/${userId}/sensitive`);
       return result;
-    }
+    },
   );
 }
 
 export function useAdminUserFriends(
   userId: number,
   limit?: number,
-  page?: number
+  page?: number,
 ) {
   const queryParams = new URLSearchParams();
-  if (limit) queryParams.append("limit", limit.toString());
-  if (page) queryParams.append("page", page.toString());
+  if (limit)
+    queryParams.append("limit", limit.toString());
+  if (page)
+    queryParams.append("page", page.toString());
 
   const queryString = queryParams.toString();
   const endpoint = `user/${userId}/friends${
@@ -147,11 +149,13 @@ export function useAdminUserFriends(
 export function useAdminUserFollowers(
   userId: number,
   limit?: number,
-  page?: number
+  page?: number,
 ) {
   const queryParams = new URLSearchParams();
-  if (limit) queryParams.append("limit", limit.toString());
-  if (page) queryParams.append("page", page.toString());
+  if (limit)
+    queryParams.append("limit", limit.toString());
+  if (page)
+    queryParams.append("page", page.toString());
 
   const queryString = queryParams.toString();
   const endpoint = `user/${userId}/followers${
@@ -172,7 +176,7 @@ export function useAdminEditRestriction(userId: number) {
       mutate(`user/${userId}`);
       mutate(`user/${userId}/sensitive`);
       return result;
-    }
+    },
   );
 }
 
@@ -191,7 +195,7 @@ export function useAdminEditPrivilege(userId: number) {
       mutate(`user/${userId}`);
       mutate(`user/${userId}/sensitive`);
       return result;
-    }
+    },
   );
 }
 
@@ -201,14 +205,17 @@ export function useUserEvents(
   page?: number,
   limit?: number,
   events?: UserEventType[],
-  options?: SWRConfiguration
+  options?: SWRConfiguration,
 ) {
   const queryParams = new URLSearchParams();
-  if (limit) queryParams.append("limit", limit.toString());
-  if (page) queryParams.append("page", page.toString());
-  if (query) queryParams.append("query", query);
+  if (limit)
+    queryParams.append("limit", limit.toString());
+  if (page)
+    queryParams.append("page", page.toString());
+  if (query)
+    queryParams.append("query", query);
   if (events && events.length > 0)
-    events.forEach((event) => queryParams.append("types", event));
+    events.forEach(event => queryParams.append("types", event));
 
   const queryString = queryParams.toString();
   const endpoint = `user/${userId}/events${

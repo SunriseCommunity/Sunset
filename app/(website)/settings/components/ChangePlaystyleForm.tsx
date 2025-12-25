@@ -1,35 +1,33 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import type { z } from "zod";
+
+import { CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
-import { DialogFooter } from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { useAdminEditUserMetadata } from "@/lib/hooks/api/user/useAdminUserEdit";
 import { useEditUserMetadata } from "@/lib/hooks/api/user/useUserMetadata";
-import { useUsernameChange } from "@/lib/hooks/api/user/useUsernameChange";
 import useSelf from "@/lib/hooks/useSelf";
-import {
+import { useT } from "@/lib/i18n/utils";
+import type {
   UserMetadataResponse,
-  UserPlaystyle,
   UserResponse,
 } from "@/lib/types/api";
+import {
+  UserPlaystyle,
+} from "@/lib/types/api";
 import { zEditUserMetadataRequest } from "@/lib/types/api/zod.gen";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Separator } from "@radix-ui/react-dropdown-menu";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { useT } from "@/lib/i18n/utils";
+import { cn } from "@/lib/utils";
 
 const formSchema = zEditUserMetadataRequest;
 
@@ -47,7 +45,7 @@ export default function ChangePlaystyleForm({
   const [error, setError] = useState<string | null>(null);
 
   const [playstyle, setPlaystyle] = useState<UserPlaystyle[]>(
-    metadata.playstyle
+    metadata.playstyle,
   );
 
   const self = useSelf();
@@ -67,15 +65,15 @@ export default function ChangePlaystyleForm({
   });
 
   const handleCheckboxChange = (checked: boolean, value: UserPlaystyle) => {
-    setPlaystyle((prev) =>
-      checked ? [...prev, value] : prev.filter((p) => p !== value)
+    setPlaystyle(prev =>
+      checked ? [...prev, value] : prev.filter(p => p !== value),
     );
   };
   const showError = (message: string) => {
     setError(message);
   };
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(_values: z.infer<typeof formSchema>) {
     setError(null);
 
     const trigger = isSelf ? triggerSelf : triggerUser;
@@ -99,7 +97,7 @@ export default function ChangePlaystyleForm({
             variant: "destructive",
           });
         },
-      }
+      },
     );
   }
 
@@ -107,19 +105,19 @@ export default function ChangePlaystyleForm({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="gap-2 flex sm:flex-row flex-col flex-wrap"
+        className={cn("flex flex-col flex-wrap gap-2 sm:flex-row", className)}
       >
         <FormField
           control={form.control}
-          name={"playstyle"}
+          name="playstyle"
           render={({ field }) => (
             <>
               {Object.values(UserPlaystyle)
-                .filter((v) => v != UserPlaystyle.NONE)
+                .filter(v => v !== UserPlaystyle.NONE)
                 .map((value) => {
                   return (
                     <CardContent
-                      className="p-2 rounded-lg flex-grow"
+                      className="flex-grow rounded-lg p-2"
                       key={value}
                     >
                       <FormItem key={value}>
@@ -127,9 +125,8 @@ export default function ChangePlaystyleForm({
                           <div className="flex items-center space-x-2">
                             <Checkbox
                               checked={playstyle.includes(value)}
-                              onCheckedChange={(v) =>
-                                handleCheckboxChange(!!v, value)
-                              }
+                              onCheckedChange={v =>
+                                handleCheckboxChange(!!v, value)}
                               type="submit"
                             />
                             <label
