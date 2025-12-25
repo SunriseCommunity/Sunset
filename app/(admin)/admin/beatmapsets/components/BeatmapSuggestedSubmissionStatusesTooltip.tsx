@@ -18,15 +18,18 @@ const statusMap: Record<number, BeatmapStatusWeb> = {
   5: BeatmapStatusWeb.LOVED,
 };
 
+type SuggestionStatus = {
+  serverName: string;
+  suggestedStatus?: BeatmapStatusWeb;
+};
+
 export function BeatmapSuggestedSubmissionStatusesTooltip({
   beatmap,
 }: {
   beatmap: BeatmapResponse;
 }) {
   const [currentGamerule] = useState(Mods.NONE);
-  const [suggestions, setSuggestions] = useState<
-    Array<{ serverName: string; suggestedStatus?: BeatmapStatusWeb }>
-  >([]);
+  const [suggestions, setSuggestions] = useState<SuggestionStatus[]>([]);
 
   const fetchData = useCallback(async (force?: boolean) => {
     if (suggestions.length > 0 && !force)

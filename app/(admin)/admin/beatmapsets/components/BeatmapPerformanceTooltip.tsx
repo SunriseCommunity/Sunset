@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { Tooltip } from "@/components/Tooltip";
 import { Badge } from "@/components/ui/badge";
@@ -15,6 +15,13 @@ import {
   Mods,
 } from "@/lib/types/api";
 
+const performance = [
+  Mods.NONE,
+  Mods.HIDDEN,
+  Mods.HARD_ROCK,
+  Mods.DOUBLE_TIME,
+];
+
 export function BeatmapPerformanceTooltip({
   beatmap,
 }: {
@@ -29,13 +36,6 @@ export function BeatmapPerformanceTooltip({
   if (beatmap.mode === GameMode.STANDARD && !gamerule.includes(Mods.RELAX2)) {
     gamerule.push(Mods.RELAX2);
   }
-
-  const performance = useMemo(() => [
-    Mods.NONE,
-    Mods.HIDDEN,
-    Mods.HARD_ROCK,
-    Mods.DOUBLE_TIME,
-  ], []);
 
   const [currentGamerule, setCurrentGamerule] = useState(Mods.NONE);
   const [beatmapPerformances, setBeatmapPerformances] = useState<
@@ -55,7 +55,7 @@ export function BeatmapPerformanceTooltip({
     );
 
     setBeatmapPerformances(results);
-  }, [beatmap.id, beatmapPerformances.length, currentGamerule, performance]);
+  }, [beatmap.id, beatmapPerformances.length, currentGamerule]);
 
   useEffect(() => {
     if (beatmapPerformances.length === 0)
