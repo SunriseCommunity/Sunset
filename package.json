@@ -6,7 +6,7 @@
     "build": "next build",
     "dev": "next dev --turbo",
     "generate:openapi": "dotenv -e .env.local -- openapi-ts",
-    "lint": "next lint",
+    "lint": "eslint --fix",
     "start": "next start"
   },
   "dependencies": {
@@ -60,7 +60,7 @@
   },
   "devDependencies": {
     "@hey-api/openapi-ts": "^0.66.7",
-    "@richardscull/eslint-config": "^1.0.0",
+    "@richardscull/eslint-config": "^1.0.6",
     "@svgr/webpack": "^8.1.0",
     "@types/js-cookie": "^3.0.6",
     "@types/lodash": "^4.17.21",
@@ -81,5 +81,11 @@
     "@types/react": "19.1.1",
     "@types/react-dom": "19.1.2",
     "react-is": "^19.0.0-rc-69d4b800-20241021"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged"
+  },
+  "lint-staged": {
+    "*": "eslint --fix"
   }
 }
