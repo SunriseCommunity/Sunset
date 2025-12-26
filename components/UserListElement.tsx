@@ -82,9 +82,9 @@ export function UserListItem({
 
           <div className="mt-1 flex flex-grow items-center space-x-2 rounded-t-lg bg-muted bg-opacity-70 p-0.5 text-sm">
             <MaterialSymbolsCircleOutline
-              className={`text- text-base${statusColor(
+              className={`text-${statusColor(
                 user.user_status,
-              )} flex-shrink-0`}
+              )} flex-shrink-0 text-base`}
             />
 
             <div

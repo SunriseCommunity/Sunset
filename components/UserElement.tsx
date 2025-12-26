@@ -98,9 +98,9 @@ export default function UserElement({
         <div className="relative flex w-full flex-row rounded-b-lg bg-black bg-opacity-50 px-4 py-2">
           <div className="flex w-full items-center space-x-2 text-sm">
             <MaterialSymbolsCircleOutline
-              className={`text- text-base${statusColor(
+              className={`text-${statusColor(
                 user.user_status,
-              )} flex-shrink-0`}
+              )} flex-shrink-0 text-base`}
             />
             <div className="line-clamp-1 flex w-8/12 flex-grow">
               <UserStatusText user={user} />

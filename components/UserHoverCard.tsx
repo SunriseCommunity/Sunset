@@ -102,7 +102,7 @@ export default function UserHoverCard({
           <div className="relative flex w-full flex-row bg-black bg-opacity-80 px-4 py-2">
             <div className="flex w-full items-center space-x-2 text-sm">
               <MaterialSymbolsCircleOutline
-                className={`text- text-base${statusColor(user.user_status)}`}
+                className={`text-${statusColor(user.user_status)} text-base`}
               />
               <div className="line-clamp-1 flex w-8/12 flex-grow">
                 <UserStatusText user={user} />
