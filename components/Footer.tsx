@@ -32,14 +32,18 @@ export default async function Footer() {
           <Github className="mr-1" />
           {t("sourceCode")}
         </a>
-        <p>•</p>
-        <a
-          href={`https://uptime.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/`}
-          className="smooth-transition flex cursor-pointer items-center justify-center space-x-1 hover:text-primary"
-        >
-          <ServerCrash className="mr-1" />
-          {t("serverStatus")}
-        </a>
+        {process.env.NEXT_PUBLIC_STATUS_PAGE_LINK && (
+          <>
+            <p>•</p>
+            <a
+              href={process.env.NEXT_PUBLIC_STATUS_PAGE_LINK}
+              className="smooth-transition flex cursor-pointer items-center justify-center space-x-1 hover:text-primary"
+            >
+              <ServerCrash className="mr-1" />
+              {t("serverStatus")}
+            </a>
+          </>
+        )}
       </div>
       <p>{t("disclaimer")}</p>
     </footer>
