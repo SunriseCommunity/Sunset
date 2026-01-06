@@ -128,7 +128,6 @@
     },
     "footer": {
       "voteMessage": "osu-server-listで投票してください！",
-      "copyright": "© 2024-2025 Sunrise Community",
       "sourceCode": "ソースコード",
       "serverStatus": "サーバーステータス",
       "disclaimer": "当サービスは「ppy」および「osu!」とは一切関係ありません。権利はそれぞれの所有者に帰属します。"

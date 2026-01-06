@@ -118,7 +118,6 @@
     },
     "footer": {
       "voteMessage": "Пожалуйста, проголосуйте за нас на osu-server-list!",
-      "copyright": "© 2024-2025 Sunrise Community",
       "sourceCode": "Исходный код",
       "serverStatus": "Статус сервера",
       "disclaimer": "Мы не связаны с \"ppy\" и \"osu!\" каким-либо образом. Все права принадлежат их владельцам."
