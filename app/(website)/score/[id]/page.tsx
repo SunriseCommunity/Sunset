@@ -58,7 +58,11 @@ export default function Score(props: { params: Promise<{ id: string }> }) {
   const user = userQuery?.data;
   const beatmap = beatmapQuery?.data;
 
-  if (scoreQuery?.isLoading || userQuery?.isLoading || beatmapQuery?.isLoading) {
+  if (
+    scoreQuery?.isLoading
+    || userQuery?.isLoading
+    || beatmapQuery?.isLoading
+  ) {
     return (
       <div className="flex h-96 items-center justify-center">
         <Spinner size="xl" />
@@ -79,7 +83,7 @@ export default function Score(props: { params: Promise<{ id: string }> }) {
         {score && user && beatmap ? (
           <>
             <div>
-              <div className="relative z-20 md:h-64">
+              <div className="md:h-68 relative z-20">
                 <div className="flex h-full flex-col place-content-between rounded-lg bg-black/60 p-4  md:flex-row">
                   <div className="flex size-full flex-col overflow-hidden">
                     <Link
