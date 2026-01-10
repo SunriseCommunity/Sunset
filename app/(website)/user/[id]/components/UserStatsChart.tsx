@@ -10,7 +10,10 @@ import {
 } from "recharts";
 
 import { useT } from "@/lib/i18n/utils";
-import type { StatsSnapshotResponse, StatsSnapshotsResponse } from "@/lib/types/api";
+import type {
+  StatsSnapshotResponse,
+  StatsSnapshotsResponse,
+} from "@/lib/types/api";
 import { timeSince } from "@/lib/utils/timeSince";
 
 interface Props {
@@ -41,57 +44,47 @@ export default function UserStatsChart({ data, value: chartValue }: Props) {
     );
 
     let lastValidSnapshot: StatsSnapshotResponse | null = null;
-    const currentDate = new Date(snapshots[0].saved_at);
+    const startDate = new Date(snapshots[0].saved_at);
+    startDate.setHours(0, 0, 0, 0);
     const endDate = new Date();
+    endDate.setHours(0, 0, 0, 0);
 
     let snapshotIndex = 0;
+    const currentDate = new Date(startDate);
 
     while (currentDate <= endDate) {
-      if (snapshotIndex >= snapshots.length) {
-        break;
+      const currentDateStr = currentDate.toDateString();
+      let snapshotForThisDay: StatsSnapshotResponse | null = null;
+
+      if (snapshotIndex < snapshots.length) {
+        const snapshotDate = new Date(snapshots[snapshotIndex].saved_at);
+        snapshotDate.setHours(0, 0, 0, 0);
+        const snapshotDateStr = snapshotDate.toDateString();
+
+        if (currentDateStr === snapshotDateStr) {
+          snapshotForThisDay = snapshots[snapshotIndex];
+          lastValidSnapshot = { ...snapshots[snapshotIndex] };
+          snapshotIndex++;
+        }
       }
 
-      const formattedDate = currentDate.toDateString();
-
-      const formattedCurrentDate = new Date(
-        snapshots[snapshotIndex].saved_at,
-      ).toDateString();
-
-      if (
-        snapshotIndex <= snapshots.length
-        && formattedDate === formattedCurrentDate
-      ) {
-        lastValidSnapshot = { ...snapshots[snapshotIndex] };
-        result.push(lastValidSnapshot);
+      if (snapshotForThisDay) {
+        result.push({ ...snapshotForThisDay });
+      }
+      else if (snapshotIndex >= snapshots.length && currentSnapshot) {
+        result.push({
+          ...currentSnapshot,
+          saved_at: currentDate.toISOString(),
+        });
       }
       else if (lastValidSnapshot) {
-        result.push({ ...lastValidSnapshot, saved_at: formattedDate });
+        result.push({
+          ...lastValidSnapshot,
+          saved_at: currentDate.toISOString(),
+        });
       }
 
-      if (
-        new Date(formattedCurrentDate).getTime()
-          >= new Date(formattedDate).getTime()
-      ) {
-        currentDate.setDate(currentDate.getDate() + 1);
-      }
-
-      if (
-        new Date(formattedCurrentDate).getTime()
-          <= new Date(formattedDate).getTime()
-      ) {
-        snapshotIndex++;
-      }
-    }
-
-    const isCurrentDay = (n: number) =>
-      Math.round((n - Date.now()) / 1000 / (3600 * 24)) === 0;
-
-    const isResultHasCurrentDay = result.some(s =>
-      isCurrentDay(new Date(s.saved_at).getTime()),
-    );
-
-    if (isResultHasCurrentDay) {
-      result.pop();
+      currentDate.setDate(currentDate.getDate() + 1);
     }
   }
 
@@ -106,7 +99,10 @@ export default function UserStatsChart({ data, value: chartValue }: Props) {
     };
   });
 
-  const isChartReversed = chartValue === "rank";
+  const isChartForRank = chartValue === "rank";
+
+  const leewayForDomain = isChartForRank ? 15 : 50;
+  const isChartReversed = isChartForRank;
 
   return (
     <ResponsiveContainer
@@ -130,6 +126,10 @@ export default function UserStatsChart({ data, value: chartValue }: Props) {
             return Math.round(value).toFixed(0);
           }}
           reversed={isChartReversed}
+          domain={[
+            (dataMin: number) => Math.max(0, dataMin - leewayForDomain),
+            (dataMax: number) => Math.max(0, dataMax + leewayForDomain),
+          ]}
         />
 
         <Area
