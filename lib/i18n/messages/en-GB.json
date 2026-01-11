@@ -210,7 +210,7 @@
         },
         "guideTile": {
           "title": "Follow the connection guide",
-          "description": "Which helps you set up your osu! client to connect to osu!sunrise",
+          "description": "Which helps you set up your osu! client to connect to {appName}",
           "button": "Open guide"
         }
       },
@@ -310,7 +310,7 @@
           "intro": "by cweating and/ow maintaining an accouwnt on ouww pwatfowm, u acknowwedge and agwee to the fowwowing tewms:",
           "noLiability": {
             "title": "<b>No Liability.</b>",
-            "description": "You accept full responsibility for your participation in any services provided by Sunrise and acknowledge that you cannot hold the organization accountable for any consequences that may arise from your usage."
+            "description": "You accept full responsibility for your participation in any services provided by {appName} and acknowledge that you cannot hold the organization accountable for any consequences that may arise from your usage."
           },
           "accountRestrictions": {
             "title": "<b>Account Restrictions.</b>",
@@ -400,7 +400,7 @@
         },
         "justPlay": {
           "title": "<b>Just Play on the Server.</b>",
-          "description": "One of the easiest ways to support osu!sunrise is simply by playing on the server! The more players we have, the better the community and experience become. By joining in, you're helping to grow the server and keeping it active for all players."
+          "description": "One of the easiest ways to support {appName} is simply by playing on the server! The more players we have, the better the community and experience become. By joining in, you're helping to grow the server and keeping it active for all players."
         }
       }
     },

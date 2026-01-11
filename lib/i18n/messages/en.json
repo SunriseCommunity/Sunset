@@ -1,26 +1,4 @@
 {
-  "general": {
-    "appName": {
-      "text": "osu!sunrise",
-      "context": "The name of the application, will be inclided in various places such as the title meta tag"
-    },
-    "serverTitle": {
-      "full": {
-        "text": "sunrise",
-        "context": "The full name of the server"
-      },
-      "split": {
-        "part1": {
-          "text": "sun",
-          "context": "The first part of the split server name"
-        },
-        "part2": {
-          "text": "rise",
-          "context": "The second part of the split server name"
-        }
-      }
-    }
-  },
   "components": {
     "serverMaintenanceDialog": {
       "title": {
@@ -369,10 +347,6 @@
         "text": "Please vote for us on osu-server-list!",
         "context": "Message encouraging users to vote on osu-server-list"
       },
-      "copyright": {
-        "text": "© 2024-2026 Sunrise Community",
-        "context": "Copyright text in footer"
-      },
       "sourceCode": {
         "text": "Source Code",
         "context": "Link text for source code repository"
@@ -468,11 +442,11 @@
       "meta": {
         "title": {
           "text": "Welcome | {appName}",
-          "context": "The title for the main page of the osu!sunrise website"
+          "context": "The title for the main page of the osu! website"
         },
         "description": {
-          "text": "Join osu!sunrise, a feature-rich private osu! server with Relax, Autopilot, ScoreV2 support, and a custom PP system tailored for Relax and Autopilot gameplay.",
-          "context": "The meta description for the main page of the osu!sunrise website"
+          "text": "Join {appName}, a feature-rich private osu! server with Relax, Autopilot, ScoreV2 support, and a custom PP system tailored for Relax and Autopilot gameplay.",
+          "context": "The meta description for the main page of the osu! website"
         }
       },
       "features": {
@@ -586,11 +560,11 @@
         },
         "registerTile": {
           "title": {
-            "text": "Register osu!sunrise account",
+            "text": "Register {appName} account",
             "context": "Title of the registration step tile"
           },
           "description": {
-            "text": "Account will allow you to join the osu!sunrise community",
+            "text": "Account will allow you to join the {appName} community",
             "context": "Description text for the registration step"
           },
           "button": {
@@ -604,7 +578,7 @@
             "context": "Title of the connection guide step tile"
           },
           "description": {
-            "text": "Which helps you set up your osu! client to connect to osu!sunrise",
+            "text": "Which helps you set up your osu! client to connect to {appName}",
             "context": "Description text for the connection guide step"
           },
           "button": {
@@ -652,7 +626,7 @@
       "meta": {
         "title": {
           "text": "Wiki | {appName}",
-          "context": "The title for the wiki page of the osu!sunrise website"
+          "context": "The title for the wiki page of the osu! website"
         }
       },
       "header": {
@@ -770,7 +744,7 @@
       "meta": {
         "title": {
           "text": "Rules | {appName}",
-          "context": "The title for the rules page of the osu!sunrise website"
+          "context": "The title for the rules page of the osu! website"
         }
       },
       "header": {
@@ -869,7 +843,7 @@
               "context": "Title of the no liability disclaimer, displayed in bold"
             },
             "description": {
-              "text": "You accept full responsibility for your participation in any services provided by Sunrise and acknowledge that you cannot hold the organization accountable for any consequences that may arise from your usage.",
+              "text": "You accept full responsibility for your participation in any services provided by {appName} and acknowledge that you cannot hold the organization accountable for any consequences that may arise from your usage.",
               "context": "Description of the no liability disclaimer"
             }
           },
@@ -910,7 +884,7 @@
       "meta": {
         "title": {
           "text": "Register | {appName}",
-          "context": "The title for the register page of the osu!sunrise website"
+          "context": "The title for the register page of the osu! website"
         }
       },
       "header": {
@@ -1040,7 +1014,7 @@
       "meta": {
         "title": {
           "text": "Support Us | {appName}",
-          "context": "The title for the support page of the osu!sunrise website"
+          "context": "The title for the support page of the osu! website"
         }
       },
       "header": {
@@ -1053,7 +1027,7 @@
           "context": "Title of the support section explaining how users can help"
         },
         "intro": {
-          "text": "While all osu!sunrise features has always been free, running and improving the server requires resources, time, and effort, while being mainly maintained by a <b>single</b> developer.<br></br><br></br>If you love osu!sunrise and want to see it grow even further, here are a few ways you can support us:",
+          "text": "While all {appName} features has always been free, running and improving the server requires resources, time, and effort, while being mainly maintained by a <b>single</b> developer.<br></br><br></br>If you love {appName} and want to see it grow even further, here are a few ways you can support us:",
           "context": "Introduction text explaining why support is needed, includes bold text for emphasis and line breaks"
         },
         "donate": {
@@ -1082,7 +1056,7 @@
             "context": "Title of the spread the word option, displayed in bold"
           },
           "description": {
-            "text": "The more people who know about osu!sunrise, the more vibrant and exciting our community will be. Tell your friends, share on social media, and invite new players to join.",
+            "text": "The more people who know about {appName}, the more vibrant and exciting our community will be. Tell your friends, share on social media, and invite new players to join.",
             "context": "Description text encouraging users to share the server"
           }
         },
@@ -1092,7 +1066,7 @@
             "context": "Title of the just play option, displayed in bold"
           },
           "description": {
-            "text": "One of the easiest ways to support osu!sunrise is simply by playing on the server! The more players we have, the better the community and experience become. By joining in, you're helping to grow the server and keeping it active for all players.",
+            "text": "One of the easiest ways to support {appName} is simply by playing on the server! The more players we have, the better the community and experience become. By joining in, you're helping to grow the server and keeping it active for all players.",
             "context": "Description text explaining that playing on the server is a form of support"
           }
         }
@@ -1102,7 +1076,7 @@
       "meta": {
         "title": {
           "text": "Top Plays | {appName}",
-          "context": "The title for the top plays page of the osu!sunrise website"
+          "context": "The title for the top plays page of the osu! website"
         }
       },
       "header": {
@@ -1204,7 +1178,7 @@
       "meta": {
         "title": {
           "text": "Leaderboard | {appName}",
-          "context": "The title for the leaderboard page of the osu!sunrise website"
+          "context": "The title for the leaderboard page of the osu! website"
         }
       },
       "header": {
@@ -1286,7 +1260,7 @@
       "meta": {
         "title": {
           "text": "Your Friends | {appName}",
-          "context": "The title for the friends page of the osu!sunrise website"
+          "context": "The title for the friends page of the osu! website"
         }
       },
       "header": {
@@ -1331,7 +1305,7 @@
         "meta": {
           "title": {
             "text": "Beatmaps search | {appName}",
-            "context": "The title for the beatmaps search page of the osu!sunrise website"
+            "context": "The title for the beatmaps search page of the osu! website"
           }
         },
         "header": {
@@ -1343,7 +1317,7 @@
         "meta": {
           "title": {
             "text": "Beatmap info | {appName}",
-            "context": "The title for the beatmap detail page of the osu!sunrise website"
+            "context": "The title for the beatmap detail page of the osu! website"
           }
         },
         "header": {
@@ -1794,7 +1768,7 @@
       "meta": {
         "title": {
           "text": "Settings | {appName}",
-          "context": "The title for the settings page of the osu!sunrise website"
+          "context": "The title for the settings page of the osu! website"
         }
       },
       "header": {

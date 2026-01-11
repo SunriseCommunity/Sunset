@@ -1,14 +1,4 @@
 {
-  "general": {
-    "appName": "osu!sunrise",
-    "serverTitle": {
-      "full": "sunrise",
-      "split": {
-        "part1": "sun",
-        "part2": "rise"
-      }
-    }
-  },
   "components": {
     "serverMaintenanceDialog": {
       "title": "ちょっと待って！そこでストップ！",
@@ -168,7 +158,7 @@
     "mainPage": {
       "meta": {
         "title": "ようこそ | {appName}",
-        "description": "osu!sunriseに参加しよう。Relax・Autopilot・ScoreV2対応、そしてRelax/Autopilot向けに調整されたカスタムPPシステムを備えた機能豊富なプライベートosu!サーバーです。"
+        "description": "{appName}に参加しよう。Relax・Autopilot・ScoreV2対応、そしてRelax/Autopilot向けに調整されたカスタムPPシステムを備えた機能豊富なプライベートosu!サーバーです。"
       },
       "features": {
         "motto": "- いつものosu!サーバー（またひとつ）",
@@ -214,13 +204,13 @@
           "button": "ダウンロード"
         },
         "registerTile": {
-          "title": "osu!sunriseアカウントを登録",
-          "description": "アカウントを作成してosu!sunriseコミュニティに参加しよう",
+          "title": "{appName}アカウントを登録",
+          "description": "アカウントを作成して{appName}コミュニティに参加しよう",
           "button": "登録"
         },
         "guideTile": {
           "title": "接続ガイドに従う",
-          "description": "osu!クライアントをosu!sunriseに接続できるように設定します",
+          "description": "osu!クライアントを{appName}に接続できるように設定します",
           "button": "ガイドを開く"
         }
       },
@@ -320,7 +310,7 @@
           "intro": "当プラットフォームでアカウントを作成・維持することにより、以下の条件に同意したものとみなされます：",
           "noLiability": {
             "title": "<b>免責。</b>",
-            "description": "Sunriseが提供するサービスへの参加に関して、あなたは全責任を負うものとし、利用によって生じ得る結果について組織に責任を問えないことを認めます。"
+            "description": "{appName}が提供するサービスへの参加に関して、あなたは全責任を負うものとし、利用によって生じ得る結果について組織に責任を問えないことを認めます。"
           },
           "accountRestrictions": {
             "title": "<b>アカウント制限。</b>",
@@ -393,7 +383,7 @@
       "header": "支援する",
       "section": {
         "title": "支援方法",
-        "intro": "osu!sunriseの機能は常に無料ですが、サーバーの運用・改善にはリソース、時間、労力が必要で、主に<b>1人</b>の開発者によって維持されています。<br></br><br></br>osu!sunriseが好きで、もっと成長してほしいと思ってくれたら、以下の方法で支援できます：",
+        "intro": "{appName}の機能は常に無料ですが、サーバーの運用・改善にはリソース、時間、労力が必要で、主に<b>1人</b>の開発者によって維持されています。<br></br><br></br>{appName}が好きで、もっと成長してほしいと思ってくれたら、以下の方法で支援できます：",
         "donate": {
           "title": "<b>寄付する。</b>",
           "description": "皆さまからの寄付は、osu!サーバーの維持・改善に役立ちます。少額でも大きな助けになります！ご支援により、ホスティング費用の確保、新機能の実装、そしてより快適な体験を提供できます。",
@@ -404,11 +394,11 @@
         },
         "spreadTheWord": {
           "title": "<b>広める。</b>",
-          "description": "osu!sunriseを知る人が増えるほど、コミュニティはより活気に溢れます。友達に教えたり、SNSで共有したり、新しいプレイヤーを招待しましょう。"
+          "description": "{appName}を知る人が増えるほど、コミュニティはより活気に溢れます。友達に教えたり、SNSで共有したり、新しいプレイヤーを招待しましょう。"
         },
         "justPlay": {
           "title": "<b>サーバーで遊ぶ。</b>",
-          "description": "osu!sunriseを支援する最も簡単な方法のひとつは、サーバーでプレイすることです！プレイヤーが増えるほど、コミュニティと体験はより良くなります。参加することで、サーバーの成長と活性化に貢献できます。"
+          "description": "{appName}を支援する最も簡単な方法のひとつは、サーバーでプレイすることです！プレイヤーが増えるほど、コミュニティと体験はより良くなります。参加することで、サーバーの成長と活性化に貢献できます。"
         }
       }
     },

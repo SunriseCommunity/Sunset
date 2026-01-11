@@ -1,14 +1,4 @@
 {
-  "general": {
-    "appName": "osu!sunrise",
-    "serverTitle": {
-      "full": "sunrise",
-      "split": {
-        "part1": "sun",
-        "part2": "rise"
-      }
-    }
-  },
   "components": {
     "serverMaintenanceDialog": {
       "title": "嘿！请到此为止！",
@@ -168,7 +158,7 @@
     "mainPage": {
       "meta": {
         "title": "欢迎 | {appName}",
-        "description": "加入 osu!sunrise —— 功能丰富的私人 osu! 服务器，支持 Relax、Autopilot、ScoreV2，并为 Relax 与 Autopilot 玩法定制了专属 PP 系统。"
+        "description": "加入 {appName} —— 功能丰富的私人 osu! 服务器，支持 Relax、Autopilot、ScoreV2，并为 Relax 与 Autopilot 玩法定制了专属 PP 系统。"
       },
       "features": {
         "motto": "- 又一个 osu! 服务器",
@@ -214,13 +204,13 @@
           "button": "下载"
         },
         "registerTile": {
-          "title": "注册 osu!sunrise 账号",
-          "description": "账号可让你加入 osu!sunrise 社区",
+          "title": "注册 {appName} 账号",
+          "description": "账号可让你加入 {appName} 社区",
           "button": "注册"
         },
         "guideTile": {
           "title": "按照连接指南操作",
-          "description": "它会帮助你设置 osu! 客户端以连接到 osu!sunrise",
+          "description": "它会帮助你设置 osu! 客户端以连接到 {appName}",
           "button": "打开指南"
         }
       },
@@ -320,7 +310,7 @@
           "intro": "创建和/或维护账号即表示你已知悉并同意以下条款：",
           "noLiability": {
             "title": "<b>免责。</b>",
-            "description": "你对参与 Sunrise 提供的任何服务负全部责任，并承认无法让组织对使用过程中可能产生的任何后果承担责任。"
+            "description": "你对参与 {appName} 提供的任何服务负全部责任，并承认无法让组织对使用过程中可能产生的任何后果承担责任。"
           },
           "accountRestrictions": {
             "title": "<b>账号限制。</b>",
@@ -393,10 +383,10 @@
       "header": "支持我们",
       "section": {
         "title": "你可以如何帮助我们",
-        "intro": "尽管 osu!sunrise 的所有功能一直免费，但服务器的运行与改进需要资源、时间与精力，并且主要由<b>一位</b>开发者维护。<br></br><br></br>如果你喜欢 osu!sunrise 并希望它继续成长，以下是一些支持方式：",
+        "intro": "尽管 {appName} 的所有功能一直免费，但服务器的运行与改进需要资源、时间与精力，并且主要由<b>一位</b>开发者维护。<br></br><br></br>如果你喜欢 {appName} 并希望它继续成长，以下是一些支持方式：",
         "donate": {
           "title": "<b>捐助。</b>",
-          "description": "你的捐助将帮助我们维护与提升 osu! 服务器。每一份支持都很重要！有了你的帮助，我们可以覆盖主机费用、实现新功能，并为所有人提供更顺畅的体验。",
+          "description": "你的捐助将帮助我们维护与提升 {appName} 服务器。每一份支持都很重要！有了你的帮助，我们可以覆盖主机费用、实现新功能，并为所有人提供更顺畅的体验。",
           "buttons": {
             "kofi": "Ko-fi",
             "boosty": "Boosty"
@@ -404,11 +394,11 @@
         },
         "spreadTheWord": {
           "title": "<b>传播。</b>",
-          "description": "了解 osu!sunrise 的人越多，我们的社区就会越活跃、有趣。告诉朋友、在社交媒体分享，并邀请新玩家加入吧。"
+          "description": "了解 {appName} 的人越多，我们的社区就会越活跃、有趣。告诉朋友、在社交媒体分享，并邀请新玩家加入吧。"
         },
         "justPlay": {
           "title": "<b>在服务器上游玩。</b>",
-          "description": "支持 osu!sunrise 最简单的方式之一就是在服务器上游玩！玩家越多，社区与体验就越好。你的参与能帮助服务器成长并保持活跃。"
+          "description": "支持 {appName} 最简单的方式之一就是在服务器上游玩！玩家越多，社区与体验就越好。你的参与能帮助服务器成长并保持活跃。"
         }
       }
     },

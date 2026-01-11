@@ -1,14 +1,4 @@
 {
-  "general": {
-    "appName": "osu!sunrise",
-    "serverTitle": {
-      "full": "sunrise",
-      "split": {
-        "part1": "sun",
-        "part2": "rise"
-      }
-    }
-  },
   "components": {
     "serverMaintenanceDialog": {
       "title": "Hey! Halt, nicht so schnell!",
@@ -168,7 +158,7 @@
     "mainPage": {
       "meta": {
         "title": "Willkommen | {appName}",
-        "description": "Tritt osu!sunrise bei — ein feature-reicher privater osu!-Server mit Relax-, Autopilot-, ScoreV2-Unterstützung und einem benutzerdefinierten PP-System, abgestimmt auf Relax- und Autopilot-Gameplay."
+        "description": "Tritt {appName} bei — ein feature-reicher privater osu!-Server mit Relax-, Autopilot-, ScoreV2-Unterstützung und einem benutzerdefinierten PP-System, abgestimmt auf Relax- und Autopilot-Gameplay."
       },
       "features": {
         "motto": "- noch ein osu!-server",
@@ -214,13 +204,13 @@
           "button": "Herunterladen"
         },
         "registerTile": {
-          "title": "osu!sunrise-Konto registrieren",
-          "description": "Ein Konto ermöglicht dir, der osu!sunrise-Community beizutreten",
+          "title": "{appName}-Konto registrieren",
+          "description": "Ein Konto ermöglicht dir, der {appName}-Community beizutreten",
           "button": "Registrieren"
         },
         "guideTile": {
           "title": "Folge der Verbindungsanleitung",
-          "description": "Sie hilft dir, deinen osu!-Client so einzurichten, dass du dich mit osu!sunrise verbinden kannst",
+          "description": "Sie hilft dir, deinen osu!-Client so einzurichten, dass du dich mit {appName} verbinden kannst",
           "button": "Anleitung öffnen"
         }
       },
@@ -320,7 +310,7 @@
           "intro": "Durch das Erstellen und/oder das Unterhalten eines Kontos auf unserer Plattform bestätigst du, die folgenden Bedingungen zur Kenntnis genommen zu haben und ihnen zuzustimmen:",
           "noLiability": {
             "title": "<b>Keine Haftung.</b>",
-            "description": "Du übernimmst die volle Verantwortung für deine Teilnahme an allen von Sunrise angebotenen Diensten und erkennst an, dass du die Organisation nicht für Konsequenzen verantwortlich machen kannst, die aus deiner Nutzung entstehen könnten."
+            "description": "Du übernimmst die volle Verantwortung für deine Teilnahme an allen von {appName} angebotenen Diensten und erkennst an, dass du die Organisation nicht für Konsequenzen verantwortlich machen kannst, die aus deiner Nutzung entstehen könnten."
           },
           "accountRestrictions": {
             "title": "<b>Konto-Einschränkungen.</b>",
@@ -393,7 +383,7 @@
       "header": "Unterstütze uns",
       "section": {
         "title": "Wie du uns helfen kannst",
-        "intro": "Auch wenn alle osu!sunrise-Features schon immer kostenlos waren, benötigen Betrieb und Weiterentwicklung des Servers Ressourcen, Zeit und Aufwand — und er wird größtenteils von einem <b>einzigen</b> Entwickler betreut.<br></br><br></br>Wenn du osu!sunrise liebst und sehen möchtest, wie es weiter wächst, hier sind ein paar Möglichkeiten, wie du uns unterstützen kannst:",
+        "intro": "Auch wenn alle {appName}-Features schon immer kostenlos waren, benötigen Betrieb und Weiterentwicklung des Servers Ressourcen, Zeit und Aufwand — und er wird größtenteils von einem <b>einzigen</b> Entwickler betreut.<br></br><br></br>Wenn du {appName} liebst und sehen möchtest, wie es weiter wächst, hier sind ein paar Möglichkeiten, wie du uns unterstützen kannst:",
         "donate": {
           "title": "<b>Spenden.</b>",
           "description": "Deine großzügigen Spenden helfen uns, die osu!-Server zu betreiben und zu verbessern. Jeder Beitrag zählt! Mit deiner Unterstützung können wir Hostingkosten decken, neue Features umsetzen und ein reibungsloseres Erlebnis für alle schaffen.",
@@ -404,11 +394,11 @@
         },
         "spreadTheWord": {
           "title": "<b>Erzähl es weiter.</b>",
-          "description": "Je mehr Leute von osu!sunrise wissen, desto lebendiger und spannender wird unsere Community. Erzähl es deinen Freunden, teile es in Social Media und lade neue Spieler ein."
+          "description": "Je mehr Leute von {appName} wissen, desto lebendiger und spannender wird unsere Community. Erzähl es deinen Freunden, teile es in Social Media und lade neue Spieler ein."
         },
         "justPlay": {
           "title": "<b>Spiel einfach auf dem Server.</b>",
-          "description": "Eine der einfachsten Möglichkeiten, osu!sunrise zu unterstützen, ist einfach auf dem Server zu spielen! Je mehr Spieler wir haben, desto besser werden Community und Erlebnis. Indem du mitmachst, hilfst du dem Server zu wachsen und aktiv zu bleiben."
+          "description": "Eine der einfachsten Möglichkeiten, {appName} zu unterstützen, ist einfach auf dem Server zu spielen! Je mehr Spieler wir haben, desto besser werden Community und Erlebnis. Indem du mitmachst, hilfst du dem Server zu wachsen und aktiv zu bleiben."
         }
       }
     },

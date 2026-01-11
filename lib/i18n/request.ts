@@ -32,6 +32,7 @@ export default getRequestConfig(async () => {
     {},
     defaultMessages,
     (await import(`./messages/${selectedLocale}.json`)).default,
+    (await import(`./messages/config.json`)).default,
   );
 
   const messages = extractTextFromMessages(rawMessages);
