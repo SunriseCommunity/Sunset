@@ -1055,6 +1055,14 @@ export const zScoresResponse = z.object({
   total_count: z.number().int(),
 });
 
+export const zSolarSystemVersionResponse = z.object({
+  is_running_under_solar_system: z.boolean(),
+  solar_system_version: z.union([
+    z.string(),
+    z.null(),
+  ]).optional(),
+});
+
 export const zStatsSnapshotResponse = z.object({
   country_rank: z.coerce.bigint(),
   pp: z.number(),
@@ -1182,6 +1190,8 @@ export const zGetPingResponse = z.string();
 export const zGetLimitsResponse = zLimitsResponse;
 
 export const zGetStatusResponse = zStatusResponse;
+
+export const zGetVersionResponse = zSolarSystemVersionResponse;
 
 export const zGetBeatmapByIdResponse = zBeatmapResponse;
 

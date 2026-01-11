@@ -361,6 +361,10 @@
       }
     },
     "footer": {
+      "solarSystemVersion": {
+        "text": "Server version: 🚀 {solarSystemVersion}",
+        "context": "Text indicating the version of Solar System the server is running under, includes version as parameter"
+      },
       "voteMessage": {
         "text": "Please vote for us on osu-server-list!",
         "context": "Message encouraging users to vote on osu-server-list"

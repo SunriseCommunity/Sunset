@@ -704,6 +704,11 @@ export type ScoresResponse = {
   total_count: number;
 };
 
+export type SolarSystemVersionResponse = {
+  is_running_under_solar_system: boolean;
+  solar_system_version?: string | null;
+};
+
 export type StatsSnapshotResponse = {
   country_rank: number;
   pp: number;
@@ -1051,6 +1056,31 @@ export type GetStatusResponses = {
 };
 
 export type GetStatusResponse = GetStatusResponses[keyof GetStatusResponses];
+
+export type GetVersionData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: "/version";
+};
+
+export type GetVersionErrors = {
+  /**
+     * Bad Request
+     */
+  400: ProblemDetailsResponseType;
+};
+
+export type GetVersionError = GetVersionErrors[keyof GetVersionErrors];
+
+export type GetVersionResponses = {
+  /**
+     * OK
+     */
+  200: SolarSystemVersionResponse;
+};
+
+export type GetVersionResponse = GetVersionResponses[keyof GetVersionResponses];
 
 export type GetBeatmapByIdData = {
   body?: never;

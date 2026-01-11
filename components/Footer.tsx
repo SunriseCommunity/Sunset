@@ -1,13 +1,21 @@
+"use client";
 import {
   Github,
   ServerCrash,
   VoteIcon,
 } from "lucide-react";
+import Link from "next/link";
 
-import { getT } from "@/lib/i18n/utils";
+import { useVersion } from "@/lib/hooks/api/useVersion";
+import { useT } from "@/lib/i18n/utils";
 
-export default async function Footer() {
-  const t = await getT("components.footer");
+export default function Footer() {
+  const t = useT("components.footer");
+
+  const version = useVersion();
+
+  const solarSystemVersion = version.data?.solar_system_version;
+
   return (
     <footer className="space-y-6 border-t-2 bg-background/50 p-4 text-center text-sm text-current">
       {process.env.NEXT_PUBLIC_OSU_SERVER_LIST_LINK && (
@@ -46,6 +54,17 @@ export default async function Footer() {
         )}
       </div>
       <p>{t("disclaimer")}</p>
+      {solarSystemVersion && (
+        <div>
+          <Link
+            href={`${process.env.NEXT_PUBLIC_SOLAR_SYSTEM_LINK ?? `https://github.com/SunriseCommunity/Solar-System`
+             }/releases/tag/${solarSystemVersion}`}
+            className="text-xs italic text-muted-foreground"
+          >
+            {t("solarSystemVersion", { solarSystemVersion })}
+          </Link>
+        </div>
+      )}
     </footer>
   );
 }
