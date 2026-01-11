@@ -1,4 +1,5 @@
 import "./globals.css";
+import "./style.css";
 
 import type { Metadata } from "next";
 import { Noto_Sans, Poppins } from "next/font/google";
