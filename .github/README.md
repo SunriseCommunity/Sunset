@@ -11,6 +11,10 @@
 
 Sunset is a frontend for the osu! private server called Sunrise. It is a part of the Sunrise project, which aims to create a fully functional osu! private server with all the features that the official server has. This project is made with TypeScript and Next.js.
 
+## 🖼️ Preview 
+
+<img width="2996" height="1244" alt="image" src="https://github.com/user-attachments/assets/d739ad62-3151-4cb4-a102-f84028303334" />
+
 ## Installation (with docker) 🐳
 1. Clone the repository
 2. Create copy of `.env.local.example` file as `.env.local` and fill all required fields
