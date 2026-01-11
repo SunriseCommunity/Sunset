@@ -91,7 +91,7 @@ export default function Home() {
             )}
           >
             <div className="my-4 flex flex-col justify-center space-y-4 md:w-5/12 ">
-              <div className="">
+              <div className="space-y-2">
                 <h1 className="text-6xl">
                   <span className="dark text-primary">
                     {tGeneral("serverTitle.split.part1")}
