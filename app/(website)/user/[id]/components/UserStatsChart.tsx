@@ -88,7 +88,20 @@ export default function UserStatsChart({ data, value: chartValue }: Props) {
     }
   }
 
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const lastResult = result.at(-1);
+  const lastResultDate = lastResult ? new Date(lastResult.saved_at) : null;
+  if (lastResultDate) {
+    lastResultDate.setHours(0, 0, 0, 0);
+  }
+
+  if (lastResultDate && lastResultDate.getTime() === today.getTime()) {
+    result.pop();
+  }
+
   result.push(currentSnapshot);
+
   result = result.slice(-60);
 
   const chartData = Array.from(result.values()).map((s) => {
