@@ -808,6 +808,7 @@ export enum UserPrivilege {
   BAT = "Bat",
   ADMIN = "Admin",
   DEVELOPER = "Developer",
+  SUPER_USER = "SuperUser",
   SERVER_BOT = "ServerBot",
 }
 

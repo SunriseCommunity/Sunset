@@ -611,6 +611,7 @@ export const zUserPrivilege = z.enum([
   "Bat",
   "Admin",
   "Developer",
+  "SuperUser",
   "ServerBot",
 ]);
 

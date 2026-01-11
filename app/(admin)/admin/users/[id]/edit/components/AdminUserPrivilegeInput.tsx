@@ -11,28 +11,12 @@ import { useAdminEditPrivilege } from "@/lib/hooks/api/user/useAdminUserEdit";
 import type { UserSensitiveResponse } from "@/lib/types/api";
 import { UserPrivilege } from "@/lib/types/api";
 
-const PRIVILEGE_OPTIONS = [
-  {
-    label: "Supporter",
-    value: UserPrivilege.SUPPORTER,
-  },
-  {
-    label: "BAT",
-    value: UserPrivilege.BAT,
-  },
-  {
-    label: "Admin",
-    value: UserPrivilege.ADMIN,
-  },
-  {
-    label: "Developer",
-    value: UserPrivilege.DEVELOPER,
-  },
-  {
-    label: "Server Bot",
-    value: UserPrivilege.SERVER_BOT,
-  },
-];
+export const PRIVILEGE_OPTIONS = Object.values(UserPrivilege)
+  .filter(value => value !== UserPrivilege.USER)
+  .map(value => ({
+    label: value.replaceAll(/([a-z])([A-Z])/g, "$1 $2"),
+    value,
+  }));
 
 export default function AdminUserPrivilegeInput({
   user,
