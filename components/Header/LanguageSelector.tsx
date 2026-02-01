@@ -58,6 +58,12 @@ export function LanguageSelector() {
     }));
   }, [getLanguageName]);
 
+  const isEnglishOnlyPossibleLanguage = languages.every(language => language.code === "en");
+
+  if (isEnglishOnlyPossibleLanguage) {
+    return null;
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
