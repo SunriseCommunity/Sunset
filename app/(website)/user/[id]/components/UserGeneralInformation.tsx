@@ -35,7 +35,7 @@ export default function UserGeneralInformation({
   const friendsData = friendsQuery.data;
 
   const localizedPlaystyle = metadata
-    ? metadata.playstyle.map(p => tPlaystyle(`options.${p}`)).join(", ")
+    ? metadata.playstyle.filter(p => p !== UserPlaystyle.NONE).map(p => tPlaystyle(`options.${p}`)).join(", ")
     : null;
 
   return (
