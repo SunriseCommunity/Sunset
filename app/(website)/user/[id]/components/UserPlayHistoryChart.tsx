@@ -85,7 +85,7 @@ export default function UserPlayHistoryChart({ data }: Props) {
           dataKey="play_count"
           stroke="#E0C097"
           strokeWidth={2}
-          dot={{ fill: "#E0C097", strokeWidth: 0, r: 0 }}
+          dot={{ fill: "#E0C097", strokeWidth: 1, r: 2 }}
           activeDot={{ r: 6 }}
           isAnimationActive={false}
         />
