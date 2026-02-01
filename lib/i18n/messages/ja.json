@@ -826,7 +826,8 @@
           "performance": "パフォーマンス",
           "showByRank": "順位で表示",
           "showByPp": "PPで表示",
-          "aboutMe": "自己紹介"
+          "aboutMe": "自己紹介",
+          "playHistory": "プレイ履歴"
         },
         "scoresTab": {
           "bestScores": "ベストパフォーマンス",
@@ -890,7 +891,8 @@
           "date": "日付",
           "types": {
             "pp": "pp",
-            "rank": "rank"
+            "rank": "rank",
+            "plays": "プレイ"
           },
           "tooltip": "{value} {type}"
         }

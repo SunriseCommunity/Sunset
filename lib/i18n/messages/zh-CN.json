@@ -826,7 +826,8 @@
           "performance": "表现",
           "showByRank": "按排名显示",
           "showByPp": "按 PP 显示",
-          "aboutMe": "关于我"
+          "aboutMe": "关于我",
+          "playHistory": "游玩历史"
         },
         "scoresTab": {
           "bestScores": "最好成绩",
@@ -890,7 +891,8 @@
           "date": "日期",
           "types": {
             "pp": "pp",
-            "rank": "rank"
+            "rank": "rank",
+            "plays": "游玩次数"
           },
           "tooltip": "{value} {type}"
         }

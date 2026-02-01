@@ -823,7 +823,8 @@
           "performance": "Производительность",
           "showByRank": "Показать по рангу",
           "showByPp": "Показать по пп",
-          "aboutMe": "Обо мне"
+          "aboutMe": "Обо мне",
+          "playHistory": "История игры"
         },
         "scoresTab": {
           "bestScores": "Лучшие результаты",
@@ -887,7 +888,8 @@
           "date": "Дата",
           "types": {
             "pp": "пп",
-            "rank": "ранг"
+            "rank": "ранг",
+            "plays": "игры"
           },
           "tooltip": "{value} {type}"
         }
