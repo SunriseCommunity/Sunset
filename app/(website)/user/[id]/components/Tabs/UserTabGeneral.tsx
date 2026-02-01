@@ -1,8 +1,9 @@
-import { FolderKanbanIcon, Trophy, User2 } from "lucide-react";
+import { FolderKanbanIcon, HistoryIcon, Trophy, User2 } from "lucide-react";
 import { useState } from "react";
 
 import UserGrades from "@/app/(website)/user/[id]/components/UserGrades";
 import { UserLevelProgress } from "@/app/(website)/user/[id]/components/UserLevelProgress";
+import UserPlayHistoryChart from "@/app/(website)/user/[id]/components/UserPlayHistoryChart";
 import UserStatsChart from "@/app/(website)/user/[id]/components/UserStatsChart";
 import BBCodeTextField from "@/components/BBCode/BBCodeTextField";
 import PrettyHeader from "@/components/General/PrettyHeader";
@@ -11,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useUserGrades } from "@/lib/hooks/api/user/useUserGrades";
 import { useUserGraph } from "@/lib/hooks/api/user/useUserGraph";
+import { useUserPlayHistoryGraph } from "@/lib/hooks/api/user/useUserPlayHistoryGraph";
 import { useT } from "@/lib/i18n/utils";
 import type { GameMode, UserResponse, UserStatsResponse } from "@/lib/types/api";
 import NumberWith from "@/lib/utils/numberWith";
@@ -33,8 +35,11 @@ export default function UserTabGeneral({
   const userGradesQuery = useUserGrades(user.user_id, gameMode);
   const userGraphQuery = useUserGraph(user.user_id, gameMode);
 
+  const userPlayHistoryGraphQuery = useUserPlayHistoryGraph(user.user_id);
+
   const userGrades = userGradesQuery.data;
   const userGraph = userGraphQuery.data;
+  const userPlayHistoryGraph = userPlayHistoryGraphQuery.data;
 
   return (
     <div className="flex flex-col">
@@ -169,12 +174,21 @@ export default function UserTabGeneral({
         </div>
 
         {user.description && user.description.length > 0 && (
-          <div className="md:col-span-2  lg:col-span-3 ">
+          <div className="col-span-2  lg:col-span-3 ">
             <PrettyHeader text={t("aboutMe")} icon={<User2 />} />
             <RoundedContent className="h-fit min-h-0">
               <div className="max-h-96 overflow-y-auto">
                 <BBCodeTextField text={user.description} />
               </div>
+            </RoundedContent>
+          </div>
+        )}
+
+        {userPlayHistoryGraph && userPlayHistoryGraph.snapshots.length > 0 && (
+          <div className="col-span-2 lg:col-span-3">
+            <PrettyHeader text={t("playHistory")} icon={<HistoryIcon />} />
+            <RoundedContent className="h-fit min-h-0">
+              <UserPlayHistoryChart data={userPlayHistoryGraph} />
             </RoundedContent>
           </div>
         )}

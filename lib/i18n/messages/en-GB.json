@@ -830,7 +830,8 @@
           "performance": "Pewfowmance",
           "showByRank": "Show by rank",
           "showByPp": "Show by pp",
-          "aboutMe": "Abouwt me"
+          "aboutMe": "Abouwt me",
+          "playHistory": "Play histowy"
         },
         "scoresTab": {
           "bestScores": "Best scowes",
@@ -894,7 +895,8 @@
           "date": "Date",
           "types": {
             "pp": "pp",
-            "rank": "rank"
+            "rank": "rank",
+            "plays": "pways"
           },
           "tooltip": "{value} {type}"
         }

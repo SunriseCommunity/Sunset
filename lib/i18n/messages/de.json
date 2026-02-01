@@ -826,7 +826,8 @@
           "performance": "Performance",
           "showByRank": "Nach Rang anzeigen",
           "showByPp": "Nach PP anzeigen",
-          "aboutMe": "Über mich"
+          "aboutMe": "Über mich",
+          "playHistory": "Spielverlauf"
         },
         "scoresTab": {
           "bestScores": "Beste Scores",
@@ -890,7 +891,8 @@
           "date": "Datum",
           "types": {
             "pp": "pp",
-            "rank": "rang"
+            "rank": "rang",
+            "plays": "Spiele"
           },
           "tooltip": "{value} {type}"
         }

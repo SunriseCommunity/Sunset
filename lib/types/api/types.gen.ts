@@ -615,6 +615,16 @@ export type PerformanceAttributes = {
   state: ScoreState;
 };
 
+export type PlayHistorySnapshotResponse = {
+  play_count: number;
+  saved_at: string;
+};
+
+export type PlayHistorySnapshotsResponse = {
+  total_count: number;
+  snapshots: PlayHistorySnapshotResponse[];
+};
+
 export type PreviousUsernamesResponse = {
   usernames: string[];
 };
@@ -2020,6 +2030,37 @@ export type GetUserByUserIdGraphResponses = {
 };
 
 export type GetUserByUserIdGraphResponse = GetUserByUserIdGraphResponses[keyof GetUserByUserIdGraphResponses];
+
+export type GetUserByUserIdPlayHistoryGraphData = {
+  body?: never;
+  path: {
+    userId: number;
+  };
+  query?: never;
+  url: "/user/{userId}/play-history-graph";
+};
+
+export type GetUserByUserIdPlayHistoryGraphErrors = {
+  /**
+     * Bad Request
+     */
+  400: ProblemDetailsResponseType;
+  /**
+     * Not Found
+     */
+  404: ProblemDetailsResponseType;
+};
+
+export type GetUserByUserIdPlayHistoryGraphError = GetUserByUserIdPlayHistoryGraphErrors[keyof GetUserByUserIdPlayHistoryGraphErrors];
+
+export type GetUserByUserIdPlayHistoryGraphResponses = {
+  /**
+     * OK
+     */
+  200: PlayHistorySnapshotsResponse;
+};
+
+export type GetUserByUserIdPlayHistoryGraphResponse = GetUserByUserIdPlayHistoryGraphResponses[keyof GetUserByUserIdPlayHistoryGraphResponses];
 
 export type GetUserByIdScoresData = {
   body?: never;

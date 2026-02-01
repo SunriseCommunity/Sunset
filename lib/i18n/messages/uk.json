@@ -826,7 +826,8 @@
           "performance": "Продуктивність",
           "showByRank": "Показати за рейтингом",
           "showByPp": "Показати за pp",
-          "aboutMe": "Про мене"
+          "aboutMe": "Про мене",
+          "playHistory": "Історія гри"
         },
         "scoresTab": {
           "bestScores": "Кращі результати",
@@ -890,7 +891,8 @@
           "date": "Дата",
           "types": {
             "pp": "pp",
-            "rank": "рейтинг"
+            "rank": "рейтинг",
+            "plays": "ігри"
           },
           "tooltip": "{value} {type}"
         }

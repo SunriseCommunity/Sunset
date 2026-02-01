@@ -826,7 +826,8 @@
           "performance": "Rendimiento",
           "showByRank": "Mostrar por rango",
           "showByPp": "Mostrar por pp",
-          "aboutMe": "Sobre mí"
+          "aboutMe": "Sobre mí",
+          "playHistory": "Historial de juego"
         },
         "scoresTab": {
           "bestScores": "Mejores puntuaciones",
@@ -890,7 +891,8 @@
           "date": "Fecha",
           "types": {
             "pp": "pp",
-            "rank": "rank"
+            "rank": "rank",
+            "plays": "jugadas"
           },
           "tooltip": "{value} {type}"
         }

@@ -957,6 +957,16 @@ export const zPerformanceAttributes = z.object({
   state: zScoreState,
 });
 
+export const zPlayHistorySnapshotResponse = z.object({
+  play_count: z.number().int(),
+  saved_at: z.string().datetime(),
+});
+
+export const zPlayHistorySnapshotsResponse = z.object({
+  total_count: z.number().int(),
+  snapshots: z.array(zPlayHistorySnapshotResponse),
+});
+
 export const zPreviousUsernamesResponse = z.object({
   usernames: z.array(z.string()),
 });
@@ -1236,6 +1246,8 @@ export const zGetUserSelfResponse = zUserResponse;
 export const zGetUserSelfByModeResponse = zUserWithStatsResponse;
 
 export const zGetUserByUserIdGraphResponse = zStatsSnapshotsResponse;
+
+export const zGetUserByUserIdPlayHistoryGraphResponse = zPlayHistorySnapshotsResponse;
 
 export const zGetUserByIdScoresResponse = zScoresResponse;
 

@@ -2174,6 +2174,10 @@
           "aboutMe": {
             "text": "About me",
             "context": "Section header for user description/about section"
+          },
+          "playHistory": {
+            "text": "Play history",
+            "context": "Section header for user play history"
           }
         },
         "scoresTab": {
@@ -2349,6 +2353,10 @@
             "rank": {
               "text": "rank",
               "context": "Word for rank in chart tooltip"
+            },
+            "plays": {
+              "text": "plays",
+              "context": "Word for plays in chart tooltip"
             }
           },
           "tooltip": {
