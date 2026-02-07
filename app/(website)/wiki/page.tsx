@@ -162,7 +162,8 @@ export default function Wiki() {
         target?.scrollIntoView({ behavior: "smooth" });
       }
     }
-  }, [pathname, wikiContent]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- causes unwanted resets of the accordion
+  }, [pathname]);
 
   useEffect(() => {
     const element = wikiContent[tryParseNumber(value) ?? -1];
