@@ -56,15 +56,17 @@ export default function UserStatsChart({ data, value: chartValue }: Props) {
       const currentDateStr = currentDate.toDateString();
       let snapshotForThisDay: StatsSnapshotResponse | null = null;
 
-      if (snapshotIndex < snapshots.length) {
+      while (snapshotIndex < snapshots.length) {
         const snapshotDate = new Date(snapshots[snapshotIndex].saved_at);
         snapshotDate.setHours(0, 0, 0, 0);
-        const snapshotDateStr = snapshotDate.toDateString();
 
-        if (currentDateStr === snapshotDateStr) {
+        if (currentDateStr === snapshotDate.toDateString()) {
           snapshotForThisDay = snapshots[snapshotIndex];
           lastValidSnapshot = { ...snapshots[snapshotIndex] };
           snapshotIndex++;
+        }
+        else {
+          break;
         }
       }
 
