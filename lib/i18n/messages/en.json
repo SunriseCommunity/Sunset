@@ -407,7 +407,7 @@
     "notFound": {
       "meta": {
         "title": {
-          "text": "Not Foundhttps://goatchan.duckdns.org",
+          "text": "Not Found",
           "context": "Page title for 404 not found page"
         },
         "description": {
@@ -1103,7 +1103,7 @@
     "score": {
       "meta": {
         "title": {
-          "text": "{username} on {beatmapTitle} [{beatmapVersion}]https://goatchan.duckdns.org",
+          "text": "{username} on {beatmapTitle} [{beatmapVersion}]",
           "context": "The title for the score page, includes username, beatmap title, version, and app name as parameters"
         },
         "description": {
@@ -1112,7 +1112,7 @@
         },
         "openGraph": {
           "title": {
-            "text": "{username} on {beatmapTitle} - {beatmapArtist} [{beatmapVersion}]https://goatchan.duckdns.org",
+            "text": "{username} on {beatmapTitle} - {beatmapArtist} [{beatmapVersion}]",
             "context": "The OpenGraph title for the score page, includes username, beatmap title, artist, version, and app name as parameters"
           },
           "description": {
@@ -1767,7 +1767,7 @@
     "settings": {
       "meta": {
         "title": {
-          "text": "Settingshttps://goatchan.duckdns.org",
+          "text": "Settings",
           "context": "The title for the settings page of the osu! website"
         }
       },
@@ -2067,7 +2067,7 @@
     "user": {
       "meta": {
         "title": {
-          "text": "{username} · User Profilehttps://goatchan.duckdns.org",
+          "text": "{username} · User Profile",
           "context": "Page title for user profile page, includes username and app name as parameters"
         },
         "description": {
