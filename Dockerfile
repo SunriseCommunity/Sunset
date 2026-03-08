@@ -1,4 +1,4 @@
-FROM oven/bun:1.3.10-slim AS build
+FROM node:24-alpine3.22 AS build
 
 WORKDIR /app
 
@@ -6,21 +6,17 @@ ENV NEXT_TELEMETRY_DISABLED=1
 
 ENV NODE_ENV=production
 
-COPY package.json bun.lock ./
+COPY package.json package-lock.json ./
 
-RUN bun install 
+RUN npm install
 
 COPY . .
 
-RUN bun run build
+RUN npm run build
 
-FROM oven/bun:1.3.10-slim AS pack
+FROM node:24-alpine3.22 AS pack
 
 WORKDIR /app
-
-ENV NEXT_TELEMETRY_DISABLED=1
-
-ENV NODE_ENV=production
 
 ENV HOSTNAME=0.0.0.0
 
@@ -28,4 +24,4 @@ COPY --from=build /app/.next/standalone .
 COPY --from=build /app/.next/static ./.next/static
 COPY --from=build /app/public ./public
 
-CMD ["bun", "server.js"]
+CMD ["node", "server.js"]
