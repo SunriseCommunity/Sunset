@@ -12,5 +12,6 @@ mkdir publish
 cp run.sh publish/run.sh
 cp -r .next/standalone/* publish/
 cp -r .next/standalone/.next publish/.next
+rm -dr publish/public
 cp -r public publish/public
 cp -r .next/static publish/.next/static

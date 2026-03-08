@@ -1,5 +1,5 @@
 #!/bin/bash
 
-HOSTNAME="0.0.0.0"
+export HOSTNAME="0.0.0.0"
 
 node server.js
