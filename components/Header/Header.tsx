@@ -86,6 +86,12 @@ export default function Header() {
                     </DropdownMenuItem>
                   )}
 
+                  {process.env.NEXT_PUBLIC_PATCHER_PAGE_ENABLED === "true" && (
+                    <DropdownMenuItem asChild>
+                      <Link href="/patcher">{t("links.patcher")}</Link>
+                    </DropdownMenuItem>
+                  )}
+
                   {(process.env.NEXT_PUBLIC_KOFI_LINK
                     || process.env.NEXT_PUBLIC_BOOSTY_LINK) && (
                     <DropdownMenuItem asChild>

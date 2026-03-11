@@ -105,6 +105,10 @@
         "supportUs": {
           "text": "support us",
           "context": "Help dropdown menu item for support page"
+        },
+        "patcher": {
+          "text": "osu! patcher",
+          "context": "Help dropdown menu item for Sunrise Patcher page"
         }
       }
     },
@@ -315,6 +319,10 @@
         "supportUs": {
           "text": "Support Us",
           "context": "Mobile drawer navigation item for support page"
+        },
+        "patcher": {
+          "text": "osu! Patcher",
+          "context": "Mobile drawer navigation item for Sunrise Patcher page"
         }
       },
       "yourProfile": {
@@ -1068,6 +1076,218 @@
           "description": {
             "text": "One of the easiest ways to support {appName} is simply by playing on the server! The more players we have, the better the community and experience become. By joining in, you're helping to grow the server and keeping it active for all players.",
             "context": "Description text explaining that playing on the server is a form of support"
+          }
+        }
+      }
+    },
+    "patcher": {
+      "meta": {
+        "title": {
+          "text": "Sunrise Patcher | {appName}",
+          "context": "The title for the Sunrise Patcher page"
+        }
+      },
+      "header": {
+        "text": "Sunrise Patcher",
+        "context": "The main header text for the patcher page"
+      },
+      "description": {
+        "text": "Sunrise Patcher is a community fork of <a>rushiiMachine/osu-patcher</a> focused on Relax improvements, live PP tools, and practical osu! quality-of-life fixes.",
+        "context": "Concise summary of what Sunrise Patcher does with original project credit"
+      },
+      "warning": {
+        "text": "This is for use in offline play or private servers that allow modifications only. Use at your own risk! Modifications are disallowed on most servers, even though this project does not provide an unfair advantage.",
+        "context": "Warning about patcher usage restrictions"
+      },
+      "banchoWarning": {
+        "text": "Using this on official Bancho servers WILL get you banned.",
+        "context": "Strong warning about using patcher on official servers"
+      },
+      "features": {
+        "title": {
+          "text": "Features",
+          "context": "Section header for the features list"
+        },
+        "relax": {
+          "title": {
+            "text": "Relax",
+            "context": "Feature category title for Relax-related features"
+          },
+          "showMisses": {
+            "text": "Show misses on hit objects while playing Relax",
+            "context": "Feature: showing misses during Relax gameplay"
+          },
+          "combobreak": {
+            "text": "Re-enable combobreak sounds with Relax enabled",
+            "context": "Feature: combobreak sounds in Relax mode"
+          },
+          "saveScores": {
+            "text": "Save all Relax scores to local leaderboards automatically",
+            "context": "Feature: automatic local score saving for Relax"
+          },
+          "allowFailing": {
+            "text": "Allow failing with Relax enabled (toggleable)",
+            "context": "Feature: toggleable failing in Relax mode"
+          },
+          "lowHpGlow": {
+            "text": "Re-enable the low hp glow (with shaders on)",
+            "context": "Feature: low HP glow effect in Relax mode"
+          },
+          "note": {
+            "text": "Note: Relax refers to Relax or Autopilot",
+            "context": "Clarification that Relax features apply to both Relax and Autopilot"
+          }
+        },
+        "pp": {
+          "title": {
+            "text": "PP",
+            "context": "Feature category title for PP-related features"
+          },
+          "liveCounter": {
+            "text": "Show a live pp counter during gameplay and replays",
+            "context": "Feature: live PP counter"
+          },
+          "switchCalculators": {
+            "text": "Switch between Bancho and Sunrise pp calculators",
+            "context": "Feature: switchable PP calculators"
+          }
+        },
+        "mods": {
+          "title": {
+            "text": "Mods",
+            "context": "Feature category title for mod-related features"
+          },
+          "showActiveMods": {
+            "text": "Always faintly show active mods during gameplay",
+            "context": "Feature: visible active mods during gameplay"
+          },
+          "autoRestart": {
+            "text": "Auto restart when failed due to Sudden Death mod",
+            "context": "Feature: auto restart on Sudden Death failure"
+          }
+        },
+        "ui": {
+          "title": {
+            "text": "UI",
+            "context": "Feature category title for UI-related features"
+          },
+          "thumbnailOpacity": {
+            "text": "Increase the thumbnail opacity in song select",
+            "context": "Feature: increased thumbnail opacity"
+          },
+          "settingsInGameplay": {
+            "text": "Allow opening settings during gameplay with Ctrl+O",
+            "context": "Feature: open settings during gameplay"
+          }
+        },
+        "other": {
+          "title": {
+            "text": "Other",
+            "context": "Feature category title for miscellaneous features"
+          },
+          "miscFixes": {
+            "text": "Other miscellaneous fixes",
+            "context": "Feature: various other fixes"
+          }
+        }
+      },
+      "featureSummary": {
+        "relax": {
+          "title": {
+            "text": "Relax Gameplay",
+            "context": "Short summary title for Relax-related patcher features"
+          },
+          "description": {
+            "text": "Improves Relax/Autopilot feel with miss visibility, combobreak audio, fail toggle, local score saving, and low HP glow.",
+            "context": "Condensed summary of Relax category features"
+          }
+        },
+        "pp": {
+          "title": {
+            "text": "PP Tools",
+            "context": "Short summary title for PP-related patcher features"
+          },
+          "description": {
+            "text": "Adds a live pp counter and lets you switch between Bancho and Sunrise pp calculators.",
+            "context": "Condensed summary of PP category features"
+          }
+        },
+        "mods": {
+          "title": {
+            "text": "Mods Awareness",
+            "context": "Short summary title for mod-related patcher features"
+          },
+          "description": {
+            "text": "Keeps active mods visible in-game and can auto-restart runs failed by Sudden Death.",
+            "context": "Condensed summary of mod category features"
+          }
+        },
+        "ui": {
+          "title": {
+            "text": "Interface QoL",
+            "context": "Short summary title for UI-related patcher features"
+          },
+          "description": {
+            "text": "Improves song select thumbnail readability and allows opening settings mid-game with Ctrl+O.",
+            "context": "Condensed summary of UI category features"
+          }
+        },
+        "other": {
+          "title": {
+            "text": "Extra Fixes",
+            "context": "Short summary title for miscellaneous patcher fixes"
+          },
+          "description": {
+            "text": "Includes additional small fixes that polish gameplay behavior.",
+            "context": "Condensed summary of miscellaneous fixes"
+          }
+        }
+      },
+      "download": {
+        "text": "Download Patcher",
+        "context": "Button text to download the Sunrise Patcher"
+      },
+      "previews": {
+        "settings": {
+          "title": {
+            "text": "Feature Toggle Panel",
+            "context": "Title for the settings preview slide"
+          },
+          "description": {
+            "text": "Enable or disable individual patches quickly from one settings panel.",
+            "context": "Description for the settings preview slide"
+          },
+          "alt": {
+            "text": "Patcher settings preview",
+            "context": "Alt text for the patcher settings screenshot"
+          }
+        },
+        "relaxRanking": {
+          "title": {
+            "text": "Relax Ranking View",
+            "context": "Title for the relax ranking preview slide"
+          },
+          "description": {
+            "text": "Track and review Relax scores through a dedicated local ranking display.",
+            "context": "Description for the relax ranking preview slide"
+          },
+          "alt": {
+            "text": "Relax ranking panel preview",
+            "context": "Alt text for the relax ranking panel screenshot"
+          }
+        },
+        "ppCounter": {
+          "title": {
+            "text": "In-Game PP Overlay",
+            "context": "Title for the PP counter preview slide"
+          },
+          "description": {
+            "text": "Monitor PP changes in real time while playing or watching replays.",
+            "context": "Description for the PP counter preview slide"
+          },
+          "alt": {
+            "text": "Live PP counter preview",
+            "context": "Alt text for the live PP counter screenshot"
           }
         }
       }
