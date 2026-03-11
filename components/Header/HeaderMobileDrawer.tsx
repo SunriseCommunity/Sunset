@@ -8,6 +8,7 @@ import {
   LucideHistory,
   Menu,
   MonitorCog,
+  Puzzle,
   Search,
   UserIcon,
   Users2,
@@ -95,6 +96,14 @@ export default function HeaderMobileDrawer() {
         url: `https://api.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/docs`,
       },
     ];
+
+    if (process.env.NEXT_PUBLIC_PATCHER_PAGE_ENABLED === "true") {
+      list.push({
+        icon: <Puzzle />,
+        title: t("navigation.patcher"),
+        url: "/patcher",
+      });
+    }
 
     if (process.env.NEXT_PUBLIC_DISCORD_LINK) {
       list.push({
