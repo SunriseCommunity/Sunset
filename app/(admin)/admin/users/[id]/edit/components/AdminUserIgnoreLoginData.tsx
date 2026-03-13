@@ -29,6 +29,7 @@ export default function AdminUserIgnoreLoginData({
 }) {
   const { toast } = useToast();
 
+  // TODO: This is actually an oversight from the backend, since getting the initial value from the register event is really hacky.
   const { data: registerEvents, isLoading } = useUserEvents(
     userId,
     null,
@@ -57,15 +58,15 @@ export default function AdminUserIgnoreLoginData({
       await editIgnoreLoginData({ is_ignored: checked });
       toast({
         title: checked
-          ? "Login data is now ignored"
-          : "Login data is no longer ignored",
+          ? "Multi-account check exemption enabled"
+          : "Multi-account check exemption disabled",
         variant: "success",
       });
     }
     catch (error: any) {
       setIsIgnored(serverIsIgnored);
       toast({
-        title: "Failed to update ignore login data",
+        title: "Failed to update multi-account exemption",
         description: error?.message || "An error occurred",
         variant: "destructive",
       });
@@ -79,20 +80,25 @@ export default function AdminUserIgnoreLoginData({
     return (
       <div className="flex items-center gap-2 rounded-md border border-destructive/50 bg-destructive/10 p-3 text-sm text-destructive">
         <AlertCircle className="size-4 shrink-0" />
-        <span>No Register event found — cannot manage login data ignore setting.</span>
+        <span>No Register event found — cannot manage multi-account exemption.</span>
       </div>
     );
   }
 
   return (
-    <div className="flex items-center justify-between">
-      <Label
-        htmlFor="ignore-login-data"
-        className="flex cursor-pointer items-center gap-2"
-      >
-        <Database className="size-4" />
-        Ignore Login Data
-      </Label>
+    <div className="flex items-center justify-between gap-4">
+      <div className="space-y-1">
+        <Label
+          htmlFor="ignore-login-data"
+          className="flex cursor-pointer items-center gap-2"
+        >
+          <Database className="size-4" />
+          Exempt from Multi-Account Check
+        </Label>
+        <p className="text-xs text-muted-foreground">
+          Ignore user's IP used for registration when checking for multi-account
+        </p>
+      </div>
       <Switch
         id="ignore-login-data"
         checked={isIgnored}
