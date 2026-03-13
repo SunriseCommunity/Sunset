@@ -213,8 +213,6 @@ export function useAdminEditIgnoreLoginData(userId: number) {
         (key: string) =>
           typeof key === "string"
           && key.startsWith(`user/${userId}/events`),
-        undefined,
-        { revalidate: true },
       );
       return result;
     },
@@ -233,8 +231,6 @@ export function useAdminEditHidePreviousUsername(userId: number) {
         (key: string) =>
           typeof key === "string"
           && key.startsWith(`user/${userId}/events`),
-        undefined,
-        { revalidate: true },
       );
       return result;
     },
