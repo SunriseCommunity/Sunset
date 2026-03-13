@@ -6,8 +6,11 @@ import { SortAsc, SortDesc } from "lucide-react";
 import { Tooltip } from "@/components/Tooltip";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import type { EventUserResponse, UserEventType } from "@/lib/types/api";
+import type { EventUserResponse } from "@/lib/types/api";
+import { UserEventType } from "@/lib/types/api";
 import { timeSince } from "@/lib/utils/timeSince";
+
+import AdminUserEventHidePreviousUsername from "./AdminUserEventHidePreviousUsername";
 
 function hashStringToHue(str: string): number {
   let hash = 0;
@@ -181,6 +184,17 @@ export const adminUserEventsColumns: Array<ColumnDef<EventUserResponse>> = [
           )}
         </div>
       );
+    },
+  },
+  {
+    id: "actions",
+    header: "Actions",
+    cell: ({ row }) => {
+      if (row.original.event_type !== UserEventType.CHANGE_USERNAME) {
+        return null;
+      }
+
+      return <AdminUserEventHidePreviousUsername event={row.original} />;
     },
   },
 ];

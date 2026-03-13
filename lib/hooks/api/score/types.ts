@@ -32,4 +32,5 @@ export const ShortenedMods = {
   [Mods.KEY3]: "K3",
   [Mods.KEY2]: "K2",
   [Mods.SCORE_V2]: "V2",
+  [Mods.MIRROR]: "MR",
 };

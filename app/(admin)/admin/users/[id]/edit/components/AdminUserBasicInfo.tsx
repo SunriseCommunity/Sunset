@@ -3,6 +3,7 @@
 import { Mail, User } from "lucide-react";
 
 import AdminUserEmailInput from "@/app/(admin)/admin/users/[id]/edit/components/AdminUserEmailInput";
+import AdminUserIgnoreLoginData from "@/app/(admin)/admin/users/[id]/edit/components/AdminUserIgnoreLoginData";
 import AdminUserPrivilegeInput from "@/app/(admin)/admin/users/[id]/edit/components/AdminUserPrivilegeInput";
 import AdminUserResetPassword from "@/app/(admin)/admin/users/[id]/edit/components/AdminUserResetPassword";
 import AdminUserRestrictButton from "@/app/(admin)/admin/users/[id]/edit/components/AdminUserRestrictButton";
@@ -62,6 +63,8 @@ export default function AdminUserBasicInfo({
             </div>
           </div>
         )}
+
+        <AdminUserIgnoreLoginData userId={user.user_id} />
 
         <AdminUserRestrictButton user={user} />
         <AdminUserResetPassword user={user} />
