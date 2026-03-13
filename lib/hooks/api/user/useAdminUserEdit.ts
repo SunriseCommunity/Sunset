@@ -7,6 +7,8 @@ import poster from "@/lib/services/poster";
 import type {
   CountryChangeRequest,
   EditDescriptionRequest,
+  EditHidePreviousUsernameRequest,
+  EditIgnoreLoginDataRequest,
   EditUserMetadataRequest,
   EditUserPrivilegeRequest,
   EditUserRestrictionRequest,
@@ -194,6 +196,46 @@ export function useAdminEditPrivilege(userId: number) {
 
       mutate(`user/${userId}`);
       mutate(`user/${userId}/sensitive`);
+      return result;
+    },
+  );
+}
+
+export function useAdminEditIgnoreLoginData(userId: number) {
+  return useSWRMutation(
+    `user/${userId}/ignore-login-data`,
+    async (url: string, { arg }: { arg: EditIgnoreLoginDataRequest }) => {
+      const result = await poster(`user/${userId}/edit/ignore-login-data`, {
+        json: arg,
+      });
+
+      mutate(
+        (key: string) =>
+          typeof key === "string"
+          && key.startsWith(`user/${userId}/events`),
+        undefined,
+        { revalidate: true },
+      );
+      return result;
+    },
+  );
+}
+
+export function useAdminEditHidePreviousUsername(userId: number) {
+  return useSWRMutation(
+    `user/edit/hide-previous-username/${userId}`,
+    async (url: string, { arg }: { arg: EditHidePreviousUsernameRequest }) => {
+      const result = await poster(`user/edit/hide-previous-username`, {
+        json: arg,
+      });
+
+      mutate(
+        (key: string) =>
+          typeof key === "string"
+          && key.startsWith(`user/${userId}/events`),
+        undefined,
+        { revalidate: true },
+      );
       return result;
     },
   );
