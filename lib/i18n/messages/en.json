@@ -1224,11 +1224,11 @@
         },
         "ui": {
           "title": {
-            "text": "Interface QoL",
+            "text": "Interactive UI",
             "context": "Short summary title for UI-related patcher features"
           },
           "description": {
-            "text": "Improves song select thumbnail readability and allows opening settings mid-game with Ctrl+O.",
+            "text": "You can update patcher related settings in the osu! options menu",
             "context": "Condensed summary of UI category features"
           }
         },
