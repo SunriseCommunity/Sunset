@@ -18,11 +18,18 @@ type UploadImageFormProps = {
 export default function UploadImageForm({ type }: UploadImageFormProps) {
   const t = useT("pages.settings.components.uploadImage");
   const [file, setFile] = useState<File | null>(null);
+  const [hasChanged, setHasChanged] = useState(false);
   const [isFileUploading, setIsFileUploading] = useState(false);
 
   const { self } = useSelf();
-
   const { trigger: triggerUserUpload } = useUserUpload();
+  const { toast } = useToast();
+
+  const handleFileChange = (f: File | null) => {
+    setFile(f);
+    if (f)
+      setHasChanged(true);
+  };
 
   const localizedType = t(`types.${type}`);
 
@@ -33,12 +40,19 @@ export default function UploadImageForm({ type }: UploadImageFormProps) {
     const urlToFetch = type === "avatar" ? self.avatar_url : self.banner_url;
 
     fetch(urlToFetch).then(async (res) => {
-      const file = await res.blob();
-      setFile(new File([file], "file.png"));
+      const blob = await res.blob();
+      const ext
+        = blob.type === "image/gif"
+          ? "gif"
+          : blob.type === "image/png"
+            ? "png"
+            : blob.type === "image/webp"
+              ? "webp"
+              : "jpg";
+
+      setFile(new File([blob], `file.${ext}`, { type: blob.type }));
     });
   }, [file, self, type]);
-
-  const { toast } = useToast();
 
   const uploadFile = async () => {
     if (file === null)
@@ -52,15 +66,16 @@ export default function UploadImageForm({ type }: UploadImageFormProps) {
         type,
       },
       {
-        onSuccess(_data, _key, _config) {
+        onSuccess() {
           toast({
             title: t("toast.success", { type: localizedType }),
             variant: "success",
             className: "capitalize",
           });
           setIsFileUploading(false);
+          setHasChanged(false);
         },
-        onError(err, _key, _config) {
+        onError(err) {
           toast({
             title: err?.message ?? t("toast.error"),
             variant: "destructive",
@@ -74,16 +89,18 @@ export default function UploadImageForm({ type }: UploadImageFormProps) {
   return (
     <>
       <ImageSelect
-        setFile={setFile}
+        setFile={handleFileChange}
         file={file}
         isWide={type === "banner"}
         maxFileSizeBytes={5 * 1024 * 1024}
+        enableCrop
+        type={type}
       />
       <Button
         isLoading={isFileUploading}
         onClick={uploadFile}
-        className="mt-2 w-40 text-sm"
-        variant="secondary"
+        className={`mt-2 w-40 text-sm${hasChanged ? " text-black" : ""}`}
+        variant={hasChanged ? "default" : "secondary"}
       >
         <CloudUpload />
         {t("button", { type: localizedType })}
