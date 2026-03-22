@@ -1,4 +1,4 @@
-import { useEffect, useId, useState } from "react";
+import { useCallback, useEffect, useId, useState } from "react";
 
 import ImageCropDialog from "@/components/General/ImageCropDialog";
 import Spinner from "@/components/Spinner";
@@ -11,8 +11,9 @@ type Props = {
   file: File | null;
   isWide?: boolean;
   maxFileSizeBytes?: number;
-  enableCrop?: boolean;
-  type?: "avatar" | "banner";
+  userImageCrop?: {
+    type: "avatar" | "banner";
+  };
 };
 
 export default function ImageSelect({
@@ -20,8 +21,7 @@ export default function ImageSelect({
   file,
   isWide,
   maxFileSizeBytes,
-  enableCrop,
-  type,
+  userImageCrop,
 }: Props) {
   const t = useT("components.imageSelect");
   const inputId = useId();
@@ -29,7 +29,6 @@ export default function ImageSelect({
   const { toast } = useToast();
 
   const [rawFileForCrop, setRawFileForCrop] = useState<File | null>(null);
-  const [isCropOpen, setIsCropOpen] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   useEffect(() => {
@@ -44,18 +43,37 @@ export default function ImageSelect({
     return () => URL.revokeObjectURL(url);
   }, [file]);
 
-  const handleFileSelected = (nextFile: File) => {
+  const handleOpenChange = useCallback((open: boolean) => {
+    if (!open) {
+      setRawFileForCrop(null);
+    }
+  }, []);
+
+  const handleFileSelected = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const nextFile = e.target.files?.[0];
+    e.currentTarget.value = "";
+
+    if (!nextFile)
+      return;
+
+    if (maxFileSizeBytes && nextFile.size > maxFileSizeBytes) {
+      toast({
+        title: t("imageTooBig"),
+        variant: "destructive",
+      });
+      return;
+    }
+
     const isGif = nextFile.type === "image/gif";
-    const shouldCrop = Boolean(enableCrop && type && !isGif);
+    const shouldCrop = Boolean(userImageCrop && !isGif);
 
     if (shouldCrop) {
       setRawFileForCrop(nextFile);
-      setIsCropOpen(true);
       return;
     }
 
     setFile(nextFile);
-  };
+  }, [maxFileSizeBytes, toast, t, setFile, userImageCrop]);
 
   const handleCropped = (croppedFile: File) => {
     setFile(croppedFile);
@@ -79,23 +97,7 @@ export default function ImageSelect({
                 id={inputId}
                 accept="image/png,image/jpeg,image/gif"
                 className="hidden"
-                onChange={(e) => {
-                  const nextFile = e.target.files?.[0];
-                  e.currentTarget.value = "";
-
-                  if (!nextFile)
-                    return;
-
-                  if (maxFileSizeBytes && nextFile.size > maxFileSizeBytes) {
-                    toast({
-                      title: t("imageTooBig"),
-                      variant: "destructive",
-                    });
-                    return;
-                  }
-
-                  handleFileSelected(nextFile);
-                }}
+                onChange={handleFileSelected}
               />
 
               {file ? (
@@ -126,12 +128,12 @@ export default function ImageSelect({
         </label>
       </div>
 
-      {enableCrop && type && rawFileForCrop && (
+      {userImageCrop && rawFileForCrop && (
         <ImageCropDialog
           file={rawFileForCrop}
-          type={type}
-          open={isCropOpen}
-          onOpenChange={setIsCropOpen}
+          type={userImageCrop.type}
+          open={!!rawFileForCrop}
+          onOpenChange={handleOpenChange}
           onCropped={handleCropped}
         />
       )}

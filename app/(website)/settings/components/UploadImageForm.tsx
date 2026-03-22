@@ -10,6 +10,7 @@ import type { UserFileUpload } from "@/lib/hooks/api/user/types";
 import { useUserUpload } from "@/lib/hooks/api/user/useUserUpload";
 import useSelf from "@/lib/hooks/useSelf";
 import { useT } from "@/lib/i18n/utils";
+import { cn } from "@/lib/utils";
 
 type UploadImageFormProps = {
   type: UserFileUpload;
@@ -25,10 +26,11 @@ export default function UploadImageForm({ type }: UploadImageFormProps) {
   const { trigger: triggerUserUpload } = useUserUpload();
   const { toast } = useToast();
 
-  const handleFileChange = (f: File | null) => {
-    setFile(f);
-    if (f)
+  const handleFileChange = (file: File | null) => {
+    setFile(file);
+    if (file) {
       setHasChanged(true);
+    }
   };
 
   const localizedType = t(`types.${type}`);
@@ -41,14 +43,7 @@ export default function UploadImageForm({ type }: UploadImageFormProps) {
 
     fetch(urlToFetch).then(async (res) => {
       const blob = await res.blob();
-      const ext
-        = blob.type === "image/gif"
-          ? "gif"
-          : blob.type === "image/png"
-            ? "png"
-            : blob.type === "image/webp"
-              ? "webp"
-              : "jpg";
+      const ext = blob.type.split("/")[1] ?? "png";
 
       setFile(new File([blob], `file.${ext}`, { type: blob.type }));
     });
@@ -93,13 +88,14 @@ export default function UploadImageForm({ type }: UploadImageFormProps) {
         file={file}
         isWide={type === "banner"}
         maxFileSizeBytes={5 * 1024 * 1024}
-        enableCrop
-        type={type}
+        userImageCrop={{
+          type,
+        }}
       />
       <Button
         isLoading={isFileUploading}
         onClick={uploadFile}
-        className={`mt-2 w-40 text-sm${hasChanged ? " text-black" : ""}`}
+        className={cn("mt-2 w-40 text-sm", hasChanged && "text-black")}
         variant={hasChanged ? "default" : "secondary"}
       >
         <CloudUpload />

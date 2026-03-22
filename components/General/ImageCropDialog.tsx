@@ -1,7 +1,7 @@
 "use client";
 
 import { Grid, Image as ImageIcon, RotateCcw } from "lucide-react";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import type { Area } from "react-easy-crop";
 import Cropper from "react-easy-crop";
 
@@ -25,78 +25,31 @@ type ImageCropDialogProps = {
   onCropped: (file: File) => void;
 };
 
-function readFileAsDataUrl(file: File): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.addEventListener("load", () => {
-      if (typeof reader.result === "string") {
-        resolve(reader.result);
-      }
-      else {
-        reject(new Error("Failed to read file"));
-      }
-    });
-    reader.addEventListener("error", () => {
-      reject(reader.error ?? new Error("Failed to read file"));
-    });
-    reader.readAsDataURL(file);
-  });
-}
-
-async function loadImage(src: string): Promise<HTMLImageElement> {
-  return await new Promise((resolve, reject) => {
-    const img = new window.Image();
-    img.addEventListener("load", () => resolve(img));
-    img.addEventListener("error", () => reject(new Error("Failed to load image")));
-    img.src = src;
-  });
-}
-
 async function getCroppedImage(
   imageSrc: string,
   cropAreaPixels: Area,
   type: "avatar" | "banner",
 ): Promise<Blob> {
-  const image = await loadImage(imageSrc);
-  const canvas = document.createElement("canvas");
-  const ctx = canvas.getContext("2d");
-
-  if (!ctx) {
-    throw new Error("Failed to get canvas context");
-  }
-
-  const targetWidth = type === "avatar" ? 512 : 2048;
-  const targetHeight = type === "avatar" ? 512 : 512;
-
-  canvas.width = targetWidth;
-  canvas.height = targetHeight;
-
-  ctx.imageSmoothingQuality = "high";
-
-  ctx.drawImage(
-    image,
+  const bitmap = await createImageBitmap(
+    await fetch(imageSrc).then(r => r.blob()),
     cropAreaPixels.x,
     cropAreaPixels.y,
     cropAreaPixels.width,
     cropAreaPixels.height,
-    0,
-    0,
-    targetWidth,
-    targetHeight,
+    {
+      resizeWidth: type === "avatar" ? 512 : 2048,
+      resizeHeight: 512,
+      resizeQuality: "high",
+    },
   );
-
-  return await new Promise((resolve, reject) => {
-    canvas.toBlob((blob) => {
-      if (blob) {
-        resolve(blob);
-      }
-      else {
-        reject(new Error("Failed to create blob from canvas"));
-      }
-    }, "image/png");
+  const canvas = new OffscreenCanvas(bitmap.width, bitmap.height);
+  canvas.getContext("bitmaprenderer")!.transferFromImageBitmap(bitmap);
+  bitmap.close();
+  return canvas.convertToBlob({
+    type: "image/png",
+    quality: 1,
   });
 }
-
 const MIN_ZOOM = 1;
 const MAX_ZOOM = 3;
 
@@ -116,46 +69,25 @@ export default function ImageCropDialog({
   const [isSaving, setIsSaving] = useState(false);
   const [showGrid, setShowGrid] = useState(false);
 
-  const aspect = useMemo(() => (type === "avatar" ? 1 / 1 : 4 / 1), [type]);
+  const aspect = type === "avatar" ? 1 / 1 : 4 / 1;
 
   useEffect(() => {
-    if (!file || !open)
+    if (!file || !open) {
+      setImageSrc(null);
       return;
-
-    let active = true;
-    readFileAsDataUrl(file)
-      .then((dataUrl) => {
-        if (active)
-          setImageSrc(dataUrl);
-      })
-      .catch(() => {
-        if (active)
-          setImageSrc(null);
-      });
-
-    return () => {
-      active = false;
-    };
+    }
+    const url = URL.createObjectURL(file);
+    setImageSrc(url);
+    return () => URL.revokeObjectURL(url);
   }, [file, open]);
 
   const onCropComplete = useCallback((_croppedArea: Area, croppedAreaPixelsParam: Area) => {
     setCroppedAreaPixels(croppedAreaPixelsParam);
   }, []);
 
-  const handleClose = useCallback(
-    (nextOpen: boolean) => {
-      if (!nextOpen) {
-        setImageSrc(null);
-        setCrop({ x: 0, y: 0 });
-        setZoom(MIN_ZOOM);
-        setCroppedAreaPixels(null);
-        setIsSaving(false);
-        setShowGrid(false);
-      }
-      onOpenChange(nextOpen);
-    },
-    [onOpenChange],
-  );
+  const onDialogClose = useCallback(() => {
+    onOpenChange(false);
+  }, [onOpenChange]);
 
   const handleSave = useCallback(async () => {
     if (!imageSrc || !croppedAreaPixels || !file)
@@ -166,13 +98,15 @@ export default function ImageCropDialog({
       const blob = await getCroppedImage(imageSrc, croppedAreaPixels, type);
       const croppedFile = new File([blob], file.name, { type: "image/png" });
       onCropped(croppedFile);
-      handleClose(false);
+      onDialogClose();
     }
     catch (error) {
       console.error("Failed to crop image", error);
+    }
+    finally {
       setIsSaving(false);
     }
-  }, [croppedAreaPixels, file, handleClose, imageSrc, onCropped, type]);
+  }, [croppedAreaPixels, file, imageSrc, onCropped, onDialogClose, type]);
 
   const handleReset = useCallback(() => {
     setZoom(MIN_ZOOM);
@@ -183,7 +117,7 @@ export default function ImageCropDialog({
     return null;
 
   return (
-    <Dialog open={open} onOpenChange={handleClose}>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl">
         <DialogHeader>
           <DialogTitle>{type === "avatar" ? t("titleAvatar") : t("titleBanner")}</DialogTitle>
@@ -254,11 +188,11 @@ export default function ImageCropDialog({
           </div>
         </div>
 
-        <DialogFooter className="mt-4">
+        <DialogFooter className="mt-4 gap-2">
           <Button
             variant="outline"
             type="button"
-            onClick={() => handleClose(false)}
+            onClick={onDialogClose}
             disabled={isSaving}
           >
             {t("cancel")}
