@@ -139,6 +139,19 @@
     "imageSelect": {
       "imageTooBig": "L'image sélectionnée est trop grande !"
     },
+    "imageCropDialog": {
+      "titleAvatar": "Ajuster l'avatar",
+      "descriptionAvatar": "Faites glisser et zoomez pour choisir l'apparence de l'avatar.",
+      "titleBanner": "Ajuster la bannière",
+      "descriptionBanner": "Faites glisser et zoomez pour choisir l'apparence de la bannière.",
+      "zoom": "Zoom",
+      "cancel": "Annuler",
+      "save": "Enregistrer",
+      "showGrid": "Afficher la grille",
+      "hideGrid": "Masquer la grille",
+      "reset": "Réinitialiser",
+      "cropError": "Impossible de recadrer l'image. Veuillez réessayer."
+    },
     "notFound": {
       "meta": {
         "title": "Page manquante | {appName}",

@@ -139,6 +139,19 @@
     "imageSelect": {
       "imageTooBig": "選択した画像が大きすぎます！"
     },
+    "imageCropDialog": {
+      "titleAvatar": "アバターの調整",
+      "descriptionAvatar": "ドラッグとズームで、アバターの表示を調整します。",
+      "titleBanner": "バナーの調整",
+      "descriptionBanner": "ドラッグとズームで、バナーの表示を調整します。",
+      "zoom": "ズーム",
+      "cancel": "キャンセル",
+      "save": "保存",
+      "showGrid": "グリッドを表示",
+      "hideGrid": "グリッドを非表示",
+      "reset": "リセット",
+      "cropError": "画像の切り抜きに失敗しました。もう一度お試しください。"
+    },
     "notFound": {
       "meta": {
         "title": "ページが見つかりません | {appName}",

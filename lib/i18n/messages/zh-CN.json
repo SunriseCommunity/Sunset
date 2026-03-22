@@ -139,6 +139,19 @@
     "imageSelect": {
       "imageTooBig": "所选图片太大！"
     },
+    "imageCropDialog": {
+      "titleAvatar": "调整头像",
+      "descriptionAvatar": "拖动并缩放以选择头像的显示效果。",
+      "titleBanner": "调整横幅",
+      "descriptionBanner": "拖动并缩放以选择横幅的显示效果。",
+      "zoom": "缩放",
+      "cancel": "取消",
+      "save": "保存",
+      "showGrid": "显示网格",
+      "hideGrid": "隐藏网格",
+      "reset": "重置",
+      "cropError": "图片裁剪失败，请重试。"
+    },
     "notFound": {
       "meta": {
         "title": "无法找到网页 | {appName}",

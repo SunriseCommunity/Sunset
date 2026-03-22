@@ -412,6 +412,52 @@
         "context": "Error message when selected image exceeds maximum file size"
       }
     },
+    "imageCropDialog": {
+      "titleAvatar": {
+        "text": "Adjust avatar",
+        "context": "Title for the avatar crop dialog"
+      },
+      "descriptionAvatar": {
+        "text": "Drag and zoom to choose how the avatar will appear.",
+        "context": "Description text for the avatar crop dialog"
+      },
+      "titleBanner": {
+        "text": "Adjust banner",
+        "context": "Title for the banner crop dialog"
+      },
+      "descriptionBanner": {
+        "text": "Drag and zoom to choose how the banner will appear.",
+        "context": "Description text for the banner crop dialog"
+      },
+      "zoom": {
+        "text": "Zoom",
+        "context": "Label for zoom control in image crop dialog"
+      },
+      "cancel": {
+        "text": "Cancel",
+        "context": "Button label to cancel cropping"
+      },
+      "save": {
+        "text": "Save",
+        "context": "Button label to confirm cropping"
+      },
+      "showGrid": {
+        "text": "Show grid",
+        "context": "Button label to show the grid overlay in image crop dialog"
+      },
+      "hideGrid": {
+        "text": "Hide grid",
+        "context": "Button label to hide the grid overlay in image crop dialog"
+      },
+      "reset": {
+        "text": "Reset",
+        "context": "Button label to reset zoom and position in image crop dialog"
+      },
+      "cropError": {
+        "text": "Failed to crop image. Please try again.",
+        "context": "Error toast when image cropping fails"
+      }
+    },
     "notFound": {
       "meta": {
         "title": {

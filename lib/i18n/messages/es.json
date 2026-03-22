@@ -139,6 +139,19 @@
     "imageSelect": {
       "imageTooBig": "¡La imagen seleccionada es demasiado grande!"
     },
+    "imageCropDialog": {
+      "titleAvatar": "Ajustar avatar",
+      "descriptionAvatar": "Arrastra y haz zoom para elegir cómo se verá el avatar.",
+      "titleBanner": "Ajustar banner",
+      "descriptionBanner": "Arrastra y haz zoom para elegir cómo se verá el banner.",
+      "zoom": "Zoom",
+      "cancel": "Cancelar",
+      "save": "Guardar",
+      "showGrid": "Mostrar cuadrícula",
+      "hideGrid": "Ocultar cuadrícula",
+      "reset": "Restablecer",
+      "cropError": "No se pudo recortar la imagen. Por favor, inténtalo de nuevo."
+    },
     "notFound": {
       "meta": {
         "title": "Página no encontrada | {appName}",

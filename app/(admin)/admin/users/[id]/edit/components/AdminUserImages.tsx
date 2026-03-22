@@ -134,6 +134,9 @@ export default function AdminUserImages({
               file={avatarFile}
               isWide={false}
               maxFileSizeBytes={5 * 1024 * 1024}
+              userImageCrop={{
+                type: "avatar",
+              }}
             />
             <Button
               onClick={() => handleUpload("avatar")}
@@ -155,6 +158,9 @@ export default function AdminUserImages({
               file={bannerFile}
               isWide={true}
               maxFileSizeBytes={5 * 1024 * 1024}
+              userImageCrop={{
+                type: "banner",
+              }}
             />
             <Button
               onClick={() => handleUpload("banner")}
