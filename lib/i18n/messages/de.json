@@ -141,9 +141,9 @@
     },
     "imageCropDialog": {
       "titleAvatar": "Avatar anpassen",
-      "descriptionAvatar": "Ziehe und zoome, um auszuwählen, wie dein Avatar angezeigt wird.",
+      "descriptionAvatar": "Ziehe und zoome, um auszuwählen, wie der Avatar angezeigt wird.",
       "titleBanner": "Banner anpassen",
-      "descriptionBanner": "Ziehe und zoome, um auszuwählen, wie dein Banner angezeigt wird.",
+      "descriptionBanner": "Ziehe und zoome, um auszuwählen, wie das Banner angezeigt wird.",
       "zoom": "Zoom",
       "cancel": "Abbrechen",
       "save": "Speichern",

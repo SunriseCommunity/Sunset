@@ -140,10 +140,10 @@
       "imageTooBig": "選択した画像が大きすぎます！"
     },
     "imageCropDialog": {
-      "titleAvatar": "アバターを調整",
-      "descriptionAvatar": "ドラッグとズームで、アバターの見え方を調整します。",
-      "titleBanner": "バナーを調整",
-      "descriptionBanner": "ドラッグとズームで、バナーの見え方を調整します。",
+      "titleAvatar": "アバターの調整",
+      "descriptionAvatar": "ドラッグとズームで、アバターの表示を調整します。",
+      "titleBanner": "バナーの調整",
+      "descriptionBanner": "ドラッグとズームで、バナーの表示を調整します。",
       "zoom": "ズーム",
       "cancel": "キャンセル",
       "save": "保存",

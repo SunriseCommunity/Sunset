@@ -140,10 +140,10 @@
       "imageTooBig": "¡La imagen seleccionada es demasiado grande!"
     },
     "imageCropDialog": {
-      "titleAvatar": "Ajusta tu avatar",
-      "descriptionAvatar": "Arrastra y haz zoom para elegir cómo se verá tu avatar.",
-      "titleBanner": "Ajusta tu banner",
-      "descriptionBanner": "Arrastra y haz zoom para elegir cómo se verá tu banner.",
+      "titleAvatar": "Ajustar avatar",
+      "descriptionAvatar": "Arrastra y haz zoom para elegir cómo se verá el avatar.",
+      "titleBanner": "Ajustar banner",
+      "descriptionBanner": "Arrastra y haz zoom para elegir cómo se verá el banner.",
       "zoom": "Zoom",
       "cancel": "Cancelar",
       "save": "Guardar",

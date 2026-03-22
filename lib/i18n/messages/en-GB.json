@@ -140,10 +140,10 @@
       "imageTooBig": "sewected image is too big!"
     },
     "imageCropDialog": {
-      "titleAvatar": "adjust youw avatw",
-      "descriptionAvatar": "dwag and zoom to choose how youw avatw wiww appeaw.",
-      "titleBanner": "adjust youw bannew",
-      "descriptionBanner": "dwag and zoom to choose how youw bannew wiww appeaw.",
+      "titleAvatar": "adjust avatw",
+      "descriptionAvatar": "dwag and zoom to choose how the avatw wiww appeaw.",
+      "titleBanner": "adjust bannew",
+      "descriptionBanner": "dwag and zoom to choose how the bannew wiww appeaw.",
       "zoom": "zoom",
       "cancel": "cancew",
       "save": "save",

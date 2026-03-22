@@ -414,19 +414,19 @@
     },
     "imageCropDialog": {
       "titleAvatar": {
-        "text": "Adjust your avatar",
+        "text": "Adjust avatar",
         "context": "Title for the avatar crop dialog"
       },
       "descriptionAvatar": {
-        "text": "Drag and zoom to choose how your avatar will appear.",
+        "text": "Drag and zoom to choose how the avatar will appear.",
         "context": "Description text for the avatar crop dialog"
       },
       "titleBanner": {
-        "text": "Adjust your banner",
+        "text": "Adjust banner",
         "context": "Title for the banner crop dialog"
       },
       "descriptionBanner": {
-        "text": "Drag and zoom to choose how your banner will appear.",
+        "text": "Drag and zoom to choose how the banner will appear.",
         "context": "Description text for the banner crop dialog"
       },
       "zoom": {
