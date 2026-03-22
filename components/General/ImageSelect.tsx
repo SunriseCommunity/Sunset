@@ -1,10 +1,15 @@
+import dynamic from "next/dynamic";
 import { useCallback, useEffect, useId, useState } from "react";
 
-import ImageCropDialog from "@/components/General/ImageCropDialog";
 import Spinner from "@/components/Spinner";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { useToast } from "@/hooks/use-toast";
 import { useT } from "@/lib/i18n/utils";
+
+const ImageCropDialog = dynamic(
+  () => import("@/components/General/ImageCropDialog"),
+  { ssr: false },
+);
 
 type Props = {
   setFile: (file: File | null) => void;

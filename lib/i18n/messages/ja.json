@@ -149,7 +149,8 @@
       "save": "保存",
       "showGrid": "グリッドを表示",
       "hideGrid": "グリッドを非表示",
-      "reset": "リセット"
+      "reset": "リセット",
+      "cropError": "画像の切り抜きに失敗しました。もう一度お試しください。"
     },
     "notFound": {
       "meta": {

@@ -149,7 +149,8 @@
       "save": "Speichern",
       "showGrid": "Raster anzeigen",
       "hideGrid": "Raster ausblenden",
-      "reset": "Zurücksetzen"
+      "reset": "Zurücksetzen",
+      "cropError": "Bild konnte nicht zugeschnitten werden. Bitte versuche es erneut."
     },
     "notFound": {
       "meta": {

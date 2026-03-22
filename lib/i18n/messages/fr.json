@@ -149,7 +149,8 @@
       "save": "Enregistrer",
       "showGrid": "Afficher la grille",
       "hideGrid": "Masquer la grille",
-      "reset": "Réinitialiser"
+      "reset": "Réinitialiser",
+      "cropError": "Impossible de recadrer l'image. Veuillez réessayer."
     },
     "notFound": {
       "meta": {

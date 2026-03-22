@@ -149,7 +149,8 @@
       "save": "Guardar",
       "showGrid": "Mostrar cuadrícula",
       "hideGrid": "Ocultar cuadrícula",
-      "reset": "Restablecer"
+      "reset": "Restablecer",
+      "cropError": "No se pudo recortar la imagen. Por favor, inténtalo de nuevo."
     },
     "notFound": {
       "meta": {

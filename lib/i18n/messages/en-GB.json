@@ -149,7 +149,8 @@
       "save": "save",
       "showGrid": "show gwid",
       "hideGrid": "hide gwid",
-      "reset": "weset"
+      "reset": "weset",
+      "cropError": "Failed to crop image. Please try again."
     },
     "notFound": {
       "meta": {

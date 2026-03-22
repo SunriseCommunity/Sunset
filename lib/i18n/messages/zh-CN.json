@@ -149,7 +149,8 @@
       "save": "保存",
       "showGrid": "显示网格",
       "hideGrid": "隐藏网格",
-      "reset": "重置"
+      "reset": "重置",
+      "cropError": "图片裁剪失败，请重试。"
     },
     "notFound": {
       "meta": {

@@ -15,6 +15,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Slider } from "@/components/ui/slider";
+import { useToast } from "@/hooks/use-toast";
 import { useT } from "@/lib/i18n/utils";
 
 type ImageCropDialogProps = {
@@ -61,6 +62,7 @@ export default function ImageCropDialog({
   onCropped,
 }: ImageCropDialogProps) {
   const t = useT("components.imageCropDialog");
+  const { toast } = useToast();
 
   const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [crop, setCrop] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
@@ -102,11 +104,15 @@ export default function ImageCropDialog({
     }
     catch (error) {
       console.error("Failed to crop image", error);
+      toast({
+        title: t("cropError"),
+        variant: "destructive",
+      });
     }
     finally {
       setIsSaving(false);
     }
-  }, [croppedAreaPixels, file, imageSrc, onCropped, onDialogClose, type]);
+  }, [croppedAreaPixels, file, imageSrc, onCropped, onDialogClose, type, toast, t]);
 
   const handleReset = useCallback(() => {
     setZoom(MIN_ZOOM);
