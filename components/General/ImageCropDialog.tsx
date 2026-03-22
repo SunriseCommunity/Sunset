@@ -14,8 +14,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { Slider } from "@/components/ui/slider";
 import { useT } from "@/lib/i18n/utils";
-import { cn } from "@/lib/utils";
 
 type ImageCropDialogProps = {
   file: File | null;
@@ -149,18 +149,13 @@ export default function ImageCropDialog({
           <div className="space-y-2">
             <div className="flex items-center justify-center gap-2">
               <ImageIcon className="size-4 text-muted-foreground" />
-              <input
-                type="range"
+              <Slider
                 min={MIN_ZOOM}
                 max={MAX_ZOOM}
                 step={0.01}
-                value={zoom}
-                onChange={e => setZoom(Number(e.target.value))}
-                className={cn(
-                  "h-2 w-1/2 cursor-pointer appearance-none rounded-full bg-muted focus:outline-none",
-                  "[&::-webkit-slider-thumb]:size-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-primary [&::-webkit-slider-thumb]:bg-primary [&::-webkit-slider-thumb]:shadow-sm",
-                  "[&::-moz-range-thumb]:size-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-primary [&::-moz-range-thumb]:bg-primary [&::-moz-range-thumb]:shadow-sm",
-                )}
+                value={[zoom]}
+                onValueChange={value => setZoom(value[0])}
+                className="w-1/2"
               />
               <ImageIcon className="size-6 text-muted-foreground" />
             </div>
