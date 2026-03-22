@@ -139,6 +139,18 @@
     "imageSelect": {
       "imageTooBig": "Das ausgewählte Bild ist zu groß!"
     },
+    "imageCropDialog": {
+      "titleAvatar": "Avatar anpassen",
+      "descriptionAvatar": "Ziehe und zoome, um auszuwählen, wie dein Avatar angezeigt wird.",
+      "titleBanner": "Banner anpassen",
+      "descriptionBanner": "Ziehe und zoome, um auszuwählen, wie dein Banner angezeigt wird.",
+      "zoom": "Zoom",
+      "cancel": "Abbrechen",
+      "save": "Speichern",
+      "showGrid": "Raster anzeigen",
+      "hideGrid": "Raster ausblenden",
+      "reset": "Zurücksetzen"
+    },
     "notFound": {
       "meta": {
         "title": "Seite fehlt | {appName}",

@@ -139,6 +139,18 @@
     "imageSelect": {
       "imageTooBig": "sewected image is too big!"
     },
+    "imageCropDialog": {
+      "titleAvatar": "adjust youw avatw",
+      "descriptionAvatar": "dwag and zoom to choose how youw avatw wiww appeaw.",
+      "titleBanner": "adjust youw bannew",
+      "descriptionBanner": "dwag and zoom to choose how youw bannew wiww appeaw.",
+      "zoom": "zoom",
+      "cancel": "cancew",
+      "save": "save",
+      "showGrid": "show gwid",
+      "hideGrid": "hide gwid",
+      "reset": "weset"
+    },
     "notFound": {
       "meta": {
         "title": "not fouwnd | {appName}",

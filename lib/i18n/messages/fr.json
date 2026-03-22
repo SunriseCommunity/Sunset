@@ -139,6 +139,18 @@
     "imageSelect": {
       "imageTooBig": "L'image sélectionnée est trop grande !"
     },
+    "imageCropDialog": {
+      "titleAvatar": "Ajuster votre avatar",
+      "descriptionAvatar": "Faites glisser et zoomez pour choisir l'apparence de votre avatar.",
+      "titleBanner": "Ajuster votre bannière",
+      "descriptionBanner": "Faites glisser et zoomez pour choisir l'apparence de votre bannière.",
+      "zoom": "Zoom",
+      "cancel": "Annuler",
+      "save": "Enregistrer",
+      "showGrid": "Afficher la grille",
+      "hideGrid": "Masquer la grille",
+      "reset": "Réinitialiser"
+    },
     "notFound": {
       "meta": {
         "title": "Page manquante | {appName}",
