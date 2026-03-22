@@ -10,9 +10,7 @@ import {
 } from "recharts";
 
 import { useT } from "@/lib/i18n/utils";
-import type {
-  GetUserByUserIdPlayHistoryGraphResponse,
-} from "@/lib/types/api";
+import type { GetUserByUserIdPlayHistoryGraphResponse } from "@/lib/types/api";
 
 interface Props {
   data: GetUserByUserIdPlayHistoryGraphResponse;
@@ -31,9 +29,24 @@ export default function UserPlayHistoryChart({ data }: Props) {
 
   let { snapshots } = data;
 
-  for (let date = firstDate; date <= lastDate; date.setMonth(date.getMonth() + 1)) {
-    const dateString = date.toLocaleString(locale, { year: "numeric", month: "short" });
-    if (!snapshots.some(s => new Date(s.saved_at).toLocaleString(locale, { year: "numeric", month: "short" }) === dateString)) {
+  for (
+    let date = firstDate;
+    date <= lastDate;
+    date.setMonth(date.getMonth() + 1)
+  ) {
+    const dateString = date.toLocaleString(locale, {
+      year: "numeric",
+      month: "short",
+    });
+    if (
+      !snapshots.some(
+        s =>
+          new Date(s.saved_at).toLocaleString(locale, {
+            year: "numeric",
+            month: "short",
+          }) === dateString,
+      )
+    ) {
       snapshots.push({
         saved_at: date.toISOString(),
         play_count: 0,
@@ -41,11 +54,16 @@ export default function UserPlayHistoryChart({ data }: Props) {
     }
   }
 
-  snapshots = snapshots.sort((b, a) => new Date(b.saved_at).getTime() - new Date(a.saved_at).getTime());
+  snapshots = snapshots.sort(
+    (b, a) => new Date(b.saved_at).getTime() - new Date(a.saved_at).getTime(),
+  );
 
   const chartData = snapshots.map((s) => {
     return {
-      date: new Date(s.saved_at).toLocaleString(locale, { year: "numeric", month: "short" }),
+      date: new Date(s.saved_at).toLocaleString(locale, {
+        year: "numeric",
+        month: "short",
+      }),
       play_count: s.play_count,
     };
   });
@@ -60,7 +78,10 @@ export default function UserPlayHistoryChart({ data }: Props) {
       height="100%"
       className="h-52 max-h-52 min-h-52"
     >
-      <LineChart data={chartData} margin={{ top: 5, right: 20, bottom: 40, left: 0 }}>
+      <LineChart
+        data={chartData}
+        margin={{ top: 5, right: 20, bottom: 40, left: 0 }}
+      >
         <CartesianGrid stroke="#e0e0e0" strokeOpacity={0.3} vertical={false} />
         <XAxis
           dataKey="date"
@@ -76,8 +97,10 @@ export default function UserPlayHistoryChart({ data }: Props) {
             return (Math.round(value / 10) * 10).toString();
           }}
           domain={[
-            (dataMin: number) => Math.floor(Math.max(0, dataMin - leewayForDomain) / 10) * 10,
-            (dataMax: number) => Math.ceil((dataMax + leewayForDomain) / 10) * 10,
+            (dataMin: number) =>
+              Math.floor(Math.max(0, dataMin - leewayForDomain) / 10) * 10,
+            (dataMax: number) =>
+              Math.ceil((dataMax + leewayForDomain) / 10) * 10,
           ]}
           stroke="#666"
           tick={{ fontSize: 12 }}
@@ -85,9 +108,13 @@ export default function UserPlayHistoryChart({ data }: Props) {
 
         <Line
           dataKey="play_count"
-          stroke="#E0C097"
+          stroke="hsl(var(--chart-1))"
           strokeWidth={2}
-          dot={{ fill: "#E0C097", strokeWidth: 1, r: isSingleMonthDataPoint ? 2 : 0 }}
+          dot={{
+            fill: "hsl(var(--chart-1))",
+            strokeWidth: 1,
+            r: isSingleMonthDataPoint ? 2 : 0,
+          }}
           activeDot={{ r: 6 }}
           isAnimationActive={false}
         />

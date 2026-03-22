@@ -558,6 +558,15 @@ export const zEditFriendshipStatusRequest = z.object({
   action: zUpdateFriendshipStatusAction,
 });
 
+export const zEditHidePreviousUsernameRequest = z.object({
+  event_id: z.number().int().gte(1).lte(2147483647),
+  is_hidden: z.boolean(),
+});
+
+export const zEditIgnoreLoginDataRequest = z.object({
+  is_ignored: z.boolean(),
+});
+
 export const zUserPlaystyle = z.enum([
   "None",
   "Mouse",
@@ -815,6 +824,7 @@ export const zMods = z.enum([
   "Key3",
   "Key2",
   "ScoreV2",
+  "Mirror",
 ]);
 
 export const zMostPlayedBeatmapResponse = z.object({

@@ -388,6 +388,15 @@ export type EditFriendshipStatusRequest = {
   action: UpdateFriendshipStatusAction;
 };
 
+export type EditHidePreviousUsernameRequest = {
+  event_id: number;
+  is_hidden: boolean;
+};
+
+export type EditIgnoreLoginDataRequest = {
+  is_ignored: boolean;
+};
+
 export type EditUserMetadataRequest = {
   playstyle?: UserPlaystyle[] | null;
   location?: string | null;
@@ -558,6 +567,7 @@ export enum Mods {
   KEY3 = "Key3",
   KEY2 = "Key2",
   SCORE_V2 = "ScoreV2",
+  MIRROR = "Mirror",
 }
 
 export type MostPlayedBeatmapResponse = {
@@ -1992,6 +2002,66 @@ export type PostUserByIdEditRestrictionErrors = {
 export type PostUserByIdEditRestrictionError = PostUserByIdEditRestrictionErrors[keyof PostUserByIdEditRestrictionErrors];
 
 export type PostUserByIdEditRestrictionResponses = {
+  /**
+     * OK
+     */
+  200: unknown;
+};
+
+export type PostUserByIdEditIgnoreLoginDataData = {
+  body?: EditIgnoreLoginDataRequest;
+  path: {
+    id: number;
+  };
+  query?: never;
+  url: "/user/{id}/edit/ignore-login-data";
+};
+
+export type PostUserByIdEditIgnoreLoginDataErrors = {
+  /**
+     * Bad Request
+     */
+  400: ProblemDetailsResponseType;
+  /**
+     * Unauthorized
+     */
+  401: ProblemDetailsResponseType;
+  /**
+     * Not Found
+     */
+  404: ProblemDetailsResponseType;
+};
+
+export type PostUserByIdEditIgnoreLoginDataError = PostUserByIdEditIgnoreLoginDataErrors[keyof PostUserByIdEditIgnoreLoginDataErrors];
+
+export type PostUserByIdEditIgnoreLoginDataResponses = {
+  /**
+     * OK
+     */
+  200: unknown;
+};
+
+export type PostUserEditHidePreviousUsernameData = {
+  body?: EditHidePreviousUsernameRequest;
+  path?: never;
+  query?: never;
+  url: "/user/edit/hide-previous-username";
+};
+
+export type PostUserEditHidePreviousUsernameErrors = {
+  /**
+     * Bad Request
+     */
+  400: ProblemDetailsResponseType;
+  /**
+     * Unauthorized
+     */
+  401: ProblemDetailsResponseType;
+};
+
+export type PostUserEditHidePreviousUsernameError = PostUserEditHidePreviousUsernameErrors[keyof PostUserEditHidePreviousUsernameErrors];
+
+export type PostUserEditHidePreviousUsernameResponses = {
   /**
      * OK
      */
