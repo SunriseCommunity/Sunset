@@ -8,6 +8,8 @@ const __dirname = path.dirname(__filename);
 
 const domain = process.env.NEXT_PUBLIC_SERVER_DOMAIN || "ppy.sh";
 
+const shouldUnoptimizeImages = process.env.NEXT_PUBLIC_UNOPTIMIZED_IMAGES === "true";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   webpack(config) {
@@ -54,6 +56,7 @@ const nextConfig = {
   },
 
   images: {
+    unoptimized: shouldUnoptimizeImages,
     remotePatterns: [
       {
         protocol: "https",

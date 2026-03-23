@@ -35,6 +35,7 @@ docker compose -f docker-compose.yml up -d # Creates the container with app and 
 > If you are hosting [Sunrise](https://github.com/SunriseCommunity/Sunrise) **locally** (without domain system), add:
 > ```bash
 > NODE_TLS_REJECT_UNAUTHORIZED=0
+> NEXT_PUBLIC_UNOPTIMIZED_IMAGES=true
 > ```
 > to you `.env.local` file. 
 
