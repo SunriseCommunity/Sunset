@@ -40,7 +40,7 @@ export default function UserSocials({ metadata }: UserSocialsProps) {
       return url;
     return `https://${url}`;
   };
-  
+
   const linkElement = (title: string, link: string) => {
     if (link.startsWith("http://") || link.startsWith("https://")) {
       return (
