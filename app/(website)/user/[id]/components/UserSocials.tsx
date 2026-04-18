@@ -33,11 +33,34 @@ export const socialIcons: Partial<
 };
 
 export default function UserSocials({ metadata }: UserSocialsProps) {
-  const linkElement = (title: string, link: string) => (
-    <Link className="font-bold text-primary hover:underline" href={link}>
-      {title}
-    </Link>
-  );
+  const normalizeUrl = (url?: string) => {
+    if (!url)
+      return "#";
+    if (url.startsWith("http://") || url.startsWith("https://"))
+      return url;
+    return `https://${url}`;
+  };
+  
+  const linkElement = (title: string, link: string) => {
+    if (link.startsWith("http://") || link.startsWith("https://")) {
+      return (
+        <a
+          className="font-bold text-primary hover:underline"
+          href={link}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {title}
+        </a>
+      );
+    }
+
+    return (
+      <Link className="font-bold text-primary hover:underline" href={link}>
+        {title}
+      </Link>
+    );
+  };
 
   const htmlTag = (v: keyof UserMetadataResponse, content: string) => {
     switch (v) {
@@ -59,7 +82,7 @@ export default function UserSocials({ metadata }: UserSocialsProps) {
           </CopyElement>
         );
       case "website":
-        return linkElement(content, content);
+        return linkElement(content, normalizeUrl(content));
       default:
         return (
           <span className="font-bold text-muted-foreground">{content}</span>
