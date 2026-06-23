@@ -6,7 +6,7 @@ import { use, useCallback, useEffect, useRef, useState } from "react";
 
 import AdminUserEditEvent from "@/app/(admin)/admin/users/[id]/edit/components/Tabs/AdminUserEditEvents";
 import AdminUserEditGeneral from "@/app/(admin)/admin/users/[id]/edit/components/Tabs/AdminUserEditGeneral";
-import AdminUserEditScores from "@/app/(admin)/admin/users/[id]/edit/components/Tabs/AdminUserEditScores/page";
+import AdminUserEditScores from "@/app/(admin)/admin/users/[id]/edit/components/Tabs/AdminUserEditScores/AdminUserEditScores";
 import PrettyHeader from "@/components/General/PrettyHeader";
 import Spinner from "@/components/Spinner";
 import {
