@@ -6,6 +6,15 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAdminScoreColumns } from "@/app/(admin)/admin/users/[id]/edit/components/Tabs/AdminUserEditScores/components/AdminScoreColumns";
 import { AdminScoreDataTable } from "@/app/(admin)/admin/users/[id]/edit/components/Tabs/AdminUserEditScores/components/AdminScoreDataTable";
 import { ScoreFiltersCard } from "@/components/Admin/ScoreProcessing/ScoreFiltersCard";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -228,7 +237,26 @@ function BulkActionToolbar({
   pageSize: number;
   isBulkLoading: boolean;
 }) {
+  const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
+  const [pendingAction, setPendingAction] = useState<"single" | "all" | null>(null);
+
   const showAllMatchingBtn = selectedCount === pageSize && pageSize > 0 && totalCount > pageSize;
+
+  const handleConfirm = async () => {
+    setConfirmDialogOpen(false);
+    if (pendingAction === "single") {
+      await onApplyBulk();
+    }
+    else if (pendingAction === "all") {
+      await onApplyBulkAllMatching();
+    }
+    setPendingAction(null);
+  };
+
+  const handleOpenDialog = (action: "single" | "all") => {
+    setPendingAction(action);
+    setConfirmDialogOpen(true);
+  };
 
   return (
     <div className="flex flex-col gap-2 rounded-lg border bg-muted/30 p-2 md:flex-row md:items-center">
@@ -249,14 +277,32 @@ function BulkActionToolbar({
           ))}
         </SelectContent>
       </Select>
-      <Button size="sm" onClick={onApplyBulk} disabled={selectedCount === 0 || isBulkLoading} isLoading={isBulkLoading}>
+      <Button size="sm" onClick={() => handleOpenDialog("single")} disabled={selectedCount === 0 || isBulkLoading} isLoading={isBulkLoading}>
         Apply
       </Button>
       {showAllMatchingBtn && (
-        <Button size="sm" variant="secondary" onClick={onApplyBulkAllMatching} isLoading={isBulkLoading}>
+        <Button size="sm" variant="secondary" onClick={() => handleOpenDialog("all")} isLoading={isBulkLoading}>
           {`Apply to all ${totalCount} matching`}
         </Button>
       )}
+      <AlertDialog open={confirmDialogOpen} onOpenChange={setConfirmDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Confirm Bulk Action</AlertDialogTitle>
+            <AlertDialogDescription>
+              {pendingAction === "all"
+                ? `Are you sure you want to apply "${bulkAction}" to all ${totalCount} matching scores?`
+                : `Are you sure you want to apply "${bulkAction}" to ${selectedCount} selected score(s)?`}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <div className="flex justify-end gap-2">
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleConfirm}>
+              Confirm
+            </AlertDialogAction>
+          </div>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
