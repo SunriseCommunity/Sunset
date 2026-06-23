@@ -14,7 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import type { AdminUserScoresParams } from "@/lib/hooks/api/user/useAdminUserScores";
-import { BeatmapStatus, GameMode, Mods, ScoreProcessingStatus, ScoreSortType } from "@/lib/types/api";
+import { BeatmapStatus, GameMode, Mods, ScoreSortType, SubmissionStatus } from "@/lib/types/api";
 
 interface ScoreFiltersCardProps {
   value: AdminUserScoresParams;
@@ -84,7 +84,7 @@ export function ScoreFiltersCard({
             </SelectTrigger>
             <SelectContent>
               <SelectItem value={ANY_VALUE}>Any status</SelectItem>
-              {Object.values(ScoreProcessingStatus).map(option => (
+              {Object.values(SubmissionStatus).map(option => (
                 <SelectItem key={option} value={option}>
                   {option}
                 </SelectItem>
