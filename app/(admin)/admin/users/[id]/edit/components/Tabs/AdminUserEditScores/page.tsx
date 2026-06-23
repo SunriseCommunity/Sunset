@@ -1,7 +1,7 @@
 "use client";
 
 import { Filter } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { useAdminScoreColumns } from "@/app/(admin)/admin/users/[id]/edit/components/Tabs/AdminUserEditScores/components/AdminScoreColumns";
 import { AdminScoreDataTable } from "@/app/(admin)/admin/users/[id]/edit/components/Tabs/AdminUserEditScores/components/AdminScoreDataTable";
@@ -15,7 +15,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { useBulkScoreProcessing } from "@/lib/hooks/api/score-processing/useScoreProcessingActions";
+import {
+  useBulkScoreProcessing,
+  useBulkScoreProcessingByFilter,
+} from "@/lib/hooks/api/score-processing/useScoreProcessingActions";
 import type { AdminUserScoresParams } from "@/lib/hooks/api/user/useAdminUserScores";
 import { useAdminUserScores } from "@/lib/hooks/api/user/useAdminUserScores";
 import type { UserSensitiveResponse } from "@/lib/types/api";
@@ -68,6 +71,7 @@ export default function AdminUserEditScores({ user }: { user: UserSensitiveRespo
   }, [queryParams]);
 
   const { trigger: bulkByIds, isMutating: isBulkByIds } = useBulkScoreProcessing();
+  const { trigger: bulkByFilter, isMutating: isBulkByFilter } = useBulkScoreProcessingByFilter();
 
   const applyBulk = async () => {
     try {
@@ -83,7 +87,7 @@ export default function AdminUserEditScores({ user }: { user: UserSensitiveRespo
       if (selectedIds.length > MAX_BULK_IDS) {
         toast({
           title: "Too many selected",
-          description: `Select up to ${MAX_BULK_IDS} scores.`,
+          description: `Select up to ${MAX_BULK_IDS} scores, or use "Apply to all matching".`,
           variant: "destructive",
         });
         return;
@@ -107,6 +111,38 @@ export default function AdminUserEditScores({ user }: { user: UserSensitiveRespo
     }
   };
 
+  const handleSelectionChange = useCallback((ids: number[]) => {
+    setSelectedIds(ids);
+  }, []);
+
+  const handleApplyFilters = useCallback((next: AdminUserScoresParams) => {
+    setFilters(next);
+    setPagination({ pageIndex: 0, pageSize: PAGE_SIZE });
+  }, []);
+
+  const applyBulkAllMatching = useCallback(async () => {
+    try {
+      await bulkByFilter({
+        action: bulkAction,
+        user_id: userId,
+        ...queryParams,
+      });
+      toast({
+        title: "Bulk queued",
+        description: `Queued ${bulkAction} for all ${totalCount} matching scores (runs in background).`,
+      });
+      setSelectedIds([]);
+      mutate();
+    }
+    catch (error) {
+      toast({
+        title: "Bulk action failed",
+        description: (error as Error).message,
+        variant: "destructive",
+      });
+    }
+  }, [bulkAction, bulkByFilter, mutate, queryParams, toast, totalCount, userId]);
+
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between gap-2">
@@ -125,18 +161,18 @@ export default function AdminUserEditScores({ user }: { user: UserSensitiveRespo
         showFilters={showFilters}
         filters={filters}
         isLoading={isLoading}
-        onApplyFilters={(next) => {
-          setFilters(next);
-          setPagination({ pageIndex: 0, pageSize: PAGE_SIZE });
-        }}
+        onApplyFilters={handleApplyFilters}
       />
 
       <BulkActionToolbar
         bulkAction={bulkAction}
         onBulkActionChange={setBulkAction}
         onApplyBulk={applyBulk}
+        onApplyBulkAllMatching={applyBulkAllMatching}
         selectedCount={selectedIds.length}
-        isBulkLoading={isBulkByIds}
+        totalCount={totalCount}
+        pageSize={scores.length}
+        isBulkLoading={isBulkByIds || isBulkByFilter}
       />
 
       <AdminScoreDataTable
@@ -146,7 +182,7 @@ export default function AdminUserEditScores({ user }: { user: UserSensitiveRespo
         isLoading={isLoading}
         pagination={pagination}
         setPagination={setPagination}
-        onSelectionIdsChange={setSelectedIds}
+        onSelectionIdsChange={handleSelectionChange}
       />
     </div>
   );
@@ -177,22 +213,30 @@ function BulkActionToolbar({
   bulkAction,
   onBulkActionChange,
   onApplyBulk,
+  onApplyBulkAllMatching,
   selectedCount,
+  totalCount,
+  pageSize,
   isBulkLoading,
 }: {
   bulkAction: ScoreTaskType;
   onBulkActionChange: (action: ScoreTaskType) => void;
   onApplyBulk: () => Promise<void>;
+  onApplyBulkAllMatching: () => Promise<void>;
   selectedCount: number;
+  totalCount: number;
+  pageSize: number;
   isBulkLoading: boolean;
 }) {
+  const showAllMatchingBtn = selectedCount === pageSize && pageSize > 0 && totalCount > pageSize;
+
   return (
     <div className="flex flex-col gap-2 rounded-lg border bg-muted/30 p-2 md:flex-row md:items-center">
-      <div className="text-xs text-muted-foreground md:mr-2">
+      <span className="text-xs text-muted-foreground md:mr-2">
         {selectedCount}
         {" "}
         selected
-      </div>
+      </span>
       <Select value={bulkAction} onValueChange={value => onBulkActionChange(value as ScoreTaskType)}>
         <SelectTrigger className="h-8 w-44">
           <SelectValue />
@@ -205,9 +249,14 @@ function BulkActionToolbar({
           ))}
         </SelectContent>
       </Select>
-      <Button size="sm" onClick={onApplyBulk} disabled={selectedCount === 0} isLoading={isBulkLoading}>
+      <Button size="sm" onClick={onApplyBulk} disabled={selectedCount === 0 || isBulkLoading} isLoading={isBulkLoading}>
         Apply
       </Button>
+      {showAllMatchingBtn && (
+        <Button size="sm" variant="secondary" onClick={onApplyBulkAllMatching} isLoading={isBulkLoading}>
+          {`Apply to all ${totalCount} matching`}
+        </Button>
+      )}
     </div>
   );
 }
