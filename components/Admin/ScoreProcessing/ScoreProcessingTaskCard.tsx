@@ -75,7 +75,7 @@ export function ScoreProcessingTaskCard({ task, onChanged }: ScoreProcessingTask
         )}
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
-            <Badge className={`text-${getStatusBadgeColor(task.status)} bg-${getStatusBadgeColor(task.status)}/15`}>{task.status}</Badge>
+            <Badge variant="outline" className={`text-${getStatusBadgeColor(task.status)}`}>{task.status}</Badge>
             <Badge variant="outline">{`ID: ${task.id}`}</Badge>
             <Badge variant="outline">{task.score?.score.game_mode_extended}</Badge>
             <Badge variant="outline">{task.task_type}</Badge>

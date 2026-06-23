@@ -47,7 +47,7 @@ export default function Page() {
     keepPreviousData: true,
   });
 
-  const { data: stats } = useScoreProcessingStats({
+  const { data: stats, mutate: mutateStats } = useScoreProcessingStats({
     refreshInterval: 10_000,
     revalidateOnFocus: false,
     keepPreviousData: true,
@@ -72,7 +72,7 @@ export default function Page() {
         activeFilterCount={activeFilterCount}
         onFilterByScoreIdChange={setSearchByScoreIdQuery}
         onFilterByTaskIdChange={setSearchByTaskIdQuery}
-        onRefresh={mutate}
+        onRefresh={() => { mutate(); mutateStats(); }}
         onToggleFilters={() => setShowFilters(!showFilters)}
         searchByScoreIdQuery={searchByScoreIdQuery}
         searchByTaskIdQuery={searchByTaskIdQuery}
