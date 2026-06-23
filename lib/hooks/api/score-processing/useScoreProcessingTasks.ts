@@ -3,8 +3,10 @@ import useSWRInfinite from "swr/infinite";
 
 import type { GetScoreProcessingData, ScoreProcessingTasksResponse } from "@/lib/types/api";
 
+export interface ScoreProcessingTaskFilters extends Omit<NonNullable<GetScoreProcessingData["query"]>, "page" | "limit"> {}
+
 export function useScoreProcessingTasks(
-  filters: Omit<NonNullable<GetScoreProcessingData["query"]>, "page" | "limit">,
+  filters: ScoreProcessingTaskFilters,
   limit = 20,
   options?: SWRInfiniteConfiguration,
 ) {
