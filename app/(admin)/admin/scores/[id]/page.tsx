@@ -30,7 +30,7 @@ import { useScoreProcessingEvents } from "@/lib/hooks/api/score-processing/useSc
 import { useScoreProcessingPreview } from "@/lib/hooks/api/score-processing/useScoreProcessingPreview";
 import type { AdminScoreResponse, BeatmapResponse } from "@/lib/types/api";
 import { ScoreProcessingStatus, ScoreTaskType } from "@/lib/types/api";
-import { getStatusBadgeClassNameColors } from "@/lib/utils/getStatusBadgeClassNameColors";
+import { getStatusBadgeColor } from "@/lib/utils/getStatusBadgeColor";
 import numberWith from "@/lib/utils/numberWith";
 import { tryParseNumber } from "@/lib/utils/type.util";
 
@@ -199,7 +199,7 @@ function ScoreProcessingHistory({ scoreId, preview, historyData, refresh }: { sc
       {activeTask && (
         <div className="flex flex-wrap items-center gap-2 rounded-md border p-3">
           <span className="text-sm font-medium">Active task:</span>
-          <Badge className={getStatusBadgeClassNameColors(activeTask.status)}>{activeTask.status}</Badge>
+          <Badge className={`text-${getStatusBadgeColor(activeTask.status)} bg-${getStatusBadgeColor(activeTask.status)}/15`}>{activeTask.status}</Badge>
           <Badge variant="outline">{activeTask.task_type}</Badge>
           <Button
             variant="destructive"
