@@ -127,7 +127,7 @@ export type BulkScoreProcessingByFilterRequest = {
   action: ScoreTaskType;
   user_id: number;
   mode?: GameMode;
-  mods?: number | null;
+  mods?: Mods[] | null;
   submission_status?: SubmissionStatus;
   beatmap_status?: BeatmapStatus;
   submitted_from?: string | null;
@@ -2705,7 +2705,7 @@ export type GetUserByIdScoresAdminData = {
   };
   query?: {
     mode?: GameMode;
-    mods?: number;
+    mods?: Mods[];
     submission_status?: SubmissionStatus;
     beatmap_status?: BeatmapStatus;
     submitted_from?: string;

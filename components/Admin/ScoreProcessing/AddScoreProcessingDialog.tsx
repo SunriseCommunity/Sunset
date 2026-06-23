@@ -3,7 +3,6 @@
 import { Plus } from "lucide-react";
 import { useState } from "react";
 
-import { statusBadgeClass } from "@/components/Admin/ScoreProcessing/scoreProcessingOptions";
 import Spinner from "@/components/Spinner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -29,6 +28,7 @@ import { useCreateScoreProcessingTask } from "@/lib/hooks/api/score-processing/u
 import { useScoreProcessingPreview } from "@/lib/hooks/api/score-processing/useScoreProcessingPreview";
 import useDebounce from "@/lib/hooks/useDebounce";
 import { ScoreTaskType } from "@/lib/types/api";
+import { getStatusBadgeClassNameColors } from "@/lib/utils/getStatusBadgeClassNameColors";
 import { tryParseNumber } from "@/lib/utils/type.util";
 
 interface AddScoreProcessingDialogProps {
@@ -121,7 +121,7 @@ export function AddScoreProcessingDialog({ onCreated }: AddScoreProcessingDialog
                             {preview.score.beatmap_status}
                           </p>
                           {preview.active_task && (
-                            <Badge className={statusBadgeClass(preview.active_task.status)}>
+                            <Badge className={getStatusBadgeClassNameColors(preview.active_task.status)}>
                               Active:
                               {" "}
                               {preview.active_task.task_type}

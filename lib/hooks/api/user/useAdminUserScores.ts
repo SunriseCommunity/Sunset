@@ -4,20 +4,20 @@ import useSWR from "swr";
 import fetcher from "@/lib/services/fetcher";
 import type { AdminScoresResponse, GetUserByIdScoresAdminData } from "@/lib/types/api";
 
+export interface AdminUserScoresParams extends Omit<NonNullable<GetUserByIdScoresAdminData["query"]>, "page" | "limit"> {}
+
 export function useAdminUserScores(
   userId: number,
-  params: NonNullable<GetUserByIdScoresAdminData["query"]>,
+  params: AdminUserScoresParams,
+  page?: number,
+  limit?: number,
   options?: SWRConfiguration,
 ) {
   const queryParams = new URLSearchParams({
-    page: params.page?.toString() ?? "1",
-    limit: params.limit?.toString() ?? "20",
+    page: page?.toString() ?? "1",
+    limit: limit?.toString() ?? "20",
   });
 
-  if (params.page)
-    queryParams.append("page", params.page.toString());
-  if (params.limit)
-    queryParams.append("limit", params.limit.toString());
   if (params.mode)
     queryParams.append("mode", params.mode);
   if (params.mods)
