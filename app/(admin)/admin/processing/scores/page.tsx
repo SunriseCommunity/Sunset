@@ -315,8 +315,9 @@ function ScoreProcessingTaskList({
   return (
     <>
       <div className="space-y-2">
-        {tasks.map(task => (
-          <ScoreProcessingTaskCard key={task.id} task={task} onChanged={onTaskChanged} />
+        {tasks.map((task, idx) => (
+          // eslint-disable-next-line @eslint-react/no-array-index-key -- For pagination.
+          <ScoreProcessingTaskCard key={`${task.id}-${idx}`} task={task} onChanged={onTaskChanged} />
         ))}
       </div>
 
