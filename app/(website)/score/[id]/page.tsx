@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
@@ -27,7 +28,7 @@ import { useScore } from "@/lib/hooks/api/score/useScore";
 import { useUser } from "@/lib/hooks/api/user/useUser";
 import useSelf from "@/lib/hooks/useSelf";
 import { useT } from "@/lib/i18n/utils";
-import { BeatmapStatusWeb } from "@/lib/types/api";
+import { BeatmapStatusWeb, UserBadge } from "@/lib/types/api";
 import { getBeatmapStarRating } from "@/lib/utils/getBeatmapStarRating";
 import { getGradeColor } from "@/lib/utils/getGradeColor";
 import { tryParseNumber } from "@/lib/utils/type.util";
@@ -192,7 +193,8 @@ export default function Score(props: { params: Promise<{ id: string }> }) {
                       </Button>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button variant="secondary" disabled={!self || true}>
+                          {/* TODO: Remove admin check after implementing reporting/pin */}
+                          <Button variant="secondary" disabled={!self || !self.badges?.includes(UserBadge.ADMIN)}>
                             <span className="sr-only">
                               {t("actions.openMenu")}
                             </span>
@@ -200,6 +202,9 @@ export default function Score(props: { params: Promise<{ id: string }> }) {
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
+                          <DropdownMenuItem onClick={() => window.open(`/admin/scores/${score.id}`, "_blank")}>
+                            {t("actions.openInAdminPanel")}
+                          </DropdownMenuItem>
                           {/*
                       TODO: Implement
                       <DropdownMenuItem onClick={() => console.log("todo")}>

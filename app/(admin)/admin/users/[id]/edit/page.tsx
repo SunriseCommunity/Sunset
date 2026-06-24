@@ -1,11 +1,12 @@
 "use client";
 
-import { Activity, FileText, User } from "lucide-react";
+import { FileText, Trophy, User } from "lucide-react";
 import { usePathname, useSearchParams } from "next/navigation";
-import { use, useCallback, useEffect, useRef, useState } from "react";
+import { use, useCallback, useEffect, useState } from "react";
 
 import AdminUserEditEvent from "@/app/(admin)/admin/users/[id]/edit/components/Tabs/AdminUserEditEvents";
 import AdminUserEditGeneral from "@/app/(admin)/admin/users/[id]/edit/components/Tabs/AdminUserEditGeneral";
+import AdminUserEditScores from "@/app/(admin)/admin/users/[id]/edit/components/Tabs/AdminUserEditScores/AdminUserEditScores";
 import PrettyHeader from "@/components/General/PrettyHeader";
 import Spinner from "@/components/Spinner";
 import {
@@ -18,9 +19,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { WorkInProgress } from "@/components/WorkInProgress";
 import { useAdminUserSensitive } from "@/lib/hooks/api/user/useAdminUserEdit";
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
@@ -29,13 +28,12 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const tab = searchParams.get("tab") ?? "general";
-  const [activeTab, setActiveTab] = useState(tab);
+  const requestedTab = searchParams.get("tab") ?? "general";
+  const [activeTab, setActiveTab] = useState(requestedTab === "events" ? "general" : requestedTab);
   const [hasAcceptedEventsWarning, setHasAcceptedEventsWarning]
     = useState(false);
-  const [showEventsWarning, setShowEventsWarning] = useState(false);
-  const [pendingTab, setPendingTab] = useState<string | null>(null);
-  const hasCheckedInitialTab = useRef(false);
+  const [showEventsWarning, setShowEventsWarning] = useState(requestedTab === "events");
+  const [pendingTab, setPendingTab] = useState<string | null>(requestedTab === "events" ? "events" : null);
 
   const { data: user, isLoading } = useAdminUserSensitive(userId);
 
@@ -60,21 +58,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       `${pathname}?${createQueryString("tab", activeTab)}`,
     );
   }, [activeTab, pathname, createQueryString]);
-
-  useEffect(() => {
-    if (
-      !hasCheckedInitialTab.current
-      && tab === "events"
-      && !hasAcceptedEventsWarning
-      && !isLoading
-      && user
-    ) {
-      hasCheckedInitialTab.current = true;
-      setActiveTab("general");
-      setPendingTab("events");
-      setShowEventsWarning(true);
-    }
-  }, [tab, hasAcceptedEventsWarning, isLoading, user]);
 
   const handleTabChange = (value: string) => {
     if (value === "events" && !hasAcceptedEventsWarning) {
@@ -148,14 +131,14 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         onValueChange={handleTabChange}
         className="w-full"
       >
-        <TabsList className="grid w-full grid-cols-3 bg-card ">
+        <TabsList className="grid w-full grid-cols-3 bg-card">
           <TabsTrigger value="general">
             <User className="mr-2 size-4" />
             General
           </TabsTrigger>
-          <TabsTrigger value="activity">
-            <Activity className="mr-2 size-4" />
-            Activity
+          <TabsTrigger value="scores">
+            <Trophy className="mr-2 size-4" />
+            Scores
           </TabsTrigger>
           <TabsTrigger value="events">
             <FileText className="mr-2 size-4" />
@@ -167,12 +150,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           <AdminUserEditGeneral user={user} />
         </TabsContent>
 
-        <TabsContent value="activity" className="mt-4">
-          <Card className="p-8">
-            <CardContent className="text-center text-muted-foreground">
-              <WorkInProgress />
-            </CardContent>
-          </Card>
+        <TabsContent value="scores" className="mt-4">
+          <AdminUserEditScores user={user} />
         </TabsContent>
 
         <TabsContent value="events" className="mt-4">

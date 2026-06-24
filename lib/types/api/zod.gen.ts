@@ -2,6 +2,21 @@
 
 import { z } from "zod";
 
+export const zGameMode = z.enum([
+  "Standard",
+  "Taiko",
+  "CatchTheBeat",
+  "Mania",
+  "RelaxStandard",
+  "RelaxTaiko",
+  "RelaxCatchTheBeat",
+  "AutopilotStandard",
+  "ScoreV2Standard",
+  "ScoreV2Taiko",
+  "ScoreV2CatchTheBeat",
+  "ScoreV2Mania",
+]);
+
 export const zCountryCode = z.enum([
   "XX",
   "AD",
@@ -222,21 +237,6 @@ export const zCountryCode = z.enum([
   "MF",
 ]);
 
-export const zGameMode = z.enum([
-  "Standard",
-  "Taiko",
-  "CatchTheBeat",
-  "Mania",
-  "RelaxStandard",
-  "RelaxTaiko",
-  "RelaxCatchTheBeat",
-  "AutopilotStandard",
-  "ScoreV2Standard",
-  "ScoreV2Taiko",
-  "ScoreV2CatchTheBeat",
-  "ScoreV2Mania",
-]);
-
 export const zUserBadge = z.enum([
   "Developer",
   "Admin",
@@ -265,6 +265,77 @@ export const zUserResponse = z.object({
   default_gamemode: zGameMode,
   badges: z.array(zUserBadge),
   user_status: z.string(),
+});
+
+export const zScoreResponse = z.object({
+  accuracy: z.number(),
+  beatmap_id: z.number().int(),
+  count_100: z.number().int(),
+  count_300: z.number().int(),
+  count_50: z.number().int(),
+  count_geki: z.number().int(),
+  count_katu: z.number().int(),
+  count_miss: z.number().int(),
+  game_mode: zGameMode,
+  game_mode_extended: zGameMode,
+  grade: z.string(),
+  id: z.number().int(),
+  is_passed: z.boolean(),
+  has_replay: z.boolean(),
+  leaderboard_rank: z.union([
+    z.number().int(),
+    z.null(),
+  ]).optional(),
+  max_combo: z.number().int(),
+  mods: z.union([
+    z.string(),
+    z.null(),
+  ]).optional(),
+  mods_int: z.union([
+    z.number().int(),
+    z.null(),
+  ]).optional(),
+  is_perfect: z.boolean(),
+  performance_points: z.number(),
+  total_score: z.coerce.bigint(),
+  user_id: z.number().int(),
+  when_played: z.string().datetime(),
+  user: zUserResponse,
+});
+
+export const zSubmissionStatus = z.enum([
+  "Failed",
+  "Submitted",
+  "Best",
+  "Deleted",
+  "Unknown",
+]);
+
+export const zBeatmapStatus = z.enum([
+  "Pending",
+  "NeedsUpdate",
+  "Ranked",
+  "Approved",
+  "Qualified",
+  "Loved",
+  "Unknown",
+  "NotSubmitted",
+]);
+
+export const zAdminScoreResponse = z.object({
+  score: zScoreResponse,
+  submission_status: zSubmissionStatus,
+  beatmap_status: zBeatmapStatus,
+  is_scoreable: z.boolean(),
+  score_hash: z.union([
+    z.string(),
+    z.null(),
+  ]).optional(),
+});
+
+export const zAdminScoresResponse = z.object({
+  scores: z.array(zAdminScoreResponse),
+  total_count: z.number().int(),
 });
 
 export const zBeatmapEventType = z.enum([
@@ -396,6 +467,78 @@ export const zBeatmapSetsResponse = z.object({
   ]).optional(),
 });
 
+export const zScoreTaskType = z.enum([
+  "Submission",
+  "Recalculation",
+  "Restore",
+  "Delete",
+]);
+
+export const zMods = z.enum([
+  "None",
+  "NoFail",
+  "Easy",
+  "TouchDevice",
+  "Hidden",
+  "HardRock",
+  "SuddenDeath",
+  "DoubleTime",
+  "Relax",
+  "HalfTime",
+  "Nightcore",
+  "Flashlight",
+  "Autoplay",
+  "SpunOut",
+  "Relax2",
+  "Perfect",
+  "Key4",
+  "Key5",
+  "Key6",
+  "Key7",
+  "Key8",
+  "FadeIn",
+  "Random",
+  "Cinema",
+  "Target",
+  "Key9",
+  "KeyCoop",
+  "Key1",
+  "Key3",
+  "Key2",
+  "ScoreV2",
+  "Mirror",
+]);
+
+export const zBulkScoreProcessingByFilterRequest = z.object({
+  action: zScoreTaskType,
+  user_id: z.number().int().gte(1).lte(2147483647),
+  mode: zGameMode.optional(),
+  mods: z.union([
+    z.array(zMods),
+    z.null(),
+  ]).optional(),
+  submission_status: zSubmissionStatus.optional(),
+  beatmap_status: zBeatmapStatus.optional(),
+  submitted_from: z.union([
+    z.string().datetime(),
+    z.null(),
+  ]).optional(),
+  submitted_to: z.union([
+    z.string().datetime(),
+    z.null(),
+  ]).optional(),
+});
+
+export const zBulkScoreProcessingRequest = z.object({
+  score_ids: z.array(z.number().int()).min(1),
+  action: zScoreTaskType,
+});
+
+export const zBulkScoreProcessingResultResponse = z.object({
+  queued: z.number().int(),
+  skipped: z.number().int(),
+});
+
 export const zUserMedalResponse = z.object({
   id: z.number().int().readonly(),
   name: z.string().readonly(),
@@ -417,6 +560,11 @@ export const zChangePasswordRequest = z.object({
 
 export const zCountryChangeRequest = z.object({
   new_country: zCountryCode,
+});
+
+export const zCreateScoreProcessingTaskRequest = z.object({
+  score_id: z.number().int().gte(1).lte(2147483647),
+  action: zScoreTaskType,
 });
 
 export const zCustomBeatmapStatusChangeResponse = z.object({
@@ -636,6 +784,40 @@ export const zEditUserRestrictionRequest = z.object({
   ]).optional(),
 });
 
+export const zScoreProcessingEventType = z.enum([
+  "RecalculationRequested",
+  "RestoreRequested",
+  "DeleteRequested",
+  "SubmissionEnqueued",
+  "Cancelled",
+  "Requeued",
+  "BulkRequested",
+]);
+
+export const zEventScoreProcessingResponse = z.object({
+  id: z.number().int(),
+  event_type: zScoreProcessingEventType,
+  executor: zUserResponse.optional(),
+  score_id: z.union([
+    z.number().int(),
+    z.null(),
+  ]).optional(),
+  task_id: z.union([
+    z.number().int(),
+    z.null(),
+  ]).optional(),
+  json_data: z.union([
+    z.string(),
+    z.null(),
+  ]).optional(),
+  created_at: z.string().datetime(),
+});
+
+export const zEventScoreProcessingListResponse = z.object({
+  events: z.array(zEventScoreProcessingResponse),
+  total_count: z.number().int(),
+});
+
 export const zUserEventType = z.enum([
   "GameLogin",
   "WebLogin",
@@ -791,41 +973,6 @@ export const zMedalsResponse = z.object({
   mod_introduction: zCategory,
   skill: zCategory,
 });
-
-export const zMods = z.enum([
-  "None",
-  "NoFail",
-  "Easy",
-  "TouchDevice",
-  "Hidden",
-  "HardRock",
-  "SuddenDeath",
-  "DoubleTime",
-  "Relax",
-  "HalfTime",
-  "Nightcore",
-  "Flashlight",
-  "Autoplay",
-  "SpunOut",
-  "Relax2",
-  "Perfect",
-  "Key4",
-  "Key5",
-  "Key6",
-  "Key7",
-  "Key8",
-  "FadeIn",
-  "Random",
-  "Cinema",
-  "Target",
-  "Key9",
-  "KeyCoop",
-  "Key1",
-  "Key3",
-  "Key2",
-  "ScoreV2",
-  "Mirror",
-]);
 
 export const zMostPlayedBeatmapResponse = z.object({
   id: z.number().int(),
@@ -1028,41 +1175,77 @@ export const zResetPasswordRequest = z.object({
   new_password: z.string().min(1),
 });
 
-export const zScoreResponse = z.object({
-  accuracy: z.number(),
-  beatmap_id: z.number().int(),
-  count_100: z.number().int(),
-  count_300: z.number().int(),
-  count_50: z.number().int(),
-  count_geki: z.number().int(),
-  count_katu: z.number().int(),
-  count_miss: z.number().int(),
-  game_mode: zGameMode,
-  game_mode_extended: zGameMode,
-  grade: z.string(),
+export const zScoreProcessingErrorCode = z.enum([
+  "Unexpected",
+  "BeatmapNotFound",
+  "DuplicateScore",
+  "PpCalculationFailed",
+  "ReplayMissing",
+  "InvalidMods",
+  "BannablePpThreshold",
+  "InvalidChecksums",
+  "UserNotFound",
+  "UserStatsNotFound",
+  "UserGradesNotFound",
+  "TransactionFailed",
+  "ParsedScoreInvalid",
+  "CancelledByOperator",
+  "InvalidScoreState",
+]);
+
+export const zScoreProcessingStatus = z.enum([
+  "Pending",
+  "Processing",
+  "Failed",
+]);
+
+export const zScoreProcessingTaskResponse = z.object({
   id: z.number().int(),
-  is_passed: z.boolean(),
-  has_replay: z.boolean(),
-  leaderboard_rank: z.union([
-    z.number().int(),
-    z.null(),
-  ]).optional(),
-  max_combo: z.number().int(),
-  mods: z.union([
+  task_type: zScoreTaskType,
+  status: zScoreProcessingStatus,
+  priority: z.number().int(),
+  retry_count: z.number().int(),
+  error_code: zScoreProcessingErrorCode.optional(),
+  error_message: z.union([
     z.string(),
     z.null(),
   ]).optional(),
-  mods_int: z.union([
+  next_retry_at: z.union([
+    z.string().datetime(),
+    z.null(),
+  ]).optional(),
+  created_at: z.string().datetime(),
+  score_id: z.union([
     z.number().int(),
     z.null(),
   ]).optional(),
-  is_perfect: z.boolean(),
-  performance_points: z.number(),
-  total_score: z.coerce.bigint(),
-  user_id: z.number().int(),
-  when_played: z.string().datetime(),
-  user: zUserResponse,
+  score: zAdminScoreResponse.optional(),
 });
+
+export const zScoreProcessingPreviewResponse = z.object({
+  score: zAdminScoreResponse,
+  active_task: zScoreProcessingTaskResponse.optional(),
+});
+
+export const zScoreProcessingStatsResponse = z.object({
+  pending: z.coerce.bigint(),
+  processing: z.coerce.bigint(),
+  failed: z.coerce.bigint(),
+  estimated_pending_completion_seconds: z.union([
+    z.number(),
+    z.null(),
+  ]).optional(),
+});
+
+export const zScoreProcessingTasksResponse = z.object({
+  tasks: z.array(zScoreProcessingTaskResponse),
+  total_count: z.number().int(),
+});
+
+export const zScoreSortType = z.enum([
+  "Date",
+  "Performance",
+]);
 
 export const zScoreTableType = z.enum([
   "Best",
@@ -1245,6 +1428,23 @@ export const zGetScoreByIdReplayResponse = z.string();
 
 export const zGetScoreTopResponse = zScoresResponse;
 
+export const zGetScoreProcessingResponse = zScoreProcessingTasksResponse;
+
+export const zPostScoreProcessingResponse = z.union([
+  z.unknown(),
+  zScoreProcessingTaskResponse,
+]);
+
+export const zGetScoreProcessingStatsResponse = zScoreProcessingStatsResponse;
+
+export const zGetScoreProcessingByIdResponse = zScoreProcessingTaskResponse;
+
+export const zGetScoreProcessingScoreByScoreIdResponse = zScoreProcessingPreviewResponse;
+
+export const zPostScoreProcessingBulkResponse = zBulkScoreProcessingResultResponse;
+
+export const zGetScoreProcessingEventsResponse = zEventScoreProcessingListResponse;
+
 export const zGetUserByIdResponse = zUserResponse;
 
 export const zGetUserByIdSensitiveResponse = zUserSensitiveResponse;
@@ -1260,6 +1460,8 @@ export const zGetUserByUserIdGraphResponse = zStatsSnapshotsResponse;
 export const zGetUserByUserIdPlayHistoryGraphResponse = zPlayHistorySnapshotsResponse;
 
 export const zGetUserByIdScoresResponse = zScoresResponse;
+
+export const zGetUserByIdScoresAdminResponse = zAdminScoresResponse;
 
 export const zGetUserByIdMostplayedResponse = zMostPlayedResponse;
 
