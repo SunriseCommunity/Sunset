@@ -28,7 +28,7 @@ import { useCreateScoreProcessingTask } from "@/lib/hooks/api/score-processing/u
 import { useScoreProcessingPreview } from "@/lib/hooks/api/score-processing/useScoreProcessingPreview";
 import useDebounce from "@/lib/hooks/useDebounce";
 import { ScoreTaskType } from "@/lib/types/api";
-import { getStatusBadgeColor } from "@/lib/utils/getStatusBadgeColor";
+import { getStatusBadgeClassName } from "@/lib/utils/getStatusBadgeColor";
 import { tryParseNumber } from "@/lib/utils/type.util";
 
 interface AddScoreProcessingDialogProps {
@@ -42,21 +42,32 @@ export function AddScoreProcessingDialog({ onCreated }: AddScoreProcessingDialog
   const [action, setAction] = useState<ScoreTaskType>(ScoreTaskType.RECALCULATION);
 
   const debouncedScoreId = useDebounce(scoreIdInput, 400);
-  const parsedScoreId = tryParseNumber(debouncedScoreId) ?? null;
+  const currentScoreId = parsePositiveScoreId(scoreIdInput);
+  const parsedScoreId = parsePositiveScoreId(debouncedScoreId);
 
   const { data: preview, isLoading, error } = useScoreProcessingPreview(parsedScoreId);
   const { trigger: createTask, isMutating } = useCreateScoreProcessingTask();
+  const hasLoadedPreview = currentScoreId != null && preview?.score.score.id === currentScoreId;
+  const canSubmit = hasLoadedPreview && !isLoading && !error;
 
   const handleSubmit = async () => {
-    const scoreId = tryParseNumber(scoreIdInput);
-    if (!scoreId) {
+    if (currentScoreId == null) {
       toast({ title: "Invalid score id", description: "Enter a valid score id.", variant: "destructive" });
       return;
     }
 
+    if (!canSubmit) {
+      toast({
+        title: "Preview required",
+        description: "Load a valid score preview before queueing a task.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     try {
-      await createTask({ score_id: scoreId, action });
-      toast({ title: "Task queued", description: `Queued ${action} for score #${scoreId}.` });
+      await createTask({ score_id: currentScoreId, action });
+      toast({ title: "Task queued", description: `Queued ${action} for score #${currentScoreId}.` });
       onCreated();
       setOpen(false);
       setScoreIdInput("");
@@ -121,7 +132,7 @@ export function AddScoreProcessingDialog({ onCreated }: AddScoreProcessingDialog
                             {preview.score.beatmap_status}
                           </p>
                           {preview.active_task && (
-                            <Badge className={`text-${getStatusBadgeColor(preview.active_task.status)} bg-${getStatusBadgeColor(preview.active_task.status)}/15`}>
+                            <Badge className={getStatusBadgeClassName(preview.active_task.status)}>
                               Active:
                               {" "}
                               {preview.active_task.task_type}
@@ -155,11 +166,20 @@ export function AddScoreProcessingDialog({ onCreated }: AddScoreProcessingDialog
         </div>
 
         <DialogFooter>
-          <Button onClick={handleSubmit} isLoading={isMutating}>
+          <Button
+            onClick={handleSubmit}
+            isLoading={isMutating}
+            disabled={!canSubmit || isMutating}
+          >
             Queue action
           </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
   );
+}
+
+function parsePositiveScoreId(value: string) {
+  const parsed = tryParseNumber(value);
+  return parsed != null && parsed > 0 ? parsed : null;
 }

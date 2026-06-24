@@ -2,7 +2,7 @@
 
 import { FileText, Trophy, User } from "lucide-react";
 import { usePathname, useSearchParams } from "next/navigation";
-import { use, useCallback, useEffect, useRef, useState } from "react";
+import { use, useCallback, useEffect, useState } from "react";
 
 import AdminUserEditEvent from "@/app/(admin)/admin/users/[id]/edit/components/Tabs/AdminUserEditEvents";
 import AdminUserEditGeneral from "@/app/(admin)/admin/users/[id]/edit/components/Tabs/AdminUserEditGeneral";
@@ -28,13 +28,12 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const tab = searchParams.get("tab") ?? "general";
-  const [activeTab, setActiveTab] = useState(tab);
+  const requestedTab = searchParams.get("tab") ?? "general";
+  const [activeTab, setActiveTab] = useState(requestedTab === "events" ? "general" : requestedTab);
   const [hasAcceptedEventsWarning, setHasAcceptedEventsWarning]
     = useState(false);
-  const [showEventsWarning, setShowEventsWarning] = useState(false);
-  const [pendingTab, setPendingTab] = useState<string | null>(null);
-  const hasCheckedInitialTabRef = useRef(false);
+  const [showEventsWarning, setShowEventsWarning] = useState(requestedTab === "events");
+  const [pendingTab, setPendingTab] = useState<string | null>(requestedTab === "events" ? "events" : null);
 
   const { data: user, isLoading } = useAdminUserSensitive(userId);
 
@@ -59,21 +58,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       `${pathname}?${createQueryString("tab", activeTab)}`,
     );
   }, [activeTab, pathname, createQueryString]);
-
-  useEffect(() => {
-    if (
-      !hasCheckedInitialTabRef.current
-      && tab === "events"
-      && !hasAcceptedEventsWarning
-      && !isLoading
-      && user
-    ) {
-      hasCheckedInitialTabRef.current = true;
-      setActiveTab("general");
-      setPendingTab("events");
-      setShowEventsWarning(true);
-    }
-  }, [tab, hasAcceptedEventsWarning, isLoading, user]);
 
   const handleTabChange = (value: string) => {
     if (value === "events" && !hasAcceptedEventsWarning) {

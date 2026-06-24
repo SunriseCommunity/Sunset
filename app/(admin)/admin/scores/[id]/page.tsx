@@ -30,17 +30,17 @@ import { useScoreProcessingEvents } from "@/lib/hooks/api/score-processing/useSc
 import { useScoreProcessingPreview } from "@/lib/hooks/api/score-processing/useScoreProcessingPreview";
 import type { AdminScoreResponse, BeatmapResponse } from "@/lib/types/api";
 import { ScoreProcessingStatus, ScoreTaskType } from "@/lib/types/api";
-import { getStatusBadgeColor } from "@/lib/utils/getStatusBadgeColor";
+import { getStatusBadgeClassName } from "@/lib/utils/getStatusBadgeColor";
 import numberWith from "@/lib/utils/numberWith";
 import { tryParseNumber } from "@/lib/utils/type.util";
 
 export default function Page(props: { params: Promise<{ id: string }> }) {
   const params = use(props.params);
-  const scoreId = tryParseNumber(params.id) ?? 0;
+  const scoreId = tryParseNumber(params.id);
 
-  const { data: preview, isLoading, mutate } = useScoreProcessingPreview(scoreId);
+  const { data: preview, error: previewError, isLoading, mutate } = useScoreProcessingPreview(scoreId ?? null);
   const { data: historyData, mutate: mutateHistory } = useScoreProcessingEvents(
-    { scoreId, limit: 20 },
+    { scoreId: scoreId ?? null, limit: 20 },
     { refreshInterval: 0, revalidateOnFocus: false },
   );
 
@@ -53,11 +53,38 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
     mutateHistory();
   };
 
-  if (isLoading || !preview || !score) {
+  if (scoreId == null || scoreId <= 0) {
+    return (
+      <ScoreDetailError
+        title="Invalid score ID"
+        description={`"${params.id}" is not a valid score ID.`}
+      />
+    );
+  }
+
+  if (isLoading) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
         <Spinner size="xl" />
       </div>
+    );
+  }
+
+  if (previewError) {
+    return (
+      <ScoreDetailError
+        title="Could not load score"
+        description={previewError.message ?? "The score preview request failed."}
+      />
+    );
+  }
+
+  if (!preview || !score) {
+    return (
+      <ScoreDetailError
+        title="Score not found"
+        description="The score you are looking for does not exist or has been deleted."
+      />
     );
   }
 
@@ -95,6 +122,20 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
           </div>
         </CardTitle>
         <ScoreProcessingHistory scoreId={scoreId} preview={preview} historyData={historyData} refresh={refresh} />
+      </Card>
+    </div>
+  );
+}
+
+function ScoreDetailError({ title, description }: { title: string; description: string }) {
+  return (
+    <div className="flex w-full flex-col space-y-4">
+      <PrettyHeader text="Score details" roundBottom icon={<LucideHistory />} />
+      <Card className="p-8">
+        <div className="flex flex-col space-y-2">
+          <h1 className="text-2xl font-semibold">{title}</h1>
+          <p className="text-muted-foreground">{description}</p>
+        </div>
       </Card>
     </div>
   );
@@ -199,7 +240,7 @@ function ScoreProcessingHistory({ scoreId, preview, historyData, refresh }: { sc
       {activeTask && (
         <div className="flex flex-wrap items-center gap-2 rounded-md border p-3">
           <span className="text-sm font-medium">Active task:</span>
-          <Badge className={`text-${getStatusBadgeColor(activeTask.status)} bg-${getStatusBadgeColor(activeTask.status)}/15`}>{activeTask.status}</Badge>
+          <Badge className={getStatusBadgeClassName(activeTask.status)}>{activeTask.status}</Badge>
           <Badge variant="outline">{activeTask.task_type}</Badge>
           <Button
             variant="destructive"

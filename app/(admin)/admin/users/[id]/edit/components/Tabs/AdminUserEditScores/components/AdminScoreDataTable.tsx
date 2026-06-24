@@ -54,6 +54,7 @@ interface AdminScoreDataTableProps {
   };
   setPagination: OnChangeFn<PaginationState>;
   onSelectionIdsChange: (ids: number[]) => void;
+  selectionResetKey: number;
 }
 
 export function AdminScoreDataTable({
@@ -64,6 +65,7 @@ export function AdminScoreDataTable({
   pagination,
   setPagination,
   onSelectionIdsChange,
+  selectionResetKey,
 }: AdminScoreDataTableProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -99,7 +101,7 @@ export function AdminScoreDataTable({
 
   useEffect(() => {
     setRowSelection({});
-  }, [data]);
+  }, [data, selectionResetKey]);
 
   const selectedRows = table.getFilteredSelectedRowModel().rows;
 

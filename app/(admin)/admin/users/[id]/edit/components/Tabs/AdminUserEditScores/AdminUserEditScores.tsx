@@ -15,7 +15,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
@@ -45,6 +45,7 @@ export default function AdminUserEditScores({ user }: { user: UserSensitiveRespo
   const [showFilters, setShowFilters] = useState(false);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: PAGE_SIZE });
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
+  const [selectionResetKey, setSelectionResetKey] = useState(0);
   const [bulkAction, setBulkAction] = useState<ScoreTaskType>(ScoreTaskType.RECALCULATION);
 
   const queryParams = useMemo(
@@ -74,10 +75,15 @@ export default function AdminUserEditScores({ user }: { user: UserSensitiveRespo
   const scores = useMemo(() => data?.scores ?? [], [data?.scores]);
   const totalCount = data?.total_count ?? 0;
 
+  const clearSelection = useCallback(() => {
+    setSelectedIds([]);
+    setSelectionResetKey(value => value + 1);
+  }, []);
+
   useEffect(() => {
     setPagination({ pageIndex: 0, pageSize: PAGE_SIZE });
-    setSelectedIds([]);
-  }, [queryParams]);
+    clearSelection();
+  }, [clearSelection, queryParams]);
 
   const { trigger: bulkByIds, isMutating: isBulkByIds } = useBulkScoreProcessing();
   const { trigger: bulkByFilter, isMutating: isBulkByFilter } = useBulkScoreProcessingByFilter();
@@ -108,7 +114,7 @@ export default function AdminUserEditScores({ user }: { user: UserSensitiveRespo
         description: `Queued ${result.queued}, skipped ${result.skipped}.`,
       });
 
-      setSelectedIds([]);
+      clearSelection();
       mutate();
     }
     catch (error) {
@@ -137,10 +143,11 @@ export default function AdminUserEditScores({ user }: { user: UserSensitiveRespo
         ...queryParams,
       });
       toast({
-        title: "Bulk queued",
-        description: `Queued ${bulkAction} for all ${totalCount} matching scores (runs in background).`,
+        title: "Bulk requested",
+        description:
+          `Requested ${bulkAction} for all ${totalCount} matching scores. Active tasks will be skipped by the API.`,
       });
-      setSelectedIds([]);
+      clearSelection();
       mutate();
     }
     catch (error) {
@@ -150,7 +157,7 @@ export default function AdminUserEditScores({ user }: { user: UserSensitiveRespo
         variant: "destructive",
       });
     }
-  }, [bulkAction, bulkByFilter, mutate, queryParams, toast, totalCount, userId]);
+  }, [bulkAction, bulkByFilter, clearSelection, mutate, queryParams, toast, totalCount, userId]);
 
   return (
     <div className="space-y-3">
@@ -192,6 +199,7 @@ export default function AdminUserEditScores({ user }: { user: UserSensitiveRespo
         pagination={pagination}
         setPagination={setPagination}
         onSelectionIdsChange={handleSelectionChange}
+        selectionResetKey={selectionResetKey}
       />
     </div>
   );
@@ -241,6 +249,11 @@ function BulkActionToolbar({
   const [pendingAction, setPendingAction] = useState<"single" | "all" | null>(null);
 
   const showAllMatchingBtn = selectedCount === pageSize && pageSize > 0 && totalCount > pageSize;
+  const isDeleteAction = bulkAction === ScoreTaskType.DELETE;
+  const confirmationScope = pendingAction === "all"
+    ? `all ${totalCount} scores matching the current filters`
+    : `${selectedCount} selected score(s)`;
+  const confirmationMessage = `This will queue "${bulkAction}" for ${confirmationScope}. Existing active tasks will be skipped by the API.`;
 
   const handleConfirm = async () => {
     setConfirmDialogOpen(false);
@@ -288,17 +301,21 @@ function BulkActionToolbar({
       <AlertDialog open={confirmDialogOpen} onOpenChange={setConfirmDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Confirm Bulk Action</AlertDialogTitle>
+            <AlertDialogTitle>
+              {isDeleteAction ? "Confirm Score Deletion" : "Confirm Bulk Action"}
+            </AlertDialogTitle>
             <AlertDialogDescription>
-              {pendingAction === "all"
-                ? `Are you sure you want to apply "${bulkAction}" to all ${totalCount} matching scores?`
-                : `Are you sure you want to apply "${bulkAction}" to ${selectedCount} selected score(s)?`}
+              {confirmationMessage}
+              {isDeleteAction ? " This is a destructive score-processing request." : ""}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <div className="flex justify-end gap-2">
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handleConfirm}>
-              Confirm
+            <AlertDialogAction
+              className={isDeleteAction ? buttonVariants({ variant: "destructive" }) : undefined}
+              onClick={handleConfirm}
+            >
+              {isDeleteAction ? "Confirm Delete" : "Confirm Queue"}
             </AlertDialogAction>
           </div>
         </AlertDialogContent>

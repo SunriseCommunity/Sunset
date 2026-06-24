@@ -18,7 +18,7 @@ import {
 import type { ScoreProcessingTaskResponse } from "@/lib/types/api";
 import { ScoreProcessingStatus } from "@/lib/types/api";
 import { getGradeColor } from "@/lib/utils/getGradeColor";
-import { getStatusBadgeColor } from "@/lib/utils/getStatusBadgeColor";
+import { getStatusBadgeTextClassName } from "@/lib/utils/getStatusBadgeColor";
 
 interface ScoreProcessingTaskCardProps {
   task: ScoreProcessingTaskResponse;
@@ -75,7 +75,7 @@ export function ScoreProcessingTaskCard({ task, onChanged }: ScoreProcessingTask
         )}
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
-            <Badge variant="outline" className={`text-${getStatusBadgeColor(task.status)}`}>{task.status}</Badge>
+            <Badge variant="outline" className={getStatusBadgeTextClassName(task.status)}>{task.status}</Badge>
             <Badge variant="outline">{`ID: ${task.id}`}</Badge>
             <Badge variant="outline">{task.score?.score.game_mode_extended}</Badge>
             <Badge variant="outline">{task.task_type}</Badge>

@@ -14,15 +14,16 @@ import { Card, CardContent } from "@/components/ui/card";
 import { MultiSelect } from "@/components/ui/multi-select";
 import { useScoreProcessingEvents } from "@/lib/hooks/api/score-processing/useScoreProcessingEvents";
 import { ScoreProcessingEventType } from "@/lib/types/api";
+import { isInstance } from "@/lib/utils/type.util";
 
 const PAGE_SIZE = 25;
 
 export default function Page() {
   const [page, setPage] = useState(1);
   const [showFilters, setShowFilters] = useState(false);
-  const [eventTypes, setEventTypes] = useState<string[]>([]);
+  const [eventTypes, setEventTypes] = useState<ScoreProcessingEventType[]>([]);
 
-  const { data, isLoading } = useScoreProcessingEvents(
+  const { data, error, isLoading } = useScoreProcessingEvents(
     useMemo(() => ({ types: eventTypes, page, limit: PAGE_SIZE }), [eventTypes, page]),
     { refreshInterval: 0, revalidateOnFocus: false, keepPreviousData: true },
   );
@@ -67,7 +68,7 @@ export default function Page() {
               defaultValue={eventTypes}
               placeholder="All event types"
               onValueChange={(values) => {
-                setEventTypes(values);
+                setEventTypes(values.filter(isScoreProcessingEventType));
                 setPage(1);
               }}
             />
@@ -76,60 +77,70 @@ export default function Page() {
       </div>
 
       <div className="space-y-2">
-        {isLoading && events.length === 0
+        {error
           ? (
               <Card className="p-8">
-                <CardContent className="flex items-center justify-center p-0">
-                  <Spinner />
+                <CardContent className="flex flex-col items-center justify-center gap-2 p-0 text-center text-muted-foreground">
+                  <ScrollText className="size-12 opacity-50" />
+                  <p className="font-medium text-foreground">Could not load processing events.</p>
+                  <p className="text-sm">{error.message ?? "Refresh the page and try again."}</p>
                 </CardContent>
               </Card>
             )
-          : events.length > 0
+          : isLoading && events.length === 0
             ? (
-                events.map(event => (
-                  <Card key={event.id}>
-                    <CardContent className="flex flex-col gap-2 p-4 md:flex-row md:items-center md:justify-between">
-                      <div className="min-w-0 flex-1">
-                        <div className="flex flex-wrap items-center gap-2">
-                          <Badge variant="outline">{event.event_type}</Badge>
-                          {event.executor
-                            ? (
-                                <SmallUserElement avatarUrl={event.executor.avatar_url} username={event.executor.username} profileUrl={`/admin/users/${event.executor.user_id}/edit`} />
-                              )
-                            : <Badge className="bg-muted text-muted-foreground">Server</Badge>}
-                          {event.score_id != null && (
-                            <Link
-                              href={`/admin/scores/${event.score_id}`}
-                              className="text-sm text-muted-foreground hover:underline"
-                            >
-                              {`Score #${event.score_id}`}
-                            </Link>
-                          )}
-                          {event.task_id != null && (
-                            <span className="text-sm text-muted-foreground">
-                              {`Task #${event.task_id}`}
-                            </span>
-                          )}
-                        </div>
-                        {event.json_data && (
-                          <pre className="mt-2 overflow-x-auto whitespace-pre-wrap break-all rounded bg-muted/40 p-2 text-xs text-muted-foreground">
-                            {event.json_data}
-                          </pre>
-                        )}
-                      </div>
-                      <PrettyDate className="text-sm text-muted-foreground" time={event.created_at} />
-                    </CardContent>
-                  </Card>
-                ))
-              )
-            : (
                 <Card className="p-8">
-                  <CardContent className="flex flex-col items-center justify-center p-0 text-muted-foreground">
-                    <ScrollText className="mb-4 size-12 opacity-50" />
-                    <p>No processing events found.</p>
+                  <CardContent className="flex items-center justify-center p-0">
+                    <Spinner />
                   </CardContent>
                 </Card>
-              )}
+              )
+            : events.length > 0
+              ? (
+                  events.map(event => (
+                    <Card key={event.id}>
+                      <CardContent className="flex flex-col gap-2 p-4 md:flex-row md:items-center md:justify-between">
+                        <div className="min-w-0 flex-1">
+                          <div className="flex flex-wrap items-center gap-2">
+                            <Badge variant="outline">{event.event_type}</Badge>
+                            {event.executor
+                              ? (
+                                  <SmallUserElement avatarUrl={event.executor.avatar_url} username={event.executor.username} profileUrl={`/admin/users/${event.executor.user_id}/edit`} />
+                                )
+                              : <Badge className="bg-muted text-muted-foreground">Server</Badge>}
+                            {event.score_id != null && (
+                              <Link
+                                href={`/admin/scores/${event.score_id}`}
+                                className="text-sm text-muted-foreground hover:underline"
+                              >
+                                {`Score #${event.score_id}`}
+                              </Link>
+                            )}
+                            {event.task_id != null && (
+                              <span className="text-sm text-muted-foreground">
+                                {`Task #${event.task_id}`}
+                              </span>
+                            )}
+                          </div>
+                          {event.json_data && (
+                            <pre className="mt-2 overflow-x-auto whitespace-pre-wrap break-all rounded bg-muted/40 p-2 text-xs text-muted-foreground">
+                              {event.json_data}
+                            </pre>
+                          )}
+                        </div>
+                        <PrettyDate className="text-sm text-muted-foreground" time={event.created_at} />
+                      </CardContent>
+                    </Card>
+                  ))
+                )
+              : (
+                  <Card className="p-8">
+                    <CardContent className="flex flex-col items-center justify-center p-0 text-muted-foreground">
+                      <ScrollText className="mb-4 size-12 opacity-50" />
+                      <p>No processing events found.</p>
+                    </CardContent>
+                  </Card>
+                )}
       </div>
 
       <div className="flex items-center justify-between">
@@ -145,4 +156,8 @@ export default function Page() {
       </div>
     </div>
   );
+}
+
+function isScoreProcessingEventType(value: string): value is ScoreProcessingEventType {
+  return isInstance(value, ScoreProcessingEventType);
 }

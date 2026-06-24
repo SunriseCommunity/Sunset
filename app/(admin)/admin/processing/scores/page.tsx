@@ -2,7 +2,7 @@
 
 import { Filter, ListChecks, RefreshCw, Search } from "lucide-react";
 import type { ComponentProps } from "react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 import { AddScoreProcessingDialog } from "@/components/Admin/ScoreProcessing/AddScoreProcessingDialog";
 import { ScoreProcessingTaskCard } from "@/components/Admin/ScoreProcessing/ScoreProcessingTaskCard";
@@ -35,19 +35,22 @@ export default function Page() {
   const scoreIdFilter = tryParseNumber(searchByScoreIdValue) ?? null;
   const taskIdFilter = tryParseNumber(searchByTaskIdValue) ?? null;
 
-  const combinedFilters = {
-    ...filters,
-    ...(scoreIdFilter ? { score_id: scoreIdFilter } : {}),
-    ...(taskIdFilter ? { task_id: taskIdFilter } : {}),
-  };
+  const combinedFilters = useMemo(
+    () => ({
+      ...filters,
+      ...(scoreIdFilter ? { score_id: scoreIdFilter } : {}),
+      ...(taskIdFilter ? { task_id: taskIdFilter } : {}),
+    }),
+    [filters, scoreIdFilter, taskIdFilter],
+  );
 
-  const { data, size, setSize, isLoading, mutate } = useScoreProcessingTasks(combinedFilters, PAGE_SIZE, {
+  const { data, error, size, setSize, isLoading, mutate } = useScoreProcessingTasks(combinedFilters, PAGE_SIZE, {
     refreshInterval: 10_000,
     revalidateOnFocus: false,
     keepPreviousData: true,
   });
 
-  const { data: stats, mutate: mutateStats } = useScoreProcessingStats({
+  const { data: stats, error: statsError, mutate: mutateStats } = useScoreProcessingStats({
     refreshInterval: 10_000,
     revalidateOnFocus: false,
     keepPreviousData: true,
@@ -62,23 +65,38 @@ export default function Page() {
     value => value != null,
   ).length;
 
+  const handleFilterByScoreIdChange = (value: string) => {
+    setSearchByScoreIdQuery(value);
+    setSize(1);
+  };
+
+  const handleFilterByTaskIdChange = (value: string) => {
+    setSearchByTaskIdQuery(value);
+    setSize(1);
+  };
+
+  const handleApplyFilters = (nextFilters: ScoreProcessingTaskFilters) => {
+    setFilters(nextFilters);
+    setSize(1);
+  };
+
   return (
     <div className="flex w-full flex-col space-y-4">
       <PrettyHeader text="Score processing" roundBottom icon={<ListChecks />} />
 
-      <ScoreProcessingStats stats={stats} />
+      <ScoreProcessingStats stats={stats} error={statsError} />
 
       <ScoreProcessingToolbar
         activeFilterCount={activeFilterCount}
-        onFilterByScoreIdChange={setSearchByScoreIdQuery}
-        onFilterByTaskIdChange={setSearchByTaskIdQuery}
+        onFilterByScoreIdChange={handleFilterByScoreIdChange}
+        onFilterByTaskIdChange={handleFilterByTaskIdChange}
         onRefresh={() => { mutate(); mutateStats(); }}
         onToggleFilters={() => setShowFilters(!showFilters)}
         searchByScoreIdQuery={searchByScoreIdQuery}
         searchByTaskIdQuery={searchByTaskIdQuery}
       />
 
-      <ScoreProcessingFiltersPanel filters={filters} isLoading={isLoading} onApply={setFilters} showFilters={showFilters} />
+      <ScoreProcessingFiltersPanel filters={filters} isLoading={isLoading} onApply={handleApplyFilters} showFilters={showFilters} />
 
       <p className="text-sm text-muted-foreground">
         {totalCount}
@@ -93,12 +111,31 @@ export default function Page() {
         onTaskChanged={mutate}
         tasks={tasks}
         totalCount={totalCount}
+        error={error}
       />
     </div>
   );
 }
 
-function ScoreProcessingStats({ stats }: { stats: ReturnType<typeof useScoreProcessingStats>["data"] }) {
+function ScoreProcessingStats({
+  error,
+  stats,
+}: {
+  error: ReturnType<typeof useScoreProcessingStats>["error"];
+  stats: ReturnType<typeof useScoreProcessingStats>["data"];
+}) {
+  if (error) {
+    return (
+      <Card className="p-3">
+        <CardContent className="p-0 text-sm text-muted-foreground">
+          Could not load processing stats.
+          {" "}
+          {error.message ?? "Refresh the page and try again."}
+        </CardContent>
+      </Card>
+    );
+  }
+
   if (!stats)
     return null;
 
@@ -226,6 +263,7 @@ function ScoreProcessingFiltersPanel({
 }
 
 function ScoreProcessingTaskList({
+  error,
   isLoading,
   isLoadingMore,
   onLoadMore,
@@ -233,6 +271,7 @@ function ScoreProcessingTaskList({
   tasks,
   totalCount,
 }: {
+  error: ReturnType<typeof useScoreProcessingTasks>["error"];
   isLoading: boolean;
   isLoadingMore: boolean;
   onLoadMore: () => void;
@@ -240,6 +279,18 @@ function ScoreProcessingTaskList({
   tasks: ScoreProcessingTaskResponse[];
   totalCount: number;
 }) {
+  if (error) {
+    return (
+      <Card className="p-8">
+        <CardContent className="flex flex-col items-center justify-center gap-2 p-0 text-center text-muted-foreground">
+          <Search className="size-12 opacity-50" />
+          <p className="font-medium text-foreground">Could not load score processing tasks.</p>
+          <p className="text-sm">{error.message ?? "Refresh the page and try again."}</p>
+        </CardContent>
+      </Card>
+    );
+  }
+
   if (isLoading && tasks.length === 0) {
     return (
       <Card className="p-8">
