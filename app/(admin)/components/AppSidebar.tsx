@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronsUp, Home, Moon, Music2, Sun, Users } from "lucide-react";
+import { ChevronsUp, Home, ListChecks, Moon, Music2, ScrollText, Sun, Users } from "lucide-react";
 import Link from "next/link";
 import type { SWRInfiniteResponse } from "swr/infinite";
 
@@ -64,6 +64,22 @@ const actionTabs = [
   },
 ];
 
+// It actually requires super user, but we can't check for that in the frontend, so we just check for admin instead.
+const processingTabs = [
+  {
+    title: "Score processing",
+    url: "/admin/processing/scores",
+    icon: ListChecks,
+    requires: UserBadge.ADMIN,
+  },
+  {
+    title: "Processing events",
+    url: "/admin/processing/events",
+    icon: ScrollText,
+    requires: UserBadge.ADMIN,
+  },
+];
+
 export function AppSidebar() {
   const { self } = useSelf();
   const requestsQuery = useBeatmapSetGetHypedSets();
@@ -77,6 +93,14 @@ export function AppSidebar() {
   });
 
   const actionTabsWithAccess = actionTabs.filter((item) => {
+    if (!self)
+      return false;
+
+    const requirements = item.requires && !self.badges.includes(item.requires);
+    return !requirements;
+  });
+
+  const processingTabsWithAccess = processingTabs.filter((item) => {
     if (!self)
       return false;
 
@@ -128,13 +152,30 @@ export function AppSidebar() {
               ))}
             </SidebarMenu>
           </SidebarGroupContent>
+          <SidebarGroupLabel>
+            {self ? (processingTabsWithAccess.length > 0 ? "Background processing" : "") : null}
+          </SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {processingTabsWithAccess.map(item => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    <Link href={item.url}>
+                      <item.icon />
+                      <span>{item.title}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
 
       <SidebarGroup>
         <ThemeModeToggle>
           <SidebarMenuButton>
-            <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 " />
+            <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
             <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
             Change theme
           </SidebarMenuButton>

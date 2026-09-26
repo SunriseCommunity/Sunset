@@ -22,8 +22,8 @@ export default function AdminLayout({
         <div className="px-2">
           <SidebarTrigger />
         </div>
-
-        <div className="mx-auto w-full max-w-7xl p-4">{children}</div>
+        {/* Adding bottom padding here so the "Go top" button wouldn't overlap content */}
+        <div className="mx-auto mb-12 w-full max-w-7xl p-4">{children}</div>
       </main>
     </SidebarProvider>
   );

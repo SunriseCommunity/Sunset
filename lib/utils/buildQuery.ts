@@ -26,3 +26,16 @@ export function buildQuery<T extends Record<string, any>>(
   const queryString = params.toString();
   return withPrefix && queryString ? `?${queryString}` : queryString;
 }
+
+export function createQueryString(name: string, value: string): string {
+  const params = new URLSearchParams(window.location.search);
+
+  if (value) {
+    params.set(name, value);
+  }
+  else {
+    params.delete(name);
+  }
+
+  return params.toString();
+}

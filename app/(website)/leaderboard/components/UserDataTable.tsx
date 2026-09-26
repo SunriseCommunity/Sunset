@@ -130,29 +130,32 @@ export function UserDataTable<TData, TValue>({
                     data-state={row.getIsSelected() && "selected"}
                     className="smooth-transition group relative isolate overflow-hidden hover:translate-x-2"
                   >
-                    {row.getVisibleCells().map(cell => (
+                    {row.getVisibleCells().map((cell, index) => (
                       <TableCell key={cell.id}>
+                        {/* Row background. Has to live inside a <td> - a <div> as a direct child of <tr> is invalid HTML, the parser relocates it and hydration mismatches. The cell is position: static, so inset-0 still resolves against the relative <tr>. */}
+                        {index === 0 && (
+                          <>
+                            <div className="absolute inset-0 -z-10 overflow-hidden">
+                              <ImageWithFallback
+                                src={`${(row.original as { user: UserResponse }).user.banner_url}&default=false`}
+                                alt="user bg"
+                                fill={true}
+                                objectFit="cover"
+                                className="relative -z-20 -translate-x-2/4"
+                                fallBackSrc="/images/placeholder.png"
+                                fallBackClassName="opacity-0 group-hover:opacity-30"
+                              />
+                            </div>
+                            <div className="smooth-transition absolute inset-0 -z-10 -mx-1 bg-gradient-to-l from-accent via-accent to-accent/75 group-hover:to-accent/50" />
+                          </>
+                        )}
+
                         {flexRender(
                           cell.column.columnDef.cell,
                           cell.getContext(),
                         )}
                       </TableCell>
                     ))}
-
-                    <>
-                      <div className="absolute inset-0 -z-10 overflow-hidden">
-                        <ImageWithFallback
-                          src={`${(row.original as { user: UserResponse }).user.banner_url}&default=false`}
-                          alt="user bg"
-                          fill={true}
-                          objectFit="cover"
-                          className="relative -z-20 -translate-x-2/4"
-                          fallBackSrc="/images/placeholder.png"
-                          fallBackClassName="opacity-0 group-hover:opacity-30"
-                        />
-                      </div>
-                      <div className="smooth-transition absolute inset-0 -z-10 -mx-1 bg-gradient-to-l from-accent via-accent to-accent/75 group-hover:to-accent/50" />
-                    </>
                   </TableRow>
                 ))
               ) : (
