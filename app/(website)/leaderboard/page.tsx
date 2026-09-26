@@ -1,7 +1,7 @@
 "use client";
 import { ChartColumnIncreasing } from "lucide-react";
 import { usePathname, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { useUserColumns } from "@/app/(website)/leaderboard/components/UserColumns";
 import { UserDataTable } from "@/app/(website)/leaderboard/components/UserDataTable";
@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { useUsersLeaderboard } from "@/lib/hooks/api/user/useUsersLeaderboard";
 import { useT } from "@/lib/i18n/utils";
 import { GameMode, LeaderboardSortType } from "@/lib/types/api";
+import { createQueryString } from "@/lib/utils/buildQuery";
 import { isInstance, tryParseNumber } from "@/lib/utils/type.util";
 
 export default function Leaderboard() {
@@ -41,23 +42,13 @@ export default function Leaderboard() {
     pageSize: size,
   });
 
-  const createQueryString = useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString());
-      params.set(name, value);
-
-      return params.toString();
-    },
-    [searchParams],
-  );
-
   useEffect(() => {
     window.history.replaceState(
       null,
       "",
       `${pathname}?${createQueryString("type", leaderboardType.toString())}`,
     );
-  }, [leaderboardType, pathname, createQueryString]);
+  }, [leaderboardType, pathname]);
 
   useEffect(() => {
     window.history.replaceState(
@@ -65,7 +56,7 @@ export default function Leaderboard() {
       "",
       `${pathname}?${createQueryString("mode", activeMode.toString())}`,
     );
-  }, [activeMode, pathname, createQueryString]);
+  }, [activeMode, pathname]);
 
   useEffect(() => {
     window.history.replaceState(
@@ -73,17 +64,16 @@ export default function Leaderboard() {
       "",
       `${pathname}?${createQueryString("size", pagination.pageSize.toString())}`,
     );
-  }, [pagination.pageSize, pathname, createQueryString]);
+  }, [pagination.pageSize, pathname]);
 
   useEffect(() => {
     window.history.replaceState(
       null,
       "",
-      `${pathname
-        }?${
+      `${pathname}?${
         createQueryString("page", pagination.pageIndex.toString())}`,
     );
-  }, [pagination.pageIndex, pathname, createQueryString]);
+  }, [pagination.pageIndex, pathname]);
 
   const comboboxValues = useMemo(
     () => [

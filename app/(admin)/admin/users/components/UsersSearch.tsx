@@ -3,7 +3,7 @@
 import type { PaginationState } from "@tanstack/react-table";
 import { Search, Settings } from "lucide-react";
 import { usePathname, useSearchParams } from "next/navigation";
-import { createContext, useCallback, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 import { adminUserColumns } from "@/app/(admin)/admin/users/components/AdminUserColumns";
 import { AdminUserDataTable } from "@/app/(admin)/admin/users/components/AdminUserDataTable";
@@ -15,6 +15,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { useUserSearchList } from "@/lib/hooks/api/user/useUserSearchList";
 import useDebounce from "@/lib/hooks/useDebounce";
+import { createQueryString } from "@/lib/utils/buildQuery";
 import { tryParseNumber } from "@/lib/utils/type.util";
 
 export const PersonalInfoVisibilityContext = createContext<boolean>(false);
@@ -38,37 +39,22 @@ export default function UsersSearch() {
   const [showPersonalInfo, setShowPersonalInfo] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
 
-  const createQueryString = useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString());
-      if (value) {
-        params.set(name, value);
-      }
-      else {
-        params.delete(name);
-      }
-      return params.toString();
-    },
-    [searchParams],
-  );
-
   useEffect(() => {
     window.history.replaceState(
       null,
       "",
       `${pathname}?${createQueryString("query", searchValue)}`,
     );
-  }, [searchValue, pathname, createQueryString]);
+  }, [searchValue, pathname]);
 
   useEffect(() => {
     window.history.replaceState(
       null,
       "",
-      `${pathname
-        }?${
+      `${pathname}?${
         createQueryString("page", pagination.pageIndex.toString())}`,
     );
-  }, [pagination.pageIndex, pathname, createQueryString]);
+  }, [pagination.pageIndex, pathname]);
 
   useEffect(() => {
     window.history.replaceState(
@@ -76,7 +62,7 @@ export default function UsersSearch() {
       "",
       `${pathname}?${createQueryString("size", pagination.pageSize.toString())}`,
     );
-  }, [pagination.pageSize, pathname, createQueryString]);
+  }, [pagination.pageSize, pathname]);
 
   const { data, isLoading } = useUserSearchList(
     searchValue || undefined,

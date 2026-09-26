@@ -128,6 +128,7 @@ export default function Home() {
                   alt="frontpage image"
                   width={1150}
                   height={1150}
+                  loading="eager"
                   className="size-full rounded-lg md:min-h-96 md:min-w-96"
                 />
               </div>
@@ -194,6 +195,7 @@ export default function Home() {
                         src={card.imageUrl || "/placeholder.svg"}
                         alt={card.titleKey}
                         fill
+                        sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
                         className="rounded-t-lg object-cover "
                       />
                     </div>

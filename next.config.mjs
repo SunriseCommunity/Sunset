@@ -1,32 +1,13 @@
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-
 import createNextIntlPlugin from "next-intl/plugin";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 const domain = process.env.NEXT_PUBLIC_SERVER_DOMAIN || "ppy.sh";
 
 const shouldUnoptimizeImages = process.env.NEXT_PUBLIC_UNOPTIMIZED_IMAGES === "true";
 
+const shouldAllowLocalIP = process.env.NEXT_PUBLIC_ALLOW_LOCAL_IP === "true";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  webpack(config) {
-    config.module.rules.push({
-      test: /\.svg$/i,
-      issuer: /\.[jt]sx?$/,
-      use: [{ loader: "@svgr/webpack", options: { icon: true } }],
-    });
-
-    config.resolve.alias["next/link"] = path.resolve(
-      __dirname,
-      "lib/overrides/next/link",
-    );
-
-    return config;
-  },
-
   turbopack: {
     rules: {
       "*.svg": {
@@ -57,6 +38,7 @@ const nextConfig = {
 
   images: {
     unoptimized: shouldUnoptimizeImages,
+    dangerouslyAllowLocalIP: shouldAllowLocalIP,
     remotePatterns: [
       {
         protocol: "https",

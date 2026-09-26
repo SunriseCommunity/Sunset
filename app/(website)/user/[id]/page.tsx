@@ -42,6 +42,7 @@ import {
   GameMode,
   ScoreTableType,
 } from "@/lib/types/api";
+import { createQueryString } from "@/lib/utils/buildQuery";
 import { isInstance, tryParseNumber } from "@/lib/utils/type.util";
 import { isUserHasAdminPrivilege } from "@/lib/utils/userPrivileges.util";
 
@@ -79,16 +80,6 @@ export default function UserPage(props: { params: Promise<{ id: string }> }) {
   const userQuery = userId === self?.user_id ? useUserSelf() : useUser(userId);
   const userStatsQuery = useUserStats(userId, activeMode);
   const userMetadataQuery = useUserMetadata(userId);
-
-  const createQueryString = useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString());
-      params.set(name, value);
-
-      return params.toString();
-    },
-    [searchParams],
-  );
 
   const renderTabContent = useCallback(
     (
@@ -169,7 +160,7 @@ export default function UserPage(props: { params: Promise<{ id: string }> }) {
       "",
       `${pathname}?${createQueryString("mode", activeMode.toString())}`,
     );
-  }, [activeMode, createQueryString, pathname]);
+  }, [activeMode, pathname]);
 
   useEffect(() => {
     if (activeMode || !userQuery.data)
