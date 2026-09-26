@@ -53,6 +53,10 @@ async function getVideoStream(request: Request, videoId: number) {
       videoStream.on("end", () => controller.close());
       videoStream.on("error", err => controller.error(err));
     },
+    cancel() {
+      // Browser aborted the response (seek, unmount, navigation)
+      videoStream.destroy();
+    },
   });
 
   const response = new Response(stream, { status: 206, headers });
