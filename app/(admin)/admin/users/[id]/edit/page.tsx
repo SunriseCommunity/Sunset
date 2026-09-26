@@ -2,7 +2,7 @@
 
 import { FileText, Trophy, User } from "lucide-react";
 import { usePathname, useSearchParams } from "next/navigation";
-import { use, useCallback, useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 
 import AdminUserEditEvent from "@/app/(admin)/admin/users/[id]/edit/components/Tabs/AdminUserEditEvents";
 import AdminUserEditGeneral from "@/app/(admin)/admin/users/[id]/edit/components/Tabs/AdminUserEditGeneral";
@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAdminUserSensitive } from "@/lib/hooks/api/user/useAdminUserEdit";
+import { createQueryString } from "@/lib/utils/buildQuery";
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -37,27 +38,13 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
   const { data: user, isLoading } = useAdminUserSensitive(userId);
 
-  const createQueryString = useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString());
-      if (value) {
-        params.set(name, value);
-      }
-      else {
-        params.delete(name);
-      }
-      return params.toString();
-    },
-    [searchParams],
-  );
-
   useEffect(() => {
     window.history.replaceState(
       null,
       "",
       `${pathname}?${createQueryString("tab", activeTab)}`,
     );
-  }, [activeTab, pathname, createQueryString]);
+  }, [activeTab, pathname]);
 
   const handleTabChange = (value: string) => {
     if (value === "events" && !hasAcceptedEventsWarning) {
