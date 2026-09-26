@@ -4,6 +4,8 @@ const domain = process.env.NEXT_PUBLIC_SERVER_DOMAIN || "ppy.sh";
 
 const shouldUnoptimizeImages = process.env.NEXT_PUBLIC_UNOPTIMIZED_IMAGES === "true";
 
+const shouldAllowLocalIP = process.env.NEXT_PUBLIC_ALLOW_LOCAL_IP === "true";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   turbopack: {
@@ -36,6 +38,7 @@ const nextConfig = {
 
   images: {
     unoptimized: shouldUnoptimizeImages,
+    dangerouslyAllowLocalIP: shouldAllowLocalIP,
     remotePatterns: [
       {
         protocol: "https",

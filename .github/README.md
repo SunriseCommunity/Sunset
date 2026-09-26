@@ -36,6 +36,7 @@ docker compose -f docker-compose.yml up -d # Creates the container with app and 
 > ```bash
 > NODE_TLS_REJECT_UNAUTHORIZED=0
 > NEXT_PUBLIC_UNOPTIMIZED_IMAGES=true
+> NEXT_PUBLIC_ALLOW_LOCAL_IP=true
 > ```
 > to you `.env.local` file. 
 
