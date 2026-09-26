@@ -1,8 +1,10 @@
-export default {
+import { defineConfig } from "@hey-api/openapi-ts";
+
+export default defineConfig({
   input: `https://api.${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/openapi/v1.json`,
   output: {
     path: "lib/types/api",
-    lint: "eslint",
+    postProcess: [{ command: "eslint", args: ["--fix", "{{path}}"] }],
   },
   plugins: [
     "zod",
@@ -15,4 +17,4 @@ export default {
       name: "@hey-api/typescript",
     },
   ],
-};
+});
