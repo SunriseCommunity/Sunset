@@ -9,10 +9,6 @@ export default defineConfig({
   plugins: [
     "zod",
     {
-      baseUrl: false,
-      name: "@hey-api/client-fetch",
-    },
-    {
       enums: "typescript",
       name: "@hey-api/typescript",
     },
