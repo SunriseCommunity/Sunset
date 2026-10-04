@@ -349,7 +349,10 @@ export const zBeatmapSetResponse = z.object({
   creator_id: z.number().int(),
   status: zBeatmapStatusWeb,
   last_updated: z.string().datetime(),
-  submitted_date: z.string().datetime(),
+  submitted_date: z.union([
+    z.string().datetime(),
+    z.null(),
+  ]).optional(),
   ranked_date: z.union([
     z.string().datetime(),
     z.null(),
@@ -617,11 +620,14 @@ export const zEditUserMetadataRequest = z.object({
 export const zUserPrivilege = z.enum([
   "User",
   "Supporter",
-  "Bat",
   "Admin",
   "Developer",
   "SuperUser",
   "ServerBot",
+  "BeatmapApprovalTeamStandard",
+  "BeatmapApprovalTeamTaiko",
+  "BeatmapApprovalTeamCatch",
+  "BeatmapApprovalTeamMania",
 ]);
 
 export const zEditUserPrivilegeRequest = z.object({
@@ -707,7 +713,10 @@ export const zHypedBeatmapSetResponse = z.object({
   creator_id: z.number().int(),
   status: zBeatmapStatusWeb,
   last_updated: z.string().datetime(),
-  submitted_date: z.string().datetime(),
+  submitted_date: z.union([
+    z.string().datetime(),
+    z.null(),
+  ]).optional(),
   ranked_date: z.union([
     z.string().datetime(),
     z.null(),

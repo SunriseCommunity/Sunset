@@ -71,7 +71,7 @@ export type BeatmapSetResponse = {
   creator_id: number;
   status: BeatmapStatusWeb;
   last_updated: string;
-  submitted_date: string;
+  submitted_date?: string | null;
   ranked_date?: string | null;
   video: boolean;
   beatmaps: BeatmapResponse[];
@@ -485,7 +485,7 @@ export type HypedBeatmapSetResponse = {
   creator_id: number;
   status: BeatmapStatusWeb;
   last_updated: string;
-  submitted_date: string;
+  submitted_date?: string | null;
   ranked_date?: string | null;
   video: boolean;
   beatmaps: BeatmapResponse[];
@@ -830,11 +830,14 @@ export enum UserPlaystyle {
 export enum UserPrivilege {
   USER = "User",
   SUPPORTER = "Supporter",
-  BAT = "Bat",
   ADMIN = "Admin",
   DEVELOPER = "Developer",
   SUPER_USER = "SuperUser",
   SERVER_BOT = "ServerBot",
+  BEATMAP_APPROVAL_TEAM_STANDARD = "BeatmapApprovalTeamStandard",
+  BEATMAP_APPROVAL_TEAM_TAIKO = "BeatmapApprovalTeamTaiko",
+  BEATMAP_APPROVAL_TEAM_CATCH = "BeatmapApprovalTeamCatch",
+  BEATMAP_APPROVAL_TEAM_MANIA = "BeatmapApprovalTeamMania",
 }
 
 export type UserRelationsCountersResponse = {
@@ -3137,5 +3140,5 @@ export type GetWsResponses = {
 export type GetWsResponse = GetWsResponses[keyof GetWsResponses];
 
 export type ClientOptions = {
-  baseUrl: "https://api.sunrise.local" | (string & {});
+  baseUrl: "https://api.sunrize.uk" | (string & {});
 };
