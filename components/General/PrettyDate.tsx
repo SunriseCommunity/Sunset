@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 import { Tooltip } from "@/components/Tooltip";
 
 interface PrettyDateProps {
-  time: string | Date;
+  time: string | null | undefined | Date;
   className?: string;
   withTime?: boolean;
 }
@@ -20,7 +20,7 @@ export default function PrettyDate({
   className,
   withTime = true,
 }: PrettyDateProps) {
-  const date = time instanceof Date ? time : new Date(time);
+  const date = time == null ? new Date() : time instanceof Date ? time : new Date(time);
 
   const locale = Cookies.get("locale") || "en";
 
