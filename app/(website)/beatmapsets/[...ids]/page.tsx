@@ -2,7 +2,7 @@
 import { Book, Clapperboard, Music2 } from "lucide-react";
 import Image from "next/image";
 import { usePathname, useSearchParams } from "next/navigation";
-import { use, useCallback, useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 
 import { BeatmapDropdown } from "@/app/(website)/beatmapsets/components/BeatmapDropdown";
 import { BeatmapInfoAccordion } from "@/app/(website)/beatmapsets/components/BeatmapInfoAccordion";
@@ -25,6 +25,7 @@ import { useBeatmapSet } from "@/lib/hooks/api/beatmap/useBeatmapSet";
 import { useT } from "@/lib/i18n/utils";
 import type { BeatmapResponse } from "@/lib/types/api";
 import { BeatmapStatusWeb, GameMode } from "@/lib/types/api";
+import { createQueryString } from "@/lib/utils/buildQuery";
 import { gameModeToVanilla } from "@/lib/utils/gameMode.util";
 import { isInstance, tryParseNumber } from "@/lib/utils/type.util";
 
@@ -55,16 +56,6 @@ export default function Beatmapset(props: BeatmapsetProps) {
     tryParseNumber(beatmapSetId ?? "") ?? null,
   );
   const beatmapSet = beatmapsetQuery.data;
-
-  const createQueryString = useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString());
-      params.set(name, value);
-
-      return params.toString();
-    },
-    [searchParams],
-  );
 
   useEffect(() => {
     if (!beatmapSet)
@@ -110,7 +101,7 @@ export default function Beatmapset(props: BeatmapsetProps) {
       "",
       `${pathname}?${createQueryString("mode", activeMode.toString())}`,
     );
-  }, [activeMode, createQueryString, pathname]);
+  }, [activeMode, pathname]);
 
   useEffect(() => {
     if (!activeBeatmap)
@@ -121,10 +112,10 @@ export default function Beatmapset(props: BeatmapsetProps) {
         null,
         "",
         `/beatmapsets/${beatmapSetId}/${activeBeatmap.id}?${
-          searchParams.toString()}`,
+          new URLSearchParams(window.location.search)}`,
       );
     }
-  }, [activeBeatmap, beatmapId, beatmapSetId, searchParams]);
+  }, [activeBeatmap, beatmapId, beatmapSetId]);
 
   if (beatmapsetQuery.isLoading || !activeMode) {
     return (

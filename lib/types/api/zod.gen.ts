@@ -2,6 +2,49 @@
 
 import { z } from "zod";
 
+export const zBeatmapEventType = z.enum([
+  "BeatmapSetHyped",
+  "BeatmapStatusChanged",
+  "BeatmapSetHypeCleared",
+]);
+
+export const zBeatmapSetHypeCountResponse = z.object({
+  current_hypes: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  required_hypes: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+});
+
+export const zBeatmapStatus = z.enum([
+  "Pending",
+  "NeedsUpdate",
+  "Ranked",
+  "Approved",
+  "Qualified",
+  "Loved",
+  "Unknown",
+  "NotSubmitted",
+]);
+
+export const zBeatmapStatusWeb = z.enum([
+  "Pending",
+  "Ranked",
+  "Approved",
+  "Qualified",
+  "Loved",
+  "Unknown",
+  "Graveyard",
+  "Wip",
+]);
+
+export const zBulkScoreProcessingResultResponse = z.object({
+  queued: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  skipped: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+});
+
+export const zChangePasswordRequest = z.object({
+  current_password: z.string().min(1),
+  new_password: z.string().min(1),
+});
+
 export const zCountryCode = z.enum([
   "XX",
   "AD",
@@ -222,6 +265,41 @@ export const zCountryCode = z.enum([
   "MF",
 ]);
 
+export const zCountryChangeRequest = z.object({
+  new_country: zCountryCode,
+});
+
+export const zEditBeatmapsetFavouriteStatusRequest = z.object({
+  favourited: z.boolean(),
+});
+
+export const zEditDescriptionRequest = z.object({
+  description: z.string().min(1).max(2000),
+});
+
+export const zEditHidePreviousUsernameRequest = z.object({
+  event_id: z.number().int().gte(1).lte(2147483647),
+  is_hidden: z.boolean(),
+});
+
+export const zEditIgnoreLoginDataRequest = z.object({
+  is_ignored: z.boolean(),
+});
+
+export const zEditUserRestrictionRequest = z.object({
+  is_restrict: z.boolean(),
+  restriction_reason: z.string().min(3).max(256).nullish(),
+});
+
+export const zFavouritedResponse = z.object({
+  favourited: z.boolean(),
+});
+
+export const zFriendStatusResponse = z.object({
+  is_following_you: z.boolean(),
+  is_followed_by_you: z.boolean(),
+});
+
 export const zGameMode = z.enum([
   "Standard",
   "Taiko",
@@ -237,569 +315,62 @@ export const zGameMode = z.enum([
   "ScoreV2Mania",
 ]);
 
-export const zUserBadge = z.enum([
-  "Developer",
-  "Admin",
-  "Bat",
-  "Bot",
-  "Supporter",
-]);
-
-export const zUserResponse = z.object({
-  user_id: z.number().int(),
-  username: z.string(),
-  description: z.union([
-    z.string(),
-    z.null(),
-  ]).optional(),
-  country_code: zCountryCode,
-  register_date: z.string().datetime(),
-  avatar_url: z.string(),
-  banner_url: z.string(),
-  last_online_time: z.string().datetime(),
-  restricted: z.boolean(),
-  silenced_until: z.union([
-    z.string().datetime(),
-    z.null(),
-  ]).optional(),
-  default_gamemode: zGameMode,
-  badges: z.array(zUserBadge),
-  user_status: z.string(),
-});
-
-export const zBeatmapEventType = z.enum([
-  "BeatmapSetHyped",
-  "BeatmapStatusChanged",
-  "BeatmapSetHypeCleared",
-]);
-
-export const zBeatmapStatusWeb = z.enum([
-  "Pending",
-  "Ranked",
-  "Approved",
-  "Qualified",
-  "Loved",
-  "Unknown",
-  "Graveyard",
-  "Wip",
-]);
-
-export const zBeatmapResponse = z.object({
-  id: z.number().int(),
-  beatmapset_id: z.number().int(),
-  hash: z.string(),
-  version: z.string(),
-  status: zBeatmapStatusWeb,
-  star_rating_osu: z.number(),
-  star_rating_taiko: z.number(),
-  star_rating_ctb: z.number(),
-  star_rating_mania: z.number(),
-  total_length: z.number().int(),
-  max_combo: z.number().int(),
-  accuracy: z.union([
-    z.number(),
-    z.null(),
-  ]).optional(),
-  ar: z.union([
-    z.number(),
-    z.null(),
-  ]).optional(),
-  bpm: z.number(),
-  convert: z.boolean(),
-  count_circles: z.number().int(),
-  count_sliders: z.number().int(),
-  count_spinners: z.number().int(),
-  cs: z.number(),
-  deleted_at: z.union([
-    z.string().datetime(),
-    z.null(),
-  ]).optional(),
-  drain: z.union([
-    z.number(),
-    z.null(),
-  ]).optional(),
-  hit_length: z.number().int(),
-  is_scoreable: z.boolean(),
-  is_ranked: z.boolean(),
-  last_updated: z.string().datetime(),
-  mode_int: z.number().int(),
-  mode: zGameMode,
-  ranked: z.number().int(),
-  title: z.union([
-    z.string(),
-    z.null(),
-  ]).optional(),
-  artist: z.union([
-    z.string(),
-    z.null(),
-  ]).optional(),
-  creator: z.union([
-    z.string(),
-    z.null(),
-  ]).optional(),
-  creator_id: z.number().int(),
-  beatmap_nominator_user: zUserResponse.optional(),
-});
-
-export const zBeatmapSetResponse = z.object({
-  id: z.number().int(),
-  artist: z.string(),
-  title: z.string(),
-  creator: z.string(),
-  creator_id: z.number().int(),
-  status: zBeatmapStatusWeb,
-  last_updated: z.string().datetime(),
-  submitted_date: z.union([
-    z.string().datetime(),
-    z.null(),
-  ]).optional(),
-  ranked_date: z.union([
-    z.string().datetime(),
-    z.null(),
-  ]).optional(),
-  video: z.boolean(),
-  beatmaps: z.array(zBeatmapResponse),
-  description: z.string(),
-  genre: z.string(),
-  language: z.string(),
-  tags: z.array(z.string()),
-  beatmap_nominator_user: zUserResponse.optional(),
-  can_be_hyped: z.boolean(),
-});
-
-export const zBeatmapEventResponse = z.object({
-  event_id: z.number().int(),
-  executor: zUserResponse,
-  type: zBeatmapEventType,
-  beatmapset_id: z.number().int(),
-  beatmapset: zBeatmapSetResponse,
-  beatmap_hash: z.union([
-    z.string(),
-    z.null(),
-  ]).optional(),
-  new_status: zBeatmapStatusWeb.optional(),
-  created_at: z.string().datetime(),
-});
-
-export const zBeatmapSetEventsResponse = z.object({
-  events: z.array(zBeatmapEventResponse),
-  total_count: z.number().int(),
-});
-
-export const zBeatmapSetHypeCountResponse = z.object({
-  current_hypes: z.number().int(),
-  required_hypes: z.number().int(),
-});
-
-export const zBeatmapSetsResponse = z.object({
-  sets: z.array(zBeatmapSetResponse),
-  total_count: z.union([
-    z.number().int(),
-    z.null(),
-  ]).optional(),
-});
-
-export const zUserMedalResponse = z.object({
-  id: z.number().int().readonly(),
-  name: z.string().readonly(),
-  description: z.string().readonly(),
-  unlocked_at: z.union([
-    z.string().datetime().readonly(),
-    z.null(),
-  ]).readonly().optional(),
-});
-
-export const zCategory = z.object({
-  medals: z.array(zUserMedalResponse).readonly(),
-});
-
-export const zChangePasswordRequest = z.object({
-  current_password: z.string().min(1),
-  new_password: z.string().min(1),
-});
-
-export const zCountryChangeRequest = z.object({
-  new_country: zCountryCode,
-});
-
-export const zCustomBeatmapStatusChangeResponse = z.object({
-  beatmap: zBeatmapResponse,
-  new_status: zBeatmapStatusWeb,
-  old_status: zBeatmapStatusWeb,
-  bat: zUserResponse,
-});
-
 export const zDifficultyAttributes = z.object({
-  aim: z.union([
-    z.number(),
-    z.null(),
-  ]).optional(),
-  aimDifficultStrainCount: z.union([
-    z.number(),
-    z.null(),
-  ]).optional(),
-  ar: z.union([
-    z.number(),
-    z.null(),
-  ]).optional(),
-  color: z.union([
-    z.number(),
-    z.null(),
-  ]).optional(),
-  flashlight: z.union([
-    z.number(),
-    z.null(),
-  ]).optional(),
-  greatHitWindow: z.union([
-    z.number(),
-    z.null(),
-  ]).optional(),
-  hp: z.union([
-    z.number(),
-    z.null(),
-  ]).optional(),
+  aim: z.number().nullish(),
+  aimDifficultStrainCount: z.number().nullish(),
+  ar: z.number().nullish(),
+  color: z.number().nullish(),
+  flashlight: z.number().nullish(),
+  greatHitWindow: z.number().nullish(),
+  hp: z.number().nullish(),
   isConvert: z.boolean(),
-  maxCombo: z.number().int(),
+  maxCombo: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
   mode: zGameMode,
-  monoStaminaFactor: z.union([
-    z.number(),
-    z.null(),
-  ]).optional(),
-  nCircles: z.union([
-    z.number().int(),
-    z.null(),
-  ]).optional(),
-  nDroplets: z.union([
-    z.number().int(),
-    z.null(),
-  ]).optional(),
-  nFruits: z.union([
-    z.number().int(),
-    z.null(),
-  ]).optional(),
-  nHoldNotes: z.union([
-    z.number().int(),
-    z.null(),
-  ]).optional(),
-  nLargeTicks: z.union([
-    z.number().int(),
-    z.null(),
-  ]).optional(),
-  nObjects: z.union([
-    z.number().int(),
-    z.null(),
-  ]).optional(),
-  nSliders: z.union([
-    z.number().int(),
-    z.null(),
-  ]).optional(),
-  nSpinners: z.union([
-    z.number().int(),
-    z.null(),
-  ]).optional(),
-  nTinyDroplets: z.union([
-    z.number().int(),
-    z.null(),
-  ]).optional(),
-  od: z.union([
-    z.number(),
-    z.null(),
-  ]).optional(),
-  okHitWindow: z.union([
-    z.number(),
-    z.null(),
-  ]).optional(),
-  peak: z.union([
-    z.number(),
-    z.null(),
-  ]).optional(),
-  rhythm: z.union([
-    z.number(),
-    z.null(),
-  ]).optional(),
-  sliderFactor: z.union([
-    z.number(),
-    z.null(),
-  ]).optional(),
-  speed: z.union([
-    z.number(),
-    z.null(),
-  ]).optional(),
-  speedDifficultStrainCount: z.union([
-    z.number(),
-    z.null(),
-  ]).optional(),
-  speedNoteCount: z.union([
-    z.number(),
-    z.null(),
-  ]).optional(),
-  stamina: z.union([
-    z.number(),
-    z.null(),
-  ]).optional(),
+  monoStaminaFactor: z.number().nullish(),
+  nCircles: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }).nullish(),
+  nDroplets: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }).nullish(),
+  nFruits: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }).nullish(),
+  nHoldNotes: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }).nullish(),
+  nLargeTicks: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }).nullish(),
+  nObjects: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }).nullish(),
+  nSliders: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }).nullish(),
+  nSpinners: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }).nullish(),
+  nTinyDroplets: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }).nullish(),
+  od: z.number().nullish(),
+  okHitWindow: z.number().nullish(),
+  peak: z.number().nullish(),
+  rhythm: z.number().nullish(),
+  sliderFactor: z.number().nullish(),
+  speed: z.number().nullish(),
+  speedDifficultStrainCount: z.number().nullish(),
+  speedNoteCount: z.number().nullish(),
+  stamina: z.number().nullish(),
   stars: z.number(),
-});
-
-export const zEditBeatmapsetFavouriteStatusRequest = z.object({
-  favourited: z.boolean(),
 });
 
 export const zEditDefaultGameModeRequest = z.object({
   default_gamemode: zGameMode,
 });
 
-export const zEditDescriptionRequest = z.object({
-  description: z.string().min(1).max(2000),
-});
-
-export const zUpdateFriendshipStatusAction = z.enum([
-  "Add",
-  "Remove",
-]);
-
-export const zEditFriendshipStatusRequest = z.object({
-  action: zUpdateFriendshipStatusAction,
-});
-
-export const zEditHidePreviousUsernameRequest = z.object({
-  event_id: z.number().int().gte(1).lte(2147483647),
-  is_hidden: z.boolean(),
-});
-
-export const zEditIgnoreLoginDataRequest = z.object({
-  is_ignored: z.boolean(),
-});
-
-export const zUserPlaystyle = z.enum([
-  "None",
-  "Mouse",
-  "Keyboard",
-  "Tablet",
-  "TouchScreen",
-]);
-
-export const zEditUserMetadataRequest = z.object({
-  playstyle: z.union([
-    z.array(zUserPlaystyle),
-    z.null(),
-  ]).optional(),
-  location: z.union([
-    z.string().max(32),
-    z.null(),
-  ]).optional(),
-  interest: z.union([
-    z.string().max(32),
-    z.null(),
-  ]).optional(),
-  occupation: z.union([
-    z.string().max(32),
-    z.null(),
-  ]).optional(),
-  telegram: z.union([
-    z.string().max(32),
-    z.null(),
-  ]).optional(),
-  twitch: z.union([
-    z.string().max(32),
-    z.null(),
-  ]).optional(),
-  twitter: z.union([
-    z.string().max(32),
-    z.null(),
-  ]).optional(),
-  discord: z.union([
-    z.string().max(32),
-    z.null(),
-  ]).optional(),
-  website: z.union([
-    z.string().max(200),
-    z.null(),
-  ]).optional(),
-});
-
-export const zUserPrivilege = z.enum([
-  "User",
-  "Supporter",
-  "Admin",
-  "Developer",
-  "SuperUser",
-  "ServerBot",
-  "BeatmapApprovalTeamStandard",
-  "BeatmapApprovalTeamTaiko",
-  "BeatmapApprovalTeamCatch",
-  "BeatmapApprovalTeamMania",
-]);
-
-export const zEditUserPrivilegeRequest = z.object({
-  privilege: z.array(zUserPrivilege),
-});
-
-export const zEditUserRestrictionRequest = z.object({
-  is_restrict: z.boolean(),
-  restriction_reason: z.union([
-    z.string().min(3).max(256),
-    z.null(),
-  ]).optional(),
-});
-
-export const zUserEventType = z.enum([
-  "GameLogin",
-  "WebLogin",
-  "Register",
-  "ChangeEmail",
-  "ChangePassword",
-  "ChangeAvatar",
-  "ChangeBanner",
-  "ChangeUsername",
-  "ChangeCountry",
-  "ChangePrivilege",
-  "ChangeMetadata",
-  "ChangeDescription",
-  "ChangeDefaultGameMode",
-  "ChangeFriendshipStatus",
-  "Restrict",
-  "Unrestrict",
-]);
-
-export const zEventUserResponse = z.object({
-  id: z.number().int(),
-  user: zUserResponse,
-  event_type: zUserEventType,
-  ip: z.string(),
-  json_data: z.string(),
-  created_at: z.string().datetime(),
-});
-
-export const zEventUsersResponse = z.object({
-  events: z.array(zEventUserResponse),
-  total_count: z.number().int(),
-});
-
-export const zFavouritedResponse = z.object({
-  favourited: z.boolean(),
-});
-
-export const zFollowersResponse = z.object({
-  followers: z.array(zUserResponse),
-  total_count: z.number().int(),
-});
-
-export const zFriendStatusResponse = z.object({
-  is_following_you: z.boolean(),
-  is_followed_by_you: z.boolean(),
-});
-
-export const zFriendsResponse = z.object({
-  friends: z.array(zUserResponse),
-  total_count: z.number().int(),
-});
-
 export const zGradesResponse = z.object({
-  count_xh: z.number().int(),
-  count_x: z.number().int(),
-  count_sh: z.number().int(),
-  count_s: z.number().int(),
-  count_a: z.number().int(),
-  count_b: z.number().int(),
-  count_c: z.number().int(),
-  count_d: z.number().int(),
+  count_xh: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  count_x: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  count_sh: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  count_s: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  count_a: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  count_b: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  count_c: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  count_d: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
 });
 
-export const zHypedBeatmapSetResponse = z.object({
-  id: z.number().int(),
-  artist: z.string(),
-  title: z.string(),
-  creator: z.string(),
-  creator_id: z.number().int(),
-  status: zBeatmapStatusWeb,
-  last_updated: z.string().datetime(),
-  submitted_date: z.union([
-    z.string().datetime(),
-    z.null(),
-  ]).optional(),
-  ranked_date: z.union([
-    z.string().datetime(),
-    z.null(),
-  ]).optional(),
-  video: z.boolean(),
-  beatmaps: z.array(zBeatmapResponse),
-  description: z.string(),
-  genre: z.string(),
-  language: z.string(),
-  tags: z.array(z.string()),
-  beatmap_nominator_user: zUserResponse.optional(),
-  can_be_hyped: z.boolean(),
-  hypeCount: z.number().int(),
-});
-
-export const zHypedBeatmapSetsResponse = z.object({
-  sets: z.array(zHypedBeatmapSetResponse),
-  total_count: z.union([
-    z.number().int(),
-    z.null(),
-  ]).optional(),
-});
-
-export const zItemType = z.enum([
-  "Hype",
-]);
+export const zItemType = z.enum(["Hype"]);
 
 export const zInventoryItemResponse = z.object({
-  quantity: z.number().int(),
+  quantity: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
   item_type: zItemType,
 });
 
-export const zUserStatsResponse = z.object({
-  user_id: z.number().int(),
-  gamemode: zGameMode,
-  accuracy: z.number(),
-  total_score: z.coerce.bigint(),
-  ranked_score: z.coerce.bigint(),
-  play_count: z.number().int(),
-  pp: z.number(),
-  rank: z.coerce.bigint(),
-  country_rank: z.coerce.bigint(),
-  max_combo: z.number().int(),
-  play_time: z.number().int(),
-  total_hits: z.number().int(),
-  best_global_rank: z.coerce.bigint(),
-  best_global_rank_date: z.string().datetime(),
-  best_country_rank: z.coerce.bigint(),
-  best_country_rank_date: z.string().datetime(),
-});
-
-export const zUserWithStats = z.object({
-  user: zUserResponse,
-  stats: zUserStatsResponse,
-});
-
-export const zLeaderboardResponse = z.object({
-  users: z.array(zUserWithStats),
-  total_count: z.number().int(),
-});
-
-export const zLeaderboardSortType = z.enum([
-  "Pp",
-  "Score",
-]);
-
-export const zRateLimits = z.object({
-  total_limit: z.number().int(),
-  remaining_calls: z.coerce.bigint(),
-});
-
-export const zLimitsResponse = z.object({
-  message: z.string(),
-  rate_limits: zRateLimits,
-  beatmap_rate_limits: zRateLimits,
-});
-
-export const zMedalsResponse = z.object({
-  hush_hush: zCategory,
-  beatmap_hunt: zCategory,
-  mod_introduction: zCategory,
-  skill: zCategory,
-});
+export const zLeaderboardSortType = z.enum(["Pp", "Score"]);
 
 export const zMods = z.enum([
   "None",
@@ -836,153 +407,13 @@ export const zMods = z.enum([
   "Mirror",
 ]);
 
-export const zMostPlayedBeatmapResponse = z.object({
-  id: z.number().int(),
-  beatmapset_id: z.number().int(),
-  hash: z.string(),
-  version: z.string(),
-  status: zBeatmapStatusWeb,
-  star_rating_osu: z.number(),
-  star_rating_taiko: z.number(),
-  star_rating_ctb: z.number(),
-  star_rating_mania: z.number(),
-  total_length: z.number().int(),
-  max_combo: z.number().int(),
-  accuracy: z.union([
-    z.number(),
-    z.null(),
-  ]).optional(),
-  ar: z.union([
-    z.number(),
-    z.null(),
-  ]).optional(),
-  bpm: z.number(),
-  convert: z.boolean(),
-  count_circles: z.number().int(),
-  count_sliders: z.number().int(),
-  count_spinners: z.number().int(),
-  cs: z.number(),
-  deleted_at: z.union([
-    z.string().datetime(),
-    z.null(),
-  ]).optional(),
-  drain: z.union([
-    z.number(),
-    z.null(),
-  ]).optional(),
-  hit_length: z.number().int(),
-  is_scoreable: z.boolean(),
-  is_ranked: z.boolean(),
-  last_updated: z.string().datetime(),
-  mode_int: z.number().int(),
-  mode: zGameMode,
-  ranked: z.number().int(),
-  title: z.union([
-    z.string(),
-    z.null(),
-  ]).optional(),
-  artist: z.union([
-    z.string(),
-    z.null(),
-  ]).optional(),
-  creator: z.union([
-    z.string(),
-    z.null(),
-  ]).optional(),
-  creator_id: z.number().int(),
-  beatmap_nominator_user: zUserResponse.optional(),
-  play_count: z.number().int(),
-});
-
-export const zMostPlayedResponse = z.object({
-  most_played: z.array(zMostPlayedBeatmapResponse),
-  total_count: z.number().int(),
-});
-
-export const zScoreState = z.object({
-  maxCombo: z.union([
-    z.number().int(),
-    z.null(),
-  ]).optional(),
-  osuLargeTickHits: z.union([
-    z.number().int(),
-    z.null(),
-  ]).optional(),
-  osuSmallTickHits: z.union([
-    z.number().int(),
-    z.null(),
-  ]).optional(),
-  sliderEndHits: z.union([
-    z.number().int(),
-    z.null(),
-  ]).optional(),
-  nGeki: z.union([
-    z.number().int(),
-    z.null(),
-  ]).optional(),
-  nKatu: z.union([
-    z.number().int(),
-    z.null(),
-  ]).optional(),
-  n300: z.union([
-    z.number().int(),
-    z.null(),
-  ]).optional(),
-  n100: z.union([
-    z.number().int(),
-    z.null(),
-  ]).optional(),
-  n50: z.union([
-    z.number().int(),
-    z.null(),
-  ]).optional(),
-  misses: z.union([
-    z.number().int(),
-    z.null(),
-  ]).optional(),
-});
-
-export const zPerformanceAttributes = z.object({
-  difficulty: zDifficultyAttributes,
-  effectiveMissCount: z.union([
-    z.number(),
-    z.null(),
-  ]).optional(),
-  estimatedUnstableRate: z.union([
-    z.number(),
-    z.null(),
-  ]).optional(),
-  pp: z.number(),
-  ppAccuracy: z.union([
-    z.number(),
-    z.null(),
-  ]).optional(),
-  ppAim: z.union([
-    z.number(),
-    z.null(),
-  ]).optional(),
-  ppDifficulty: z.union([
-    z.number(),
-    z.null(),
-  ]).optional(),
-  ppFlashlight: z.union([
-    z.number(),
-    z.null(),
-  ]).optional(),
-  ppSpeed: z.union([
-    z.number(),
-    z.null(),
-  ]).optional(),
-  state: zScoreState,
-});
-
 export const zPlayHistorySnapshotResponse = z.object({
-  play_count: z.number().int(),
+  play_count: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
   saved_at: z.string().datetime(),
 });
 
 export const zPlayHistorySnapshotsResponse = z.object({
-  total_count: z.number().int(),
+  total_count: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
   snapshots: z.array(zPlayHistorySnapshotResponse),
 });
 
@@ -991,31 +422,24 @@ export const zPreviousUsernamesResponse = z.object({
 });
 
 export const zProblemDetailsResponseType = z.object({
-  type: z.union([
-    z.string(),
-    z.null(),
-  ]).optional(),
-  title: z.union([
-    z.string(),
-    z.null(),
-  ]).optional(),
-  status: z.union([
-    z.number().int(),
-    z.null(),
-  ]).optional(),
-  detail: z.union([
-    z.string(),
-    z.null(),
-  ]).optional(),
-  instance: z.union([
-    z.string(),
-    z.null(),
-  ]).optional(),
-  traceId: z.union([
-    z.string(),
-    z.null(),
-  ]).optional(),
+  type: z.string().nullish(),
+  title: z.string().nullish(),
+  status: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }).nullish(),
+  detail: z.string().nullish(),
+  instance: z.string().nullish(),
+  traceId: z.string().nullish(),
   errors: z.unknown().optional(),
+});
+
+export const zRateLimits = z.object({
+  total_limit: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  remaining_calls: z.coerce.bigint().min(BigInt("-9223372036854775808"), { message: "Invalid value: Expected int64 to be >= -9223372036854775808" }).max(BigInt("9223372036854775807"), { message: "Invalid value: Expected int64 to be <= 9223372036854775807" }),
+});
+
+export const zLimitsResponse = z.object({
+  message: z.string(),
+  rate_limits: zRateLimits,
+  beatmap_rate_limits: zRateLimits,
 });
 
 export const zRefreshTokenRequest = z.object({
@@ -1024,7 +448,7 @@ export const zRefreshTokenRequest = z.object({
 
 export const zRefreshTokenResponse = z.object({
   token: z.string(),
-  expires_in: z.number().int(),
+  expires_in: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
 });
 
 export const zRegisterRequest = z.object({
@@ -1037,40 +461,75 @@ export const zResetPasswordRequest = z.object({
   new_password: z.string().min(1),
 });
 
-export const zScoreResponse = z.object({
-  accuracy: z.number(),
-  beatmap_id: z.number().int(),
-  count_100: z.number().int(),
-  count_300: z.number().int(),
-  count_50: z.number().int(),
-  count_geki: z.number().int(),
-  count_katu: z.number().int(),
-  count_miss: z.number().int(),
-  game_mode: zGameMode,
-  game_mode_extended: zGameMode,
-  grade: z.string(),
-  id: z.number().int(),
-  is_passed: z.boolean(),
-  has_replay: z.boolean(),
-  leaderboard_rank: z.union([
-    z.number().int(),
-    z.null(),
-  ]).optional(),
-  max_combo: z.number().int(),
-  mods: z.union([
-    z.string(),
-    z.null(),
-  ]).optional(),
-  mods_int: z.union([
-    z.number().int(),
-    z.null(),
-  ]).optional(),
-  is_perfect: z.boolean(),
-  performance_points: z.number(),
-  total_score: z.coerce.bigint(),
-  user_id: z.number().int(),
-  when_played: z.string().datetime(),
-  user: zUserResponse,
+export const zScoreProcessingErrorCode = z.enum([
+  "Unexpected",
+  "BeatmapNotFound",
+  "DuplicateScore",
+  "PpCalculationFailed",
+  "ReplayMissing",
+  "InvalidMods",
+  "BannablePpThreshold",
+  "InvalidChecksums",
+  "UserNotFound",
+  "UserStatsNotFound",
+  "UserGradesNotFound",
+  "TransactionFailed",
+  "ParsedScoreInvalid",
+  "CancelledByOperator",
+  "InvalidScoreState",
+  "InvalidClientVersion",
+  "InvalidReplay",
+]);
+
+export const zScoreProcessingEventType = z.enum([
+  "RecalculationRequested",
+  "RestoreRequested",
+  "DeleteRequested",
+  "SubmissionEnqueued",
+  "Cancelled",
+  "Requeued",
+  "BulkRequested",
+]);
+
+export const zScoreProcessingStatsResponse = z.object({
+  pending: z.coerce.bigint().min(BigInt("-9223372036854775808"), { message: "Invalid value: Expected int64 to be >= -9223372036854775808" }).max(BigInt("9223372036854775807"), { message: "Invalid value: Expected int64 to be <= 9223372036854775807" }),
+  processing: z.coerce.bigint().min(BigInt("-9223372036854775808"), { message: "Invalid value: Expected int64 to be >= -9223372036854775808" }).max(BigInt("9223372036854775807"), { message: "Invalid value: Expected int64 to be <= 9223372036854775807" }),
+  failed: z.coerce.bigint().min(BigInt("-9223372036854775808"), { message: "Invalid value: Expected int64 to be >= -9223372036854775808" }).max(BigInt("9223372036854775807"), { message: "Invalid value: Expected int64 to be <= 9223372036854775807" }),
+  estimated_pending_completion_seconds: z.number().nullish(),
+});
+
+export const zScoreProcessingStatus = z.enum([
+  "Pending",
+  "Processing",
+  "Failed",
+]);
+
+export const zScoreSortType = z.enum(["Date", "Performance"]);
+
+export const zScoreState = z.object({
+  maxCombo: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }).nullish(),
+  osuLargeTickHits: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }).nullish(),
+  osuSmallTickHits: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }).nullish(),
+  sliderEndHits: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }).nullish(),
+  nGeki: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }).nullish(),
+  nKatu: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }).nullish(),
+  n300: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }).nullish(),
+  n100: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }).nullish(),
+  n50: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }).nullish(),
+  misses: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }).nullish(),
+});
+
+export const zPerformanceAttributes = z.object({
+  difficulty: zDifficultyAttributes,
+  effectiveMissCount: z.number().nullish(),
+  estimatedUnstableRate: z.number().nullish(),
+  pp: z.number(),
+  ppAccuracy: z.number().nullish(),
+  ppAim: z.number().nullish(),
+  ppDifficulty: z.number().nullish(),
+  ppFlashlight: z.number().nullish(),
+  ppSpeed: z.number().nullish(),
+  state: zScoreState,
 });
 
 export const zScoreTableType = z.enum([
@@ -1079,52 +538,58 @@ export const zScoreTableType = z.enum([
   "Top",
 ]);
 
-export const zScoresResponse = z.object({
-  scores: z.array(zScoreResponse),
-  total_count: z.number().int(),
+export const zScoreTaskType = z.enum([
+  "Submission",
+  "Recalculation",
+  "Restore",
+  "Delete",
+  "BeatmapStatusChange",
+]);
+
+export const zBulkScoreProcessingRequest = z.object({
+  score_ids: z.array(z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" })).min(1),
+  action: zScoreTaskType,
+});
+
+export const zCreateScoreProcessingTaskRequest = z.object({
+  score_id: z.number().int().gte(1).lte(2147483647),
+  action: zScoreTaskType,
 });
 
 export const zSolarSystemVersionResponse = z.object({
   is_running_under_solar_system: z.boolean(),
-  solar_system_version: z.union([
-    z.string(),
-    z.null(),
-  ]).optional(),
+  solar_system_version: z.string().nullish(),
 });
 
 export const zStatsSnapshotResponse = z.object({
-  country_rank: z.coerce.bigint(),
+  country_rank: z.coerce.bigint().min(BigInt("-9223372036854775808"), { message: "Invalid value: Expected int64 to be >= -9223372036854775808" }).max(BigInt("9223372036854775807"), { message: "Invalid value: Expected int64 to be <= 9223372036854775807" }),
   pp: z.number(),
-  global_rank: z.coerce.bigint(),
+  global_rank: z.coerce.bigint().min(BigInt("-9223372036854775808"), { message: "Invalid value: Expected int64 to be >= -9223372036854775808" }).max(BigInt("9223372036854775807"), { message: "Invalid value: Expected int64 to be <= 9223372036854775807" }),
   saved_at: z.string().datetime(),
 });
 
 export const zStatsSnapshotsResponse = z.object({
-  total_count: z.number().int(),
+  total_count: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
   snapshots: z.array(zStatsSnapshotResponse),
 });
 
-export const zStatusResponse = z.object({
-  is_online: z.boolean(),
-  is_on_maintenance: z.boolean(),
-  users_online: z.number().int(),
-  current_users_online: z.union([
-    z.array(zUserResponse),
-    z.null(),
-  ]).optional(),
-  total_users: z.coerce.bigint(),
-  recent_users: z.union([
-    z.array(zUserResponse),
-    z.null(),
-  ]).optional(),
-  total_scores: z.union([
-    z.coerce.bigint(),
-    z.null(),
-  ]).optional(),
-  total_restrictions: z.union([
-    z.coerce.bigint(),
-    z.null(),
-  ]).optional(),
+export const zSubmissionStatus = z.enum([
+  "Failed",
+  "Submitted",
+  "Best",
+  "Deleted",
+  "Unknown",
+]);
+
+export const zBulkScoreProcessingByFilterRequest = z.object({
+  action: zScoreTaskType,
+  user_id: z.number().int().gte(1).lte(2147483647),
+  mode: zGameMode.optional(),
+  mods: z.array(zMods).nullish(),
+  submission_status: zSubmissionStatus.optional(),
+  beatmap_status: zBeatmapStatus.optional(),
+  submitted_from: z.string().datetime().nullish(),
+  submitted_to: z.string().datetime().nullish(),
 });
 
 export const zTokenRequest = z.object({
@@ -1135,12 +600,83 @@ export const zTokenRequest = z.object({
 export const zTokenResponse = z.object({
   token: z.string(),
   refresh_token: z.string(),
-  expires_in: z.number().int(),
+  expires_in: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
 });
 
 export const zUpdateBeatmapsCustomStatusRequest = z.object({
-  ids: z.array(z.number().int()),
+  ids: z.array(z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" })),
   status: zBeatmapStatusWeb,
+});
+
+export const zUpdateFriendshipStatusAction = z.enum(["Add", "Remove"]);
+
+export const zEditFriendshipStatusRequest = z.object({
+  action: zUpdateFriendshipStatusAction,
+});
+
+export const zUserBadge = z.enum([
+  "Developer",
+  "Admin",
+  "Bat",
+  "Bot",
+  "Supporter",
+]);
+
+export const zUserEventType = z.enum([
+  "GameLogin",
+  "WebLogin",
+  "Register",
+  "ChangeEmail",
+  "ChangePassword",
+  "ChangeAvatar",
+  "ChangeBanner",
+  "ChangeUsername",
+  "ChangeCountry",
+  "ChangePrivilege",
+  "ChangeMetadata",
+  "ChangeDescription",
+  "ChangeDefaultGameMode",
+  "ChangeFriendshipStatus",
+  "Restrict",
+  "Unrestrict",
+]);
+
+export const zUserMedalResponse = z.object({
+  id: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }).readonly(),
+  name: z.string().readonly(),
+  description: z.string().readonly(),
+  unlocked_at: z.string().datetime().readonly().nullish(),
+});
+
+export const zCategory = z.object({
+  medals: z.array(zUserMedalResponse).readonly(),
+});
+
+export const zMedalsResponse = z.object({
+  hush_hush: zCategory,
+  beatmap_hunt: zCategory,
+  mod_introduction: zCategory,
+  skill: zCategory,
+});
+
+export const zUserPlaystyle = z.enum([
+  "None",
+  "Mouse",
+  "Keyboard",
+  "Tablet",
+  "TouchScreen",
+]);
+
+export const zEditUserMetadataRequest = z.object({
+  playstyle: z.array(zUserPlaystyle).nullish(),
+  location: z.string().max(32).nullish(),
+  interest: z.string().max(32).nullish(),
+  occupation: z.string().max(32).nullish(),
+  telegram: z.string().max(32).nullish(),
+  twitch: z.string().max(32).nullish(),
+  twitter: z.string().max(32).nullish(),
+  discord: z.string().max(32).nullish(),
+  website: z.string().max(200).nullish(),
 });
 
 export const zUserMetadataResponse = z.object({
@@ -1155,33 +691,360 @@ export const zUserMetadataResponse = z.object({
   website: z.string(),
 });
 
-export const zUserRelationsCountersResponse = z.object({
-  followers: z.number().int(),
-  following: z.number().int(),
+export const zUserPrivilege = z.enum([
+  "User",
+  "Supporter",
+  "Admin",
+  "Developer",
+  "SuperUser",
+  "ServerBot",
+  "BeatmapApprovalTeamStandard",
+  "BeatmapApprovalTeamTaiko",
+  "BeatmapApprovalTeamCatch",
+  "BeatmapApprovalTeamMania",
+]);
+
+export const zEditUserPrivilegeRequest = z.object({
+  privilege: z.array(zUserPrivilege),
 });
 
-export const zUserSensitiveResponse = z.object({
-  user_id: z.number().int(),
+export const zUserRelationsCountersResponse = z.object({
+  followers: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  following: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+});
+
+export const zUserResponse = z.object({
+  user_id: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
   username: z.string(),
-  email: z.string(),
-  privilege: z.array(zUserPrivilege),
-  description: z.union([
-    z.string(),
-    z.null(),
-  ]).optional(),
+  description: z.string().nullish(),
   country_code: zCountryCode,
   register_date: z.string().datetime(),
   avatar_url: z.string(),
   banner_url: z.string(),
   last_online_time: z.string().datetime(),
   restricted: z.boolean(),
-  silenced_until: z.union([
-    z.string().datetime(),
-    z.null(),
-  ]).optional(),
+  silenced_until: z.string().datetime().nullish(),
   default_gamemode: zGameMode,
   badges: z.array(zUserBadge),
   user_status: z.string(),
+});
+
+export const zBeatmapResponse = z.object({
+  id: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  beatmapset_id: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  hash: z.string(),
+  version: z.string(),
+  status: zBeatmapStatusWeb,
+  star_rating_osu: z.number(),
+  star_rating_taiko: z.number(),
+  star_rating_ctb: z.number(),
+  star_rating_mania: z.number(),
+  total_length: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  max_combo: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  accuracy: z.number().nullish(),
+  ar: z.number().nullish(),
+  bpm: z.number(),
+  convert: z.boolean(),
+  count_circles: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  count_sliders: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  count_spinners: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  cs: z.number(),
+  deleted_at: z.string().datetime().nullish(),
+  drain: z.number().nullish(),
+  hit_length: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  is_scoreable: z.boolean(),
+  is_ranked: z.boolean(),
+  last_updated: z.string().datetime(),
+  mode_int: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  mode: zGameMode,
+  ranked: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  title: z.string().nullish(),
+  artist: z.string().nullish(),
+  creator: z.string().nullish(),
+  creator_id: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  beatmap_nominator_user: zUserResponse.optional(),
+});
+
+export const zBeatmapSetResponse = z.object({
+  id: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  artist: z.string(),
+  title: z.string(),
+  creator: z.string(),
+  creator_id: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  status: zBeatmapStatusWeb,
+  last_updated: z.string().datetime(),
+  submitted_date: z.string().datetime(),
+  ranked_date: z.string().datetime().nullish(),
+  video: z.boolean(),
+  beatmaps: z.array(zBeatmapResponse),
+  description: z.string(),
+  genre: z.string(),
+  language: z.string(),
+  tags: z.array(z.string()),
+  beatmap_nominator_user: zUserResponse.optional(),
+  can_be_hyped: z.boolean(),
+});
+
+export const zBeatmapEventResponse = z.object({
+  event_id: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  executor: zUserResponse,
+  type: zBeatmapEventType,
+  beatmapset_id: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  beatmapset: zBeatmapSetResponse,
+  beatmap_hash: z.string().nullish(),
+  new_status: zBeatmapStatusWeb.optional(),
+  created_at: z.string().datetime(),
+});
+
+export const zBeatmapSetEventsResponse = z.object({
+  events: z.array(zBeatmapEventResponse),
+  total_count: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+});
+
+export const zBeatmapSetsResponse = z.object({
+  sets: z.array(zBeatmapSetResponse),
+  total_count: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }).nullish(),
+});
+
+export const zCustomBeatmapStatusChangeResponse = z.object({
+  beatmap: zBeatmapResponse,
+  new_status: zBeatmapStatusWeb,
+  old_status: zBeatmapStatusWeb,
+  bat: zUserResponse,
+});
+
+export const zEventScoreProcessingResponse = z.object({
+  id: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  event_type: zScoreProcessingEventType,
+  executor: zUserResponse.optional(),
+  score_id: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }).nullish(),
+  task_id: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }).nullish(),
+  json_data: z.string().nullish(),
+  created_at: z.string().datetime(),
+});
+
+export const zEventScoreProcessingListResponse = z.object({
+  events: z.array(zEventScoreProcessingResponse),
+  total_count: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+});
+
+export const zEventUserResponse = z.object({
+  id: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  user: zUserResponse,
+  event_type: zUserEventType,
+  ip: z.string(),
+  json_data: z.string(),
+  created_at: z.string().datetime(),
+});
+
+export const zEventUsersResponse = z.object({
+  events: z.array(zEventUserResponse),
+  total_count: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+});
+
+export const zFollowersResponse = z.object({
+  followers: z.array(zUserResponse),
+  total_count: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+});
+
+export const zFriendsResponse = z.object({
+  friends: z.array(zUserResponse),
+  total_count: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+});
+
+export const zHypedBeatmapSetResponse = z.object({
+  id: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  artist: z.string(),
+  title: z.string(),
+  creator: z.string(),
+  creator_id: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  status: zBeatmapStatusWeb,
+  last_updated: z.string().datetime(),
+  submitted_date: z.string().datetime(),
+  ranked_date: z.string().datetime().nullish(),
+  video: z.boolean(),
+  beatmaps: z.array(zBeatmapResponse),
+  description: z.string(),
+  genre: z.string(),
+  language: z.string(),
+  tags: z.array(z.string()),
+  beatmap_nominator_user: zUserResponse.optional(),
+  can_be_hyped: z.boolean(),
+  hypeCount: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+});
+
+export const zHypedBeatmapSetsResponse = z.object({
+  sets: z.array(zHypedBeatmapSetResponse),
+  total_count: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }).nullish(),
+});
+
+export const zMostPlayedBeatmapResponse = z.object({
+  id: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  beatmapset_id: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  hash: z.string(),
+  version: z.string(),
+  status: zBeatmapStatusWeb,
+  star_rating_osu: z.number(),
+  star_rating_taiko: z.number(),
+  star_rating_ctb: z.number(),
+  star_rating_mania: z.number(),
+  total_length: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  max_combo: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  accuracy: z.number().nullish(),
+  ar: z.number().nullish(),
+  bpm: z.number(),
+  convert: z.boolean(),
+  count_circles: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  count_sliders: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  count_spinners: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  cs: z.number(),
+  deleted_at: z.string().datetime().nullish(),
+  drain: z.number().nullish(),
+  hit_length: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  is_scoreable: z.boolean(),
+  is_ranked: z.boolean(),
+  last_updated: z.string().datetime(),
+  mode_int: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  mode: zGameMode,
+  ranked: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  title: z.string().nullish(),
+  artist: z.string().nullish(),
+  creator: z.string().nullish(),
+  creator_id: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  beatmap_nominator_user: zUserResponse.optional(),
+  play_count: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+});
+
+export const zMostPlayedResponse = z.object({
+  most_played: z.array(zMostPlayedBeatmapResponse),
+  total_count: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+});
+
+export const zScoreResponse = z.object({
+  accuracy: z.number(),
+  beatmap_id: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  count_100: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  count_300: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  count_50: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  count_geki: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  count_katu: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  count_miss: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  game_mode: zGameMode,
+  game_mode_extended: zGameMode,
+  grade: z.string(),
+  id: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  is_passed: z.boolean(),
+  has_replay: z.boolean(),
+  leaderboard_rank: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }).nullish(),
+  max_combo: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  mods: z.string().nullish(),
+  mods_int: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }).nullish(),
+  is_perfect: z.boolean(),
+  performance_points: z.number(),
+  total_score: z.coerce.bigint().min(BigInt("-9223372036854775808"), { message: "Invalid value: Expected int64 to be >= -9223372036854775808" }).max(BigInt("9223372036854775807"), { message: "Invalid value: Expected int64 to be <= 9223372036854775807" }),
+  user_id: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  when_played: z.string().datetime(),
+  user: zUserResponse,
+});
+
+export const zAdminScoreResponse = z.object({
+  score: zScoreResponse,
+  submission_status: zSubmissionStatus,
+  beatmap_status: zBeatmapStatus,
+  is_scoreable: z.boolean(),
+  score_hash: z.string().nullish(),
+});
+
+export const zAdminScoresResponse = z.object({
+  scores: z.array(zAdminScoreResponse),
+  total_count: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+});
+
+export const zScoreProcessingTaskResponse = z.object({
+  id: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  task_type: zScoreTaskType,
+  status: zScoreProcessingStatus,
+  priority: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  retry_count: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  error_code: zScoreProcessingErrorCode.optional(),
+  error_message: z.string().nullish(),
+  next_retry_at: z.string().datetime().nullish(),
+  created_at: z.string().datetime(),
+  score_id: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }).nullish(),
+  score: zAdminScoreResponse.optional(),
+});
+
+export const zScoreProcessingPreviewResponse = z.object({
+  score: zAdminScoreResponse,
+  active_task: zScoreProcessingTaskResponse.optional(),
+});
+
+export const zScoreProcessingTasksResponse = z.object({
+  tasks: z.array(zScoreProcessingTaskResponse),
+  total_count: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+});
+
+export const zScoresResponse = z.object({
+  scores: z.array(zScoreResponse),
+  total_count: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+});
+
+export const zStatusResponse = z.object({
+  is_online: z.boolean(),
+  is_on_maintenance: z.boolean(),
+  users_online: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  current_users_online: z.array(zUserResponse).nullish(),
+  total_users: z.coerce.bigint().min(BigInt("-9223372036854775808"), { message: "Invalid value: Expected int64 to be >= -9223372036854775808" }).max(BigInt("9223372036854775807"), { message: "Invalid value: Expected int64 to be <= 9223372036854775807" }),
+  recent_users: z.array(zUserResponse).nullish(),
+  total_scores: z.coerce.bigint().min(BigInt("-9223372036854775808"), { message: "Invalid value: Expected int64 to be >= -9223372036854775808" }).max(BigInt("9223372036854775807"), { message: "Invalid value: Expected int64 to be <= 9223372036854775807" }).nullish(),
+  total_restrictions: z.coerce.bigint().min(BigInt("-9223372036854775808"), { message: "Invalid value: Expected int64 to be >= -9223372036854775808" }).max(BigInt("9223372036854775807"), { message: "Invalid value: Expected int64 to be <= 9223372036854775807" }).nullish(),
+});
+
+export const zUserSensitiveResponse = z.object({
+  user_id: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  username: z.string(),
+  email: z.string(),
+  privilege: z.array(zUserPrivilege),
+  description: z.string().nullish(),
+  country_code: zCountryCode,
+  register_date: z.string().datetime(),
+  avatar_url: z.string(),
+  banner_url: z.string(),
+  last_online_time: z.string().datetime(),
+  restricted: z.boolean(),
+  silenced_until: z.string().datetime().nullish(),
+  default_gamemode: zGameMode,
+  badges: z.array(zUserBadge),
+  user_status: z.string(),
+});
+
+export const zUserStatsResponse = z.object({
+  user_id: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  gamemode: zGameMode,
+  accuracy: z.number(),
+  total_score: z.coerce.bigint().min(BigInt("-9223372036854775808"), { message: "Invalid value: Expected int64 to be >= -9223372036854775808" }).max(BigInt("9223372036854775807"), { message: "Invalid value: Expected int64 to be <= 9223372036854775807" }),
+  ranked_score: z.coerce.bigint().min(BigInt("-9223372036854775808"), { message: "Invalid value: Expected int64 to be >= -9223372036854775808" }).max(BigInt("9223372036854775807"), { message: "Invalid value: Expected int64 to be <= 9223372036854775807" }),
+  play_count: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  pp: z.number(),
+  rank: z.coerce.bigint().min(BigInt("-9223372036854775808"), { message: "Invalid value: Expected int64 to be >= -9223372036854775808" }).max(BigInt("9223372036854775807"), { message: "Invalid value: Expected int64 to be <= 9223372036854775807" }),
+  country_rank: z.coerce.bigint().min(BigInt("-9223372036854775808"), { message: "Invalid value: Expected int64 to be >= -9223372036854775808" }).max(BigInt("9223372036854775807"), { message: "Invalid value: Expected int64 to be <= 9223372036854775807" }),
+  max_combo: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  play_time: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  total_hits: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
+  best_global_rank: z.coerce.bigint().min(BigInt("-9223372036854775808"), { message: "Invalid value: Expected int64 to be >= -9223372036854775808" }).max(BigInt("9223372036854775807"), { message: "Invalid value: Expected int64 to be <= 9223372036854775807" }),
+  best_global_rank_date: z.string().datetime(),
+  best_country_rank: z.coerce.bigint().min(BigInt("-9223372036854775808"), { message: "Invalid value: Expected int64 to be >= -9223372036854775808" }).max(BigInt("9223372036854775807"), { message: "Invalid value: Expected int64 to be <= 9223372036854775807" }),
+  best_country_rank_date: z.string().datetime(),
+});
+
+export const zUserWithStats = z.object({
+  user: zUserResponse,
+  stats: zUserStatsResponse,
+});
+
+export const zLeaderboardResponse = z.object({
+  users: z.array(zUserWithStats),
+  total_count: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
 });
 
 export const zUserWithStatsResponse = z.object({
@@ -1195,113 +1058,718 @@ export const zUsernameChangeRequest = z.object({
 
 export const zUsersSensitiveListResponse = z.object({
   users: z.array(zUserSensitiveResponse),
-  total_count: z.number().int(),
+  total_count: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
 });
 
-export const zWebSocketEventType = z.enum([
-  "NewScoreSubmitted",
-  "CustomBeatmapStatusChanged",
-]);
+export const zWebSocketEventType = z.enum(["NewScoreSubmitted", "CustomBeatmapStatusChanged"]);
 
 export const zWebSocketMessage = z.object({
   messageType: zWebSocketEventType,
   data: z.string().readonly(),
 });
 
+export const zMedalsResponseWritable = z.record(z.never());
+
+export const zWebSocketMessageWritable = z.object({
+  messageType: zWebSocketEventType,
+});
+
+export const zPostAuthTokenBody = zTokenRequest;
+
+/**
+ * OK
+ */
 export const zPostAuthTokenResponse = zTokenResponse;
 
+export const zPostAuthRefreshBody = zRefreshTokenRequest;
+
+/**
+ * OK
+ */
 export const zPostAuthRefreshResponse = zRefreshTokenResponse;
 
+export const zPostAuthRegisterBody = zRegisterRequest;
+
+/**
+ * OK
+ */
 export const zPostAuthRegisterResponse = zTokenResponse;
 
+/**
+ * OK
+ */
 export const zGetPingResponse = z.string();
 
+/**
+ * OK
+ */
 export const zGetLimitsResponse = zLimitsResponse;
 
+export const zGetStatusQuery = z.object({
+  detailed: z.boolean().optional().default(false),
+  includeRecentUsers: z.boolean().optional().default(false),
+});
+
+/**
+ * OK
+ */
 export const zGetStatusResponse = zStatusResponse;
 
+/**
+ * OK
+ */
 export const zGetVersionResponse = zSolarSystemVersionResponse;
 
+export const zGetBeatmapByIdPath = z.object({
+  id: z.number().int().gte(1).lte(2147483647),
+});
+
+/**
+ * OK
+ */
 export const zGetBeatmapByIdResponse = zBeatmapResponse;
 
+export const zGetBeatmapsetByBeatmapSetByIdPath = z.object({
+  id: z.number().int().gte(1).lte(2147483647),
+  beatmapSet: z.string(),
+});
+
+/**
+ * OK
+ */
 export const zGetBeatmapsetByBeatmapSetByIdResponse = zBeatmapResponse;
 
+export const zGetBeatmapByIdPpPath = z.object({
+  id: z.number().int().gte(1).lte(2147483647),
+});
+
+export const zGetBeatmapByIdPpQuery = z.object({
+  mods: z.array(zMods).optional(),
+  mode: zGameMode.optional(),
+  combo: z.number().int().gte(0).lte(2147483647).optional(),
+  misses: z.number().int().gte(0).lte(2147483647).optional(),
+  accuracy: z.number().gte(0).lte(100).optional(),
+});
+
+/**
+ * OK
+ */
 export const zGetBeatmapByIdPpResponse = zPerformanceAttributes;
 
+export const zGetBeatmapsetByBeatmapSetByIdPpPath = z.object({
+  id: z.number().int().gte(1).lte(2147483647),
+  beatmapSet: z.string(),
+});
+
+export const zGetBeatmapsetByBeatmapSetByIdPpQuery = z.object({
+  mods: z.array(zMods).optional(),
+  mode: zGameMode.optional(),
+  combo: z.number().int().gte(0).lte(2147483647).optional(),
+  misses: z.number().int().gte(0).lte(2147483647).optional(),
+  accuracy: z.number().gte(0).lte(100).optional(),
+});
+
+/**
+ * OK
+ */
 export const zGetBeatmapsetByBeatmapSetByIdPpResponse = zPerformanceAttributes;
 
+export const zGetBeatmapByIdLeaderboardPath = z.object({
+  id: z.number().int().gte(1).lte(2147483647),
+});
+
+export const zGetBeatmapByIdLeaderboardQuery = z.object({
+  mode: zGameMode,
+  mods: z.array(zMods).optional(),
+  limit: z.number().int().gte(1).lte(100).optional().default(50),
+});
+
+/**
+ * OK
+ */
 export const zGetBeatmapByIdLeaderboardResponse = zScoresResponse;
 
+export const zGetBeatmapsetByBeatmapSetByIdLeaderboardPath = z.object({
+  id: z.number().int().gte(1).lte(2147483647),
+  beatmapSet: z.string(),
+});
+
+export const zGetBeatmapsetByBeatmapSetByIdLeaderboardQuery = z.object({
+  mode: zGameMode,
+  mods: z.array(zMods).optional(),
+  limit: z.number().int().gte(1).lte(100).optional().default(50),
+});
+
+/**
+ * OK
+ */
 export const zGetBeatmapsetByBeatmapSetByIdLeaderboardResponse = zScoresResponse;
 
+export const zGetBeatmapsetByIdPath = z.object({
+  id: z.number().int().gte(1).lte(2147483647),
+});
+
+/**
+ * OK
+ */
 export const zGetBeatmapsetByIdResponse = zBeatmapSetResponse;
 
+export const zGetBeatmapsetByIdHypePath = z.object({
+  id: z.number().int().gte(1).lte(2147483647),
+});
+
+/**
+ * OK
+ */
 export const zGetBeatmapsetByIdHypeResponse = zBeatmapSetHypeCountResponse;
 
+export const zPostBeatmapsetByIdHypePath = z.object({
+  id: z.number().int().gte(1).lte(2147483647),
+});
+
+export const zGetBeatmapsetGetHypedSetsQuery = z.object({
+  limit: z.number().int().gte(1).lte(100).optional().default(50),
+  page: z.number().int().gte(1).lte(2147483647).optional().default(1),
+});
+
+/**
+ * OK
+ */
 export const zGetBeatmapsetGetHypedSetsResponse = zHypedBeatmapSetsResponse;
 
+export const zGetBeatmapsetByIdEventsPath = z.object({
+  id: z.number().int().gte(1).lte(2147483647),
+});
+
+export const zGetBeatmapsetByIdEventsQuery = z.object({
+  limit: z.number().int().gte(1).lte(100).optional().default(50),
+  page: z.number().int().gte(1).lte(2147483647).optional().default(1),
+});
+
+/**
+ * OK
+ */
 export const zGetBeatmapsetByIdEventsResponse = zBeatmapSetEventsResponse;
 
+export const zGetBeatmapsetEventsQuery = z.object({
+  limit: z.number().int().gte(1).lte(100).optional().default(50),
+  page: z.number().int().gte(1).lte(2147483647).optional().default(1),
+});
+
+/**
+ * OK
+ */
 export const zGetBeatmapsetEventsResponse = zBeatmapSetEventsResponse;
 
+export const zGetBeatmapsetByIdFavouritedPath = z.object({
+  id: z.number().int().gte(1).lte(2147483647),
+});
+
+/**
+ * OK
+ */
 export const zGetBeatmapsetByIdFavouritedResponse = zFavouritedResponse;
 
+export const zPostBeatmapsetByIdFavouritedBody = zEditBeatmapsetFavouriteStatusRequest;
+
+export const zPostBeatmapsetByIdFavouritedPath = z.object({
+  id: z.number().int().gte(1).lte(2147483647),
+});
+
+export const zPostBeatmapUpdateCustomStatusBody = zUpdateBeatmapsCustomStatusRequest;
+
+export const zGetBeatmapsetSearchQuery = z.object({
+  query: z.string().optional(),
+  status: z.array(zBeatmapStatusWeb).optional(),
+  mode: zGameMode.optional(),
+  searchByCustomStatus: z.boolean().optional().default(false),
+  limit: z.number().int().gte(1).lte(100).optional().default(50),
+  page: z.number().int().gte(1).lte(2147483647).optional().default(1),
+});
+
+/**
+ * OK
+ */
 export const zGetBeatmapsetSearchResponse = zBeatmapSetsResponse;
 
+export const zGetScoreByIdPath = z.object({
+  id: z.number().int().gte(1).lte(2147483647),
+});
+
+/**
+ * OK
+ */
 export const zGetScoreByIdResponse = zScoreResponse;
 
+export const zGetScoreByIdReplayPath = z.object({
+  id: z.number().int().gte(1).lte(2147483647),
+});
+
+/**
+ * OK
+ */
 export const zGetScoreByIdReplayResponse = z.string();
 
+export const zGetScoreTopQuery = z.object({
+  mode: zGameMode.optional(),
+  limit: z.number().int().gte(1).lte(100).optional().default(15),
+  page: z.number().int().gte(1).lte(2147483647).optional().default(1),
+});
+
+/**
+ * OK
+ */
 export const zGetScoreTopResponse = zScoresResponse;
 
+export const zGetScoreProcessingQuery = z.object({
+  page: z.number().int().gte(1).lte(2147483647).optional().default(1),
+  limit: z.number().int().gte(1).lte(100).optional().default(25),
+  status: zScoreProcessingStatus.optional(),
+  task_type: zScoreTaskType.optional(),
+  score_id: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }).optional(),
+  task_id: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }).optional(),
+});
+
+/**
+ * OK
+ */
+export const zGetScoreProcessingResponse = zScoreProcessingTasksResponse;
+
+export const zPostScoreProcessingBody = zCreateScoreProcessingTaskRequest;
+
+export const zPostScoreProcessingResponse = z.union([
+  z.unknown(),
+  zScoreProcessingTaskResponse,
+]);
+
+/**
+ * OK
+ */
+export const zGetScoreProcessingStatsResponse = zScoreProcessingStatsResponse;
+
+export const zGetScoreProcessingByIdPath = z.object({
+  id: z.number().int().gte(1).lte(2147483647),
+});
+
+/**
+ * OK
+ */
+export const zGetScoreProcessingByIdResponse = zScoreProcessingTaskResponse;
+
+export const zGetScoreProcessingScoreByScoreIdPath = z.object({
+  scoreId: z.number().int().gte(1).lte(2147483647),
+});
+
+/**
+ * OK
+ */
+export const zGetScoreProcessingScoreByScoreIdResponse = zScoreProcessingPreviewResponse;
+
+export const zPostScoreProcessingByIdCancelPath = z.object({
+  id: z.number().int().gte(1).lte(2147483647),
+});
+
+export const zPostScoreProcessingByIdRequeuePath = z.object({
+  id: z.number().int().gte(1).lte(2147483647),
+});
+
+export const zPostScoreProcessingBulkBody = zBulkScoreProcessingRequest;
+
+/**
+ * OK
+ */
+export const zPostScoreProcessingBulkResponse = zBulkScoreProcessingResultResponse;
+
+export const zPostScoreProcessingBulkByFilterBody = zBulkScoreProcessingByFilterRequest;
+
+export const zGetScoreProcessingEventsQuery = z.object({
+  page: z.number().int().gte(1).lte(2147483647).optional().default(1),
+  limit: z.number().int().gte(1).lte(100).optional().default(25),
+  types: z.array(zScoreProcessingEventType).optional(),
+  score_id: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }).optional(),
+});
+
+/**
+ * OK
+ */
+export const zGetScoreProcessingEventsResponse = zEventScoreProcessingListResponse;
+
+export const zGetUserByIdPath = z.object({
+  id: z.number().int().gte(1).lte(2147483647),
+});
+
+/**
+ * OK
+ */
 export const zGetUserByIdResponse = zUserResponse;
 
+export const zGetUserByIdSensitivePath = z.object({
+  id: z.number().int().gte(1).lte(2147483647),
+});
+
+/**
+ * OK
+ */
 export const zGetUserByIdSensitiveResponse = zUserSensitiveResponse;
 
+export const zGetUserByIdByModePath = z.object({
+  id: z.number().int().gte(1).lte(2147483647),
+  mode: zGameMode,
+});
+
+/**
+ * OK
+ */
 export const zGetUserByIdByModeResponse = zUserWithStatsResponse;
 
+/**
+ * OK
+ */
 export const zGetUserSelfResponse = zUserResponse;
 
+export const zGetUserSelfByModePath = z.object({
+  mode: zGameMode,
+});
+
+/**
+ * OK
+ */
 export const zGetUserSelfByModeResponse = zUserWithStatsResponse;
 
+export const zPostUserEditDescriptionBody = zEditDescriptionRequest;
+
+export const zPostUserByIdEditDescriptionBody = zEditDescriptionRequest;
+
+export const zPostUserByIdEditDescriptionPath = z.object({
+  id: z.number().int().gte(1).lte(2147483647),
+});
+
+export const zPostUserEditDefaultGamemodeBody = zEditDefaultGameModeRequest;
+
+export const zPostUserByIdEditRestrictionBody = zEditUserRestrictionRequest;
+
+export const zPostUserByIdEditRestrictionPath = z.object({
+  id: z.number().int().gte(1).lte(2147483647),
+});
+
+export const zPostUserByIdEditIgnoreLoginDataBody = zEditIgnoreLoginDataRequest;
+
+export const zPostUserByIdEditIgnoreLoginDataPath = z.object({
+  id: z.number().int().gte(1).lte(2147483647),
+});
+
+export const zPostUserEditHidePreviousUsernameBody = zEditHidePreviousUsernameRequest;
+
+export const zGetUserByUserIdGraphPath = z.object({
+  userId: z.number().int().gte(1).lte(2147483647),
+});
+
+export const zGetUserByUserIdGraphQuery = z.object({
+  mode: zGameMode,
+});
+
+/**
+ * OK
+ */
 export const zGetUserByUserIdGraphResponse = zStatsSnapshotsResponse;
 
+export const zGetUserByUserIdPlayHistoryGraphPath = z.object({
+  userId: z.number().int().gte(1).lte(2147483647),
+});
+
+/**
+ * OK
+ */
 export const zGetUserByUserIdPlayHistoryGraphResponse = zPlayHistorySnapshotsResponse;
 
+export const zGetUserByIdScoresPath = z.object({
+  id: z.number().int().gte(1).lte(2147483647),
+});
+
+export const zGetUserByIdScoresQuery = z.object({
+  mode: zGameMode.optional(),
+  type: zScoreTableType.optional(),
+  limit: z.number().int().gte(1).lte(100).optional().default(15),
+  page: z.number().int().gte(1).lte(2147483647).optional().default(1),
+});
+
+/**
+ * OK
+ */
 export const zGetUserByIdScoresResponse = zScoresResponse;
 
+export const zGetUserByIdScoresAdminPath = z.object({
+  id: z.number().int().gte(1).lte(2147483647),
+});
+
+export const zGetUserByIdScoresAdminQuery = z.object({
+  mode: zGameMode.optional(),
+  mods: z.array(zMods).optional(),
+  submission_status: zSubmissionStatus.optional(),
+  beatmap_status: zBeatmapStatus.optional(),
+  submitted_from: z.string().datetime().optional(),
+  submitted_to: z.string().datetime().optional(),
+  sort: zScoreSortType.optional(),
+  limit: z.number().int().gte(1).lte(100).optional().default(25),
+  page: z.number().int().gte(1).lte(2147483647).optional().default(1),
+});
+
+/**
+ * OK
+ */
+export const zGetUserByIdScoresAdminResponse = zAdminScoresResponse;
+
+export const zGetUserByIdMostplayedPath = z.object({
+  id: z.number().int().gte(1).lte(2147483647),
+});
+
+export const zGetUserByIdMostplayedQuery = z.object({
+  mode: zGameMode.optional(),
+  limit: z.number().int().gte(1).lte(100).optional().default(15),
+  page: z.number().int().gte(1).lte(2147483647).optional().default(1),
+});
+
+/**
+ * OK
+ */
 export const zGetUserByIdMostplayedResponse = zMostPlayedResponse;
 
+export const zGetUserByIdFavouritesPath = z.object({
+  id: z.number().int().gte(1).lte(2147483647),
+});
+
+export const zGetUserByIdFavouritesQuery = z.object({
+  limit: z.number().int().gte(1).lte(100).optional().default(50),
+  page: z.number().int().gte(1).lte(2147483647).optional().default(1),
+});
+
+/**
+ * OK
+ */
 export const zGetUserByIdFavouritesResponse = zBeatmapSetsResponse;
 
+export const zGetUserByIdPreviousUsernamesPath = z.object({
+  id: z.number().int().gte(1).lte(2147483647),
+});
+
+/**
+ * OK
+ */
 export const zGetUserByIdPreviousUsernamesResponse = zPreviousUsernamesResponse;
 
+export const zGetUserLeaderboardQuery = z.object({
+  mode: zGameMode.optional(),
+  type: zLeaderboardSortType.optional(),
+  limit: z.number().int().gte(1).lte(100).optional().default(50),
+  page: z.number().int().gte(1).lte(2147483647).optional().default(1),
+});
+
+/**
+ * OK
+ */
 export const zGetUserLeaderboardResponse = zLeaderboardResponse;
 
+export const zGetUserSearchQuery = z.object({
+  query: z.string(),
+  limit: z.number().int().gte(1).lte(100).optional().default(50),
+  page: z.number().int().gte(1).lte(2147483647).optional().default(1),
+});
+
+/**
+ * OK
+ */
 export const zGetUserSearchResponse = z.array(zUserResponse);
 
+export const zGetUserSearchListQuery = z.object({
+  query: z.string().optional(),
+  limit: z.number().int().gte(1).lte(100).optional().default(50),
+  page: z.number().int().gte(1).lte(2147483647).optional().default(1),
+});
+
+/**
+ * OK
+ */
 export const zGetUserSearchListResponse = zUsersSensitiveListResponse;
 
+export const zGetUserFriendsQuery = z.object({
+  limit: z.number().int().gte(1).lte(100).optional().default(50),
+  page: z.number().int().gte(1).lte(2147483647).optional().default(1),
+});
+
+/**
+ * OK
+ */
 export const zGetUserFriendsResponse = zFriendsResponse;
 
+export const zGetUserByIdFriendsPath = z.object({
+  id: z.number().int().gte(1).lte(2147483647),
+});
+
+export const zGetUserByIdFriendsQuery = z.object({
+  limit: z.number().int().gte(1).lte(100).optional().default(50),
+  page: z.number().int().gte(1).lte(2147483647).optional().default(1),
+});
+
+/**
+ * OK
+ */
 export const zGetUserByIdFriendsResponse = zFriendsResponse;
 
+export const zGetUserFollowersQuery = z.object({
+  limit: z.number().int().gte(1).lte(100).optional().default(50),
+  page: z.number().int().gte(1).lte(2147483647).optional().default(1),
+});
+
+/**
+ * OK
+ */
 export const zGetUserFollowersResponse = zFollowersResponse;
 
+export const zGetUserByIdFollowersPath = z.object({
+  id: z.number().int().gte(1).lte(2147483647),
+});
+
+export const zGetUserByIdFollowersQuery = z.object({
+  limit: z.number().int().gte(1).lte(100).optional().default(50),
+  page: z.number().int().gte(1).lte(2147483647).optional().default(1),
+});
+
+/**
+ * OK
+ */
 export const zGetUserByIdFollowersResponse = zFollowersResponse;
 
+export const zGetUserByIdFriendStatusPath = z.object({
+  id: z.number().int().gte(1).lte(2147483647),
+});
+
+/**
+ * OK
+ */
 export const zGetUserByIdFriendStatusResponse = zFriendStatusResponse;
 
+export const zPostUserByIdFriendStatusBody = zEditFriendshipStatusRequest;
+
+export const zPostUserByIdFriendStatusPath = z.object({
+  id: z.number().int().gte(1).lte(2147483647),
+});
+
+export const zGetUserByIdEventsPath = z.object({
+  id: z.number().int().gte(1).lte(2147483647),
+});
+
+export const zGetUserByIdEventsQuery = z.object({
+  limit: z.number().int().gte(1).lte(100).optional().default(50),
+  page: z.number().int().gte(1).lte(2147483647).optional().default(1),
+  query: z.string().optional(),
+  types: z.array(zUserEventType).optional(),
+});
+
+/**
+ * OK
+ */
 export const zGetUserByIdEventsResponse = zEventUsersResponse;
 
+export const zGetUserInventoryItemQuery = z.object({
+  type: zItemType,
+});
+
+/**
+ * OK
+ */
 export const zGetUserInventoryItemResponse = zInventoryItemResponse;
 
+export const zGetUserByIdFriendsCountPath = z.object({
+  id: z.number().int().gte(1).lte(2147483647),
+});
+
+/**
+ * OK
+ */
 export const zGetUserByIdFriendsCountResponse = zUserRelationsCountersResponse;
 
+export const zGetUserByIdMedalsPath = z.object({
+  id: z.number().int().gte(1).lte(2147483647),
+});
+
+export const zGetUserByIdMedalsQuery = z.object({
+  mode: zGameMode,
+});
+
+/**
+ * OK
+ */
 export const zGetUserByIdMedalsResponse = zMedalsResponse;
 
+export const zGetUserByIdGradesPath = z.object({
+  id: z.number().int().gte(1).lte(2147483647),
+});
+
+export const zGetUserByIdGradesQuery = z.object({
+  mode: zGameMode,
+});
+
+/**
+ * OK
+ */
 export const zGetUserByIdGradesResponse = zGradesResponse;
 
+export const zGetUserByIdMetadataPath = z.object({
+  id: z.number().int().gte(1).lte(2147483647),
+});
+
+/**
+ * OK
+ */
 export const zGetUserByIdMetadataResponse = zUserMetadataResponse;
 
+export const zPostUserByIdEditMetadataBody = zEditUserMetadataRequest;
+
+export const zPostUserByIdEditMetadataPath = z.object({
+  id: z.number().int().gte(1).lte(2147483647),
+});
+
+export const zPostUserByIdEditPrivilegeBody = zEditUserPrivilegeRequest;
+
+export const zPostUserByIdEditPrivilegePath = z.object({
+  id: z.number().int().gte(1).lte(2147483647),
+});
+
+export const zPostUserEditMetadataBody = zEditUserMetadataRequest;
+
+export const zPostUserByIdUploadAvatarPath = z.object({
+  id: z.number().int().gte(1).lte(2147483647),
+});
+
+export const zPostUserByIdUploadBannerPath = z.object({
+  id: z.number().int().gte(1).lte(2147483647),
+});
+
+export const zPostUserByIdPasswordChangeBody = zResetPasswordRequest;
+
+export const zPostUserByIdPasswordChangePath = z.object({
+  id: z.number().int().gte(1).lte(2147483647),
+});
+
+export const zPostUserPasswordChangeBody = zChangePasswordRequest;
+
+export const zPostUserByIdUsernameChangeBody = zUsernameChangeRequest;
+
+export const zPostUserByIdUsernameChangePath = z.object({
+  id: z.number().int().gte(1).lte(2147483647),
+});
+
+export const zPostUserUsernameChangeBody = zUsernameChangeRequest;
+
+export const zPostUserByIdCountryChangeBody = zCountryChangeRequest;
+
+export const zPostUserByIdCountryChangePath = z.object({
+  id: z.number().int().gte(1).lte(2147483647),
+});
+
+export const zPostUserCountryChangeBody = zCountryChangeRequest;
+
+/**
+ * OK
+ */
 export const zGetWsResponse = zWebSocketMessage;

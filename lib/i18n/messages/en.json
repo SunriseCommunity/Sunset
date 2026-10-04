@@ -1427,6 +1427,10 @@
         "openMenu": {
           "text": "Open menu",
           "context": "Screen reader text for the dropdown menu button"
+        },
+        "openInAdminPanel": {
+          "text": "Open in Admin Panel",
+          "context": "Dropdown menu item text to open score in admin panel"
         }
       },
       "error": {

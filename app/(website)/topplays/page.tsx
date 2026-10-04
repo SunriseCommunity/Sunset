@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { useTopScores } from "@/lib/hooks/api/score/useTopScores";
 import { useT } from "@/lib/i18n/utils";
 import { GameMode } from "@/lib/types/api";
+import { createQueryString } from "@/lib/utils/buildQuery";
 import { isInstance } from "@/lib/utils/type.util";
 
 import UserScoreMinimal from "./components/UserScoreMinimal";
@@ -39,23 +40,13 @@ export default function Topplays() {
   const totalCountScores
     = data?.find(item => item.total_count !== undefined)?.total_count ?? 0;
 
-  const createQueryString = useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString());
-      params.set(name, value);
-
-      return params.toString();
-    },
-    [searchParams],
-  );
-
   useEffect(() => {
     window.history.replaceState(
       null,
       "",
       `${pathname}?${createQueryString("mode", activeMode.toString())}`,
     );
-  }, [activeMode, pathname, createQueryString]);
+  }, [activeMode, pathname]);
 
   return (
     <div className="flex w-full flex-col space-y-4">
