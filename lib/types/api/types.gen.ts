@@ -88,7 +88,7 @@ export type BeatmapSetResponse = {
   creator_id: number;
   status: BeatmapStatusWeb;
   last_updated: string;
-  submitted_date?: string | null;
+  submitted_date: string;
   ranked_date?: string | null;
   video: boolean;
   beatmaps: BeatmapResponse[];
@@ -554,7 +554,7 @@ export type HypedBeatmapSetResponse = {
   creator_id: number;
   status: BeatmapStatusWeb;
   last_updated: string;
-  submitted_date?: string | null;
+  submitted_date: string;
   ranked_date?: string | null;
   video: boolean;
   beatmaps: BeatmapResponse[];
@@ -865,6 +865,7 @@ export enum ScoreTaskType {
   RECALCULATION = "Recalculation",
   RESTORE = "Restore",
   DELETE = "Delete",
+  BEATMAP_STATUS_CHANGE = "BeatmapStatusChange",
 }
 
 export type ScoresResponse = {

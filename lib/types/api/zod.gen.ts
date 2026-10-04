@@ -543,6 +543,7 @@ export const zScoreTaskType = z.enum([
   "Recalculation",
   "Restore",
   "Delete",
+  "BeatmapStatusChange",
 ]);
 
 export const zBulkScoreProcessingRequest = z.object({
@@ -693,11 +694,14 @@ export const zUserMetadataResponse = z.object({
 export const zUserPrivilege = z.enum([
   "User",
   "Supporter",
-  "Bat",
   "Admin",
   "Developer",
   "SuperUser",
   "ServerBot",
+  "BeatmapApprovalTeamStandard",
+  "BeatmapApprovalTeamTaiko",
+  "BeatmapApprovalTeamCatch",
+  "BeatmapApprovalTeamMania",
 ]);
 
 export const zEditUserPrivilegeRequest = z.object({
