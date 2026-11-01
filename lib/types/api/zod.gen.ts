@@ -966,12 +966,12 @@ export const zScoreProcessingTaskResponse = z.object({
   status: zScoreProcessingStatus,
   priority: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
   retry_count: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }),
-  error_code: zScoreProcessingErrorCode.optional(),
+  error_code: zScoreProcessingErrorCode.nullish(),
   error_message: z.string().nullish(),
   next_retry_at: z.string().datetime().nullish(),
   created_at: z.string().datetime(),
   score_id: z.number().int().min(-2147483648, { message: "Invalid value: Expected int32 to be >= -2147483648" }).max(2147483647, { message: "Invalid value: Expected int32 to be <= 2147483647" }).nullish(),
-  score: zAdminScoreResponse.optional(),
+  score: zAdminScoreResponse.nullish(),
 });
 
 export const zScoreProcessingPreviewResponse = z.object({
