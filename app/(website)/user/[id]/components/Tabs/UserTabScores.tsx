@@ -1,4 +1,4 @@
-import { ChartColumnIncreasing, ChevronDown } from "lucide-react";
+import { ChartColumnIncreasing, ChevronDown, RotateCcw } from "lucide-react";
 
 import UserScoreOverview from "@/app/(website)/user/[id]/components/UserScoreOverview";
 import { ContentNotExist } from "@/components/ContentNotExist";
@@ -35,6 +35,10 @@ export default function UserTabScores({
 
   const handleShowMore = () => {
     setSize(size + 1);
+  };
+
+  const handleReset = () => {
+    setSize(1);
   };
 
   const scores = data?.flatMap(item => item.scores);
@@ -91,12 +95,24 @@ export default function UserTabScores({
               <div className="mt-4 flex justify-center">
                 <Button
                   onClick={handleShowMore}
-                  className="flex w-full items-center justify-center md:w-1/2"
+                  className="flex h-11 w-full items-center justify-center text-base md:w-2/3"
                   isLoading={isLoadingMore}
                   variant="secondary"
                 >
                   <ChevronDown />
                   {t("showMore")}
+                </Button>
+              </div>
+            )}
+            {size > 1 && (
+              <div className="mt-2 flex justify-center">
+                <Button
+                  onClick={handleReset}
+                  className="flex h-11 w-full items-center justify-center text-base md:w-2/3"
+                  variant="ghost"
+                >
+                  <RotateCcw />
+                  {t("reset")}
                 </Button>
               </div>
             )}

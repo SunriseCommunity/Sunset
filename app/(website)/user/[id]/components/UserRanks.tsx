@@ -14,13 +14,13 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
 
 export default function UserRanks({ user, userStats, ...props }: Props) {
   return (
-    <div className="flex flex-col space-y-2 rounded bg-black bg-opacity-75 px-2 py-1 text-center md:min-w-24" {...props}>
+    <div className="flex flex-row flex-wrap items-center gap-x-4 gap-y-1 rounded-lg bg-black bg-opacity-75 px-3 py-1.5 text-sm md:text-base" {...props}>
       <UserRank
         rank={userStats?.rank}
         bestRank={userStats?.best_global_rank}
         bestRankDate={userStats?.best_global_rank_date}
         variant="primary"
-        Icon={<Globe className="mr-2 size-5 md:size-6" />}
+        Icon={<Globe className="mr-1.5 size-4 md:mr-2 md:size-6" />}
       />
 
       <UserRank
@@ -32,7 +32,7 @@ export default function UserRanks({ user, userStats, ...props }: Props) {
           <img
             src={`/images/flags/${user.country_code}.png`}
             alt="Country Flag"
-            className="mr-2 size-5 md:size-6"
+            className="mr-1.5 size-4 md:mr-2 md:size-6"
           />
         )}
       />

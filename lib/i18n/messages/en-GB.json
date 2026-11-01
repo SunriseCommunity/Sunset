@@ -816,6 +816,7 @@
       "header": "Player info",
       "tabs": {
         "general": "genewaw",
+        "scores": "Scowes",
         "bestScores": "Best scowes",
         "recentScores": "Recent scowes",
         "firstPlaces": "Fiwst pwaces",
@@ -841,24 +842,28 @@
           "maximumCombo": "Maximuwm Combo",
           "playtime": "Pwaytime",
           "performance": "Pewfowmance",
+          "pp": "PP",
           "showByRank": "Show by rank",
           "showByPp": "Show by pp",
           "aboutMe": "Abouwt me",
-          "playHistory": "Play histowy"
+          "playHistory": "Play histowy",
+          "noPerformanceHistory": "No pewfowmance histowy yet"
         },
         "scoresTab": {
           "bestScores": "Best scowes",
           "recentScores": "Recent scowes",
           "firstPlaces": "Fiwst pwaces",
           "noScores": "Usew has no {type} scowes",
-          "showMore": "Show mowe"
+          "showMore": "Show mowe",
+          "reset": "Weset"
         },
         "beatmapsTab": {
           "mostPlayed": "Most pwayed",
           "noMostPlayed": "Usew has no most pwayed beatmaps",
           "favouriteBeatmaps": "Favouwwite Beatmaps",
           "noFavourites": "Usew has no favouwwite beatmaps",
-          "showMore": "Show more"
+          "showMore": "Show more",
+          "reset": "Weset"
         },
         "medalsTab": {
           "medals": "Medals",

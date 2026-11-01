@@ -1,11 +1,8 @@
 import {
   Area,
   AreaChart,
-  CartesianGrid,
-  Legend,
   ResponsiveContainer,
   Tooltip,
-  XAxis,
   YAxis,
 } from "recharts";
 
@@ -26,11 +23,14 @@ export default function UserStatsChart({ data, value: chartValue }: Props) {
   if (data.snapshots.length === 0)
     return null;
 
-  data.snapshots = data.snapshots.filter(
-    s => s.country_rank > 0 && s.global_rank > 0,
-  );
+  const snapshots = data.snapshots.filter((snapshot) => {
+    if (chartValue === "rank")
+      return snapshot.global_rank > 0;
 
-  const snapshots = [...data.snapshots];
+    return Number.isFinite(snapshot.pp) && snapshot.pp >= 0;
+  });
+  if (snapshots.length === 0)
+    return null;
 
   const currentSnapshot = snapshots.pop();
   if (!currentSnapshot)
@@ -122,21 +122,13 @@ export default function UserStatsChart({ data, value: chartValue }: Props) {
   return (
     <ResponsiveContainer
       width="100%"
-      height="100%"
-      className="h-52 max-h-52 min-h-52"
+      height={120}
+      className="h-32 max-h-32 min-h-32"
     >
       <AreaChart data={chartData}>
-        <CartesianGrid stroke="" />
-        <XAxis
-          dataKey="date"
-          label={{ value: t("date"), position: "insideBottomRight", offset: 0 }}
-          tick={{ transform: "translate(0, 6)" }}
-          style={{
-            fontSize: "0px",
-          }}
-        />
         <YAxis
           type="number"
+          hide
           tickFormatter={(value: number) => {
             return Math.round(value).toFixed(0);
           }}
@@ -148,14 +140,15 @@ export default function UserStatsChart({ data, value: chartValue }: Props) {
         />
 
         <Area
-          type="monotone"
+          type="stepAfter"
           dataKey={chartValue}
           stroke="hsl(var(--chart-1))"
-          fill="hsl(var(--chart-2))"
+          strokeWidth={2}
+          fill="transparent"
           baseValue={isChartReversed ? "dataMax" : "dataMin"}
+          activeDot={{ r: 4 }}
           isAnimationActive={false}
         />
-        <Legend />
 
         <Tooltip
           formatter={value => [
@@ -164,7 +157,7 @@ export default function UserStatsChart({ data, value: chartValue }: Props) {
               type: t(`types.${chartValue}`),
             }),
           ]}
-          contentStyle={{ color: "#333" }}
+          contentStyle={{ color: "#333", borderRadius: "0.5rem" }}
         />
       </AreaChart>
     </ResponsiveContainer>

@@ -10,9 +10,10 @@ import { SetDefaultGamemodeButton } from "@/app/(website)/user/[id]/components/S
 import UserTabGeneral from "@/app/(website)/user/[id]/components/Tabs/UserTabGeneral";
 import UserTabScores from "@/app/(website)/user/[id]/components/Tabs/UserTabScores";
 import UserGeneralInformation from "@/app/(website)/user/[id]/components/UserGeneralInformation";
+import { UserLevelProgress } from "@/app/(website)/user/[id]/components/UserLevelProgress";
 import UserPreviousUsernamesTooltip from "@/app/(website)/user/[id]/components/UserPreviousUsernamesTooltip";
 import UserPrivilegeBadges from "@/app/(website)/user/[id]/components/UserPrivilegeBadges";
-import UserRanks from "@/app/(website)/user/[id]/components/UserRanks";
+import UserProfileOverview from "@/app/(website)/user/[id]/components/UserProfileOverview";
 import UserSocials from "@/app/(website)/user/[id]/components/UserSocials";
 import UserStatusText, {
   statusColor,
@@ -36,7 +37,6 @@ import useSelf from "@/lib/hooks/useSelf";
 import { useT } from "@/lib/i18n/utils";
 import type {
   UserResponse,
-  UserStatsResponse,
 } from "@/lib/types/api";
 import {
   GameMode,
@@ -62,9 +62,7 @@ export default function UserPage(props: { params: Promise<{ id: string }> }) {
 
   const contentTabs = [
     "tabs.general",
-    "tabs.bestScores",
-    "tabs.recentScores",
-    "tabs.firstPlaces",
+    "tabs.scores",
     "tabs.beatmaps",
     "tabs.medals",
   ];
@@ -82,50 +80,32 @@ export default function UserPage(props: { params: Promise<{ id: string }> }) {
   const userMetadataQuery = useUserMetadata(userId);
 
   const renderTabContent = useCallback(
-    (
-      userStats: UserStatsResponse | undefined,
-      activeTab: string,
-      activeMode: GameMode,
-      user: UserResponse,
-    ) => {
+    (activeTab: string, activeMode: GameMode, user: UserResponse) => {
       if (activeTab === "tabs.general") {
-        return (
-          <UserTabGeneral
-            key={`general-${activeMode}`}
-            user={user}
-            stats={userStats}
-            gameMode={activeMode}
-          />
-        );
+        return <UserTabGeneral key={`general-${activeMode}`} user={user} />;
       }
-      if (activeTab === "tabs.bestScores") {
+      if (activeTab === "tabs.scores") {
         return (
-          <UserTabScores
-            key={`best-${activeMode}`}
-            gameMode={activeMode}
-            userId={user.user_id}
-            type={ScoreTableType.BEST}
-          />
-        );
-      }
-      if (activeTab === "tabs.recentScores") {
-        return (
-          <UserTabScores
-            key={`recent-${activeMode}`}
-            gameMode={activeMode}
-            userId={user.user_id}
-            type={ScoreTableType.RECENT}
-          />
-        );
-      }
-      if (activeTab === "tabs.firstPlaces") {
-        return (
-          <UserTabScores
-            key={`first-${activeMode}`}
-            gameMode={activeMode}
-            userId={user.user_id}
-            type={ScoreTableType.TOP}
-          />
+          <div className="flex flex-col gap-4">
+            <UserTabScores
+              key={`best-${activeMode}`}
+              gameMode={activeMode}
+              userId={user.user_id}
+              type={ScoreTableType.BEST}
+            />
+            <UserTabScores
+              key={`recent-${activeMode}`}
+              gameMode={activeMode}
+              userId={user.user_id}
+              type={ScoreTableType.RECENT}
+            />
+            <UserTabScores
+              key={`first-${activeMode}`}
+              gameMode={activeMode}
+              userId={user.user_id}
+              type={ScoreTableType.TOP}
+            />
+          </div>
         );
       }
       if (activeTab === "tabs.beatmaps") {
@@ -214,65 +194,70 @@ export default function UserPage(props: { params: Promise<{ id: string }> }) {
                   className="rounded-t-lg bg-black"
                   fallBackSrc="/images/placeholder.png"
                 />
-                <div className="absolute inset-0 flex w-full bg-gradient-to-t  from-card via-card/20 to-transparent">
-                  <div className="relative flex flex-grow place-content-between items-end overflow-hidden px-4 py-2 md:p-6">
-                    <div className="flex w-3/4 items-end space-x-4 ">
-                      <div className="relative size-16 flex-none md:size-32">
-                        <Image
-                          src={user.avatar_url}
-                          alt="User avatar"
-                          fill={true}
-                          objectFit="cover"
-                          className="rounded-full border-2 border-secondary md:size-32 md:border-4"
-                        />
-                        <div
-                          className={twMerge(
-                            "absolute bottom-1 right-1 w-5 h-5 md:w-10 md:h-10 rounded-full border-2 md:border-4 border-secondary",
-                            `bg-${statusColor(user.user_status)}`,
-                          )}
-                        />
-                      </div>
-                      <div className="flex min-w-0 flex-grow flex-col">
-                        <div className="flex flex-row flex-wrap gap-x-2">
-                          <Tooltip
-                            className="flex min-w-0 flex-row space-x-2"
-                            content={user.username}
-                            align="start"
-                          >
-                            <UserRankColor
-                              className="ml-full mt-0.5 truncate text-lg font-bold md:text-3xl"
-                              variant="primary"
-                              rank={userStats?.rank ?? -1}
-                            >
-                              {user.username}
-                            </UserRankColor>
-                          </Tooltip>
+              </div>
 
-                          <UserPreviousUsernamesTooltip
-                            user={user}
-                            className="-ml-1 place-self-start"
-                          />
+              <div className="relative flex items-end justify-between gap-2 px-4 md:gap-4 md:px-6">
+                <div className="flex min-w-0 flex-1 items-end gap-3 md:gap-4">
+                  <div className="relative z-10 -mt-14 size-16 flex-none md:-mt-28 md:size-32">
+                    <Image
+                      src={user.avatar_url}
+                      alt="User avatar"
+                      fill={true}
+                      objectFit="cover"
+                      className="rounded-full border-2 border-secondary md:border-4"
+                    />
+                    <div
+                      className={twMerge(
+                        "absolute bottom-1 right-1 size-5 rounded-full border-2 border-secondary md:size-10 md:border-4",
+                        `bg-${statusColor(user.user_status)}`,
+                      )}
+                    />
+                  </div>
+                  <div className="min-w-0 pb-2">
+                    <div className="flex min-w-0 flex-row flex-wrap gap-x-2">
+                      <Tooltip
+                        className="flex min-w-0 flex-row space-x-2"
+                        content={user.username}
+                        align="start"
+                      >
+                        <UserRankColor
+                          className="ml-full mt-0.5 truncate text-lg font-bold md:text-3xl"
+                          variant="primary"
+                          rank={userStats?.rank ?? -1}
+                        >
+                          {user.username}
+                        </UserRankColor>
+                      </Tooltip>
 
-                          <div className="gap-y-2">
-                            <UserPrivilegeBadges
-                              badges={[...user.badges]}
-                              small={true}
-                            />
-                          </div>
-                        </div>
+                      <UserPreviousUsernamesTooltip
+                        user={user}
+                        className="-ml-1 place-self-start"
+                      />
 
-                        <UserStatusText
-                          className="grid text-xs md:flex md:text-base"
-                          user={user}
+                      <div className="gap-y-2">
+                        <UserPrivilegeBadges
+                          badges={[...user.badges]}
+                          small={true}
                         />
                       </div>
                     </div>
-                    <UserRanks user={user} userStats={userStats} />
+
+                    <UserStatusText
+                      className="grid text-xs md:flex md:text-base"
+                      user={user}
+                    />
                   </div>
+                </div>
+                <div className="mb-2 w-36 shrink-0 rounded bg-black/70 p-2 text-white md:w-56">
+                  {userStats ? (
+                    <UserLevelProgress totalScore={userStats.total_score} />
+                  ) : (
+                    <div className="h-10 animate-pulse rounded-md bg-white/15" />
+                  )}
                 </div>
               </div>
 
-              <div className="bg-card px-6 py-4">
+              <div className="bg-card p-4 md:px-6">
                 <div className="flex items-start justify-between">
                   <div className="flex flex-wrap gap-2">
                     <UserGeneralInformation user={user} metadata={userMetada} />
@@ -310,6 +295,14 @@ export default function UserPage(props: { params: Promise<{ id: string }> }) {
 
                 {userMetada && <UserSocials metadata={userMetada} />}
 
+                <div className="mt-4">
+                  <UserProfileOverview
+                    user={user}
+                    stats={userStats}
+                    gameMode={activeMode}
+                  />
+                </div>
+
                 <hr className="my-2" />
                 <div className="my-2">
                   <div className="border-gray flex overflow-x-auto border-b">
@@ -329,7 +322,7 @@ export default function UserPage(props: { params: Promise<{ id: string }> }) {
                   </div>
                 </div>
 
-                {renderTabContent(userStats, activeTab, activeMode, user)}
+                {renderTabContent(activeTab, activeMode, user)}
               </div>
             </>
           ) : (

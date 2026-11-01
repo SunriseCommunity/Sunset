@@ -2,6 +2,7 @@ import {
   ChartBarDecreasing,
   ChevronDown,
   Heart,
+  RotateCcw,
 } from "lucide-react";
 
 import BeatmapSetOverview from "@/app/(website)/user/[id]/components/BeatmapSetOverview";
@@ -51,6 +52,10 @@ export default function UserTabBeatmaps({
     setMostPlayedSize(mostPlayedSize + 1);
   };
 
+  const handleResetMostPlayed = () => {
+    setMostPlayedSize(1);
+  };
+
   const {
     data: favouritesData,
     setSize: setFavouritesSize,
@@ -71,6 +76,10 @@ export default function UserTabBeatmaps({
 
   const handleShowMoreFavourites = () => {
     setFavouritesSize(favouritesSize + 1);
+  };
+
+  const handleResetFavourites = () => {
+    setFavouritesSize(1);
   };
 
   const t = useT("pages.user.components.beatmapsTab");
@@ -109,11 +118,22 @@ export default function UserTabBeatmaps({
               <div className="mt-4 flex justify-center">
                 <Button
                   onClick={handleShowMoreMostPlayed}
-                  className="flex w-full items-center justify-center md:w-1/2"
+                  className="flex h-11 w-full items-center justify-center text-base md:w-2/3"
                   variant="secondary"
                   isLoading={isLoadingMoreMostPlayed}
                 >
                   <ChevronDown /> {t("showMore")}
+                </Button>
+              </div>
+            )}
+            {mostPlayedSize > 1 && (
+              <div className="mt-2 flex justify-center">
+                <Button
+                  onClick={handleResetMostPlayed}
+                  className="flex h-11 w-full items-center justify-center text-base md:w-2/3"
+                  variant="ghost"
+                >
+                  <RotateCcw /> {t("reset")}
                 </Button>
               </div>
             )}
@@ -157,12 +177,24 @@ export default function UserTabBeatmaps({
               <div className="mt-4 flex justify-center">
                 <Button
                   onClick={handleShowMoreFavourites}
-                  className="flex w-full items-center justify-center md:w-1/2"
+                  className="flex h-11 w-full items-center justify-center text-base md:w-2/3"
                   isLoading={isLoadingMoreFavourites}
                   variant="secondary"
                 >
                   <ChevronDown />
                   {t("showMore")}
+                </Button>
+              </div>
+            )}
+            {favouritesSize > 1 && (
+              <div className="mt-2 flex justify-center">
+                <Button
+                  onClick={handleResetFavourites}
+                  className="flex h-11 w-full items-center justify-center text-base md:w-2/3"
+                  variant="ghost"
+                >
+                  <RotateCcw />
+                  {t("reset")}
                 </Button>
               </div>
             )}

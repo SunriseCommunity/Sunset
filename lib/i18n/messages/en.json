@@ -2354,6 +2354,10 @@
           "text": "General",
           "context": "Tab name for general information"
         },
+        "scores": {
+          "text": "Scores",
+          "context": "Tab name combining best, recent and first place scores"
+        },
         "bestScores": {
           "text": "Best scores",
           "context": "Tab name for best scores"
@@ -2433,6 +2437,10 @@
             "text": "Performance",
             "context": "Section header for performance information"
           },
+          "pp": {
+            "text": "PP",
+            "context": "Label for performance points value"
+          },
           "showByRank": {
             "text": "Show by rank",
             "context": "Button text to show chart by rank"
@@ -2448,6 +2456,10 @@
           "playHistory": {
             "text": "Play history",
             "context": "Section header for user play history"
+          },
+          "noPerformanceHistory": {
+            "text": "No performance history yet",
+            "context": "Shown when the user has no stats snapshots to plot on the performance chart"
           }
         },
         "scoresTab": {
@@ -2470,6 +2482,10 @@
           "showMore": {
             "text": "Show more",
             "context": "Button text to load more scores"
+          },
+          "reset": {
+            "text": "Reset",
+            "context": "Button text to reset the scores list to the first page"
           }
         },
         "beatmapsTab": {
@@ -2492,6 +2508,10 @@
           "showMore": {
             "text": "Show more",
             "context": "Button text to load more beatmaps"
+          },
+          "reset": {
+            "text": "Reset",
+            "context": "Button text to reset the beatmaps list to the first page"
           }
         },
         "medalsTab": {
