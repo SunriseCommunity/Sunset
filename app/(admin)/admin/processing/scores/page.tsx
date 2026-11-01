@@ -1,8 +1,8 @@
 "use client";
 
-import { Filter, ListChecks, RefreshCw, Search } from "lucide-react";
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Filter, ListChecks, RefreshCw, Search } from "lucide-react";
 import type { ComponentProps } from "react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { AddScoreProcessingDialog } from "@/components/Admin/ScoreProcessing/AddScoreProcessingDialog";
 import { ScoreProcessingTaskCard } from "@/components/Admin/ScoreProcessing/ScoreProcessingTaskCard";
@@ -31,6 +31,7 @@ export default function Page() {
 
   const [showFilters, setShowFilters] = useState(false);
   const [filters, setFilters] = useState<ScoreProcessingTaskFilters>({});
+  const [page, setPage] = useState(1);
 
   const scoreIdFilter = tryParseNumber(searchByScoreIdValue) ?? null;
   const taskIdFilter = tryParseNumber(searchByTaskIdValue) ?? null;
@@ -44,11 +45,14 @@ export default function Page() {
     [filters, scoreIdFilter, taskIdFilter],
   );
 
-  const { data, error, size, setSize, isLoading, mutate } = useScoreProcessingTasks(combinedFilters, PAGE_SIZE, {
-    refreshInterval: 10_000,
-    revalidateOnFocus: false,
-    keepPreviousData: true,
-  });
+  const { data, error, isLoading, mutate } = useScoreProcessingTasks(
+    useMemo(() => ({ ...combinedFilters, page, limit: PAGE_SIZE }), [combinedFilters, page]),
+    {
+      refreshInterval: 10_000,
+      revalidateOnFocus: false,
+      keepPreviousData: true,
+    },
+  );
 
   const { data: stats, error: statsError, mutate: mutateStats } = useScoreProcessingStats({
     refreshInterval: 10_000,
@@ -56,10 +60,18 @@ export default function Page() {
     keepPreviousData: true,
   });
 
-  const tasks = data?.flatMap(page => page.tasks) ?? [];
-  const totalCount = data?.find(item => item.total_count !== undefined)?.total_count ?? 0;
+  const tasks = data?.tasks ?? [];
+  const totalCount = data?.total_count ?? 0;
+  const totalPages = Math.max(1, Math.ceil(totalCount / PAGE_SIZE));
 
-  const isLoadingMore = Boolean(isLoading || (size > 0 && data && data[size - 1] === undefined));
+  useEffect(() => {
+    setPage(1);
+  }, [combinedFilters]);
+
+  useEffect(() => {
+    if (!isLoading && data && page > totalPages)
+      setPage(totalPages);
+  }, [data, isLoading, page, totalPages]);
 
   const activeFilterCount = Object.values(filters).filter(
     value => value != null,
@@ -67,17 +79,19 @@ export default function Page() {
 
   const handleFilterByScoreIdChange = (value: string) => {
     setSearchByScoreIdQuery(value);
-    setSize(1);
   };
 
   const handleFilterByTaskIdChange = (value: string) => {
     setSearchByTaskIdQuery(value);
-    setSize(1);
   };
 
   const handleApplyFilters = (nextFilters: ScoreProcessingTaskFilters) => {
     setFilters(nextFilters);
-    setSize(1);
+  };
+
+  const handleTaskChanged = () => {
+    mutate();
+    mutateStats();
   };
 
   return (
@@ -105,14 +119,21 @@ export default function Page() {
       </p>
 
       <ScoreProcessingTaskList
-        isLoading={isLoading}
-        isLoadingMore={isLoadingMore}
-        onLoadMore={() => setSize(size + 1)}
-        onTaskChanged={mutate}
-        tasks={tasks}
-        totalCount={totalCount}
         error={error}
+        isLoading={isLoading}
+        onTaskChanged={handleTaskChanged}
+        tasks={tasks}
       />
+
+      {totalCount > 0 && (
+        <ScoreProcessingPagination
+          isLoading={isLoading}
+          onPageChange={setPage}
+          page={page}
+          totalCount={totalCount}
+          totalPages={totalPages}
+        />
+      )}
     </div>
   );
 }
@@ -265,19 +286,13 @@ function ScoreProcessingFiltersPanel({
 function ScoreProcessingTaskList({
   error,
   isLoading,
-  isLoadingMore,
-  onLoadMore,
   onTaskChanged,
   tasks,
-  totalCount,
 }: {
   error: ReturnType<typeof useScoreProcessingTasks>["error"];
   isLoading: boolean;
-  isLoadingMore: boolean;
-  onLoadMore: () => void;
   onTaskChanged: () => void;
   tasks: ScoreProcessingTaskResponse[];
-  totalCount: number;
 }) {
   if (error) {
     return (
@@ -313,21 +328,60 @@ function ScoreProcessingTaskList({
   }
 
   return (
-    <>
-      <div className="space-y-2">
-        {tasks.map((task, idx) => (
-          // eslint-disable-next-line @eslint-react/no-array-index-key -- For pagination.
-          <ScoreProcessingTaskCard key={`${task.id}-${idx}`} task={task} onChanged={onTaskChanged} />
-        ))}
-      </div>
+    <div className="space-y-2">
+      {tasks.map(task => (
+        <ScoreProcessingTaskCard key={task.id} task={task} onChanged={onTaskChanged} />
+      ))}
+    </div>
+  );
+}
 
-      {tasks.length < totalCount && (
-        <div className="flex justify-center">
-          <Button variant="outline" onClick={onLoadMore} isLoading={isLoadingMore}>
-            Show more
-          </Button>
-        </div>
-      )}
-    </>
+function ScoreProcessingPagination({
+  isLoading,
+  onPageChange,
+  page,
+  totalCount,
+  totalPages,
+}: {
+  isLoading: boolean;
+  onPageChange: (page: number) => void;
+  page: number;
+  totalCount: number;
+  totalPages: number;
+}) {
+  const isFirstPage = page <= 1;
+  const isLastPage = page >= totalPages;
+
+  return (
+    <div className="grid space-y-4 py-4 md:flex md:place-content-between md:space-y-0">
+      <p>
+        Showing
+        {" "}
+        {Math.min((page - 1) * PAGE_SIZE + 1, totalCount)}
+        {" "}
+        -
+        {" "}
+        {Math.min(page * PAGE_SIZE, totalCount)}
+        {" "}
+        of
+        {" "}
+        {totalCount}
+      </p>
+
+      <div className="flex items-center justify-end space-x-2">
+        <Button variant="outline" aria-label="First page" onClick={() => onPageChange(1)} disabled={isLoading || isFirstPage}>
+          <ChevronsLeft />
+        </Button>
+        <Button variant="outline" aria-label="Previous page" onClick={() => onPageChange(page - 1)} disabled={isLoading || isFirstPage}>
+          <ChevronLeft />
+        </Button>
+        <Button variant="outline" aria-label="Next page" onClick={() => onPageChange(page + 1)} disabled={isLoading || isLastPage}>
+          <ChevronRight />
+        </Button>
+        <Button variant="outline" aria-label="Last page" onClick={() => onPageChange(totalPages)} disabled={isLoading || isLastPage}>
+          <ChevronsRight />
+        </Button>
+      </div>
+    </div>
   );
 }

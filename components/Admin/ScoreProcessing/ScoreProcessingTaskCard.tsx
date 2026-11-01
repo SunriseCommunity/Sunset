@@ -77,7 +77,9 @@ export function ScoreProcessingTaskCard({ task, onChanged }: ScoreProcessingTask
           <div className="flex flex-wrap items-center gap-2">
             <Badge variant="outline" className={getStatusBadgeTextClassName(task.status)}>{task.status}</Badge>
             <Badge variant="outline">{`ID: ${task.id}`}</Badge>
-            <Badge variant="outline">{task.score?.score.game_mode_extended}</Badge>
+            {task.score?.score && (
+              <Badge variant="outline">{task.score.score.game_mode_extended}</Badge>
+            )}
             <Badge variant="outline">{task.task_type}</Badge>
             {task.retry_count > 0 && (
               <Badge variant="outline">
@@ -93,11 +95,17 @@ export function ScoreProcessingTaskCard({ task, onChanged }: ScoreProcessingTask
               </span>
             )}
             <p>
-              {beatmap ? `${beatmap.artist} - ${beatmap.title}` : `Beatmap #${score?.beatmap_id ?? "?"}`}
+              {beatmap
+                ? `${beatmap.artist} - ${beatmap.title}`
+                : score
+                  ? `Beatmap #${score.beatmap_id}`
+                  : "Score data unavailable"}
             </p>
-            <p>
-              {score?.mods}
-            </p>
+            {score?.mods && (
+              <p>
+                {score.mods}
+              </p>
+            )}
           </div>
 
           <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground">
@@ -105,7 +113,7 @@ export function ScoreProcessingTaskCard({ task, onChanged }: ScoreProcessingTask
               <SmallUserElement avatarUrl={score?.user?.avatar_url} username={score?.user?.username} profileUrl={`/users/${score?.user?.user_id}`} />
             )}
             <span>
-              Score ID: {task.score_id}
+              Score ID: {task.score_id ?? "—"}
             </span>
             <PrettyDate time={task.created_at} />
           </div>
@@ -119,12 +127,14 @@ export function ScoreProcessingTaskCard({ task, onChanged }: ScoreProcessingTask
         </div>
 
         <div className="flex flex-shrink-0 flex-wrap items-center gap-2">
-          <Button asChild variant="secondary" size="sm">
-            <Link href={`/admin/scores/${task.score_id}`}>
-              <ExternalLink className="mr-1 size-4" />
-              Open
-            </Link>
-          </Button>
+          {task.score_id != null && (
+            <Button asChild variant="secondary" size="sm">
+              <Link href={`/admin/scores/${task.score_id}`}>
+                <ExternalLink className="mr-1 size-4" />
+                Open
+              </Link>
+            </Button>
+          )}
 
           {isFailed && (
             <Button variant="outline" size="sm" onClick={handleRequeue} isLoading={isRequeueing}>

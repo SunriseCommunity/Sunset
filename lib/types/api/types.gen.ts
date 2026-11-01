@@ -796,12 +796,12 @@ export type ScoreProcessingTaskResponse = {
   status: ScoreProcessingStatus;
   priority: number;
   retry_count: number;
-  error_code?: ScoreProcessingErrorCode;
+  error_code?: ScoreProcessingErrorCode | null;
   error_message?: string | null;
   next_retry_at?: string | null;
   created_at: string;
   score_id?: number | null;
-  score?: AdminScoreResponse;
+  score?: AdminScoreResponse | null;
 };
 
 export type ScoreProcessingTasksResponse = {
