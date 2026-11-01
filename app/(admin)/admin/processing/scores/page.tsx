@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronLeft, ChevronRight, Filter, ListChecks, RefreshCw, Search } from "lucide-react";
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Filter, ListChecks, RefreshCw, Search } from "lucide-react";
 import type { ComponentProps } from "react";
 import { useEffect, useMemo, useState } from "react";
 
@@ -130,6 +130,7 @@ export default function Page() {
           isLoading={isLoading}
           onPageChange={setPage}
           page={page}
+          totalCount={totalCount}
           totalPages={totalPages}
         />
       )}
@@ -339,26 +340,48 @@ function ScoreProcessingPagination({
   isLoading,
   onPageChange,
   page,
+  totalCount,
   totalPages,
 }: {
   isLoading: boolean;
   onPageChange: (page: number) => void;
   page: number;
+  totalCount: number;
   totalPages: number;
 }) {
+  const isFirstPage = page <= 1;
+  const isLastPage = page >= totalPages;
+
   return (
-    <div className="flex items-center justify-between gap-2">
-      <Button variant="outline" disabled={isLoading || page <= 1} onClick={() => onPageChange(page - 1)}>
-        <ChevronLeft className="mr-1 size-4" />
-        Previous
-      </Button>
-      <span className="text-sm text-muted-foreground">
-        {`Page ${page} of ${totalPages}`}
-      </span>
-      <Button variant="outline" disabled={isLoading || page >= totalPages} onClick={() => onPageChange(page + 1)}>
-        Next
-        <ChevronRight className="ml-1 size-4" />
-      </Button>
+    <div className="grid space-y-4 py-4 md:flex md:place-content-between md:space-y-0">
+      <p>
+        Showing
+        {" "}
+        {Math.min((page - 1) * PAGE_SIZE + 1, totalCount)}
+        {" "}
+        -
+        {" "}
+        {Math.min(page * PAGE_SIZE, totalCount)}
+        {" "}
+        of
+        {" "}
+        {totalCount}
+      </p>
+
+      <div className="flex items-center justify-end space-x-2">
+        <Button variant="outline" aria-label="First page" onClick={() => onPageChange(1)} disabled={isLoading || isFirstPage}>
+          <ChevronsLeft />
+        </Button>
+        <Button variant="outline" aria-label="Previous page" onClick={() => onPageChange(page - 1)} disabled={isLoading || isFirstPage}>
+          <ChevronLeft />
+        </Button>
+        <Button variant="outline" aria-label="Next page" onClick={() => onPageChange(page + 1)} disabled={isLoading || isLastPage}>
+          <ChevronRight />
+        </Button>
+        <Button variant="outline" aria-label="Last page" onClick={() => onPageChange(totalPages)} disabled={isLoading || isLastPage}>
+          <ChevronsRight />
+        </Button>
+      </div>
     </div>
   );
 }
