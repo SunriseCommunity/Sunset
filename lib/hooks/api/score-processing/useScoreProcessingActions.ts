@@ -26,6 +26,13 @@ export function useRequeueScoreProcessingTask(taskId: number) {
   );
 }
 
+export function useRetryScoreProcessingTask(taskId: number) {
+  return useSWRMutation(
+    `score-processing/${taskId}/retry`,
+    async (url: string) => poster(url),
+  );
+}
+
 export function useBulkScoreProcessing() {
   return useSWRMutation(
     "score-processing/bulk",
