@@ -81,6 +81,7 @@ export function ScoreProcessingTaskCard({ task, onChanged }: ScoreProcessingTask
               <Badge variant="outline">{task.score.score.game_mode_extended}</Badge>
             )}
             <Badge variant="outline">{task.task_type}</Badge>
+            <Badge variant="outline">{`Priority: ${task.priority}`}</Badge>
             {task.retry_count > 0 && (
               <Badge variant="outline">
                 {`Retries: ${task.retry_count} / Retry: ${task.status === ScoreProcessingStatus.PENDING ? "✔" : "✖"}`}
@@ -118,10 +119,19 @@ export function ScoreProcessingTaskCard({ task, onChanged }: ScoreProcessingTask
             <PrettyDate time={task.created_at} />
           </div>
 
-          {isFailed && task.error_message && (
-            <div className="mt-2 line-clamp-2 text-sm text-red-400">
+          {(isFailed || task.retry_count > 0) && task.error_message && (
+            <div className="mt-2 whitespace-pre-wrap break-words text-sm text-red-400">
               {task.error_code ? `${task.error_code}: ` : ""}
               {task.error_message}
+            </div>
+          )}
+          {isPending && task.next_retry_at && (
+            <div className="mt-2 text-sm text-muted-foreground">
+              Next retry:
+              {" "}
+              <time dateTime={task.next_retry_at}>
+                {new Date(task.next_retry_at).toLocaleString()}
+              </time>
             </div>
           )}
         </div>
