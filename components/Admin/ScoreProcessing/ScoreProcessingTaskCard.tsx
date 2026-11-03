@@ -1,6 +1,6 @@
 "use client";
 
-import { ExternalLink, RotateCcw, Square } from "lucide-react";
+import { ExternalLink, Play, RotateCcw, Square } from "lucide-react";
 import Link from "next/link";
 
 import PrettyDate from "@/components/General/PrettyDate";
@@ -14,6 +14,7 @@ import { useBeatmap } from "@/lib/hooks/api/beatmap/useBeatmap";
 import {
   useCancelScoreProcessingTask,
   useRequeueScoreProcessingTask,
+  useRetryScoreProcessingTask,
 } from "@/lib/hooks/api/score-processing/useScoreProcessingActions";
 import type { ScoreProcessingTaskResponse } from "@/lib/types/api";
 import { ScoreProcessingStatus } from "@/lib/types/api";
@@ -33,6 +34,18 @@ export function ScoreProcessingTaskCard({ task, onChanged }: ScoreProcessingTask
 
   const { trigger: cancelTask, isMutating: isCancelling } = useCancelScoreProcessingTask(task.id);
   const { trigger: requeueTask, isMutating: isRequeueing } = useRequeueScoreProcessingTask(task.id);
+  const { trigger: retryTask, isMutating: isRetrying } = useRetryScoreProcessingTask(task.id);
+
+  const handleRetry = async () => {
+    try {
+      await retryTask();
+      toast({ title: "Task ready to run", description: `Task #${task.id} will run when the queue is available.` });
+      onChanged();
+    }
+    catch (error) {
+      toast({ title: "Could not run task", description: error instanceof Error ? error.message : "Unknown error", variant: "destructive" });
+    }
+  };
 
   const handleStop = async () => {
     try {
@@ -165,10 +178,16 @@ export function ScoreProcessingTaskCard({ task, onChanged }: ScoreProcessingTask
           )}
 
           {isPending && (
-            <Button variant="destructive" size="sm" onClick={handleStop} isLoading={isCancelling}>
-              <Square className="mr-1 size-4" />
-              Stop
-            </Button>
+            <>
+              <Button variant="outline" size="sm" onClick={handleRetry} isLoading={isRetrying} disabled={isCancelling}>
+                {task.retry_count > 0 ? <RotateCcw className="mr-1 size-4" /> : <Play className="mr-1 size-4" />}
+                {task.retry_count > 0 ? "Retry" : "Run"}
+              </Button>
+              <Button variant="destructive" size="sm" onClick={handleStop} isLoading={isCancelling} disabled={isRetrying}>
+                <Square className="mr-1 size-4" />
+                Stop
+              </Button>
+            </>
           )}
         </div>
       </div>
